@@ -24,21 +24,43 @@ void setup(void)
 	//create
 	canvas_obj = new canvas::Canvas;
 	//objects
-	const float color[] = {
+	const float colors[] = {
+		1, 0, 0,
+		0, 1, 0,
 		0, 0, 1
 	};
 	const float positions[] = {
-		-1, -1, 0,
-		+1, -1, 0,
-		+0, +1, 0
+		-1.0, -1.0, 0.0,
+		+0.0, -1.0, 0.0,
+		-0.5, +0.0, 0.0,
+		+0.0, -1.0, 0.0,
+		+1.0, -1.0, 0.0,
+		+0.5, +0.0, 0.0,
+		-0.5, +0.0, 0.0,
+		+0.5, +0.0, 0.0,
+		-0.0, +1.0, 0.0
 	};
-	canvas_obj->m_objects.push_back(new canvas::objects::Triangle(canvas_obj));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[0], color, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[1], color, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[2], color, 3 * sizeof(float));
+	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
+	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
+	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[0], colors + 0, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[1], colors + 0, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[2], colors + 0, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[0], colors + 3, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[1], colors + 3, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[2], colors + 3, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[0], colors + 6, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[1], colors + 6, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[2], colors + 6, 3 * sizeof(float));
 	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[0], positions + 0, 3 * sizeof(float));
 	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[1], positions + 3, 3 * sizeof(float));
 	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[2], positions + 6, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[0], positions + 9, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[1], positions + 12, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[2], positions + 15, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[0], positions + 18, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[1], positions + 21, 3 * sizeof(float));
+	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[2], positions + 24, 3 * sizeof(float));
 	//update
 	canvas_obj->update();
 }
