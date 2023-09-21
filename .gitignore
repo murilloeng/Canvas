@@ -1,0 +1,10 @@
+*
+!*/
+!*.md
+!*.bat
+!*.cpp
+!*.hpp
+!*.frag
+!*.vert
+!*.json
+!.gitignore
