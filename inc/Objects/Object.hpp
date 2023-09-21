@@ -2,7 +2,6 @@
 
 namespace canvas
 {
-	class Canvas;
 	namespace vertices
 	{
 		class Vertex;
@@ -17,7 +16,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Object(Canvas*);
+			Object(void);
 
 			//destructor
 			virtual ~Object(void);
@@ -30,7 +29,6 @@ namespace canvas
 			virtual void draw(vertices::Vertex*, unsigned**) const = 0;
 
 			//data
-			Canvas* m_canvas;
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];
 		};

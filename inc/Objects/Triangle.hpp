@@ -11,7 +11,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Triangle(Canvas*);
+			Triangle(void);
 
 			//destructor
 			~Triangle(void);

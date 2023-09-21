@@ -10,7 +10,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Triangle::Triangle(Canvas* canvas) : Object(canvas)
+		Triangle::Triangle(void)
 		{
 			return;
 		}
