@@ -8,9 +8,13 @@
 
 //canvas
 #include "inc/Models/Model.hpp"
+
 #include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
+
+#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Object.hpp"
+#include "inc/Objects/Triangle.hpp"
 
 namespace canvas
 {
@@ -168,6 +172,19 @@ namespace canvas
 				object->m_ibo_index[i] = ibo_counter[i];
 				ibo_counter[i] += (i + 1) * object->ibo_size(i);
 			}
+		}
+	}
+
+	//objects
+	void Model::add_object(objects::type type)
+	{
+		switch(type)
+		{
+		case objects::type::triangle:
+			m_objects.push_back(new objects::Triangle);
+			break;
+		default:
+			break;
 		}
 	}
 

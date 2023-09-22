@@ -13,6 +13,7 @@
 
 //canvas
 #include "inc/Models/Model.hpp"
+#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Triangle.hpp"
 
 //static data
@@ -24,9 +25,9 @@ void setup(void)
 	//create
 	model = new canvas::Model;
 	//objects
-	model->m_objects.push_back(new canvas::objects::Triangle);
-	model->m_objects.push_back(new canvas::objects::Triangle);
-	model->m_objects.push_back(new canvas::objects::Triangle);
+	model->add_object(canvas::objects::type::triangle);
+	model->add_object(canvas::objects::type::triangle);
+	model->add_object(canvas::objects::type::triangle);
 	((canvas::objects::Triangle*) model->m_objects[0])->contour(true);
 	((canvas::objects::Triangle*) model->m_objects[1])->contour(true);
 	((canvas::objects::Triangle*) model->m_objects[2])->contour(true);

@@ -9,6 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		class Object;
+		enum class type : unsigned;
 	}
 	namespace vertices
 	{
@@ -36,6 +37,9 @@ namespace canvas
 		void draw(void);
 		void update(void);
 		void prepare(void);
+
+		//objects
+		void add_object(objects::type);
 
 		//misc
 		static bool load_file(std::string&, const char*);
