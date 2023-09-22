@@ -32,6 +32,9 @@ namespace canvas
 			float* position(unsigned, const float*);
 			float* position(unsigned, float, float, float);
 
+			//type
+			objects::type type(void) const override;
+
 			//buffers
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;

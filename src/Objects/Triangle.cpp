@@ -5,6 +5,8 @@
 
 //canvas
 #include "inc/Vertices/Model.hpp"
+
+#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Triangle.hpp"
 
 namespace canvas
@@ -102,6 +104,12 @@ namespace canvas
 				fprintf(stderr, "Error: Triangle position out of index!\n");
 				exit(EXIT_FAILURE);
 			}
+		}
+
+		//type
+		objects::type Triangle::type(void) const
+		{
+			return objects::type::triangle;
 		}
 
 		//buffers

@@ -6,6 +6,10 @@ namespace canvas
 	{
 		class Vertex;
 	}
+	namespace objects
+	{
+		enum class type : unsigned;
+	}
 }
 
 namespace canvas
@@ -20,6 +24,13 @@ namespace canvas
 
 			//destructor
 			virtual ~Object(void);
+
+			//name
+			const char* name(void) const;
+			static const char* name(objects::type);
+
+			//type
+			virtual objects::type type(void) const = 0;
 
 			//buffers
 			virtual unsigned vbo_size(void) const = 0;
