@@ -7,7 +7,7 @@
 #include "../external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "inc/Canvas/Canvas.hpp"
+#include "inc/Models/Model.hpp"
 #include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
 #include "inc/Objects/Object.hpp"
@@ -15,7 +15,7 @@
 namespace canvas
 {
 	//constructors
-	Canvas::Canvas(void) : 
+	Model::Model(void) : 
 		m_vao_id{0, 0}, 
 		m_vbo_id{0, 0}, 
 		m_ibo_id{0, 0},
@@ -27,12 +27,13 @@ namespace canvas
 		m_shaders_vertex_id{0, 0}, 
 		m_shaders_fragment_id{0, 0}
 	{
+		setup_gl();
 		setup_buffers();
 		setup_shaders();
 	}
 
 	//destructor
-	Canvas::~Canvas(void)
+	Model::~Model(void)
 	{
 		//delete
 		delete[] m_vbo_data[0];
@@ -58,7 +59,15 @@ namespace canvas
 	}
 
 	//setup
-	void Canvas::setup_buffers(void)
+	void Model::setup_gl(void)
+	{
+		glLineWidth(3);
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glPolygonOffset(1.0, 1.0);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	}
+	void Model::setup_buffers(void)
 	{
 		//generate
 		glGenBuffers(2, m_vbo_id);
@@ -83,14 +92,14 @@ namespace canvas
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (3 * sizeof(float)));
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (6 * sizeof(float)));
 	}
-	void Canvas::setup_shaders(void)
+	void Model::setup_shaders(void)
 	{
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
 	}
 
 	//draw
-	void Canvas::draw(void)
+	void Model::draw(void)
 	{
 		//clear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -108,7 +117,7 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
-	void Canvas::update(void)
+	void Model::update(void)
 	{
 		//draw
 		prepare();
@@ -126,7 +135,7 @@ namespace canvas
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (i + 1) * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_STATIC_DRAW);
 		}
 	}
-	void Canvas::prepare(void)
+	void Model::prepare(void)
 	{
 		//vbo size
 		m_vbo_size[0] = 0;
@@ -163,7 +172,7 @@ namespace canvas
 	}
 
 	//misc
-	bool Canvas::load_file(std::string& source, const char* path)
+	bool Model::load_file(std::string& source, const char* path)
 	{
 		//open
 		FILE* file = fopen(path, "r");
@@ -178,7 +187,7 @@ namespace canvas
 		//return
 		return true;
 	}
-	void Canvas::setup_shader(unsigned& id, unsigned type, unsigned program, const char* path)
+	void Model::setup_shader(unsigned& id, unsigned type, unsigned program, const char* path)
 	{
 		//source
 		std::string source;
@@ -214,7 +223,7 @@ namespace canvas
 		//attach
 		glAttachShader(program, id);
 	}
-	void Canvas::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, const char* path_1, const char* path_2)
+	void Model::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, const char* path_1, const char* path_2)
 	{
 		//create
 		id = glCreateProgram();

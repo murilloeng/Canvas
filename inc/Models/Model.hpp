@@ -18,16 +18,17 @@ namespace canvas
 
 namespace canvas
 {
-	class Canvas
+	class Model
 	{
 	public:
 		//constructors
-		Canvas(void);
+		Model(void);
 
 		//destructor
-		~Canvas(void);
+		~Model(void);
 
 		//setup
+		void setup_gl(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
 

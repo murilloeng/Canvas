@@ -12,62 +12,46 @@
 #include "../external/cpp/inc/GL/freeglut.h"
 
 //canvas
-#include "inc/Canvas/Canvas.hpp"
+#include "inc/Models/Model.hpp"
 #include "inc/Objects/Triangle.hpp"
 
 //static data
-canvas::Canvas* canvas_obj;
+canvas::Model* model;
 
 //setup
 void setup(void)
 {
 	//create
-	canvas_obj = new canvas::Canvas;
+	model = new canvas::Model;
 	//objects
-	const float colors[] = {
-		1, 0, 0,
-		0, 1, 0,
-		0, 0, 1
-	};
-	const float positions[] = {
-		-1.0, -1.0, 0.0,
-		+0.0, -1.0, 0.0,
-		-0.5, +0.0, 0.0,
-		+0.0, -1.0, 0.0,
-		+1.0, -1.0, 0.0,
-		+0.5, +0.0, 0.0,
-		-0.5, +0.0, 0.0,
-		+0.5, +0.0, 0.0,
-		-0.0, +1.0, 0.0
-	};
-	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
-	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
-	canvas_obj->m_objects.push_back(new canvas::objects::Triangle);
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[0], colors + 0, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[1], colors + 0, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_colors[2], colors + 0, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[0], colors + 3, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[1], colors + 3, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_colors[2], colors + 3, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[0], colors + 6, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[1], colors + 6, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_colors[2], colors + 6, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[0], positions + 0, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[1], positions + 3, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[0])->m_positions[2], positions + 6, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[0], positions + 9, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[1], positions + 12, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[1])->m_positions[2], positions + 15, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[0], positions + 18, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[1], positions + 21, 3 * sizeof(float));
-	memcpy(((canvas::objects::Triangle*) canvas_obj->m_objects[2])->m_positions[2], positions + 24, 3 * sizeof(float));
+	model->m_objects.push_back(new canvas::objects::Triangle);
+	model->m_objects.push_back(new canvas::objects::Triangle);
+	model->m_objects.push_back(new canvas::objects::Triangle);
+	((canvas::objects::Triangle*) model->m_objects[0])->contour(true);
+	((canvas::objects::Triangle*) model->m_objects[1])->contour(true);
+	((canvas::objects::Triangle*) model->m_objects[2])->contour(true);
+	((canvas::objects::Triangle*) model->m_objects[0])->color(3, 1, 0, 0);
+	((canvas::objects::Triangle*) model->m_objects[1])->color(3, 0, 1, 0);
+	((canvas::objects::Triangle*) model->m_objects[2])->color(3, 0, 0, 1);
+	((canvas::objects::Triangle*) model->m_objects[0])->contour_color(1, 1, 1);
+	((canvas::objects::Triangle*) model->m_objects[1])->contour_color(1, 1, 1);
+	((canvas::objects::Triangle*) model->m_objects[2])->contour_color(1, 1, 1);
+	((canvas::objects::Triangle*) model->m_objects[0])->position(0, -1.0, -1.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[0])->position(1, +0.0, -1.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[0])->position(2, -0.5, +0.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[1])->position(0, +0.0, -1.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[1])->position(1, +1.0, -1.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[1])->position(2, +0.5, +0.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[2])->position(0, -0.5, +0.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[2])->position(1, +0.5, +0.0, 0.0);
+	((canvas::objects::Triangle*) model->m_objects[2])->position(2, -0.0, +1.0, 0.0);
 	//update
-	canvas_obj->update();
+	model->update();
 }
 void cleanup(void)
 {
 	//delete
-	delete canvas_obj;
+	delete model;
 }
 
 //callbacks
@@ -86,7 +70,7 @@ static void callback_motion(int x1, int x2)
 static void callback_display(void)
 {
 	//draw
-	canvas_obj->draw();
+	model->draw();
 	//swap
 	glutSwapBuffers();
 }
