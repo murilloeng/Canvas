@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -23,18 +24,15 @@ namespace canvas
 			bool fill(bool);
 			bool fill(void) const;
 
-			const float* draw_color(void) const;
-			const float* fill_color(void) const;
+			Color draw_color(unsigned) const;
+			Color draw_color(unsigned, Color);
 
-			float* draw_color(const float*);
-			float* draw_color(float, float, float);
-
-			float* fill_color(const float*);
-			float* fill_color(float, float, float);
+			Color fill_color(unsigned) const;
+			Color fill_color(unsigned, Color);
 
 			const float* position(unsigned) const;
-			float* position(unsigned, const float*);
-			float* position(unsigned, float, float, float);
+			const float* position(unsigned, const float*);
+			const float* position(unsigned, float, float, float);
 
 			//type
 			objects::type type(void) const override;
@@ -49,8 +47,8 @@ namespace canvas
 			//data
 			bool m_draw;
 			bool m_fill;
-			float m_draw_color[3];
-			float m_fill_color[3];
+			Color m_draw_colors[3];
+			Color m_fill_colors[3];
 			float m_positions[3][3];
 		};
 	}

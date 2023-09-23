@@ -16,7 +16,8 @@ namespace canvas
 		//constructors
 		Triangle::Triangle(void) : 
 			m_draw(false), m_fill(false), 
-			m_draw_color{0, 0, 0}, m_fill_color{0, 0, 0},
+			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
+			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
 			m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 		{
 			return;
@@ -47,48 +48,53 @@ namespace canvas
 			return m_fill;
 		}
 
-		const float* Triangle::draw_color(void) const
+		Color Triangle::draw_color(unsigned index) const
 		{
-			return m_draw_color;
+			return m_draw_colors[index];
 		}
-		const float* Triangle::fill_color(void) const
+		Color Triangle::draw_color(unsigned index, Color draw_color)
 		{
-			return m_fill_color;
-		}
-
-		float* Triangle::draw_color(const float* draw_color)
-		{
-			return this->draw_color(draw_color[0], draw_color[1], draw_color[2]);
-		}
-		float* Triangle::draw_color(float c1, float c2, float c3)
-		{
-			m_draw_color[0] = c1;
-			m_draw_color[1] = c2;
-			m_draw_color[2] = c3;
-			return m_draw_color;
+			if(index < 3)
+			{
+				return m_draw_colors[index] = draw_color;
+			}
+			else
+			{
+				this->draw_color(0, draw_color);
+				this->draw_color(1, draw_color);
+				this->draw_color(2, draw_color);
+				return draw_color;
+			}
 		}
 
-		float* Triangle::fill_color(const float* fill_color)
+		Color Triangle::fill_color(unsigned index) const
 		{
-			return this->fill_color(fill_color[0], fill_color[1], fill_color[2]);
+			return m_fill_colors[index];
 		}
-		float* Triangle::fill_color(float c1, float c2, float c3)
+		Color Triangle::fill_color(unsigned index, Color fill_color)
 		{
-			m_fill_color[0] = c1;
-			m_fill_color[1] = c2;
-			m_fill_color[2] = c3;
-			return m_fill_color;
+			if(index < 3)
+			{
+				return m_fill_colors[index] = fill_color;
+			}
+			else
+			{
+				this->fill_color(0, fill_color);
+				this->fill_color(1, fill_color);
+				this->fill_color(2, fill_color);
+				return fill_color;
+			}
 		}
 
 		const float* Triangle::position(unsigned index) const
 		{
 			return m_positions[index];
 		}
-		float* Triangle::position(unsigned index, const float* position)
+		const float* Triangle::position(unsigned index, const float* position)
 		{
 			return this->position(index, position[0], position[1], position[2]);
 		}
-		float* Triangle::position(unsigned index, float x1, float x2, float x3)
+		const float* Triangle::position(unsigned index, float x1, float x2, float x3)
 		{
 			if(index < 3)
 			{
@@ -131,12 +137,12 @@ namespace canvas
 			{
 				if(m_draw)
 				{
-					memcpy((vbo_draw_ptr + i)->m_color, m_draw_color, 3 * sizeof(float));
+					(vbo_draw_ptr + i)->m_color = m_draw_colors[i];
 					memcpy((vbo_draw_ptr + i)->m_position, m_positions[i], 3 * sizeof(float));
 				}
 				if(m_fill)
 				{
-					memcpy((vbo_fill_ptr + i)->m_color, m_fill_color, 3 * sizeof(float));
+					(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
 					memcpy((vbo_fill_ptr + i)->m_position, m_positions[i], 3 * sizeof(float));
 				}
 			}

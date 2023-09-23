@@ -14,9 +14,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Line::Line(void) : 
-			m_colors{{0, 0, 0}, {0, 0, 0}},
-			m_positions{{0, 0, 0}, {0, 0, 0}}
+		Line::Line(void) : m_colors{{0, 0, 0, 0}, {0, 0, 0, 0}}, m_positions{{0, 0, 0}, {0, 0, 0}}
 		{
 			return;
 		}
@@ -28,33 +26,21 @@ namespace canvas
 		}
 
 		//data
-		const float* Line::color(unsigned index) const
+		Color Line::color(unsigned index) const
 		{
 			return m_colors[index];
 		}
-		float* Line::color(unsigned index, const float* color)
+		Color Line::color(unsigned index, Color color)
 		{
-			return this->color(index, color[0], color[1], color[2]);
-		}
-		float* Line::color(unsigned index, float c1, float c2, float c3)
-		{
-			if(index == 2)
+			if(index < 2)
 			{
-				color(0, c1, c2, c3);
-				color(1, c1, c2, c3);
-				return nullptr;
-			}
-			else if(index < 2)
-			{
-				m_colors[index][0] = c1;
-				m_colors[index][1] = c2;
-				m_colors[index][2] = c3;
-				return m_colors[index];
+				return m_colors[index] = color;
 			}
 			else
 			{
-				fprintf(stderr, "Error: Line color out of index!\n");
-				exit(EXIT_FAILURE);
+				this->color(0, color);
+				this->color(1, color);
+				return color;
 			}
 		}
 
@@ -62,11 +48,11 @@ namespace canvas
 		{
 			return m_positions[index];
 		}
-		float* Line::position(unsigned index, const float* position)
+		const float* Line::position(unsigned index, const float* position)
 		{
 			return this->position(index, position[0], position[1], position[2]);
 		}
-		float* Line::position(unsigned index, float x1, float x2, float x3)
+		const float* Line::position(unsigned index, float x1, float x2, float x3)
 		{
 			if(index < 2)
 			{
@@ -104,7 +90,7 @@ namespace canvas
 			for(unsigned i = 0; i < 2; i++)
 			{
 				ibo_data[1][m_ibo_index[1] + i] = m_vbo_index + i;
-				memcpy(((vertices::Model*) vbo_data + m_vbo_index + i)->m_color, m_colors[i], 3 * sizeof(float));
+				((vertices::Model*) vbo_data + m_vbo_index + i)->m_color = m_colors[i];
 				memcpy(((vertices::Model*) vbo_data + m_vbo_index + i)->m_position, m_positions[i], 3 * sizeof(float));
 			}
 		}

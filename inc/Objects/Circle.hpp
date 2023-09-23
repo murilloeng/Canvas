@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -26,25 +27,22 @@ namespace canvas
 			float radius(float);
 			float radius(void) const;
 
+			Color draw_color(Color);
+			Color draw_color(void) const;
+
+			Color fill_color(Color);
+			Color fill_color(void) const;
+
 			static unsigned mesh(void);
 			static unsigned mesh(unsigned);
 
-			float* center(const float*);
-			float* center(float, float, float);
-
-			float* normal(const float*);
-			float* normal(float, float, float);
-
-			float* draw_color(const float*);
-			float* draw_color(float, float, float);
-
-			float* fill_color(const float*);
-			float* fill_color(float, float, float);
-
 			const float* center(void) const;
+			const float* center(const float*);
+			const float* center(float, float, float);
+
 			const float* normal(void) const;
-			const float* draw_color(void) const;
-			const float* fill_color(void) const;
+			const float* normal(const float*);
+			const float* normal(float, float, float);
 
 			//type
 			objects::type type(void) const override;
@@ -62,8 +60,8 @@ namespace canvas
 			float m_radius;
 			float m_center[3];
 			float m_normal[3];
-			float m_draw_color[3];
-			float m_fill_color[3];
+			Color m_draw_color;
+			Color m_fill_color;
 			static unsigned m_mesh;
 		};
 	}

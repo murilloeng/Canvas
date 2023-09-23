@@ -17,7 +17,7 @@ namespace canvas
 		//constructors
 		Circle::Circle(void) : 
 			m_draw(false), m_fill(false), m_radius(0),
-			m_center{0, 0, 0}, m_normal{0, 0, 1}, m_draw_color{0, 0, 0}, m_fill_color{0, 0, 0}
+			m_center{0, 0, 0}, m_normal{0, 0, 1}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
 		{
 			return;
 		}
@@ -56,6 +56,24 @@ namespace canvas
 			return m_radius = radius;
 		}
 
+		Color Circle::draw_color(void) const
+		{
+			return m_draw_color;
+		}
+		Color Circle::draw_color(Color draw_color)
+		{
+			return m_draw_color = draw_color;
+		}
+
+		Color Circle::fill_color(void) const
+		{
+			return m_fill_color;
+		}
+		Color Circle::fill_color(Color fill_color)
+		{
+			return m_fill_color = fill_color;
+		}
+
 		unsigned Circle::mesh(void)
 		{
 			return m_mesh;
@@ -65,11 +83,15 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		float* Circle::center(const float* center)
+		const float* Circle::center(void) const
+		{
+			return m_center;
+		}
+		const float* Circle::center(const float* center)
 		{
 			return this->center(center[0], center[1], center[2]);
 		}
-		float* Circle::center(float c1, float c2, float c3)
+		const float* Circle::center(float c1, float c2, float c3)
 		{
 			m_center[0] = c1;
 			m_center[1] = c2;
@@ -77,57 +99,20 @@ namespace canvas
 			return m_center;
 		}
 
-		float* Circle::normal(const float* normal)
+		const float* Circle::normal(void) const
+		{
+			return m_normal;
+		}
+		const float* Circle::normal(const float* normal)
 		{
 			return this->normal(normal[0], normal[1], normal[2]);
 		}
-		float* Circle::normal(float n1, float n2, float n3)
+		const float* Circle::normal(float n1, float n2, float n3)
 		{
 			m_normal[0] = n1;
 			m_normal[1] = n2;
 			m_normal[2] = n3;
 			return m_normal;
-		}
-
-		float* Circle::draw_color(const float* draw_color)
-		{
-			return this->draw_color(draw_color[0], draw_color[1], draw_color[2]);
-		}
-		float* Circle::draw_color(float c1, float c2, float c3)
-		{
-			m_draw_color[0] = c1;
-			m_draw_color[1] = c2;
-			m_draw_color[2] = c3;
-			return m_draw_color;
-		}
-
-		float* Circle::fill_color(const float* fill_color)
-		{
-			return this->fill_color(fill_color[0], fill_color[1], fill_color[2]);
-		}
-		float* Circle::fill_color(float c1, float c2, float c3)
-		{
-			m_fill_color[0] = c1;
-			m_fill_color[1] = c2;
-			m_fill_color[2] = c3;
-			return m_fill_color;
-		}
-
-		const float* Circle::center(void) const
-		{
-			return m_center;
-		}
-		const float* Circle::normal(void) const
-		{
-			return m_normal;
-		}
-		const float* Circle::draw_color(void) const
-		{
-			return m_draw_color;
-		}
-		const float* Circle::fill_color(void) const
-		{
-			return m_fill_color;
 		}
 
 		//type
@@ -165,17 +150,17 @@ namespace canvas
 				//draw
 				if(m_draw)
 				{
-					memcpy((vbo_draw_ptr + i)->m_color, m_draw_color, 3 * sizeof(float));
+					(vbo_draw_ptr + i)->m_color = m_draw_color;
 					memcpy((vbo_draw_ptr + i)->m_position, vertex_position, 3 * sizeof(float));
 				}
 				//fill
 				if(m_fill)
 				{
-					memcpy((vbo_fill_ptr + i + 1)->m_color, m_fill_color, 3 * sizeof(float));
+					(vbo_fill_ptr + i + 1)->m_color = m_fill_color;
 					memcpy((vbo_fill_ptr + i + 1)->m_position, vertex_position, 3 * sizeof(float));
 				}
+				vbo_fill_ptr->m_color = m_fill_color;
 				memcpy(vbo_fill_ptr->m_position, m_center, 3 * sizeof(float));
-				memcpy(vbo_fill_ptr->m_color, m_fill_color, 3 * sizeof(float));
 			}
 			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)

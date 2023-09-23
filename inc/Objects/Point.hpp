@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -17,14 +18,12 @@ namespace canvas
 			~Point(void);
 
 			//data
-			const float* color(void) const;
+			Color color(Color);
+			Color color(void) const;
+
 			const float* position(void) const;
-
-			float* color(const float*);
-			float* color(float, float, float);
-
-			float* position(const float*);
-			float* position(float, float, float);
+			const float* position(const float*);
+			const float* position(float, float, float);
 
 			//type
 			objects::type type(void) const override;
@@ -37,7 +36,7 @@ namespace canvas
 			void draw(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			float m_color[3];
+			Color m_color;
 			float m_position[3];
 		};
 	}
