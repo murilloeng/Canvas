@@ -41,44 +41,44 @@ void example_1(void)
 	model->add_object(canvas::objects::type::triangle);
 	model->add_object(canvas::objects::type::triangle);
 	//lines
-	((canvas::objects::Line*) model->object(0))->position(0, -1.0, -1.0, +0.0);
-	((canvas::objects::Line*) model->object(0))->position(1, +1.0, -1.0, +0.0);
-	((canvas::objects::Line*) model->object(1))->position(0, +1.0, -1.0, +0.0);
-	((canvas::objects::Line*) model->object(1))->position(1, +0.0, +1.0, +0.0);
-	((canvas::objects::Line*) model->object(2))->position(0, +0.0, +1.0, +0.0);
-	((canvas::objects::Line*) model->object(2))->position(1, -1.0, -1.0, +0.0);
 	((canvas::objects::Line*) model->object(0))->color(2, canvas::Color(1, 1, 1));
 	((canvas::objects::Line*) model->object(1))->color(2, canvas::Color(1, 1, 1));
 	((canvas::objects::Line*) model->object(2))->color(2, canvas::Color(1, 1, 1));
+	((canvas::objects::Line*) model->object(0))->position(0, canvas::vec3(-1.0, -1.0, +0.0));
+	((canvas::objects::Line*) model->object(0))->position(1, canvas::vec3(+1.0, -1.0, +0.0));
+	((canvas::objects::Line*) model->object(1))->position(0, canvas::vec3(+1.0, -1.0, +0.0));
+	((canvas::objects::Line*) model->object(1))->position(1, canvas::vec3(+0.0, +1.0, +0.0));
+	((canvas::objects::Line*) model->object(2))->position(0, canvas::vec3(+0.0, +1.0, +0.0));
+	((canvas::objects::Line*) model->object(2))->position(1, canvas::vec3(-1.0, -1.0, +0.0));
 	//points
-	((canvas::objects::Point*) model->object(3))->position(-1.0, -1.0, +0.0);
-	((canvas::objects::Point*) model->object(4))->position(+0.0, -1.0, +0.0);
-	((canvas::objects::Point*) model->object(5))->position(+1.0, -1.0, +0.0);
-	((canvas::objects::Point*) model->object(6))->position(-0.5, +0.0, +0.0);
-	((canvas::objects::Point*) model->object(7))->position(+0.5, +0.0, +0.0);
-	((canvas::objects::Point*) model->object(8))->position(+0.0, +1.0, +0.0);
 	((canvas::objects::Point*) model->object(3))->color(canvas::Color(1, 0, 1));
 	((canvas::objects::Point*) model->object(4))->color(canvas::Color(1, 0, 1));
 	((canvas::objects::Point*) model->object(5))->color(canvas::Color(1, 0, 1));
 	((canvas::objects::Point*) model->object(6))->color(canvas::Color(1, 0, 1));
 	((canvas::objects::Point*) model->object(7))->color(canvas::Color(1, 0, 1));
 	((canvas::objects::Point*) model->object(8))->color(canvas::Color(1, 0, 1));
+	((canvas::objects::Point*) model->object(3))->position(canvas::vec3(-1.0, -1.0, +0.0));
+	((canvas::objects::Point*) model->object(4))->position(canvas::vec3(+0.0, -1.0, +0.0));
+	((canvas::objects::Point*) model->object(5))->position(canvas::vec3(+1.0, -1.0, +0.0));
+	((canvas::objects::Point*) model->object(6))->position(canvas::vec3(-0.5, +0.0, +0.0));
+	((canvas::objects::Point*) model->object(7))->position(canvas::vec3(+0.5, +0.0, +0.0));
+	((canvas::objects::Point*) model->object(8))->position(canvas::vec3(+0.0, +1.0, +0.0));
 	//triangles
 	((canvas::objects::Triangle*) model->object( 9))->fill(true);
 	((canvas::objects::Triangle*) model->object(10))->fill(true);
 	((canvas::objects::Triangle*) model->object(11))->fill(true);
-	((canvas::objects::Triangle*) model->object( 9))->position(0, -1.0, -1.0, +0.0);
-	((canvas::objects::Triangle*) model->object( 9))->position(1, +0.0, -1.0, +0.0);
-	((canvas::objects::Triangle*) model->object( 9))->position(2, -0.5, +0.0, +0.0);
-	((canvas::objects::Triangle*) model->object(10))->position(0, +0.0, -1.0, +0.0);
-	((canvas::objects::Triangle*) model->object(10))->position(1, +1.0, -1.0, +0.0);
-	((canvas::objects::Triangle*) model->object(10))->position(2, +0.5, +0.0, +0.0);
-	((canvas::objects::Triangle*) model->object(11))->position(0, -0.5, +0.0, +0.0);
-	((canvas::objects::Triangle*) model->object(11))->position(1, +0.5, +0.0, +0.0);
-	((canvas::objects::Triangle*) model->object(11))->position(2, -0.0, +1.0, +0.0);
 	((canvas::objects::Triangle*) model->object( 9))->fill_color(3, canvas::Color(1, 0, 0));
 	((canvas::objects::Triangle*) model->object(10))->fill_color(3, canvas::Color(0, 1, 0));
 	((canvas::objects::Triangle*) model->object(11))->fill_color(3, canvas::Color(0, 0, 1));
+	((canvas::objects::Triangle*) model->object( 9))->position(0, canvas::vec3(-1.0, -1.0, +0.0));
+	((canvas::objects::Triangle*) model->object( 9))->position(1, canvas::vec3(+0.0, -1.0, +0.0));
+	((canvas::objects::Triangle*) model->object( 9))->position(2, canvas::vec3(-0.5, +0.0, +0.0));
+	((canvas::objects::Triangle*) model->object(10))->position(0, canvas::vec3(+0.0, -1.0, +0.0));
+	((canvas::objects::Triangle*) model->object(10))->position(1, canvas::vec3(+1.0, -1.0, +0.0));
+	((canvas::objects::Triangle*) model->object(10))->position(2, canvas::vec3(+0.5, +0.0, +0.0));
+	((canvas::objects::Triangle*) model->object(11))->position(0, canvas::vec3(-0.5, +0.0, +0.0));
+	((canvas::objects::Triangle*) model->object(11))->position(1, canvas::vec3(+0.5, +0.0, +0.0));
+	((canvas::objects::Triangle*) model->object(11))->position(2, canvas::vec3(-0.0, +1.0, +0.0));
 }
 void example_2(void)
 {
@@ -97,7 +97,7 @@ void example_2(void)
 			((canvas::objects::Circle*) model->object(nc * i + j))->radius(rc);
 			((canvas::objects::Circle*) model->object(nc * i + j))->draw_color(canvas::Color(1, 1, 1));
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill_color(canvas::Color(0, 0, 1));
-			((canvas::objects::Circle*) model->object(nc * i + j))->center(2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0);
+			((canvas::objects::Circle*) model->object(nc * i + j))->center(canvas::vec3(2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0));
 		}
 	}
 }

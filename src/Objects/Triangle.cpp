@@ -1,8 +1,3 @@
-//std
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
 //canvas
 #include "inc/Vertices/Model.hpp"
 
@@ -48,6 +43,15 @@ namespace canvas
 			return m_fill;
 		}
 
+		vec3 Triangle::position(unsigned index) const
+		{
+			return m_positions[index];
+		}
+		vec3 Triangle::position(unsigned index, vec3 position)
+		{
+			return m_positions[index] = position;
+		}
+
 		Color Triangle::draw_color(unsigned index) const
 		{
 			return m_draw_colors[index];
@@ -86,30 +90,6 @@ namespace canvas
 			}
 		}
 
-		const float* Triangle::position(unsigned index) const
-		{
-			return m_positions[index];
-		}
-		const float* Triangle::position(unsigned index, const float* position)
-		{
-			return this->position(index, position[0], position[1], position[2]);
-		}
-		const float* Triangle::position(unsigned index, float x1, float x2, float x3)
-		{
-			if(index < 3)
-			{
-				m_positions[index][0] = x1;
-				m_positions[index][1] = x2;
-				m_positions[index][2] = x3;
-				return m_positions[index];
-			}
-			else
-			{
-				fprintf(stderr, "Error: Triangle position out of index!\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-
 		//type
 		objects::type Triangle::type(void) const
 		{
@@ -138,12 +118,12 @@ namespace canvas
 				if(m_draw)
 				{
 					(vbo_draw_ptr + i)->m_color = m_draw_colors[i];
-					memcpy((vbo_draw_ptr + i)->m_position, m_positions[i], 3 * sizeof(float));
+					(vbo_draw_ptr + i)->m_position = m_positions[i];
 				}
 				if(m_fill)
 				{
 					(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
-					memcpy((vbo_fill_ptr + i)->m_position, m_positions[i], 3 * sizeof(float));
+					(vbo_fill_ptr + i)->m_position = m_positions[i];
 				}
 			}
 			//ibo data

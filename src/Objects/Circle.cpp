@@ -1,6 +1,5 @@
 //std
 #include <cmath>
-#include <cstring>
 
 //canvas
 #include "inc/Utils/math.hpp"
@@ -47,6 +46,24 @@ namespace canvas
 			return m_fill;
 		}
 
+		vec3 Circle::center(void) const
+		{
+			return m_center;
+		}
+		vec3 Circle::center(vec3 center)
+		{
+			return m_center = center;
+		}
+
+		vec3 Circle::normal(void) const
+		{
+			return m_normal;
+		}
+		vec3 Circle::normal(vec3 normal)
+		{
+			return m_normal = normal;
+		}
+
 		float Circle::radius(void) const
 		{
 			return m_radius;
@@ -83,38 +100,6 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		const float* Circle::center(void) const
-		{
-			return m_center;
-		}
-		const float* Circle::center(const float* center)
-		{
-			return this->center(center[0], center[1], center[2]);
-		}
-		const float* Circle::center(float c1, float c2, float c3)
-		{
-			m_center[0] = c1;
-			m_center[1] = c2;
-			m_center[2] = c3;
-			return m_center;
-		}
-
-		const float* Circle::normal(void) const
-		{
-			return m_normal;
-		}
-		const float* Circle::normal(const float* normal)
-		{
-			return this->normal(normal[0], normal[1], normal[2]);
-		}
-		const float* Circle::normal(float n1, float n2, float n3)
-		{
-			m_normal[0] = n1;
-			m_normal[1] = n2;
-			m_normal[2] = n3;
-			return m_normal;
-		}
-
 		//type
 		objects::type Circle::type(void) const
 		{
@@ -139,7 +124,7 @@ namespace canvas
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_draw * m_mesh;
 			//vbo data
-			triad(m_normal, t1, t2);
+			triad(m_normal.memory(), t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				//position
@@ -151,16 +136,16 @@ namespace canvas
 				if(m_draw)
 				{
 					(vbo_draw_ptr + i)->m_color = m_draw_color;
-					memcpy((vbo_draw_ptr + i)->m_position, vertex_position, 3 * sizeof(float));
+					(vbo_draw_ptr + i)->m_position = vertex_position;
 				}
 				//fill
 				if(m_fill)
 				{
 					(vbo_fill_ptr + i + 1)->m_color = m_fill_color;
-					memcpy((vbo_fill_ptr + i + 1)->m_position, vertex_position, 3 * sizeof(float));
+					(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 				}
+				vbo_fill_ptr->m_position = m_center;
 				vbo_fill_ptr->m_color = m_fill_color;
-				memcpy(vbo_fill_ptr->m_position, m_center, 3 * sizeof(float));
 			}
 			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)

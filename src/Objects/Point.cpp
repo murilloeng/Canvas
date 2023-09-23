@@ -1,8 +1,3 @@
-//std
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-
 //canvas
 #include "inc/Vertices/Model.hpp"
 
@@ -35,20 +30,13 @@ namespace canvas
 			return m_color = color;
 		}
 
-		const float* Point::position(void) const
+		vec3 Point::position(void) const
 		{
 			return m_position;
 		}
-		const float* Point::position(const float* position)
+		vec3 Point::position(vec3 position)
 		{
-			return this->position(position[0], position[1], position[2]);
-		}
-		const float* Point::position(float x1, float x2, float x3)
-		{
-			m_position[0] = x1;
-			m_position[1] = x2;
-			m_position[2] = x3;
-			return m_position;
+			return m_position = position;
 		}
 
 		//type
@@ -74,7 +62,7 @@ namespace canvas
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index;
 			//vbo data
 			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_color;
-			memcpy(((vertices::Model*) vbo_data + m_vbo_index)->m_position, m_position, 3 * sizeof(float));
+			((vertices::Model*) vbo_data + m_vbo_index)->m_position = m_position;
 		}
 	}
 }

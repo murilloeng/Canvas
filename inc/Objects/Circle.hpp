@@ -3,6 +3,7 @@
 //canvas
 #include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
+#include "inc/Kinematics/vec3.hpp"
 
 namespace canvas
 {
@@ -24,6 +25,12 @@ namespace canvas
 			bool fill(bool);
 			bool fill(void) const;
 
+			vec3 center(vec3);
+			vec3 center(void) const;
+
+			vec3 normal(vec3);
+			vec3 normal(void) const;
+
 			float radius(float);
 			float radius(void) const;
 
@@ -35,14 +42,6 @@ namespace canvas
 
 			static unsigned mesh(void);
 			static unsigned mesh(unsigned);
-
-			const float* center(void) const;
-			const float* center(const float*);
-			const float* center(float, float, float);
-
-			const float* normal(void) const;
-			const float* normal(const float*);
-			const float* normal(float, float, float);
 
 			//type
 			objects::type type(void) const override;
@@ -58,9 +57,9 @@ namespace canvas
 			//data
 			bool m_draw;
 			bool m_fill;
+			vec3 m_center;
+			vec3 m_normal;
 			float m_radius;
-			float m_center[3];
-			float m_normal[3];
 			Color m_draw_color;
 			Color m_fill_color;
 			static unsigned m_mesh;

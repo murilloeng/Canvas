@@ -3,6 +3,7 @@
 //canvas
 #include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
+#include "inc/Kinematics/vec3.hpp"
 
 namespace canvas
 {
@@ -21,9 +22,8 @@ namespace canvas
 			Color color(Color);
 			Color color(void) const;
 
-			const float* position(void) const;
-			const float* position(const float*);
-			const float* position(float, float, float);
+			vec3 position(vec3);
+			vec3 position(void) const;
 
 			//type
 			objects::type type(void) const override;
@@ -38,7 +38,7 @@ namespace canvas
 
 			//data
 			Color m_color;
-			float m_position[3];
+			vec3 m_position;
 		};
 	}
 }

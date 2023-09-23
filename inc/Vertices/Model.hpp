@@ -3,6 +3,7 @@
 //canvas
 #include "inc/Colors/Color.hpp"
 #include "inc/Vertices/Vertex.hpp"
+#include "inc/Kinematics/vec3.hpp"
 
 namespace canvas
 {
@@ -19,7 +20,7 @@ namespace canvas
 
 			//data
 			Color m_color;
-			float m_position[3];
+			vec3 m_position;
 		};
 	}
 }
