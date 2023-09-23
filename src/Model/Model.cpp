@@ -13,6 +13,8 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
+#include "inc/Objects/Line.hpp"
+#include "inc/Objects/Point.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Triangle.hpp"
 
@@ -66,6 +68,7 @@ namespace canvas
 	void Model::setup_gl(void)
 	{
 		glLineWidth(3);
+		glPointSize(7);
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glPolygonOffset(1.0, 1.0);
@@ -180,6 +183,12 @@ namespace canvas
 	{
 		switch(type)
 		{
+		case objects::type::line:
+			m_objects.push_back(new objects::Line);
+			break;
+		case objects::type::point:
+			m_objects.push_back(new objects::Point);
+			break;
 		case objects::type::triangle:
 			m_objects.push_back(new objects::Triangle);
 			break;

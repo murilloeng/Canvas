@@ -7,24 +7,16 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Triangle : public Object
+		class Line : public Object
 		{
 		public:
 			//constructors
-			Triangle(void);
+			Line(void);
 
 			//destructor
-			~Triangle(void);
+			~Line(void);
 
 			//data
-			bool contour(bool);
-			bool contour(void) const;
-
-			const float* contour_color(void) const;
-
-			float* contour_color(const float*);
-			float* contour_color(float, float, float);
-
 			const float* color(unsigned) const;
 			float* color(unsigned, const float*);
 			float* color(unsigned, float, float, float);
@@ -44,10 +36,8 @@ namespace canvas
 			void draw(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			bool m_contour;
-			float m_colors[3][3];
-			float m_positions[3][3];
-			float m_contour_color[3];
+			float m_colors[2][3];
+			float m_positions[2][3];
 		};
 	}
 }

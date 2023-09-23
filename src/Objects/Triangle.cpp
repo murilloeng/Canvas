@@ -43,6 +43,7 @@ namespace canvas
 		{
 			return m_contour_color;
 		}
+
 		float* Triangle::contour_color(float c1, float c2, float c3)
 		{
 			m_contour_color[0] = c1;
