@@ -15,6 +15,7 @@
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Point.hpp"
+#include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Triangle.hpp"
 
@@ -67,7 +68,7 @@ namespace canvas
 	//setup
 	void Model::setup_gl(void)
 	{
-		glLineWidth(3);
+		glLineWidth(2);
 		glPointSize(7);
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
@@ -188,6 +189,9 @@ namespace canvas
 			break;
 		case objects::type::point:
 			m_objects.push_back(new objects::Point);
+			break;
+		case objects::type::circle:
+			m_objects.push_back(new objects::Circle);
 			break;
 		case objects::type::triangle:
 			m_objects.push_back(new objects::Triangle);

@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"*.dat": "plaintext",
+		"cmath": "cpp",
+		"climits": "cpp",
+		"cfloat": "cpp"
+	}
+}
