@@ -2,6 +2,7 @@
 
 namespace canvas
 {
+	class Model;
 	namespace vertices
 	{
 		class Vertex;
@@ -32,6 +33,7 @@ namespace canvas
 			//type
 			virtual objects::type type(void) const = 0;
 
+		protected:
 			//buffers
 			virtual unsigned vbo_size(void) const = 0;
 			virtual unsigned ibo_size(unsigned) const = 0;
@@ -42,6 +44,9 @@ namespace canvas
 			//data
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];
+
+			//friends
+			friend class Model;
 		};
 	}
 }

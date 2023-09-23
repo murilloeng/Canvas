@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Colors/Color.hpp"
 #include "inc/Vertices/Vertex.hpp"
 
 namespace canvas
@@ -17,7 +18,7 @@ namespace canvas
 			~Text(void);
 
 			//data
-			float m_color[3];
+			Color m_color;
 			float m_texture[2];
 			float m_position[3];
 		};

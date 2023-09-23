@@ -28,11 +28,18 @@ namespace canvas
 		//destructor
 		~Model(void);
 
-		//setup
-		void setup_gl(void);
-		void setup_buffers(void);
-		void setup_shaders(void);
-		void setup_uniforms(void);
+		//data
+		void screen(unsigned, unsigned);
+
+		void box_min(float, float, float);
+		void box_max(float, float, float);
+
+		void zoom(float);
+		void pan(float, float, float);
+		void quat(float, float, float, float);
+
+		objects::Object* object(unsigned) const;
+		const std::vector<objects::Object*>& objects(void) const;
 
 		//draw
 		void draw(void);
@@ -40,7 +47,15 @@ namespace canvas
 		void prepare(void);
 
 		//objects
+		void clear_objects(void);
 		void add_object(objects::type);
+
+	private:
+		//setup
+		void setup_gl(void);
+		void setup_buffers(void);
+		void setup_shaders(void);
+		void setup_uniforms(void);
 
 		//misc
 		static bool load_file(std::string&, const char*);

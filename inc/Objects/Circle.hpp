@@ -47,6 +47,7 @@ namespace canvas
 			//type
 			objects::type type(void) const override;
 
+		private:
 			//buffers
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;

@@ -66,56 +66,41 @@ namespace canvas
 		glDeleteShader(m_shaders_fragment_id[1]);
 	}
 
-	//setup
-	void Model::setup_gl(void)
+	//data
+	void Model::screen(unsigned width, unsigned height)
 	{
-		glLineWidth(2);
-		glPointSize(7);
-		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-		glPolygonOffset(1.0, 1.0);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
 	}
-	void Model::setup_buffers(void)
+
+	void Model::box_min(float x1_min, float x2_min, float x3_min)
 	{
-		//generate
-		glGenBuffers(2, m_vbo_id);
-		glGenBuffers(3, m_ibo_id);
-		glGenVertexArrays(2, m_vao_id);
-		//vao model
-		glBindVertexArray(m_vao_id[0]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
-		//attributes
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (4 * sizeof(float)));
-		//vao text
-		glBindVertexArray(m_vao_id[1]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
-		//attributes
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (4 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), x1_min, x2_min, x3_min);
 	}
-	void Model::setup_shaders(void)
+	void Model::box_max(float x1_max, float x2_max, float x3_max)
 	{
-		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
-		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), x1_max, x2_max, x3_max);
 	}
-	void Model::setup_uniforms(void)
+
+	void Model::zoom(float zoom)
 	{
-		int viewport[4];
-		glGetIntegerv(GL_VIEWPORT, viewport);
-		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), 1.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), 0.0f, 0.0f, 0.0f);
-		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1, 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), -1.0f, -1.0f, -1.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), +1.0f, +1.0f, +1.0f);
-		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), viewport[2], viewport[3]);
+		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
+	}
+	void Model::pan(float x1, float x2, float x3)
+	{
+		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), x1, x2, x3);
+	}
+	void Model::quat(float q1, float q2, float q3, float q4)
+	{
+		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), q1, q2, q3, q4);
+	}
+
+	objects::Object* Model::object(unsigned index) const
+	{
+		return m_objects[index];
+	}
+	const std::vector<objects::Object*>& Model::objects(void) const
+	{
+		return m_objects;
 	}
 
 	//draw
@@ -192,6 +177,14 @@ namespace canvas
 	}
 
 	//objects
+	void Model::clear_objects(void)
+	{
+		for(const objects::Object* object : m_objects)
+		{
+			delete object;
+		}
+		m_objects.clear();
+	}
 	void Model::add_object(objects::type type)
 	{
 		switch(type)
@@ -211,6 +204,58 @@ namespace canvas
 		default:
 			break;
 		}
+	}
+
+	//setup
+	void Model::setup_gl(void)
+	{
+		glLineWidth(2);
+		glPointSize(7);
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glPolygonOffset(1.0, 1.0);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	}
+	void Model::setup_buffers(void)
+	{
+		//generate
+		glGenBuffers(2, m_vbo_id);
+		glGenBuffers(3, m_ibo_id);
+		glGenVertexArrays(2, m_vao_id);
+		//vao model
+		glBindVertexArray(m_vao_id[0]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (4 * sizeof(float)));
+		//vao text
+		glBindVertexArray(m_vao_id[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (4 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
+	}
+	void Model::setup_shaders(void)
+	{
+		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
+		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
+	}
+	void Model::setup_uniforms(void)
+	{
+		int viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), 1.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), 0.0f, 0.0f, 0.0f);
+		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1, 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), -1.0f, -1.0f, -1.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), +1.0f, +1.0f, +1.0f);
+		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), viewport[2], viewport[3]);
 	}
 
 	//misc
