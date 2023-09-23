@@ -37,6 +37,7 @@ namespace canvas
 		setup_gl();
 		setup_buffers();
 		setup_shaders();
+		setup_uniforms();
 	}
 
 	//destructor
@@ -104,6 +105,17 @@ namespace canvas
 	{
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
+	}
+	void Model::setup_uniforms(void)
+	{
+		int viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), 1.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), 0.0f, 0.0f, 0.0f);
+		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1, 0.0f, 0.0f, 0.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), -1.0f, -1.0f, -1.0f);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), +1.0f, +1.0f, +1.0f);
+		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), viewport[2], viewport[3]);
 	}
 
 	//draw

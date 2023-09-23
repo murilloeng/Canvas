@@ -83,7 +83,7 @@ void example_1(void)
 void example_2(void)
 {
 	//data
-	const unsigned nc = 20;
+	const unsigned nc = 40;
 	const float rc = 1.0f / nc;
 	//objects
 	model->m_objects.clear();
@@ -142,6 +142,8 @@ static void callback_reshape(int width, int height)
 {
 	//viewport
 	glViewport(0, 0, width, height);
+	//uniforms
+	glUniform2ui(glGetUniformLocation(model->m_program_id[0], "screen"), width, height);
 	//update
 	glutPostRedisplay();
 }

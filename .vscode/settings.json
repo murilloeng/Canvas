@@ -3,6 +3,7 @@
 		"*.dat": "plaintext",
 		"cmath": "cpp",
 		"climits": "cpp",
-		"cfloat": "cpp"
+		"cfloat": "cpp",
+		"vector": "cpp"
 	}
 }
