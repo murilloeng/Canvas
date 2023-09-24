@@ -170,13 +170,7 @@ void cleanup(void)
 //callbacks
 static void callback_idle(void)
 {
-	t += 5.00e-5;
-	for(canvas::objects::Object* object : model->objects())
-	{
-		object->apply_affine(canvas::mat4::rotation({0, 0, t}));
-	}
-	model->update();
-	glutPostRedisplay();
+	return;
 }
 static void callback_mouse(int button, int state, int x1, int x2)
 {

@@ -112,4 +112,13 @@ namespace canvas
 		A.m_data[2 + 4 * 3] = v[2];
 		return A;
 	}
+
+	mat4 mat4::rotation(const vec3& xc, const vec3& tr)
+	{
+		return rotation(xc, tr.quaternion());
+	}
+	mat4 mat4::rotation(const vec3& xc, const quat& qr)
+	{
+		return mat4::translation(+xc) * mat4::rotation(qr) * mat4::translation(-xc);
+	}
 }

@@ -36,6 +36,9 @@ namespace canvas
 		static mat4 rotation(const quat&);
 		static mat4 translation(const vec3&);
 
+		static mat4 rotation(const vec3&, const vec3&);
+		static mat4 rotation(const vec3&, const quat&);
+
 	private:
 		//data
 		float m_data[16];
