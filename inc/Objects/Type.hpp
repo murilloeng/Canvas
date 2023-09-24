@@ -6,6 +6,7 @@ namespace canvas
 	{
 		enum class type : unsigned
 		{
+			arc,
 			line,
 			quad,
 			point,

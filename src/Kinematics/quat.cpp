@@ -78,10 +78,10 @@ namespace canvas
 	vec3 quat::rotate(const vec3& v) const
 	{
 		vec3 r;
+		const vec3 x(m_data + 1);
 		const float s = m_data[0];
-		const float* x = m_data + 1;
-		const float a = s * s - inner(x, x);
-		const float b = 2 * inner(x, v.memory());
+		const float b = 2 * x.inner(v);
+		const float a = s * s - x.inner(x);
 		r[0] = a * v[0] + b * x[0] + 2 * s * (x[1] * v[2] - x[2] * v[1]);
 		r[1] = a * v[1] + b * x[1] + 2 * s * (x[2] * v[0] - x[0] * v[2]);
 		r[2] = a * v[2] + b * x[2] + 2 * s * (x[0] * v[1] - x[1] * v[0]);

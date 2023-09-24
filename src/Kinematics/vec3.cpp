@@ -1,4 +1,6 @@
 //std
+#include <cmath>
+#include <cfloat>
 #include <cstring>
 
 //canvas
@@ -34,6 +36,73 @@ namespace canvas
 	const float* vec3::memory(void) const
 	{
 		return m_data;
+	}
+
+	//linear
+	float vec3::norm(void) const
+	{
+		return sqrtf(inner(*this));
+	}
+	float vec3::inner(const vec3& v) const
+	{
+		return 
+			m_data[0] * v.m_data[0] + 
+			m_data[1] * v.m_data[1] + 
+			m_data[2] * v.m_data[2];
+	}
+	float vec3::min(unsigned* index, bool abs) const
+	{
+		double min = +FLT_MAX;
+		for(unsigned i = 0; i < 3; i++)
+		{
+			if(min > (abs ? fabsf(m_data[i]) : m_data[i]))
+			{
+				if(index) *index = i;
+				min = abs ? fabsf(m_data[i]) : m_data[i];
+			}
+		}
+		return min;
+	}
+	float vec3::max(unsigned* index, bool abs) const
+	{
+		double max = -FLT_MAX;
+		for(unsigned i = 0; i < 3; i++)
+		{
+			if(max < (abs ? fabsf(m_data[i]) : m_data[i]))
+			{
+				if(index) *index = i;
+				max = abs ? fabsf(m_data[i]) : m_data[i];
+			}
+		}
+		return max;
+	}
+
+	vec3 vec3::unit(void) const
+	{
+		return *this / norm();
+	}
+	vec3 vec3::cross(const vec3& v) const
+	{
+		return {
+			m_data[1] * v.m_data[2] - m_data[2] * v.m_data[1],
+			m_data[2] * v.m_data[0] - m_data[0] * v.m_data[2],
+			m_data[0] * v.m_data[1] - m_data[1] * v.m_data[0]
+		};
+	}
+	void vec3::triad(vec3& t2, vec3& t3) const
+	{
+		//data
+		unsigned index;
+		min(&index, true);
+		const unsigned k1 = (index + 1) % 3;
+		const unsigned k2 = (index + 2) % 3;
+		const unsigned k3 = (index + 3) % 3;
+		//triad
+		t2[k1] = 0;
+		t2[k2] = -m_data[k3] / sqrtf(m_data[k2] * m_data[k2] + m_data[k3] * m_data[k3]);
+		t2[k3] = +m_data[k2] / sqrtf(m_data[k2] * m_data[k2] + m_data[k3] * m_data[k3]);
+		//cross
+		t3 = cross(t2);
 	}
 
 	//operators
@@ -102,5 +171,11 @@ namespace canvas
 	const float& vec3::operator[](unsigned index) const
 	{
 		return m_data[index];
+	}
+
+	//friends
+	vec3 operator*(float s, const vec3& v)
+	{
+		return vec3(v.m_data) *= s;
 	}
 }

@@ -12,6 +12,7 @@
 #include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
 
+#include "inc/Objects/Arc.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
@@ -190,6 +191,9 @@ namespace canvas
 	{
 		switch(type)
 		{
+		case objects::type::arc:
+			m_objects.push_back(new objects::Arc);
+			break;
 		case objects::type::line:
 			m_objects.push_back(new objects::Line);
 			break;

@@ -120,18 +120,16 @@ namespace canvas
 		void Circle::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//data
-			float vertex_position[3], t1[3], t2[3];
+			vec3 vertex_position, t1, t2;
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_draw * m_mesh;
 			//vbo data
-			triad(m_normal.memory(), t1, t2);
+			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				//position
 				const float t = 2 * M_PI * i / m_mesh;
-				vertex_position[0] = m_center[0] + m_radius * (cos(t) * t1[0] + sin(t) * t2[0]);
-				vertex_position[1] = m_center[1] + m_radius * (cos(t) * t1[1] + sin(t) * t2[1]);
-				vertex_position[2] = m_center[2] + m_radius * (cos(t) * t1[2] + sin(t) * t2[2]);
+				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
 				//draw
 				if(m_draw)
 				{

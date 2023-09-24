@@ -14,6 +14,7 @@
 //canvas
 #include "inc/Models/Model.hpp"
 
+#include "inc/Objects/Arc.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
@@ -84,7 +85,7 @@ void example_1(void)
 void example_2(void)
 {
 	//data
-	const unsigned nc = 40;
+	const unsigned nc = 10;
 	const float rc = 1.0f / nc;
 	//objects
 	model->clear_objects();
@@ -93,16 +94,39 @@ void example_2(void)
 		for(unsigned j = 0; j < nc; j++)
 		{
 			model->add_object(canvas::objects::type::circle);
-			((canvas::objects::Circle*) model->object(nc * i + j))->draw(true);
+			((canvas::objects::Circle*) model->object(nc * i + j))->draw(false);
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Circle*) model->object(nc * i + j))->radius(rc);
 			((canvas::objects::Circle*) model->object(nc * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Circle*) model->object(nc * i + j))->radius(float(nc * i + j) / nc / nc * rc);
 			((canvas::objects::Circle*) model->object(nc * i + j))->center({2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0});
 		}
 	}
 }
 void example_3(void)
+{
+	//data
+	const unsigned nc = 10;
+	const float rc = 1.0f / nc;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < nc; i++)
+	{
+		for(unsigned j = 0; j < nc; j++)
+		{
+			model->add_object(canvas::objects::type::arc);
+			((canvas::objects::Arc*) model->object(nc * i + j))->draw(true);
+			((canvas::objects::Arc*) model->object(nc * i + j))->fill(true);
+			((canvas::objects::Arc*) model->object(nc * i + j))->radius(rc);
+			((canvas::objects::Arc*) model->object(nc * i + j))->angle(0, 0);
+			((canvas::objects::Arc*) model->object(nc * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Arc*) model->object(nc * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Arc*) model->object(nc * i + j))->angle(1, 2 * M_PI * float(nc * i + j) / nc / nc);
+			((canvas::objects::Arc*) model->object(nc * i + j))->center({2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0});
+		}
+	}
+}
+void example_4(void)
 {
 	//data
 	const unsigned nq = 40;
@@ -132,7 +156,7 @@ void setup(void)
 	//create
 	model = new canvas::Model;
 	//example
-	example_3();
+	example_2();
 	//update
 	model->update();
 }

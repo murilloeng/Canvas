@@ -17,6 +17,16 @@ namespace canvas
 		float* memory(void);
 		const float* memory(void) const;
 
+		//linear
+		float norm(void) const;
+		float inner(const vec3&) const;
+		float min(unsigned*, bool) const;
+		float max(unsigned*, bool) const;
+
+		vec3 unit(void) const;
+		vec3 cross(const vec3&) const;
+		void triad(vec3&, vec3&) const;
+
 		//operators
 		vec3& operator*=(float);
 		vec3& operator/=(float);
@@ -33,6 +43,9 @@ namespace canvas
 		float& operator[](unsigned);
 		const float& operator()(unsigned) const;
 		const float& operator[](unsigned) const;
+
+		//friends
+		friend vec3 operator*(float, const vec3&);
 
 	private:
 		//data
