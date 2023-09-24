@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 
+//canvas
+#include "inc/Models/Click.hpp"
+#include "inc/Kinematics/vec3.hpp"
+#include "inc/Kinematics/quat.hpp"
+
 namespace canvas
 {
 	namespace objects
@@ -50,6 +55,12 @@ namespace canvas
 		void clear_objects(void);
 		void add_object(objects::type);
 
+		//callbacks
+		void callback_motion(int, int);
+		void callback_reshape(int, int);
+		void callback_keyboard(char, int, int);
+		void callback_mouse(int, int, int, int);
+
 	private:
 		//setup
 		void setup_gl(void);
@@ -63,6 +74,7 @@ namespace canvas
 		static void setup_program(unsigned&, unsigned&, unsigned&, const char*, const char*);
 
 		//data
+		Click m_click;
 		unsigned m_vao_id[2];
 		unsigned m_vbo_id[2];
 		unsigned m_ibo_id[3];

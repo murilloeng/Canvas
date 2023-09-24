@@ -214,6 +214,25 @@ namespace canvas
 		}
 	}
 
+	//callbacks
+	void Model::callback_motion(int x1, int x2)
+	{
+		return;
+	}
+	void Model::callback_reshape(int width, int height)
+	{
+		glViewport(0, 0, width, height);
+		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
+	}
+	void Model::callback_keyboard(char key, int x1, int x2)
+	{
+
+	}
+	void Model::callback_mouse(int x1, int x2, int button, int state)
+	{
+		return;
+	}
+
 	//setup
 	void Model::setup_gl(void)
 	{

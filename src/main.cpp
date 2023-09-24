@@ -94,7 +94,7 @@ void example_2(void)
 		for(unsigned j = 0; j < nc; j++)
 		{
 			model->add_object(canvas::objects::type::circle);
-			((canvas::objects::Circle*) model->object(nc * i + j))->draw(false);
+			((canvas::objects::Circle*) model->object(nc * i + j))->draw(true);
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill(true);
 			((canvas::objects::Circle*) model->object(nc * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill_color({0, 0, 1});
