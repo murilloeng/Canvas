@@ -119,6 +119,19 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
+	void Model::bound(void)
+	{
+		//check
+		if(m_vbo_size[0] == 0) return;
+		//data
+		vec3 x_min = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 x_max = ((vertices::Model*) m_vbo_data[0])->m_position;
+		//bound
+		for(unsigned i = 0; i < m_vbo_size[0]; i++)
+		{
+
+		}
+	}
 	void Model::update(void)
 	{
 		//draw
@@ -134,6 +147,7 @@ namespace canvas
 				vertex->m_position = object->affine() * vertex->m_position;
 			}
 		}
+		bound();
 		//vbo data
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
 		glBufferData(GL_ARRAY_BUFFER, m_vbo_size[0] * sizeof(vertices::Model), m_vbo_data[0], GL_STATIC_DRAW);
