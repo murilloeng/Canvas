@@ -11,9 +11,9 @@ namespace canvas
 		//constructors
 		Triangle::Triangle(void) : 
 			m_draw(false), m_fill(false), 
+			m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
 			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
-			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
-			m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
 		{
 			return;
 		}
