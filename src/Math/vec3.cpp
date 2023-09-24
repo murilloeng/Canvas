@@ -4,7 +4,8 @@
 #include <cstring>
 
 //canvas
-#include "inc/Kinematics/vec3.hpp"
+#include "inc/Math/vec3.hpp"
+#include "inc/Math/quat.hpp"
 
 namespace canvas
 {
@@ -80,6 +81,20 @@ namespace canvas
 	vec3 vec3::unit(void) const
 	{
 		return *this / norm();
+	}
+	quat vec3::quaternion(void) const
+	{
+		//angle
+		const float t = norm();
+		const float c = cosf(t / 2);
+		const float s = t ? sinf(t / 2) / t : 0.5;
+		//setup
+		quat q;
+		q[0] = c;
+		q[1] = s * m_data[0];
+		q[2] = s * m_data[1];
+		q[3] = s * m_data[2];
+		return q;
 	}
 	vec3 vec3::cross(const vec3& v) const
 	{

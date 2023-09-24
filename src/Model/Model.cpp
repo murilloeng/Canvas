@@ -69,11 +69,6 @@ namespace canvas
 	}
 
 	//data
-	void Model::screen(unsigned width, unsigned height)
-	{
-		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
-	}
-
 	void Model::box_min(float x1_min, float x2_min, float x3_min)
 	{
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), x1_min, x2_min, x3_min);
@@ -130,7 +125,14 @@ namespace canvas
 		prepare();
 		for(const objects::Object* object : m_objects)
 		{
+			const unsigned is = object->vbo_size();
+			const unsigned ib = object->m_vbo_index;
 			object->draw(m_vbo_data[0], m_ibo_data);
+			for(unsigned iv = ib; iv < ib + is; iv++)
+			{
+				vertices::Model* vertex = (vertices::Model*) m_vbo_data[0] + iv;
+				vertex->m_position = object->affine() * vertex->m_position;
+			}
 		}
 		//vbo data
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
@@ -226,9 +228,9 @@ namespace canvas
 	}
 	void Model::callback_keyboard(char key, int x1, int x2)
 	{
-
+		return;
 	}
-	void Model::callback_mouse(int x1, int x2, int button, int state)
+	void Model::callback_mouse(int button, int state, int x1, int x2)
 	{
 		return;
 	}

@@ -1,5 +1,8 @@
 #pragma once
 
+//canvas
+#include "inc/Math/mat4.hpp"
+
 namespace canvas
 {
 	class Model;
@@ -33,6 +36,11 @@ namespace canvas
 			//type
 			virtual objects::type type(void) const = 0;
 
+			//affine
+			mat4 affine(mat4);
+			mat4 affine(void) const;
+			mat4 apply_affine(mat4);
+
 		protected:
 			//buffers
 			virtual unsigned vbo_size(void) const = 0;
@@ -42,6 +50,7 @@ namespace canvas
 			virtual void draw(vertices::Vertex*, unsigned**) const = 0;
 
 			//data
+			mat4 m_affine;
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];
 

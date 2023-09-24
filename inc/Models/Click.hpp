@@ -1,8 +1,8 @@
 #pragma once
 
 //canvas
-#include "inc/Kinematics/vec3.hpp"
-#include "inc/Kinematics/quat.hpp"
+#include "inc/Math/vec3.hpp"
+#include "inc/Math/quat.hpp"
 
 namespace canvas
 {

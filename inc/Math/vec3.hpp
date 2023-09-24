@@ -2,6 +2,11 @@
 
 namespace canvas
 {
+	class quat;
+}
+
+namespace canvas
+{
 	class vec3
 	{
 	public:
@@ -24,6 +29,7 @@ namespace canvas
 		float max(unsigned*, bool) const;
 
 		vec3 unit(void) const;
+		quat quaternion(void) const;
 		vec3 cross(const vec3&) const;
 		void triad(vec3&, vec3&) const;
 

@@ -5,9 +5,9 @@
 #include <vector>
 
 //canvas
+#include "inc/Math/vec3.hpp"
+#include "inc/Math/quat.hpp"
 #include "inc/Models/Click.hpp"
-#include "inc/Kinematics/vec3.hpp"
-#include "inc/Kinematics/quat.hpp"
 
 namespace canvas
 {
@@ -34,8 +34,6 @@ namespace canvas
 		~Model(void);
 
 		//data
-		void screen(unsigned, unsigned);
-
 		void box_min(float, float, float);
 		void box_max(float, float, float);
 

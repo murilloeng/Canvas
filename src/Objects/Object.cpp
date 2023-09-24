@@ -1,4 +1,6 @@
 //canvas
+#include "inc/Math/vec3.hpp"
+#include "inc/Math/quat.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Object.hpp"
 
@@ -38,6 +40,20 @@ namespace canvas
 			default:
 				return "Error";
 			}
+		}
+
+		//affine
+		mat4 Object::affine(void) const
+		{
+			return m_affine;
+		}
+		mat4 Object::affine(mat4 affine)
+		{
+			return m_affine = affine;
+		}
+		mat4 Object::apply_affine(mat4 affine)
+		{
+			return m_affine = affine * m_affine;
 		}
 	}
 }

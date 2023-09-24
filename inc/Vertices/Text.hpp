@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Math/vec3.hpp"
 #include "inc/Colors/Color.hpp"
 #include "inc/Vertices/Vertex.hpp"
 
@@ -19,8 +20,8 @@ namespace canvas
 
 			//data
 			Color m_color;
+			vec3 m_position;
 			float m_texture[2];
-			float m_position[3];
 		};
 	}
 }

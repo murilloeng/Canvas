@@ -23,7 +23,8 @@
 #include "inc/Objects/Triangle.hpp"
 
 //static data
-canvas::Model* model;
+static float t = 0;
+static canvas::Model* model;
 
 //examples
 void example_1(void)
@@ -96,9 +97,9 @@ void example_2(void)
 			model->add_object(canvas::objects::type::circle);
 			((canvas::objects::Circle*) model->object(nc * i + j))->draw(true);
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill(true);
+			((canvas::objects::Circle*) model->object(nc * i + j))->radius(rc);
 			((canvas::objects::Circle*) model->object(nc * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Circle*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Circle*) model->object(nc * i + j))->radius(float(nc * i + j) / nc / nc * rc);
 			((canvas::objects::Circle*) model->object(nc * i + j))->center({2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0});
 		}
 	}
@@ -169,15 +170,23 @@ void cleanup(void)
 //callbacks
 static void callback_idle(void)
 {
-	return;
+	t += 5.00e-5;
+	for(canvas::objects::Object* object : model->objects())
+	{
+		object->apply_affine(canvas::mat4::rotation({0, 0, t}));
+	}
+	model->update();
+	glutPostRedisplay();
 }
 static void callback_mouse(int button, int state, int x1, int x2)
 {
-	return;
+	model->callback_mouse(button, state, x1, x2);
+	glutPostRedisplay();
 }
 static void callback_motion(int x1, int x2)
 {
-	return;
+	model->callback_motion(x1, x2);
+	glutPostRedisplay();
 }
 static void callback_display(void)
 {
@@ -188,10 +197,8 @@ static void callback_display(void)
 }
 static void callback_reshape(int width, int height)
 {
-	//uniforms
-	model->screen(width, height);
-	//viewport
-	glViewport(0, 0, width, height);
+	//canvas
+	model->callback_reshape(width, height);
 	//update
 	glutPostRedisplay();
 }
@@ -200,6 +207,10 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	if(key == 27)
 	{
 		glutDestroyWindow(glutGetWindow());
+	}
+	else
+	{
+		model->callback_keyboard(key, x1, x2);
 	}
 }
 
