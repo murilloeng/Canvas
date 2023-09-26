@@ -10,7 +10,6 @@ namespace canvas
 	{
 		//constructors
 		Triangle::Triangle(void) : 
-			m_draw(false), m_fill(false), 
 			m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
 			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
 			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
@@ -22,25 +21,6 @@ namespace canvas
 		Triangle::~Triangle(void)
 		{
 			return;
-		}
-
-		//data
-		bool Triangle::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Triangle::draw(void) const
-		{
-			return m_draw;
-		}
-
-		bool Triangle::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Triangle::fill(void) const
-		{
-			return m_fill;
 		}
 
 		vec3 Triangle::position(unsigned index) const
@@ -107,7 +87,7 @@ namespace canvas
 		}
 
 		//draw
-		void Triangle::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Triangle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//data
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;

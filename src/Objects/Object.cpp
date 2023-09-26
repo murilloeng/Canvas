@@ -8,22 +8,41 @@ namespace canvas
 {
 	namespace objects
 	{
-		//destructor
-		Object::Object(void) : m_vbo_index(0), m_ibo_index{0, 0, 0}
+		//constructor
+		Object::Object(void) : m_draw(true), m_fill(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
 		{
 			return;
 		}
 
+		//destructor
 		Object::~Object(void)
 		{
 			return;
 		}
 
+		//data
+		bool Object::draw(bool draw)
+		{
+			return m_draw = draw;
+		}
+		bool Object::draw(void) const
+		{
+			return m_draw;
+		}
+
+		bool Object::fill(bool fill)
+		{
+			return m_fill = fill;
+		}
+		bool Object::fill(void) const
+		{
+			return m_fill;
+		}
+
 		//name
 		const char* Object::name(void) const
 		{
-			return "";
-			// return Object::name(type());
+			return Object::name(type());
 		}
 		const char* Object::name(objects::type type)
 		{

@@ -65,7 +65,7 @@ namespace canvas
 		}
 
 		//draw
-		void Line::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Line::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			for(unsigned i = 0; i < 2; i++)
 			{

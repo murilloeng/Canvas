@@ -15,8 +15,7 @@ namespace canvas
 	{
 		//constructors
 		Circle::Circle(void) : 
-			m_draw(false), m_fill(false), m_radius(0),
-			m_center{0, 0, 0}, m_normal{0, 0, 1}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
+			m_radius(0), m_center{0, 0, 0}, m_normal{0, 0, 1}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
 		{
 			return;
 		}
@@ -28,24 +27,6 @@ namespace canvas
 		}
 
 		//data
-		bool Circle::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Circle::draw(void) const
-		{
-			return m_draw;
-		}
-
-		bool Circle::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Circle::fill(void) const
-		{
-			return m_fill;
-		}
-
 		vec3 Circle::center(void) const
 		{
 			return m_center;
@@ -117,7 +98,7 @@ namespace canvas
 		}
 
 		//draw
-		void Circle::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Circle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//data
 			vec3 vertex_position, t1, t2;

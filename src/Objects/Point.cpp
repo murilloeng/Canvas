@@ -56,7 +56,7 @@ namespace canvas
 		}
 
 		//draw
-		void Point::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Point::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//ibo data
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index;

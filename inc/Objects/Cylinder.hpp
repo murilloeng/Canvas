@@ -9,31 +9,16 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Arc : public Object
+		class Cylinder : public Object
 		{
 		public:
 			//constructors
-			Arc(void);
+			Cylinder(void);
 
 			//destructor
-			~Arc(void);
+			~Cylinder(void);
 
 			//data
-			vec3 base(vec3);
-			vec3 base(void) const;
-
-			vec3 center(vec3);
-			vec3 center(void) const;
-
-			vec3 normal(vec3);
-			vec3 normal(void) const;
-
-			float radius(float);
-			float radius(void) const;
-
-			float angle(unsigned) const;
-			float angle(unsigned, float);
-
 			Color draw_color(Color);
 			Color draw_color(void) const;
 
@@ -47,22 +32,18 @@ namespace canvas
 			objects::type type(void) const override;
 
 		private:
-			//misc
-			unsigned current_mesh(void) const;
-
 			//buffers
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
+			void ibo_draw_data(unsigned**) const;
+			void ibo_fill_data(unsigned**) const;
+			void vbo_draw_data(vertices::Vertex*) const;
+			void vbo_fill_data(vertices::Vertex*) const;
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			vec3 m_base;
-			vec3 m_center;
-			vec3 m_normal;
-			float m_radius;
-			float m_angles[2];
 			Color m_draw_color;
 			Color m_fill_color;
 			static unsigned m_mesh;

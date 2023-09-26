@@ -34,7 +34,7 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void draw(vertices::Vertex*, unsigned**) const override;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
 			Color m_color;

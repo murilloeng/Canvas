@@ -21,6 +21,7 @@
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Triangle.hpp"
+#include "inc/Objects/Cylinder.hpp"
 
 namespace canvas
 {
@@ -141,7 +142,7 @@ namespace canvas
 		{
 			const unsigned is = object->vbo_size();
 			const unsigned ib = object->m_vbo_index;
-			object->draw(m_vbo_data[0], m_ibo_data);
+			object->buffers_data(m_vbo_data[0], m_ibo_data);
 			for(unsigned iv = ib; iv < ib + is; iv++)
 			{
 				vertices::Model* vertex = (vertices::Model*) m_vbo_data[0] + iv;
@@ -229,6 +230,9 @@ namespace canvas
 		case objects::type::triangle:
 			m_objects.push_back(new objects::Triangle);
 			break;
+		case objects::type::cylinder:
+			m_objects.push_back(new objects::Cylinder);
+			break;
 		default:
 			break;
 		}
@@ -246,7 +250,20 @@ namespace canvas
 	}
 	void Model::callback_keyboard(char key, int x1, int x2)
 	{
-		return;
+		if(key == 'd')
+		{
+			for(objects::Object* object : m_objects)
+			{
+				object->draw(!object->draw());
+			}
+		}
+		if(key == 'f')
+		{
+			for(objects::Object* object : m_objects)
+			{
+				object->fill(!object->fill());
+			}
+		}
 	}
 	void Model::callback_mouse(int button, int state, int x1, int x2)
 	{

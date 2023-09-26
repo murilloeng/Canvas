@@ -10,7 +10,6 @@ namespace canvas
 	{
 		//constructors
 		Quad::Quad(void) : 
-			m_draw(false), m_fill(false), 
 			m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
 			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
 			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
@@ -25,24 +24,6 @@ namespace canvas
 		}
 
 		//data
-		bool Quad::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Quad::draw(void) const
-		{
-			return m_draw;
-		}
-
-		bool Quad::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Quad::fill(void) const
-		{
-			return m_fill;
-		}
-
 		vec3 Quad::position(unsigned index) const
 		{
 			return m_positions[index];
@@ -109,7 +90,7 @@ namespace canvas
 		}
 
 		//draw
-		void Quad::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Quad::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//data
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;

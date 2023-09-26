@@ -29,6 +29,13 @@ namespace canvas
 			//destructor
 			virtual ~Object(void);
 
+			//data
+			bool draw(bool);
+			bool draw(void) const;
+
+			bool fill(bool);
+			bool fill(void) const;
+
 			//name
 			const char* name(void) const;
 			static const char* name(objects::type);
@@ -47,9 +54,11 @@ namespace canvas
 			virtual unsigned ibo_size(unsigned) const = 0;
 
 			//draw
-			virtual void draw(vertices::Vertex*, unsigned**) const = 0;
+			virtual void buffers_data(vertices::Vertex*, unsigned**) const = 0;
 
 			//data
+			bool m_draw;
+			bool m_fill;
 			mat4 m_affine;
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];

@@ -22,7 +22,6 @@ namespace canvas
 	{
 		//constructors
 		Cube::Cube(void) : 
-			m_draw(false), m_fill(false), 
 			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
 			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
 		{
@@ -36,24 +35,6 @@ namespace canvas
 		}
 
 		//data
-		bool Cube::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Cube::draw(void) const
-		{
-			return m_draw;
-		}
-
-		bool Cube::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Cube::fill(void) const
-		{
-			return m_fill;
-		}
-
 		Color Cube::draw_color(unsigned index) const
 		{
 			return m_draw_colors[index];
@@ -166,24 +147,33 @@ namespace canvas
 			ibo_data[2][m_ibo_index[2] + 3 * 10 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 0] = m_vbo_index + 8 * m_draw + 3;
 			ibo_data[2][m_ibo_index[2] + 3 * 10 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 1] = m_vbo_index + 8 * m_draw + 4;
 		}
-		void Cube::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Cube::vbo_draw_data(vertices::Vertex* vbo_data) const
 		{
-			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_draw;
+			//data
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
-				if(m_draw)
-				{
-					(vbo_draw_ptr + i)->m_color = m_draw_colors[i];
-					(vbo_draw_ptr + i)->m_position = positions + 3 * i;
-				}
-				if(m_fill)
-				{
-					(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
-					(vbo_fill_ptr + i)->m_position = positions + 3 * i;
-				}
+				(vbo_ptr + i)->m_color = m_draw_colors[i];
+				(vbo_ptr + i)->m_position = positions + 3 * i;
 			}
+		}
+		void Cube::vbo_fill_data(vertices::Vertex* vbo_data) const
+		{
+			//data
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_draw;
+			//vbo data
+			for(unsigned i = 0; i < 8; i++)
+			{
+				(vbo_ptr + i)->m_color = m_fill_colors[i];
+				(vbo_ptr + i)->m_position = positions + 3 * i;
+			}
+		}
+		void Cube::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		{
+			//vbo data
+			if(m_draw) vbo_draw_data(vbo_data);
+			if(m_fill) vbo_fill_data(vbo_data);
 			//ibo data
 			if(m_draw) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

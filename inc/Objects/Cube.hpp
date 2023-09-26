@@ -19,12 +19,6 @@ namespace canvas
 			~Cube(void);
 
 			//data
-			bool draw(bool);
-			bool draw(void) const;
-
-			bool fill(bool);
-			bool fill(void) const;
-
 			Color draw_color(unsigned) const;
 			Color draw_color(unsigned, Color);
 
@@ -42,11 +36,11 @@ namespace canvas
 			//draw
 			void ibo_draw_data(unsigned**) const;
 			void ibo_fill_data(unsigned**) const;
-			void draw(vertices::Vertex*, unsigned**) const override;
+			void vbo_draw_data(vertices::Vertex*) const;
+			void vbo_fill_data(vertices::Vertex*) const;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			bool m_draw;
-			bool m_fill;
 			Color m_draw_colors[8];
 			Color m_fill_colors[8];
 		};

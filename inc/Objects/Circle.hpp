@@ -19,12 +19,6 @@ namespace canvas
 			~Circle(void);
 
 			//data
-			bool draw(bool);
-			bool draw(void) const;
-
-			bool fill(bool);
-			bool fill(void) const;
-
 			vec3 center(vec3);
 			vec3 center(void) const;
 
@@ -52,11 +46,9 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void draw(vertices::Vertex*, unsigned**) const override;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			bool m_draw;
-			bool m_fill;
 			vec3 m_center;
 			vec3 m_normal;
 			float m_radius;

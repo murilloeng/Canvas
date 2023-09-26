@@ -15,7 +15,6 @@ namespace canvas
 	{
 		//constructors
 		Arc::Arc(void) : 
-			m_draw(false), m_fill(false), 
 			m_base{1, 0, 0}, m_center{0, 0, 0}, m_normal{0, 0, 1}, 
 			m_radius(0), m_angles{0, 0}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
 		{
@@ -29,24 +28,6 @@ namespace canvas
 		}
 
 		//data
-		bool Arc::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Arc::draw(void) const
-		{
-			return m_draw;
-		}
-
-		bool Arc::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Arc::fill(void) const
-		{
-			return m_fill;
-		}
-
 		vec3 Arc::base(vec3 base)
 		{
 			return m_base = base;
@@ -144,7 +125,7 @@ namespace canvas
 		}
 
 		//draw
-		void Arc::draw(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Arc::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//data
 			vec3 vertex_position;

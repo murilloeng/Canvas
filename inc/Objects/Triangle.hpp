@@ -19,12 +19,6 @@ namespace canvas
 			~Triangle(void);
 
 			//data
-			bool draw(bool);
-			bool draw(void) const;
-
-			bool fill(bool);
-			bool fill(void) const;
-
 			vec3 position(unsigned) const;
 			vec3 position(unsigned, vec3);
 
@@ -43,11 +37,9 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void draw(vertices::Vertex*, unsigned**) const override;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			bool m_draw;
-			bool m_fill;
 			vec3 m_positions[3];
 			Color m_draw_colors[3];
 			Color m_fill_colors[3];

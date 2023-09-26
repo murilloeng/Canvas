@@ -23,6 +23,7 @@
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Triangle.hpp"
+#include "inc/Objects/Cylinder.hpp"
 
 //static data
 static canvas::Model* model;
@@ -155,7 +156,7 @@ void example_4(void)
 void example_5(void)
 {
 	//data
-	const unsigned nc = 5;
+	const unsigned nc = 10;
 	const float sc = 1.0f / nc;
 	//objects
 	model->clear_objects();
@@ -169,9 +170,32 @@ void example_5(void)
 			((canvas::objects::Cube*) model->object(nc * i + j))->draw(true);
 			((canvas::objects::Cube*) model->object(nc * i + j))->fill(true);
 			((canvas::objects::Cube*) model->object(nc * i + j))->draw_color(8, {1, 1, 1});
-			((canvas::objects::Cube*) model->object(nc * i + j))->fill_color(8, {0, 0, 1});
-			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc));
+			((canvas::objects::Cube*) model->object(nc * i + j))->fill_color(8, {0, 0, 1, 0.5});
+			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
 			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+		}
+	}
+}
+void example_6(void)
+{
+	//data
+	const unsigned nc = 10;
+	const float sc = 1.0f / nc;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < nc; i++)
+	{
+		for(unsigned j = 0; j < nc; j++)
+		{
+			const float x1 = 2 * j * sc - 1 + sc;
+			const float x2 = 2 * i * sc - 1 + sc;
+			model->add_object(canvas::objects::type::cylinder);
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->draw(true);
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->fill(true);
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
+			((canvas::objects::Cylinder*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
 		}
 	}
 }
@@ -183,7 +207,7 @@ void setup(void)
 	model = new canvas::Model;
 	t1 = std::chrono::high_resolution_clock::now();
 	//example
-	example_5();
+	example_6();
 	//update
 	model->update();
 }
@@ -196,9 +220,16 @@ void cleanup(void)
 //callbacks
 static void callback_idle(void)
 {
-	for(canvas::objects::Object* object : model->objects())
+	const unsigned nc = 10;
+	const float sc = 1.0f / nc;
+	for(unsigned i = 0; i < nc; i++)
 	{
-		object->apply_affine(canvas::mat4::rotation({0, 2e-2, 0}));
+		for(unsigned j = 0; j < nc; j++)
+		{
+			const float x1 = 2 * j * sc - 1 + sc;
+			const float x2 = 2 * i * sc - 1 + sc;
+			model->object(j + nc * i)->apply_affine(canvas::mat4::rotation({x1, x2, 0}, {0, 2e-2, 0}));
+		}
 	}
 	model->update();
 	glutPostRedisplay();
