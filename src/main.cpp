@@ -1,4 +1,5 @@
 //std
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 
@@ -15,6 +16,7 @@
 #include "inc/Models/Model.hpp"
 
 #include "inc/Objects/Arc.hpp"
+#include "inc/Objects/Cube.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
@@ -23,8 +25,8 @@
 #include "inc/Objects/Triangle.hpp"
 
 //static data
-static float t = 0;
 static canvas::Model* model;
+static std::chrono::steady_clock::time_point t1, t2;
 
 //examples
 void example_1(void)
@@ -150,14 +152,38 @@ void example_4(void)
 		}
 	}
 }
+void example_5(void)
+{
+	//data
+	const unsigned nc = 5;
+	const float sc = 1.0f / nc;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < nc; i++)
+	{
+		for(unsigned j = 0; j < nc; j++)
+		{
+			const float x1 = 2 * j * sc - 1 + sc;
+			const float x2 = 2 * i * sc - 1 + sc;
+			model->add_object(canvas::objects::type::cube);
+			((canvas::objects::Cube*) model->object(nc * i + j))->draw(true);
+			((canvas::objects::Cube*) model->object(nc * i + j))->fill(true);
+			((canvas::objects::Cube*) model->object(nc * i + j))->draw_color(8, {1, 1, 1});
+			((canvas::objects::Cube*) model->object(nc * i + j))->fill_color(8, {0, 0, 1});
+			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc));
+			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+		}
+	}
+}
 
 //setup
 void setup(void)
 {
 	//create
 	model = new canvas::Model;
+	t1 = std::chrono::high_resolution_clock::now();
 	//example
-	example_2();
+	example_5();
 	//update
 	model->update();
 }
@@ -170,7 +196,12 @@ void cleanup(void)
 //callbacks
 static void callback_idle(void)
 {
-	return;
+	for(canvas::objects::Object* object : model->objects())
+	{
+		object->apply_affine(canvas::mat4::rotation({0, 2e-2, 0}));
+	}
+	model->update();
+	glutPostRedisplay();
 }
 static void callback_mouse(int button, int state, int x1, int x2)
 {

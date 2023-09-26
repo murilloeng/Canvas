@@ -7,11 +7,14 @@ namespace canvas
 		enum class type : unsigned
 		{
 			arc,
+			cube,
 			line,
 			quad,
 			point,
 			circle,
-			triangle
+			sphere,
+			triangle,
+			cylinder
 		};
 	}
 }

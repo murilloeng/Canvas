@@ -13,6 +13,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Arc.hpp"
+#include "inc/Objects/Cube.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
@@ -209,6 +210,9 @@ namespace canvas
 		{
 		case objects::type::arc:
 			m_objects.push_back(new objects::Arc);
+			break;
+		case objects::type::cube:
+			m_objects.push_back(new objects::Cube);
 			break;
 		case objects::type::line:
 			m_objects.push_back(new objects::Line);
