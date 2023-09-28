@@ -22,6 +22,7 @@
 #include "inc/Objects/Quad.hpp"
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
+#include "inc/Objects/Sphere.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
 
@@ -199,6 +200,29 @@ void example_6(void)
 		}
 	}
 }
+void example_7(void)
+{
+	//data
+	const unsigned nc = 10;
+	const float sc = 1.0f / nc;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < nc; i++)
+	{
+		for(unsigned j = 0; j < nc; j++)
+		{
+			const float x1 = 2 * j * sc - 1 + sc;
+			const float x2 = 2 * i * sc - 1 + sc;
+			model->add_object(canvas::objects::type::sphere);
+			((canvas::objects::Sphere*) model->object(nc * i + j))->draw(true);
+			((canvas::objects::Sphere*) model->object(nc * i + j))->fill(true);
+			((canvas::objects::Sphere*) model->object(nc * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Sphere*) model->object(nc * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
+			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+		}
+	}
+}
 
 //setup
 void setup(void)
@@ -207,7 +231,7 @@ void setup(void)
 	model = new canvas::Model;
 	t1 = std::chrono::high_resolution_clock::now();
 	//example
-	example_6();
+	example_7();
 	//update
 	model->update();
 }

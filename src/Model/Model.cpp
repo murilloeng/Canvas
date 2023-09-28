@@ -20,6 +20,7 @@
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
+#include "inc/Objects/Sphere.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
 
@@ -226,6 +227,9 @@ namespace canvas
 			break;
 		case objects::type::circle:
 			m_objects.push_back(new objects::Circle);
+			break;
+		case objects::type::sphere:
+			m_objects.push_back(new objects::Sphere);
 			break;
 		case objects::type::triangle:
 			m_objects.push_back(new objects::Triangle);
