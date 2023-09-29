@@ -203,7 +203,7 @@ void example_6(void)
 void example_7(void)
 {
 	//data
-	const unsigned nc = 10;
+	const unsigned nc = 1;
 	const float sc = 1.0f / nc;
 	//objects
 	model->clear_objects();
@@ -218,7 +218,7 @@ void example_7(void)
 			((canvas::objects::Sphere*) model->object(nc * i + j))->fill(true);
 			((canvas::objects::Sphere*) model->object(nc * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Sphere*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
+			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(0.9 * sc));
 			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
 		}
 	}
