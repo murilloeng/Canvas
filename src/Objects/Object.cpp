@@ -70,9 +70,9 @@ namespace canvas
 		{
 			return m_affine = affine;
 		}
-		mat4 Object::apply_affine(mat4 affine)
+		mat4 Object::apply_affine(mat4 affine, bool left)
 		{
-			return m_affine = affine * m_affine;
+			return m_affine = left ? affine * m_affine : m_affine * affine;
 		}
 	}
 }

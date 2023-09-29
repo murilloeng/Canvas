@@ -46,7 +46,7 @@ namespace canvas
 			//affine
 			mat4 affine(mat4);
 			mat4 affine(void) const;
-			mat4 apply_affine(mat4);
+			mat4 apply_affine(mat4, bool = true);
 
 		protected:
 			//buffers

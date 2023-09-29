@@ -244,16 +244,9 @@ void cleanup(void)
 //callbacks
 static void callback_idle(void)
 {
-	const unsigned nc = 10;
-	const float sc = 1.0f / nc;
-	for(unsigned i = 0; i < nc; i++)
+	for(canvas::objects::Object* object : model->objects())
 	{
-		for(unsigned j = 0; j < nc; j++)
-		{
-			const float x1 = 2 * j * sc - 1 + sc;
-			const float x2 = 2 * i * sc - 1 + sc;
-			model->object(j + nc * i)->apply_affine(canvas::mat4::rotation({x1, x2, 0}, {0, 2e-2, 0}));
-		}
+		object->apply_affine(canvas::mat4::rotation({0, 4e-2, 0}), false);
 	}
 	model->update();
 	glutPostRedisplay();
