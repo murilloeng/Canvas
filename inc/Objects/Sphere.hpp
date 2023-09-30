@@ -42,9 +42,12 @@ namespace canvas
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;
 
-			//index
-			unsigned vertex_index_edge(unsigned, unsigned) const;
-			unsigned vertex_index_face(unsigned, unsigned, unsigned) const;
+			//edges
+			unsigned edge_index(unsigned, unsigned, bool&) const;
+
+			//vertices
+			unsigned vertex_index(unsigned, unsigned) const;
+			unsigned vertex_index(unsigned, unsigned, unsigned) const;
 
 			//draw
 			void ibo_draw_data(unsigned**) const;

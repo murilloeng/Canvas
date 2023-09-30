@@ -203,7 +203,7 @@ void example_6(void)
 void example_7(void)
 {
 	//data
-	const unsigned nc = 1;
+	const unsigned nc = 10;
 	const float sc = 1.0f / nc;
 	//objects
 	model->clear_objects();

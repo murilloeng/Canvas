@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <cstdio>
 
 //canvas
 #include "inc/Vertices/Model.hpp"
@@ -102,33 +103,80 @@ namespace canvas
 		//buffers
 		unsigned Sphere::vbo_size(void) const
 		{
-			const unsigned nm = m_mesh;
-			const unsigned nv = 12 + (nm - 1) * 30 + (nm - 1) * (nm - 2) * 10;
-			return 
-				nv * m_draw + 
-				nv * m_fill;
+			return (2 + 10 * m_mesh * m_mesh) * (m_draw + m_fill);
 		}
 		unsigned Sphere::ibo_size(unsigned index) const
 		{
-			const unsigned nm = m_mesh;
-			const unsigned nf = nm * nm * 20;
-			const unsigned ne = nm * 30 + 3 * nm * (nm - 1) * 10;
 			return 
-				ne * (index == 1) * m_draw + 
-				nf * (index == 2) * m_fill;
+				30 * m_mesh * m_mesh * (index == 1) * m_draw + 
+				20 * m_mesh * m_mesh * (index == 2) * m_fill;
 		}
 
-		//index
-		unsigned Sphere::vertex_index_edge(unsigned edge, unsigned index) const
+		//edges
+		unsigned Sphere::edge_index(unsigned face, unsigned index, bool& inversed) const
 		{
-			return 
-				index == 0 ? base_edges[edge][0] : 
-				index == m_mesh ? base_edges[edge][1] : 
-				12 + (m_mesh - 1) * edge + index - 1;
+			//data
+			const unsigned v1 = base_faces[face][(index + 0) % 3];
+			const unsigned v2 = base_faces[face][(index + 1) % 3];
+			//search
+			for(unsigned i = 0; i < 30; i++)
+			{
+				if(v1 == base_edges[i][0] && v2 == base_edges[i][1])
+				{
+					inversed = false;
+					return i;
+				}
+				if(v1 == base_edges[i][1] && v2 == base_edges[i][0])
+				{
+					inversed = true;
+					return i;
+				}
+			}
+			return 0;
 		}
-		unsigned Sphere::vertex_index_face(unsigned face, unsigned index_1, unsigned index_2) const
-		{
 
+		//vertices
+		unsigned Sphere::vertex_index(unsigned edge, unsigned index) const
+		{
+			if(index == 0)
+			{
+				return base_edges[edge][0];
+			}
+			else if(index == m_mesh)
+			{
+				return base_edges[edge][1];
+			}
+			else
+			{
+				return 12 + (m_mesh - 1) * edge + index - 1;
+			}
+		}
+		unsigned Sphere::vertex_index(unsigned face, unsigned index_1, unsigned index_2) const
+		{
+			//data
+			bool i0, i1, i2;
+			const unsigned e0 = edge_index(face, 0, i0);
+			const unsigned e1 = edge_index(face, 1, i1);
+			const unsigned e2 = edge_index(face, 2, i2);
+			//search
+			if(index_2 == 0)
+			{
+				return vertex_index(e0, !i0 ? index_1 : m_mesh - index_1);
+			}
+			else if(index_1 == 0)
+			{
+				return vertex_index(e2, !i2 ? m_mesh - index_2 : index_2);
+			}
+			else if(index_1 == m_mesh - index_2)
+			{
+				return vertex_index(e1, !i1 ? index_2 : m_mesh - index_2);
+			}
+			else
+			{
+				return 
+					12 + (m_mesh - 1) * 30 + (m_mesh - 1) * (m_mesh - 2) / 2 * face + 
+					(index_2 - 1) * m_mesh - (index_2 + 2) * (index_2 - 1) / 2 + index_1 - 1;
+			}
 		}
 
 		//draw
@@ -141,35 +189,60 @@ namespace canvas
 			{
 				for(unsigned j = 0; j < m_mesh; j++)
 				{
-					ibo_ptr[0] = m_vbo_index + (j + 0) % m_mesh == 0 ? base_edges[i][0] : 12 + (m_mesh - 1) * i + j - 1;
-					ibo_ptr[1] = m_vbo_index + (j + 1) % m_mesh == 0 ? base_edges[i][1] : 12 + (m_mesh - 1) * i + j + 0;
+					ibo_ptr[0] = m_vbo_index + vertex_index(i, j + 0);
+					ibo_ptr[1] = m_vbo_index + vertex_index(i, j + 1);
 					ibo_ptr += 2;
 				}
 			}
 			//faces
 			for(unsigned i = 0; i < 20; i++)
 			{
-				
+				for(unsigned j = 0; j + 1 < m_mesh; j++)
+				{
+					for(unsigned k = 1; k + j < m_mesh; k++)
+					{
+						ibo_ptr[0] = m_vbo_index + vertex_index(i, k + 0, j + 0);
+						ibo_ptr[1] = m_vbo_index + vertex_index(i, k - 1, j + 1);
+						ibo_ptr[2] = m_vbo_index + vertex_index(i, k + 0, j + 0);
+						ibo_ptr[3] = m_vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[4] = m_vbo_index + vertex_index(i, k - 1, j + 1);
+						ibo_ptr[5] = m_vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr += 6;
+					}
+				}
 			}
-			
 		}
 		void Sphere::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//data
-			const unsigned vbo_index = m_vbo_index + 12;
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			const unsigned vbo_index = m_vbo_index + (2 + 10 * m_mesh * m_mesh) * m_draw;
 			//triangles
 			for(unsigned i = 0; i < 20; i++)
 			{
-				ibo_ptr[3 * i + 0] = vbo_index + base_faces[i][0];
-				ibo_ptr[3 * i + 1] = vbo_index + base_faces[i][1];
-				ibo_ptr[3 * i + 2] = vbo_index + base_faces[i][2];
+				for(unsigned j = 0; j < m_mesh; j++)
+				{
+					ibo_ptr[0] = vbo_index + vertex_index(i, 0, j + 0);
+					ibo_ptr[1] = vbo_index + vertex_index(i, 1, j + 0);
+					ibo_ptr[2] = vbo_index + vertex_index(i, 0, j + 1);
+					ibo_ptr += 3;
+					for(unsigned k = 0; k + j + 1 < m_mesh; k++)
+					{
+						ibo_ptr[0] = vbo_index + vertex_index(i, k + 1, j + 0);
+						ibo_ptr[1] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr[2] = vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[3] = vbo_index + vertex_index(i, k + 1, j + 0);
+						ibo_ptr[4] = vbo_index + vertex_index(i, k + 2, j + 0);
+						ibo_ptr[5] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr += 6;
+					}
+				}
 			}
 		}
 		void Sphere::vbo_draw_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			const unsigned nv = vbo_size();
+			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			//color
 			for(unsigned i = 0; i < nv; i++)
@@ -184,8 +257,8 @@ namespace canvas
 		void Sphere::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			const unsigned nv = vbo_size();
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + nv;
+			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + nv * m_draw;
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -199,7 +272,7 @@ namespace canvas
 		void Sphere::vbo_edges_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 12;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + 12;
 			//edges
 			for(unsigned i = 0; i < 30; i++)
 			{
@@ -210,8 +283,10 @@ namespace canvas
 				for(unsigned j = 1; j < m_mesh; j++)
 				{
 					const float s = float(j) / m_mesh;
-					(vbo_ptr + 12 + (m_mesh - 1) * i + j)->m_position = m_center + m_radius * (x1 + s * (x2 - x1)).unit();
+					(vbo_ptr + j - 1)->m_position = m_center + m_radius * (x1 + s * (x2 - x1)).unit();
 				}
+				//offset
+				vbo_ptr += m_mesh - 1;
 			}
 		}
 		void Sphere::vbo_faces_data(vertices::Vertex* vbo_data) const
@@ -220,7 +295,7 @@ namespace canvas
 			unsigned counter = 0;
 			const float l = 2 * a / m_mesh;
 			const float h = sqrtf(3) / 2 * l;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 12 + 30 * (m_mesh - 1);
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + 12 + 30 * (m_mesh - 1);
 			//faces
 			for(unsigned i = 0; i < 20; i++)
 			{
@@ -233,9 +308,9 @@ namespace canvas
 				const vec3 s3 = s1.cross(x3 - x1).unit();
 				const vec3 s2 = s3.cross(s1);
 				//vertices
-				for(unsigned j = 0; j < m_mesh - 2; j++)
+				for(unsigned j = 0; j + 2 < m_mesh; j++)
 				{
-					for(unsigned k = 0; k < m_mesh - 2 - j; k++)
+					for(unsigned k = 0; k + j + 2 < m_mesh; k++)
 					{
 						const float c2 = (j + 1) * h;
 						const float c1 = (k + 1) * l + (j + 1) * l / 2;
@@ -248,7 +323,7 @@ namespace canvas
 		void Sphere::vbo_vertices_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data;
 			//vertices
 			for(unsigned i = 0; i < 12; i++)
 			{
@@ -266,6 +341,6 @@ namespace canvas
 		}
 
 		//static
-		unsigned Sphere::m_mesh = 1;
+		unsigned Sphere::m_mesh = 4;
 	}
 }
