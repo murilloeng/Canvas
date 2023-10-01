@@ -6,6 +6,7 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
+#include "inc/Math/mat4.hpp"
 
 namespace canvas
 {
@@ -148,6 +149,10 @@ namespace canvas
 		m_data[1] -= p.m_data[1];
 		m_data[2] -= p.m_data[2];
 		return *this;
+	}
+	vec3& vec3::operator*=(const mat4& A)
+	{
+		return *this = A * *this;
 	}
 	vec3& vec3::operator=(const float* data)
 	{

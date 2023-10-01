@@ -57,14 +57,30 @@ namespace canvas
 		{
 			switch(type)
 			{
+			case type::arc:
+				return "Arc";
+			case type::cube:
+				return "Cube";
 			case type::line:
 				return "Line";
+			case type::quad:
+				return "Quad";
 			case type::point:
 				return "Point";
 			case type::circle:
 				return "Circle";
 			case type::triangle:
 				return "Triangle";
+			case type::sphere:
+				return "Sphere";
+			case type::grid_2D:
+				return "Grid 2D";
+			case type::grid_3D:
+				return "Grid 3D";
+			case type::cylinder:
+				return "Cylinder";
+			case type::function_2D:
+				return "Function 2D";
 			default:
 				return "Error";
 			}

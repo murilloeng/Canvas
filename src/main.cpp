@@ -23,8 +23,11 @@
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Sphere.hpp"
+#include "inc/Objects/Grid_2D.hpp"
+#include "inc/Objects/Grid_3D.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
+#include "inc/Objects/Function_2D.hpp"
 
 //static data
 static canvas::Model* model;
@@ -90,136 +93,174 @@ void example_1(void)
 void example_2(void)
 {
 	//data
-	const unsigned nc = 10;
-	const float rc = 1.0f / nc;
+	const unsigned n = 10;
+	const float r = 1.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nc; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nc; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::circle);
-			((canvas::objects::Circle*) model->object(nc * i + j))->draw(true);
-			((canvas::objects::Circle*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Circle*) model->object(nc * i + j))->radius(rc);
-			((canvas::objects::Circle*) model->object(nc * i + j))->draw_color({1, 1, 1});
-			((canvas::objects::Circle*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Circle*) model->object(nc * i + j))->center({2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0});
+			((canvas::objects::Circle*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Circle*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Circle*) model->object(n * i + j))->radius(0.9 * r);
+			((canvas::objects::Circle*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Circle*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Circle*) model->object(n * i + j))->center({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }
 void example_3(void)
 {
 	//data
-	const unsigned nc = 10;
-	const float rc = 1.0f / nc;
+	const unsigned n = 10;
+	const float r = 1.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nc; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nc; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::arc);
-			((canvas::objects::Arc*) model->object(nc * i + j))->draw(true);
-			((canvas::objects::Arc*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Arc*) model->object(nc * i + j))->radius(rc);
-			((canvas::objects::Arc*) model->object(nc * i + j))->angle(0, 0);
-			((canvas::objects::Arc*) model->object(nc * i + j))->draw_color({1, 1, 1});
-			((canvas::objects::Arc*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Arc*) model->object(nc * i + j))->angle(1, 2 * M_PI * float(nc * i + j) / nc / nc);
-			((canvas::objects::Arc*) model->object(nc * i + j))->center({2 * rc * j + rc - 1, 2 * rc * i + rc - 1, 0});
+			((canvas::objects::Arc*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Arc*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Arc*) model->object(n * i + j))->radius(r);
+			((canvas::objects::Arc*) model->object(n * i + j))->angle(0, 0);
+			((canvas::objects::Arc*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Arc*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Arc*) model->object(n * i + j))->angle(1, 2 * M_PI * float(n * i + j) / n / n);
+			((canvas::objects::Arc*) model->object(n * i + j))->center({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }
 void example_4(void)
 {
 	//data
-	const unsigned nq = 40;
-	const float sq = 2.0f / nq;
+	const unsigned n = 40;
+	const float s = 2.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nq; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nq; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::quad);
-			((canvas::objects::Quad*) model->object(nq * i + j))->draw(true);
-			((canvas::objects::Quad*) model->object(nq * i + j))->fill(true);
-			((canvas::objects::Quad*) model->object(nq * i + j))->draw_color(4, {1, 1, 1});
-			((canvas::objects::Quad*) model->object(nq * i + j))->fill_color(4, {0, 0, 1});
-			((canvas::objects::Quad*) model->object(nq * i + j))->position(0, {(j + 0) * sq - 1, (i + 0) * sq - 1, 0});
-			((canvas::objects::Quad*) model->object(nq * i + j))->position(1, {(j + 1) * sq - 1, (i + 0) * sq - 1, 0});
-			((canvas::objects::Quad*) model->object(nq * i + j))->position(2, {(j + 1) * sq - 1, (i + 1) * sq - 1, 0});
-			((canvas::objects::Quad*) model->object(nq * i + j))->position(3, {(j + 0) * sq - 1, (i + 1) * sq - 1, 0});
+			((canvas::objects::Quad*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Quad*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Quad*) model->object(n * i + j))->draw_color(4, {1, 1, 1});
+			((canvas::objects::Quad*) model->object(n * i + j))->fill_color(4, {0, 0, 1});
+			((canvas::objects::Quad*) model->object(n * i + j))->position(0, {(j + 0) * s - 1, (i + 0) * s - 1, 0});
+			((canvas::objects::Quad*) model->object(n * i + j))->position(1, {(j + 1) * s - 1, (i + 0) * s - 1, 0});
+			((canvas::objects::Quad*) model->object(n * i + j))->position(2, {(j + 1) * s - 1, (i + 1) * s - 1, 0});
+			((canvas::objects::Quad*) model->object(n * i + j))->position(3, {(j + 0) * s - 1, (i + 1) * s - 1, 0});
 		}
 	}
 }
 void example_5(void)
 {
 	//data
-	const unsigned nc = 10;
-	const float sc = 1.0f / nc;
+	const unsigned n = 10;
+	const float s = 1.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nc; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nc; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
-			const float x1 = 2 * j * sc - 1 + sc;
-			const float x2 = 2 * i * sc - 1 + sc;
+			const float x1 = 2 * j * s - 1 + s;
+			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::cube);
-			((canvas::objects::Cube*) model->object(nc * i + j))->draw(true);
-			((canvas::objects::Cube*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Cube*) model->object(nc * i + j))->draw_color(8, {1, 1, 1});
-			((canvas::objects::Cube*) model->object(nc * i + j))->fill_color(8, {0, 0, 1, 0.5});
-			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
-			((canvas::objects::Cube*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Cube*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Cube*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Cube*) model->object(n * i + j))->draw_color(8, {1, 1, 1});
+			((canvas::objects::Cube*) model->object(n * i + j))->fill_color(8, {0, 0, 1, 0.5});
+			((canvas::objects::Cube*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s / 2));
+			((canvas::objects::Cube*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
 		}
 	}
 }
 void example_6(void)
 {
 	//data
-	const unsigned nc = 10;
-	const float sc = 1.0f / nc;
+	const unsigned n = 10;
+	const float s = 1.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nc; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nc; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
-			const float x1 = 2 * j * sc - 1 + sc;
-			const float x2 = 2 * i * sc - 1 + sc;
+			const float x1 = 2 * j * s - 1 + s;
+			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::cylinder);
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->draw(true);
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->draw_color({1, 1, 1});
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(sc / 2));
-			((canvas::objects::Cylinder*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Cylinder*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Cylinder*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Cylinder*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Cylinder*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Cylinder*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s / 2));
+			((canvas::objects::Cylinder*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
 		}
 	}
 }
 void example_7(void)
 {
 	//data
-	const unsigned nc = 10;
-	const float sc = 1.0f / nc;
+	const unsigned n = 10;
+	const float s = 1.0f / n;
 	//objects
 	model->clear_objects();
-	for(unsigned i = 0; i < nc; i++)
+	for(unsigned i = 0; i < n; i++)
 	{
-		for(unsigned j = 0; j < nc; j++)
+		for(unsigned j = 0; j < n; j++)
 		{
-			const float x1 = 2 * j * sc - 1 + sc;
-			const float x2 = 2 * i * sc - 1 + sc;
+			const float x1 = 2 * j * s - 1 + s;
+			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::sphere);
-			((canvas::objects::Sphere*) model->object(nc * i + j))->draw(true);
-			((canvas::objects::Sphere*) model->object(nc * i + j))->fill(true);
-			((canvas::objects::Sphere*) model->object(nc * i + j))->draw_color({1, 1, 1});
-			((canvas::objects::Sphere*) model->object(nc * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::scaling(0.9 * sc));
-			((canvas::objects::Sphere*) model->object(nc * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Sphere*) model->object(n * i + j))->draw(true);
+			((canvas::objects::Sphere*) model->object(n * i + j))->fill(true);
+			((canvas::objects::Sphere*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Sphere*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Sphere*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s));
+			((canvas::objects::Sphere*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+		}
+	}
+}
+void example_8(void)
+{
+	//data
+	const unsigned n = 10;
+	const float s = 1.0f / n;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < n; i++)
+	{
+		for(unsigned j = 0; j < n; j++)
+		{
+			const float x1 = 2 * j * s - 1 + s;
+			const float x2 = 2 * i * s - 1 + s;
+			model->add_object(canvas::objects::type::grid_2D);
+			model->object(n * i + j)->apply_affine(canvas::mat4::scaling(0.5 * s));
+			model->object(n * i + j)->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+		}
+	}
+}
+void example_9(void)
+{
+	//data
+	const unsigned n = 10;
+	const float s = 1.0f / n;
+	//objects
+	model->clear_objects();
+	for(unsigned i = 0; i < n; i++)
+	{
+		for(unsigned j = 0; j < n; j++)
+		{
+			const float x1 = 2 * j * s - 1 + s;
+			const float x2 = 2 * i * s - 1 + s;
+			model->add_object(canvas::objects::type::grid_3D);
+			model->object(n * i + j)->apply_affine(canvas::mat4::scaling(0.5 * s));
+			model->object(n * i + j)->apply_affine(canvas::mat4::translation({x1, x2, 0}));
 		}
 	}
 }
@@ -231,7 +272,7 @@ void setup(void)
 	model = new canvas::Model;
 	t1 = std::chrono::high_resolution_clock::now();
 	//example
-	example_7();
+	example_9();
 	//update
 	model->update();
 }

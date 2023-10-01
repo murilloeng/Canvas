@@ -21,8 +21,11 @@
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Sphere.hpp"
+#include "inc/Objects/Grid_2D.hpp"
+#include "inc/Objects/Grid_3D.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
+#include "inc/Objects/Function_2D.hpp"
 
 namespace canvas
 {
@@ -231,11 +234,20 @@ namespace canvas
 		case objects::type::sphere:
 			m_objects.push_back(new objects::Sphere);
 			break;
+		case objects::type::grid_2D:
+			m_objects.push_back(new objects::Grid_2D);
+			break;
+		case objects::type::grid_3D:
+			m_objects.push_back(new objects::Grid_3D);
+			break;
 		case objects::type::triangle:
 			m_objects.push_back(new objects::Triangle);
 			break;
 		case objects::type::cylinder:
 			m_objects.push_back(new objects::Cylinder);
+			break;
+		case objects::type::function_2D:
+			m_objects.push_back(new objects::Function_2D);
 			break;
 		default:
 			break;
@@ -284,11 +296,14 @@ namespace canvas
 	//setup
 	void Model::setup_gl(void)
 	{
-		glLineWidth(2);
-		glPointSize(7);
+		//enable
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
-		glPolygonOffset(1.0, 1.0);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		//values
+		glLineWidth(1);
+		glPointSize(7);
+		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	}
 	void Model::setup_buffers(void)

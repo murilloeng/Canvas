@@ -13,8 +13,11 @@ namespace canvas
 			point,
 			circle,
 			sphere,
+			grid_2D,
+			grid_3D,
 			triangle,
-			cylinder
+			cylinder,
+			function_2D
 		};
 	}
 }

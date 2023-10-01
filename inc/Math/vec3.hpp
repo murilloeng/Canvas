@@ -3,6 +3,7 @@
 namespace canvas
 {
 	class quat;
+	class mat4;
 }
 
 namespace canvas
@@ -38,6 +39,7 @@ namespace canvas
 		vec3& operator/=(float);
 		vec3& operator+=(const vec3&);
 		vec3& operator-=(const vec3&);
+		vec3& operator*=(const mat4&);
 		vec3& operator=(const float*);
 
 		vec3 operator+(void) const;

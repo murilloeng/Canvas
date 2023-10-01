@@ -33,11 +33,11 @@ namespace canvas
 			bool dot(bool);
 			bool dot(void) const;
 
-			bool draw(bool);
 			bool draw(void) const;
+			virtual bool draw(bool);
 
-			bool fill(bool);
 			bool fill(void) const;
+			virtual bool fill(bool);
 
 			//name
 			const char* name(void) const;
