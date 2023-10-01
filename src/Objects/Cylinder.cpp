@@ -13,7 +13,8 @@ namespace canvas
 	{
 		//constructors
 		Cylinder::Cylinder(void) : 
-			m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
+			m_center{0.0f, 0.0f, 0.0f}, m_radius(1.0f), m_height(1.0f),
+			m_draw_color{1.0f, 1.0f, 1.0f, 1.0f}, m_fill_color{0.0f, 0.0f, 1.0f, 1.0f}
 		{
 			return;
 		}
@@ -25,6 +26,33 @@ namespace canvas
 		}
 
 		//data
+		vec3 Cylinder::center(void) const
+		{
+			return m_center;
+		}
+		vec3 Cylinder::center(vec3 center)
+		{
+			return m_center = center;
+		}
+
+		float Cylinder::radius(void) const
+		{
+			return m_radius;
+		}
+		float Cylinder::radius(float radius)
+		{
+			return m_radius = radius;
+		}
+
+		float Cylinder::height(void) const
+		{
+			return m_height;
+		}
+		float Cylinder::height(float height)
+		{
+			return m_height = height;
+		}
+
 		Color Cylinder::draw_color(void) const
 		{
 			return m_draw_color;
@@ -129,6 +157,8 @@ namespace canvas
 		void Cylinder::vbo_draw_data(vertices::Vertex* vbo_data) const
 		{
 			//data
+			const float r = m_radius;
+			const float h = m_height;
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -136,13 +166,15 @@ namespace canvas
 				const float t = 2 * M_PI * i / m_mesh;
 				(vbo_ptr + 0 * m_mesh + i)->m_color = m_draw_color;
 				(vbo_ptr + 1 * m_mesh + i)->m_color = m_draw_color;
-				(vbo_ptr + 0 * m_mesh + i)->m_position = {cosf(t), sinf(t), -1.0f};
-				(vbo_ptr + 1 * m_mesh + i)->m_position = {cosf(t), sinf(t), +1.0f};
+				(vbo_ptr + 0 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
+				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
 		}
 		void Cylinder::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
+			const float r = m_radius;
+			const float h = m_height;
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 2 * m_mesh * m_draw;
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -150,13 +182,13 @@ namespace canvas
 				const float t = 2 * M_PI * i / m_mesh;
 				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_color = m_fill_color;
 				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_color = m_fill_color;
-				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_position = {cosf(t), sinf(t), -1.0f};
-				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_position = {cosf(t), sinf(t), +1.0f};
+				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
+				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
 			(vbo_ptr + 0 * (m_mesh + 1))->m_color = m_fill_color;
 			(vbo_ptr + 1 * (m_mesh + 1))->m_color = m_fill_color;
-			(vbo_ptr + 0 * (m_mesh + 1))->m_position = {0.0f, 0.0f, -1.0f};
-			(vbo_ptr + 1 * (m_mesh + 1))->m_position = {0.0f, 0.0f, +1.0f};
+			(vbo_ptr + 0 * (m_mesh + 1))->m_position = {0.0f, 0.0f, -m_height / 2};
+			(vbo_ptr + 1 * (m_mesh + 1))->m_position = {0.0f, 0.0f, +m_height / 2};
 		}
 		void Cylinder::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{

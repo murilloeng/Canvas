@@ -19,6 +19,12 @@ namespace canvas
 			~Cube(void);
 
 			//data
+			vec3 sizes(vec3);
+			vec3 sizes(void) const;
+
+			vec3 center(vec3);
+			vec3 center(void) const;
+
 			Color draw_color(unsigned) const;
 			Color draw_color(unsigned, Color);
 
@@ -41,6 +47,8 @@ namespace canvas
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
+			vec3 m_sizes;
+			vec3 m_center;
 			Color m_draw_colors[8];
 			Color m_fill_colors[8];
 		};

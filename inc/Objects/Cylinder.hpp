@@ -19,6 +19,15 @@ namespace canvas
 			~Cylinder(void);
 
 			//data
+			vec3 center(vec3);
+			vec3 center(void) const;
+
+			float radius(float);
+			float radius(void) const;
+
+			float height(float);
+			float height(void) const;
+
 			Color draw_color(Color);
 			Color draw_color(void) const;
 
@@ -44,6 +53,9 @@ namespace canvas
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
+			vec3 m_center;
+			float m_radius;
+			float m_height;
 			Color m_draw_color;
 			Color m_fill_color;
 			static unsigned m_mesh;

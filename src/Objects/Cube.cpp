@@ -21,11 +21,13 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Cube::Cube(void) : 
-			m_draw_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, 
-			m_fill_colors{{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}
+		Cube::Cube(void) : m_sizes{1.0f, 1.0f, 1.0f}, m_center{0.0f, 0.0f, 0.0f}
 		{
-			return;
+			for(unsigned i = 0; i < 8; i++)
+			{
+				m_draw_colors[i] = Color(1, 1, 1, 1);
+				m_fill_colors[i] = Color(0, 0, 1, 1);
+			}
 		}
 
 		//destructor
@@ -35,6 +37,24 @@ namespace canvas
 		}
 
 		//data
+		vec3 Cube::sizes(vec3 sizes)
+		{
+			return m_sizes = sizes;
+		}
+		vec3 Cube::sizes(void) const
+		{
+			return m_sizes;
+		}
+
+		vec3 Cube::center(vec3 center)
+		{
+			return m_center = center;
+		}
+		vec3 Cube::center(void) const
+		{
+			return m_center;
+		}
+
 		Color Cube::draw_color(unsigned index) const
 		{
 			return m_draw_colors[index];
@@ -150,23 +170,25 @@ namespace canvas
 		void Cube::vbo_draw_data(vertices::Vertex* vbo_data) const
 		{
 			//data
+			const mat4 A = mat4::scaling(m_sizes);
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
 				(vbo_ptr + i)->m_color = m_draw_colors[i];
-				(vbo_ptr + i)->m_position = positions + 3 * i;
+				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}
 		void Cube::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
+			const mat4 A = mat4::scaling(m_sizes);
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_draw;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
 				(vbo_ptr + i)->m_color = m_fill_colors[i];
-				(vbo_ptr + i)->m_position = positions + 3 * i;
+				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}
 		void Cube::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
