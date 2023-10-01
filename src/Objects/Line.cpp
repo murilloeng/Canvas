@@ -57,16 +57,17 @@ namespace canvas
 		//buffers
 		unsigned Line::vbo_size(void) const
 		{
-			return 2;
+			return 2 * m_draw;
 		}
 		unsigned Line::ibo_size(unsigned index) const
 		{
-			return index == 1 ? 1 : 0;
+			return (index == 1) * m_draw;
 		}
 
 		//draw
 		void Line::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
+			if(!m_draw) return;
 			for(unsigned i = 0; i < 2; i++)
 			{
 				ibo_data[1][m_ibo_index[1] + i] = m_vbo_index + i;

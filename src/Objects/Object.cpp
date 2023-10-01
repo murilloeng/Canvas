@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_draw(true), m_fill(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
+		Object::Object(void) : m_dot(true), m_draw(true), m_fill(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
 		{
 			return;
 		}
@@ -21,6 +21,15 @@ namespace canvas
 		}
 
 		//data
+		bool Object::dot(bool dot)
+		{
+			return m_dot = dot;
+		}
+		bool Object::dot(void) const
+		{
+			return m_dot;
+		}
+
 		bool Object::draw(bool draw)
 		{
 			return m_draw = draw;

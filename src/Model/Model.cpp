@@ -254,6 +254,13 @@ namespace canvas
 	}
 	void Model::callback_keyboard(char key, int x1, int x2)
 	{
+		if(key == 'o')
+		{
+			for(objects::Object* object : m_objects)
+			{
+				object->dot(!object->dot());
+			}
+		}
 		if(key == 'd')
 		{
 			for(objects::Object* object : m_objects)

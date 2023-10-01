@@ -111,7 +111,7 @@ namespace canvas
 			{
 				ibo_data[1][m_ibo_index[1] + 0] = ibo_data[1][m_ibo_index[1] + 5] = m_vbo_index + 0;
 				ibo_data[1][m_ibo_index[1] + 1] = ibo_data[1][m_ibo_index[1] + 2] = m_vbo_index + 1;
-				ibo_data[1][m_ibo_index[1] + 2] = ibo_data[1][m_ibo_index[1] + 4] = m_vbo_index + 2;
+				ibo_data[1][m_ibo_index[1] + 3] = ibo_data[1][m_ibo_index[1] + 4] = m_vbo_index + 2;
 			}
 			if(m_fill)
 			{

@@ -48,16 +48,18 @@ namespace canvas
 		//buffers
 		unsigned Point::vbo_size(void) const
 		{
-			return 1;
+			return m_dot;
 		}
 		unsigned Point::ibo_size(unsigned index) const
 		{
-			return index == 0 ? 1 : 0;
+			return (index == 0) * m_dot;
 		}
 
 		//draw
 		void Point::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
+			//check
+			if(!m_dot) return;
 			//ibo data
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index;
 			//vbo data

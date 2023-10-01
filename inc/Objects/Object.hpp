@@ -30,6 +30,9 @@ namespace canvas
 			virtual ~Object(void);
 
 			//data
+			bool dot(bool);
+			bool dot(void) const;
+
 			bool draw(bool);
 			bool draw(void) const;
 
@@ -57,6 +60,7 @@ namespace canvas
 			virtual void buffers_data(vertices::Vertex*, unsigned**) const = 0;
 
 			//data
+			bool m_dot;
 			bool m_draw;
 			bool m_fill;
 			mat4 m_affine;
