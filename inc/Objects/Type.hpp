@@ -16,8 +16,7 @@ namespace canvas
 			grid_2D,
 			grid_3D,
 			triangle,
-			cylinder,
-			function_2D
+			cylinder
 		};
 	}
 }

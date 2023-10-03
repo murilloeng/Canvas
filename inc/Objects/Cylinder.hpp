@@ -28,12 +28,6 @@ namespace canvas
 			float height(float);
 			float height(void) const;
 
-			Color draw_color(Color);
-			Color draw_color(void) const;
-
-			Color fill_color(Color);
-			Color fill_color(void) const;
-
 			static unsigned mesh(void);
 			static unsigned mesh(unsigned);
 
@@ -56,8 +50,6 @@ namespace canvas
 			vec3 m_center;
 			float m_radius;
 			float m_height;
-			Color m_draw_color;
-			Color m_fill_color;
 			static unsigned m_mesh;
 		};
 	}

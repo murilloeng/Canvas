@@ -26,12 +26,6 @@ namespace canvas
 			~Grid_2D(void);
 
 			//data
-			Color draw_color(Color);
-			Color draw_color(void) const;
-
-			Color fill_color(Color);
-			Color fill_color(void) const;
-
 			unsigned mesh(unsigned) const;
 			unsigned mesh(unsigned, unsigned);
 
@@ -51,8 +45,6 @@ namespace canvas
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			Color m_draw_color;
-			Color m_fill_color;
 			unsigned m_mesh[2];
 
 			//friends

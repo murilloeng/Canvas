@@ -36,10 +36,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Sphere::Sphere(void) : 
-			m_center{0, 0, 0}, m_radius(1.0f), m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
+		Sphere::Sphere(void) : m_center{0, 0, 0}, m_radius(1.0f)
 		{
-			return;
+			m_fill_colors.resize(1);
+			m_stroke_colors.resize(1);
 		}
 
 		//destructor
@@ -67,24 +67,6 @@ namespace canvas
 			return m_radius = radius;
 		}
 
-		Color Sphere::draw_color(void) const
-		{
-			return m_draw_color;
-		}
-		Color Sphere::draw_color(Color draw_color)
-		{
-			return m_draw_color = draw_color;
-		}
-
-		Color Sphere::fill_color(void) const
-		{
-			return m_fill_color;
-		}
-		Color Sphere::fill_color(Color fill_color)
-		{
-			return m_fill_color = fill_color;
-		}
-
 		unsigned Sphere::mesh(void)
 		{
 			return m_mesh;
@@ -103,12 +85,12 @@ namespace canvas
 		//buffers
 		unsigned Sphere::vbo_size(void) const
 		{
-			return (2 + 10 * m_mesh * m_mesh) * (m_draw + m_fill);
+			return (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill);
 		}
 		unsigned Sphere::ibo_size(unsigned index) const
 		{
 			return 
-				30 * m_mesh * m_mesh * (index == 1) * m_draw + 
+				30 * m_mesh * m_mesh * (index == 1) * m_stroke + 
 				20 * m_mesh * m_mesh * (index == 2) * m_fill;
 		}
 
@@ -216,7 +198,7 @@ namespace canvas
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const unsigned vbo_index = m_vbo_index + (2 + 10 * m_mesh * m_mesh) * m_draw;
+			const unsigned vbo_index = m_vbo_index + (2 + 10 * m_mesh * m_mesh) * m_stroke;
 			//triangles
 			for(unsigned i = 0; i < 20; i++)
 			{
@@ -247,7 +229,7 @@ namespace canvas
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
-				(vbo_ptr + i)->m_color = m_draw_color;
+				(vbo_ptr + i)->m_color = m_stroke_colors[0];
 			}
 			//positions
 			vbo_edges_data(vbo_ptr);
@@ -258,11 +240,11 @@ namespace canvas
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + nv * m_draw;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + nv * m_stroke;
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
-				(vbo_ptr + i)->m_color = m_fill_color;
+				(vbo_ptr + i)->m_color = m_fill_colors[0];
 			}
 			//positions
 			vbo_edges_data(vbo_ptr);
@@ -333,11 +315,11 @@ namespace canvas
 		void Sphere::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//vbo data
-			if(m_draw) vbo_draw_data(vbo_data);
 			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_draw_data(vbo_data);
 			//ibo data
-			if(m_draw) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_draw_data(ibo_data);
 		}
 
 		//static

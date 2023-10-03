@@ -25,12 +25,6 @@ namespace canvas
 			vec3 center(vec3);
 			vec3 center(void) const;
 
-			Color draw_color(unsigned) const;
-			Color draw_color(unsigned, Color);
-
-			Color fill_color(unsigned) const;
-			Color fill_color(unsigned, Color);
-
 			//type
 			objects::type type(void) const override;
 
@@ -49,8 +43,6 @@ namespace canvas
 			//data
 			vec3 m_sizes;
 			vec3 m_center;
-			Color m_draw_colors[8];
-			Color m_fill_colors[8];
 		};
 	}
 }

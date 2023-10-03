@@ -104,7 +104,7 @@ namespace canvas
 		A.m_data[2 + 4 * 2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
 		return A;
 	}
-	mat4 mat4::translation(const vec3& v)
+	mat4 mat4::shifting(const vec3& v)
 	{
 		mat4 A;
 		A.m_data[0 + 4 * 3] = v[0];
@@ -119,6 +119,6 @@ namespace canvas
 	}
 	mat4 mat4::rotation(const vec3& xc, const quat& qr)
 	{
-		return mat4::translation(+xc) * mat4::rotation(qr) * mat4::translation(-xc);
+		return mat4::shifting(+xc) * mat4::rotation(qr) * mat4::shifting(-xc);
 	}
 }

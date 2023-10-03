@@ -32,9 +32,9 @@ namespace canvas
 		//affine
 		static mat4 scaling(float);
 		static mat4 scaling(const vec3&);
+		static mat4 shifting(const vec3&);
 		static mat4 rotation(const vec3&);
 		static mat4 rotation(const quat&);
-		static mat4 translation(const vec3&);
 
 		static mat4 rotation(const vec3&, const vec3&);
 		static mat4 rotation(const vec3&, const quat&);

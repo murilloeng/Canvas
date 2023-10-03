@@ -28,12 +28,6 @@ namespace canvas
 			float radius(float);
 			float radius(void) const;
 
-			Color draw_color(Color);
-			Color draw_color(void) const;
-
-			Color fill_color(Color);
-			Color fill_color(void) const;
-
 			static unsigned mesh(void);
 			static unsigned mesh(unsigned);
 
@@ -52,8 +46,6 @@ namespace canvas
 			vec3 m_center;
 			vec3 m_normal;
 			float m_radius;
-			Color m_draw_color;
-			Color m_fill_color;
 			static unsigned m_mesh;
 		};
 	}

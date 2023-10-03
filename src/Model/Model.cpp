@@ -25,7 +25,6 @@
 #include "inc/Objects/Grid_3D.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
-#include "inc/Objects/Function_2D.hpp"
 
 namespace canvas
 {
@@ -246,9 +245,6 @@ namespace canvas
 		case objects::type::cylinder:
 			m_objects.push_back(new objects::Cylinder);
 			break;
-		case objects::type::function_2D:
-			m_objects.push_back(new objects::Function_2D);
-			break;
 		default:
 			break;
 		}
@@ -266,18 +262,18 @@ namespace canvas
 	}
 	void Model::callback_keyboard(char key, int x1, int x2)
 	{
-		if(key == 'o')
+		if(key == 'd')
 		{
 			for(objects::Object* object : m_objects)
 			{
 				object->dot(!object->dot());
 			}
 		}
-		if(key == 'd')
+		if(key == 's')
 		{
 			for(objects::Object* object : m_objects)
 			{
-				object->draw(!object->draw());
+				object->stroke(!object->stroke());
 			}
 		}
 		if(key == 'f')

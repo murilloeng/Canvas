@@ -14,10 +14,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Circle::Circle(void) : 
-			m_radius(0), m_center{0, 0, 0}, m_normal{0, 0, 1}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
+		Circle::Circle(void) : m_radius(0), m_center{0, 0, 0}, m_normal{0, 0, 1}
 		{
-			return;
+			m_fill_colors.resize(1);
+			m_stroke_colors.resize(1);
 		}
 
 		//destructor
@@ -54,24 +54,6 @@ namespace canvas
 			return m_radius = radius;
 		}
 
-		Color Circle::draw_color(void) const
-		{
-			return m_draw_color;
-		}
-		Color Circle::draw_color(Color draw_color)
-		{
-			return m_draw_color = draw_color;
-		}
-
-		Color Circle::fill_color(void) const
-		{
-			return m_fill_color;
-		}
-		Color Circle::fill_color(Color fill_color)
-		{
-			return m_fill_color = fill_color;
-		}
-
 		unsigned Circle::mesh(void)
 		{
 			return m_mesh;
@@ -90,7 +72,7 @@ namespace canvas
 		//buffers
 		unsigned Circle::vbo_size(void) const
 		{
-			return m_draw * m_mesh + m_fill * (m_mesh + 1);
+			return m_stroke * m_mesh + m_fill * (m_mesh + 1);
 		}
 		unsigned Circle::ibo_size(unsigned index) const
 		{
@@ -103,7 +85,7 @@ namespace canvas
 			//data
 			vec3 vertex_position, t1, t2;
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_draw * m_mesh;
+			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -112,33 +94,33 @@ namespace canvas
 				const float t = 2 * M_PI * i / m_mesh;
 				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
 				//draw
-				if(m_draw)
+				if(m_stroke)
 				{
-					(vbo_draw_ptr + i)->m_color = m_draw_color;
+					(vbo_draw_ptr + i)->m_color = m_stroke_colors[0];
 					(vbo_draw_ptr + i)->m_position = vertex_position;
 				}
 				//fill
 				if(m_fill)
 				{
-					(vbo_fill_ptr + i + 1)->m_color = m_fill_color;
+					(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
 					(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 				}
 				vbo_fill_ptr->m_position = m_center;
-				vbo_fill_ptr->m_color = m_fill_color;
+				vbo_fill_ptr->m_color = m_fill_colors[0];
 			}
 			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				if(m_draw)
+				if(m_stroke)
 				{
 					ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + (i + 0) % m_mesh;
 					ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + (i + 1) % m_mesh;
 				}
 				if(m_fill)
 				{
-					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_draw * m_mesh + 0;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_draw * m_mesh + 1 + (i + 0) % m_mesh;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_draw * m_mesh + 1 + (i + 1) % m_mesh;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * m_mesh + 0;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
 				}
 			}
 		}

@@ -19,9 +19,6 @@ namespace canvas
 			~Point(void);
 
 			//data
-			Color color(Color);
-			Color color(void) const;
-
 			vec3 position(vec3);
 			vec3 position(void) const;
 
@@ -37,7 +34,6 @@ namespace canvas
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			Color m_color;
 			vec3 m_position;
 		};
 	}

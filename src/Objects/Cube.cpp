@@ -23,11 +23,8 @@ namespace canvas
 		//constructors
 		Cube::Cube(void) : m_sizes{1.0f, 1.0f, 1.0f}, m_center{0.0f, 0.0f, 0.0f}
 		{
-			for(unsigned i = 0; i < 8; i++)
-			{
-				m_draw_colors[i] = Color(1, 1, 1, 1);
-				m_fill_colors[i] = Color(0, 0, 1, 1);
-			}
+			m_fill_colors.resize(8);
+			m_stroke_colors.resize(8);
 		}
 
 		//destructor
@@ -55,46 +52,6 @@ namespace canvas
 			return m_center;
 		}
 
-		Color Cube::draw_color(unsigned index) const
-		{
-			return m_draw_colors[index];
-		}
-		Color Cube::draw_color(unsigned index, Color draw_color)
-		{
-			if(index < 8)
-			{
-				return m_draw_colors[index] = draw_color;
-			}
-			else
-			{
-				for(unsigned i = 0; i < 8; i++)
-				{
-					m_draw_colors[i] = draw_color;
-				}
-				return draw_color;
-			}
-		}
-
-		Color Cube::fill_color(unsigned index) const
-		{
-			return m_fill_colors[index];
-		}
-		Color Cube::fill_color(unsigned index, Color fill_color)
-		{
-			if(index < 8)
-			{
-				return m_fill_colors[index] = fill_color;
-			}
-			else
-			{
-				for(unsigned i = 0; i < 8; i++)
-				{
-					m_fill_colors[i] = fill_color;
-				}
-				return fill_color;
-			}
-		}
-
 		//type
 		objects::type Cube::type(void) const
 		{
@@ -104,11 +61,11 @@ namespace canvas
 		//buffers
 		unsigned Cube::vbo_size(void) const
 		{
-			return 8 * (m_draw + m_fill);
+			return 8 * (m_stroke + m_fill);
 		}
 		unsigned Cube::ibo_size(unsigned index) const
 		{
-			return 12 * ((index == 1 && m_draw) + (index == 2 && m_fill));
+			return 12 * ((index == 1 && m_stroke) + (index == 2 && m_fill));
 		}
 
 		//draw
@@ -137,35 +94,35 @@ namespace canvas
 		void Cube::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//face -x3
-			ibo_data[2][m_ibo_index[2] + 3 * 0 + 2] = m_vbo_index + 8 * m_draw + 1;
-			ibo_data[2][m_ibo_index[2] + 3 * 1 + 1] = m_vbo_index + 8 * m_draw + 3;
-			ibo_data[2][m_ibo_index[2] + 3 * 0 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 1 + 0] = m_vbo_index + 8 * m_draw + 0;
-			ibo_data[2][m_ibo_index[2] + 3 * 0 + 1] = ibo_data[2][m_ibo_index[2] + 3 * 1 + 2] = m_vbo_index + 8 * m_draw + 2;
+			ibo_data[2][m_ibo_index[2] + 3 * 0 + 2] = m_vbo_index + 8 * m_stroke + 1;
+			ibo_data[2][m_ibo_index[2] + 3 * 1 + 1] = m_vbo_index + 8 * m_stroke + 3;
+			ibo_data[2][m_ibo_index[2] + 3 * 0 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 1 + 0] = m_vbo_index + 8 * m_stroke + 0;
+			ibo_data[2][m_ibo_index[2] + 3 * 0 + 1] = ibo_data[2][m_ibo_index[2] + 3 * 1 + 2] = m_vbo_index + 8 * m_stroke + 2;
 			//face +x3
-			ibo_data[2][m_ibo_index[2] + 3 * 2 + 1] = m_vbo_index + 8 * m_draw + 5;
-			ibo_data[2][m_ibo_index[2] + 3 * 3 + 2] = m_vbo_index + 8 * m_draw + 7;
-			ibo_data[2][m_ibo_index[2] + 3 * 2 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 3 + 0] = m_vbo_index + 8 * m_draw + 4;
-			ibo_data[2][m_ibo_index[2] + 3 * 2 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 3 + 1] = m_vbo_index + 8 * m_draw + 6;
+			ibo_data[2][m_ibo_index[2] + 3 * 2 + 1] = m_vbo_index + 8 * m_stroke + 5;
+			ibo_data[2][m_ibo_index[2] + 3 * 3 + 2] = m_vbo_index + 8 * m_stroke + 7;
+			ibo_data[2][m_ibo_index[2] + 3 * 2 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 3 + 0] = m_vbo_index + 8 * m_stroke + 4;
+			ibo_data[2][m_ibo_index[2] + 3 * 2 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 3 + 1] = m_vbo_index + 8 * m_stroke + 6;
 			//face -x2
-			ibo_data[2][m_ibo_index[2] + 3 * 4 + 1] = m_vbo_index + 8 * m_draw + 1;
-			ibo_data[2][m_ibo_index[2] + 3 * 5 + 2] = m_vbo_index + 8 * m_draw + 4;
-			ibo_data[2][m_ibo_index[2] + 3 * 4 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 5 + 0] = m_vbo_index + 8 * m_draw + 0;
-			ibo_data[2][m_ibo_index[2] + 3 * 4 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 5 + 1] = m_vbo_index + 8 * m_draw + 5;
+			ibo_data[2][m_ibo_index[2] + 3 * 4 + 1] = m_vbo_index + 8 * m_stroke + 1;
+			ibo_data[2][m_ibo_index[2] + 3 * 5 + 2] = m_vbo_index + 8 * m_stroke + 4;
+			ibo_data[2][m_ibo_index[2] + 3 * 4 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 5 + 0] = m_vbo_index + 8 * m_stroke + 0;
+			ibo_data[2][m_ibo_index[2] + 3 * 4 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 5 + 1] = m_vbo_index + 8 * m_stroke + 5;
 			//face +x1
-			ibo_data[2][m_ibo_index[2] + 3 * 6 + 1] = m_vbo_index + 8 * m_draw + 2;
-			ibo_data[2][m_ibo_index[2] + 3 * 7 + 2] = m_vbo_index + 8 * m_draw + 5;
-			ibo_data[2][m_ibo_index[2] + 3 * 6 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 7 + 0] = m_vbo_index + 8 * m_draw + 1;
-			ibo_data[2][m_ibo_index[2] + 3 * 6 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 7 + 1] = m_vbo_index + 8 * m_draw + 6;
+			ibo_data[2][m_ibo_index[2] + 3 * 6 + 1] = m_vbo_index + 8 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 3 * 7 + 2] = m_vbo_index + 8 * m_stroke + 5;
+			ibo_data[2][m_ibo_index[2] + 3 * 6 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 7 + 0] = m_vbo_index + 8 * m_stroke + 1;
+			ibo_data[2][m_ibo_index[2] + 3 * 6 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 7 + 1] = m_vbo_index + 8 * m_stroke + 6;
 			//face +x2
-			ibo_data[2][m_ibo_index[2] + 3 * 8 + 1] = m_vbo_index + 8 * m_draw + 3;
-			ibo_data[2][m_ibo_index[2] + 3 * 9 + 2] = m_vbo_index + 8 * m_draw + 6;
-			ibo_data[2][m_ibo_index[2] + 3 * 8 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 9 + 0] = m_vbo_index + 8 * m_draw + 2;
-			ibo_data[2][m_ibo_index[2] + 3 * 8 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 9 + 1] = m_vbo_index + 8 * m_draw + 7;
+			ibo_data[2][m_ibo_index[2] + 3 * 8 + 1] = m_vbo_index + 8 * m_stroke + 3;
+			ibo_data[2][m_ibo_index[2] + 3 * 9 + 2] = m_vbo_index + 8 * m_stroke + 6;
+			ibo_data[2][m_ibo_index[2] + 3 * 8 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 9 + 0] = m_vbo_index + 8 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 3 * 8 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 9 + 1] = m_vbo_index + 8 * m_stroke + 7;
 			//face -x3
-			ibo_data[2][m_ibo_index[2] + 3 * 10 + 1] = m_vbo_index + 8 * m_draw + 0;
-			ibo_data[2][m_ibo_index[2] + 3 * 11 + 2] = m_vbo_index + 8 * m_draw + 7;
-			ibo_data[2][m_ibo_index[2] + 3 * 10 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 0] = m_vbo_index + 8 * m_draw + 3;
-			ibo_data[2][m_ibo_index[2] + 3 * 10 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 1] = m_vbo_index + 8 * m_draw + 4;
+			ibo_data[2][m_ibo_index[2] + 3 * 10 + 1] = m_vbo_index + 8 * m_stroke + 0;
+			ibo_data[2][m_ibo_index[2] + 3 * 11 + 2] = m_vbo_index + 8 * m_stroke + 7;
+			ibo_data[2][m_ibo_index[2] + 3 * 10 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 0] = m_vbo_index + 8 * m_stroke + 3;
+			ibo_data[2][m_ibo_index[2] + 3 * 10 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 1] = m_vbo_index + 8 * m_stroke + 4;
 		}
 		void Cube::vbo_draw_data(vertices::Vertex* vbo_data) const
 		{
@@ -175,7 +132,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
-				(vbo_ptr + i)->m_color = m_draw_colors[i];
+				(vbo_ptr + i)->m_color = m_stroke_colors[i];
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}
@@ -183,7 +140,7 @@ namespace canvas
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes);
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_draw;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
@@ -194,10 +151,10 @@ namespace canvas
 		void Cube::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//vbo data
-			if(m_draw) vbo_draw_data(vbo_data);
+			if(m_stroke) vbo_draw_data(vbo_data);
 			if(m_fill) vbo_fill_data(vbo_data);
 			//ibo data
-			if(m_draw) ibo_draw_data(ibo_data);
+			if(m_stroke) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
 		}
 	}

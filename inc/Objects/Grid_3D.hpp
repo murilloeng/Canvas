@@ -19,14 +19,14 @@ namespace canvas
 			~Grid_3D(void);
 
 			//data
-			bool draw(bool) override;
 			bool fill(bool) override;
+			bool stroke(bool) override;
 
-			Color draw_color(Color);
-			Color draw_color(void) const;
+			void fill_color(const Color&);
+			void fill_color(const Color&, unsigned);
 
-			Color fill_color(Color);
-			Color fill_color(void) const;
+			void stroke_color(const Color&);
+			void stroke_color(const Color&, unsigned);
 
 			unsigned mesh(unsigned) const;
 			unsigned mesh(unsigned, unsigned);
@@ -45,8 +45,6 @@ namespace canvas
 
 			//data
 			Grid_2D* m_grids;
-			Color m_draw_color;
-			Color m_fill_color;
 			unsigned m_mesh[3];
 		};
 	}

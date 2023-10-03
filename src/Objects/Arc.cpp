@@ -14,11 +14,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Arc::Arc(void) : 
-			m_base{1, 0, 0}, m_center{0, 0, 0}, m_normal{0, 0, 1}, 
-			m_radius(0), m_angles{0, 0}, m_draw_color{0, 0, 0, 0}, m_fill_color{0, 0, 0, 0}
+		Arc::Arc(void) : m_base{1, 0, 0}, m_center{0, 0, 0}, m_normal{0, 0, 1}, m_radius(0), m_angles{0, 0}
 		{
-			return;
+			m_fill_colors.resize(1);
+			m_stroke_colors.resize(1);
 		}
 
 		//destructor
@@ -73,24 +72,6 @@ namespace canvas
 			return m_angles[index] = angle;
 		}
 
-		Color Arc::draw_color(void) const
-		{
-			return m_draw_color;
-		}
-		Color Arc::draw_color(Color draw_color)
-		{
-			return m_draw_color = draw_color;
-		}
-
-		Color Arc::fill_color(void) const
-		{
-			return m_fill_color;
-		}
-		Color Arc::fill_color(Color fill_color)
-		{
-			return m_fill_color = fill_color;
-		}
-
 		unsigned Arc::mesh(void)
 		{
 			return m_mesh;
@@ -116,7 +97,7 @@ namespace canvas
 		unsigned Arc::vbo_size(void) const
 		{
 			const unsigned mesh = current_mesh();
-			return m_draw * (mesh + 1) + m_fill * (mesh + 2);
+			return m_stroke * (mesh + 1) + m_fill * (mesh + 2);
 		}
 		unsigned Arc::ibo_size(unsigned index) const
 		{
@@ -132,7 +113,7 @@ namespace canvas
 			const unsigned mesh = current_mesh();
 			const vec3 t2 = m_normal.cross(m_base);
 			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_draw * (mesh + 1);
+			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * (mesh + 1);
 			//vbo data
 			for(unsigned i = 0; i <= mesh; i++)
 			{
@@ -140,33 +121,33 @@ namespace canvas
 				const float t = (m_angles[1] - m_angles[0]) * i / mesh + m_angles[0];
 				vertex_position = m_center + m_radius * (cosf(t) * m_base + sinf(t) * t2);
 				//draw
-				if(m_draw)
+				if(m_stroke)
 				{
-					(vbo_draw_ptr + i)->m_color = m_draw_color;
+					(vbo_draw_ptr + i)->m_color = m_stroke_colors[0];
 					(vbo_draw_ptr + i)->m_position = vertex_position;
 				}
 				//fill
 				if(m_fill)
 				{
-					(vbo_fill_ptr + i + 1)->m_color = m_fill_color;
+					(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
 					(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 				}
 				vbo_fill_ptr->m_position = m_center;
-				vbo_fill_ptr->m_color = m_fill_color;
+				vbo_fill_ptr->m_color = m_fill_colors[0];
 			}
 			//ibo data
 			for(unsigned i = 0; i < mesh; i++)
 			{
-				if(m_draw)
+				if(m_stroke)
 				{
 					ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + i + 0;
 					ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + i + 1;
 				}
 				if(m_fill)
 				{
-					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_draw * (mesh + 1) + 0;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_draw * (mesh + 1) + i + 1;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_draw * (mesh + 1) + i + 2;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * (mesh + 1) + 0;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * (mesh + 1) + i + 1;
+					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * (mesh + 1) + i + 2;
 				}
 			}
 		}

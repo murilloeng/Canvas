@@ -27,7 +27,6 @@
 #include "inc/Objects/Grid_3D.hpp"
 #include "inc/Objects/Triangle.hpp"
 #include "inc/Objects/Cylinder.hpp"
-#include "inc/Objects/Function_2D.hpp"
 
 //static data
 static canvas::Model* model;
@@ -51,9 +50,9 @@ void example_1(void)
 	model->add_object(canvas::objects::type::triangle);
 	model->add_object(canvas::objects::type::triangle);
 	//lines
-	((canvas::objects::Line*) model->object(0))->color(2, {1, 1, 1});
-	((canvas::objects::Line*) model->object(1))->color(2, {1, 1, 1});
-	((canvas::objects::Line*) model->object(2))->color(2, {1, 1, 1});
+	((canvas::objects::Line*) model->object(0))->stroke_color({1, 1, 1});
+	((canvas::objects::Line*) model->object(1))->stroke_color({1, 1, 1});
+	((canvas::objects::Line*) model->object(2))->stroke_color({1, 1, 1});
 	((canvas::objects::Line*) model->object(0))->position(0, {-1.0, -1.0, +0.0});
 	((canvas::objects::Line*) model->object(0))->position(1, {+1.0, -1.0, +0.0});
 	((canvas::objects::Line*) model->object(1))->position(0, {+1.0, -1.0, +0.0});
@@ -61,12 +60,12 @@ void example_1(void)
 	((canvas::objects::Line*) model->object(2))->position(0, {+0.0, +1.0, +0.0});
 	((canvas::objects::Line*) model->object(2))->position(1, {-1.0, -1.0, +0.0});
 	//points
-	((canvas::objects::Point*) model->object(3))->color({1, 0, 1});
-	((canvas::objects::Point*) model->object(4))->color({1, 0, 1});
-	((canvas::objects::Point*) model->object(5))->color({1, 0, 1});
-	((canvas::objects::Point*) model->object(6))->color({1, 0, 1});
-	((canvas::objects::Point*) model->object(7))->color({1, 0, 1});
-	((canvas::objects::Point*) model->object(8))->color({1, 0, 1});
+	((canvas::objects::Point*) model->object(3))->dot_color({1, 0, 1});
+	((canvas::objects::Point*) model->object(4))->dot_color({1, 0, 1});
+	((canvas::objects::Point*) model->object(5))->dot_color({1, 0, 1});
+	((canvas::objects::Point*) model->object(6))->dot_color({1, 0, 1});
+	((canvas::objects::Point*) model->object(7))->dot_color({1, 0, 1});
+	((canvas::objects::Point*) model->object(8))->dot_color({1, 0, 1});
 	((canvas::objects::Point*) model->object(3))->position({-1.0, -1.0, +0.0});
 	((canvas::objects::Point*) model->object(4))->position({+0.0, -1.0, +0.0});
 	((canvas::objects::Point*) model->object(5))->position({+1.0, -1.0, +0.0});
@@ -74,12 +73,9 @@ void example_1(void)
 	((canvas::objects::Point*) model->object(7))->position({+0.5, +0.0, +0.0});
 	((canvas::objects::Point*) model->object(8))->position({+0.0, +1.0, +0.0});
 	//triangles
-	((canvas::objects::Triangle*) model->object( 9))->fill(true);
-	((canvas::objects::Triangle*) model->object(10))->fill(true);
-	((canvas::objects::Triangle*) model->object(11))->fill(true);
-	((canvas::objects::Triangle*) model->object( 9))->fill_color(3, {1, 0, 0});
-	((canvas::objects::Triangle*) model->object(10))->fill_color(3, {0, 1, 0});
-	((canvas::objects::Triangle*) model->object(11))->fill_color(3, {0, 0, 1});
+	((canvas::objects::Triangle*) model->object( 9))->fill_color({1, 0, 0});
+	((canvas::objects::Triangle*) model->object(10))->fill_color({0, 1, 0});
+	((canvas::objects::Triangle*) model->object(11))->fill_color({0, 0, 1});
 	((canvas::objects::Triangle*) model->object( 9))->position(0, {-1.0, -1.0, +0.0});
 	((canvas::objects::Triangle*) model->object( 9))->position(1, {+0.0, -1.0, +0.0});
 	((canvas::objects::Triangle*) model->object( 9))->position(2, {-0.5, +0.0, +0.0});
@@ -102,12 +98,10 @@ void example_2(void)
 		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::circle);
-			((canvas::objects::Circle*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Circle*) model->object(n * i + j))->fill(true);
 			((canvas::objects::Circle*) model->object(n * i + j))->radius(0.9 * r);
-			((canvas::objects::Circle*) model->object(n * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Circle*) model->object(n * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Circle*) model->object(n * i + j))->center({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
+			((canvas::objects::Circle*) model->object(n * i + j))->stroke_color({1, 1, 1});
+			((canvas::objects::Circle*) model->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }
@@ -123,14 +117,12 @@ void example_3(void)
 		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::arc);
-			((canvas::objects::Arc*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Arc*) model->object(n * i + j))->fill(true);
 			((canvas::objects::Arc*) model->object(n * i + j))->radius(r);
 			((canvas::objects::Arc*) model->object(n * i + j))->angle(0, 0);
-			((canvas::objects::Arc*) model->object(n * i + j))->draw_color({1, 1, 1});
 			((canvas::objects::Arc*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Arc*) model->object(n * i + j))->stroke_color({1, 1, 1});
 			((canvas::objects::Arc*) model->object(n * i + j))->angle(1, 2 * M_PI * float(n * i + j) / n / n);
-			((canvas::objects::Arc*) model->object(n * i + j))->center({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
+			((canvas::objects::Arc*) model->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }
@@ -146,10 +138,8 @@ void example_4(void)
 		for(unsigned j = 0; j < n; j++)
 		{
 			model->add_object(canvas::objects::type::quad);
-			((canvas::objects::Quad*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Quad*) model->object(n * i + j))->fill(true);
-			((canvas::objects::Quad*) model->object(n * i + j))->draw_color(4, {1, 1, 1});
-			((canvas::objects::Quad*) model->object(n * i + j))->fill_color(4, {0, 0, 1});
+			((canvas::objects::Quad*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Quad*) model->object(n * i + j))->stroke_color({1, 1, 1});
 			((canvas::objects::Quad*) model->object(n * i + j))->position(0, {(j + 0) * s - 1, (i + 0) * s - 1, 0});
 			((canvas::objects::Quad*) model->object(n * i + j))->position(1, {(j + 1) * s - 1, (i + 0) * s - 1, 0});
 			((canvas::objects::Quad*) model->object(n * i + j))->position(2, {(j + 1) * s - 1, (i + 1) * s - 1, 0});
@@ -171,12 +161,10 @@ void example_5(void)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::cube);
-			((canvas::objects::Cube*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Cube*) model->object(n * i + j))->fill(true);
-			((canvas::objects::Cube*) model->object(n * i + j))->draw_color(8, {1, 1, 1});
-			((canvas::objects::Cube*) model->object(n * i + j))->fill_color(8, {0, 0, 1, 0.5});
-			((canvas::objects::Cube*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s / 2));
-			((canvas::objects::Cube*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Cube*) model->object(n * i + j))->scale(s / 2);
+			((canvas::objects::Cube*) model->object(n * i + j))->shift({x1, x2, 0});
+			((canvas::objects::Cube*) model->object(n * i + j))->stroke_color({1, 1, 1});
+			((canvas::objects::Cube*) model->object(n * i + j))->fill_color({0, 0, 1, 0.5});
 		}
 	}
 }
@@ -194,12 +182,10 @@ void example_6(void)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::cylinder);
-			((canvas::objects::Cylinder*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Cylinder*) model->object(n * i + j))->fill(true);
-			((canvas::objects::Cylinder*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Cylinder*) model->object(n * i + j))->scale(s / 2);
+			((canvas::objects::Cylinder*) model->object(n * i + j))->shift({x1, x2, 0});
 			((canvas::objects::Cylinder*) model->object(n * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Cylinder*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s / 2));
-			((canvas::objects::Cylinder*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Cylinder*) model->object(n * i + j))->stroke_color({1, 1, 1});
 		}
 	}
 }
@@ -217,12 +203,10 @@ void example_7(void)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::sphere);
-			((canvas::objects::Sphere*) model->object(n * i + j))->draw(true);
-			((canvas::objects::Sphere*) model->object(n * i + j))->fill(true);
-			((canvas::objects::Sphere*) model->object(n * i + j))->draw_color({1, 1, 1});
+			((canvas::objects::Sphere*) model->object(n * i + j))->scale(s);
+			((canvas::objects::Sphere*) model->object(n * i + j))->shift({x1, x2, 0});
 			((canvas::objects::Sphere*) model->object(n * i + j))->fill_color({0, 0, 1});
-			((canvas::objects::Sphere*) model->object(n * i + j))->apply_affine(canvas::mat4::scaling(s));
-			((canvas::objects::Sphere*) model->object(n * i + j))->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Sphere*) model->object(n * i + j))->stroke_color({1, 1, 1});
 		}
 	}
 }
@@ -240,8 +224,10 @@ void example_8(void)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::grid_2D);
-			model->object(n * i + j)->apply_affine(canvas::mat4::scaling(0.5 * s));
-			model->object(n * i + j)->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Grid_2D*) model->object(n * i + j))->scale(0.5 * s);
+			((canvas::objects::Grid_2D*) model->object(n * i + j))->shift({x1, x2, 0});
+			((canvas::objects::Grid_2D*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Grid_2D*) model->object(n * i + j))->stroke_color({1, 1, 1});
 		}
 	}
 }
@@ -259,8 +245,10 @@ void example_9(void)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			model->add_object(canvas::objects::type::grid_3D);
-			model->object(n * i + j)->apply_affine(canvas::mat4::scaling(0.5 * s));
-			model->object(n * i + j)->apply_affine(canvas::mat4::translation({x1, x2, 0}));
+			((canvas::objects::Grid_3D*) model->object(n * i + j))->scale(0.5 * s);
+			((canvas::objects::Grid_3D*) model->object(n * i + j))->shift({x1, x2, 0});
+			((canvas::objects::Grid_3D*) model->object(n * i + j))->fill_color({0, 0, 1});
+			((canvas::objects::Grid_3D*) model->object(n * i + j))->stroke_color({1, 1, 1});
 		}
 	}
 }

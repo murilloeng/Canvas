@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_dot(true), m_draw(true), m_fill(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
+		Object::Object(void) : m_dot(true), m_fill(true), m_stroke(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
 		{
 			return;
 		}
@@ -30,15 +30,6 @@ namespace canvas
 			return m_dot;
 		}
 
-		bool Object::draw(bool draw)
-		{
-			return m_draw = draw;
-		}
-		bool Object::draw(void) const
-		{
-			return m_draw;
-		}
-
 		bool Object::fill(bool fill)
 		{
 			return m_fill = fill;
@@ -46,6 +37,52 @@ namespace canvas
 		bool Object::fill(void) const
 		{
 			return m_fill;
+		}
+
+		bool Object::stroke(void) const
+		{
+			return m_stroke;
+		}
+		bool Object::stroke(bool stroke)
+		{
+			return m_stroke = stroke;
+		}
+
+		void Object::dot_color(const Color& dot_color)
+		{
+			for(Color& color : m_dot_colors)
+			{
+				color = dot_color;
+			}
+		}
+		void Object::dot_color(const Color& dot_color, unsigned index)
+		{
+			m_dot_colors[index] = dot_color;
+		}
+
+		void Object::fill_color(const Color& fill_color)
+		{
+			for(Color& color : m_fill_colors)
+			{
+				color = fill_color;
+			}
+		}
+		void Object::fill_color(const Color& fill_color, unsigned index)
+		{
+			m_fill_colors[index] = fill_color;
+		}
+
+		void Object::stroke_color(const Color& stroke_color)
+		{
+			for(Color& color : m_stroke_colors)
+			{
+				color = stroke_color;
+			}
+			
+		}
+		void Object::stroke_color(const Color& stroke_color, unsigned index)
+		{
+			m_stroke_colors[index] = stroke_color;
 		}
 
 		//name
@@ -79,8 +116,6 @@ namespace canvas
 				return "Grid 3D";
 			case type::cylinder:
 				return "Cylinder";
-			case type::function_2D:
-				return "Function 2D";
 			default:
 				return "Error";
 			}
@@ -98,6 +133,41 @@ namespace canvas
 		mat4 Object::apply_affine(mat4 affine, bool left)
 		{
 			return m_affine = left ? affine * m_affine : m_affine * affine;
+		}
+
+		void Object::scale(float s)
+		{
+			m_affine = mat4::scaling(s) * m_affine;
+		}
+		void Object::scale(const vec3& s, bool left)
+		{
+			const mat4 A = mat4::scaling(s);
+			m_affine = left ? A * m_affine : m_affine * A;
+		}
+		void Object::shift(const vec3& x , bool left)
+		{
+			const mat4 A = mat4::shifting(x);
+			m_affine = left ? A * m_affine : m_affine * A;
+		}
+		void Object::rotate(const vec3& t, bool left)
+		{
+			const mat4 A = mat4::rotation(t);
+			m_affine = left ? A * m_affine : m_affine * A;
+		}
+		void Object::rotate(const quat& q, bool left)
+		{
+			const mat4 A = mat4::rotation(q);
+			m_affine = left ? A * m_affine : m_affine * A;
+		}
+		void Object::rotate(const vec3& x, const vec3& t, bool left)
+		{
+			const mat4 A = mat4::rotation(x, t);
+			m_affine = left ? A * m_affine : m_affine * A;
+		}
+		void Object::rotate(const vec3& x, const quat& q, bool left)
+		{
+			const mat4 A = mat4::rotation(x, q);
+			m_affine = left ? A * m_affine : m_affine * A;
 		}
 	}
 }

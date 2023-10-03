@@ -22,12 +22,6 @@ namespace canvas
 			vec3 position(unsigned) const;
 			vec3 position(unsigned, vec3);
 
-			Color draw_color(unsigned) const;
-			Color draw_color(unsigned, Color);
-
-			Color fill_color(unsigned) const;
-			Color fill_color(unsigned, Color);
-
 			//type
 			objects::type type(void) const override;
 
@@ -41,8 +35,6 @@ namespace canvas
 
 			//data
 			vec3 m_positions[3];
-			Color m_draw_colors[3];
-			Color m_fill_colors[3];
 		};
 	}
 }

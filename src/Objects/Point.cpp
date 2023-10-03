@@ -9,9 +9,9 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Point::Point(void) : m_color{0, 0, 0, 0}, m_position{0, 0, 0}
+		Point::Point(void) : m_position{0, 0, 0}
 		{
-			return;
+			m_dot_colors.resize(1);
 		}
 
 		//destructor
@@ -21,15 +21,6 @@ namespace canvas
 		}
 
 		//data
-		Color Point::color(void) const
-		{
-			return m_color;
-		}
-		Color Point::color(Color color)
-		{
-			return m_color = color;
-		}
-
 		vec3 Point::position(void) const
 		{
 			return m_position;
@@ -63,8 +54,8 @@ namespace canvas
 			//ibo data
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index;
 			//vbo data
-			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_color;
 			((vertices::Model*) vbo_data + m_vbo_index)->m_position = m_position;
+			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_dot_colors[0];
 		}
 	}
 }

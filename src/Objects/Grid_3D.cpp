@@ -13,11 +13,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Grid_3D::Grid_3D(void) : 
-			m_grids(new Grid_2D[3]), 
-			m_mesh{10, 10, 10}, m_draw_color{1.0f, 1.0f, 1.0f, 1.0f}, m_fill_color{0.0f, 0.0f, 1.0f, 1.0f}
+		Grid_3D::Grid_3D(void) : m_grids(new Grid_2D[3]), m_mesh{10, 10, 10}
 		{
-			return;
+			m_fill_colors.resize(1);
+			m_stroke_colors.resize(1);
 		}
 
 		//destructor
@@ -27,47 +26,47 @@ namespace canvas
 		}
 
 		//data
-		bool Grid_3D::draw(bool draw)
-		{
-			for(unsigned i = 0; i < 3; i++)
-			{
-				m_grids[i].draw(draw);
-			}
-			return Object::draw(draw);
-		}
 		bool Grid_3D::fill(bool fill)
 		{
 			for(unsigned i = 0; i < 3; i++)
 			{
 				m_grids[i].fill(fill);
 			}
-			return Object::fill(fill);
+			return m_fill = fill;
 		}
-
-		Color Grid_3D::draw_color(void) const
-		{
-			return m_draw_color;
-		}
-		Color Grid_3D::draw_color(Color draw_color)
+		bool Grid_3D::stroke(bool stroke)
 		{
 			for(unsigned i = 0; i < 3; i++)
 			{
-				m_grids[i].m_draw_color = draw_color;
+				m_grids[i].stroke(stroke);
 			}
-			return m_draw_color = draw_color;
+			return m_stroke = stroke;
 		}
 
-		Color Grid_3D::fill_color(void) const
-		{
-			return m_fill_color;
-		}
-		Color Grid_3D::fill_color(Color fill_color)
+		void Grid_3D::fill_color(const Color& fill_color)
 		{
 			for(unsigned i = 0; i < 3; i++)
 			{
-				m_grids[i].m_fill_color = fill_color;
+				m_grids[i].fill_color(fill_color);
 			}
-			return m_fill_color = fill_color;
+			m_fill_colors[0] = fill_color;
+		}
+		void Grid_3D::fill_color(const Color& fill_color, unsigned)
+		{
+
+		}
+
+		void Grid_3D::stroke_color(const Color& stroke_color)
+		{
+			for(unsigned i = 0; i < 3; i++)
+			{
+				m_grids[i].stroke_color(stroke_color);
+			}
+			m_stroke_colors[0] = stroke_color;
+		}
+		void Grid_3D::stroke_color(const Color& stroke_color, unsigned)
+		{
+
 		}
 
 		unsigned Grid_3D::mesh(unsigned index) const
@@ -113,9 +112,9 @@ namespace canvas
 			//data
 			mat4 A[3];
 			unsigned vbo_index = m_vbo_index;
-			A[2] = mat4::translation({0, 0, -1});
-			A[0] = mat4::translation({-1, 0, 0}) * mat4::rotation({0, M_PI_2, 0});
-			A[1] = mat4::translation({0, -1, 0}) * mat4::rotation({0, 0, M_PI_2}) * mat4::rotation({0, -M_PI_2, 0});
+			A[2] = mat4::shifting({0, 0, -1});
+			A[0] = mat4::shifting({-1, 0, 0}) * mat4::rotation({0, M_PI_2, 0});
+			A[1] = mat4::shifting({0, -1, 0}) * mat4::rotation({0, 0, M_PI_2}) * mat4::rotation({0, -M_PI_2, 0});
 			//affine
 			for(unsigned i = 0; i < 3; i++)
 			{

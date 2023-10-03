@@ -1,7 +1,11 @@
 #pragma once
 
+//std
+#include <vector>
+
 //canvas
 #include "inc/Math/mat4.hpp"
+#include "inc/Colors/Color.hpp"
 
 namespace canvas
 {
@@ -33,11 +37,20 @@ namespace canvas
 			bool dot(bool);
 			bool dot(void) const;
 
-			bool draw(void) const;
-			virtual bool draw(bool);
-
 			bool fill(void) const;
 			virtual bool fill(bool);
+
+			bool stroke(void) const;
+			virtual bool stroke(bool);
+
+			virtual void dot_color(const Color&);
+			virtual void dot_color(const Color&, unsigned);
+
+			virtual void fill_color(const Color&);
+			virtual void fill_color(const Color&, unsigned);
+
+			virtual void stroke_color(const Color&);
+			virtual void stroke_color(const Color&, unsigned);
 
 			//name
 			const char* name(void) const;
@@ -51,6 +64,14 @@ namespace canvas
 			mat4 affine(void) const;
 			mat4 apply_affine(mat4, bool = true);
 
+			void scale(float);
+			void scale(const vec3&, bool = true);
+			void shift(const vec3&, bool = true);
+			void rotate(const vec3&, bool = true);
+			void rotate(const quat&, bool = true);
+			void rotate(const vec3&, const vec3&, bool = true);
+			void rotate(const vec3&, const quat&, bool = true);
+
 		protected:
 			//buffers
 			virtual unsigned vbo_size(void) const = 0;
@@ -61,11 +82,17 @@ namespace canvas
 
 			//data
 			bool m_dot;
-			bool m_draw;
 			bool m_fill;
+			bool m_stroke;
+
 			mat4 m_affine;
+
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];
+
+			std::vector<Color> m_dot_colors;
+			std::vector<Color> m_fill_colors;
+			std::vector<Color> m_stroke_colors;
 
 			//friends
 			friend class Model;
