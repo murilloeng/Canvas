@@ -2,8 +2,6 @@
 #include <cmath>
 
 //canvas
-#include "inc/Utils/math.hpp"
-
 #include "inc/Objects/Arc.hpp"
 #include "inc/Objects/Type.hpp"
 

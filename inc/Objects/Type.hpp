@@ -14,6 +14,7 @@ namespace canvas
 			point,
 			circle,
 			sphere,
+			spline,
 			grid_2D,
 			grid_3D,
 			triangle,

@@ -22,6 +22,7 @@
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Sphere.hpp"
+#include "inc/Objects/Spline.hpp"
 #include "inc/Objects/Grid_2D.hpp"
 #include "inc/Objects/Grid_3D.hpp"
 #include "inc/Objects/Triangle.hpp"
@@ -230,6 +231,9 @@ namespace canvas
 			break;
 		case objects::type::sphere:
 			m_objects.push_back(new objects::Sphere);
+			break;
+		case objects::type::spline:
+			m_objects.push_back(new objects::Spline);
 			break;
 		case objects::type::grid_2D:
 			m_objects.push_back(new objects::Grid_2D);

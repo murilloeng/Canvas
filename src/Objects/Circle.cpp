@@ -2,8 +2,6 @@
 #include <cmath>
 
 //canvas
-#include "inc/Utils/math.hpp"
-
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
