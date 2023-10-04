@@ -8,6 +8,7 @@ namespace canvas
 		{
 			arc,
 			cube,
+			head,
 			line,
 			quad,
 			path,

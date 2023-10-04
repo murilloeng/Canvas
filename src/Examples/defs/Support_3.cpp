@@ -1,6 +1,7 @@
 //canvas
-#include "inc/Objects/Quad.hpp"
 #include "inc/Objects/Type.hpp"
+#include "inc/Objects/Surfaces/Quad.hpp"
+
 #include "inc/Examples/defs/Support_3.hpp"
 
 namespace examples
@@ -47,9 +48,9 @@ namespace examples
 		fill_color("gray");
 		stroke_color({0, 0, 0});
 		//objects
-		((canvas::objects::Quad*) m_objects[0])->position(0, {0, -m_size[0] / 2, 0});
-		((canvas::objects::Quad*) m_objects[0])->position(1, {0, +m_size[0] / 2, 0});
-		((canvas::objects::Quad*) m_objects[0])->position(2, {-m_size[1], +m_size[0] / 2, 0});
-		((canvas::objects::Quad*) m_objects[0])->position(3, {-m_size[1], -m_size[0] / 2, 0});
+		((canvas::objects::Quad*) m_objects[0])->point(0, {0, -m_size[0] / 2, 0});
+		((canvas::objects::Quad*) m_objects[0])->point(1, {0, +m_size[0] / 2, 0});
+		((canvas::objects::Quad*) m_objects[0])->point(2, {-m_size[1], +m_size[0] / 2, 0});
+		((canvas::objects::Quad*) m_objects[0])->point(3, {-m_size[1], -m_size[0] / 2, 0});
 	}
 }

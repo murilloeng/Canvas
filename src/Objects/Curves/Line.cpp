@@ -2,14 +2,14 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Line.hpp"
+#include "inc/Objects/Curves/Line.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Line::Line(void) : m_positions{{0, 0, 0}, {0, 0, 0}}
+		Line::Line(void) : m_points{{0, 0, 0}, {0, 0, 0}}
 		{
 			m_stroke_colors.resize(2);
 		}
@@ -21,13 +21,27 @@ namespace canvas
 		}
 
 		//data
-		vec3 Line::position(unsigned index) const
+		vec3 Line::point(unsigned index) const
 		{
-			return m_positions[index];
+			return m_points[index];
 		}
-		vec3 Line::position(unsigned index, const vec3& position)
+		vec3 Line::point(unsigned index, const vec3& point)
 		{
-			return m_positions[index] = position;
+			return m_points[index] = point;
+		}
+
+		//path
+		vec3 Line::hessian(float s) const
+		{
+			return {0, 0, 0};
+		}
+		vec3 Line::position(float s) const
+		{
+			return m_points[0] + s * (m_points[1] - m_points[0]);
+		}
+		vec3 Line::gradient(float s) const
+		{
+			return m_points[1] - m_points[0];
 		}
 
 		//type
@@ -53,7 +67,7 @@ namespace canvas
 			for(unsigned i = 0; i < 2; i++)
 			{
 				ibo_data[1][m_ibo_index[1] + i] = m_vbo_index + i;
-				((vertices::Model*) vbo_data + m_vbo_index + i)->m_position = m_positions[i];
+				((vertices::Model*) vbo_data + m_vbo_index + i)->m_position = m_points[i];
 				((vertices::Model*) vbo_data + m_vbo_index + i)->m_color = m_stroke_colors[i];
 			}
 		}

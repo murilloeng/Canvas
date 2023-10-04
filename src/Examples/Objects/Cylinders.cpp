@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Cylinder.hpp"
+#include "inc/Objects/Volumes/Cylinder.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

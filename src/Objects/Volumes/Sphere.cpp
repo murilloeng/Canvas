@@ -6,7 +6,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Sphere.hpp"
+#include "inc/Objects/Volumes/Sphere.hpp"
 
 //static data
 const float a = 0.525731112119133606f;

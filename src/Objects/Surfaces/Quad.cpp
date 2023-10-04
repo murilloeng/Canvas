@@ -2,14 +2,14 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Quad.hpp"
+#include "inc/Objects/Surfaces/Quad.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Quad::Quad(void) : m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+		Quad::Quad(void) : m_points{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 		{
 			m_fill_colors.resize(4);
 			m_stroke_colors.resize(4);
@@ -22,13 +22,13 @@ namespace canvas
 		}
 
 		//data
-		vec3 Quad::position(unsigned index) const
+		vec3 Quad::point(unsigned index) const
 		{
-			return m_positions[index];
+			return m_points[index];
 		}
-		vec3 Quad::position(unsigned index, const vec3& position)
+		vec3 Quad::point(unsigned index, const vec3& position)
 		{
-			return m_positions[index] = position;
+			return m_points[index] = position;
 		}
 
 		//type
@@ -72,7 +72,7 @@ namespace canvas
 			for(unsigned i = 0; i < 4; i++)
 			{
 				(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
-				(vbo_fill_ptr + i)->m_position = m_positions[i];
+				(vbo_fill_ptr + i)->m_position = m_points[i];
 			}
 		}
 		void Quad::vbo_stroke_data(vertices::Vertex* vbo_data) const
@@ -83,7 +83,7 @@ namespace canvas
 			for(unsigned i = 0; i < 4; i++)
 			{
 				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[i];
-				(vbo_stroke_ptr + i)->m_position = m_positions[i];
+				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
 		}
 		void Quad::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const

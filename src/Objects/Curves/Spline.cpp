@@ -2,7 +2,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Spline.hpp"
+#include "inc/Objects/Curves/Spline.hpp"
 
 namespace canvas
 {
@@ -69,6 +69,29 @@ namespace canvas
 		const std::vector<vec3>& Spline::controls(void) const
 		{
 			return m_controls;
+		}
+
+		//path
+		vec3 Spline::hessian(float s) const
+		{
+			return {0, 0, 0};
+		}
+		vec3 Spline::position(float s) const
+		{
+			vec3 p;
+			const unsigned np = m_points.size();
+			const unsigned ic = s * (np - 1);
+			const float t2 = s * (np - 1) - ic;
+			const float t1 = 1 - s * (np - 1) + ic;
+			p += t1 * t1 * t1 * m_points[ic - 1];
+			p += t2 * t2 * t2 * m_points[ic + 0];
+			p += t1 * t1 * t2 * m_points[2 * ic - 2];
+			p += t1 * t2 * t2 * m_points[2 * ic - 1];
+			return p;
+		}
+		vec3 Spline::gradient(float) const
+		{
+			return {0, 0, 0};
 		}
 
 		//type

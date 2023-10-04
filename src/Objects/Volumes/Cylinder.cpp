@@ -5,7 +5,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Cylinder.hpp"
+#include "inc/Objects/Volumes/Cylinder.hpp"
 
 namespace canvas
 {

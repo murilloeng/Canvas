@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Grid_3D.hpp"
+#include "inc/Objects/Surfaces/Grid_3D.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

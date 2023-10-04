@@ -2,14 +2,14 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Triangle.hpp"
+#include "inc/Objects/Surfaces/Triangle.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Triangle::Triangle(void) : m_positions{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+		Triangle::Triangle(void) : m_points{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 		{
 			m_fill_colors.resize(3);
 			m_stroke_colors.resize(3);
@@ -21,13 +21,13 @@ namespace canvas
 			return;
 		}
 
-		vec3 Triangle::position(unsigned index) const
+		vec3 Triangle::point(unsigned index) const
 		{
-			return m_positions[index];
+			return m_points[index];
 		}
-		vec3 Triangle::position(unsigned index, const vec3& position)
+		vec3 Triangle::point(unsigned index, const vec3& position)
 		{
-			return m_positions[index] = position;
+			return m_points[index] = position;
 		}
 
 		//type
@@ -68,7 +68,7 @@ namespace canvas
 			for(unsigned i = 0; i < 3; i++)
 			{
 				(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
-				(vbo_fill_ptr + i)->m_position = m_positions[i];
+				(vbo_fill_ptr + i)->m_position = m_points[i];
 			}
 		}
 		void Triangle::vbo_stroke_data(vertices::Vertex* vbo_data) const
@@ -79,7 +79,7 @@ namespace canvas
 			for(unsigned i = 0; i < 3; i++)
 			{
 				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[i];
-				(vbo_stroke_ptr + i)->m_position = m_positions[i];
+				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
 		}
 		void Triangle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const

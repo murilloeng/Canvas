@@ -5,7 +5,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Grid_2D.hpp"
+#include "inc/Objects/Surfaces/Grid_2D.hpp"
 
 namespace canvas
 {

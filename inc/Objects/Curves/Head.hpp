@@ -8,41 +8,29 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Arc : public Object
+		class Head : public Object
 		{
 		public:
 			//constructors
-			Arc(void);
+			Head(void);
 
 			//destructor
-			~Arc(void);
+			~Head(void);
 
 			//data
-			vec3 base(void) const;
-			vec3 base(const vec3&);
+			float width(float);
+			float width(void) const;
 
-			vec3 center(void) const;
-			vec3 center(const vec3&);
+			float height(float);
+			float height(void) const;
 
-			vec3 normal(void) const;
-			vec3 normal(const vec3&);
-
-			float radius(float);
-			float radius(void) const;
-
-			float angle(unsigned) const;
-			float angle(unsigned, float);
-
-			static unsigned mesh(void);
-			static unsigned mesh(unsigned);
+			unsigned mode(unsigned);
+			unsigned mode(void) const;
 
 			//type
 			objects::type type(void) const override;
 
 		private:
-			//misc
-			unsigned current_mesh(void) const;
-
 			//buffers
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;
@@ -55,12 +43,9 @@ namespace canvas
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			vec3 m_base;
-			vec3 m_center;
-			vec3 m_normal;
-			float m_radius;
-			float m_angles[2];
-			static unsigned m_mesh;
+			float m_width;
+			float m_height;
+			unsigned m_mode;
 		};
 	}
 }

@@ -2,7 +2,7 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Cube.hpp"
+#include "inc/Objects/Volumes/Cube.hpp"
 
 //static data
 static const float positions[] = {

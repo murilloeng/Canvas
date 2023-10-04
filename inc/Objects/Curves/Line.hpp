@@ -2,24 +2,29 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Curves/Curve.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Triangle : public Object
+		class Line : public Curve
 		{
 		public:
 			//constructors
-			Triangle(void);
+			Line(void);
 
 			//destructor
-			~Triangle(void);
+			~Line(void);
 
 			//data
-			vec3 position(unsigned) const;
-			vec3 position(unsigned, const vec3&);
+			vec3 point(unsigned) const;
+			vec3 point(unsigned, const vec3&);
+
+			//path
+			vec3 hessian(float) const override;
+			vec3 position(float) const override;
+			vec3 gradient(float) const override;
 
 			//type
 			objects::type type(void) const override;
@@ -30,14 +35,10 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
-			void vbo_fill_data(vertices::Vertex*) const;
-			void vbo_stroke_data(vertices::Vertex*) const;
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
-			vec3 m_positions[3];
+			vec3 m_points[2];
 		};
 	}
 }

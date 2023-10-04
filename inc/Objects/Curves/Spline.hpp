@@ -5,13 +5,13 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Curves/Curve.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Spline : public Object
+		class Spline : public Curve
 		{
 		public:
 			//constructors
@@ -33,6 +33,11 @@ namespace canvas
 			void add_point(const vec3&);
 			const std::vector<vec3>& points(void) const;
 			const std::vector<vec3>& controls(void) const;
+
+			//path
+			vec3 hessian(float) const override;
+			vec3 position(float) const override;
+			vec3 gradient(float) const override;
 
 			//type
 			objects::type type(void) const override;

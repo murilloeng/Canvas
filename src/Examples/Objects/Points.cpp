@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Point.hpp"
+#include "inc/Objects/Points/Point.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

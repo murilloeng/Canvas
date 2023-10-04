@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Circle.hpp"
+#include "inc/Objects/Surfaces/Circle.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"
