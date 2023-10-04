@@ -8,6 +8,7 @@
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
 #include "inc/Scene/Click.hpp"
+#include "inc/Colors/Color.hpp"
 
 namespace canvas
 {
@@ -34,6 +35,9 @@ namespace canvas
 		~Scene(void);
 
 		//data
+		Color background(Color);
+		Color background(void) const;
+
 		void box_min(float, float, float);
 		void box_max(float, float, float);
 
@@ -53,6 +57,7 @@ namespace canvas
 		//objects
 		void clear_objects(void);
 		void add_object(objects::type);
+		void add_object(objects::Object*);
 
 		//callbacks
 		void callback_motion(int, int);
@@ -82,6 +87,7 @@ namespace canvas
 		unsigned* m_ibo_data[3];
 		vertices::Vertex* m_vbo_data[2];
 
+		Color m_background;
 		unsigned m_program_id[2];
 		unsigned m_shaders_vertex_id[2];
 		unsigned m_shaders_fragment_id[2];

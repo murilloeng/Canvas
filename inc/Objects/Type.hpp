@@ -11,6 +11,7 @@ namespace canvas
 			line,
 			quad,
 			path,
+			user,
 			point,
 			circle,
 			sphere,

@@ -28,7 +28,8 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::splines(scene);
+	// examples::objects::splines(scene);
+	examples::scenes::beam_1(scene);
 	//update
 	scene->update();
 }
@@ -43,7 +44,7 @@ static void callback_idle(void)
 {
 	for(canvas::objects::Object* object : scene->objects())
 	{
-		object->rotate({0, 4e-2, 0}, false);
+		object->rotate({0, 0 * 4e-2, 0}, false);
 	}
 	scene->update();
 	glutPostRedisplay();

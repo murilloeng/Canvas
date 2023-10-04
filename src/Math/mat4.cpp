@@ -6,7 +6,11 @@
 namespace canvas
 {
 	//constructors
-	mat4::mat4(void) : m_data{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}
+	mat4::mat4(void) : m_data{
+			1.0f, 0.0f, 0.0f, 0.0f, 
+			0.0f, 1.0f, 0.0f, 0.0f, 
+			0.0f, 0.0f, 1.0f, 0.0f, 
+			0.0f, 0.0f, 0.0f, 1.0f}
 	{
 		return;
 	}

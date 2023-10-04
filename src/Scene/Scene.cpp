@@ -39,6 +39,7 @@ namespace canvas
 		m_ibo_size{0, 0, 0}, 
 		m_ibo_data{nullptr, nullptr, nullptr}, 
 		m_vbo_data{nullptr, nullptr},
+		m_background(0, 0, 0, 0),
 		m_program_id{0, 0},
 		m_shaders_vertex_id{0, 0}, 
 		m_shaders_fragment_id{0, 0}
@@ -76,6 +77,15 @@ namespace canvas
 	}
 
 	//data
+	Color Scene::background(void) const
+	{
+		return m_background;
+	}
+	Color Scene::background(Color background)
+	{
+		return m_background = background;
+	}
+
 	void Scene::box_min(float x1_min, float x2_min, float x3_min)
 	{
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), x1_min, x2_min, x3_min);
@@ -110,7 +120,10 @@ namespace canvas
 	//draw
 	void Scene::draw(void)
 	{
+		//data
+		const float* c = m_background.channels();
 		//clear
+		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//model
 		glUseProgram(m_program_id[0]);
@@ -250,6 +263,10 @@ namespace canvas
 		default:
 			break;
 		}
+	}
+	void Scene::add_object(objects::Object* object)
+	{
+		m_objects.push_back(object);
 	}
 
 	//callbacks
