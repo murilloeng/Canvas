@@ -106,13 +106,35 @@ namespace canvas
 		}
 
 		//draw
-		void Arc::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Arc::ibo_fill_data(unsigned** ibo_data) const
+		{
+			//data
+			const unsigned mesh = current_mesh();
+			//ibo data
+			for(unsigned i = 0; i < mesh; i++)
+			{
+				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * (mesh + 1) + 0;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * (mesh + 1) + i + 1;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * (mesh + 1) + i + 2;
+			}
+		}
+		void Arc::ibo_stroke_data(unsigned** ibo_data) const
+		{
+			//data
+			const unsigned mesh = current_mesh();
+			//ibo data
+			for(unsigned i = 0; i < mesh; i++)
+			{
+				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + i + 0;
+				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + i + 1;
+			}
+		}
+		void Arc::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			vec3 vertex_position;
 			const unsigned mesh = current_mesh();
 			const vec3 t2 = m_normal.cross(m_base);
-			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * (mesh + 1);
 			//vbo data
 			for(unsigned i = 0; i <= mesh; i++)
@@ -120,36 +142,39 @@ namespace canvas
 				//position
 				const float t = (m_angles[1] - m_angles[0]) * i / mesh + m_angles[0];
 				vertex_position = m_center + m_radius * (cosf(t) * m_base + sinf(t) * t2);
-				//draw
-				if(m_stroke)
-				{
-					(vbo_draw_ptr + i)->m_color = m_stroke_colors[0];
-					(vbo_draw_ptr + i)->m_position = vertex_position;
-				}
-				//fill
-				if(m_fill)
-				{
-					(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
-					(vbo_fill_ptr + i + 1)->m_position = vertex_position;
-				}
-				vbo_fill_ptr->m_position = m_center;
-				vbo_fill_ptr->m_color = m_fill_colors[0];
+				//vertices
+				(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
+				(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 			}
-			//ibo data
-			for(unsigned i = 0; i < mesh; i++)
+			vbo_fill_ptr->m_position = m_center;
+			vbo_fill_ptr->m_color = m_fill_colors[0];
+		}
+		void Arc::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		{
+			//data
+			vec3 vertex_position;
+			const unsigned mesh = current_mesh();
+			const vec3 t2 = m_normal.cross(m_base);
+			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			//vbo data
+			for(unsigned i = 0; i <= mesh; i++)
 			{
-				if(m_stroke)
-				{
-					ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + i + 0;
-					ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + i + 1;
-				}
-				if(m_fill)
-				{
-					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * (mesh + 1) + 0;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * (mesh + 1) + i + 1;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * (mesh + 1) + i + 2;
-				}
+				//position
+				const float t = (m_angles[1] - m_angles[0]) * i / mesh + m_angles[0];
+				vertex_position = m_center + m_radius * (cosf(t) * m_base + sinf(t) * t2);
+				//vertices
+				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
+		}
+		void Arc::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		{
+			//vbo data
+			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
+			//ibo data
+			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 
 		//static

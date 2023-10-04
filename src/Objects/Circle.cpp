@@ -80,11 +80,27 @@ namespace canvas
 		}
 
 		//draw
-		void Circle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Circle::ibo_fill_data(unsigned** ibo_data) const
+		{
+			for(unsigned i = 0; i < m_mesh; i++)
+			{
+				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * m_mesh + 0;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
+			}
+		}
+		void Circle::ibo_stroke_data(unsigned** ibo_data) const
+		{
+			for(unsigned i = 0; i < m_mesh; i++)
+			{
+				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + (i + 0) % m_mesh;
+				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + (i + 1) % m_mesh;
+			}
+		}
+		void Circle::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_draw_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
@@ -93,36 +109,38 @@ namespace canvas
 				//position
 				const float t = 2 * M_PI * i / m_mesh;
 				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
-				//draw
-				if(m_stroke)
-				{
-					(vbo_draw_ptr + i)->m_color = m_stroke_colors[0];
-					(vbo_draw_ptr + i)->m_position = vertex_position;
-				}
-				//fill
-				if(m_fill)
-				{
-					(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
-					(vbo_fill_ptr + i + 1)->m_position = vertex_position;
-				}
-				vbo_fill_ptr->m_position = m_center;
-				vbo_fill_ptr->m_color = m_fill_colors[0];
+				//vertices
+				(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
+				(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 			}
-			//ibo data
+			vbo_fill_ptr->m_position = m_center;
+			vbo_fill_ptr->m_color = m_fill_colors[0];
+		}
+		void Circle::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		{
+			//data
+			vec3 vertex_position, t1, t2;
+			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			//vbo data
+			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				if(m_stroke)
-				{
-					ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + (i + 0) % m_mesh;
-					ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + (i + 1) % m_mesh;
-				}
-				if(m_fill)
-				{
-					ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * m_mesh + 0;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
-					ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
-				}
+				//position
+				const float t = 2 * M_PI * i / m_mesh;
+				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
+				//vertices
+				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
+		}
+		void Circle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		{
+			//vbo data
+			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
+			//ibo data
+			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 
 		//static

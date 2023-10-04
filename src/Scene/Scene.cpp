@@ -17,6 +17,7 @@
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
+#include "inc/Objects/Path.hpp"
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Object.hpp"
@@ -217,6 +218,9 @@ namespace canvas
 			break;
 		case objects::type::quad:
 			m_objects.push_back(new objects::Quad);
+			break;
+		case objects::type::path:
+			m_objects.push_back(new objects::Path);
 			break;
 		case objects::type::point:
 			m_objects.push_back(new objects::Point);

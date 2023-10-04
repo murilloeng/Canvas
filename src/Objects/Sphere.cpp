@@ -162,7 +162,7 @@ namespace canvas
 		}
 
 		//draw
-		void Sphere::ibo_draw_data(unsigned** ibo_data) const
+		void Sphere::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
@@ -221,7 +221,7 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::vbo_draw_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
@@ -316,10 +316,10 @@ namespace canvas
 		{
 			//vbo data
 			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_stroke) vbo_draw_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
-			if(m_stroke) ibo_draw_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 
 		//static

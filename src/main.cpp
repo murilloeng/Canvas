@@ -20,6 +20,7 @@
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Line.hpp"
 #include "inc/Objects/Quad.hpp"
+#include "inc/Objects/Path.hpp"
 #include "inc/Objects/Point.hpp"
 #include "inc/Objects/Circle.hpp"
 #include "inc/Objects/Sphere.hpp"
@@ -243,6 +244,29 @@ void example_9(void)
 		}
 	}
 }
+void example_10(void)
+{
+	//data
+	const float w = 1.00e-01;
+	const float h = 1.00e-01;
+	const float t = 1.00e-02;
+	//objects
+	scene->add_object(canvas::objects::type::path);
+	scene->object(0)->scale(9);
+	((canvas::objects::Path*) scene->object(0))->add_point({-w / 2, -h / 2 - t, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+w / 2, -h / 2 - t, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+w / 2, -h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+t / 2, -h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+t / 2, +h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+w / 2, +h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({+w / 2, +h / 2 + t, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-w / 2, +h / 2 + t, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-w / 2, +h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-t / 2, +h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-t / 2, -h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-w / 2, -h / 2, 0});
+	((canvas::objects::Path*) scene->object(0))->add_point({-w / 2, -h / 2 - t, 0});
+}
 
 //setup
 void setup(void)
@@ -251,7 +275,7 @@ void setup(void)
 	scene = new canvas::Scene;
 	t1 = std::chrono::high_resolution_clock::now();
 	//example
-	example_9();
+	example_7();
 	//update
 	scene->update();
 }

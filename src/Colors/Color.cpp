@@ -28,7 +28,7 @@ static const char* colors_table[] = {
 namespace canvas
 {
 	//constructors
-	Color::Color(void) : m_channels{0, 0, 0, 0}
+	Color::Color(void) : m_channels{1.0f, 1.0f, 1.0f, 1.0f}
 	{
 		return;
 	}

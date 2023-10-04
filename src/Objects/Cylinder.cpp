@@ -82,7 +82,7 @@ namespace canvas
 		}
 
 		//draw
-		void Cylinder::ibo_draw_data(unsigned** ibo_data) const
+		void Cylinder::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
@@ -135,7 +135,7 @@ namespace canvas
 				ibo_ptr[6 * m_mesh + 6 * i + 5] = vbo_index + 1 * (m_mesh + 1) + (i + 0) % m_mesh + 1;
 			}
 		}
-		void Cylinder::vbo_draw_data(vertices::Vertex* vbo_data) const
+		void Cylinder::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			const float r = m_radius;
@@ -174,11 +174,11 @@ namespace canvas
 		void Cylinder::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//vbo data
-			if(m_stroke) vbo_draw_data(vbo_data);
 			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			//ibo data
-			if(m_stroke) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 
 		//static

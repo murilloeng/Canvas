@@ -69,7 +69,7 @@ namespace canvas
 		}
 
 		//draw
-		void Cube::ibo_draw_data(unsigned** ibo_data) const
+		void Cube::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//edges
 			ibo_data[1][m_ibo_index[1] + 2 * 0 + 0] = m_vbo_index + 0;
@@ -124,7 +124,7 @@ namespace canvas
 			ibo_data[2][m_ibo_index[2] + 3 * 10 + 0] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 0] = m_vbo_index + 8 * m_stroke + 3;
 			ibo_data[2][m_ibo_index[2] + 3 * 10 + 2] = ibo_data[2][m_ibo_index[2] + 3 * 11 + 1] = m_vbo_index + 8 * m_stroke + 4;
 		}
-		void Cube::vbo_draw_data(vertices::Vertex* vbo_data) const
+		void Cube::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes);
@@ -151,11 +151,11 @@ namespace canvas
 		void Cube::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//vbo data
-			if(m_stroke) vbo_draw_data(vbo_data);
 			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			//ibo data
-			if(m_stroke) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 	}
 }

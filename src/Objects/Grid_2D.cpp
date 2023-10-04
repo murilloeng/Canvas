@@ -55,7 +55,7 @@ namespace canvas
 		}
 
 		//draw
-		void Grid_2D::ibo_draw_data(unsigned** ibo_data) const
+		void Grid_2D::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
 			const unsigned n1 = m_mesh[0];
@@ -98,7 +98,7 @@ namespace canvas
 			ibo_ptr[3 * 1 + 1] = vbo_index + 2;
 			ibo_ptr[3 * 1 + 2] = vbo_index + 3;
 		}
-		void Grid_2D::vbo_draw_data(vertices::Vertex* vbo_data) const
+		void Grid_2D::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			const unsigned n1 = m_mesh[0];
@@ -147,11 +147,11 @@ namespace canvas
 		void Grid_2D::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
 			//vbo data
-			if(m_stroke) vbo_draw_data(vbo_data);
 			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			//ibo data
-			if(m_stroke) ibo_draw_data(ibo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 	}
 }

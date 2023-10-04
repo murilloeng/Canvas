@@ -10,6 +10,7 @@ namespace canvas
 			cube,
 			line,
 			quad,
+			path,
 			point,
 			circle,
 			sphere,

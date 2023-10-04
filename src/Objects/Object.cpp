@@ -102,6 +102,8 @@ namespace canvas
 				return "Line";
 			case type::quad:
 				return "Quad";
+			case type::path:
+				return "Path";
 			case type::point:
 				return "Point";
 			case type::circle:
