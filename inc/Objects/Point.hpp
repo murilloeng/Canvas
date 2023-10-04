@@ -2,7 +2,6 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -19,8 +18,8 @@ namespace canvas
 			~Point(void);
 
 			//data
-			vec3 position(vec3);
 			vec3 position(void) const;
+			vec3 position(const vec3&);
 
 			//type
 			objects::type type(void) const override;

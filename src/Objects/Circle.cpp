@@ -31,7 +31,7 @@ namespace canvas
 		{
 			return m_center;
 		}
-		vec3 Circle::center(vec3 center)
+		vec3 Circle::center(const vec3& center)
 		{
 			return m_center = center;
 		}
@@ -40,7 +40,7 @@ namespace canvas
 		{
 			return m_normal;
 		}
-		vec3 Circle::normal(vec3 normal)
+		vec3 Circle::normal(const vec3& normal)
 		{
 			return m_normal = normal;
 		}

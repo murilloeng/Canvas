@@ -53,7 +53,7 @@ namespace canvas
 		{
 			return m_center;
 		}
-		vec3 Sphere::center(vec3 center)
+		vec3 Sphere::center(const vec3& center)
 		{
 			return m_center = center;
 		}

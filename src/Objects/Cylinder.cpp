@@ -29,7 +29,7 @@ namespace canvas
 		{
 			return m_center;
 		}
-		vec3 Cylinder::center(vec3 center)
+		vec3 Cylinder::center(const vec3& center)
 		{
 			return m_center = center;
 		}

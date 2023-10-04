@@ -25,7 +25,7 @@ namespace canvas
 		{
 			return m_position;
 		}
-		vec3 Point::position(vec3 position)
+		vec3 Point::position(const vec3& position)
 		{
 			return m_position = position;
 		}

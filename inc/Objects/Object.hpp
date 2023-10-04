@@ -9,13 +9,14 @@
 
 namespace canvas
 {
-	class Model;
+	class Scene;
 	namespace vertices
 	{
 		class Vertex;
 	}
 	namespace objects
 	{
+		class Group;
 		enum class type : unsigned;
 	}
 }
@@ -34,8 +35,8 @@ namespace canvas
 			virtual ~Object(void);
 
 			//data
-			bool dot(bool);
 			bool dot(void) const;
+			virtual bool dot(bool);
 
 			bool fill(void) const;
 			virtual bool fill(bool);
@@ -73,11 +74,12 @@ namespace canvas
 			void rotate(const vec3&, const quat&, bool = true);
 
 		protected:
-			//buffers
+			//size
 			virtual unsigned vbo_size(void) const = 0;
 			virtual unsigned ibo_size(unsigned) const = 0;
 
-			//draw
+			//buffers
+			virtual void buffers_index(unsigned&, unsigned[]);
 			virtual void buffers_data(vertices::Vertex*, unsigned**) const = 0;
 
 			//data
@@ -95,7 +97,8 @@ namespace canvas
 			std::vector<Color> m_stroke_colors;
 
 			//friends
-			friend class Model;
+			friend class Scene;
+			friend class Group;
 		};
 	}
 }

@@ -7,7 +7,7 @@
 #include "../external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "inc/Models/Model.hpp"
+#include "inc/Scene/Scene.hpp"
 
 #include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
@@ -29,7 +29,7 @@
 namespace canvas
 {
 	//constructors
-	Model::Model(void) : 
+	Scene::Scene(void) : 
 		m_vao_id{0, 0}, 
 		m_vbo_id{0, 0}, 
 		m_ibo_id{0, 0},
@@ -48,7 +48,7 @@ namespace canvas
 	}
 
 	//destructor
-	Model::~Model(void)
+	Scene::~Scene(void)
 	{
 		//delete
 		delete[] m_vbo_data[0];
@@ -74,39 +74,39 @@ namespace canvas
 	}
 
 	//data
-	void Model::box_min(float x1_min, float x2_min, float x3_min)
+	void Scene::box_min(float x1_min, float x2_min, float x3_min)
 	{
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), x1_min, x2_min, x3_min);
 	}
-	void Model::box_max(float x1_max, float x2_max, float x3_max)
+	void Scene::box_max(float x1_max, float x2_max, float x3_max)
 	{
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), x1_max, x2_max, x3_max);
 	}
 
-	void Model::zoom(float zoom)
+	void Scene::zoom(float zoom)
 	{
 		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
 	}
-	void Model::pan(float x1, float x2, float x3)
+	void Scene::pan(float x1, float x2, float x3)
 	{
 		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), x1, x2, x3);
 	}
-	void Model::quat(float q1, float q2, float q3, float q4)
+	void Scene::quat(float q1, float q2, float q3, float q4)
 	{
 		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), q1, q2, q3, q4);
 	}
 
-	objects::Object* Model::object(unsigned index) const
+	objects::Object* Scene::object(unsigned index) const
 	{
 		return m_objects[index];
 	}
-	const std::vector<objects::Object*>& Model::objects(void) const
+	const std::vector<objects::Object*>& Scene::objects(void) const
 	{
 		return m_objects;
 	}
 
 	//draw
-	void Model::draw(void)
+	void Scene::draw(void)
 	{
 		//clear
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -124,7 +124,7 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
-	void Model::bound(void)
+	void Scene::bound(void)
 	{
 		//check
 		if(m_vbo_size[0] == 0) return;
@@ -137,7 +137,7 @@ namespace canvas
 
 		}
 	}
-	void Model::update(void)
+	void Scene::update(void)
 	{
 		//draw
 		prepare();
@@ -163,7 +163,7 @@ namespace canvas
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (i + 1) * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_STATIC_DRAW);
 		}
 	}
-	void Model::prepare(void)
+	void Scene::prepare(void)
 	{
 		//vbo size
 		m_vbo_size[0] = 0;
@@ -189,18 +189,12 @@ namespace canvas
 		unsigned ibo_counter[] = {0, 0, 0};
 		for(objects::Object* object : m_objects)
 		{
-			object->m_vbo_index = vbo_counter;
-			vbo_counter += object->vbo_size();
-			for(unsigned i = 0; i < 3; i++)
-			{
-				object->m_ibo_index[i] = ibo_counter[i];
-				ibo_counter[i] += (i + 1) * object->ibo_size(i);
-			}
+			object->buffers_index(vbo_counter, ibo_counter);
 		}
 	}
 
 	//objects
-	void Model::clear_objects(void)
+	void Scene::clear_objects(void)
 	{
 		for(const objects::Object* object : m_objects)
 		{
@@ -208,7 +202,7 @@ namespace canvas
 		}
 		m_objects.clear();
 	}
-	void Model::add_object(objects::type type)
+	void Scene::add_object(objects::type type)
 	{
 		switch(type)
 		{
@@ -251,16 +245,16 @@ namespace canvas
 	}
 
 	//callbacks
-	void Model::callback_motion(int x1, int x2)
+	void Scene::callback_motion(int x1, int x2)
 	{
 		return;
 	}
-	void Model::callback_reshape(int width, int height)
+	void Scene::callback_reshape(int width, int height)
 	{
 		glViewport(0, 0, width, height);
 		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
 	}
-	void Model::callback_keyboard(char key, int x1, int x2)
+	void Scene::callback_keyboard(char key, int x1, int x2)
 	{
 		if(key == 'd')
 		{
@@ -284,13 +278,13 @@ namespace canvas
 			}
 		}
 	}
-	void Model::callback_mouse(int button, int state, int x1, int x2)
+	void Scene::callback_mouse(int button, int state, int x1, int x2)
 	{
 		return;
 	}
 
 	//setup
-	void Model::setup_gl(void)
+	void Scene::setup_gl(void)
 	{
 		//enable
 		glEnable(GL_BLEND);
@@ -302,7 +296,7 @@ namespace canvas
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
 	}
-	void Model::setup_buffers(void)
+	void Scene::setup_buffers(void)
 	{
 		//generate
 		glGenBuffers(2, m_vbo_id);
@@ -327,12 +321,12 @@ namespace canvas
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (4 * sizeof(float)));
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
 	}
-	void Model::setup_shaders(void)
+	void Scene::setup_shaders(void)
 	{
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
 	}
-	void Model::setup_uniforms(void)
+	void Scene::setup_uniforms(void)
 	{
 		int viewport[4];
 		glGetIntegerv(GL_VIEWPORT, viewport);
@@ -345,7 +339,7 @@ namespace canvas
 	}
 
 	//misc
-	bool Model::load_file(std::string& source, const char* path)
+	bool Scene::load_file(std::string& source, const char* path)
 	{
 		//open
 		FILE* file = fopen(path, "r");
@@ -360,7 +354,7 @@ namespace canvas
 		//return
 		return true;
 	}
-	void Model::setup_shader(unsigned& id, unsigned type, unsigned program, const char* path)
+	void Scene::setup_shader(unsigned& id, unsigned type, unsigned program, const char* path)
 	{
 		//source
 		std::string source;
@@ -396,7 +390,7 @@ namespace canvas
 		//attach
 		glAttachShader(program, id);
 	}
-	void Model::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, const char* path_1, const char* path_2)
+	void Scene::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, const char* path_1, const char* path_2)
 	{
 		//create
 		id = glCreateProgram();

@@ -1,5 +1,5 @@
 //canvas
-#include "inc/Models/Click.hpp"
+#include "inc/Scene/Click.hpp"
 
 namespace canvas
 {

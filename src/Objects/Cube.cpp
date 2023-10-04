@@ -34,7 +34,7 @@ namespace canvas
 		}
 
 		//data
-		vec3 Cube::sizes(vec3 sizes)
+		vec3 Cube::sizes(const vec3& sizes)
 		{
 			return m_sizes = sizes;
 		}
@@ -43,7 +43,7 @@ namespace canvas
 			return m_sizes;
 		}
 
-		vec3 Cube::center(vec3 center)
+		vec3 Cube::center(const vec3& center)
 		{
 			return m_center = center;
 		}

@@ -27,7 +27,7 @@ namespace canvas
 		}
 
 		//data
-		vec3 Arc::base(vec3 base)
+		vec3 Arc::base(const vec3& base)
 		{
 			return m_base = base;
 		}
@@ -40,7 +40,7 @@ namespace canvas
 		{
 			return m_center;
 		}
-		vec3 Arc::center(vec3 center)
+		vec3 Arc::center(const vec3& center)
 		{
 			return m_center = center;
 		}
@@ -49,7 +49,7 @@ namespace canvas
 		{
 			return m_normal;
 		}
-		vec3 Arc::normal(vec3 normal)
+		vec3 Arc::normal(const vec3& normal)
 		{
 			return m_normal = normal;
 		}

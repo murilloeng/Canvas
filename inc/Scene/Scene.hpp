@@ -7,7 +7,7 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
-#include "inc/Models/Click.hpp"
+#include "inc/Scene/Click.hpp"
 
 namespace canvas
 {
@@ -24,14 +24,14 @@ namespace canvas
 
 namespace canvas
 {
-	class Model
+	class Scene
 	{
 	public:
 		//constructors
-		Model(void);
+		Scene(void);
 
 		//destructor
-		~Model(void);
+		~Scene(void);
 
 		//data
 		void box_min(float, float, float);

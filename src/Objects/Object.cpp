@@ -169,5 +169,17 @@ namespace canvas
 			const mat4 A = mat4::rotation(x, q);
 			m_affine = left ? A * m_affine : m_affine * A;
 		}
+
+		//buffers
+		void Object::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
+		{
+			m_vbo_index = vbo_counter;
+			vbo_counter += vbo_size();
+			for(unsigned i = 0; i < 3; i++)
+			{
+				m_ibo_index[i] = ibo_counter[i];
+				ibo_counter[i] += (i + 1) * ibo_size(i);
+			}
+		}
 	}
 }

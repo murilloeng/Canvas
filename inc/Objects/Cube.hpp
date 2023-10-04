@@ -2,7 +2,6 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -19,11 +18,11 @@ namespace canvas
 			~Cube(void);
 
 			//data
-			vec3 sizes(vec3);
 			vec3 sizes(void) const;
+			vec3 sizes(const vec3&);
 
-			vec3 center(vec3);
 			vec3 center(void) const;
+			vec3 center(const vec3&);
 
 			//type
 			objects::type type(void) const override;

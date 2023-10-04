@@ -2,7 +2,6 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -19,14 +18,14 @@ namespace canvas
 			~Arc(void);
 
 			//data
-			vec3 base(vec3);
 			vec3 base(void) const;
+			vec3 base(const vec3&);
 
-			vec3 center(vec3);
 			vec3 center(void) const;
+			vec3 center(const vec3&);
 
-			vec3 normal(vec3);
 			vec3 normal(void) const;
+			vec3 normal(const vec3&);
 
 			float radius(float);
 			float radius(void) const;

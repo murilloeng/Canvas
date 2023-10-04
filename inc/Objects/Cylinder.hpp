@@ -2,7 +2,6 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -19,8 +18,8 @@ namespace canvas
 			~Cylinder(void);
 
 			//data
-			vec3 center(vec3);
 			vec3 center(void) const;
+			vec3 center(const vec3&);
 
 			float radius(float);
 			float radius(void) const;

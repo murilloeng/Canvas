@@ -25,7 +25,7 @@ namespace canvas
 		{
 			return m_positions[index];
 		}
-		vec3 Triangle::position(unsigned index, vec3 position)
+		vec3 Triangle::position(unsigned index, const vec3& position)
 		{
 			return m_positions[index] = position;
 		}

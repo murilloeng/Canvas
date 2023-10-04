@@ -1,7 +1,6 @@
 #pragma once
 
 //canvas
-#include "inc/Colors/Color.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
