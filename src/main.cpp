@@ -21,6 +21,23 @@
 
 //static data
 static canvas::Scene* scene;
+typedef void(*scene_fun)(canvas::Scene*);
+
+scene_fun test_funs[] = {
+	examples::objects::arcs,
+	examples::objects::cubes,
+	examples::objects::lines,
+	examples::objects::quads,
+	examples::objects::paths,
+	examples::objects::points,
+	examples::objects::circles,
+	examples::objects::spheres,
+	examples::objects::splines,
+	examples::objects::grid_2D,
+	examples::objects::grid_3D,
+	examples::objects::triangles,
+	examples::objects::cylinders
+};
 
 //setup
 void setup(void)
@@ -28,10 +45,10 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::objects::splines(scene);
+	examples::objects::arcs(scene);
 	// examples::scenes::beam_1(scene);
 	//update
-	scene->update();
+	scene->update(true);
 }
 void cleanup(void)
 {
@@ -46,7 +63,7 @@ static void callback_idle(void)
 	{
 		object->rotate({0, 4e-2, 0}, false);
 	}
-	scene->update();
+	scene->update(false);
 	glutPostRedisplay();
 }
 static void callback_mouse(int button, int state, int x1, int x2)
@@ -72,6 +89,31 @@ static void callback_reshape(int width, int height)
 	scene->callback_reshape(width, height);
 	//update
 	glutPostRedisplay();
+}
+static void callback_special(int key, int x1, int x2)
+{
+	//data
+	unsigned complement;
+	static unsigned index = 0;
+	const unsigned size = sizeof(test_funs) / sizeof(scene_fun);
+	//update
+	if(key == GLUT_KEY_UP || key == GLUT_KEY_DOWN)
+	{
+		if(key == GLUT_KEY_UP)
+		{
+			complement = size - 1 - index;
+			complement = (complement + 1) % size;
+			index = size - 1 - complement;
+		}
+		else
+		{
+			index = (index + 1) % size;
+		}
+		scene->clear_objects();
+		test_funs[index](scene);
+		scene->update(true);
+		glutPostRedisplay();
+	}
 }
 static void callback_keyboard(unsigned char key, int x1, int x2)
 {
@@ -110,6 +152,7 @@ int main(int argc, char** argv)
 	glutMotionFunc(callback_motion);
 	glutDisplayFunc(callback_display);
 	glutReshapeFunc(callback_reshape);
+	glutSpecialFunc(callback_special);
 	glutKeyboardFunc(callback_keyboard);
 	//loop
 	glutMainLoop();

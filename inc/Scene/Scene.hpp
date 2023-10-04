@@ -51,7 +51,7 @@ namespace canvas
 		//draw
 		void draw(void);
 		void bound(void);
-		void update(void);
+		void update(bool);
 		void prepare(void);
 
 		//objects

@@ -17,5 +17,8 @@ layout (location = 1) in vec3 position;
 void main(void)
 {
 	vertex_color = color;
-	gl_Position = vec4(position.xy, -position.z, 1);
+	vec3 xc = (box_min + box_max) / 2;
+	vec3 xs = (box_max - box_min) / 2;
+	vec3 xp = (position - xc) / max(xs[0], max(xs[1], xs[2]));
+	gl_Position = vec4(xp.xy, -xp.z, 1);
 }

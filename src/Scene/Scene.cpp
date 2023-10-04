@@ -144,15 +144,22 @@ namespace canvas
 		//check
 		if(m_vbo_size[0] == 0) return;
 		//data
-		vec3 x_min = ((vertices::Model*) m_vbo_data[0])->m_position;
-		vec3 x_max = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
 		//bound
-		for(unsigned i = 0; i < m_vbo_size[0]; i++)
+		for(unsigned i = 1; i < m_vbo_size[0]; i++)
 		{
-
+			for(unsigned j = 0; j < 3; j++)
+			{
+				box_min[j] = fminf(box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				box_max[j] = fmaxf(box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+			}
 		}
+		//shader
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), box_min[0], box_min[1], box_min[2]);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), box_max[0], box_max[1], box_max[2]);
 	}
-	void Scene::update(void)
+	void Scene::update(bool bound)
 	{
 		//draw
 		prepare();
@@ -167,7 +174,7 @@ namespace canvas
 				vertex->m_position = object->affine() * vertex->m_position;
 			}
 		}
-		bound();
+		if(bound) this->bound();
 		//vbo data
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
 		glBufferData(GL_ARRAY_BUFFER, m_vbo_size[0] * sizeof(vertices::Model), m_vbo_data[0], GL_STATIC_DRAW);
@@ -354,10 +361,11 @@ namespace canvas
 	void Scene::setup_uniforms(void)
 	{
 		int viewport[4];
+		glUseProgram(m_program_id[0]);
 		glGetIntegerv(GL_VIEWPORT, viewport);
 		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), 1.0f);
 		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), 0.0f, 0.0f, 0.0f);
-		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1, 0.0f, 0.0f, 0.0f);
+		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1.0f, 0.0f, 0.0f, 0.0f);
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), -1.0f, -1.0f, -1.0f);
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), +1.0f, +1.0f, +1.0f);
 		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), viewport[2], viewport[3]);
