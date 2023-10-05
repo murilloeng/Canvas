@@ -1,15 +1,15 @@
 #version 460 core
 
-uniform float zoom;
-uniform vec3 shift;
-uniform vec4 rotation;
-
-uniform vec3 box_min;
-uniform vec3 box_max;
-
-uniform uvec2 screen;
-
 out vec4 vertex_color;
+
+uniform uvec2 screen = uvec2(700, 700);
+
+uniform vec3 box_min = vec3(-1, -1, -1);
+uniform vec3 box_max = vec3(+1, +1, +1);
+
+uniform float zoom = 1;
+uniform vec3 shift = vec3(0, 0, 0);
+uniform vec4 rotation = vec4(1, 0, 0, 0);
 
 layout (location = 0) in vec4 color;
 layout (location = 1) in vec3 position;
@@ -37,6 +37,7 @@ void main(void)
 	//position
 	vec3 xc = (box_min + box_max) / 2;
 	vec3 xs = (box_max - box_min) / 2;
-	vec3 xp = (position - xc) / max(xs[0], max(xs[1], xs[2]));
-	gl_Position = vec4(vec2(h, w) * xp.xy / max(w, h), -xp.z, 1);
+	float s = max(xs[0], max(xs[1], xs[2]));
+	vec3 xp = zoom * quat_rotation(rotation, position - xc - shift) / s;
+	gl_Position = vec4(vec2(w, h) * xp.xy / min(w, h), -xp.z, 1);
 }

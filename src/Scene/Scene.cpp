@@ -5,6 +5,7 @@
 
 //ext
 #include "../external/cpp/inc/GL/glew.h"
+#include "../external/cpp/inc/GL/freeglut.h"
 
 //canvas
 #include "inc/Scene/Scene.hpp"
@@ -32,6 +33,7 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(void) : 
+		m_zoom(1.0f),
 		m_vao_id{0, 0}, 
 		m_vbo_id{0, 0}, 
 		m_ibo_id{0, 0},
@@ -47,7 +49,6 @@ namespace canvas
 		setup_gl();
 		setup_buffers();
 		setup_shaders();
-		setup_uniforms();
 	}
 
 	//destructor
@@ -95,19 +96,6 @@ namespace canvas
 		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), x1_max, x2_max, x3_max);
 	}
 
-	void Scene::zoom(float zoom)
-	{
-		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
-	}
-	void Scene::shift(vec3 shift)
-	{
-		glUniform3f(glGetUniformLocation(m_program_id[0], "shift"), shift[0], shift[1], shift[2]);
-	}
-	void Scene::rotation(quat rotation)
-	{
-		glUniform4f(glGetUniformLocation(m_program_id[0], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
-	}
-
 	objects::Object* Scene::object(unsigned index) const
 	{
 		return m_objects[index];
@@ -144,20 +132,20 @@ namespace canvas
 		//check
 		if(m_vbo_size[0] == 0) return;
 		//data
-		vec3 box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
-		vec3 box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
+		m_box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
+		m_box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
 		//bound
 		for(unsigned i = 1; i < m_vbo_size[0]; i++)
 		{
 			for(unsigned j = 0; j < 3; j++)
 			{
-				box_min[j] = fminf(box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
-				box_max[j] = fmaxf(box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				m_box_min[j] = fminf(m_box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				m_box_max[j] = fmaxf(m_box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
 			}
 		}
 		//shader
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), box_min[0], box_min[1], box_min[2]);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), box_max[0], box_max[1], box_max[2]);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), m_box_min[0], m_box_min[1], m_box_min[2]);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), m_box_max[0], m_box_max[1], m_box_max[2]);
 	}
 	void Scene::update(bool bound)
 	{
@@ -279,10 +267,27 @@ namespace canvas
 	//callbacks
 	void Scene::callback_motion(int x1, int x2)
 	{
-		return;
+		// //data
+		// const float z = m_zoom;
+		// const vec3 xa = m_shift;
+		// const int w = m_screen[0];
+		// const int h = m_screen[1];
+		// const quat q = m_rotation;
+		// const float m = w < h ? w : h;
+		// const vec3 xc = (m_box_min + m_box_max) / 2;
+		// const vec3 xs = (m_box_max - m_box_min) / 2;
+		// const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		// const float s = xs.max(nullptr, false);
+		// const vec3 xg = s / z * q.conjugate().rotate(xp) + xc + xa;
+		// //print
+		// printf("screen: %04d %04d\n", x1, x2);
+		// printf("opengl: %+.2e %+.2e %+.2e\n", xp[0], xp[1], xp[2]);
+		// printf(" world: %+.2e %+.2e %+.2e\n", xg[0], xg[1], xg[2]);
 	}
 	void Scene::callback_reshape(int width, int height)
 	{
+		m_screen[0] = width;
+		m_screen[1] = height;
 		glViewport(0, 0, width, height);
 		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
 	}
@@ -309,10 +314,38 @@ namespace canvas
 				object->fill(!object->fill());
 			}
 		}
+		if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Scene::callback_mouse(int button, int state, int x1, int x2)
 	{
-		return;
+		if(state == GLUT_DOWN)
+		{
+			m_click.zoom(zoom());
+			m_click.shift(shift());
+			m_click.position(0, x1);
+			m_click.position(1, x2);
+			m_click.rotation(rotation());
+		}
+	}
+	void Scene::callback_wheel(int wheel, int direction, int x1, int x2)
+	{
+		//box
+		const vec3 xc = (m_box_min + m_box_max) / 2;
+		const vec3 xs = (m_box_max - m_box_min) / 2;
+		//zoom
+		const float dz = 0.05;
+		const float z_old = m_zoom;
+		const float z_new = (1 + direction * dz) * m_zoom;
+		//screen
+		const int w = m_screen[0];
+		const int h = m_screen[1];
+		const float m = w < h ? w : h;
+		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		//shift
+		zoom(z_new);
+		const vec3 xs_old = shift();
+		const float s = fmax(xs[0], fmaxf(xs[1], xs[2]));
+		shift(xs_old + s * (z_new - z_old) / z_new / z_old * m_rotation.conjugate().rotate(xp));
 	}
 
 	//setup
@@ -357,18 +390,71 @@ namespace canvas
 	{
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
-	}
-	void Scene::setup_uniforms(void)
-	{
-		int viewport[4];
 		glUseProgram(m_program_id[0]);
-		glGetIntegerv(GL_VIEWPORT, viewport);
-		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), 1.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), 0.0f, 0.0f, 0.0f);
-		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), 1.0f, 0.0f, 0.0f, 0.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), -1.0f, -1.0f, -1.0f);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), +1.0f, +1.0f, +1.0f);
-		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), viewport[2], viewport[3]);
+	}
+
+	//camera
+	float Scene::zoom(void) const
+	{
+		return m_zoom;
+	}
+	float Scene::zoom(float zoom)
+	{
+		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
+		return m_zoom = zoom;
+	}
+
+	vec3 Scene::shift(void) const
+	{
+		return m_shift;
+	}
+	vec3 Scene::shift(const vec3& shift)
+	{
+		glUniform3f(glGetUniformLocation(m_program_id[0], "shift"), shift[0], shift[1], shift[2]);
+		return m_shift = shift;
+	}
+
+	unsigned Scene::width(void) const
+	{
+		return m_screen[0];
+	}
+	unsigned Scene::height(void) const
+	{
+		return m_screen[1];
+	}
+
+	quat Scene::rotation(char mode)
+	{
+		if(mode == 'x')
+		{
+			return rotation(quat::view_x1());
+		}
+		else if(mode == 'y')
+		{
+			return rotation(quat::view_x2());
+		}
+		else if(mode == 'z')
+		{
+			return rotation(quat::view_x3());
+		}
+		else if(mode == 'i')
+		{
+			static unsigned index = 1;
+			return rotation(quat::view_iso(index = (index + 1) % 3));
+		}
+		else
+		{
+			return quat();
+		}
+	}
+	quat Scene::rotation(void) const
+	{
+		return m_rotation;
+	}
+	quat Scene::rotation(const quat& rotation)
+	{
+		glUniform4f(glGetUniformLocation(m_program_id[0], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
+		return m_rotation = rotation;
 	}
 
 	//misc

@@ -154,6 +154,12 @@ namespace canvas
 	{
 		return *this = A * *this;
 	}
+
+	vec3& vec3::operator=(const vec3& v)
+	{
+		memcpy(m_data, v.m_data, 3 * sizeof(float));
+		return *this;
+	}
 	vec3& vec3::operator=(const float* data)
 	{
 		memcpy(m_data, data, 3 * sizeof(float));

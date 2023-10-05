@@ -22,6 +22,12 @@ namespace canvas
 		float* memory(void);
 		const float* memory(void) const;
 
+		//views
+		static quat view_x1(void);
+		static quat view_x2(void);
+		static quat view_x3(void);
+		static quat view_iso(unsigned);
+
 		//operators
 		quat& operator*=(const quat&);
 		quat operator*(const quat&) const;

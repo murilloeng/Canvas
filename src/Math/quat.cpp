@@ -1,4 +1,5 @@
 //std
+#include <cmath>
 #include <cstring>
 
 //canvas
@@ -35,6 +36,34 @@ namespace canvas
 	const float* quat::memory(void) const
 	{
 		return m_data;
+	}
+
+	//views
+	quat quat::view_x1(void)
+	{
+		return vec3(0, 0, -M_PI_2).quaternion() * vec3(0, -M_PI_2, 0).quaternion();
+	}
+	quat quat::view_x2(void)
+	{
+		return vec3(0, 0, +M_PI_2).quaternion() * vec3(+M_PI_2, 0, 0).quaternion();
+	}
+	quat quat::view_x3(void)
+	{
+		return quat();
+	}
+	quat quat::view_iso(unsigned index)
+	{
+		switch(index)
+		{
+			case 0:
+				return vec3(atan(M_SQRT1_2), 0, 0).quaternion() * vec3(0, -M_PI_4, 0).quaternion() * view_x2();
+			case 1:
+				return vec3(atan(M_SQRT1_2), 0, 0).quaternion() * vec3(0, -M_PI_4, 0).quaternion() * view_x3();
+			case 2:
+				return vec3(atan(M_SQRT1_2), 0, 0).quaternion() * vec3(0, -M_PI_4, 0).quaternion() * view_x1();
+			default:
+				return quat();
+		}
 	}
 
 	//operators

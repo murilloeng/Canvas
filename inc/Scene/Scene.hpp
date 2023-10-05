@@ -41,10 +41,6 @@ namespace canvas
 		void box_min(float, float, float);
 		void box_max(float, float, float);
 
-		void zoom(float);
-		void shift(vec3);
-		void rotation(quat);
-
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
@@ -64,13 +60,27 @@ namespace canvas
 		void callback_reshape(int, int);
 		void callback_keyboard(char, int, int);
 		void callback_mouse(int, int, int, int);
+		void callback_wheel(int, int, int, int);
 
 	private:
 		//setup
 		void setup_gl(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
-		void setup_uniforms(void);
+
+		//camera
+		float zoom(float);
+		float zoom(void) const;
+
+		vec3 shift(void) const;
+		vec3 shift(const vec3&);
+
+		quat rotation(char);
+		quat rotation(void) const;
+		quat rotation(const quat&);
+
+		unsigned width(void) const;
+		unsigned height(void) const;
 
 		//misc
 		static bool load_file(std::string&, const char*);
@@ -78,7 +88,13 @@ namespace canvas
 		static void setup_program(unsigned&, unsigned&, unsigned&, const char*, const char*);
 
 		//data
-		Click m_click;
+		float m_zoom;
+		vec3 m_shift;
+		vec3 m_box_min;
+		vec3 m_box_max;
+		quat m_rotation;
+		unsigned m_screen[2];
+
 		unsigned m_vao_id[2];
 		unsigned m_vbo_id[2];
 		unsigned m_ibo_id[3];
@@ -92,6 +108,7 @@ namespace canvas
 		unsigned m_shaders_vertex_id[2];
 		unsigned m_shaders_fragment_id[2];
 
+		Click m_click;
 		std::vector<objects::Object*> m_objects;
 	};
 }

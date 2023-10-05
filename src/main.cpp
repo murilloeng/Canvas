@@ -23,7 +23,7 @@
 static canvas::Scene* scene;
 typedef void(*scene_fun)(canvas::Scene*);
 
-scene_fun test_funs[] = {
+scene_fun tests[] = {
 	examples::objects::arcs,
 	examples::objects::cubes,
 	examples::objects::lines,
@@ -45,6 +45,7 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
+	// examples::scenes::beam_1(scene);
 	examples::objects::spheres(scene);
 	//update
 	scene->update(true);
@@ -68,6 +69,11 @@ static void callback_idle(void)
 static void callback_mouse(int button, int state, int x1, int x2)
 {
 	scene->callback_mouse(button, state, x1, x2);
+	glutPostRedisplay();
+}
+static void callback_wheel(int wheel, int direction, int x1, int x2)
+{
+	scene->callback_wheel(wheel, direction, x1, x2);
 	glutPostRedisplay();
 }
 static void callback_motion(int x1, int x2)
@@ -94,7 +100,7 @@ static void callback_special(int key, int x1, int x2)
 	//data
 	unsigned complement;
 	static unsigned index = 0;
-	const unsigned size = sizeof(test_funs) / sizeof(scene_fun);
+	const unsigned size = sizeof(tests) / sizeof(scene_fun);
 	//update
 	if(key == GLUT_KEY_UP || key == GLUT_KEY_DOWN)
 	{
@@ -110,7 +116,7 @@ static void callback_special(int key, int x1, int x2)
 		}
 		scene->clear_objects();
 		scene->background({0, 0, 0});
-		test_funs[index](scene);
+		tests[index](scene);
 		scene->update(true);
 		glutPostRedisplay();
 	}
@@ -153,7 +159,9 @@ int main(int argc, char** argv)
 	glutDisplayFunc(callback_display);
 	glutReshapeFunc(callback_reshape);
 	glutSpecialFunc(callback_special);
+	glutMouseWheelFunc(callback_wheel);
 	glutKeyboardFunc(callback_keyboard);
+	glutPassiveMotionFunc(callback_motion);
 	//loop
 	glutMainLoop();
 	//cleanup
