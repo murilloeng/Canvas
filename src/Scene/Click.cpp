@@ -59,6 +59,7 @@ namespace canvas
 	//rotation
 	vec3 Click::arcball(float x1, float x2)
 	{
-		return vec3(x1, x2, sqrtf(1 - x1 * x1 - x2 * x2));
+		const float r = sqrtf(x1 * x1 + x2 * x2);
+		return vec3(x1 / fmaxf(r, 1), x2 / fmaxf(r, 1), sqrtf(1 - fminf(r * r, 1)));
 	}
 }
