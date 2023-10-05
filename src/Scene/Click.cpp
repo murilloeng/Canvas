@@ -4,7 +4,7 @@
 namespace canvas
 {
 	//constructors
-	Click::Click(void) : m_pan{0, 0, 0}, m_rotation{1, 0, 0, 0}, m_position{0, 0}
+	Click::Click(void) : m_zoom(1.0f), m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}
 	{
 		return;
 	}
@@ -16,13 +16,22 @@ namespace canvas
 	}
 
 	//data
-	vec3 Click::pan(vec3 pan)
+	float Click::zoom(float zoom)
 	{
-		return m_pan = pan;
+		return m_zoom = zoom;
 	}
-	vec3 Click::pan(void) const
+	float Click::zoom(void) const
 	{
-		return m_pan;
+		return m_zoom;
+	}
+
+	vec3 Click::shift(vec3 shift)
+	{
+		return m_shift = shift;
+	}
+	vec3 Click::shift(void) const
+	{
+		return m_shift;
 	}
 
 	quat Click::rotation(void) const

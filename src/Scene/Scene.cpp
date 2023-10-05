@@ -99,13 +99,13 @@ namespace canvas
 	{
 		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
 	}
-	void Scene::pan(float x1, float x2, float x3)
+	void Scene::shift(vec3 shift)
 	{
-		glUniform3f(glGetUniformLocation(m_program_id[0], "pan"), x1, x2, x3);
+		glUniform3f(glGetUniformLocation(m_program_id[0], "shift"), shift[0], shift[1], shift[2]);
 	}
-	void Scene::quat(float q1, float q2, float q3, float q4)
+	void Scene::rotation(quat rotation)
 	{
-		glUniform4f(glGetUniformLocation(m_program_id[0], "quat"), q1, q2, q3, q4);
+		glUniform4f(glGetUniformLocation(m_program_id[0], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
 	}
 
 	objects::Object* Scene::object(unsigned index) const

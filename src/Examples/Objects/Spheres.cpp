@@ -25,8 +25,8 @@ namespace examples
 					scene->add_object(canvas::objects::type::sphere);
 					((canvas::objects::Sphere*) scene->object(n * i + j))->scale(s);
 					((canvas::objects::Sphere*) scene->object(n * i + j))->shift({x1, x2, 0});
-					((canvas::objects::Sphere*) scene->object(n * i + j))->fill_color({0, 0, 1});
-					((canvas::objects::Sphere*) scene->object(n * i + j))->stroke_color({1, 1, 1});
+					((canvas::objects::Sphere*) scene->object(n * i + j))->fill_color({0.0f, 0.0f, 1.0f});
+					((canvas::objects::Sphere*) scene->object(n * i + j))->stroke_color({1.0f, 1.0f, 1.0f});
 				}
 			}
 		}

@@ -25,8 +25,8 @@ namespace examples
 					scene->add_object(canvas::objects::type::cylinder);
 					((canvas::objects::Cylinder*) scene->object(n * i + j))->scale(s / 2);
 					((canvas::objects::Cylinder*) scene->object(n * i + j))->shift({x1, x2, 0});
-					((canvas::objects::Cylinder*) scene->object(n * i + j))->fill_color({0, 0, 1});
-					((canvas::objects::Cylinder*) scene->object(n * i + j))->stroke_color({1, 1, 1});
+					((canvas::objects::Cylinder*) scene->object(n * i + j))->fill_color({0.0f, 0.0f, 1.0f});
+					((canvas::objects::Cylinder*) scene->object(n * i + j))->stroke_color({1.0f, 1.0f, 1.0f});
 				}
 			}
 		}

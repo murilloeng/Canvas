@@ -42,8 +42,8 @@ namespace canvas
 		void box_max(float, float, float);
 
 		void zoom(float);
-		void pan(float, float, float);
-		void quat(float, float, float, float);
+		void shift(vec3);
+		void rotation(quat);
 
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;

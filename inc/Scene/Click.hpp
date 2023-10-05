@@ -16,8 +16,11 @@ namespace canvas
 		~Click(void);
 
 		//data
-		vec3 pan(vec3);
-		vec3 pan(void) const;
+		float zoom(float);
+		float zoom(void) const;
+
+		vec3 shift(vec3);
+		vec3 shift(void) const;
 
 		quat rotation(quat);
 		quat rotation(void) const;
@@ -26,7 +29,8 @@ namespace canvas
 		unsigned position(unsigned, unsigned);
 
 	private:
-		vec3 m_pan;
+		float m_zoom;
+		vec3 m_shift;
 		quat m_rotation;
 		unsigned m_position[2];
 	};

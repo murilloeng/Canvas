@@ -45,8 +45,7 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::objects::arcs(scene);
-	// examples::scenes::beam_1(scene);
+	examples::objects::spheres(scene);
 	//update
 	scene->update(true);
 }
@@ -110,6 +109,7 @@ static void callback_special(int key, int x1, int x2)
 			index = (index + 1) % size;
 		}
 		scene->clear_objects();
+		scene->background({0, 0, 0});
 		test_funs[index](scene);
 		scene->update(true);
 		glutPostRedisplay();
