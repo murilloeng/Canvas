@@ -58,9 +58,9 @@ namespace canvas
 		//callbacks
 		void callback_motion(int, int);
 		void callback_reshape(int, int);
+		void callback_wheel(int, int, int);
 		void callback_keyboard(char, int, int);
-		void callback_mouse(int, int, int, int);
-		void callback_wheel(int, int, int, int);
+		void callback_mouse(button, bool, int, int);
 
 	private:
 		//setup

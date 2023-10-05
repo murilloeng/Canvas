@@ -4,7 +4,8 @@
 namespace canvas
 {
 	//constructors
-	Click::Click(void) : m_zoom(1.0f), m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}
+	Click::Click(void) : 
+		m_zoom(1.0f), m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}, m_button(canvas::button::none)
 	{
 		return;
 	}
@@ -43,11 +44,20 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
-	unsigned Click::position(unsigned index) const
+	canvas::button Click::button(void) const
+	{
+		return m_button;
+	}
+	canvas::button Click::button(canvas::button button)
+	{
+		return m_button = button;
+	}
+
+	int Click::position(unsigned index) const
 	{
 		return m_position[index];
 	}
-	unsigned Click::position(unsigned index, unsigned position)
+	int Click::position(unsigned index, int position)
 	{
 		return m_position[index] = position;
 	}

@@ -6,6 +6,17 @@
 
 namespace canvas
 {
+	enum class button : unsigned
+	{
+		none,
+		left,
+		right,
+		middle
+	};
+}
+
+namespace canvas
+{
 	class Click
 	{
 	public:
@@ -25,13 +36,17 @@ namespace canvas
 		quat rotation(quat);
 		quat rotation(void) const;
 
-		unsigned position(unsigned) const;
-		unsigned position(unsigned, unsigned);
+		int position(unsigned, int);
+		int position(unsigned) const;
+
+		canvas::button button(void) const;
+		canvas::button button(canvas::button);
 
 	private:
 		float m_zoom;
 		vec3 m_shift;
 		quat m_rotation;
-		unsigned m_position[2];
+		int m_position[2];
+		canvas::button m_button;
 	};
 }

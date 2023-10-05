@@ -45,7 +45,6 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	// examples::scenes::beam_1(scene);
 	examples::objects::spheres(scene);
 	//update
 	scene->update(true);
@@ -68,12 +67,22 @@ static void callback_idle(void)
 }
 static void callback_mouse(int button, int state, int x1, int x2)
 {
-	scene->callback_mouse(button, state, x1, x2);
+	//data
+	unsigned glut_buttons[] = {GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON, GLUT_MIDDLE_BUTTON};
+	canvas::button canvas_buttons[] = {canvas::button::left, canvas::button::right, canvas::button::middle};
+	//callback
+	for(unsigned i = 0; i < 3; i++)
+	{
+		if(glut_buttons[i] == button)
+		{
+			scene->callback_mouse(canvas_buttons[i], !state, x1, x2);
+		}
+	}
 	glutPostRedisplay();
 }
-static void callback_wheel(int wheel, int direction, int x1, int x2)
+static void callback_wheel(int, int direction, int x1, int x2)
 {
-	scene->callback_wheel(wheel, direction, x1, x2);
+	scene->callback_wheel(direction, x1, x2);
 	glutPostRedisplay();
 }
 static void callback_motion(int x1, int x2)

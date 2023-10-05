@@ -5,7 +5,6 @@
 
 //ext
 #include "../external/cpp/inc/GL/glew.h"
-#include "../external/cpp/inc/GL/freeglut.h"
 
 //canvas
 #include "inc/Scene/Scene.hpp"
@@ -267,22 +266,24 @@ namespace canvas
 	//callbacks
 	void Scene::callback_motion(int x1, int x2)
 	{
-		// //data
-		// const float z = m_zoom;
-		// const vec3 xa = m_shift;
-		// const int w = m_screen[0];
-		// const int h = m_screen[1];
-		// const quat q = m_rotation;
-		// const float m = w < h ? w : h;
-		// const vec3 xc = (m_box_min + m_box_max) / 2;
-		// const vec3 xs = (m_box_max - m_box_min) / 2;
-		// const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		// const float s = xs.max(nullptr, false);
-		// const vec3 xg = s / z * q.conjugate().rotate(xp) + xc + xa;
-		// //print
-		// printf("screen: %04d %04d\n", x1, x2);
-		// printf("opengl: %+.2e %+.2e %+.2e\n", xp[0], xp[1], xp[2]);
-		// printf(" world: %+.2e %+.2e %+.2e\n", xg[0], xg[1], xg[2]);
+		//shift
+		if(m_click.button() == button::middle)
+		{
+			//data
+			const float z = m_zoom;
+			const quat q = m_rotation;
+			const int w = m_screen[0];
+			const int h = m_screen[1];
+			const float m = w < h ? w : h;
+			const int z1 = m_click.position(0);
+			const int z2 = m_click.position(1);
+			//shift
+			const vec3 xs = (m_box_max - m_box_min) / 2;
+			const float s = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+			const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+			const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
+			shift(m_click.shift() + s / z * q.conjugate().rotate(xc - xp));
+		}
 	}
 	void Scene::callback_reshape(int width, int height)
 	{
@@ -290,6 +291,26 @@ namespace canvas
 		m_screen[1] = height;
 		glViewport(0, 0, width, height);
 		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
+	}
+	void Scene::callback_wheel(int direction, int x1, int x2)
+	{
+		//box
+		const vec3 xc = (m_box_min + m_box_max) / 2;
+		const vec3 xs = (m_box_max - m_box_min) / 2;
+		//zoom
+		const float dz = 0.05;
+		const float z_old = m_zoom;
+		const float z_new = (1 + direction * dz) * m_zoom;
+		//screen
+		const int w = m_screen[0];
+		const int h = m_screen[1];
+		const float m = w < h ? w : h;
+		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		//shift
+		zoom(z_new);
+		const vec3 xs_old = shift();
+		const float s = fmax(xs[0], fmaxf(xs[1], xs[2]));
+		shift(xs_old + s * (z_new - z_old) / z_new / z_old * m_rotation.conjugate().rotate(xp));
 	}
 	void Scene::callback_keyboard(char key, int x1, int x2)
 	{
@@ -314,38 +335,29 @@ namespace canvas
 				object->fill(!object->fill());
 			}
 		}
+		if(key == 'r')
+		{
+			zoom(1.0f);
+			shift(vec3());
+			rotation(quat());
+		}
 		if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
-	void Scene::callback_mouse(int button, int state, int x1, int x2)
+	void Scene::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
-		if(state == GLUT_DOWN)
+		if(pressed)
 		{
-			m_click.zoom(zoom());
-			m_click.shift(shift());
+			m_click.zoom(m_zoom);
+			m_click.shift(m_shift);
+			m_click.button(button);
 			m_click.position(0, x1);
 			m_click.position(1, x2);
-			m_click.rotation(rotation());
+			m_click.rotation(m_rotation);
 		}
-	}
-	void Scene::callback_wheel(int wheel, int direction, int x1, int x2)
-	{
-		//box
-		const vec3 xc = (m_box_min + m_box_max) / 2;
-		const vec3 xs = (m_box_max - m_box_min) / 2;
-		//zoom
-		const float dz = 0.05;
-		const float z_old = m_zoom;
-		const float z_new = (1 + direction * dz) * m_zoom;
-		//screen
-		const int w = m_screen[0];
-		const int h = m_screen[1];
-		const float m = w < h ? w : h;
-		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		//shift
-		zoom(z_new);
-		const vec3 xs_old = shift();
-		const float s = fmax(xs[0], fmaxf(xs[1], xs[2]));
-		shift(xs_old + s * (z_new - z_old) / z_new / z_old * m_rotation.conjugate().rotate(xp));
+		else
+		{
+			m_click.button(canvas::button::none);
+		}
 	}
 
 	//setup
