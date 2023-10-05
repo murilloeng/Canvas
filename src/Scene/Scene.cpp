@@ -266,23 +266,31 @@ namespace canvas
 	//callbacks
 	void Scene::callback_motion(int x1, int x2)
 	{
+		//data
+		const float z = m_zoom;
+		const int w = m_screen[0];
+		const int h = m_screen[1];
+		const quat& q = m_rotation;
+		const float m = w < h ? w : h;
+		const int z1 = m_click.position(0);
+		const int z2 = m_click.position(1);
+		const vec3 xs = (m_box_max - m_box_min) / 2;
+		const float s = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
 		//shift
 		if(m_click.button() == button::middle)
 		{
-			//data
-			const float z = m_zoom;
-			const quat q = m_rotation;
-			const int w = m_screen[0];
-			const int h = m_screen[1];
-			const float m = w < h ? w : h;
-			const int z1 = m_click.position(0);
-			const int z2 = m_click.position(1);
-			//shift
-			const vec3 xs = (m_box_max - m_box_min) / 2;
-			const float s = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
-			const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-			const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
 			shift(m_click.shift() + s / z * q.conjugate().rotate(xc - xp));
+		}
+		//rotation
+		if(m_click.button() == button::left)
+		{
+			const quat qc = m_click.rotation();
+			const vec3 v1 = Click::arcball(xc[0], xc[1]);
+			const vec3 v2 = Click::arcball(xp[0], xp[1]);
+			rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
+			shift(m_click.shift() + s / z * (qc.conjugate().rotate(xc) - q.conjugate().rotate(xc)));
 		}
 	}
 	void Scene::callback_reshape(int width, int height)
@@ -321,33 +329,32 @@ namespace canvas
 				object->dot(!object->dot());
 			}
 		}
-		if(key == 's')
+		else if(key == 's')
 		{
 			for(objects::Object* object : m_objects)
 			{
 				object->stroke(!object->stroke());
 			}
 		}
-		if(key == 'f')
+		else if(key == 'f')
 		{
 			for(objects::Object* object : m_objects)
 			{
 				object->fill(!object->fill());
 			}
 		}
-		if(key == 'r')
+		else if(key == 'r')
 		{
 			zoom(1.0f);
 			shift(vec3());
 			rotation(quat());
 		}
-		if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
+		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Scene::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
 		if(pressed)
 		{
-			m_click.zoom(m_zoom);
 			m_click.shift(m_shift);
 			m_click.button(button);
 			m_click.position(0, x1);

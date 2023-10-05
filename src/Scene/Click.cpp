@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "inc/Scene/Click.hpp"
 
@@ -5,7 +8,7 @@ namespace canvas
 {
 	//constructors
 	Click::Click(void) : 
-		m_zoom(1.0f), m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}, m_button(canvas::button::none)
+		m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}, m_button(canvas::button::none)
 	{
 		return;
 	}
@@ -17,15 +20,6 @@ namespace canvas
 	}
 
 	//data
-	float Click::zoom(float zoom)
-	{
-		return m_zoom = zoom;
-	}
-	float Click::zoom(void) const
-	{
-		return m_zoom;
-	}
-
 	vec3 Click::shift(vec3 shift)
 	{
 		return m_shift = shift;
@@ -44,6 +38,15 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
+	int Click::position(unsigned index) const
+	{
+		return m_position[index];
+	}
+	int Click::position(unsigned index, int position)
+	{
+		return m_position[index] = position;
+	}
+
 	canvas::button Click::button(void) const
 	{
 		return m_button;
@@ -53,12 +56,9 @@ namespace canvas
 		return m_button = button;
 	}
 
-	int Click::position(unsigned index) const
+	//rotation
+	vec3 Click::arcball(float x1, float x2)
 	{
-		return m_position[index];
-	}
-	int Click::position(unsigned index, int position)
-	{
-		return m_position[index] = position;
+		return vec3(x1, x2, sqrtf(1 - x1 * x1 - x2 * x2));
 	}
 }

@@ -27,9 +27,6 @@ namespace canvas
 		~Click(void);
 
 		//data
-		float zoom(float);
-		float zoom(void) const;
-
 		vec3 shift(vec3);
 		vec3 shift(void) const;
 
@@ -42,8 +39,10 @@ namespace canvas
 		canvas::button button(void) const;
 		canvas::button button(canvas::button);
 
+		//rotation
+		static vec3 arcball(float, float);
+
 	private:
-		float m_zoom;
 		vec3 m_shift;
 		quat m_rotation;
 		int m_position[2];

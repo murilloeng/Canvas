@@ -139,6 +139,8 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	else
 	{
 		scene->callback_keyboard(key, x1, x2);
+		scene->update(false);
+		glutPostRedisplay();
 	}
 }
 
@@ -162,7 +164,7 @@ int main(int argc, char** argv)
 	//setup
 	setup();
 	//callbacks
-	glutIdleFunc(callback_idle);
+	// glutIdleFunc(callback_idle);
 	glutMouseFunc(callback_mouse);
 	glutMotionFunc(callback_motion);
 	glutDisplayFunc(callback_display);
