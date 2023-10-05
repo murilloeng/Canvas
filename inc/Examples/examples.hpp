@@ -24,5 +24,6 @@ namespace examples
 	namespace scenes
 	{
 		void beam_1(canvas::Scene*);
+		void tensegrity_chair(canvas::Scene*);
 	}
 }

@@ -45,7 +45,8 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::objects::spheres(scene);
+	// examples::objects::spheres(scene);
+	examples::scenes::tensegrity_chair(scene);
 	//update
 	scene->update(true);
 }

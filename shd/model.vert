@@ -40,5 +40,5 @@ void main(void)
 	vec3 xs = (box_max - box_min) / 2;
 	float s = max(xs[0], max(xs[1], xs[2]));
 	vec3 xp = zoom * quat_rotation(rotation, position - xc - shift) / s;
-	gl_Position = vec4(vec2(m / w, m / h) * xp.xy, -xp.z, 1);
+	gl_Position = vec4(vec2(m / w, m / h) * xp.xy, -1e-2 * xp.z, 1);
 }

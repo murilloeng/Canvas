@@ -127,7 +127,7 @@ namespace canvas
 		void Cube::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			const mat4 A = mat4::scaling(m_sizes);
+			const mat4 A = mat4::scaling(m_sizes / 2);
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
@@ -139,7 +139,7 @@ namespace canvas
 		void Cube::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			const mat4 A = mat4::scaling(m_sizes);
+			const mat4 A = mat4::scaling(m_sizes / 2);
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 8 * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
