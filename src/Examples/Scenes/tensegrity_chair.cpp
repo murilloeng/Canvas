@@ -20,10 +20,10 @@ namespace examples
 			const float Hc = 1.50e-01;
 			const float Hr = (Ht + Hc) / 2;
 			//objects
-			canvas::objects::Cube* link_top_1 = new canvas::objects::Cube;
-			canvas::objects::Cube* link_top_2 = new canvas::objects::Cube;
-			canvas::objects::Cube* link_base_1 = new canvas::objects::Cube;
-			canvas::objects::Cube* link_base_2 = new canvas::objects::Cube;
+			canvas::objects::Cube* link_3 = new canvas::objects::Cube;
+			canvas::objects::Cube* link_4 = new canvas::objects::Cube;
+			canvas::objects::Cube* link_1 = new canvas::objects::Cube;
+			canvas::objects::Cube* link_2 = new canvas::objects::Cube;
 			canvas::objects::Line* cables = new canvas::objects::Line[nc + 1];
 			canvas::objects::Cylinder* rigid_top = new canvas::objects::Cylinder;
 			canvas::objects::Cylinder* rigid_base = new canvas::objects::Cylinder;
@@ -37,24 +37,25 @@ namespace examples
 			rigid_base->shift({0, 0, tr / 2});
 			rigid_top->shift({0, 0, Ht + 3 * tr / 2});
 			//links
-			link_top_1->fill_color({0, 0, 1});
-			link_top_2->fill_color({0, 0, 1});
-			link_base_1->fill_color({0, 0, 1});
-			link_base_2->fill_color({0, 0, 1});
-			link_top_2->sizes({e - tc / 2, tc, tc});
-			link_top_1->sizes({tc, tc, Hr + tc / 2});
-			link_base_2->sizes({e - tc / 2, tc, tc});
-			link_base_1->sizes({tc, tc, Hr + tc / 2});
-			link_base_1->shift({e, 0, Hr / 2 + tc / 4 + tr});
-			link_top_1->shift({-e, 0, tr + Ht - Hr / 2 - tc / 4});
-			link_base_2->shift({});
+			link_3->fill_color({0, 0, 1});
+			link_4->fill_color({0, 0, 1});
+			link_1->fill_color({0, 0, 1});
+			link_2->fill_color({0, 0, 1});
+			link_4->sizes({e - tc / 2, tc, tc});
+			link_2->sizes({e - tc / 2, tc, tc});
+			link_3->sizes({tc, tc, Hr + tc / 2});
+			link_1->sizes({tc, tc, Hr + tc / 2});
+			link_1->shift({e, 0, Hr / 2 + tc / 4 + tr});
+			link_2->shift({e / 2 - tc / 4, 0, Hr + tr});
+			link_4->shift({tc / 4 - e / 2, 0, Hr - Hc + tr});
+			link_3->shift({-e, 0, tr + Ht - Hr / 2 - tc / 4});
 			//cables
 			for(unsigned i = 0; i <= nc; i++)
 			{
 				if(i == nc)
 				{
-					cables[i].point(0, {0, 0, Ht - Hr});
-					cables[i].point(1, {0, 0, Hr - tc / 2});
+					cables[i].point(0, {0, 0, Hr - tc / 2 + tr});
+					cables[i].point(1, {0, 0, Ht - Hr + tc / 2 + tr});
 				}
 				else
 				{
@@ -66,10 +67,10 @@ namespace examples
 			//scene
 			scene->add_object(rigid_top);
 			scene->add_object(rigid_base);
-			scene->add_object(link_top_1);
-			scene->add_object(link_top_2);
-			scene->add_object(link_base_1);
-			scene->add_object(link_base_2);
+			scene->add_object(link_3);
+			scene->add_object(link_4);
+			scene->add_object(link_1);
+			scene->add_object(link_2);
 			for(unsigned i = 0; i <= nc; i++)
 			{
 				scene->add_object(cables + i);

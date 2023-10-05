@@ -108,34 +108,36 @@ static void callback_reshape(int width, int height)
 static void callback_special(int key, int x1, int x2)
 {
 	//data
-	unsigned complement;
+	const int glut_keys[] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_UP};
+	const canvas::key canvas_keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+	//callback
+	for(unsigned i = 0; i < 4; i++)
+	{
+		if(key == glut_keys[i])
+		{
+			scene->callback_special(canvas_keys[i], x1, x2);
+			glutPostRedisplay();
+		}
+	}
+}
+static void callback_keyboard(unsigned char key, int x1, int x2)
+{
+	//data
 	static unsigned index = 0;
 	const unsigned size = sizeof(tests) / sizeof(scene_fun);
-	//update
-	if(key == GLUT_KEY_UP || key == GLUT_KEY_DOWN)
+	//callback
+	if(key == 27)
 	{
-		if(key == GLUT_KEY_UP)
-		{
-			complement = size - 1 - index;
-			complement = (complement + 1) % size;
-			index = size - 1 - complement;
-		}
-		else
-		{
-			index = (index + 1) % size;
-		}
+		glutDestroyWindow(glutGetWindow());
+	}
+	else if(key == 'n')
+	{
+		index = (index + 1) % size;
 		scene->clear_objects();
 		scene->background({0, 0, 0});
 		tests[index](scene);
 		scene->update(true);
 		glutPostRedisplay();
-	}
-}
-static void callback_keyboard(unsigned char key, int x1, int x2)
-{
-	if(key == 27)
-	{
-		glutDestroyWindow(glutGetWindow());
 	}
 	else
 	{

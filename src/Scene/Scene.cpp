@@ -320,30 +320,31 @@ namespace canvas
 		const float s = fmax(xs[0], fmaxf(xs[1], xs[2]));
 		shift(xs_old + s * (z_new - z_old) / z_new / z_old * m_rotation.conjugate().rotate(xp));
 	}
+	void Scene::callback_special(canvas::key key, int x1, int x2)
+	{
+		//data
+		const float dt = M_PI / 12;
+		//rotation
+		if(key == canvas::key::left)
+		{
+			rotation((dt * vec3(0, -1, 0)).quaternion() * m_rotation);
+		}
+		else if(key == canvas::key::right)
+		{
+			rotation((dt * vec3(0, +1, 0)).quaternion() * m_rotation);
+		}
+		else if(key == canvas::key::down)
+		{
+			rotation((dt * vec3(+1, 0, 0)).quaternion() * m_rotation);
+		}
+		else if(key == canvas::key::up)
+		{
+			rotation((dt * vec3(-1, 0, 0)).quaternion() * m_rotation);
+		}
+	}
 	void Scene::callback_keyboard(char key, int x1, int x2)
 	{
-		if(key == 'd')
-		{
-			for(objects::Object* object : m_objects)
-			{
-				object->dot(!object->dot());
-			}
-		}
-		else if(key == 's')
-		{
-			for(objects::Object* object : m_objects)
-			{
-				object->stroke(!object->stroke());
-			}
-		}
-		else if(key == 'f')
-		{
-			for(objects::Object* object : m_objects)
-			{
-				object->fill(!object->fill());
-			}
-		}
-		else if(key == 'r')
+		if(key == 'f')
 		{
 			zoom(1.0f);
 			shift(vec3());

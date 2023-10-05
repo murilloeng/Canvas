@@ -6,12 +6,13 @@
 
 namespace canvas
 {
+	enum class key : unsigned
+	{
+		left, right, down, up
+	};
 	enum class button : unsigned
 	{
-		none,
-		left,
-		right,
-		middle
+		none, left, middle, right
 	};
 }
 
