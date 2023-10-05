@@ -34,10 +34,11 @@ void main(void)
 	//screen
 	uint w = screen[0];
 	uint h = screen[1];
+	float m = min(w, h);
 	//position
 	vec3 xc = (box_min + box_max) / 2;
 	vec3 xs = (box_max - box_min) / 2;
 	float s = max(xs[0], max(xs[1], xs[2]));
 	vec3 xp = zoom * quat_rotation(rotation, position - xc - shift) / s;
-	gl_Position = vec4(vec2(w, h) * xp.xy / min(w, h), -xp.z, 1);
+	gl_Position = vec4(vec2(m / w, m / h) * xp.xy, -xp.z, 1);
 }
