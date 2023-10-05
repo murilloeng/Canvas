@@ -417,7 +417,7 @@ namespace canvas
 			fprintf(stderr, "Error compiling shader!\n");
 			fprintf(stderr, "Shader type: %d\n", type);
 			fprintf(stderr, "Shader path: %s\n", path);
-			fprintf(stderr, "Error log: %S\n", log);
+			fprintf(stderr, "Error log: %hs\n", log);
 			exit(EXIT_FAILURE);
 		}
 		//attach
