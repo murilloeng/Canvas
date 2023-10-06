@@ -8,7 +8,8 @@ namespace canvas
 {
 	//constructors
 	Click::Click(void) : 
-		m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_position{0, 0}, m_button(canvas::button::none)
+		m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, 
+		m_position{0, 0}, m_modifiers(0), m_button(canvas::button::none)
 	{
 		return;
 	}
@@ -45,6 +46,15 @@ namespace canvas
 	int Click::position(unsigned index, int position)
 	{
 		return m_position[index] = position;
+	}
+
+	unsigned Click::modifiers(void) const
+	{
+		return m_modifiers;
+	}
+	unsigned Click::modifiers(unsigned modifiers)
+	{
+		return m_modifiers = modifiers;
 	}
 
 	canvas::button Click::button(void) const

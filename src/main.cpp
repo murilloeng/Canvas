@@ -108,14 +108,25 @@ static void callback_reshape(int width, int height)
 static void callback_special(int key, int x1, int x2)
 {
 	//data
-	const int glut_keys[] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_UP};
+	unsigned canvas_mod = 0;
+	int glut_mod = glutGetModifiers();
+	const unsigned glut_keys[] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_UP};
+	const unsigned glut_modifiers[] = {GLUT_ACTIVE_ALT, GLUT_ACTIVE_CTRL, GLUT_ACTIVE_SHIFT};
 	const canvas::key canvas_keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+	const canvas::modifier canvas_modifiers[] = {canvas::modifier::alt, canvas::modifier::ctrl, canvas::modifier::shift};
 	//callback
+	for(unsigned i = 0; i < 3; i++)
+	{
+		if(glut_mod & glut_modifiers[i])
+		{
+			canvas_mod |= 1 << unsigned(canvas_modifiers[i]);
+		}
+	}
 	for(unsigned i = 0; i < 4; i++)
 	{
 		if(key == glut_keys[i])
 		{
-			scene->callback_special(canvas_keys[i], x1, x2);
+			scene->callback_special(canvas_keys[i], canvas_mod, x1, x2);
 			glutPostRedisplay();
 		}
 	}

@@ -270,18 +270,15 @@ namespace canvas
 		const float z = m_zoom;
 		const int w = m_screen[0];
 		const int h = m_screen[1];
-		const quat& q = m_rotation;
 		const float m = w < h ? w : h;
 		const int z1 = m_click.position(0);
 		const int z2 = m_click.position(1);
-		const vec3 xs = (m_box_max - m_box_min) / 2;
-		const float s = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
 		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
 		const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
 		//shift
 		if(m_click.button() == button::middle)
 		{
-			shift(m_click.shift() + s / z * q.conjugate().rotate(xc - xp));
+			shift(m_click.shift() + xp - xc);
 		}
 		//rotation
 		if(m_click.button() == button::left)
@@ -290,7 +287,7 @@ namespace canvas
 			const vec3 v1 = Click::arcball(xc[0], xc[1]);
 			const vec3 v2 = Click::arcball(xp[0], xp[1]);
 			rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
-			shift(m_click.shift() + s / z * (qc.conjugate().rotate(xc) - q.conjugate().rotate(xc)));
+			shift(xp - m_rotation.rotate(m_click.rotation().conjugate().rotate(xc - m_click.shift())));
 		}
 	}
 	void Scene::callback_reshape(int width, int height)
@@ -302,44 +299,42 @@ namespace canvas
 	}
 	void Scene::callback_wheel(int direction, int x1, int x2)
 	{
-		//box
-		const vec3 xc = (m_box_min + m_box_max) / 2;
-		const vec3 xs = (m_box_max - m_box_min) / 2;
-		//zoom
-		const float dz = 0.05;
-		const float z_old = m_zoom;
-		const float z_new = (1 + direction * dz) * m_zoom;
 		//screen
 		const int w = m_screen[0];
 		const int h = m_screen[1];
 		const float m = w < h ? w : h;
-		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		//shift
-		zoom(z_new);
-		const vec3 xs_old = shift();
-		const float s = fmax(xs[0], fmaxf(xs[1], xs[2]));
-		shift(xs_old + s * (z_new - z_old) / z_new / z_old * m_rotation.conjugate().rotate(xp));
+		const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		//affine
+		const float dz = 0.05;
+		zoom((1 + direction * dz) * m_zoom);
+		shift(xs - (1 + direction * dz) * (xs - m_shift));
 	}
-	void Scene::callback_special(canvas::key key, int x1, int x2)
+	void Scene::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 	{
 		//data
+		const float dx = 0.05;
 		const float dt = M_PI / 12;
-		//rotation
-		if(key == canvas::key::left)
+		const vec3 shift[] = {{-dx, 0, 0}, {+dx, 0, 0}, {0, -dx, 0}, {0, +dx, 0}};
+		const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
+		const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+		//affine
+		for(unsigned i = 0; i < 4; i++)
 		{
-			rotation((dt * vec3(0, -1, 0)).quaternion() * m_rotation);
-		}
-		else if(key == canvas::key::right)
-		{
-			rotation((dt * vec3(0, +1, 0)).quaternion() * m_rotation);
-		}
-		else if(key == canvas::key::down)
-		{
-			rotation((dt * vec3(+1, 0, 0)).quaternion() * m_rotation);
-		}
-		else if(key == canvas::key::up)
-		{
-			rotation((dt * vec3(-1, 0, 0)).quaternion() * m_rotation);
+			if(key == keys[i])
+			{
+				if(modifiers & 1 << unsigned(modifier::alt))
+				{
+					this->shift(shift[i] + m_shift);
+				}
+				else if(modifiers & 1 << unsigned(modifier::ctrl))
+				{
+					this->rotation(rotation[i].quaternion() * m_rotation);
+				}
+				else if(modifiers & 1 << unsigned(modifier::shift))
+				{
+					this->rotation(m_rotation * rotation[i].quaternion());
+				}
+			}
 		}
 	}
 	void Scene::callback_keyboard(char key, int x1, int x2)
@@ -350,6 +345,8 @@ namespace canvas
 			shift(vec3());
 			rotation(quat());
 		}
+		else if(key == '-') zoom(m_zoom / 1.05);
+		else if(key == '+') zoom(m_zoom * 1.05);
 		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Scene::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
