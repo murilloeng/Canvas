@@ -37,8 +37,17 @@ namespace canvas
 			const vec3 h = hessian(s);
 			const vec3 g = gradient(s);
 			//normal
-			const vec3 t = g.unit();
-			return (h - h.inner(t) * t).unit();
+			if(h.cross(g).norm() != 0)
+			{
+				const vec3 t = g.unit();
+				return (h - h.inner(t) * t).unit();
+			}
+			else
+			{
+				vec3 t2, t3;
+				g.unit().triad(t2, t3);
+				return t2;
+			}
 		}
 		vec3 Curve::tangent(float s) const
 		{

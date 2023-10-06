@@ -1,8 +1,20 @@
 #pragma once
 
+//std
+#include <vector>
+
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Objects/Object.hpp"
+
+namespace canvas
+{
+	namespace objects
+	{
+		class Bar;
+		class Arrow;
+	}
+}
 
 namespace canvas
 {
