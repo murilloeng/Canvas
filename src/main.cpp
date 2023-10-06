@@ -45,8 +45,8 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	// examples::objects::spheres(scene);
-	examples::scenes::tensegrity_chair(scene);
+	examples::objects::spheres(scene);
+	// examples::scenes::tensegrity_chair(scene);
 	//update
 	scene->update(true);
 }
@@ -178,7 +178,7 @@ int main(int argc, char** argv)
 	//setup
 	setup();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutMouseFunc(callback_mouse);
 	glutMotionFunc(callback_motion);
 	glutDisplayFunc(callback_display);
