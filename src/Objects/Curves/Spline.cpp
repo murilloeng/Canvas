@@ -62,37 +62,56 @@ namespace canvas
 		}
 
 		//path
+		float Spline::path_max(void) const
+		{
+			return m_points.size() - 1;
+		}
 		vec3 Spline::path_hessian(float s) const
 		{
+			//data
 			vec3 h;
-			const float t2 = s - unsigned(s);
-			const float t1 = 1 + unsigned(s) - s;
-			h += 6 * t1 * m_points[unsigned(s) + 0];
-			h += 6 * t2 * m_points[unsigned(s) + 1];
-			h -= 2 * (2 * t1 - t2) * m_controls[2 * unsigned(s) + 0];
-			h -= 2 * (2 * t2 - t1) * m_controls[2 * unsigned(s) + 1];
+			unsigned k = unsigned(s);
+			if(k + 1 == m_points.size()) k--;
+			//hessian
+			const float t2 = s - k;
+			const float t1 = 1 + k - s;
+			h += 6 * t1 * m_points[k + 0];
+			h += 6 * t2 * m_points[k + 1];
+			h -= 6 * (2 * t1 - t2) * m_controls[2 * k + 0];
+			h -= 6 * (2 * t2 - t1) * m_controls[2 * k + 1];
+			//return
 			return h;
 		}
 		vec3 Spline::path_position(float s) const
 		{
+			//data
 			vec3 p;
-			const float t2 = s - unsigned(s);
-			const float t1 = 1 +unsigned(s) - s;
-			p += t1 * t1 * t1 * m_points[unsigned(s) + 0];
-			p += t2 * t2 * t2 * m_points[unsigned(s) + 1];
-			p += t1 * t1 * t2 * m_controls[2 * unsigned(s) + 0];
-			p += t1 * t2 * t2 * m_controls[2 * unsigned(s) + 1];
+			unsigned k = unsigned(s);
+			if(k + 1 == m_points.size()) k--;
+			//position
+			const float t2 = s - k;
+			const float t1 = 1 + k - s;
+			p += t1 * t1 * t1 * m_points[k + 0];
+			p += t2 * t2 * t2 * m_points[k + 1];
+			p += 3 * t1 * t1 * t2 * m_controls[2 * k + 0];
+			p += 3 * t1 * t2 * t2 * m_controls[2 * k + 1];
+			//return
 			return p;
 		}
 		vec3 Spline::path_gradient(float s) const
 		{
+			//data
 			vec3 g;
-			const float t2 = s - unsigned(s);
-			const float t1 = 1 + unsigned(s) - s;
-			g -= 3 * t1 * t1 * m_points[unsigned(s) + 0];
-			g += 3 * t2 * t2 * m_points[unsigned(s) + 1];
-			g -= (2 * t2 - t1) * t1 * m_controls[2 * unsigned(s) + 0];
-			g += (2 * t1 - t2) * t2 * m_controls[2 * unsigned(s) + 1];
+			unsigned k = unsigned(s);
+			if(k + 1 == m_points.size()) k--;
+			//gradient
+			const float t2 = s - k;
+			const float t1 = 1 + k - s;
+			g -= 3 * t1 * t1 * m_points[k + 0];
+			g += 3 * t2 * t2 * m_points[k + 1];
+			g -= 3 * (2 * t2 - t1) * t1 * m_controls[2 * k + 0];
+			g += 3 * (2 * t1 - t2) * t2 * m_controls[2 * k + 1];
+			//return
 			return g;
 		}
 

@@ -45,7 +45,7 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::objects::lines(scene);
+	examples::objects::splines(scene);
 	// examples::scenes::beam_1(scene);
 	//update
 	scene->update(true);

@@ -90,6 +90,10 @@ namespace canvas
 		}
 
 		//path
+		float Curve::path_max(void) const
+		{
+			return 1.0f;
+		}
 		vec3 Curve::path_normal(float s) const
 		{
 			//path
@@ -147,7 +151,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i <= m_mesh; i++)
 			{
-				const float s = float(i) / m_mesh;
+				const float s = i * path_max() / m_mesh;
 				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = path_position(s);
 			}

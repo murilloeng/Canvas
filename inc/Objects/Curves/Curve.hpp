@@ -42,6 +42,7 @@ namespace canvas
 			vec3 path_normal(float) const;
 			vec3 path_tangent(float) const;
 			vec3 path_binormal(float) const;
+			virtual float path_max(void) const;
 			virtual vec3 path_hessian(float) const = 0;
 			virtual vec3 path_position(float) const = 0;
 			virtual vec3 path_gradient(float) const = 0;
