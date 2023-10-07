@@ -5,13 +5,12 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Group.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Bar;
 		class Arrow;
 	}
 }
@@ -20,7 +19,7 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Curve : public Object
+		class Curve : public Group
 		{
 		public:
 			//constructors
@@ -33,15 +32,24 @@ namespace canvas
 			unsigned mesh(unsigned);
 			unsigned mesh(void) const;
 
+			//arrows
+			void add_arrow(float, bool);
+			void remove_arrow(unsigned);
+			unsigned arrows(void) const;
+			Arrow* arrow(unsigned) const;
+
 			//path
-			vec3 normal(float) const;
-			vec3 tangent(float) const;
-			vec3 binormal(float) const;
-			virtual vec3 hessian(float) const = 0;
-			virtual vec3 position(float) const = 0;
-			virtual vec3 gradient(float) const = 0;
+			vec3 path_normal(float) const;
+			vec3 path_tangent(float) const;
+			vec3 path_binormal(float) const;
+			virtual vec3 path_hessian(float) const = 0;
+			virtual vec3 path_position(float) const = 0;
+			virtual vec3 path_gradient(float) const = 0;
 
 		protected:
+			//buffers
+			void buffers_index(unsigned&, unsigned[]) override;
+
 			//data
 			unsigned m_mesh;
 		};

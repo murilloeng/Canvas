@@ -72,11 +72,11 @@ namespace canvas
 		}
 
 		//path
-		vec3 Spline::hessian(float s) const
+		vec3 Spline::path_hessian(float s) const
 		{
 			return {0, 0, 0};
 		}
-		vec3 Spline::position(float s) const
+		vec3 Spline::path_position(float s) const
 		{
 			vec3 p;
 			const unsigned np = m_points.size();
@@ -89,7 +89,7 @@ namespace canvas
 			p += t1 * t2 * t2 * m_points[2 * ic - 1];
 			return p;
 		}
-		vec3 Spline::gradient(float) const
+		vec3 Spline::path_gradient(float) const
 		{
 			return {0, 0, 0};
 		}

@@ -35,9 +35,9 @@ namespace canvas
 			const std::vector<vec3>& controls(void) const;
 
 			//path
-			vec3 hessian(float) const override;
-			vec3 position(float) const override;
-			vec3 gradient(float) const override;
+			vec3 path_hessian(float) const override;
+			vec3 path_position(float) const override;
+			vec3 path_gradient(float) const override;
 
 			//type
 			objects::type type(void) const override;

@@ -112,11 +112,11 @@ namespace canvas
 		min(&index, true);
 		const unsigned k1 = (index + 1) % 3;
 		const unsigned k2 = (index + 2) % 3;
-		const unsigned k3 = (index + 3) % 3;
+		const unsigned k3 = (index + 0) % 3;
 		//triad
-		t2[k1] = 0;
-		t2[k2] = -m_data[k3] / sqrtf(m_data[k2] * m_data[k2] + m_data[k3] * m_data[k3]);
-		t2[k3] = +m_data[k2] / sqrtf(m_data[k2] * m_data[k2] + m_data[k3] * m_data[k3]);
+		t2[k3] = 0;
+		t2[k1] = -m_data[k2] / sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
+		t2[k2] = +m_data[k1] / sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
 		//cross
 		t3 = cross(t2);
 	}

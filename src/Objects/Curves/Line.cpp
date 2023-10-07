@@ -11,6 +11,7 @@ namespace canvas
 		//constructors
 		Line::Line(void) : m_points{{0, 0, 0}, {0, 0, 0}}
 		{
+			m_mesh = 1;
 			m_stroke_colors.resize(2);
 		}
 
@@ -31,15 +32,15 @@ namespace canvas
 		}
 
 		//path
-		vec3 Line::hessian(float s) const
+		vec3 Line::path_hessian(float s) const
 		{
 			return {0, 0, 0};
 		}
-		vec3 Line::position(float s) const
+		vec3 Line::path_position(float s) const
 		{
 			return m_points[0] + s * (m_points[1] - m_points[0]);
 		}
-		vec3 Line::gradient(float s) const
+		vec3 Line::path_gradient(float s) const
 		{
 			return m_points[1] - m_points[0];
 		}
@@ -53,22 +54,29 @@ namespace canvas
 		//buffers
 		unsigned Line::vbo_size(void) const
 		{
-			return 2 * m_stroke;
+			return Group::vbo_size() + 2 * m_stroke;
 		}
 		unsigned Line::ibo_size(unsigned index) const
 		{
-			return (index == 1) * m_stroke;
+			return Group::ibo_size(index) + (index == 1) * m_stroke;
 		}
 
 		//draw
 		void Line::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
 		{
-			if(!m_stroke) return;
-			for(unsigned i = 0; i < 2; i++)
+			//group
+			const unsigned nv = Group::vbo_size();
+			const unsigned nl = Group::ibo_size(1);
+			Group::buffers_data(vbo_data, ibo_data);
+			//buffers
+			if(m_stroke)
 			{
-				ibo_data[1][m_ibo_index[1] + i] = m_vbo_index + i;
-				((vertices::Model*) vbo_data + m_vbo_index + i)->m_position = m_points[i];
-				((vertices::Model*) vbo_data + m_vbo_index + i)->m_color = m_stroke_colors[i];
+				for(unsigned i = 0; i < 2; i++)
+				{
+					ibo_data[1][m_ibo_index[1] + 2 * nl + i] = m_vbo_index + nv + i;
+					((vertices::Model*) vbo_data + m_vbo_index + nv + i)->m_position = m_points[i];
+					((vertices::Model*) vbo_data + m_vbo_index + nv + i)->m_color = m_stroke_colors[i];
+				}
 			}
 		}
 	}

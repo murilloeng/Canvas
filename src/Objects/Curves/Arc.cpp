@@ -71,21 +71,21 @@ namespace canvas
 		}
 
 		//path
-		vec3 Arc::hessian(float s) const
+		vec3 Arc::path_hessian(float s) const
 		{
 			const vec3 t1 = m_base;
 			const vec3 t2 = m_normal.cross(m_base);
 			const float t = m_angles[0] + s * (m_angles[1] - m_angles[0]);
 			return -m_radius * pow(m_angles[1] - m_angles[0], 2) * (sinf(t) * t2 + cosf(t) * t1);
 		}
-		vec3 Arc::position(float s) const
+		vec3 Arc::path_position(float s) const
 		{
 			const vec3 t1 = m_base;
 			const vec3 t2 = m_normal.cross(m_base);
 			const float t = m_angles[0] + s * (m_angles[1] - m_angles[0]);
 			return m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
 		}
-		vec3 Arc::gradient(float s) const
+		vec3 Arc::path_gradient(float s) const
 		{
 			const vec3 t1 = m_base;
 			const vec3 t2 = m_normal.cross(m_base);
@@ -102,29 +102,37 @@ namespace canvas
 		//buffers
 		unsigned Arc::vbo_size(void) const
 		{
-			return m_stroke * (m_mesh + 1) + m_fill * (m_mesh + 2);
+			return Group::vbo_size() + m_stroke * (m_mesh + 1) + m_fill * (m_mesh + 2);
 		}
 		unsigned Arc::ibo_size(unsigned index) const
 		{
-			return (index == 1 || index == 2) * m_mesh;
+			return Group::ibo_size(index) + (index == 1 || index == 2) * m_mesh;
 		}
 
 		//draw
 		void Arc::ibo_fill_data(unsigned** ibo_data) const
 		{
+			//data
+			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2] + 3 * Group::ibo_size(2);
+			const unsigned vbo_index = m_vbo_index + Group::vbo_size() + m_stroke * (m_mesh + 1);
+			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * (m_mesh + 1) + 0;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * (m_mesh + 1) + i + 1;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * (m_mesh + 1) + i + 2;
+				ibo_ptr[3 * i + 0] = vbo_index + 0;
+				ibo_ptr[3 * i + 1] = vbo_index + i + 1;
+				ibo_ptr[3 * i + 2] = vbo_index + i + 2;
 			}
 		}
 		void Arc::ibo_stroke_data(unsigned** ibo_data) const
 		{
+			//data
+			const unsigned vbo_index = m_vbo_index + Group::vbo_size();
+			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
+			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + i + 0;
-				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + i + 1;
+				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
+				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
 			}
 		}
 		void Arc::vbo_fill_data(vertices::Vertex* vbo_data) const
@@ -132,7 +140,7 @@ namespace canvas
 			//data
 			vec3 vertex_position;
 			const vec3 t2 = m_normal.cross(m_base);
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * (m_mesh + 1);
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + Group::vbo_size() + m_stroke * (m_mesh + 1);
 			//vbo data
 			for(unsigned i = 0; i <= m_mesh; i++)
 			{
@@ -140,18 +148,18 @@ namespace canvas
 				const float t = (m_angles[1] - m_angles[0]) * i / m_mesh + m_angles[0];
 				vertex_position = m_center + m_radius * (cosf(t) * m_base + sinf(t) * t2);
 				//vertices
-				(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
-				(vbo_fill_ptr + i + 1)->m_position = vertex_position;
+				(vbo_ptr + i + 1)->m_color = m_fill_colors[0];
+				(vbo_ptr + i + 1)->m_position = vertex_position;
 			}
-			vbo_fill_ptr->m_position = m_center;
-			vbo_fill_ptr->m_color = m_fill_colors[0];
+			vbo_ptr->m_position = m_center;
+			vbo_ptr->m_color = m_fill_colors[0];
 		}
 		void Arc::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			vec3 vertex_position;
 			const vec3 t2 = m_normal.cross(m_base);
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + Group::vbo_size();
 			//vbo data
 			for(unsigned i = 0; i <= m_mesh; i++)
 			{
@@ -159,8 +167,8 @@ namespace canvas
 				const float t = (m_angles[1] - m_angles[0]) * i / m_mesh + m_angles[0];
 				vertex_position = m_center + m_radius * (cosf(t) * m_base + sinf(t) * t2);
 				//vertices
-				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[0];
-				(vbo_stroke_ptr + i)->m_position = vertex_position;
+				(vbo_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + i)->m_position = vertex_position;
 			}
 		}
 		void Arc::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
@@ -171,6 +179,8 @@ namespace canvas
 			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
+			//group data
+			Group::buffers_data(vbo_data, ibo_data);
 		}
 	}
 }
