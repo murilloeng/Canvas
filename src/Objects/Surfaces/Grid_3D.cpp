@@ -17,8 +17,6 @@ namespace canvas
 		Grid_3D::Grid_3D(void) : m_mesh{10, 10, 10}
 		{
 			//setup
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
 			m_objects.push_back(new Grid_2D);
 			m_objects.push_back(new Grid_2D);
 			m_objects.push_back(new Grid_2D);

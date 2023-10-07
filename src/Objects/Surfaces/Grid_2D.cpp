@@ -14,8 +14,7 @@ namespace canvas
 		//constructors
 		Grid_2D::Grid_2D(void) : m_mesh{10, 10}
 		{
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -109,22 +108,22 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
-				(vbo_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = {x1[i], x2[i], 0.0f};
 			}
 			vbo_ptr += 4;
 			for(unsigned i = 0; i < n1 - 1; i++)
 			{
-				(vbo_ptr + 0 * (n1 - 1) + i)->m_color = m_stroke_colors[0];
-				(vbo_ptr + 1 * (n1 - 1) + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + 0 * (n1 - 1) + i)->m_color = m_color_stroke;
+				(vbo_ptr + 1 * (n1 - 1) + i)->m_color = m_color_stroke;
 				(vbo_ptr + 0 * (n1 - 1) + i)->m_position = {2.0f * (i + 1) / n1 - 1.0f, -1.0f, 0.0f};
 				(vbo_ptr + 1 * (n1 - 1) + i)->m_position = {2.0f * (i + 1) / n1 - 1.0f, +1.0f, 0.0f};
 			}
 			vbo_ptr += 2 * (n1 - 1);
 			for(unsigned i = 0; i < n2 - 1; i++)
 			{
-				(vbo_ptr + 0 * (n2 - 1) + i)->m_color = m_stroke_colors[0];
-				(vbo_ptr + 1 * (n2 - 1) + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + 0 * (n2 - 1) + i)->m_color = m_color_stroke;
+				(vbo_ptr + 1 * (n2 - 1) + i)->m_color = m_color_stroke;
 				(vbo_ptr + 0 * (n2 - 1) + i)->m_position = {-1.0f, 2.0f * (i + 1) / n2 - 1.0f, 0.0f};
 				(vbo_ptr + 1 * (n2 - 1) + i)->m_position = {+1.0f, 2.0f * (i + 1) / n2 - 1.0f, 0.0f};
 			}
@@ -140,7 +139,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
-				(vbo_ptr + i)->m_color = m_fill_colors[0];
+				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = {x1[i], x2[i], 0.0f};
 			}
 		}

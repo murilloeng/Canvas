@@ -14,8 +14,7 @@ namespace canvas
 		//constructors
 		Circle::Circle(void) : m_radius(0), m_center{0, 0, 0}, m_normal{0, 0, 1}
 		{
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -108,11 +107,11 @@ namespace canvas
 				const float t = 2 * M_PI * i / m_mesh;
 				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
 				//vertices
-				(vbo_fill_ptr + i + 1)->m_color = m_fill_colors[0];
+				(vbo_fill_ptr + i + 1)->m_color = m_color_fill;
 				(vbo_fill_ptr + i + 1)->m_position = vertex_position;
 			}
 			vbo_fill_ptr->m_position = m_center;
-			vbo_fill_ptr->m_color = m_fill_colors[0];
+			vbo_fill_ptr->m_color = m_color_fill;
 		}
 		void Circle::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
@@ -127,7 +126,7 @@ namespace canvas
 				const float t = 2 * M_PI * i / m_mesh;
 				vertex_position = m_center + m_radius * (cosf(t) * t1 + sinf(t) * t2);
 				//vertices
-				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_stroke_ptr + i)->m_color = m_color_stroke;
 				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
 		}

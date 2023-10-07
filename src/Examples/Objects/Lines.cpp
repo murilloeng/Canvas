@@ -2,6 +2,7 @@
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Line.hpp"
+#include "inc/Objects/Curves/Arrow.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"
@@ -13,21 +14,25 @@ namespace examples
 		void lines(canvas::Scene* scene)
 		{
 			//data
-			const unsigned n = 200;
-			const float s = 9.50e-01;
+			float s = 0.90f;
+			const unsigned n = 5;
+			canvas::objects::Line* line;
 			const float x1[] = {-1, +1, +1, -1};
 			const float x2[] = {-1, -1, +1, +1};
 			//objects
-			float s1 = 1, s2 = s;
 			for(unsigned i = 0; i < n; i++)
 			{
-				s1 *= s;
-				s2 *= s;
-				const unsigned i1 = (i + 0) % 4;
-				const unsigned i2 = (i + 1) % 4;
-				scene->add_object(canvas::objects::type::line);
-				((canvas::objects::Line*) scene->object(i))->point(0, {s1 * x1[i1], s1 * x2[i1], 0});
-				((canvas::objects::Line*) scene->object(i))->point(1, {s2 * x1[i2], s2 * x2[i2], 0});
+				for(unsigned j = 0; j < 4; j++)
+				{
+					line = new canvas::objects::Line;
+					line->point(0, {s * x1[(j + 0) % 4], s * x2[(j + 0) % 4], 0});
+					line->point(1, {s * x1[(j + 1) % 4], s * x2[(j + 1) % 4], 0});
+					line->add_arrow(0.50f, true);
+					line->arrow(0)->width(s / 10);
+					line->arrow(0)->height(s / 10);
+					scene->add_object(line);
+				}
+				s /= 2;
 			}
 		}
 	}

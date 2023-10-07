@@ -30,13 +30,6 @@ namespace canvas
 			objects::type type(void) const override;
 
 		private:
-			//buffers
-			unsigned vbo_size(void) const override;
-			unsigned ibo_size(unsigned) const override;
-
-			//draw
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
-
 			//data
 			vec3 m_points[2];
 		};

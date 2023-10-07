@@ -22,7 +22,7 @@ namespace examples
 				{
 					scene->add_object(canvas::objects::type::triangle);
 					((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
-					((canvas::objects::Triangle*) scene->object(n * i + j))->fill_color({0, 0, 1});
+					((canvas::objects::Triangle*) scene->object(n * i + j))->color_fill({0, 0, 1});
 					((canvas::objects::Triangle*) scene->object(n * i + j))->point(0, {-1, -1, 0});
 					((canvas::objects::Triangle*) scene->object(n * i + j))->point(1, {+1, -1, 0});
 					((canvas::objects::Triangle*) scene->object(n * i + j))->point(2, {+0, +1, 0});

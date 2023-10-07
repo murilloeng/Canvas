@@ -47,8 +47,15 @@ namespace canvas
 			virtual vec3 path_gradient(float) const = 0;
 
 		protected:
+			//sizes
+			unsigned vbo_size(void) const override;
+			unsigned ibo_size(unsigned) const override;
+
 			//buffers
+			void ibo_stroke_data(unsigned**) const;
+			void vbo_stroke_data(vertices::Vertex*) const;
 			void buffers_index(unsigned&, unsigned[]) override;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data
 			unsigned m_mesh;

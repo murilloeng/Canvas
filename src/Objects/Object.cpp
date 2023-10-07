@@ -48,41 +48,31 @@ namespace canvas
 			return m_stroke = stroke;
 		}
 
-		void Object::dot_color(const Color& dot_color)
+		Color Object::color_dot(void) const
 		{
-			for(Color& color : m_dot_colors)
-			{
-				color = dot_color;
-			}
+			return m_color_dot;
 		}
-		void Object::dot_color(const Color& dot_color, unsigned index)
+		Color Object::color_dot(const Color& color_dot)
 		{
-			m_dot_colors[index] = dot_color;
+			return m_color_dot = color_dot;
 		}
 
-		void Object::fill_color(const Color& fill_color)
+		Color Object::color_fill(void) const
 		{
-			for(Color& color : m_fill_colors)
-			{
-				color = fill_color;
-			}
+			return m_color_fill;
 		}
-		void Object::fill_color(const Color& fill_color, unsigned index)
+		Color Object::color_fill(const Color& color_fill)
 		{
-			m_fill_colors[index] = fill_color;
+			return m_color_fill = color_fill;
 		}
 
-		void Object::stroke_color(const Color& stroke_color)
+		Color Object::color_stroke(void) const
 		{
-			for(Color& color : m_stroke_colors)
-			{
-				color = stroke_color;
-			}
-			
+			return m_color_stroke;
 		}
-		void Object::stroke_color(const Color& stroke_color, unsigned index)
+		Color Object::color_stroke(const Color& color_stroke)
 		{
-			m_stroke_colors[index] = stroke_color;
+			return m_color_stroke = color_stroke;
 		}
 
 		//name

@@ -1,8 +1,5 @@
 #pragma once
 
-//std
-#include <vector>
-
 //canvas
 #include "inc/Math/mat4.hpp"
 #include "inc/Colors/Color.hpp"
@@ -44,14 +41,14 @@ namespace canvas
 			bool stroke(void) const;
 			virtual bool stroke(bool);
 
-			virtual void dot_color(const Color&);
-			virtual void dot_color(const Color&, unsigned);
+			Color color_dot(void) const;
+			virtual Color color_dot(const Color&);
 
-			virtual void fill_color(const Color&);
-			virtual void fill_color(const Color&, unsigned);
+			Color color_fill(void) const;
+			virtual Color color_fill(const Color&);
 
-			virtual void stroke_color(const Color&);
-			virtual void stroke_color(const Color&, unsigned);
+			Color color_stroke(void) const;
+			virtual Color color_stroke(const Color&);
 
 			//name
 			const char* name(void) const;
@@ -89,12 +86,12 @@ namespace canvas
 
 			mat4 m_affine;
 
+			Color m_color_dot;
+			Color m_color_fill;
+			Color m_color_stroke;
+
 			unsigned m_vbo_index;
 			unsigned m_ibo_index[3];
-
-			std::vector<Color> m_dot_colors;
-			std::vector<Color> m_fill_colors;
-			std::vector<Color> m_stroke_colors;
 
 			//friends
 			friend class Scene;

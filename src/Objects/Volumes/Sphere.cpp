@@ -38,8 +38,7 @@ namespace canvas
 		//constructors
 		Sphere::Sphere(void) : m_center{0, 0, 0}, m_radius(1.0f)
 		{
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -229,7 +228,7 @@ namespace canvas
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
-				(vbo_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + i)->m_color = m_color_stroke;
 			}
 			//positions
 			vbo_edges_data(vbo_ptr);
@@ -244,7 +243,7 @@ namespace canvas
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
-				(vbo_ptr + i)->m_color = m_fill_colors[0];
+				(vbo_ptr + i)->m_color = m_color_fill;
 			}
 			//positions
 			vbo_edges_data(vbo_ptr);

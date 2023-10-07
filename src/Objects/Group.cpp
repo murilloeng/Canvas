@@ -26,7 +26,7 @@ namespace canvas
 		{
 			for(Object* object : m_objects)
 			{
-				object->dot(dot);
+				object->m_dot = dot;
 			}
 			return m_dot = dot;
 		}
@@ -34,7 +34,7 @@ namespace canvas
 		{
 			for(Object* object : m_objects)
 			{
-				object->fill(fill);
+				object->m_fill = fill;
 			}
 			return m_fill = fill;
 		}
@@ -42,60 +42,34 @@ namespace canvas
 		{
 			for(Object* object : m_objects)
 			{
-				object->stroke(stroke);
+				object->m_stroke = stroke;
 			}
 			return m_stroke = stroke;
 		}
 
-		void Group::dot_color(const Color& dot_color)
+		Color Group::color_dot(const Color& color_dot)
 		{
 			for(Object* object : m_objects)
 			{
-				object->dot_color(dot_color);
+				object->m_color_dot = color_dot;
 			}
-			Object::dot_color(dot_color);
+			return m_color_dot = color_dot;
 		}
-		void Group::dot_color(const Color& dot_color, unsigned index)
+		Color Group::color_fill(const Color& color_fill)
 		{
 			for(Object* object : m_objects)
 			{
-				object->dot_color(dot_color, index);
+				object->m_color_fill = color_fill;
 			}
-			Object::dot_color(dot_color, index);
+			return m_color_fill = color_fill;
 		}
-
-		void Group::fill_color(const Color& fill_color)
+		Color Group::color_stroke(const Color& color_stroke)
 		{
 			for(Object* object : m_objects)
 			{
-				object->fill_color(fill_color);
+				object->m_color_stroke = color_stroke;
 			}
-			Object::fill_color(fill_color);
-		}
-		void Group::fill_color(const Color& fill_color, unsigned index)
-		{
-			for(Object* object : m_objects)
-			{
-				object->fill_color(fill_color, index);
-			}
-			Object::fill_color(fill_color, index);
-		}
-
-		void Group::stroke_color(const Color& stroke_color)
-		{
-			for(Object* object : m_objects)
-			{
-				object->stroke_color(stroke_color);
-			}
-			Object::stroke_color(stroke_color);
-		}
-		void Group::stroke_color(const Color& stroke_color, unsigned index)
-		{
-			for(Object* object : m_objects)
-			{
-				object->stroke_color(stroke_color, index);
-			}
-			Object::stroke_color(stroke_color, index);
+			return m_color_stroke = color_stroke;
 		}
 
 		//buffers

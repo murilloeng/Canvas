@@ -20,25 +20,20 @@ namespace canvas
 			virtual ~Group(void);
 
 			//data
-			bool dot(bool);
-			bool fill(bool);
-			bool stroke(bool);
+			bool dot(bool) override;
+			bool fill(bool) override;
+			bool stroke(bool) override;
 
-			void dot_color(const Color&);
-			void dot_color(const Color&, unsigned);
-
-			void fill_color(const Color&);
-			void fill_color(const Color&, unsigned);
-
-			void stroke_color(const Color&);
-			void stroke_color(const Color&, unsigned);
+			Color color_dot(const Color&) override;
+			Color color_fill(const Color&) override;
+			Color color_stroke(const Color&) override;
 
 		protected:
-			//buffers
+			//sizes
 			unsigned vbo_size(void) const override;
 			unsigned ibo_size(unsigned) const override;
 
-			//draw
+			//buffers
 			void vbo_affine(vertices::Vertex*) const;
 			void buffers_index(unsigned&, unsigned[]) override;
 			void buffers_data(vertices::Vertex*, unsigned**) const override;

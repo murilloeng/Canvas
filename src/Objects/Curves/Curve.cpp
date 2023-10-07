@@ -2,6 +2,7 @@
 #include <cmath>
 
 //canvas
+#include "inc/Vertices/Model.hpp"
 #include "inc/Objects/Curves/Arrow.hpp"
 #include "inc/Objects/Curves/Curve.hpp"
 
@@ -36,15 +37,8 @@ namespace canvas
 		{
 			//data
 			Arrow* arrow = new Arrow;
-			const vec3 t2 = path_normal(s);
-			const vec3 t1 = path_tangent(s);
-			const vec3 t3 = path_binormal(s);
-			const vec3 xp = path_position(s);
 			//arrow
-			arrow->point(xp);
 			arrow->parameter(s);
-			arrow->direction(0, t2);
-			arrow->direction(1, t3);
 			m_objects.push_back(arrow);
 		}
 		void Curve::remove_arrow(unsigned index)
@@ -124,6 +118,40 @@ namespace canvas
 		}
 
 		//buffers
+		unsigned Curve::vbo_size(void) const
+		{
+			return Group::vbo_size() + (m_mesh + 1) * m_stroke;
+		}
+		unsigned Curve::ibo_size(unsigned index) const
+		{
+			return Group::ibo_size(index) + m_mesh * (index == 1) * m_stroke;
+		}
+
+		//buffers
+		void Curve::ibo_stroke_data(unsigned** ibo_data) const
+		{
+			//data
+			unsigned vbo_index = m_vbo_index + Group::vbo_size();
+			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
+			//ibo data
+			for(unsigned i = 0; i < m_mesh; i++)
+			{
+				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
+				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
+			}
+		}
+		void Curve::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		{
+			//data
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + Group::vbo_size();
+			//vbo data
+			for(unsigned i = 0; i <= m_mesh; i++)
+			{
+				const float s = float(i) / m_mesh;
+				(vbo_ptr + i)->m_color = m_color_stroke;
+				(vbo_ptr + i)->m_position = path_position(s);
+			}
+		}
 		void Curve::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
 		{
 			for(Object* object : m_objects)
@@ -137,6 +165,12 @@ namespace canvas
 				}
 			}
 			Group::buffers_index(vbo_counter, ibo_counter);
+		}
+		void Curve::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		{
+			if(m_stroke) vbo_stroke_data(vbo_data);
+			if(m_stroke) ibo_stroke_data(ibo_data);
+			Group::buffers_data(vbo_data, ibo_data);
 		}
 	}
 }

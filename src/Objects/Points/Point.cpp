@@ -11,7 +11,7 @@ namespace canvas
 		//constructors
 		Point::Point(void) : m_position{0, 0, 0}
 		{
-			m_dot_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -54,8 +54,8 @@ namespace canvas
 			//ibo data
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index;
 			//vbo data
+			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_color_dot;
 			((vertices::Model*) vbo_data + m_vbo_index)->m_position = m_position;
-			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_dot_colors[0];
 		}
 	}
 }

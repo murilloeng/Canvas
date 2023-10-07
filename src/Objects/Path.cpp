@@ -27,7 +27,6 @@ namespace canvas
 		void Path::add_point(const vec3& point)
 		{
 			m_points.push_back(point);
-			m_stroke_colors.push_back(Color());
 		}
 		const std::vector<vec3>& Path::points(void) const
 		{
@@ -77,8 +76,8 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < m_points.size(); i++)
 			{
+				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = m_points[i];
-				(vbo_ptr + i)->m_color = m_stroke_colors[i];
 			}
 		}
 		void Path::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const

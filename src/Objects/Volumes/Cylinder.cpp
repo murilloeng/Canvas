@@ -14,8 +14,7 @@ namespace canvas
 		//constructors
 		Cylinder::Cylinder(void) : m_center{0.0f, 0.0f, 0.0f}, m_radius(1.0f), m_height(1.0f)
 		{
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -145,8 +144,8 @@ namespace canvas
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				const float t = 2 * M_PI * i / m_mesh;
-				(vbo_ptr + 0 * m_mesh + i)->m_color = m_stroke_colors[0];
-				(vbo_ptr + 1 * m_mesh + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + 0 * m_mesh + i)->m_color = m_color_stroke;
+				(vbo_ptr + 1 * m_mesh + i)->m_color = m_color_stroke;
 				(vbo_ptr + 0 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
 				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
@@ -161,13 +160,13 @@ namespace canvas
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				const float t = 2 * M_PI * i / m_mesh;
-				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_color = m_fill_colors[0];
-				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_color = m_fill_colors[0];
+				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_color = m_color_fill;
+				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_color = m_color_fill;
 				(vbo_ptr + 0 * (m_mesh + 1) + i + 1)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
 				(vbo_ptr + 1 * (m_mesh + 1) + i + 1)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
-			(vbo_ptr + 0 * (m_mesh + 1))->m_color = m_fill_colors[0];
-			(vbo_ptr + 1 * (m_mesh + 1))->m_color = m_fill_colors[0];
+			(vbo_ptr + 0 * (m_mesh + 1))->m_color = m_color_fill;
+			(vbo_ptr + 1 * (m_mesh + 1))->m_color = m_color_fill;
 			(vbo_ptr + 0 * (m_mesh + 1))->m_position = {0.0f, 0.0f, -m_height / 2};
 			(vbo_ptr + 1 * (m_mesh + 1))->m_position = {0.0f, 0.0f, +m_height / 2};
 		}

@@ -11,8 +11,7 @@ namespace canvas
 		//constructors
 		Triangle::Triangle(void) : m_points{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
 		{
-			m_fill_colors.resize(3);
-			m_stroke_colors.resize(3);
+			return;
 		}
 
 		//destructor
@@ -67,7 +66,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 3; i++)
 			{
-				(vbo_fill_ptr + i)->m_color = m_fill_colors[i];
+				(vbo_fill_ptr + i)->m_color = m_color_fill;
 				(vbo_fill_ptr + i)->m_position = m_points[i];
 			}
 		}
@@ -78,7 +77,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 3; i++)
 			{
-				(vbo_stroke_ptr + i)->m_color = m_stroke_colors[i];
+				(vbo_stroke_ptr + i)->m_color = m_color_stroke;
 				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
 		}

@@ -14,8 +14,7 @@ namespace canvas
 		//constructors
 		Arrow::Arrow(void) : m_sense(true), m_point{0, 0, 0}, m_width(0), m_height(0), m_directions{{0, 1, 0}, {0, 0, 1}}
 		{
-			m_fill_colors.resize(1);
-			m_stroke_colors.resize(1);
+			return;
 		}
 
 		//destructor
@@ -133,7 +132,7 @@ namespace canvas
 			(vbo_ptr + 4)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
 			for(unsigned i = 0; i < 5; i++)
 			{
-				(vbo_ptr + i)->m_color = m_stroke_colors[0];
+				(vbo_ptr + i)->m_color = m_color_stroke;
 			}
 		}
 		void Arrow::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const

@@ -32,7 +32,7 @@ namespace examples
 			force_1->arrow(0)->height(0.10f);
 			force_1->point(0, {4.50f, 0.00f, 0.00f});
 			force_1->point(1, {4.50f, 0.60f, 0.00f});
-			force_1->stroke_color({1.00f, 0.00f, 0.00f});
+			force_1->color_stroke({1.00f, 0.00f, 0.00f});
 			//moments
 			moment_1->fill(false);
 			moment_1->radius(0.40f);
@@ -42,7 +42,7 @@ namespace examples
 			moment_1->arrow(0)->width(0.10f);
 			moment_1->arrow(0)->height(0.10f);
 			moment_1->center({1.50f, 0.00f, 0.10f});
-			moment_1->stroke_color({1.00f, 0.00f, 0.00f});
+			moment_1->color_stroke({1.00f, 0.00f, 0.00f});
 			//scene
 			scene->add_object(beam);
 			scene->add_object(force_1);

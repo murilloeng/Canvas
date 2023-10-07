@@ -11,7 +11,6 @@ namespace canvas
 		//constructors
 		Spline::Spline(void)
 		{
-			m_stroke_colors.resize(1);
 			m_points.push_back({0, 0, 0});
 			m_points.push_back({0, 0, 0});
 			m_controls.push_back({0, 0, 0});
@@ -25,15 +24,6 @@ namespace canvas
 		}
 
 		//data
-		unsigned Spline::mesh(void)
-		{
-			return m_mesh;
-		}
-		unsigned Spline::mesh(unsigned mesh)
-		{
-			return m_mesh = mesh;
-		}
-
 		vec3 Spline::point(unsigned index) const
 		{
 			return m_points[index];
@@ -74,24 +64,36 @@ namespace canvas
 		//path
 		vec3 Spline::path_hessian(float s) const
 		{
-			return {0, 0, 0};
+			vec3 h;
+			const float t2 = s - unsigned(s);
+			const float t1 = 1 + unsigned(s) - s;
+			h += 6 * t1 * m_points[unsigned(s) + 0];
+			h += 6 * t2 * m_points[unsigned(s) + 1];
+			h -= 2 * (2 * t1 - t2) * m_controls[2 * unsigned(s) + 0];
+			h -= 2 * (2 * t2 - t1) * m_controls[2 * unsigned(s) + 1];
+			return h;
 		}
 		vec3 Spline::path_position(float s) const
 		{
 			vec3 p;
-			const unsigned np = m_points.size();
-			const unsigned ic = s * (np - 1);
-			const float t2 = s * (np - 1) - ic;
-			const float t1 = 1 - s * (np - 1) + ic;
-			p += t1 * t1 * t1 * m_points[ic - 1];
-			p += t2 * t2 * t2 * m_points[ic + 0];
-			p += t1 * t1 * t2 * m_points[2 * ic - 2];
-			p += t1 * t2 * t2 * m_points[2 * ic - 1];
+			const float t2 = s - unsigned(s);
+			const float t1 = 1 +unsigned(s) - s;
+			p += t1 * t1 * t1 * m_points[unsigned(s) + 0];
+			p += t2 * t2 * t2 * m_points[unsigned(s) + 1];
+			p += t1 * t1 * t2 * m_controls[2 * unsigned(s) + 0];
+			p += t1 * t2 * t2 * m_controls[2 * unsigned(s) + 1];
 			return p;
 		}
-		vec3 Spline::path_gradient(float) const
+		vec3 Spline::path_gradient(float s) const
 		{
-			return {0, 0, 0};
+			vec3 g;
+			const float t2 = s - unsigned(s);
+			const float t1 = 1 + unsigned(s) - s;
+			g -= 3 * t1 * t1 * m_points[unsigned(s) + 0];
+			g += 3 * t2 * t2 * m_points[unsigned(s) + 1];
+			g -= (2 * t2 - t1) * t1 * m_controls[2 * unsigned(s) + 0];
+			g += (2 * t1 - t2) * t2 * m_controls[2 * unsigned(s) + 1];
+			return g;
 		}
 
 		//type
@@ -99,66 +101,5 @@ namespace canvas
 		{
 			return objects::type::spline;
 		}
-
-		//buffers
-		unsigned Spline::vbo_size(void) const
-		{
-			const unsigned nm = m_mesh;
-			const unsigned np = m_points.size();
-			return (np * nm - nm + 1) * m_stroke;
-		}
-		unsigned Spline::ibo_size(unsigned index) const
-		{
-			const unsigned nm = m_mesh;
-			const unsigned np = m_points.size();
-			return nm * (np - 1) * (index == 1) * m_stroke;
-		}
-
-		//draw
-		void Spline::ibo_stroke_data(unsigned** ibo_data) const
-		{
-			//data
-			const unsigned nm = m_mesh;
-			const unsigned np = m_points.size();
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
-			//ibo data
-			for(unsigned i = 0; i < nm * (np - 1); i++)
-			{
-				ibo_ptr[2 * i + 0] = m_vbo_index + i + 0;
-				ibo_ptr[2 * i + 1] = m_vbo_index + i + 1;
-			}
-		}
-		void Spline::vbo_stroke_data(vertices::Vertex* vbo_data) const
-		{
-			//data
-			const unsigned nm = m_mesh;
-			const unsigned np = m_points.size();
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index;
-			//vbo data
-			for(unsigned i = 1; i < np; i++)
-			{
-				for(unsigned j = 1; j <= nm; j++)
-				{
-					const float t2 = float(j) / nm;
-					const float t1 = 1 - float(j) / nm;
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_position = {0, 0, 0};
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_color = m_stroke_colors[0];
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_position += t1 * t1 * t1 * m_points[i - 1];
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_position += t2 * t2 * t2 * m_points[i + 0];
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_position += 3 * t1 * t1 * t2 * m_controls[2 * i - 2];
-					(vbo_stroke_ptr + nm * (i - 1) + j)->m_position += 3 * t1 * t2 * t2 * m_controls[2 * i - 1];
-				}
-			}
-			vbo_stroke_ptr->m_position = m_points[0];
-			vbo_stroke_ptr->m_color = m_stroke_colors[0];
-		}
-		void Spline::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
-		{
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
-		}
-
-		//static
-		unsigned Spline::m_mesh = 60;
 	}
 }

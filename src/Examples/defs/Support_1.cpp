@@ -11,8 +11,6 @@ namespace examples
 	Support_1::Support_1(float size) : m_size(size)
 	{
 		//objects
-		m_fill_colors.resize(1);
-		m_stroke_colors.resize(1);
 		m_objects.push_back(new canvas::objects::Line);
 		m_objects.push_back(new canvas::objects::Triangle);
 		//setup
@@ -47,8 +45,8 @@ namespace examples
 	void Support_1::update_objects(void)
 	{
 		//cleanup
-		fill_color("gray");
-		stroke_color({0, 0, 0});
+		color_fill("gray");
+		color_stroke({0, 0, 0});
 		//triangle
 		const float a1 = 4 * M_PI / 3;
 		const float a2 = 5 * M_PI / 3;

@@ -12,8 +12,6 @@ namespace examples
 	Beam::Beam(float length, float height) : m_length(length), m_height(height)
 	{
 		//objects
-		m_fill_colors.resize(1);
-		m_stroke_colors.resize(1);
 		m_objects.push_back(new canvas::objects::Arc);
 		m_objects.push_back(new canvas::objects::Arc);
 		m_objects.push_back(new canvas::objects::Line);
@@ -62,8 +60,8 @@ namespace examples
 	void Beam::update_objects(void)
 	{
 		//cleanup
-		fill_color({0, 0, 1});
-		stroke_color({0, 0, 0});
+		color_fill({0, 0, 1});
+		color_stroke({0, 0, 0});
 		for(canvas::objects::Object* object : m_objects)
 		{
 			object->affine(canvas::mat4());

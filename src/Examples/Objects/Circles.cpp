@@ -22,8 +22,8 @@ namespace examples
 				{
 					scene->add_object(canvas::objects::type::circle);
 					((canvas::objects::Circle*) scene->object(n * i + j))->radius(0.9 * r);
-					((canvas::objects::Circle*) scene->object(n * i + j))->fill_color({0, 0, 1});
-					((canvas::objects::Circle*) scene->object(n * i + j))->stroke_color({1, 1, 1});
+					((canvas::objects::Circle*) scene->object(n * i + j))->color_fill({0, 0, 1});
+					((canvas::objects::Circle*) scene->object(n * i + j))->color_stroke({1, 1, 1});
 					((canvas::objects::Circle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 				}
 			}

@@ -21,9 +21,6 @@ namespace canvas
 			~Spline(void);
 
 			//data
-			static unsigned mesh(void);
-			static unsigned mesh(unsigned);
-
 			vec3 point(unsigned) const;
 			vec3 point(unsigned, const vec3&);
 
@@ -43,17 +40,7 @@ namespace canvas
 			objects::type type(void) const override;
 
 		private:
-			//buffers
-			unsigned vbo_size(void) const override;
-			unsigned ibo_size(unsigned) const override;
-
-			//draw
-			void ibo_stroke_data(unsigned**) const;
-			void vbo_stroke_data(vertices::Vertex*) const;
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
-
 			//data
-			static unsigned m_mesh;
 			std::vector<vec3> m_points;
 			std::vector<vec3> m_controls;
 		};

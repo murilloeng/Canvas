@@ -23,8 +23,7 @@ namespace canvas
 		//constructors
 		Cube::Cube(void) : m_sizes{1.0f, 1.0f, 1.0f}, m_center{0.0f, 0.0f, 0.0f}
 		{
-			m_fill_colors.resize(8);
-			m_stroke_colors.resize(8);
+			return;
 		}
 
 		//destructor
@@ -132,7 +131,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
-				(vbo_ptr + i)->m_color = m_stroke_colors[i];
+				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}
@@ -144,7 +143,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
-				(vbo_ptr + i)->m_color = m_fill_colors[i];
+				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}

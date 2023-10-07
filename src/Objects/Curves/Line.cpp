@@ -12,7 +12,6 @@ namespace canvas
 		Line::Line(void) : m_points{{0, 0, 0}, {0, 0, 0}}
 		{
 			m_mesh = 1;
-			m_stroke_colors.resize(2);
 		}
 
 		//destructor
@@ -49,35 +48,6 @@ namespace canvas
 		objects::type Line::type(void) const
 		{
 			return objects::type::line;
-		}
-
-		//buffers
-		unsigned Line::vbo_size(void) const
-		{
-			return Group::vbo_size() + 2 * m_stroke;
-		}
-		unsigned Line::ibo_size(unsigned index) const
-		{
-			return Group::ibo_size(index) + (index == 1) * m_stroke;
-		}
-
-		//draw
-		void Line::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
-		{
-			//group
-			const unsigned nv = Group::vbo_size();
-			const unsigned nl = Group::ibo_size(1);
-			Group::buffers_data(vbo_data, ibo_data);
-			//buffers
-			if(m_stroke)
-			{
-				for(unsigned i = 0; i < 2; i++)
-				{
-					ibo_data[1][m_ibo_index[1] + 2 * nl + i] = m_vbo_index + nv + i;
-					((vertices::Model*) vbo_data + m_vbo_index + nv + i)->m_position = m_points[i];
-					((vertices::Model*) vbo_data + m_vbo_index + nv + i)->m_color = m_stroke_colors[i];
-				}
-			}
 		}
 	}
 }

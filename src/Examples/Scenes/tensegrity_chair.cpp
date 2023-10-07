@@ -32,15 +32,15 @@ namespace examples
 			rigid_top->radius(Rr);
 			rigid_base->height(tr);
 			rigid_base->radius(Rr);
-			rigid_top->fill_color({0, 0, 1});
-			rigid_base->fill_color({0, 0, 1});
+			rigid_top->color_fill({0, 0, 1});
+			rigid_base->color_fill({0, 0, 1});
 			rigid_base->shift({0, 0, tr / 2});
 			rigid_top->shift({0, 0, Ht + 3 * tr / 2});
 			//links
-			link_3->fill_color({0, 0, 1});
-			link_4->fill_color({0, 0, 1});
-			link_1->fill_color({0, 0, 1});
-			link_2->fill_color({0, 0, 1});
+			link_3->color_fill({0, 0, 1});
+			link_4->color_fill({0, 0, 1});
+			link_1->color_fill({0, 0, 1});
+			link_2->color_fill({0, 0, 1});
 			link_4->sizes({e - tc / 2, tc, tc});
 			link_2->sizes({e - tc / 2, tc, tc});
 			link_3->sizes({tc, tc, Hr + tc / 2});
@@ -62,7 +62,7 @@ namespace examples
 					cables[i].point(0, {Rr * cosf(2 * M_PI * i / nc), Rr * sinf(2 * M_PI * i / nc), tr});
 					cables[i].point(1, {Rr * cosf(2 * M_PI * i / nc), Rr * sinf(2 * M_PI * i / nc), Ht + tr});
 				}
-				cables[i].stroke_color({0, 1, 0});
+				cables[i].color_stroke({0, 1, 0});
 			}
 			//scene
 			scene->add_object(rigid_top);
