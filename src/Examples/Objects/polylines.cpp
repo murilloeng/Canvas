@@ -37,8 +37,8 @@ namespace examples
 			for(unsigned i = 0; i < 12; i++)
 			{
 				polyline->add_arrow(i + 0.5f, true);
-				polyline->arrow(i)->width(5.00e-03);
-				polyline->arrow(i)->height(5.00e-03);
+				polyline->arrow(i)->width(2.50e-03);
+				polyline->arrow(i)->height(2.50e-03);
 			}
 			//scene
 			scene->add_object(polyline);
