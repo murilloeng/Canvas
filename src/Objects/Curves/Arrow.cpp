@@ -12,7 +12,9 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Arrow::Arrow(void) : m_sense(true), m_point{0, 0, 0}, m_width(0), m_height(0), m_directions{{0, 1, 0}, {0, 0, 1}}
+		Arrow::Arrow(void) : 
+			m_sense(true), m_point{0.0f, 0.0f, 0.0f}, 
+			m_width(0.1f), m_height(0.1f), m_directions{{0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}
 		{
 			return;
 		}

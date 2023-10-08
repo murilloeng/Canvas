@@ -29,7 +29,16 @@ namespace canvas
 			//type
 			objects::type type(void) const override;
 
-		private:
+		protected:
+			//sizes
+			unsigned vbo_size(void) const override;
+			unsigned ibo_size(unsigned) const override;
+
+			//buffers
+			void ibo_stroke_data(unsigned**) const override;
+			void vbo_stroke_data(vertices::Vertex*) const override;
+			void buffers_data(vertices::Vertex*, unsigned**) const override;
+
 			//data
 			vec3 m_points[2];
 		};

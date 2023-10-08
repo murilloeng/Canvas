@@ -5,23 +5,29 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Curves/Curve.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Path : public Object
+		class Polyline : public Curve
 		{
 		public:
 			//constructors
-			Path(void);
+			Polyline(void);
 
 			//destructor
-			~Path(void);
+			~Polyline(void);
+
+			//path
+			float path_max(void) const override;
+			vec3 path_hessian(float) const override;
+			vec3 path_position(float) const override;
+			vec3 path_gradient(float) const override;
 
 			//data
-			void add_point(const vec3&);
+			std::vector<vec3>& points(void);
 			const std::vector<vec3>& points(void) const;
 
 			//type
@@ -33,10 +39,8 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
-			void vbo_fill_data(vertices::Vertex*) const;
-			void vbo_stroke_data(vertices::Vertex*) const;
+			void ibo_stroke_data(unsigned**) const override;
+			void vbo_stroke_data(vertices::Vertex*) const override;
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data

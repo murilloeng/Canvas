@@ -13,7 +13,6 @@
 #include "inc/Vertices/Model.hpp"
 
 #include "inc/Objects/Type.hpp"
-#include "inc/Objects/Path.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Curves/Arc.hpp"
 #include "inc/Objects/Curves/Line.hpp"
@@ -226,9 +225,6 @@ namespace canvas
 			break;
 		case objects::type::quad:
 			m_objects.push_back(new objects::Quad);
-			break;
-		case objects::type::path:
-			m_objects.push_back(new objects::Path);
 			break;
 		case objects::type::point:
 			m_objects.push_back(new objects::Point);

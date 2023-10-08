@@ -18,6 +18,7 @@ namespace examples
 			const float s = 5.00e-01;
 			canvas::objects::Spline* spline = new canvas::objects::Spline;
 			//spline
+			spline->mesh(100);
 			spline->point(0, {+r, 0, 0});
 			spline->point(1, {0, +r, 0});
 			spline->add_point({-r, 0, 0});

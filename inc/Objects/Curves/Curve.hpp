@@ -53,9 +53,9 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//buffers
-			void ibo_stroke_data(unsigned**) const;
-			void vbo_stroke_data(vertices::Vertex*) const;
-			void buffers_index(unsigned&, unsigned[]) override;
+			virtual void ibo_stroke_data(unsigned**) const;
+			virtual void vbo_stroke_data(vertices::Vertex*) const;
+			virtual void buffers_index(unsigned&, unsigned[]) override;
 			void buffers_data(vertices::Vertex*, unsigned**) const override;
 
 			//data

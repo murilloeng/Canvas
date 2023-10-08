@@ -28,13 +28,13 @@ scene_fun tests[] = {
 	examples::objects::cubes,
 	examples::objects::lines,
 	examples::objects::quads,
-	examples::objects::paths,
 	examples::objects::points,
 	examples::objects::circles,
 	examples::objects::spheres,
 	examples::objects::splines,
 	examples::objects::grid_2D,
 	examples::objects::grid_3D,
+	examples::objects::polylines,
 	examples::objects::triangles,
 	examples::objects::cylinders
 };
@@ -45,7 +45,7 @@ void setup(void)
 	//create
 	scene = new canvas::Scene;
 	//example
-	examples::objects::splines(scene);
+	examples::objects::polylines(scene);
 	// examples::scenes::beam_1(scene);
 	//update
 	scene->update(true);

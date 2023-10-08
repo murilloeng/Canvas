@@ -33,12 +33,13 @@ namespace canvas
 		}
 
 		//arrows
-		void Curve::add_arrow(float s, bool inversed)
+		void Curve::add_arrow(float s, bool sense)
 		{
 			//data
 			Arrow* arrow = new Arrow;
 			//arrow
 			arrow->parameter(s);
+			arrow->sense(sense);
 			m_objects.push_back(arrow);
 		}
 		void Curve::remove_arrow(unsigned index)
@@ -121,7 +122,7 @@ namespace canvas
 			return path_tangent(s).cross(path_normal(s));
 		}
 
-		//buffers
+		//sizes
 		unsigned Curve::vbo_size(void) const
 		{
 			return Group::vbo_size() + (m_mesh + 1) * m_stroke;
