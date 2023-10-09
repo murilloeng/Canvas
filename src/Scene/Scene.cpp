@@ -9,8 +9,8 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 
-#include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
+#include "inc/Vertices/Texture.hpp"
 
 #include "inc/Objects/Type.hpp"
 #include "inc/Objects/Object.hpp"
@@ -87,11 +87,19 @@ namespace canvas
 
 	void Scene::box_min(float x1_min, float x2_min, float x3_min)
 	{
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), x1_min, x2_min, x3_min);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform3f(glGetUniformLocation(m_program_id[i], "box_min"), x1_min, x2_min, x3_min);
+		}
 	}
 	void Scene::box_max(float x1_max, float x2_max, float x3_max)
 	{
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), x1_max, x2_max, x3_max);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform3f(glGetUniformLocation(m_program_id[i], "box_max"), x1_max, x2_max, x3_max);
+		}
 	}
 
 	objects::Object* Scene::object(unsigned index) const
@@ -142,8 +150,12 @@ namespace canvas
 			}
 		}
 		//shader
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_min"), m_box_min[0], m_box_min[1], m_box_min[2]);
-		glUniform3f(glGetUniformLocation(m_program_id[0], "box_max"), m_box_max[0], m_box_max[1], m_box_max[2]);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform3f(glGetUniformLocation(m_program_id[i], "box_min"), m_box_min[0], m_box_min[1], m_box_min[2]);
+			glUniform3f(glGetUniformLocation(m_program_id[i], "box_max"), m_box_max[0], m_box_max[1], m_box_max[2]);
+		}
 	}
 	void Scene::update(bool bound)
 	{
@@ -291,7 +303,11 @@ namespace canvas
 		m_screen[0] = width;
 		m_screen[1] = height;
 		glViewport(0, 0, width, height);
-		glUniform2ui(glGetUniformLocation(m_program_id[0], "screen"), width, height);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform2ui(glGetUniformLocation(m_program_id[i], "screen"), width, height);
+		}
 	}
 	void Scene::callback_wheel(int direction, int x1, int x2)
 	{
@@ -395,14 +411,14 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (4 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Texture), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Texture), (unsigned*) (4 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Texture), (unsigned*) (7 * sizeof(float)));
 	}
 	void Scene::setup_shaders(void)
 	{
-		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
+		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/texture.vert", "shd/texture.frag");
 		glUseProgram(m_program_id[0]);
 	}
 
@@ -413,7 +429,11 @@ namespace canvas
 	}
 	float Scene::zoom(float zoom)
 	{
-		glUniform1f(glGetUniformLocation(m_program_id[0], "zoom"), zoom);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform1f(glGetUniformLocation(m_program_id[i], "zoom"), zoom);
+		}
 		return m_zoom = zoom;
 	}
 
@@ -423,7 +443,11 @@ namespace canvas
 	}
 	vec3 Scene::shift(const vec3& shift)
 	{
-		glUniform3f(glGetUniformLocation(m_program_id[0], "shift"), shift[0], shift[1], shift[2]);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform3f(glGetUniformLocation(m_program_id[i], "shift"), shift[0], shift[1], shift[2]);
+		}
 		return m_shift = shift;
 	}
 
@@ -466,7 +490,11 @@ namespace canvas
 	}
 	quat Scene::rotation(const quat& rotation)
 	{
-		glUniform4f(glGetUniformLocation(m_program_id[0], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			glUseProgram(m_program_id[i]);
+			glUniform4f(glGetUniformLocation(m_program_id[i], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
+		}
 		return m_rotation = rotation;
 	}
 

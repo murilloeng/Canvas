@@ -9,14 +9,14 @@ namespace canvas
 {
 	namespace vertices
 	{
-		class Text : public Vertex
+		class Texture : public Vertex
 		{
 		public:
 			//constructor
-			Text(void);
+			Texture(void);
 
 			//destructor
-			~Text(void);
+			~Texture(void);
 
 			//data
 			Color m_color;
