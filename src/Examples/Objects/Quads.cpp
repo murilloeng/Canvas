@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Quad.hpp"
 
 //examples
@@ -20,7 +19,7 @@ namespace examples
 			{
 				for(unsigned j = 0; j < n; j++)
 				{
-					scene->add_object(canvas::objects::type::quad);
+					scene->add_object(new canvas::objects::Quad);
 					((canvas::objects::Quad*) scene->object(n * i + j))->color_fill({0, 0, 1});
 					((canvas::objects::Quad*) scene->object(n * i + j))->color_stroke({1, 1, 1});
 					((canvas::objects::Quad*) scene->object(n * i + j))->point(0, {(j + 0) * s - 1, (i + 0) * s - 1, 0});

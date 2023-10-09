@@ -15,7 +15,6 @@ namespace canvas
 	namespace objects
 	{
 		class Object;
-		enum class type : unsigned;
 	}
 	namespace vertices
 	{
@@ -52,7 +51,6 @@ namespace canvas
 
 		//objects
 		void clear_objects(void);
-		void add_object(objects::type);
 		void add_object(objects::Object*);
 
 		//callbacks

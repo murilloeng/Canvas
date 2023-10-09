@@ -4,7 +4,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Grid_2D.hpp"
 
 namespace canvas
@@ -31,12 +30,6 @@ namespace canvas
 		unsigned Grid_2D::mesh(unsigned index, unsigned mesh)
 		{
 			return m_mesh[index] = mesh;
-		}
-
-		//type
-		objects::type Grid_2D::type(void) const
-		{
-			return objects::type::grid_2D;
 		}
 
 		//buffers

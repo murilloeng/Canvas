@@ -1,5 +1,4 @@
 //canvas
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Arc.hpp"
 #include "inc/Objects/Curves/Line.hpp"
 #include "inc/Objects/Surfaces/Quad.hpp"
@@ -48,12 +47,6 @@ namespace examples
 		m_length = length;
 		update_objects();
 		return m_length;
-	}
-
-	//type
-	canvas::objects::type Beam::type(void) const
-	{
-		return canvas::objects::type::user;
 	}
 
 	//update

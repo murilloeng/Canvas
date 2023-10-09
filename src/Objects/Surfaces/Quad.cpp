@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Quad.hpp"
 
 namespace canvas
@@ -28,12 +27,6 @@ namespace canvas
 		vec3 Quad::point(unsigned index, const vec3& position)
 		{
 			return m_points[index] = position;
-		}
-
-		//type
-		objects::type Quad::type(void) const
-		{
-			return objects::type::quad;
 		}
 
 		//buffers

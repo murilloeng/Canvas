@@ -4,7 +4,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Circle.hpp"
 
 namespace canvas
@@ -58,12 +57,6 @@ namespace canvas
 		unsigned Circle::mesh(unsigned mesh)
 		{
 			return m_mesh = mesh;
-		}
-
-		//type
-		objects::type Circle::type(void) const
-		{
-			return objects::type::circle;
 		}
 
 		//buffers

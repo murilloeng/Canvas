@@ -12,7 +12,6 @@
 #include "inc/Vertices/Model.hpp"
 #include "inc/Vertices/Texture.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Object.hpp"
 #include "inc/Objects/Curves/Arc.hpp"
 #include "inc/Objects/Curves/Line.hpp"
@@ -221,50 +220,6 @@ namespace canvas
 			delete object;
 		}
 		m_objects.clear();
-	}
-	void Scene::add_object(objects::type type)
-	{
-		switch(type)
-		{
-		case objects::type::arc:
-			m_objects.push_back(new objects::Arc);
-			break;
-		case objects::type::cube:
-			m_objects.push_back(new objects::Cube);
-			break;
-		case objects::type::line:
-			m_objects.push_back(new objects::Line);
-			break;
-		case objects::type::quad:
-			m_objects.push_back(new objects::Quad);
-			break;
-		case objects::type::point:
-			m_objects.push_back(new objects::Point);
-			break;
-		case objects::type::circle:
-			m_objects.push_back(new objects::Circle);
-			break;
-		case objects::type::sphere:
-			m_objects.push_back(new objects::Sphere);
-			break;
-		case objects::type::spline:
-			m_objects.push_back(new objects::Spline);
-			break;
-		case objects::type::grid_2D:
-			m_objects.push_back(new objects::Grid_2D);
-			break;
-		case objects::type::grid_3D:
-			m_objects.push_back(new objects::Grid_3D);
-			break;
-		case objects::type::triangle:
-			m_objects.push_back(new objects::Triangle);
-			break;
-		case objects::type::cylinder:
-			m_objects.push_back(new objects::Cylinder);
-			break;
-		default:
-			break;
-		}
 	}
 	void Scene::add_object(objects::Object* object)
 	{

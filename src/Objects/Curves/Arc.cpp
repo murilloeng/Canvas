@@ -4,7 +4,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Arc.hpp"
 
 namespace canvas
@@ -90,12 +89,6 @@ namespace canvas
 			const vec3 t2 = m_normal.cross(m_base);
 			const float t = m_angles[0] + s * (m_angles[1] - m_angles[0]);
 			return m_radius * (m_angles[1] - m_angles[0]) * (cosf(t) * t2 - sinf(t) * t1);
-		}
-
-		//type
-		objects::type Arc::type(void) const
-		{
-			return objects::type::arc;
 		}
 	}
 }

@@ -24,9 +24,6 @@ namespace canvas
 			vec3 center(void) const;
 			vec3 center(const vec3&);
 
-			//type
-			objects::type type(void) const override;
-
 		private:
 			//buffers
 			unsigned vbo_size(void) const override;

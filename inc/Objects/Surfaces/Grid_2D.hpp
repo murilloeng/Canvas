@@ -28,9 +28,6 @@ namespace canvas
 			unsigned mesh(unsigned) const;
 			unsigned mesh(unsigned, unsigned);
 
-			//type
-			objects::type type(void) const override;
-
 		private:
 			//buffers
 			unsigned vbo_size(void) const override;

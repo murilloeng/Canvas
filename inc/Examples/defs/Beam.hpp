@@ -21,9 +21,6 @@ namespace examples
 		float length(float);
 		float length(void) const;
 
-		//type
-		canvas::objects::type type(void) const override;
-
 	private:
 		//update
 		void update_objects(void);

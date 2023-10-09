@@ -4,7 +4,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Polyline.hpp"
 
 namespace canvas
@@ -53,12 +52,6 @@ namespace canvas
 		const std::vector<vec3>& Polyline::points(void) const
 		{
 			return m_points;
-		}
-
-		//type
-		objects::type Polyline::type(void) const
-		{
-			return objects::type::line;
 		}
 
 		//buffers

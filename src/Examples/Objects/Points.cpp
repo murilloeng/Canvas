@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Points/Point.hpp"
 
 //examples
@@ -20,7 +19,7 @@ namespace examples
 			{
 				for(unsigned j = 0; j < n; j++)
 				{
-					scene->add_object(canvas::objects::type::point);
+					scene->add_object(new canvas::objects::Point);
 					((canvas::objects::Point*) scene->object(n * i + j))->position({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 				}
 			}

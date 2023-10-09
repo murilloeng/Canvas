@@ -26,9 +26,6 @@ namespace canvas
 			vec3 path_position(float) const override;
 			vec3 path_gradient(float) const override;
 
-			//type
-			objects::type type(void) const override;
-
 		protected:
 			//sizes
 			unsigned vbo_size(void) const override;

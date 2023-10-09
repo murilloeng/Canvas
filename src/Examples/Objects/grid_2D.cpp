@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Grid_2D.hpp"
 
 //examples
@@ -22,7 +21,7 @@ namespace examples
 				{
 					const float x1 = 2 * j * s - 1 + s;
 					const float x2 = 2 * i * s - 1 + s;
-					scene->add_object(canvas::objects::type::grid_2D);
+					scene->add_object(new canvas::objects::Grid_2D);
 					((canvas::objects::Grid_2D*) scene->object(n * i + j))->scale(0.5 * s);
 					((canvas::objects::Grid_2D*) scene->object(n * i + j))->shift({x1, x2, 0});
 					((canvas::objects::Grid_2D*) scene->object(n * i + j))->color_fill({0, 0, 1});

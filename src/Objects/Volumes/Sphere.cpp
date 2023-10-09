@@ -5,7 +5,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Volumes/Sphere.hpp"
 
 //static data
@@ -73,12 +72,6 @@ namespace canvas
 		unsigned Sphere::mesh(unsigned mesh)
 		{
 			return m_mesh = mesh;
-		}
-
-		//type
-		objects::type Sphere::type(void) const
-		{
-			return objects::type::sphere;
 		}
 
 		//buffers

@@ -5,7 +5,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Grid_2D.hpp"
 #include "inc/Objects/Surfaces/Grid_3D.hpp"
 
@@ -45,12 +44,6 @@ namespace canvas
 			((Grid_2D*) m_objects[(index + 0) % 3])->mesh(0, mesh);
 			((Grid_2D*) m_objects[(index + 2) % 3])->mesh(1, mesh);
 			return m_mesh[index] = mesh;
-		}
-
-		//type
-		objects::type Grid_3D::type(void) const
-		{
-			return objects::type::grid_3D;
 		}
 	}
 }

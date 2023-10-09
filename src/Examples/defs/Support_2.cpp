@@ -1,5 +1,4 @@
 //canvas
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Line.hpp"
 #include "inc/Objects/Surfaces/Triangle.hpp"
 
@@ -39,12 +38,6 @@ namespace examples
 		m_size = size;
 		update_objects();
 		return m_size;
-	}
-
-	//type
-	canvas::objects::type Support_2::type(void) const
-	{
-		return canvas::objects::type::user;
 	}
 
 	//update

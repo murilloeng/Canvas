@@ -178,7 +178,7 @@ int main(int argc, char** argv)
 	//setup
 	setup();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutMouseFunc(callback_mouse);
 	glutMotionFunc(callback_motion);
 	glutDisplayFunc(callback_display);

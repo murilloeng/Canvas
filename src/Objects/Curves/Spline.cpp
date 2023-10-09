@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Spline.hpp"
 
 namespace canvas
@@ -113,12 +112,6 @@ namespace canvas
 			g += 3 * (2 * t1 - t2) * t2 * m_controls[2 * k + 1];
 			//return
 			return g;
-		}
-
-		//type
-		objects::type Spline::type(void) const
-		{
-			return objects::type::spline;
 		}
 	}
 }

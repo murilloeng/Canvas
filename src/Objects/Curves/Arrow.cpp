@@ -4,7 +4,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Arrow.hpp"
 
 namespace canvas
@@ -78,12 +77,6 @@ namespace canvas
 		vec3 Arrow::direction(unsigned index, const vec3& direction)
 		{
 			return m_directions[index] = direction;
-		}
-
-		//type
-		objects::type Arrow::type(void) const
-		{
-			return objects::type::arrow;
 		}
 
 		//buffers

@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Curves/Line.hpp"
 
 namespace canvas
@@ -42,12 +41,6 @@ namespace canvas
 		vec3 Line::path_gradient(float s) const
 		{
 			return m_points[1] - m_points[0];
-		}
-
-		//type
-		objects::type Line::type(void) const
-		{
-			return objects::type::line;
 		}
 
 		//sizes

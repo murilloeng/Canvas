@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Object.hpp"
 
 namespace canvas
@@ -73,44 +72,6 @@ namespace canvas
 		Color Object::color_stroke(const Color& color_stroke)
 		{
 			return m_color_stroke = color_stroke;
-		}
-
-		//name
-		const char* Object::name(void) const
-		{
-			return Object::name(type());
-		}
-		const char* Object::name(objects::type type)
-		{
-			switch(type)
-			{
-			case type::arc:
-				return "Arc";
-			case type::cube:
-				return "Cube";
-			case type::line:
-				return "Line";
-			case type::quad:
-				return "Quad";
-			case type::path:
-				return "Path";
-			case type::point:
-				return "Point";
-			case type::circle:
-				return "Circle";
-			case type::triangle:
-				return "Triangle";
-			case type::sphere:
-				return "Sphere";
-			case type::grid_2D:
-				return "Grid 2D";
-			case type::grid_3D:
-				return "Grid 3D";
-			case type::cylinder:
-				return "Cylinder";
-			default:
-				return "Error";
-			}
 		}
 
 		//affine

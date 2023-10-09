@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Triangle.hpp"
 
 //examples
@@ -20,7 +19,7 @@ namespace examples
 			{
 				for(unsigned j = 0; j < n; j++)
 				{
-					scene->add_object(canvas::objects::type::triangle);
+					scene->add_object(new canvas::objects::Triangle);
 					((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
 					((canvas::objects::Triangle*) scene->object(n * i + j))->color_fill({0, 0, 1});
 					((canvas::objects::Triangle*) scene->object(n * i + j))->point(0, {-1, -1, 0});

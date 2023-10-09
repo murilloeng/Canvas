@@ -18,9 +18,6 @@ namespace examples
 		float size(unsigned) const;
 		float size(unsigned, float);
 
-		//type
-		canvas::objects::type type(void) const override;
-
 	private:
 		//update
 		void update_objects(void);

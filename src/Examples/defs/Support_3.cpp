@@ -1,5 +1,4 @@
 //canvas
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Quad.hpp"
 
 #include "inc/Examples/defs/Support_3.hpp"
@@ -31,12 +30,6 @@ namespace examples
 		m_size[index] = size;
 		update_objects();
 		return m_size[index];
-	}
-
-	//type
-	canvas::objects::type Support_3::type(void) const
-	{
-		return canvas::objects::type::user;
 	}
 
 	//update

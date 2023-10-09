@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Triangle.hpp"
 
 namespace canvas
@@ -27,12 +26,6 @@ namespace canvas
 		vec3 Triangle::point(unsigned index, const vec3& position)
 		{
 			return m_points[index] = position;
-		}
-
-		//type
-		objects::type Triangle::type(void) const
-		{
-			return objects::type::triangle;
 		}
 
 		//buffers

@@ -45,9 +45,6 @@ namespace canvas
 			vec3 direction(unsigned) const;
 			vec3 direction(unsigned, const vec3&);
 
-			//type
-			objects::type type(void) const override;
-
 		private:
 			//buffers
 			unsigned vbo_size(void) const override;

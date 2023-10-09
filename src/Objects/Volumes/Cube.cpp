@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Volumes/Cube.hpp"
 
 //static data
@@ -49,12 +48,6 @@ namespace canvas
 		vec3 Cube::center(void) const
 		{
 			return m_center;
-		}
-
-		//type
-		objects::type Cube::type(void) const
-		{
-			return objects::type::cube;
 		}
 
 		//buffers

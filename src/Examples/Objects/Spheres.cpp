@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Volumes/Sphere.hpp"
 
 //examples
@@ -22,7 +21,7 @@ namespace examples
 				{
 					const float x1 = 2 * j * s - 1 + s;
 					const float x2 = 2 * i * s - 1 + s;
-					scene->add_object(canvas::objects::type::sphere);
+					scene->add_object(new canvas::objects::Sphere);
 					((canvas::objects::Sphere*) scene->object(n * i + j))->scale(s);
 					((canvas::objects::Sphere*) scene->object(n * i + j))->shift({x1, x2, 0});
 					((canvas::objects::Sphere*) scene->object(n * i + j))->color_fill({0.0f, 0.0f, 1.0f});

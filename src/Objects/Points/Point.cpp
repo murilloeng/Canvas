@@ -1,7 +1,6 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Points/Point.hpp"
 
 namespace canvas
@@ -28,12 +27,6 @@ namespace canvas
 		vec3 Point::position(const vec3& position)
 		{
 			return m_position = position;
-		}
-
-		//type
-		objects::type Point::type(void) const
-		{
-			return objects::type::point;
 		}
 
 		//buffers

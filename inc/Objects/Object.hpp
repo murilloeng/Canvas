@@ -50,13 +50,6 @@ namespace canvas
 			Color color_stroke(void) const;
 			virtual Color color_stroke(const Color&);
 
-			//name
-			const char* name(void) const;
-			static const char* name(objects::type);
-
-			//type
-			virtual objects::type type(void) const = 0;
-
 			//affine
 			mat4 affine(mat4);
 			mat4 affine(void) const;
@@ -94,8 +87,8 @@ namespace canvas
 			unsigned m_ibo_index[3];
 
 			//friends
-			friend class Scene;
 			friend class Group;
+			friend class canvas::Scene;
 		};
 	}
 }

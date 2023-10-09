@@ -1,6 +1,5 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Type.hpp"
 #include "inc/Objects/Surfaces/Circle.hpp"
 
 //examples
@@ -20,7 +19,7 @@ namespace examples
 			{
 				for(unsigned j = 0; j < n; j++)
 				{
-					scene->add_object(canvas::objects::type::circle);
+					scene->add_object(new canvas::objects::Circle);
 					((canvas::objects::Circle*) scene->object(n * i + j))->radius(0.9 * r);
 					((canvas::objects::Circle*) scene->object(n * i + j))->color_fill({0, 0, 1});
 					((canvas::objects::Circle*) scene->object(n * i + j))->color_stroke({1, 1, 1});
