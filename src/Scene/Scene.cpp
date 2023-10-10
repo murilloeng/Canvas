@@ -8,23 +8,10 @@
 
 //canvas
 #include "inc/Scene/Scene.hpp"
-
+#include "inc/Objects/Object.hpp"
 #include "inc/Vertices/Model.hpp"
 #include "inc/Vertices/Texture.hpp"
 
-#include "inc/Objects/Object.hpp"
-#include "inc/Objects/Curves/Arc.hpp"
-#include "inc/Objects/Curves/Line.hpp"
-#include "inc/Objects/Volumes/Cube.hpp"
-#include "inc/Objects/Points/Point.hpp"
-#include "inc/Objects/Surfaces/Quad.hpp"
-#include "inc/Objects/Curves/Spline.hpp"
-#include "inc/Objects/Volumes/Sphere.hpp"
-#include "inc/Objects/Surfaces/Circle.hpp"
-#include "inc/Objects/Volumes/Cylinder.hpp"
-#include "inc/Objects/Surfaces/Grid_2D.hpp"
-#include "inc/Objects/Surfaces/Grid_3D.hpp"
-#include "inc/Objects/Surfaces/Triangle.hpp"
 
 namespace canvas
 {
