@@ -30,7 +30,6 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(void) : 
-		m_zoom(1.0f),
 		m_vao_id{0, 0}, 
 		m_vbo_id{0, 0}, 
 		m_ibo_id{0, 0},
@@ -46,6 +45,7 @@ namespace canvas
 		setup_gl();
 		setup_buffers();
 		setup_shaders();
+		m_camera.m_program_id = m_program_id;
 	}
 
 	//destructor
@@ -84,21 +84,13 @@ namespace canvas
 		return m_background = background;
 	}
 
-	void Scene::box_min(float x1_min, float x2_min, float x3_min)
+	Camera& Scene::camera(void)
 	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_min"), x1_min, x2_min, x3_min);
-		}
+		return m_camera;
 	}
-	void Scene::box_max(float x1_max, float x2_max, float x3_max)
+	const Camera& Scene::camera(void) const
 	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_max"), x1_max, x2_max, x3_max);
-		}
+		return m_camera;
 	}
 
 	objects::Object* Scene::object(unsigned index) const
@@ -137,24 +129,19 @@ namespace canvas
 		//check
 		if(m_vbo_size[0] == 0) return;
 		//data
-		m_box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
-		m_box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
 		//bound
 		for(unsigned i = 1; i < m_vbo_size[0]; i++)
 		{
 			for(unsigned j = 0; j < 3; j++)
 			{
-				m_box_min[j] = fminf(m_box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
-				m_box_max[j] = fmaxf(m_box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				box_min[j] = fminf(box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				box_max[j] = fmaxf(box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
 			}
 		}
-		//shader
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_min"), m_box_min[0], m_box_min[1], m_box_min[2]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_max"), m_box_max[0], m_box_max[1], m_box_max[2]);
-		}
+		m_camera.box_min(box_min);
+		m_camera.box_max(box_max);
 	}
 	void Scene::update(bool bound)
 	{
@@ -226,112 +213,6 @@ namespace canvas
 		m_objects.push_back(object);
 	}
 
-	//callbacks
-	void Scene::callback_motion(int x1, int x2)
-	{
-		//data
-		const float z = m_zoom;
-		const int w = m_screen[0];
-		const int h = m_screen[1];
-		const float m = w < h ? w : h;
-		const int z1 = m_click.position(0);
-		const int z2 = m_click.position(1);
-		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
-		//shift
-		if(m_click.button() == button::middle)
-		{
-			shift(m_click.shift() + xp - xc);
-		}
-		//rotation
-		if(m_click.button() == button::left)
-		{
-			const quat qc = m_click.rotation();
-			const vec3 v1 = Click::arcball(xc[0], xc[1]);
-			const vec3 v2 = Click::arcball(xp[0], xp[1]);
-			rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
-			shift(xp - m_rotation.rotate(m_click.rotation().conjugate().rotate(xc - m_click.shift())));
-		}
-	}
-	void Scene::callback_reshape(int width, int height)
-	{
-		m_screen[0] = width;
-		m_screen[1] = height;
-		glViewport(0, 0, width, height);
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform2ui(glGetUniformLocation(m_program_id[i], "screen"), width, height);
-		}
-	}
-	void Scene::callback_wheel(int direction, int x1, int x2)
-	{
-		//screen
-		const int w = m_screen[0];
-		const int h = m_screen[1];
-		const float m = w < h ? w : h;
-		const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		//affine
-		const float dz = 0.05;
-		zoom((1 + direction * dz) * m_zoom);
-		shift(xs - (1 + direction * dz) * (xs - m_shift));
-	}
-	void Scene::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
-	{
-		//data
-		const float dx = 0.05;
-		const float dt = M_PI / 12;
-		const vec3 shift[] = {{-dx, 0, 0}, {+dx, 0, 0}, {0, -dx, 0}, {0, +dx, 0}};
-		const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
-		const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
-		//affine
-		for(unsigned i = 0; i < 4; i++)
-		{
-			if(key == keys[i])
-			{
-				if(modifiers & 1 << unsigned(modifier::alt))
-				{
-					this->shift(shift[i] + m_shift);
-				}
-				else if(modifiers & 1 << unsigned(modifier::ctrl))
-				{
-					this->rotation(rotation[i].quaternion() * m_rotation);
-				}
-				else if(modifiers & 1 << unsigned(modifier::shift))
-				{
-					this->rotation(m_rotation * rotation[i].quaternion());
-				}
-			}
-		}
-	}
-	void Scene::callback_keyboard(char key, int x1, int x2)
-	{
-		if(key == 'f')
-		{
-			zoom(1.0f);
-			shift(vec3());
-			rotation(quat());
-		}
-		else if(key == '-') zoom(m_zoom / 1.05);
-		else if(key == '+') zoom(m_zoom * 1.05);
-		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
-	}
-	void Scene::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
-	{
-		if(pressed)
-		{
-			m_click.shift(m_shift);
-			m_click.button(button);
-			m_click.position(0, x1);
-			m_click.position(1, x2);
-			m_click.rotation(m_rotation);
-		}
-		else
-		{
-			m_click.button(canvas::button::none);
-		}
-	}
-
 	//setup
 	void Scene::setup_gl(void)
 	{
@@ -375,82 +256,6 @@ namespace canvas
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/texture.vert", "shd/texture.frag");
 		glUseProgram(m_program_id[0]);
-	}
-
-	//camera
-	float Scene::zoom(void) const
-	{
-		return m_zoom;
-	}
-	float Scene::zoom(float zoom)
-	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform1f(glGetUniformLocation(m_program_id[i], "zoom"), zoom);
-		}
-		return m_zoom = zoom;
-	}
-
-	vec3 Scene::shift(void) const
-	{
-		return m_shift;
-	}
-	vec3 Scene::shift(const vec3& shift)
-	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "shift"), shift[0], shift[1], shift[2]);
-		}
-		return m_shift = shift;
-	}
-
-	unsigned Scene::width(void) const
-	{
-		return m_screen[0];
-	}
-	unsigned Scene::height(void) const
-	{
-		return m_screen[1];
-	}
-
-	quat Scene::rotation(char mode)
-	{
-		if(mode == 'x')
-		{
-			return rotation(quat::view_x1());
-		}
-		else if(mode == 'y')
-		{
-			return rotation(quat::view_x2());
-		}
-		else if(mode == 'z')
-		{
-			return rotation(quat::view_x3());
-		}
-		else if(mode == 'i')
-		{
-			static unsigned index = 1;
-			return rotation(quat::view_iso(index = (index + 1) % 3));
-		}
-		else
-		{
-			return quat();
-		}
-	}
-	quat Scene::rotation(void) const
-	{
-		return m_rotation;
-	}
-	quat Scene::rotation(const quat& rotation)
-	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			glUseProgram(m_program_id[i]);
-			glUniform4f(glGetUniformLocation(m_program_id[i], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
-		}
-		return m_rotation = rotation;
 	}
 
 	//misc

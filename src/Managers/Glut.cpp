@@ -70,12 +70,12 @@ namespace canvas
 	}
 	void Glut::callback_motion(int x1, int x2)
 	{
-		master->scene()->callback_motion(x1, x2);
+		master->scene()->camera().callback_motion(x1, x2);
 		glutPostRedisplay();
 	}
 	void Glut::callback_reshape(int width, int height)
 	{
-		master->scene()->callback_reshape(width, height);
+		master->scene()->camera().callback_reshape(width, height);
 		glutPostRedisplay();
 	}
 	void Glut::callback_special(int key, int x1, int x2)
@@ -99,7 +99,7 @@ namespace canvas
 		{
 			if(key == glut_keys[i])
 			{
-				master->scene()->callback_special(canvas_keys[i], canvas_mod, x1, x2);
+				master->scene()->camera().callback_special(canvas_keys[i], canvas_mod, x1, x2);
 			}
 		}
 		glutPostRedisplay();
@@ -114,14 +114,14 @@ namespace canvas
 		{
 			if(glut_buttons[i] == button)
 			{
-				master->scene()->callback_mouse(canvas_buttons[i], !state, x1, x2);
+				master->scene()->camera().callback_mouse(canvas_buttons[i], !state, x1, x2);
 			}
 		}
 		glutPostRedisplay();
 	}
 	void Glut::callback_wheel(int, int direction, int x1, int x2)
 	{
-		master->scene()->callback_wheel(direction, x1, x2);
+		master->scene()->camera().callback_wheel(direction, x1, x2);
 		glutPostRedisplay();
 	}
 	void Glut::callback_keyboard(unsigned char key, int x1, int x2)
@@ -132,7 +132,7 @@ namespace canvas
 		}
 		else
 		{
-			master->scene()->callback_keyboard(key, x1, x2);
+			master->scene()->camera().callback_keyboard(key, x1, x2);
 			master->scene()->update(false);
 			glutPostRedisplay();
 		}
