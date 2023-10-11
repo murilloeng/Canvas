@@ -45,6 +45,10 @@ namespace canvas
 		unsigned width(void) const;
 		unsigned height(void) const;
 
+		//screen
+		void screen_print(void) const;
+		void screen_record(void) const;
+
 		//callbacks
 		void callback_motion(int, int);
 		void callback_reshape(int, int);
@@ -61,6 +65,7 @@ namespace canvas
 		vec3 m_box_min;
 		vec3 m_box_max;
 		quat m_rotation;
+		std::string m_output;
 		unsigned m_screen[2];
 		unsigned* m_program_id;
 

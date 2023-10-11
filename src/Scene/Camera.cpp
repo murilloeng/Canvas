@@ -1,10 +1,17 @@
+//defines
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
 //os
 #ifdef _WIN32
 #include <Windows.h>
 #endif
 
+//std
+#include <filesystem>
+
 //ext
 #include "../external/cpp/inc/GL/glew.h"
+#include "../external/cpp/inc/stb_image_write.h"
 
 //canvas
 #include "inc/Scene/Camera.hpp"
@@ -12,7 +19,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_zoom(1.0f)
+	Camera::Camera(void) : m_zoom(1.0f), m_output("screen")
 	{
 		return;
 	}
@@ -127,6 +134,34 @@ namespace canvas
 		return m_screen[1];
 	}
 
+	//screen
+	void Camera::screen_print(void) const
+	{
+		//data
+		char path[200];
+		unsigned index = 0;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		unsigned* buffer = new unsigned[4 * w * h];
+		//read
+		glReadBuffer(GL_FRONT);
+		glPixelStorei(GL_PACK_ALIGNMENT, 4);
+		glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+		//file
+		while(true)
+		{
+			sprintf(path, "%s_%d.png", m_output.c_str(), index++);
+			if(!std::filesystem::exists(path)) break;
+		}
+		//save
+		stbi_flip_vertically_on_write(true);
+		stbi_write_png(path, w, h, 4, buffer, 4 * w);
+	}
+	void Camera::screen_record(void) const
+	{
+		return;
+	}
+
 	//callbacks
 	void Camera::callback_motion(int x1, int x2)
 	{
@@ -213,6 +248,7 @@ namespace canvas
 			shift(vec3());
 			rotation(quat());
 		}
+		else if(key == 'p') screen_print();
 		else if(key == '-') zoom(m_zoom / 1.05);
 		else if(key == '+') zoom(m_zoom * 1.05);
 		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
