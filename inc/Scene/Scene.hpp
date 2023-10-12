@@ -65,18 +65,18 @@ namespace canvas
 		//data
 		Camera m_camera;
 
-		unsigned m_vao_id[2];
-		unsigned m_vbo_id[2];
-		unsigned m_ibo_id[3];
-		unsigned m_vbo_size[2];
-		unsigned m_ibo_size[3];
-		unsigned* m_ibo_data[3];
-		vertices::Vertex* m_vbo_data[2];
+		unsigned m_vao_id[3];
+		unsigned m_vbo_id[3];
+		unsigned m_ibo_id[5];
+		unsigned m_vbo_size[3];
+		unsigned m_ibo_size[5];
+		unsigned* m_ibo_data[5];
+		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;
-		unsigned m_program_id[2];
-		unsigned m_shaders_vertex_id[2];
-		unsigned m_shaders_fragment_id[2];
+		unsigned m_program_id[3];
+		unsigned m_shaders_vertex_id[3];
+		unsigned m_shaders_fragment_id[3];
 
 		std::vector<objects::Object*> m_objects;
 	};

@@ -1,18 +1,18 @@
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "inc/Vertices/Text.hpp"
 
 namespace canvas
 {
 	namespace vertices
 	{
 		//constructor
-		Model::Model(void)
+		Text::Text(void)
 		{
 			return;
 		}
 
 		//destructor
-		Model::~Model(void)
+		Text::~Text(void)
 		{
 			return;
 		}

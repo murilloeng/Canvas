@@ -1,27 +1,26 @@
 #pragma once
 
 //canvas
+#include "inc/Math/vec2.hpp"
 #include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
 #include "inc/Vertices/Vertex.hpp"
 
 namespace canvas
 {
 	namespace vertices
 	{
-		class Texture : public Vertex
+		class Image : public Vertex
 		{
 		public:
 			//constructor
-			Texture(void);
+			Image(void);
 
 			//destructor
-			~Texture(void);
+			~Image(void);
 
 			//data
-			Color m_color;
+			vec2 m_texture;
 			vec3 m_position;
-			float m_texture[2];
 		};
 	}
 }

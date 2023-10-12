@@ -3,6 +3,10 @@
 out vec4 vertex_color;
 out vec2 vertex_texture;
 
+layout (location = 0) in vec4 color;
+layout (location = 1) in vec2 texture;
+layout (location = 2) in vec3 position;
+
 uniform uvec2 screen = uvec2(700, 700);
 
 uniform vec3 box_min = vec3(-1, -1, -1);
@@ -11,10 +15,6 @@ uniform vec3 box_max = vec3(+1, +1, +1);
 uniform float zoom = 1;
 uniform vec3 shift = vec3(0, 0, 0);
 uniform vec4 rotation = vec4(1, 0, 0, 0);
-
-layout (location = 0) in vec4 color;
-layout (location = 2) in vec2 texture;
-layout (location = 1) in vec3 position;
 
 vec3 quat_rotation(vec4 q, vec3 v)
 {

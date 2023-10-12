@@ -1,8 +1,8 @@
 #version 460 core
 
-out vec4 vertex_color;
+out vec2 vertex_texture;
 
-layout (location = 0) in vec4 color;
+layout (location = 0) in vec2 texture;
 layout (location = 1) in vec3 position;
 
 uniform uvec2 screen = uvec2(700, 700);
@@ -29,8 +29,6 @@ vec3 quat_rotation(vec4 q, vec3 v)
 
 void main(void)
 {
-	//color
-	vertex_color = color;
 	//screen
 	uint w = screen[0];
 	uint h = screen[1];
@@ -39,6 +37,8 @@ void main(void)
 	float z = zoom;
 	vec3 xa = shift;
 	vec4 qr = rotation;
+	//outputs
+	vertex_texture = texture;
 	//position
 	vec3 xc = (box_min + box_max) / 2;
 	vec3 xs = (box_max - box_min) / 2;
