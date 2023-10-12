@@ -133,7 +133,7 @@ namespace canvas
 		else
 		{
 			master->scene()->camera().callback_keyboard(key, x1, x2);
-			master->scene()->update(false);
+			master->scene()->update();
 			glutPostRedisplay();
 		}
 	}

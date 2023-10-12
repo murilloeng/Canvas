@@ -1,5 +1,5 @@
 //canvas
-#include "inc/Objects/Surfaces/Quad.hpp"
+#include "inc/Objects/2D/Quad.hpp"
 
 #include "inc/Examples/defs/Support_3.hpp"
 

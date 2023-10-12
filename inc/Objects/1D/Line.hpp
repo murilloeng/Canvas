@@ -1,47 +1,43 @@
 #pragma once
 
-//std
-#include <vector>
-
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Curves/Curve.hpp"
+#include "inc/Objects/1D/Curve.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Polyline : public Curve
+		class Line : public Curve
 		{
 		public:
 			//constructors
-			Polyline(void);
+			Line(void);
 
 			//destructor
-			~Polyline(void);
+			~Line(void);
+
+			//data
+			vec3 point(unsigned) const;
+			vec3 point(unsigned, const vec3&);
 
 			//path
-			float path_max(void) const override;
 			vec3 path_hessian(float) const override;
 			vec3 path_position(float) const override;
 			vec3 path_gradient(float) const override;
 
-			//data
-			std::vector<vec3>& points(void);
-			const std::vector<vec3>& points(void) const;
-
-		private:
-			//buffers
+		protected:
+			//sizes
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;
 
-			//draw
+			//buffers
 			void ibo_stroke_data(unsigned**) const override;
 			void vbo_stroke_data(vertices::Vertex**) const override;
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
-			std::vector<vec3> m_points;
+			vec3 m_points[2];
 		};
 	}
 }

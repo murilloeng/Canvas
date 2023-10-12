@@ -1,6 +1,6 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Surfaces/Quad.hpp"
+#include "inc/Objects/2D/Quad.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

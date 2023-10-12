@@ -3,8 +3,8 @@
 
 //canvas
 #include "inc/Vertices/Model.hpp"
-#include "inc/Objects/Curves/Arrow.hpp"
-#include "inc/Objects/Curves/Curve.hpp"
+#include "inc/Objects/1D/Arrow.hpp"
+#include "inc/Objects/1D/Curve.hpp"
 
 namespace canvas
 {

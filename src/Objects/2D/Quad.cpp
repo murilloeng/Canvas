@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Surfaces/Quad.hpp"
+#include "inc/Objects/2D/Quad.hpp"
 
 namespace canvas
 {

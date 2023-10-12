@@ -1,9 +1,9 @@
 //canvas
 #include "inc/Examples/examples.hpp"
 #include "inc/Examples/defs/Beam.hpp"
-#include "inc/Objects/Curves/Arc.hpp"
-#include "inc/Objects/Curves/Line.hpp"
-#include "inc/Objects/Curves/Arrow.hpp"
+#include "inc/Objects/1D/Arc.hpp"
+#include "inc/Objects/1D/Line.hpp"
+#include "inc/Objects/1D/Arrow.hpp"
 #include "inc/Examples/defs/Support_1.hpp"
 #include "inc/Examples/defs/Support_2.hpp"
 #include "inc/Examples/defs/Support_3.hpp"

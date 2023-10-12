@@ -1,6 +1,6 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Surfaces/Grid_3D.hpp"
+#include "inc/Objects/2D/Grid_3D.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

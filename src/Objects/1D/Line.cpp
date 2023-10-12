@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Curves/Line.hpp"
+#include "inc/Objects/1D/Line.hpp"
 
 namespace canvas
 {

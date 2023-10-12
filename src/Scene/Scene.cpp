@@ -77,6 +77,29 @@ namespace canvas
 		return m_camera;
 	}
 
+	void Scene::add_image(const char* path)
+	{
+		Image image;
+		image.m_path = path;
+		m_images.push_back(image);
+	}
+	const std::vector<Image>& Scene::images(void) const
+	{
+		return m_images;
+	}
+
+	void Scene::clear_objects(void)
+	{
+		for(const objects::Object* object : m_objects)
+		{
+			delete object;
+		}
+		m_objects.clear();
+	}
+	void Scene::add_object(objects::Object* object)
+	{
+		m_objects.push_back(object);
+	}
 	objects::Object* Scene::object(unsigned index) const
 	{
 		return m_objects[index];
@@ -118,13 +141,20 @@ namespace canvas
 		m_camera.box_min(box_min);
 		m_camera.box_max(box_max);
 	}
-	void Scene::update(bool bound)
+	void Scene::setup(void)
+	{
+		setup_vbo();
+		setup_ibo();
+		setup_images();
+		setup_objects();
+	}
+	void Scene::update(void)
 	{
 		//data
 		const unsigned is[] = {1, 2, 3, 3, 3};
 		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
 		//draw
-		prepare();
+		setup();
 		for(const objects::Object* object : m_objects)
 		{
 			object->buffers_data(m_vbo_data, m_ibo_data);
@@ -142,7 +172,6 @@ namespace canvas
 				}
 			}
 		}
-		if(bound) this->bound();
 		//vbo data
 		for(unsigned i = 0; i < 3; i++)
 		{
@@ -154,41 +183,6 @@ namespace canvas
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
-		}
-	}
-	void Scene::prepare(void)
-	{
-		//vbo size
-		for (unsigned i = 0; i < 3; i++)
-		{
-			m_vbo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_vbo_size[i] += object->vbo_size(i);
-			}
-			delete[] m_vbo_data[i];
-			if(i == 2) m_vbo_data[i] = new vertices::Text[m_vbo_size[i]];
-			if(i == 0) m_vbo_data[i] = new vertices::Model[m_vbo_size[i]];
-			if(i == 1) m_vbo_data[i] = new vertices::Image[m_vbo_size[i]];
-		}
-		//ibo size
-		const unsigned ibo_offset[] = {1, 2, 3, 3, 3};
-		for(unsigned i = 0; i < 5; i++)
-		{
-			m_ibo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_ibo_size[i] += object->ibo_size(i);
-			}
-			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new unsigned[ibo_offset[i] * m_ibo_size[i]];
-		}
-		//indexes
-		unsigned vbo_counter[] = {0, 0, 0};
-		unsigned ibo_counter[] = {0, 0, 0, 0, 0};
-		for(objects::Object* object : m_objects)
-		{
-			object->setup(vbo_counter, ibo_counter);
 		}
 	}
 	void Scene::draw_text(void)
@@ -228,20 +222,6 @@ namespace canvas
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
 	}
 
-	//objects
-	void Scene::clear_objects(void)
-	{
-		for(const objects::Object* object : m_objects)
-		{
-			delete object;
-		}
-		m_objects.clear();
-	}
-	void Scene::add_object(objects::Object* object)
-	{
-		m_objects.push_back(object);
-	}
-
 	//setup
 	void Scene::setup_gl(void)
 	{
@@ -254,6 +234,55 @@ namespace canvas
 		glPointSize(7);
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	}
+	void Scene::setup_vbo(void)
+	{
+		for (unsigned i = 0; i < 3; i++)
+		{
+			m_vbo_size[i] = 0;
+			for(const objects::Object* object : m_objects)
+			{
+				m_vbo_size[i] += object->vbo_size(i);
+			}
+			delete[] m_vbo_data[i];
+			if(i == 2) m_vbo_data[i] = new vertices::Text[m_vbo_size[i]];
+			if(i == 0) m_vbo_data[i] = new vertices::Model[m_vbo_size[i]];
+			if(i == 1) m_vbo_data[i] = new vertices::Image[m_vbo_size[i]];
+		}
+	}
+	void Scene::setup_ibo(void)
+	{
+		//data
+		const unsigned ibo_offset[] = {1, 2, 3, 3, 3};
+		//buffers
+		for(unsigned i = 0; i < 5; i++)
+		{
+			m_ibo_size[i] = 0;
+			for(const objects::Object* object : m_objects)
+			{
+				m_ibo_size[i] += object->ibo_size(i);
+			}
+			delete[] m_ibo_data[i];
+			m_ibo_data[i] = new unsigned[ibo_offset[i] * m_ibo_size[i]];
+		}
+	}
+	void Scene::setup_images(void)
+	{
+		for(Image& image : m_images)
+		{
+			image.load();
+		}
+	}
+	void Scene::setup_objects(void)
+	{
+		//data
+		unsigned vbo_counter[] = {0, 0, 0};
+		unsigned ibo_counter[] = {0, 0, 0, 0, 0};
+		//objects
+		for(objects::Object* object : m_objects)
+		{
+			object->setup(vbo_counter, ibo_counter);
+		}
 	}
 	void Scene::setup_buffers(void)
 	{

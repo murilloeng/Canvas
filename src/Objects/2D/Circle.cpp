@@ -4,7 +4,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Surfaces/Circle.hpp"
+#include "inc/Objects/2D/Circle.hpp"
 
 namespace canvas
 {

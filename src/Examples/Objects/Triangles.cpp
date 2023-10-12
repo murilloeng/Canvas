@@ -1,6 +1,6 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Surfaces/Triangle.hpp"
+#include "inc/Objects/2D/Triangle.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

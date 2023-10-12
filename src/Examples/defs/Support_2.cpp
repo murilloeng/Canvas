@@ -1,6 +1,6 @@
 //canvas
-#include "inc/Objects/Curves/Line.hpp"
-#include "inc/Objects/Surfaces/Triangle.hpp"
+#include "inc/Objects/1D/Line.hpp"
+#include "inc/Objects/2D/Triangle.hpp"
 
 #include "inc/Examples/defs/Support_2.hpp"
 

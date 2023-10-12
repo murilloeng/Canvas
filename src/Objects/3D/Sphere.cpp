@@ -5,7 +5,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Volumes/Sphere.hpp"
+#include "inc/Objects/3D/Sphere.hpp"
 
 //static data
 const float a = 0.525731112119133606f;

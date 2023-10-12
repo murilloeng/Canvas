@@ -44,7 +44,7 @@ static void callback_idle(void)
 	{
 		object->rotate({0, 4e-2, 0}, false);
 	}
-	app->scene()->update(false);
+	app->scene()->update();
 	glutPostRedisplay();
 }
 static void callback_keyboard(unsigned char key, int x1, int x2)
@@ -57,7 +57,8 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	{
 		app->scene()->clear_objects();
 		tests[index](app->scene());
-		app->scene()->update(true);
+		app->scene()->update();
+		app->scene()->bound();
 		index = (index + 1) % size;
 		glutPostRedisplay();
 	}
@@ -72,11 +73,12 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv);
 	//setup
-	// examples::objects::spheres(app->scene());
-	examples::scenes::tensegrity_chair(app->scene());
-	app->scene()->update(true);
+	examples::objects::spheres(app->scene());
+	// examples::scenes::tensegrity_chair(app->scene());
+	app->scene()->update();
+	app->scene()->bound();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();

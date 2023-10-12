@@ -1,7 +1,7 @@
 //canvas
-#include "inc/Objects/Curves/Arc.hpp"
-#include "inc/Objects/Curves/Line.hpp"
-#include "inc/Objects/Surfaces/Quad.hpp"
+#include "inc/Objects/1D/Arc.hpp"
+#include "inc/Objects/1D/Line.hpp"
+#include "inc/Objects/2D/Quad.hpp"
 
 #include "inc/Examples/defs/Beam.hpp"
 

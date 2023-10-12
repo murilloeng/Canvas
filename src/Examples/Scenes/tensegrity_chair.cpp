@@ -1,8 +1,8 @@
 //canvas
 #include "inc/Examples/examples.hpp"
-#include "inc/Objects/Curves/Line.hpp"
-#include "inc/Objects/Volumes/Cube.hpp"
-#include "inc/Objects/Volumes/Cylinder.hpp"
+#include "inc/Objects/1D/Line.hpp"
+#include "inc/Objects/3D/Cube.hpp"
+#include "inc/Objects/3D/Cylinder.hpp"
 
 namespace examples
 {

@@ -1,6 +1,6 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Volumes/Cube.hpp"
+#include "inc/Objects/3D/Cube.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

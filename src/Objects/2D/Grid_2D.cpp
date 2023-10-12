@@ -4,7 +4,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Surfaces/Grid_2D.hpp"
+#include "inc/Objects/2D/Grid_2D.hpp"
 
 namespace canvas
 {

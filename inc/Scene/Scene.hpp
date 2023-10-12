@@ -5,6 +5,7 @@
 #include <vector>
 
 //canvas
+#include "inc/Scene/Image.hpp"
 #include "inc/Scene/Camera.hpp"
 #include "inc/Colors/Color.hpp"
 
@@ -38,25 +39,32 @@ namespace canvas
 		Camera& camera(void);
 		const Camera& camera(void) const;
 
+		void add_image(const char*);
+		const std::vector<Image>& images(void) const;
+
+		void clear_objects(void);
+		void add_object(objects::Object*);
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
-		//draw
+		//update
 		void draw(void);
 		void bound(void);
-		void update(bool);
-		void prepare(void);
+		void update(void);
+
+	private:
+		//draw
 		void draw_text(void);
 		void draw_model(void);
 		void draw_image(void);
 
-		//objects
-		void clear_objects(void);
-		void add_object(objects::Object*);
-
-	private:
 		//setup
+		void setup(void);
 		void setup_gl(void);
+		void setup_vbo(void);
+		void setup_ibo(void);
+		void setup_images(void);
+		void setup_objects(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
 
@@ -82,6 +90,7 @@ namespace canvas
 		unsigned m_shaders_vertex_id[3];
 		unsigned m_shaders_fragment_id[3];
 
+		std::vector<Image> m_images;
 		std::vector<objects::Object*> m_objects;
 	};
 }

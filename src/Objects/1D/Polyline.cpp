@@ -4,7 +4,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Curves/Polyline.hpp"
+#include "inc/Objects/1D/Polyline.hpp"
 
 namespace canvas
 {

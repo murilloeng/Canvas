@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
-#include "inc/Objects/Curves/Arrow.hpp"
-#include "inc/Objects/Curves/Spline.hpp"
+#include "inc/Objects/1D/Arrow.hpp"
+#include "inc/Objects/1D/Spline.hpp"
 
 //examples
 #include "inc/Examples/examples.hpp"

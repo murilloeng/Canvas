@@ -2,7 +2,7 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Curves/Curve.hpp"
+#include "inc/Objects/1D/Curve.hpp"
 
 namespace canvas
 {

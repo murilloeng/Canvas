@@ -1,7 +1,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Points/Point.hpp"
+#include "inc/Objects/0D/Point.hpp"
 
 namespace canvas
 {

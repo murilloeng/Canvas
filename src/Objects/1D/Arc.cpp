@@ -4,7 +4,7 @@
 //canvas
 #include "inc/Vertices/Model.hpp"
 
-#include "inc/Objects/Curves/Arc.hpp"
+#include "inc/Objects/1D/Arc.hpp"
 
 namespace canvas
 {
