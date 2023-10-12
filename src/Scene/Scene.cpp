@@ -137,28 +137,40 @@ namespace canvas
 	}
 	void Scene::update(bool bound)
 	{
+		//data
+		const unsigned is[] = {1, 2, 3, 3, 3};
+		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
 		//draw
 		prepare();
 		for(const objects::Object* object : m_objects)
 		{
-			const unsigned is = object->vbo_size(0);
-			const unsigned ib = object->m_vbo_index[0];
 			object->buffers_data(m_vbo_data, m_ibo_data);
-			for(unsigned iv = ib; iv < ib + is; iv++)
+			for(unsigned i = 0; i < 3; i++)
 			{
-				vertices::Model* vertex = (vertices::Model*) m_vbo_data[0] + iv;
-				vertex->m_position = object->affine() * vertex->m_position;
+				const unsigned is = object->vbo_size(i);
+				const unsigned ib = object->m_vbo_index[i];
+				for(unsigned iv = ib; iv < ib + is; iv++)
+				{
+					vertices::Vertex* vertex;
+					if(i == 2) vertex = (vertices::Text*) m_vbo_data[i] + iv;
+					if(i == 0) vertex = (vertices::Model*) m_vbo_data[i] + iv;
+					if(i == 1) vertex = (vertices::Image*) m_vbo_data[i] + iv;
+					vertex->m_position = object->affine() * vertex->m_position;
+				}
 			}
 		}
 		if(bound) this->bound();
 		//vbo data
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
-		glBufferData(GL_ARRAY_BUFFER, m_vbo_size[0] * sizeof(vertices::Model), m_vbo_data[0], GL_STATIC_DRAW);
-		//ibo data
 		for(unsigned i = 0; i < 3; i++)
 		{
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[i]);
+			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
+		}
+		//ibo data
+		for(unsigned i = 0; i < 5; i++)
+		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, (i + 1) * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_STATIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
 		}
 	}
 	void Scene::prepare(void)
