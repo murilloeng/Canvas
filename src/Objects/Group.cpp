@@ -1,6 +1,8 @@
 //canvas
 #include "inc/Objects/Group.hpp"
+#include "inc/Vertices/Text.hpp"
 #include "inc/Vertices/Model.hpp"
+#include "inc/Vertices/Image.hpp"
 
 namespace canvas
 {
@@ -93,33 +95,37 @@ namespace canvas
 		}
 
 		//draw
-		void Group::vbo_affine(vertices::Vertex* vbo_data) const
+		void Group::vbo_affine(vertices::Vertex** vbo_data) const
 		{
-			//data
-			unsigned vbo_index = m_vbo_index[0];
-			//affine
-			for(const Object* object : m_objects)
+			for(unsigned i = 0; i < 3; i++)
 			{
-				for(unsigned i = 0; i < object->vbo_size(0); i++)
+				unsigned vbo_index = m_vbo_index[i];
+				for(const Object* object : m_objects)
 				{
-					((vertices::Model*) vbo_data + vbo_index + i)->m_position *= object->affine();
+					for(unsigned j = 0; j < object->vbo_size(i); j++)
+					{
+						if(i == 2) ((vertices::Text*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
+						if(i == 0) ((vertices::Model*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
+						if(i == 1) ((vertices::Image*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
+					}
+					vbo_index += object->vbo_size(i);
 				}
-				vbo_index += object->vbo_size(0);
 			}
 		}
-		void Group::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
+		void Group::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
 			//data
-			unsigned vbo_group_counter = vbo_counter;
-			unsigned ibo_group_index[] = {ibo_counter[0], ibo_counter[1], ibo_counter[2]};
+			unsigned vbo_group_counter[3], ibo_group_counter[5];
+			memcpy(vbo_group_counter, vbo_counter, 3 * sizeof(unsigned));
+			memcpy(ibo_group_counter, ibo_counter, 5 * sizeof(unsigned));
 			//indexes
 			for(Object* object : m_objects)
 			{
-				object->buffers_index(vbo_group_counter, ibo_group_index);
+				object->setup(vbo_group_counter, ibo_group_counter);
 			}
-			Object::buffers_index(vbo_counter, ibo_counter);
+			Object::setup(vbo_counter, ibo_counter);
 		}
-		void Group::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Group::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			for(const Object* object : m_objects)
 			{

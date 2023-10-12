@@ -213,11 +213,11 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -228,11 +228,11 @@ namespace canvas
 			vbo_faces_data(vbo_ptr);
 			vbo_vertices_data(vbo_ptr);
 		}
-		void Sphere::vbo_fill_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + nv * m_stroke;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + nv * m_stroke;
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -243,7 +243,7 @@ namespace canvas
 			vbo_faces_data(vbo_ptr);
 			vbo_vertices_data(vbo_ptr);
 		}
-		void Sphere::vbo_edges_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_edges_data(vertices::Model* vbo_data) const
 		{
 			//data
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + 12;
@@ -263,7 +263,7 @@ namespace canvas
 				vbo_ptr += m_mesh - 1;
 			}
 		}
-		void Sphere::vbo_faces_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_faces_data(vertices::Model* vbo_data) const
 		{
 			//data
 			unsigned counter = 0;
@@ -294,7 +294,7 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::vbo_vertices_data(vertices::Vertex* vbo_data) const
+		void Sphere::vbo_vertices_data(vertices::Model* vbo_data) const
 		{
 			//data
 			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data;
@@ -304,13 +304,11 @@ namespace canvas
 				(vbo_ptr + i)->m_position = m_center + m_radius * vec3(base_vertices[i]);
 			}
 		}
-		void Sphere::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Sphere::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			//vbo data
 			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 

@@ -123,12 +123,12 @@ namespace canvas
 				ibo_ptr[6 * m_mesh + 6 * i + 5] = vbo_index + 1 * (m_mesh + 1) + (i + 0) % m_mesh + 1;
 			}
 		}
-		void Cylinder::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Cylinder::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
@@ -139,12 +139,12 @@ namespace canvas
 				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
 		}
-		void Cylinder::vbo_fill_data(vertices::Vertex* vbo_data) const
+		void Cylinder::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + 2 * m_mesh * m_stroke;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
@@ -159,13 +159,11 @@ namespace canvas
 			(vbo_ptr + 0 * (m_mesh + 1))->m_position = {0.0f, 0.0f, -m_height / 2};
 			(vbo_ptr + 1 * (m_mesh + 1))->m_position = {0.0f, 0.0f, +m_height / 2};
 		}
-		void Cylinder::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Cylinder::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			//vbo data
 			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 

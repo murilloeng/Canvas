@@ -29,9 +29,9 @@ namespace canvas
 			//draw
 			void ibo_fill_data(unsigned**) const;
 			void ibo_stroke_data(unsigned**) const;
-			void vbo_fill_data(vertices::Vertex*) const;
-			void vbo_stroke_data(vertices::Vertex*) const;
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
+			void vbo_fill_data(vertices::Vertex**) const;
+			void vbo_stroke_data(vertices::Vertex**) const;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			vec3 m_points[3];

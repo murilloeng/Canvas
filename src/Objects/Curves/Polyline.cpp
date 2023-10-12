@@ -77,10 +77,10 @@ namespace canvas
 				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
 			}
 		}
-		void Polyline::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Polyline::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size(0);
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
 			for(unsigned i = 0; i < m_points.size(); i++)
 			{
@@ -88,7 +88,7 @@ namespace canvas
 				(vbo_ptr + i)->m_position = m_points[i];
 			}
 		}
-		void Polyline::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Polyline::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);

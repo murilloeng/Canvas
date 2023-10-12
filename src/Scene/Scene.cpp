@@ -143,7 +143,7 @@ namespace canvas
 		{
 			const unsigned is = object->vbo_size(0);
 			const unsigned ib = object->m_vbo_index[0];
-			object->buffers_data(m_vbo_data[0], m_ibo_data);
+			object->buffers_data(m_vbo_data, m_ibo_data);
 			for(unsigned iv = ib; iv < ib + is; iv++)
 			{
 				vertices::Model* vertex = (vertices::Model*) m_vbo_data[0] + iv;
@@ -164,15 +164,21 @@ namespace canvas
 	void Scene::prepare(void)
 	{
 		//vbo size
-		m_vbo_size[0] = 0;
-		for(const objects::Object* object : m_objects)
+		for (unsigned i = 0; i < 3; i++)
 		{
-			m_vbo_size[0] += object->vbo_size(0);
+			m_vbo_size[i] = 0;
+			for(const objects::Object* object : m_objects)
+			{
+				m_vbo_size[i] += object->vbo_size(i);
+			}
+			delete[] m_vbo_data[i];
+			if(i == 2) m_vbo_data[i] = new vertices::Text[m_vbo_size[i]];
+			if(i == 0) m_vbo_data[i] = new vertices::Model[m_vbo_size[i]];
+			if(i == 1) m_vbo_data[i] = new vertices::Image[m_vbo_size[i]];
 		}
-		delete[] m_vbo_data[0];
-		m_vbo_data[0] = new vertices::Model[m_vbo_size[0]];
 		//ibo size
-		for(unsigned i = 0; i < 3; i++)
+		const unsigned ibo_offset[] = {1, 2, 3, 3, 3};
+		for(unsigned i = 0; i < 5; i++)
 		{
 			m_ibo_size[i] = 0;
 			for(const objects::Object* object : m_objects)
@@ -180,14 +186,14 @@ namespace canvas
 				m_ibo_size[i] += object->ibo_size(i);
 			}
 			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new unsigned[(i + 1) * m_ibo_size[i]];
+			m_ibo_data[i] = new unsigned[ibo_offset[i] * m_ibo_size[i]];
 		}
 		//indexes
-		unsigned vbo_counter = 0;
-		unsigned ibo_counter[] = {0, 0, 0};
+		unsigned vbo_counter[] = {0, 0, 0};
+		unsigned ibo_counter[] = {0, 0, 0, 0, 0};
 		for(objects::Object* object : m_objects)
 		{
-			object->buffers_index(vbo_counter, ibo_counter);
+			object->setup(vbo_counter, ibo_counter);
 		}
 	}
 

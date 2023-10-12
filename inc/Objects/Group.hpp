@@ -34,9 +34,9 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//buffers
-			void vbo_affine(vertices::Vertex*) const;
-			void buffers_index(unsigned&, unsigned[]) override;
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
+			void vbo_affine(vertices::Vertex**) const;
+			void setup(unsigned[], unsigned[]) override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			std::vector<Object*> m_objects;

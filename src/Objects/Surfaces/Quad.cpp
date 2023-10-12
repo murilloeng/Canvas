@@ -56,10 +56,10 @@ namespace canvas
 			ibo_data[1][m_ibo_index[1] + 3] = ibo_data[1][m_ibo_index[1] + 4] = m_vbo_index[0] + 2;
 			ibo_data[1][m_ibo_index[1] + 5] = ibo_data[1][m_ibo_index[1] + 6] = m_vbo_index[0] + 3;
 		}
-		void Quad::vbo_fill_data(vertices::Vertex* vbo_data) const
+		void Quad::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + 4 * m_stroke;
+			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 4 * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
@@ -67,10 +67,10 @@ namespace canvas
 				(vbo_fill_ptr + i)->m_position = m_points[i];
 			}
 		}
-		void Quad::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Quad::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
+			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
@@ -78,13 +78,11 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
 		}
-		void Quad::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Quad::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			//vbo data
 			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 	}

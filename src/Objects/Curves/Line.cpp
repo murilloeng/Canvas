@@ -63,17 +63,17 @@ namespace canvas
 			ibo_ptr[0] = vbo_index + 0;
 			ibo_ptr[1] = vbo_index + 1;
 		}
-		void Line::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Line::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size(0);
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
 			(vbo_ptr + 0)->m_color = m_color_stroke;
 			(vbo_ptr + 1)->m_color = m_color_stroke;
 			(vbo_ptr + 0)->m_position = m_points[0];
 			(vbo_ptr + 1)->m_position = m_points[1];
 		}
-		void Line::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Line::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);

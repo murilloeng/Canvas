@@ -33,8 +33,8 @@ namespace canvas
 
 			//buffers
 			void ibo_stroke_data(unsigned**) const override;
-			void vbo_stroke_data(vertices::Vertex*) const override;
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
+			void vbo_stroke_data(vertices::Vertex**) const override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			vec3 m_points[2];

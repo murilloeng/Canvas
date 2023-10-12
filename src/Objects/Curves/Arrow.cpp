@@ -90,10 +90,6 @@ namespace canvas
 		}
 
 		//draw
-		void Arrow::ibo_fill_data(unsigned** ibo_data) const
-		{
-			return;
-		}
 		void Arrow::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
@@ -108,16 +104,12 @@ namespace canvas
 			ibo_ptr[2 * 3 + 0] = m_vbo_index[0] + 0;
 			ibo_ptr[2 * 3 + 1] = m_vbo_index[0] + 4;
 		}
-		void Arrow::vbo_fill_data(vertices::Vertex* vbo_data) const
-		{
-			return;
-		}
-		void Arrow::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Arrow::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			const vec3 t2 = m_directions[0];
 			const vec3 t3 = m_directions[1];
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			const vec3 t1 = t2.cross(t3);
 			(vbo_ptr + 0)->m_position = m_point;
@@ -130,13 +122,9 @@ namespace canvas
 				(vbo_ptr + i)->m_color = m_color_stroke;
 			}
 		}
-		void Arrow::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Arrow::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			//vbo data
-			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_stroke) vbo_stroke_data(vbo_data);
-			//ibo data
-			if(m_fill) ibo_fill_data(ibo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 	}

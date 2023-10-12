@@ -27,7 +27,7 @@ namespace canvas
 			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			vec3 m_positions[2];

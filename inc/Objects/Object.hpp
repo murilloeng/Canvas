@@ -69,8 +69,8 @@ namespace canvas
 			virtual unsigned ibo_size(unsigned) const = 0;
 
 			//buffers
-			virtual void buffers_index(unsigned&, unsigned[]);
-			virtual void buffers_data(vertices::Vertex*, unsigned**) const = 0;
+			virtual void setup(unsigned[], unsigned[]);
+			virtual void buffers_data(vertices::Vertex**, unsigned**) const = 0;
 
 			//data
 			bool m_dot;

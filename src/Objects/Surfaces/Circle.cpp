@@ -87,11 +87,11 @@ namespace canvas
 				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index[0] + (i + 1) % m_mesh;
 			}
 		}
-		void Circle::vbo_fill_data(vertices::Vertex* vbo_data) const
+		void Circle::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + m_stroke * m_mesh;
+			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -106,11 +106,11 @@ namespace canvas
 			vbo_fill_ptr->m_position = m_center;
 			vbo_fill_ptr->m_color = m_color_fill;
 		}
-		void Circle::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Circle::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
+			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -123,13 +123,11 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
 		}
-		void Circle::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Circle::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			//vbo data
 			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			//ibo data
 			if(m_fill) ibo_fill_data(ibo_data);
+			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
 		}
 

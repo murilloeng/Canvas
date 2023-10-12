@@ -54,9 +54,10 @@ namespace canvas
 
 			//buffers
 			virtual void ibo_stroke_data(unsigned**) const;
-			virtual void vbo_stroke_data(vertices::Vertex*) const;
-			virtual void buffers_index(unsigned&, unsigned[]) override;
-			void buffers_data(vertices::Vertex*, unsigned**) const override;
+			virtual void vbo_stroke_data(vertices::Vertex**) const;
+
+			void setup(unsigned[], unsigned[]) override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			unsigned m_mesh;

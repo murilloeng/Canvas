@@ -145,10 +145,10 @@ namespace canvas
 				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
 			}
 		}
-		void Curve::vbo_stroke_data(vertices::Vertex* vbo_data) const
+		void Curve::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size(0);
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
 			for(unsigned i = 0; i <= m_mesh; i++)
 			{
@@ -157,7 +157,8 @@ namespace canvas
 				(vbo_ptr + i)->m_position = path_position(s);
 			}
 		}
-		void Curve::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
+
+		void Curve::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
 			for(Object* object : m_objects)
 			{
@@ -169,9 +170,9 @@ namespace canvas
 					((Arrow*) object)->m_directions[1] = path_binormal(s);
 				}
 			}
-			Group::buffers_index(vbo_counter, ibo_counter);
+			Group::setup(vbo_counter, ibo_counter);
 		}
-		void Curve::buffers_data(vertices::Vertex* vbo_data, unsigned** ibo_data) const
+		void Curve::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
