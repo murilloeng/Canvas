@@ -51,9 +51,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Cube::vbo_size(void) const
+		unsigned Cube::vbo_size(unsigned index) const
 		{
-			return 8 * (m_stroke + m_fill);
+			return 8 * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Cube::ibo_size(unsigned index) const
 		{

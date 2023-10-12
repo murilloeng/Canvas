@@ -60,9 +60,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Circle::vbo_size(void) const
+		unsigned Circle::vbo_size(unsigned index) const
 		{
-			return m_stroke * m_mesh + m_fill * (m_mesh + 1);
+			return (m_stroke * m_mesh + m_fill * (m_mesh + 1)) * (index == 0);
 		}
 		unsigned Circle::ibo_size(unsigned index) const
 		{

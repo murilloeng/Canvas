@@ -29,9 +29,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Triangle::vbo_size(void) const
+		unsigned Triangle::vbo_size(unsigned index) const
 		{
-			return 3 * (m_stroke + m_fill);
+			return 3 * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Triangle::ibo_size(unsigned index) const
 		{

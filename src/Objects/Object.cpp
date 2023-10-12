@@ -127,7 +127,7 @@ namespace canvas
 		void Object::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
 		{
 			m_vbo_index[0] = vbo_counter;
-			vbo_counter += vbo_size();
+			vbo_counter += vbo_size(0);
 			for(unsigned i = 0; i < 3; i++)
 			{
 				m_ibo_index[i] = ibo_counter[i];

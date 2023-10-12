@@ -73,12 +73,12 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Group::vbo_size(void) const
+		unsigned Group::vbo_size(unsigned index) const
 		{
 			unsigned s = 0;
 			for(const Object* object : m_objects)
 			{
-				s += object->vbo_size();
+				s += object->vbo_size(index);
 			}
 			return s;
 		}
@@ -100,11 +100,11 @@ namespace canvas
 			//affine
 			for(const Object* object : m_objects)
 			{
-				for(unsigned i = 0; i < object->vbo_size(); i++)
+				for(unsigned i = 0; i < object->vbo_size(0); i++)
 				{
 					((vertices::Model*) vbo_data + vbo_index + i)->m_position *= object->affine();
 				}
-				vbo_index += object->vbo_size();
+				vbo_index += object->vbo_size(0);
 			}
 		}
 		void Group::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])

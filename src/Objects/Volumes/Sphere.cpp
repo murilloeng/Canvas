@@ -75,9 +75,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Sphere::vbo_size(void) const
+		unsigned Sphere::vbo_size(unsigned index) const
 		{
-			return (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill);
+			return (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Sphere::ibo_size(unsigned index) const
 		{

@@ -33,11 +33,11 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Grid_2D::vbo_size(void) const
+		unsigned Grid_2D::vbo_size(unsigned index) const
 		{
 			const unsigned n1 = m_mesh[0];
 			const unsigned n2 = m_mesh[1];
-			return 2 * (n1 + n2) * m_stroke + 4 * m_fill;
+			return (2 * (n1 + n2) * m_stroke + 4 * m_fill) * (index == 0);
 		}
 		unsigned Grid_2D::ibo_size(unsigned index) const
 		{

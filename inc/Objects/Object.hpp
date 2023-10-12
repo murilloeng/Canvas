@@ -65,7 +65,7 @@ namespace canvas
 
 		protected:
 			//size
-			virtual unsigned vbo_size(void) const = 0;
+			virtual unsigned vbo_size(unsigned) const = 0;
 			virtual unsigned ibo_size(unsigned) const = 0;
 
 			//buffers

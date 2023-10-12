@@ -30,9 +30,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Quad::vbo_size(void) const
+		unsigned Quad::vbo_size(unsigned index) const
 		{
-			return 4 * (m_stroke + m_fill);
+			return 4 * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Quad::ibo_size(unsigned index) const
 		{

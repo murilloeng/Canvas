@@ -141,7 +141,7 @@ namespace canvas
 		prepare();
 		for(const objects::Object* object : m_objects)
 		{
-			const unsigned is = object->vbo_size();
+			const unsigned is = object->vbo_size(0);
 			const unsigned ib = object->m_vbo_index[0];
 			object->buffers_data(m_vbo_data[0], m_ibo_data);
 			for(unsigned iv = ib; iv < ib + is; iv++)
@@ -167,7 +167,7 @@ namespace canvas
 		m_vbo_size[0] = 0;
 		for(const objects::Object* object : m_objects)
 		{
-			m_vbo_size[0] += object->vbo_size();
+			m_vbo_size[0] += object->vbo_size(0);
 		}
 		delete[] m_vbo_data[0];
 		m_vbo_data[0] = new vertices::Model[m_vbo_size[0]];

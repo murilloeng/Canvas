@@ -29,7 +29,7 @@ namespace canvas
 
 		private:
 			//buffers
-			unsigned vbo_size(void) const override;
+			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;
 
 			//edges

@@ -55,9 +55,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Polyline::vbo_size(void) const
+		unsigned Polyline::vbo_size(unsigned index) const
 		{
-			return Group::vbo_size() + m_points.size() * m_stroke;
+			return Group::vbo_size(index) + m_points.size() * m_stroke * (index == 0);
 		}
 		unsigned Polyline::ibo_size(unsigned index) const
 		{
@@ -68,7 +68,7 @@ namespace canvas
 		void Polyline::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size();
+			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size(0);
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
 			//ibo data
 			for(unsigned i = 0; i + 1 < m_points.size(); i++)
@@ -80,7 +80,7 @@ namespace canvas
 		void Polyline::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size();
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
 			for(unsigned i = 0; i < m_points.size(); i++)
 			{

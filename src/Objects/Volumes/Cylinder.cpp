@@ -60,17 +60,13 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Cylinder::vbo_size(void) const
+		unsigned Cylinder::vbo_size(unsigned index) const
 		{
-			return 
-				2 * m_mesh * m_stroke + 
-				2 * (m_mesh + 1) * m_fill;
+			return (2 * m_mesh * m_stroke + 2 * (m_mesh + 1) * m_fill) * (index == 0);
 		}
 		unsigned Cylinder::ibo_size(unsigned index) const
 		{
-			return 
-				3 * m_mesh * (index == 1) * m_stroke + 
-				4 * m_mesh * (index == 2) * m_fill;
+			return 3 * m_mesh * (index == 1) * m_stroke + 4 * m_mesh * (index == 2) * m_fill;
 		}
 
 		//draw

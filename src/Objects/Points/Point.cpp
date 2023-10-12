@@ -30,9 +30,9 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Point::vbo_size(void) const
+		unsigned Point::vbo_size(unsigned index) const
 		{
-			return m_dot;
+			return m_dot * (index == 0);
 		}
 		unsigned Point::ibo_size(unsigned index) const
 		{

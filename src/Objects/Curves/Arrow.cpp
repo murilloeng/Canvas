@@ -80,7 +80,7 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Arrow::vbo_size(void) const
+		unsigned Arrow::vbo_size(unsigned index) const
 		{
 			return 5 * m_stroke;
 		}
