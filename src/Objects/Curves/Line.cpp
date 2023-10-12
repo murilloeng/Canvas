@@ -57,7 +57,7 @@ namespace canvas
 		void Line::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index + Group::vbo_size();
+			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size();
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
 			//ibo data
 			ibo_ptr[0] = vbo_index + 0;
@@ -66,7 +66,7 @@ namespace canvas
 		void Line::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + Group::vbo_size();
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size();
 			//vbo data
 			(vbo_ptr + 0)->m_color = m_color_stroke;
 			(vbo_ptr + 1)->m_color = m_color_stroke;

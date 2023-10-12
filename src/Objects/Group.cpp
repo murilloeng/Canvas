@@ -96,7 +96,7 @@ namespace canvas
 		void Group::vbo_affine(vertices::Vertex* vbo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index;
+			unsigned vbo_index = m_vbo_index[0];
 			//affine
 			for(const Object* object : m_objects)
 			{

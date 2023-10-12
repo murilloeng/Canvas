@@ -163,8 +163,8 @@ namespace canvas
 			{
 				for(unsigned j = 0; j < m_mesh; j++)
 				{
-					ibo_ptr[0] = m_vbo_index + vertex_index(i, j + 0);
-					ibo_ptr[1] = m_vbo_index + vertex_index(i, j + 1);
+					ibo_ptr[0] = m_vbo_index[0] + vertex_index(i, j + 0);
+					ibo_ptr[1] = m_vbo_index[0] + vertex_index(i, j + 1);
 					ibo_ptr += 2;
 				}
 			}
@@ -175,12 +175,12 @@ namespace canvas
 				{
 					for(unsigned k = 1; k + j < m_mesh; k++)
 					{
-						ibo_ptr[0] = m_vbo_index + vertex_index(i, k + 0, j + 0);
-						ibo_ptr[1] = m_vbo_index + vertex_index(i, k - 1, j + 1);
-						ibo_ptr[2] = m_vbo_index + vertex_index(i, k + 0, j + 0);
-						ibo_ptr[3] = m_vbo_index + vertex_index(i, k + 0, j + 1);
-						ibo_ptr[4] = m_vbo_index + vertex_index(i, k - 1, j + 1);
-						ibo_ptr[5] = m_vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[0] = m_vbo_index[0] + vertex_index(i, k + 0, j + 0);
+						ibo_ptr[1] = m_vbo_index[0] + vertex_index(i, k - 1, j + 1);
+						ibo_ptr[2] = m_vbo_index[0] + vertex_index(i, k + 0, j + 0);
+						ibo_ptr[3] = m_vbo_index[0] + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[4] = m_vbo_index[0] + vertex_index(i, k - 1, j + 1);
+						ibo_ptr[5] = m_vbo_index[0] + vertex_index(i, k + 0, j + 1);
 						ibo_ptr += 6;
 					}
 				}
@@ -190,7 +190,7 @@ namespace canvas
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const unsigned vbo_index = m_vbo_index + (2 + 10 * m_mesh * m_mesh) * m_stroke;
+			const unsigned vbo_index = m_vbo_index[0] + (2 + 10 * m_mesh * m_mesh) * m_stroke;
 			//triangles
 			for(unsigned i = 0; i < 20; i++)
 			{
@@ -217,7 +217,7 @@ namespace canvas
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -232,7 +232,7 @@ namespace canvas
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + nv * m_stroke;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + nv * m_stroke;
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{

@@ -83,8 +83,8 @@ namespace canvas
 			Color m_color_fill;
 			Color m_color_stroke;
 
-			unsigned m_vbo_index;
-			unsigned m_ibo_index[3];
+			unsigned m_vbo_index[3];
+			unsigned m_ibo_index[5];
 
 			//friends
 			friend class Group;

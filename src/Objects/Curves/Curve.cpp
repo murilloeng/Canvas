@@ -136,7 +136,7 @@ namespace canvas
 		void Curve::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index + Group::vbo_size();
+			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size();
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
 			//ibo data
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -148,7 +148,7 @@ namespace canvas
 		void Curve::vbo_stroke_data(vertices::Vertex* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + Group::vbo_size();
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + Group::vbo_size();
 			//vbo data
 			for(unsigned i = 0; i <= m_mesh; i++)
 			{

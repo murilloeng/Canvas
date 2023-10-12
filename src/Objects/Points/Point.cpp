@@ -45,10 +45,10 @@ namespace canvas
 			//check
 			if(!m_dot) return;
 			//ibo data
-			ibo_data[0][m_ibo_index[0]] = m_vbo_index;
+			ibo_data[0][m_ibo_index[0]] = m_vbo_index[0];
 			//vbo data
-			((vertices::Model*) vbo_data + m_vbo_index)->m_color = m_color_dot;
-			((vertices::Model*) vbo_data + m_vbo_index)->m_position = m_position;
+			((vertices::Model*) vbo_data + m_vbo_index[0])->m_color = m_color_dot;
+			((vertices::Model*) vbo_data + m_vbo_index[0])->m_position = m_position;
 		}
 	}
 }

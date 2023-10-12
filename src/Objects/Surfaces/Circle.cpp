@@ -74,24 +74,24 @@ namespace canvas
 		{
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index + m_stroke * m_mesh + 0;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index[0] + m_stroke * m_mesh + 0;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
 			}
 		}
 		void Circle::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index + (i + 0) % m_mesh;
-				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index + (i + 1) % m_mesh;
+				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index[0] + (i + 0) % m_mesh;
+				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index[0] + (i + 1) % m_mesh;
 			}
 		}
 		void Circle::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index + m_stroke * m_mesh;
+			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -110,7 +110,7 @@ namespace canvas
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)

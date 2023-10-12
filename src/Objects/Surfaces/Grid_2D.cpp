@@ -52,7 +52,7 @@ namespace canvas
 			//data
 			const unsigned n1 = m_mesh[0];
 			const unsigned n2 = m_mesh[1];
-			unsigned vbo_index = m_vbo_index;
+			unsigned vbo_index = m_vbo_index[0];
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//outer
 			for(unsigned i = 0; i < 4; i++)
@@ -81,7 +81,7 @@ namespace canvas
 			const unsigned n1 = m_mesh[0];
 			const unsigned n2 = m_mesh[1];
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const unsigned vbo_index = m_vbo_index + 2 * (n1 + n2) * m_stroke;
+			const unsigned vbo_index = m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
 			//ibo data
 			ibo_ptr[3 * 0 + 0] = vbo_index + 0;
 			ibo_ptr[3 * 0 + 1] = vbo_index + 1;
@@ -97,7 +97,7 @@ namespace canvas
 			const unsigned n2 = m_mesh[1];
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
@@ -128,7 +128,7 @@ namespace canvas
 			const unsigned n2 = m_mesh[1];
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 2 * (n1 + n2) * m_stroke;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{

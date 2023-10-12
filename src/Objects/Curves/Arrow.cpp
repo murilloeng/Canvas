@@ -99,14 +99,14 @@ namespace canvas
 			//data
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//ibo data
-			ibo_ptr[2 * 0 + 0] = m_vbo_index + 0;
-			ibo_ptr[2 * 0 + 1] = m_vbo_index + 1;
-			ibo_ptr[2 * 1 + 0] = m_vbo_index + 0;
-			ibo_ptr[2 * 1 + 1] = m_vbo_index + 2;
-			ibo_ptr[2 * 2 + 0] = m_vbo_index + 0;
-			ibo_ptr[2 * 2 + 1] = m_vbo_index + 3;
-			ibo_ptr[2 * 3 + 0] = m_vbo_index + 0;
-			ibo_ptr[2 * 3 + 1] = m_vbo_index + 4;
+			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 1;
+			ibo_ptr[2 * 1 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 1 + 1] = m_vbo_index[0] + 2;
+			ibo_ptr[2 * 2 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 2 + 1] = m_vbo_index[0] + 3;
+			ibo_ptr[2 * 3 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 3 + 1] = m_vbo_index[0] + 4;
 		}
 		void Arrow::vbo_fill_data(vertices::Vertex* vbo_data) const
 		{
@@ -117,7 +117,7 @@ namespace canvas
 			//data
 			const vec3 t2 = m_directions[0];
 			const vec3 t3 = m_directions[1];
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
 			//vbo data
 			const vec3 t1 = t2.cross(t3);
 			(vbo_ptr + 0)->m_position = m_point;

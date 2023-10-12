@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_dot(true), m_fill(true), m_stroke(true), m_vbo_index(0), m_ibo_index{0, 0, 0}
+		Object::Object(void) : m_dot(true), m_fill(true), m_stroke(true), m_vbo_index{0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0}
 		{
 			return;
 		}
@@ -126,7 +126,7 @@ namespace canvas
 		//buffers
 		void Object::buffers_index(unsigned& vbo_counter, unsigned ibo_counter[])
 		{
-			m_vbo_index = vbo_counter;
+			m_vbo_index[0] = vbo_counter;
 			vbo_counter += vbo_size();
 			for(unsigned i = 0; i < 3; i++)
 			{

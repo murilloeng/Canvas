@@ -81,27 +81,27 @@ namespace canvas
 			//face -x3
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_ptr[2 * i + 0] = m_vbo_index + (i + 0) % m_mesh;
-				ibo_ptr[2 * i + 1] = m_vbo_index + (i + 1) % m_mesh;
+				ibo_ptr[2 * i + 0] = m_vbo_index[0] + (i + 0) % m_mesh;
+				ibo_ptr[2 * i + 1] = m_vbo_index[0] + (i + 1) % m_mesh;
 			}
 			//face +x3
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_ptr[2 * m_mesh + 2 * i + 0] = m_vbo_index + m_mesh + (i + 0) % m_mesh;
-				ibo_ptr[2 * m_mesh + 2 * i + 1] = m_vbo_index + m_mesh + (i + 1) % m_mesh;
+				ibo_ptr[2 * m_mesh + 2 * i + 0] = m_vbo_index[0] + m_mesh + (i + 0) % m_mesh;
+				ibo_ptr[2 * m_mesh + 2 * i + 1] = m_vbo_index[0] + m_mesh + (i + 1) % m_mesh;
 			}
 			//edges
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
-				ibo_ptr[4 * m_mesh + 2 * i + 0] = m_vbo_index + i;
-				ibo_ptr[4 * m_mesh + 2 * i + 1] = m_vbo_index + i + m_mesh;
+				ibo_ptr[4 * m_mesh + 2 * i + 0] = m_vbo_index[0] + i;
+				ibo_ptr[4 * m_mesh + 2 * i + 1] = m_vbo_index[0] + i + m_mesh;
 			}
 		}
 		void Cylinder::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const unsigned vbo_index = m_vbo_index + 2 * m_mesh * m_stroke;
+			const unsigned vbo_index = m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//face -x3
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
@@ -132,7 +132,7 @@ namespace canvas
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
@@ -148,7 +148,7 @@ namespace canvas
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index + 2 * m_mesh * m_stroke;
+			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{

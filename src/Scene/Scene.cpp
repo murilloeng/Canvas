@@ -142,7 +142,7 @@ namespace canvas
 		for(const objects::Object* object : m_objects)
 		{
 			const unsigned is = object->vbo_size();
-			const unsigned ib = object->m_vbo_index;
+			const unsigned ib = object->m_vbo_index[0];
 			object->buffers_data(m_vbo_data[0], m_ibo_data);
 			for(unsigned iv = ib; iv < ib + is; iv++)
 			{
