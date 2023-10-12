@@ -19,17 +19,8 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(void) : 
-		m_vao_id{0, 0}, 
-		m_vbo_id{0, 0}, 
-		m_ibo_id{0, 0},
-		m_vbo_size{0, 0}, 
-		m_ibo_size{0, 0, 0}, 
-		m_ibo_data{nullptr, nullptr, nullptr}, 
-		m_vbo_data{nullptr, nullptr},
-		m_background(0, 0, 0, 0),
-		m_program_id{0, 0, 0},
-		m_shaders_vertex_id{0, 0, 0}, 
-		m_shaders_fragment_id{0, 0, 0}
+		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0)
 	{
 		setup_gl();
 		setup_buffers();
@@ -57,6 +48,7 @@ namespace canvas
 		glDeleteProgram(m_program_id[0]);
 		glDeleteProgram(m_program_id[1]);
 		glDeleteProgram(m_program_id[2]);
+		glDeleteTextures(2, m_texture_id);
 		glDeleteVertexArrays(2, m_vao_id);
 		glDeleteShader(m_shaders_vertex_id[0]);
 		glDeleteShader(m_shaders_vertex_id[1]);
@@ -102,19 +94,10 @@ namespace canvas
 		//clear
 		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//model
-		glUseProgram(m_program_id[0]);
-		glBindVertexArray(m_vao_id[0]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
-		//draw points
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[0]);
-		glDrawElements(GL_POINTS, m_ibo_size[0], GL_UNSIGNED_INT, nullptr);
-		//draw lines
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
-		glDrawElements(GL_LINES, 2 * m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
+		//draw
+		draw_text();
+		draw_model();
+		draw_image();
 	}
 	void Scene::bound(void)
 	{
@@ -208,6 +191,42 @@ namespace canvas
 			object->setup(vbo_counter, ibo_counter);
 		}
 	}
+	void Scene::draw_text(void)
+	{
+		//model
+		glUseProgram(m_program_id[2]);
+		glBindVertexArray(m_vao_id[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[4]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[4], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_model(void)
+	{
+		//model
+		glUseProgram(m_program_id[0]);
+		glBindVertexArray(m_vao_id[0]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
+		//draw points
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[0]);
+		glDrawElements(GL_POINTS, m_ibo_size[0], GL_UNSIGNED_INT, nullptr);
+		//draw lines
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
+		glDrawElements(GL_LINES, 2 * m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_image(void)
+	{
+		//model
+		glUseProgram(m_program_id[1]);
+		glBindVertexArray(m_vao_id[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
+	}
 
 	//objects
 	void Scene::clear_objects(void)
@@ -241,6 +260,7 @@ namespace canvas
 		//generate
 		glGenBuffers(3, m_vbo_id);
 		glGenBuffers(5, m_ibo_id);
+		glGenTextures(2, m_texture_id);
 		glGenVertexArrays(3, m_vao_id);
 		//vao model
 		glBindVertexArray(m_vao_id[0]);

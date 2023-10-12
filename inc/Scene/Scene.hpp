@@ -46,6 +46,9 @@ namespace canvas
 		void bound(void);
 		void update(bool);
 		void prepare(void);
+		void draw_text(void);
+		void draw_model(void);
+		void draw_image(void);
 
 		//objects
 		void clear_objects(void);
@@ -71,6 +74,7 @@ namespace canvas
 		unsigned m_vbo_size[3];
 		unsigned m_ibo_size[5];
 		unsigned* m_ibo_data[5];
+		unsigned m_texture_id[2];
 		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;

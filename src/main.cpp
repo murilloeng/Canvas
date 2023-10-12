@@ -1,5 +1,4 @@
 //std
-#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 
@@ -73,10 +72,11 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv);
 	//setup
-	examples::objects::spheres(app->scene());
+	// examples::objects::spheres(app->scene());
+	examples::scenes::tensegrity_chair(app->scene());
 	app->scene()->update(true);
 	//callbacks
-	glutIdleFunc(callback_idle);
+	// glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
