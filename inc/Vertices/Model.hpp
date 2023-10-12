@@ -20,7 +20,6 @@ namespace canvas
 
 			//data
 			Color m_color;
-			vec3 m_position;
 		};
 	}
 }

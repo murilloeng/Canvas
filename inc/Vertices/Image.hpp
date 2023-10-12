@@ -20,7 +20,6 @@ namespace canvas
 
 			//data
 			vec2 m_texture;
-			vec3 m_position;
 		};
 	}
 }

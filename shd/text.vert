@@ -3,9 +3,9 @@
 out vec4 vertex_color;
 out vec2 vertex_texture;
 
-layout (location = 0) in vec4 color;
-layout (location = 1) in vec2 texture;
-layout (location = 2) in vec3 position;
+layout (location = 1) in vec4 color;
+layout (location = 2) in vec2 texture;
+layout (location = 0) in vec3 position;
 
 uniform uvec2 screen = uvec2(700, 700);
 

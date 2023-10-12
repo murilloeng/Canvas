@@ -1,5 +1,8 @@
 #pragma once
 
+//canvas
+#include "inc/Math/vec3.hpp"
+
 namespace canvas
 {
 	namespace vertices
@@ -12,6 +15,9 @@ namespace canvas
 
 			//destructor
 			~Vertex(void);
+
+			//data
+			vec3 m_position;
 		};
 	}
 }
