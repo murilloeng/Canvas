@@ -68,6 +68,10 @@ namespace canvas
 		void setup_buffers(void);
 		void setup_shaders(void);
 
+		//buffers
+		void buffers_data(void);
+		void buffers_transfer(void);
+
 		//misc
 		static bool load_file(std::string&, const char*);
 		static void setup_shader(unsigned&, unsigned, unsigned, const char*);

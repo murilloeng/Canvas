@@ -141,50 +141,14 @@ namespace canvas
 		m_camera.box_min(box_min);
 		m_camera.box_max(box_max);
 	}
-	void Scene::setup(void)
-	{
-		setup_vbo();
-		setup_ibo();
-		setup_images();
-		setup_objects();
-	}
 	void Scene::update(void)
 	{
-		//data
-		const unsigned is[] = {1, 2, 3, 3, 3};
-		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
-		//draw
 		setup();
-		for(const objects::Object* object : m_objects)
-		{
-			object->buffers_data(m_vbo_data, m_ibo_data);
-			for(unsigned i = 0; i < 3; i++)
-			{
-				const unsigned is = object->vbo_size(i);
-				const unsigned ib = object->m_vbo_index[i];
-				for(unsigned iv = ib; iv < ib + is; iv++)
-				{
-					vertices::Vertex* vertex;
-					if(i == 2) vertex = (vertices::Text*) m_vbo_data[i] + iv;
-					if(i == 0) vertex = (vertices::Model*) m_vbo_data[i] + iv;
-					if(i == 1) vertex = (vertices::Image*) m_vbo_data[i] + iv;
-					vertex->m_position = object->affine() * vertex->m_position;
-				}
-			}
-		}
-		//vbo data
-		for(unsigned i = 0; i < 3; i++)
-		{
-			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[i]);
-			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
-		}
-		//ibo data
-		for(unsigned i = 0; i < 5; i++)
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
-		}
+		buffers_data();
+		buffers_transfer();
 	}
+
+	//draw
 	void Scene::draw_text(void)
 	{
 		//model
@@ -223,6 +187,13 @@ namespace canvas
 	}
 
 	//setup
+	void Scene::setup(void)
+	{
+		setup_vbo();
+		setup_ibo();
+		setup_images();
+		setup_objects();
+	}
 	void Scene::setup_gl(void)
 	{
 		//enable
@@ -323,6 +294,46 @@ namespace canvas
 		setup_program(m_program_id[2], m_shaders_vertex_id[2], m_shaders_fragment_id[2], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/image.vert", "shd/image.frag");
+	}
+
+	//buffers
+	void Scene::buffers_data(void)
+	{
+		for(const objects::Object* object : m_objects)
+		{
+			object->buffers_data(m_vbo_data, m_ibo_data);
+			for(unsigned i = 0; i < 3; i++)
+			{
+				const unsigned is = object->vbo_size(i);
+				const unsigned ib = object->m_vbo_index[i];
+				for(unsigned iv = ib; iv < ib + is; iv++)
+				{
+					vertices::Vertex* vertex;
+					if(i == 2) vertex = (vertices::Text*) m_vbo_data[i] + iv;
+					if(i == 0) vertex = (vertices::Model*) m_vbo_data[i] + iv;
+					if(i == 1) vertex = (vertices::Image*) m_vbo_data[i] + iv;
+					vertex->m_position = object->affine() * vertex->m_position;
+				}
+			}
+		}
+	}
+	void Scene::buffers_transfer(void)
+	{
+		//data
+		const unsigned is[] = {1, 2, 3, 3, 3};
+		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
+		//vbo data
+		for(unsigned i = 0; i < 3; i++)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[i]);
+			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
+		}
+		//ibo data
+		for(unsigned i = 0; i < 5; i++)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
+		}
 	}
 
 	//misc
