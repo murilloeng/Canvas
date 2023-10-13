@@ -51,6 +51,12 @@ namespace canvas
 		if(m_data) stbi_image_free(m_data);
 		stbi_set_flip_vertically_on_load(true);
 		m_data = stbi_load(m_path.c_str(), &w, &h, &c, STBI_rgb_alpha);
+		//check
+		if(!m_data)
+		{
+			fprintf(stderr, "Error: Couldn't load image: %s!", m_path.c_str());
+			exit(EXIT_FAILURE);
+		}
 		//setup
 		m_width = w;
 		m_height = h;

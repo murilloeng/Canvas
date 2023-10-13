@@ -107,8 +107,6 @@ namespace canvas
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture = t[i];
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
 			}
-			//anchor
-
 		}
 		void Image::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
