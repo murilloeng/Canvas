@@ -69,6 +69,7 @@ namespace canvas
 		void setup_gl(void);
 		void setup_vbo(void);
 		void setup_ibo(void);
+		void setup_fonts(void);
 		void setup_images(void);
 		void setup_objects(void);
 		void setup_buffers(void);

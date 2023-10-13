@@ -60,7 +60,7 @@ namespace canvas
 		//setup
 		m_width = w;
 		m_height = h;
-		m_status = m_data;
+		m_status = true;
 	}
 
 	//coordinates

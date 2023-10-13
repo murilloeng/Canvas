@@ -8,6 +8,11 @@
 
 namespace canvas
 {
+	class Scene;
+}
+
+namespace canvas
+{
 	class Font
 	{
 	public:
@@ -26,6 +31,7 @@ namespace canvas
 
 		//setup
 		void setup(void);
+		void load_char(FT_ULong);
 		static void setup_ft(void);
 		static void clean_ft(void);
 
@@ -36,5 +42,8 @@ namespace canvas
 		unsigned m_size;
 		std::string m_name;
 		static FT_Library m_library;
+
+		//friends
+		friend class Scene;
 	};
 }

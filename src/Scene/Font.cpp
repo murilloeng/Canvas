@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <filesystem>
+
 //ext
 #include "../external/cpp/inc/GL/glew.h"
 
@@ -64,7 +67,29 @@ namespace canvas
 	//setup
 	void Font::setup(void)
 	{
-
+		//data
+		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
+		//font
+		FT_Done_Face(m_face);
+		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
+		{
+			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
+			exit(EXIT_FAILURE);
+		}
+		//size
+		if(FT_Set_Pixel_Sizes(m_face, 0, m_size))
+		{
+			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
+			exit(EXIT_FAILURE);
+		}
+	}
+	void Font::load_char(FT_ULong code)
+	{
+		if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
+		{
+			fprintf(stderr, "Error: Failed to load Glyph %d from font %s!\n", code, m_name.c_str());
+			exit(EXIT_FAILURE);
+		}
 	}
 	void Font::setup_ft(void)
 	{

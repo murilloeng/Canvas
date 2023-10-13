@@ -218,6 +218,7 @@ namespace canvas
 	{
 		setup_vbo();
 		setup_ibo();
+		setup_fonts();
 		setup_images();
 		setup_objects();
 	}
@@ -262,6 +263,25 @@ namespace canvas
 			}
 			delete[] m_ibo_data[i];
 			m_ibo_data[i] = new unsigned[ibo_offset[i] * m_ibo_size[i]];
+		}
+	}
+	void Scene::setup_fonts(void)
+	{
+		//data
+		bool update = false;
+		unsigned w = 0, h = 0;
+		//fonts
+		for(Font* font : m_fonts)
+		{
+			if(update = update || !font->m_status)
+			{
+				font->setup();
+				for(unsigned i = 0; i < 128; i++)
+				{
+					font->load_char(i);
+					
+				}
+			}
 		}
 	}
 	void Scene::setup_images(void)
