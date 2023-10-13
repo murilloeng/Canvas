@@ -22,6 +22,7 @@ void setup_libs(Maker& maker)
 	maker.m_libs += "opengl32.lib ";
 	maker.m_libs += maker.m_elib + "glew32.lib ";
 	maker.m_libs += maker.m_elib + "freeglut.lib ";
+	maker.m_libs += maker.m_elib + "freetype.lib ";
 	maker.m_mode.compare("debug") == 0 ? setup_libs_debug(maker) : setup_libs_release(maker);
 }
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv)
 	Maker maker;
 	maker.m_out = "canvas";
 	maker.setup(argc, argv);
+	maker.m_incs += "/I ../external/cpp/inc ";
 	//build
 	if(!maker.m_clean)
 	{

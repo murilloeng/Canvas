@@ -92,9 +92,9 @@ namespace canvas
 			float tc[4];
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
-			m_scene->image(m_image).coordinates(tc);
-			const unsigned wi = m_scene->image(m_image).width();
-			const unsigned hi = m_scene->image(m_image).height();
+			m_scene->image(m_image)->coordinates(tc);
+			const unsigned wi = m_scene->image(m_image)->width();
+			const unsigned hi = m_scene->image(m_image)->height();
 			//vertices
 			const float w = m_size;
 			const float h = m_size * hi / wi;

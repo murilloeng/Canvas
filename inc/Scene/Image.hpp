@@ -14,7 +14,7 @@ namespace canvas
 	{
 	public:
 		//constructors
-		Image(void);
+		Image(const char*);
 
 		//destructor
 		~Image(void);

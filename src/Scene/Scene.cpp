@@ -7,6 +7,8 @@
 #include "../external/cpp/inc/GL/glew.h"
 
 //canvas
+#include "inc/Scene/Font.hpp"
+#include "inc/Scene/Image.hpp"
 #include "inc/Scene/Scene.hpp"
 
 #include "inc/Objects/Object.hpp"
@@ -26,6 +28,7 @@ namespace canvas
 		setup_buffers();
 		setup_shaders();
 		setup_textures();
+		Font::setup_ft();
 		objects::Object::m_scene = this;
 		m_camera.m_program_id = m_program_id;
 	}
@@ -34,15 +37,15 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
+		Font::clean_ft();
 		delete[] m_vbo_data[0];
 		delete[] m_vbo_data[1];
 		delete[] m_ibo_data[0];
 		delete[] m_ibo_data[1];
 		delete[] m_ibo_data[2];
-		for(const objects::Object* object : m_objects)
-		{
-			delete object;
-		}
+		for(const Font* font : m_fonts) delete font;
+		for(const Image* image : m_images) delete image;
+		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
 		glDeleteBuffers(2, m_vbo_id);
@@ -81,15 +84,13 @@ namespace canvas
 
 	void Scene::add_image(const char* path)
 	{
-		Image image;
-		image.m_path = path;
-		m_images.push_back(image);
+		m_images.push_back(new Image(path));
 	}
-	const Image& Scene::image(unsigned index) const
+	Image* Scene::image(unsigned index) const
 	{
 		return m_images[index];
 	}
-	const std::vector<Image>& Scene::images(void) const
+	const std::vector<Image*>& Scene::images(void) const
 	{
 		return m_images;
 	}
@@ -256,14 +257,14 @@ namespace canvas
 		bool update = false;
 		unsigned w = 0, h = 0;
 		//images
-		for(Image& image : m_images)
+		for(Image* image : m_images)
 		{
-			if(update = update || !image.m_status)
+			if(update = update || !image->m_status)
 			{
-				image.load();
-				image.m_offset = w;
-				w += image.m_width;
-				h = std::max(h, image.m_height);
+				image->load();
+				image->m_offset = w;
+				w += image->m_width;
+				h = std::max(h, image->m_height);
 			}
 		}
 		//texture
@@ -273,12 +274,12 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
-		for(Image& image : m_images)
+		for(Image* image : m_images)
 		{
-			const unsigned w = image.m_width;
-			const unsigned h = image.m_height;
-			const unsigned x = image.m_offset;
-			const unsigned char* data = image.m_data;
+			const unsigned w = image->m_width;
+			const unsigned h = image->m_height;
+			const unsigned x = image->m_offset;
+			const unsigned char* data = image->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 	}

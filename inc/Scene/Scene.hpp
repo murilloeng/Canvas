@@ -5,12 +5,13 @@
 #include <vector>
 
 //canvas
-#include "inc/Scene/Image.hpp"
 #include "inc/Scene/Camera.hpp"
 #include "inc/Colors/Color.hpp"
 
 namespace canvas
 {
+	class Font;
+	class Image;
 	namespace objects
 	{
 		class Object;
@@ -39,9 +40,13 @@ namespace canvas
 		Camera& camera(void);
 		const Camera& camera(void) const;
 
+		Font* font(unsigned) const;
+		void add_font(const char*, unsigned);
+		const std::vector<Font*>& fonts(void) const;
+
 		void add_image(const char*);
-		const Image& image(unsigned) const;
-		const std::vector<Image>& images(void) const;
+		Image* image(unsigned) const;
+		const std::vector<Image*>& images(void) const;
 
 		void clear_objects(void);
 		void add_object(objects::Object*);
@@ -96,7 +101,8 @@ namespace canvas
 		unsigned m_shaders_vertex_id[3];
 		unsigned m_shaders_fragment_id[3];
 
-		std::vector<Image> m_images;
+		std::vector<Font*> m_fonts;
+		std::vector<Image*> m_images;
 		std::vector<objects::Object*> m_objects;
 	};
 }
