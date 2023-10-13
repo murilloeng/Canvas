@@ -78,7 +78,7 @@ int main(int argc, char** argv)
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();

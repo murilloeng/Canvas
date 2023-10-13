@@ -102,9 +102,13 @@ namespace canvas
 			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
 			for(unsigned i = 0; i < 4; i++)
 			{
+				const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
+				const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture = t[i];
-				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x[i][0] * t1 + x[i][1] * t2;
+				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
 			}
+			//anchor
+
 		}
 		void Image::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{

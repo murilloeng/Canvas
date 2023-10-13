@@ -27,8 +27,9 @@ namespace examples
 				{
 					image = new canvas::objects::Image;
 					image->size(0.5);
+					image->anchor("CC");
 					image->image(3 * i + j);
-					image->position({2 * float(i) / 4 - 1, 2 * float(j) / 3 - 1, 0});
+					image->shift({2 * float(i) / 4 - 1, 2 * float(j) / 3 - 1, 0});
 					scene->add_object(image);
 				}
 			}
