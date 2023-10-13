@@ -40,6 +40,7 @@ namespace canvas
 		const Camera& camera(void) const;
 
 		void add_image(const char*);
+		const Image& image(unsigned) const;
 		const std::vector<Image>& images(void) const;
 
 		void clear_objects(void);
@@ -67,6 +68,7 @@ namespace canvas
 		void setup_objects(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
+		void setup_textures(void);
 
 		//buffers
 		void buffers_data(void);

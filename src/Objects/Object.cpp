@@ -140,5 +140,8 @@ namespace canvas
 				ibo_counter[i] += ibo_offset[i] * ibo_size(i);
 			}
 		}
+
+		//static
+		Scene* Object::m_scene = nullptr;
 	}
 }

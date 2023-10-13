@@ -25,6 +25,8 @@ namespace canvas
 		setup_gl();
 		setup_buffers();
 		setup_shaders();
+		setup_textures();
+		objects::Object::m_scene = this;
 		m_camera.m_program_id = m_program_id;
 	}
 
@@ -83,6 +85,10 @@ namespace canvas
 		image.m_path = path;
 		m_images.push_back(image);
 	}
+	const Image& Scene::image(unsigned index) const
+	{
+		return m_images[index];
+	}
 	const std::vector<Image>& Scene::images(void) const
 	{
 		return m_images;
@@ -124,20 +130,26 @@ namespace canvas
 	}
 	void Scene::bound(void)
 	{
-		//check
-		if(m_vbo_size[0] == 0) return;
 		//data
-		vec3 box_min = ((vertices::Model*) m_vbo_data[0])->m_position;
-		vec3 box_max = ((vertices::Model*) m_vbo_data[0])->m_position;
+		vec3 box_min = {+FLT_MAX, +FLT_MAX, +FLT_MAX};
+		vec3 box_max = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
 		//bound
-		for(unsigned i = 1; i < m_vbo_size[0]; i++)
+		for(unsigned i = 0; i < 3; i++)
 		{
-			for(unsigned j = 0; j < 3; j++)
+			for(unsigned j = 0; j < m_vbo_size[i]; j++)
 			{
-				box_min[j] = fminf(box_min[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
-				box_max[j] = fmaxf(box_max[j], ((vertices::Model*) m_vbo_data[0] + i)->m_position[j]);
+				for(unsigned k = 0; k < 3; k++)
+				{
+					if(i == 2) box_min[k] = fminf(box_min[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
+					if(i == 2) box_max[k] = fmaxf(box_max[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
+					if(i == 0) box_min[k] = fminf(box_min[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
+					if(i == 0) box_max[k] = fmaxf(box_max[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
+					if(i == 1) box_min[k] = fminf(box_min[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
+					if(i == 1) box_max[k] = fmaxf(box_max[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
+				}
 			}
 		}
+		//update
 		m_camera.box_min(box_min);
 		m_camera.box_max(box_max);
 	}
@@ -181,6 +193,7 @@ namespace canvas
 		glUseProgram(m_program_id[1]);
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
@@ -208,7 +221,7 @@ namespace canvas
 	}
 	void Scene::setup_vbo(void)
 	{
-		for (unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 3; i++)
 		{
 			m_vbo_size[i] = 0;
 			for(const objects::Object* object : m_objects)
@@ -239,9 +252,30 @@ namespace canvas
 	}
 	void Scene::setup_images(void)
 	{
+		//data
+		unsigned w = 0;
+		unsigned h = 0;
+		//images
 		for(Image& image : m_images)
 		{
 			image.load();
+			image.m_offset = w;
+			w += image.m_width;
+			h = std::max(h, image.m_height);
+		}
+		//texture
+		glActiveTexture(GL_TEXTURE0);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		//texture data
+		for(Image& image : m_images)
+		{
+			const unsigned w = image.m_width;
+			const unsigned h = image.m_height;
+			const unsigned x = image.m_offset;
+			const unsigned char* data = image.m_data;
+			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 	}
 	void Scene::setup_objects(void)
@@ -260,7 +294,6 @@ namespace canvas
 		//generate
 		glGenBuffers(3, m_vbo_id);
 		glGenBuffers(5, m_ibo_id);
-		glGenTextures(2, m_texture_id);
 		glGenVertexArrays(3, m_vao_id);
 		//vao model
 		glBindVertexArray(m_vao_id[0]);
@@ -294,6 +327,23 @@ namespace canvas
 		setup_program(m_program_id[2], m_shaders_vertex_id[2], m_shaders_fragment_id[2], "shd/text.vert", "shd/text.frag");
 		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
 		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/image.vert", "shd/image.frag");
+	}
+	void Scene::setup_textures(void)
+	{
+		//generate
+		glGenTextures(2, m_texture_id);
+		//images texture
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//text texture
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
 	//buffers

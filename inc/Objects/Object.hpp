@@ -86,6 +86,8 @@ namespace canvas
 			unsigned m_vbo_index[3];
 			unsigned m_ibo_index[5];
 
+			static canvas::Scene* m_scene;
+
 			//friends
 			friend class Group;
 			friend class canvas::Scene;

@@ -21,7 +21,7 @@ namespace canvas
 		glutInitWindowPosition(0, 0);
 		glutInitContextVersion(4, 6);
 		glutInitContextProfile(GLUT_CORE_PROFILE);
-		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+		glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 		//window
 		glutCreateWindow("Canvas");
 		//glew

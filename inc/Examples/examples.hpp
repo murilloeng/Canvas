@@ -12,6 +12,7 @@ namespace examples
 		void lines(canvas::Scene*);
 		void quads(canvas::Scene*);
 		void points(canvas::Scene*);
+		void images(canvas::Scene*);
 		void circles(canvas::Scene*);
 		void spheres(canvas::Scene*);
 		void splines(canvas::Scene*);
