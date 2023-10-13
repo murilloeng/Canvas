@@ -4,6 +4,9 @@
 !*.bat
 !*.cpp
 !*.hpp
+!*.jpg
+!*.png
+!*.gif
 !*.frag
 !*.vert
 !*.json
