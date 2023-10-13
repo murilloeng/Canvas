@@ -108,6 +108,16 @@ namespace canvas
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
 			}
 		}
+
+		void Image::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+		{
+			if(m_image >= m_scene->images().size())
+			{
+				fprintf(stderr, "Error: Image index out of range!\n");
+				exit(EXIT_FAILURE);
+			}
+			Object::setup(vbo_counter, ibo_counter);
+		}
 		void Image::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			vbo_fill_data(vbo_data);

@@ -82,6 +82,19 @@ namespace canvas
 		return m_camera;
 	}
 
+	Font* Scene::font(unsigned index) const
+	{
+		return m_fonts[index];
+	}
+	void Scene::add_font(const char* name, unsigned size)
+	{
+		m_fonts.push_back(new Font(name, size));
+	}
+	const std::vector<Font*>& Scene::fonts(void) const
+	{
+		return m_fonts;
+	}
+
 	void Scene::add_image(const char* path)
 	{
 		m_images.push_back(new Image(path));

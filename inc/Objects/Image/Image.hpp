@@ -42,6 +42,8 @@ namespace canvas
 			//draw
 			void ibo_fill_data(unsigned**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
+
+			void setup(unsigned[], unsigned[]) override;
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
