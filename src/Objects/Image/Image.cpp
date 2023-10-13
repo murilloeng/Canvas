@@ -89,8 +89,10 @@ namespace canvas
 		void Image::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
+			float tc[4];
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
+			m_scene->image(m_image).coordinates(tc);
 			const unsigned wi = m_scene->image(m_image).m_width;
 			const unsigned hi = m_scene->image(m_image).m_height;
 			const unsigned xi = m_scene->image(m_image).m_offset;
@@ -98,7 +100,7 @@ namespace canvas
 			const float w = m_size;
 			const float h = m_size * hi / wi;
 			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
-			const float t[][2] = {{0, 0}, {1, 0}, {1, 1}, {0, 1}};
+			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
 			for(unsigned i = 0; i < 4; i++)
 			{
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture = t[i];

@@ -4,10 +4,10 @@
 !*.bat
 !*.cpp
 !*.hpp
-!*.jpg
-!*.png
-!*.gif
 !*.frag
 !*.vert
 !*.json
 !.gitignore
+!data/images/*.jpg
+!data/images/*.png
+!data/images/*.gif

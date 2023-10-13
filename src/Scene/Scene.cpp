@@ -253,8 +253,8 @@ namespace canvas
 	void Scene::setup_images(void)
 	{
 		//data
-		unsigned w = 0;
-		unsigned h = 0;
+		unsigned& w = Image::m_total_width = 0;
+		unsigned& h = Image::m_total_height = 0;
 		//images
 		for(Image& image : m_images)
 		{

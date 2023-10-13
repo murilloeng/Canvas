@@ -34,4 +34,17 @@ namespace canvas
 		m_width = w;
 		m_height = h;
 	}
+
+	//coordinates
+	void Image::coordinates(float* coordinates) const
+	{
+		coordinates[2] = 0;
+		coordinates[0] = float(m_offset) / m_total_width;
+		coordinates[3] = float(m_height) / m_total_height;
+		coordinates[1] = float(m_offset + m_width) / m_total_width;
+	}
+
+	//static
+	unsigned Image::m_total_width = 0;
+	unsigned Image::m_total_height = 0;
 }
