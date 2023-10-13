@@ -19,13 +19,21 @@ namespace canvas
 		//destructor
 		~Image(void);
 
+		//data
+		unsigned width(void) const;
+		unsigned height(void) const;
+		std::string path(void) const;
+		std::string path(std::string);
+
 		//load
 		void load(void);
 
 		//coordinates
 		void coordinates(float*) const;
 
+	private:
 		//data
+		bool m_status;
 		unsigned m_width;
 		unsigned m_height;
 		unsigned m_offset;

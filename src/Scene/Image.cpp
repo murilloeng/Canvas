@@ -12,7 +12,7 @@
 namespace canvas
 {
 	//constructors
-	Image::Image(void) : m_data(nullptr)
+	Image::Image(void) : m_status(false), m_data(nullptr)
 	{
 		return;
 	}
@@ -23,16 +23,38 @@ namespace canvas
 		if(m_data) stbi_image_free(m_data);
 	}
 
+	//data
+	unsigned Image::width(void) const
+	{
+		return m_width;
+	}
+	unsigned Image::height(void) const
+	{
+		return m_height;
+	}
+	std::string Image::path(void) const
+	{
+		return m_path;
+	}
+	std::string Image::path(std::string path)
+	{
+		m_status = false;
+		return m_path = path;
+	}
+
 	//load
 	void Image::load(void)
 	{
 		//load
 		int w, h, c;
+		if(m_status) return;
+		if(m_data) stbi_image_free(m_data);
 		stbi_set_flip_vertically_on_load(true);
 		m_data = stbi_load(m_path.c_str(), &w, &h, &c, STBI_rgb_alpha);
 		//setup
 		m_width = w;
 		m_height = h;
+		m_status = m_data;
 	}
 
 	//coordinates

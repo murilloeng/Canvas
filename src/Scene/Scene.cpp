@@ -253,19 +253,23 @@ namespace canvas
 	void Scene::setup_images(void)
 	{
 		//data
-		unsigned& w = Image::m_total_width = 0;
-		unsigned& h = Image::m_total_height = 0;
+		bool update = false;
+		unsigned w = 0, h = 0;
 		//images
 		for(Image& image : m_images)
 		{
-			image.load();
-			image.m_offset = w;
-			w += image.m_width;
-			h = std::max(h, image.m_height);
+			if(update = update || !image.m_status)
+			{
+				image.load();
+				image.m_offset = w;
+				w += image.m_width;
+				h = std::max(h, image.m_height);
+			}
 		}
 		//texture
-		glActiveTexture(GL_TEXTURE0);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+		if(!update) return;
+		Image::m_total_width = w;
+		Image::m_total_height = h;
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
