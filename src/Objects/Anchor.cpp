@@ -61,6 +61,7 @@ namespace canvas
 				return modes[i];
 			}
 		}
+		return "Error";
 	}
 	const char* Anchor::mode(const char* mode)
 	{

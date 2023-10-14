@@ -5,7 +5,6 @@
 
 //ext
 #include "../external/cpp/inc/GL/glew.h"
-#include "../external/cpp/inc/freetype/freetype.h"
 
 //canvas
 #include "inc/Scene/Font.hpp"
@@ -13,33 +12,9 @@
 namespace canvas
 {
 	//constructors
-	Font::Font(const char* name, unsigned size) : m_status(false), m_name(name), m_size(size)
+	Font::Font(const char* name) : m_status(false), m_name(name)
 	{
-		//data
-		std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
-		//face
-		FT_Done_Face(m_face);
-		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
-		{
-			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
-		}
-		//size
-		if(FT_Set_Pixel_Sizes(m_face, 0, m_size))
-		{
-			fprintf(stderr, "Error: Failed to set font size from font %s!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
-		}
-		//characters
-		for(unsigned code = 0; code < 128; code++)
-		{
-			if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
-			{
-				fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", code, m_name.c_str());
-				exit(EXIT_FAILURE);
-			}
-			m_chars[code].setup(m_face, code);
-		}
+		return;
 	}
 
 	//destructor
@@ -49,16 +24,6 @@ namespace canvas
 	}
 
 	//data
-	unsigned Font::size(void) const
-	{
-		return m_size;
-	}
-	unsigned Font::size(unsigned size)
-	{
-		m_status = false;
-		return m_size = size;
-	}
-
 	std::string Font::name(void) const
 	{
 		return m_name;
@@ -69,20 +34,33 @@ namespace canvas
 		return m_name = name;
 	}
 
+	Character& Font::character(unsigned index)
+	{
+		return m_chars[index];
+	}
+
+	unsigned Font::total_width(void)
+	{
+		return m_total_width;
+	}
+	unsigned Font::total_height(void)
+	{
+		return m_total_height;
+	}
+
 	//setup
 	void Font::setup(void)
 	{
 		//data
 		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
 		//font
-		FT_Done_Face(m_face);
 		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
 		{
 			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//size
-		if(FT_Set_Pixel_Sizes(m_face, 0, m_size))
+		if(FT_Set_Pixel_Sizes(m_face, 0, 16))
 		{
 			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
@@ -92,15 +70,26 @@ namespace canvas
 	{
 		if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
 		{
-			fprintf(stderr, "Error: Failed to load Glyph %d from font %s!\n", code, m_name.c_str());
+			fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", code, m_name.c_str());
 			exit(EXIT_FAILURE);
+		}
+	}
+	void Font::setup_texture(void)
+	{
+		for(unsigned i = 0; i < 128; i++)
+		{
+			const unsigned w = m_chars[i].width();
+			const unsigned h = m_chars[i].height();
+			const unsigned x = m_chars[i].offset();
+			const unsigned char* data = m_chars[i].data();
+			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
 	void Font::setup_ft(void)
 	{
 		if(FT_Init_FreeType(&m_library))
 		{
-			printf("Error: Could not init FreeType Library!\n");
+			printf("Error: Unable to init FreeType Library!\n");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -108,7 +97,22 @@ namespace canvas
 	{
 		FT_Done_FreeType(m_library);
 	}
+	void Font::setup_chars(unsigned& w, unsigned& h)
+	{
+		for(unsigned i = 0; i < 128; i++)
+		{
+			//setup
+			load_char(i);
+			m_chars[i].m_offset = w;
+			m_chars[i].setup(m_face, i);
+			//update
+			w += m_chars->m_width;
+			h = std::max(h, m_chars[i].m_height);
+		}
+	}
 
 	//static
 	FT_Library Font::m_library;
+	unsigned Font::m_total_width;
+	unsigned Font::m_total_height;
 }

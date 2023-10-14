@@ -14,7 +14,6 @@ namespace canvas
 	namespace objects
 	{
 		class Group;
-		enum class type : unsigned;
 	}
 }
 

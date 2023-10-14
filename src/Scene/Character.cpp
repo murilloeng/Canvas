@@ -1,6 +1,7 @@
 #pragma once
 
 //canvas
+#include "inc/Scene/Font.hpp"
 #include "inc/Scene/Character.hpp"
 
 //ext
@@ -20,15 +21,54 @@ namespace canvas
 		return;
 	}
 
+	//data
+	unsigned Character::width(void)
+	{
+		return m_width;
+	}
+	unsigned Character::height(void)
+	{
+		return m_height;
+	}
+	unsigned Character::offset(void)
+	{
+		return m_offset;
+	}
+	unsigned Character::advance(void)
+	{
+		return m_advance;
+	}
+	unsigned Character::bearing(unsigned index)
+	{
+		return m_bearings[index];
+	}
+	const unsigned char* Character::data(void) const
+	{
+		return m_data;
+	}
+
+	//draw
+	void Character::coordinates(float* coordinates) const
+	{
+		//data
+		const unsigned w = Font::total_width();
+		const unsigned h = Font::total_height();
+		//coordinates
+		coordinates[2] = 0;
+		coordinates[0] = float(m_offset) / w;
+		coordinates[3] = float(m_height) / h;
+		coordinates[1] = float(m_offset + m_width) / w;
+	}
+
 	//setup
 	void Character::setup(FT_Face face, char code)
 	{
 		m_code = code;
-		m_advance = face->glyph->advance.x;
 		m_data = face->glyph->bitmap.buffer;
 		m_width = face->glyph->bitmap.width;
 		m_height = face->glyph->bitmap.rows;
-		m_offset[1] = face->glyph->bitmap_top;
-		m_offset[0] = face->glyph->bitmap_left;
+		m_advance = 64 * face->glyph->advance.x;
+		m_bearings[1] = face->glyph->bitmap_top;
+		m_bearings[0] = face->glyph->bitmap_left;
 	}
 }

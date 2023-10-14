@@ -1,9 +1,9 @@
 #version 460 core
 
-out vec2 vertex_texture;
+out vec2 vertex_texture_coordinates;
 
-layout (location = 1) in vec2 texture;
 layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 texture_coordinates;
 
 uniform uvec2 screen = uvec2(700, 700);
 
@@ -38,7 +38,7 @@ void main(void)
 	vec3 xa = shift;
 	vec4 qr = rotation;
 	//outputs
-	vertex_texture = texture;
+	vertex_texture_coordinates = texture_coordinates;
 	//position
 	vec3 xc = (box_min + box_max) / 2;
 	vec3 xs = (box_max - box_min) / 2;

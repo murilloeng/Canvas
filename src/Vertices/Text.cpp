@@ -6,7 +6,7 @@ namespace canvas
 	namespace vertices
 	{
 		//constructor
-		Text::Text(void)
+		Text::Text(void) : m_color_background{0, 0, 0, 0}
 		{
 			return;
 		}

@@ -40,8 +40,8 @@ namespace canvas
 		Camera& camera(void);
 		const Camera& camera(void) const;
 
+		void add_font(const char*);
 		Font* font(unsigned) const;
-		void add_font(const char*, unsigned);
 		const std::vector<Font*>& fonts(void) const;
 
 		void add_image(const char*);

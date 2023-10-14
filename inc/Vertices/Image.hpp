@@ -19,7 +19,7 @@ namespace canvas
 			~Image(void);
 
 			//data
-			vec2 m_texture;
+			vec2 m_texture_coordinates;
 		};
 	}
 }

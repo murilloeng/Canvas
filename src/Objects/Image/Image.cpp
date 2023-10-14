@@ -104,7 +104,7 @@ namespace canvas
 			{
 				const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
 				const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
-				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture = t[i];
+				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture_coordinates = t[i];
 				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
 			}
 		}
@@ -113,7 +113,7 @@ namespace canvas
 		{
 			if(m_image >= m_scene->images().size())
 			{
-				fprintf(stderr, "Error: Image index out of range!\n");
+				fprintf(stderr, "Error: Image has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
 			Object::setup(vbo_counter, ibo_counter);

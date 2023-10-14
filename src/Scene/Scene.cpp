@@ -86,9 +86,9 @@ namespace canvas
 	{
 		return m_fonts[index];
 	}
-	void Scene::add_font(const char* name, unsigned size)
+	void Scene::add_font(const char* name)
 	{
-		m_fonts.push_back(new Font(name, size));
+		m_fonts.push_back(new Font(name));
 	}
 	const std::vector<Font*>& Scene::fonts(void) const
 	{
@@ -276,11 +276,20 @@ namespace canvas
 			if(update = update || !font->m_status)
 			{
 				font->setup();
-				for(unsigned i = 0; i < 128; i++)
-				{
-					font->load_char(i);
-				}
+				font->setup_chars(w, h);
 			}
+		}
+		//texture
+		if(!update) return;
+		Font::m_total_width = w;
+		Font::m_total_height = h;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+		//texture data
+		for(Font* font : m_fonts)
+		{
+			font->setup_texture();
 		}
 	}
 	void Scene::setup_images(void)
@@ -303,6 +312,7 @@ namespace canvas
 		if(!update) return;
 		Image::m_total_width = w;
 		Image::m_total_height = h;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
@@ -355,9 +365,11 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (3 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 3 * sizeof(float)));
+		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 7 * sizeof(float)));
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (11 * sizeof(float)));
 	}
 	void Scene::setup_shaders(void)
 	{
