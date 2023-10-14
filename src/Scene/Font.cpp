@@ -5,6 +5,7 @@
 
 //ext
 #include "../external/cpp/inc/GL/glew.h"
+#include "../external/cpp/inc/freetype/freetype.h"
 
 //canvas
 #include "inc/Scene/Font.hpp"
@@ -20,20 +21,24 @@ namespace canvas
 		FT_Done_Face(m_face);
 		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
 		{
-			fprintf(stderr, "Error: Failed to load font!\n");
+			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//size
 		if(FT_Set_Pixel_Sizes(m_face, 0, m_size))
 		{
-			fprintf(stderr, "Error: Failed to set font size!\n");
+			fprintf(stderr, "Error: Failed to set font size from font %s!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//characters
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		for(unsigned code = 0; code < 128; code++)
 		{
-			// m_characters[code].setup(m_face, code);
+			if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
+			{
+				fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", code, m_name.c_str());
+				exit(EXIT_FAILURE);
+			}
+			m_chars[code].setup(m_face, code);
 		}
 	}
 
@@ -83,7 +88,7 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 	}
-	void Font::load_char(FT_ULong code)
+	void Font::load_char(char code)
 	{
 		if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
 		{

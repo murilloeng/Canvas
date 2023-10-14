@@ -3,13 +3,15 @@
 //std
 #include <string>
 
-//ext
-#include "../external/cpp/inc/freetype/freetype.h"
+//canvas
+#include "inc/Scene/Character.hpp"
 
 namespace canvas
 {
 	class Scene;
 }
+class FT_FaceRec_;
+class FT_LibraryRec_;
 
 namespace canvas
 {
@@ -31,17 +33,18 @@ namespace canvas
 
 		//setup
 		void setup(void);
-		void load_char(FT_ULong);
+		void load_char(char);
 		static void setup_ft(void);
 		static void clean_ft(void);
 
 	private:
 		//data
 		bool m_status;
-		FT_Face m_face;
 		unsigned m_size;
 		std::string m_name;
-		static FT_Library m_library;
+		FT_FaceRec_* m_face;
+		Character m_chars[128];
+		static FT_LibraryRec_* m_library;
 
 		//friends
 		friend class Scene;

@@ -279,7 +279,6 @@ namespace canvas
 				for(unsigned i = 0; i < 128; i++)
 				{
 					font->load_char(i);
-					
 				}
 			}
 		}
