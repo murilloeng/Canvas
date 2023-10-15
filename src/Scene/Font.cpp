@@ -53,10 +53,10 @@ namespace canvas
 	{
 		for(unsigned i = 0; i < 128; i++)
 		{
-			const unsigned w = m_chars[i].width();
-			const unsigned h = m_chars[i].height();
-			const unsigned x = m_chars[i].offset();
-			const unsigned char* data = m_chars[i].data();
+			const unsigned w = m_chars[i].m_width;
+			const unsigned h = m_chars[i].m_height;
+			const unsigned x = m_chars[i].m_offset;
+			const unsigned char* data = m_chars[i].m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
@@ -64,7 +64,7 @@ namespace canvas
 	{
 		if(FT_Init_FreeType(&m_library))
 		{
-			printf("Error: Unable to init FreeType Library!\n");
+			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -101,7 +101,7 @@ namespace canvas
 			m_chars[i].m_offset = w;
 			m_chars[i].setup(m_face, i);
 			//update
-			w += m_chars->m_width;
+			w += m_chars[i].m_width;
 			h = std::max(h, m_chars[i].m_height);
 		}
 	}

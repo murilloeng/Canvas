@@ -27,7 +27,7 @@ namespace canvas
 		//glew
 		if(glewInit() != GLEW_OK)
 		{
-			printf("Error: can't setup glew!\n");
+			fprintf(stderr, "Error: can't setup glew!\n");
 			exit(EXIT_FAILURE);
 		}
 		//callbacks
