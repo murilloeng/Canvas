@@ -60,7 +60,7 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 		//size
-		if(FT_Set_Pixel_Sizes(m_face, 0, 16))
+		if(FT_Set_Pixel_Sizes(m_face, 0, 256))
 		{
 			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
 			exit(EXIT_FAILURE);

@@ -181,6 +181,7 @@ namespace canvas
 		glUseProgram(m_program_id[2]);
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[4]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[4], GL_UNSIGNED_INT, nullptr);

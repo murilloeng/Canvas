@@ -40,8 +40,8 @@ namespace canvas
 		unsigned m_height;
 		unsigned m_offset;
 		unsigned m_advance;
+		unsigned char* m_data;
 		unsigned m_bearings[2];
-		const unsigned char* m_data;
 
 		//friends
 		friend class Font;

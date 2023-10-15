@@ -39,7 +39,6 @@ namespace canvas
 		glutSpecialFunc(callback_special);
 		glutMouseWheelFunc(callback_wheel);
 		glutKeyboardFunc(callback_keyboard);
-		glutPassiveMotionFunc(callback_motion);
 	}
 
 	//destructor

@@ -103,19 +103,16 @@ namespace canvas
 			const vec3& t2 = m_directions[1];
 			const unsigned ws = m_scene->camera().width();
 			const unsigned hs = m_scene->camera().height();
+			m_scene->font(m_font)->character(77).coordinates(tc);
 			//vertices
 			const float w = 1;
 			const float h = 1;
 			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
 			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
-			for(unsigned i = 0; i < m_text.length(); i++)
-			{
-				m_scene->font(m_font)->character(m_text[i]).coordinates(tc);
-
-			}
 			for(unsigned i = 0; i < 4; i++)
 			{
 				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_color_text = m_color_fill;
+				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_color_background = {0, 0, 1};
 				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_texture_coordinates = t[i];
 				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_position = m_position + x[i][0] * t1 + x[i][1] * t2;
 			}
