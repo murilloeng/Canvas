@@ -10,6 +10,6 @@ uniform sampler2D fragment_sampler;
 
 void main(void)
 {
-	float v = texture(fragment_sampler, vertex_texture_coordinates).r;
+	float v = texture2D(fragment_sampler, vertex_texture_coordinates).r;
 	fragment_color = v * vertex_color_text + (1 - v) * vertex_color_background;
 }
