@@ -12,7 +12,7 @@
 namespace canvas
 {
 	//constructors
-	Font::Font(const char* name) : m_status(false), m_name(name)
+	Font::Font(const char* name) : m_status(false), m_face(nullptr), m_name(name)
 	{
 		return;
 	}
@@ -77,6 +77,7 @@ namespace canvas
 		//data
 		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
 		//font
+		FT_Done_Face(m_face);
 		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
 		{
 			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
@@ -89,6 +90,7 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 		//characters
+		m_status = true;
 		for(unsigned i = 0; i < 128; i++)
 		{
 			//load

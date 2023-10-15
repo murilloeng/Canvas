@@ -55,9 +55,6 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	//callback
 	if(key == 'n')
 	{
-		app->scene()->update();
-		glutPostRedisplay();
-		return;
 		app->scene()->clear_objects();
 		tests[index](app->scene());
 		app->scene()->update();
@@ -80,7 +77,7 @@ int main(int argc, char** argv)
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
