@@ -1,13 +1,11 @@
 #version 460 core
 
-out vec4 vertex_color_text;
-out vec4 vertex_color_background;
+out vec4 vertex_color;
 out vec2 vertex_texture_coordinates;
 
+layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec4 color_text;
-layout (location = 2) in vec4 color_background;
-layout (location = 3) in vec2 texture_coordinates;
+layout (location = 2) in vec2 texture_coordinates;
 
 uniform uvec2 screen = uvec2(700, 700);
 
@@ -42,8 +40,7 @@ void main(void)
 	vec3 xa = shift;
 	vec4 qr = rotation;
 	//outputs
-	vertex_color_text = color_text;
-	vertex_color_background = color_background;
+	vertex_color = color;
 	vertex_texture_coordinates = texture_coordinates;
 	//position
 	vec3 xc = (box_min + box_max) / 2;

@@ -20,8 +20,7 @@ namespace canvas
 			~Text(void);
 
 			//data
-			Color m_color_text;
-			Color m_color_background;
+			Color m_color;
 			vec2 m_texture_coordinates;
 		};
 	}

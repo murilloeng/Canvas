@@ -365,11 +365,9 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 3 * sizeof(float)));
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) ( 7 * sizeof(float)));
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (11 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
 	}
 	void Scene::setup_shaders(void)
 	{

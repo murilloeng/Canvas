@@ -146,8 +146,7 @@ namespace canvas
 				//vertices
 				for(unsigned j = 0; j < 4; j++)
 				{
-					(vbo_ptr + 4 * i + j)->m_color_text = m_color_fill;
-					(vbo_ptr + 4 * i + j)->m_color_background = {0, 0, 1};
+					(vbo_ptr + 4 * i + j)->m_color = m_color_fill;
 					(vbo_ptr + 4 * i + j)->m_texture_coordinates = tc + 2 * j;
 					(vbo_ptr + 4 * i + j)->m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
 				}
