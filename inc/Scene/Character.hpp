@@ -20,11 +20,11 @@ namespace canvas
 		~Character(void);
 
 		//data
-		unsigned width(void);
-		unsigned height(void);
-		unsigned offset(void);
-		unsigned advance(void);
-		unsigned bearing(unsigned);
+		unsigned width(void) const;
+		unsigned height(void) const;
+		unsigned offset(void) const;
+		unsigned advance(void) const;
+		unsigned bearing(unsigned) const;
 		const unsigned char* data(void) const;
 
 		//draw

@@ -14,7 +14,7 @@ namespace examples
 			scene->add_font("times");
 			canvas::objects::Text* text;
 			text = new canvas::objects::Text;
-			text->text("my test");
+			text->text("my long long test string");
 			scene->add_object(text);
 		}
 	}

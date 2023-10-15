@@ -22,23 +22,23 @@ namespace canvas
 	}
 
 	//data
-	unsigned Character::width(void)
+	unsigned Character::width(void) const
 	{
 		return m_width;
 	}
-	unsigned Character::height(void)
+	unsigned Character::height(void) const
 	{
 		return m_height;
 	}
-	unsigned Character::offset(void)
+	unsigned Character::offset(void) const
 	{
 		return m_offset;
 	}
-	unsigned Character::advance(void)
+	unsigned Character::advance(void) const
 	{
 		return m_advance;
 	}
-	unsigned Character::bearing(unsigned index)
+	unsigned Character::bearing(unsigned index) const
 	{
 		return m_bearings[index];
 	}
@@ -54,10 +54,10 @@ namespace canvas
 		const unsigned w = Font::total_width();
 		const unsigned h = Font::total_height();
 		//coordinates
-		coordinates[3] = 0;
-		coordinates[0] = float(m_offset) / w;
-		coordinates[2] = float(m_height) / h;
-		coordinates[1] = float(m_offset + m_width) / w;
+		coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
+		coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
+		coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
+		coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
 	}
 
 	//setup
@@ -65,9 +65,9 @@ namespace canvas
 	{
 		//setup
 		m_code = code;
-		m_advance = face->glyph->advance.x;
 		m_width = face->glyph->bitmap.width;
 		m_height = face->glyph->bitmap.rows;
+		m_advance = face->glyph->advance.x / 64;
 		m_bearings[1] = face->glyph->bitmap_top;
 		m_bearings[0] = face->glyph->bitmap_left;
 		//buffer

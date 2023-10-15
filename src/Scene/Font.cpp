@@ -34,11 +34,6 @@ namespace canvas
 		return m_name = name;
 	}
 
-	Character& Font::character(unsigned index)
-	{
-		return m_chars[index];
-	}
-
 	unsigned Font::total_width(void)
 	{
 		return m_total_width;
@@ -46,6 +41,15 @@ namespace canvas
 	unsigned Font::total_height(void)
 	{
 		return m_total_height;
+	}
+
+	Character& Font::character(unsigned index)
+	{
+		return m_chars[index];
+	}
+	const Character& Font::character(unsigned index) const
+	{
+		return m_chars[index];
 	}
 
 	//setup

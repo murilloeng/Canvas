@@ -29,10 +29,11 @@ namespace canvas
 		std::string name(void) const;
 		std::string name(std::string);
 
-		Character& character(unsigned);
-
 		static unsigned total_width(void);
 		static unsigned total_height(void);
+
+		Character& character(unsigned);
+		const Character& character(unsigned) const;
 
 		//setup
 		void setup_texture(void);

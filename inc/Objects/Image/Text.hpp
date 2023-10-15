@@ -38,6 +38,10 @@ namespace canvas
 			vec3 direction(unsigned, const vec3&);
 
 		private:
+			//text
+			unsigned width(void) const;
+			unsigned height(void) const;
+
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

@@ -75,46 +75,83 @@ namespace canvas
 			return m_directions[index] = direction;
 		}
 
+		//text
+		unsigned Text::width(void) const
+		{
+			unsigned w = 0;
+			for(char c : m_text)
+			{
+				w += m_scene->font(m_font)->character(c).advance();
+			}
+			return w;
+		}
+		unsigned Text::height(void) const
+		{
+			unsigned h = 0;
+			for(char c : m_text)
+			{
+				h = std::max(h, m_scene->font(m_font)->character(c).advance());
+			}
+			return h;
+		}
+
 		//buffers
 		unsigned Text::vbo_size(unsigned index) const
 		{
-			return 4 * (index == 2);
+			return 4 * m_text.length() * (index == 2);
 		}
 		unsigned Text::ibo_size(unsigned index) const
 		{
-			return 2 * (index == 4);
+			return 2 * m_text.length() * (index == 4);
 		}
 
 		//draw
 		void Text::ibo_fill_data(unsigned** ibo_data) const
 		{
-			ibo_data[4][m_ibo_index[4] + 3 * 0 + 0] = m_vbo_index[2] + 0;
-			ibo_data[4][m_ibo_index[4] + 3 * 0 + 1] = m_vbo_index[2] + 1;
-			ibo_data[4][m_ibo_index[4] + 3 * 0 + 2] = m_vbo_index[2] + 2;
-			ibo_data[4][m_ibo_index[4] + 3 * 1 + 0] = m_vbo_index[2] + 0;
-			ibo_data[4][m_ibo_index[4] + 3 * 1 + 1] = m_vbo_index[2] + 2;
-			ibo_data[4][m_ibo_index[4] + 3 * 1 + 2] = m_vbo_index[2] + 3;
+			for(unsigned i = 0; i < m_text.length(); i++)
+			{
+				ibo_data[4][m_ibo_index[4] + 6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
+				ibo_data[4][m_ibo_index[4] + 6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
+				ibo_data[4][m_ibo_index[4] + 6 * i + 2] = m_vbo_index[2] + 4 * i + 2;
+				ibo_data[4][m_ibo_index[4] + 6 * i + 3] = m_vbo_index[2] + 4 * i + 0;
+				ibo_data[4][m_ibo_index[4] + 6 * i + 4] = m_vbo_index[2] + 4 * i + 2;
+				ibo_data[4][m_ibo_index[4] + 6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
+			}
 		}
 		void Text::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			float tc[4];
+			const float s = m_size;
+			const unsigned wt = width();
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
-			const unsigned ws = m_scene->camera().width();
-			const unsigned hs = m_scene->camera().height();
-			m_scene->font(m_font)->character(65).coordinates(tc);
-			//vertices
-			const float w = 1;
-			const float h = 1;
-			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
-			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
-			for(unsigned i = 0; i < 4; i++)
+			float xs[2] = {0, 0}, tc[8], xc[8];
+			const Font* font = m_scene->font(m_font);
+			vertices::Text* vbo_ptr = (vertices::Text*) vbo_data[2] + m_vbo_index[2];
+			//vbo data
+			for(unsigned i = 0; i < m_text.length(); i++)
 			{
-				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_color_text = m_color_fill;
-				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_color_background = {0, 0, 1};
-				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_texture_coordinates = t[i];
-				((vertices::Text*) vbo_data[2] + m_vbo_index[2] + i)->m_position = m_position + x[i][0] * t1 + x[i][1] * t2;
+				//character
+				font->character(m_text[i]).coordinates(tc);
+				const int w = font->character(m_text[i]).width();
+				const int h = font->character(m_text[i]).height();
+				const int r = font->character(m_text[i]).advance();
+				const int a = font->character(m_text[i]).bearing(0);
+				const int b = font->character(m_text[i]).bearing(1);
+				//position
+				xc[2 * 0 + 0] = xc[2 * 3 + 0] = xs[0] + s / wt * a;
+				xc[2 * 2 + 1] = xc[2 * 3 + 1] = xs[1] + s / wt * b;
+				xc[2 * 1 + 0] = xc[2 * 2 + 0] = xs[0] + s / wt * (a + w);
+				xc[2 * 0 + 1] = xc[2 * 1 + 1] = xs[1] + s / wt * (b - h);
+				//vertices
+				for(unsigned j = 0; j < 4; j++)
+				{
+					(vbo_ptr + 4 * i + j)->m_color_text = m_color_fill;
+					(vbo_ptr + 4 * i + j)->m_color_background = {0, 0, 1};
+					(vbo_ptr + 4 * i + j)->m_texture_coordinates = tc + 2 * j;
+					(vbo_ptr + 4 * i + j)->m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
+				}
+				xs[0] += s / wt * r;
 			}
 		}
 
