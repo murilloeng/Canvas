@@ -35,12 +35,10 @@ namespace canvas
 		static unsigned total_height(void);
 
 		//setup
-		void setup(void);
-		void load_char(char);
 		void setup_texture(void);
 		static void setup_ft(void);
 		static void clean_ft(void);
-		void setup_chars(unsigned&, unsigned&);
+		void setup(unsigned&, unsigned&);
 
 	private:
 		//data

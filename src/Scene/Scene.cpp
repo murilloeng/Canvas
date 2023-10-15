@@ -276,8 +276,7 @@ namespace canvas
 		{
 			if(update = update || !font->m_status)
 			{
-				font->setup();
-				font->setup_chars(w, h);
+				font->setup(w, h);
 			}
 		}
 		//texture

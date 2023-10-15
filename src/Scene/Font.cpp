@@ -49,31 +49,6 @@ namespace canvas
 	}
 
 	//setup
-	void Font::setup(void)
-	{
-		//data
-		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
-		//font
-		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
-		{
-			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
-		}
-		//size
-		if(FT_Set_Pixel_Sizes(m_face, 0, 256))
-		{
-			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Font::load_char(char code)
-	{
-		if(FT_Load_Char(m_face, code, FT_LOAD_RENDER))
-		{
-			fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", code, m_name.c_str());
-			exit(EXIT_FAILURE);
-		}
-	}
 	void Font::setup_texture(void)
 	{
 		for(unsigned i = 0; i < 128; i++)
@@ -97,12 +72,32 @@ namespace canvas
 	{
 		FT_Done_FreeType(m_library);
 	}
-	void Font::setup_chars(unsigned& w, unsigned& h)
+	void Font::setup(unsigned& w, unsigned& h)
 	{
+		//data
+		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
+		//font
+		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
+		{
+			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
+			exit(EXIT_FAILURE);
+		}
+		//size
+		if(FT_Set_Pixel_Sizes(m_face, 0, 256))
+		{
+			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
+			exit(EXIT_FAILURE);
+		}
+		//characters
 		for(unsigned i = 0; i < 128; i++)
 		{
+			//load
+			if(FT_Load_Char(m_face, i, FT_LOAD_RENDER))
+			{
+				fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", i, m_name.c_str());
+				exit(EXIT_FAILURE);
+			}
 			//setup
-			load_char(i);
 			m_chars[i].m_offset = w;
 			m_chars[i].setup(m_face, i);
 			//update

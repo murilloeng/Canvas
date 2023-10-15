@@ -55,6 +55,9 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	//callback
 	if(key == 'n')
 	{
+		app->scene()->update();
+		glutPostRedisplay();
+		return;
 		app->scene()->clear_objects();
 		tests[index](app->scene());
 		app->scene()->update();

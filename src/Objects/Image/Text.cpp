@@ -99,11 +99,12 @@ namespace canvas
 		{
 			//data
 			float tc[4];
+			static unsigned index = 32;
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
 			const unsigned ws = m_scene->camera().width();
 			const unsigned hs = m_scene->camera().height();
-			m_scene->font(m_font)->character(77).coordinates(tc);
+			m_scene->font(m_font)->character(index++).coordinates(tc);
 			//vertices
 			const float w = 1;
 			const float h = 1;
