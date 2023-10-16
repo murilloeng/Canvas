@@ -41,6 +41,7 @@ namespace canvas
 			//text
 			unsigned width(void) const;
 			unsigned height(void) const;
+			unsigned length(void) const;
 
 			//buffers
 			unsigned vbo_size(unsigned) const override;

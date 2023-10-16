@@ -12,9 +12,8 @@ namespace examples
 		void text(canvas::Scene* scene)
 		{
 			scene->add_font("times");
-			canvas::objects::Text* text;
-			text = new canvas::objects::Text;
-			text->text("my long long test string");
+			canvas::objects::Text* text = new canvas::objects::Text;
+			text->text("this is a\nmulti-line\ntext\twith tab");
 			scene->add_object(text);
 		}
 	}
