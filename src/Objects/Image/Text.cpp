@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Text::Text(void) : m_font(0), m_size(16), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}
+		Text::Text(void) : m_font(0), m_size(1.0f), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}
 		{
 			return;
 		}
@@ -21,6 +21,15 @@ namespace canvas
 		}
 
 		//data
+		float Text::size(void) const
+		{
+			return m_size;
+		}
+		float Text::size(float size)
+		{
+			return m_size = size;
+		}
+
 		unsigned Text::font(void) const
 		{
 			return m_font;
@@ -28,15 +37,6 @@ namespace canvas
 		unsigned Text::font(unsigned font)
 		{
 			return m_font = font;
-		}
-
-		unsigned Text::size(void) const
-		{
-			return m_size;
-		}
-		unsigned Text::size(unsigned size)
-		{
-			return m_size = size;
 		}
 
 		Anchor Text::anchor(void) const

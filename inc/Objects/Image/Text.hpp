@@ -19,11 +19,11 @@ namespace canvas
 			~Text(void);
 
 			//data
+			float size(float);
+			float size(void) const;
+
 			unsigned font(unsigned);
 			unsigned font(void) const;
-
-			unsigned size(unsigned);
-			unsigned size(void) const;
 
 			Anchor anchor(Anchor);
 			Anchor anchor(void) const;
@@ -54,8 +54,8 @@ namespace canvas
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
+			float m_size;
 			unsigned m_font;
-			unsigned m_size;
 			Anchor m_anchor;
 			vec3 m_position;
 			std::string m_text;
