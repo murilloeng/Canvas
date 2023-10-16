@@ -6,6 +6,7 @@ void setup_dlls(Maker& maker)
 	maker.m_path_dll.clear();
 	maker.m_path_dll.push_back(maker.m_edll + "glew32.dll");
 	maker.m_path_dll.push_back(maker.m_edll + "freeglut.dll");
+	maker.m_path_dll.push_back(maker.m_edll + "freetype.dll");
 }
 void setup_libs_debug(Maker& maker)
 {
