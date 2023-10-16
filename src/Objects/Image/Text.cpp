@@ -76,6 +76,15 @@ namespace canvas
 		}
 
 		//text
+		unsigned Text::lines(void) const
+		{
+			unsigned v = 1;
+			for(char c : m_text)
+			{
+				if(c == '\n' || c == '\v') v++;
+			}
+			return v;
+		}
 		unsigned Text::width(void) const
 		{
 			unsigned w = 0;
@@ -151,12 +160,21 @@ namespace canvas
 			//data
 			const float s = m_size;
 			const unsigned wt = width();
+			const unsigned nb = lines() - 1;
+			float xa[2], xs[2], xc[8], tc[8];
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
-			float xs[2] = {0, 0}, tc[8], xc[8];
 			const Font* font = m_scene->font(m_font);
 			const unsigned hf = font->total_height();
 			vertices::Text* vbo_ptr = (vertices::Text*) vbo_data[2] + m_vbo_index[2];
+			//anchor
+			xs[0] = xs[1] = 0;
+			if(m_anchor.horizontal() == 0) xa[0] = 0;
+			if(m_anchor.horizontal() == 2) xa[0] = -s;
+			if(m_anchor.horizontal() == 1) xa[0] = -s / 2;
+			if(m_anchor.vertical() == 2) xa[1] = -s * hf / wt;
+			if(m_anchor.vertical() == 0) xa[1] = nb * s * hf / wt;
+			if(m_anchor.vertical() == 1) xa[1] = (nb - 1.0f) / 2 * s * hf / wt;
 			//vbo data
 			for(unsigned i = 0; i < m_text.length(); i++)
 			{
@@ -170,10 +188,10 @@ namespace canvas
 					const int a = font->character(m_text[i]).bearing(0);
 					const int b = font->character(m_text[i]).bearing(1);
 					//position
-					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xs[0] + s / wt * a;
-					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xs[1] + s / wt * b;
-					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xs[0] + s / wt * (a + w);
-					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xs[1] + s / wt * (b - h);
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xa[0] + xs[0] + s / wt * a;
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xa[1] + xs[1] + s / wt * b;
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xa[0] + xs[0] + s / wt * (a + w);
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xa[1] + xs[1] + s / wt * (b - h);
 					//vertices
 					for(unsigned j = 0; j < 4; j++)
 					{

@@ -39,6 +39,7 @@ namespace canvas
 
 		private:
 			//text
+			unsigned lines(void) const;
 			unsigned width(void) const;
 			unsigned height(void) const;
 			unsigned length(void) const;
