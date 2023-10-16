@@ -169,12 +169,8 @@ namespace canvas
 			vertices::Text* vbo_ptr = (vertices::Text*) vbo_data[2] + m_vbo_index[2];
 			//anchor
 			xs[0] = xs[1] = 0;
-			if(m_anchor.horizontal() == 0) xa[0] = 0;
-			if(m_anchor.horizontal() == 2) xa[0] = -s;
-			if(m_anchor.horizontal() == 1) xa[0] = -s / 2;
-			if(m_anchor.vertical() == 2) xa[1] = -s * hf / wt;
-			if(m_anchor.vertical() == 0) xa[1] = nb * s * hf / wt;
-			if(m_anchor.vertical() == 1) xa[1] = (nb - 1.0f) / 2 * s * hf / wt;
+			xa[0] = -s * m_anchor.horizontal() / 2;
+			xa[1] = nb * s * hf / wt - (nb + 1) * s * hf / wt * m_anchor.vertical() / 2;
 			//vbo data
 			for(unsigned i = 0; i < m_text.length(); i++)
 			{

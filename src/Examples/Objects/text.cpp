@@ -6,6 +6,11 @@
 //examples
 #include "inc/Examples/examples.hpp"
 
+//static
+static const float x[] = {-1, -1, +1, -1, +1, +1, -1, +1};
+static const char* c[] = {"A", "B", "C", "D", "E", "F", "G", "H"};
+static const char* a[] = {"NE", "NW", "SW", "SE", "SW", "SE", "NE", "NW"};
+
 namespace examples
 {
 	namespace objects
@@ -16,8 +21,8 @@ namespace examples
 			scene->add_font("times");
 			//objects
 			canvas::objects::Quad* quad;
-			canvas::objects::Text* text[5];
-			for(unsigned i = 0; i < 5; i++)
+			canvas::objects::Text* text[9];
+			for(unsigned i = 0; i < 9; i++)
 			{
 				scene->add_object(text[i] = new canvas::objects::Text);
 			}
@@ -29,24 +34,22 @@ namespace examples
 			quad->point(2, {+1, +1, 0});
 			quad->point(3, {-1, +1, 0});
 			//text
-			text[0]->text("A");
-			text[1]->text("B");
-			text[2]->text("C");
-			text[3]->text("D");
-			text[0]->size(0.2f);
-			text[1]->size(0.2f);
-			text[2]->size(0.2f);
-			text[3]->size(0.2f);
-			text[0]->anchor("NE");
-			text[1]->anchor("NW");
-			text[2]->anchor("SW");
-			text[3]->anchor("SE");
 			text[4]->anchor("CC");
 			text[4]->position({0, 0, 0});
-			text[0]->position({-1, -1, 0});
-			text[1]->position({+1, -1, 0});
-			text[2]->position({+1, +1, 0});
-			text[3]->position({-1, +1, 0});
+			text[4]->color_fill({0, 1, 0});
+			for(unsigned i = 0; i < 4; i++)
+			{
+				text[i + 0]->size(0.2f);
+				text[i + 5]->size(0.2f);
+				text[i + 0]->text(c[i + 0]);
+				text[i + 5]->text(c[i + 4]);
+				text[i + 0]->anchor(a[i + 0]);
+				text[i + 5]->anchor(a[i + 4]);
+				text[i + 0]->color_fill({0, 0, 1});
+				text[i + 5]->color_fill({1, 0, 0});
+				text[i + 0]->position({x[2 * i + 0], x[2 * i + 1], 0});
+				text[i + 5]->position({x[2 * i + 0], x[2 * i + 1], 0});
+			}
 			text[4]->text("this is a\nmulti-\vline\ntext\twith tab");
 		}
 	}
