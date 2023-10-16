@@ -13,7 +13,7 @@ namespace examples
 		{
 			scene->add_font("times");
 			canvas::objects::Text* text = new canvas::objects::Text;
-			text->text("this is a\nmulti-line\ntext\twith tab");
+			text->text("this is a\nmulti-\vline\ntext\twith tab");
 			scene->add_object(text);
 		}
 	}

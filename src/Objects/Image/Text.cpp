@@ -189,6 +189,10 @@ namespace canvas
 					xs[0] = 0;
 					xs[1] -= 1.2f * s / wt * hf;
 				}
+				if(m_text[i] == '\v')
+				{
+					xs[1] -= 1.2f * s / wt * hf;
+				}
 				if(m_text[i] == '\t')
 				{
 					xs[0] += 4 * s / wt * font->character(' ').advance();
