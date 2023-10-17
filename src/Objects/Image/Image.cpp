@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Image::Image(void) : m_size(1), m_position{0, 0, 0}, m_image(0), m_directions{{1, 0, 0}, {0, 1, 0}}
+		Image::Image(void) : m_size(1), m_position{0, 0, 0}, m_index(0), m_directions{{1, 0, 0}, {0, 1, 0}}
 		{
 			return;
 		}
@@ -48,13 +48,13 @@ namespace canvas
 			return m_position = position;
 		}
 
-		unsigned Image::image(void) const
+		unsigned Image::index(void) const
 		{
-			return m_image;
+			return m_index;
 		}
-		unsigned Image::image(unsigned image)
+		unsigned Image::index(unsigned index)
 		{
-			return m_image = image;
+			return m_index = index;
 		}
 
 		vec3 Image::direction(unsigned index) const
@@ -69,11 +69,11 @@ namespace canvas
 		//buffers
 		unsigned Image::vbo_size(unsigned index) const
 		{
-			return 4 * (index == 1);
+			return 4 * m_fill * (index == 1);
 		}
 		unsigned Image::ibo_size(unsigned index) const
 		{
-			return 2 * (index == 3);
+			return 2 * m_fill * (index == 3);
 		}
 
 		//draw
@@ -92,9 +92,9 @@ namespace canvas
 			float tc[4];
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
-			m_scene->image(m_image)->coordinates(tc);
-			const unsigned wi = m_scene->image(m_image)->width();
-			const unsigned hi = m_scene->image(m_image)->height();
+			m_scene->image(m_index)->coordinates(tc);
+			const unsigned wi = m_scene->image(m_index)->width();
+			const unsigned hi = m_scene->image(m_index)->height();
 			//vertices
 			const float w = m_size;
 			const float h = m_size * hi / wi;
@@ -111,7 +111,7 @@ namespace canvas
 
 		void Image::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
-			if(m_image >= m_scene->images().size())
+			if(m_index >= m_scene->images().size())
 			{
 				fprintf(stderr, "Error: Image has out of range index!\n");
 				exit(EXIT_FAILURE);
@@ -120,8 +120,8 @@ namespace canvas
 		}
 		void Image::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			vbo_fill_data(vbo_data);
-			ibo_fill_data(ibo_data);
+			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_fill) ibo_fill_data(ibo_data);
 		}
 	}
 }

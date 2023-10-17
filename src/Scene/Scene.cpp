@@ -10,6 +10,7 @@
 #include "inc/Scene/Font.hpp"
 #include "inc/Scene/Image.hpp"
 #include "inc/Scene/Scene.hpp"
+#include "inc/Scene/Equation.hpp"
 
 #include "inc/Objects/Object.hpp"
 
@@ -38,23 +39,20 @@ namespace canvas
 	{
 		//delete
 		Font::clean_ft();
-		delete[] m_vbo_data[0];
-		delete[] m_vbo_data[1];
-		delete[] m_ibo_data[0];
-		delete[] m_ibo_data[1];
-		delete[] m_ibo_data[2];
 		for(const Font* font : m_fonts) delete font;
 		for(const Image* image : m_images) delete image;
+		for (unsigned i = 0; i < 3; i++) delete[] m_vbo_data[i];
+		for (unsigned i = 0; i < 6; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
-		glDeleteBuffers(2, m_vbo_id);
-		glDeleteBuffers(3, m_ibo_id);
+		glDeleteBuffers(3, m_vbo_id);
+		glDeleteBuffers(6, m_ibo_id);
 		glDeleteProgram(m_program_id[0]);
 		glDeleteProgram(m_program_id[1]);
 		glDeleteProgram(m_program_id[2]);
-		glDeleteTextures(2, m_texture_id);
-		glDeleteVertexArrays(2, m_vao_id);
+		glDeleteTextures(3, m_texture_id);
+		glDeleteVertexArrays(3, m_vao_id);
 		glDeleteShader(m_shaders_vertex_id[0]);
 		glDeleteShader(m_shaders_vertex_id[1]);
 		glDeleteShader(m_shaders_vertex_id[2]);
@@ -108,6 +106,19 @@ namespace canvas
 		return m_images;
 	}
 
+	void Scene::add_equation(const char* source)
+	{
+		m_equations.push_back(new Equation(source));
+	}
+	Equation* Scene::equation(unsigned index) const
+	{
+		return m_equations[index];
+	}
+	const std::vector<Equation*>& Scene::equations(void) const
+	{
+		return m_equations;
+	}
+
 	void Scene::clear_objects(void)
 	{
 		for(const objects::Object* object : m_objects)
@@ -141,6 +152,7 @@ namespace canvas
 		draw_text();
 		draw_model();
 		draw_image();
+		draw_equation();
 	}
 	void Scene::bound(void)
 	{
@@ -213,6 +225,17 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
 	}
+	void Scene::draw_equation(void)
+	{
+		//model
+		glUseProgram(m_program_id[2]);
+		glBindVertexArray(m_vao_id[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[5]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[5], GL_UNSIGNED_INT, nullptr);
+	}
 
 	//setup
 	void Scene::setup(void)
@@ -222,6 +245,7 @@ namespace canvas
 		setup_fonts();
 		setup_images();
 		setup_objects();
+		setup_equations();
 	}
 	void Scene::setup_gl(void)
 	{
@@ -253,9 +277,9 @@ namespace canvas
 	void Scene::setup_ibo(void)
 	{
 		//data
-		const unsigned ibo_offset[] = {1, 2, 3, 3, 3};
-		//buffers
-		for(unsigned i = 0; i < 5; i++)
+		const unsigned is[] = {1, 2, 3, 3, 3, 3};
+		//ibo data
+		for(unsigned i = 0; i < 6; i++)
 		{
 			m_ibo_size[i] = 0;
 			for(const objects::Object* object : m_objects)
@@ -263,7 +287,7 @@ namespace canvas
 				m_ibo_size[i] += object->ibo_size(i);
 			}
 			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new unsigned[ibo_offset[i] * m_ibo_size[i]];
+			m_ibo_data[i] = new unsigned[is[i] * m_ibo_size[i]];
 		}
 	}
 	void Scene::setup_fonts(void)
@@ -329,7 +353,7 @@ namespace canvas
 	{
 		//data
 		unsigned vbo_counter[] = {0, 0, 0};
-		unsigned ibo_counter[] = {0, 0, 0, 0, 0};
+		unsigned ibo_counter[] = {0, 0, 0, 0, 0, 0};
 		//objects
 		for(objects::Object* object : m_objects)
 		{
@@ -340,7 +364,7 @@ namespace canvas
 	{
 		//generate
 		glGenBuffers(3, m_vbo_id);
-		glGenBuffers(5, m_ibo_id);
+		glGenBuffers(6, m_ibo_id);
 		glGenVertexArrays(3, m_vao_id);
 		//vao model
 		glBindVertexArray(m_vao_id[0]);
@@ -377,20 +401,48 @@ namespace canvas
 	}
 	void Scene::setup_textures(void)
 	{
-		//generate
-		glGenTextures(2, m_texture_id);
-		//images texture
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		//text texture
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenTextures(3, m_texture_id);
+		for(unsigned i = 0; i < 3; i++)
+		{
+			glBindTexture(GL_TEXTURE_2D, m_texture_id[i]);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
+	}
+	void Scene::setup_equations(void)
+	{
+		//data
+		bool update = false;
+		unsigned w = 0, h = 0;
+		//images
+		for(Equation* equation : m_equations)
+		{
+			if(update = update || !equation->m_status)
+			{
+				equation->load();
+				equation->m_offset = w;
+				w += equation->m_width;
+				h = std::max(h, equation->m_height);
+			}
+		}
+		//texture
+		if(!update) return;
+		Equation::m_total_width = w;
+		Equation::m_total_height = h;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+		//texture data
+		for(Equation* equation : m_equations)
+		{
+			const unsigned w = equation->m_width;
+			const unsigned h = equation->m_height;
+			const unsigned x = equation->m_offset;
+			const unsigned char* data = equation->m_data;
+			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
+		}
 	}
 
 	//buffers
@@ -417,7 +469,7 @@ namespace canvas
 	void Scene::buffers_transfer(void)
 	{
 		//data
-		const unsigned is[] = {1, 2, 3, 3, 3};
+		const unsigned is[] = {1, 2, 3, 3, 3, 3};
 		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
 		//vbo data
 		for(unsigned i = 0; i < 3; i++)
@@ -426,7 +478,7 @@ namespace canvas
 			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
 		}
 		//ibo data
-		for(unsigned i = 0; i < 5; i++)
+		for(unsigned i = 0; i < 6; i++)
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);

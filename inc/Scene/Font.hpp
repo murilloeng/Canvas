@@ -32,6 +32,9 @@ namespace canvas
 		static unsigned total_width(void);
 		static unsigned total_height(void);
 
+		static unsigned pixels_size(void);
+		static unsigned pixels_size(unsigned);
+
 		Character& character(unsigned);
 		const Character& character(unsigned) const;
 
@@ -48,6 +51,7 @@ namespace canvas
 		std::string m_name;
 		Character m_chars[128];
 		static FT_Library m_library;
+		static unsigned m_pixels_size;
 		static unsigned m_total_width;
 		static unsigned m_total_height;
 

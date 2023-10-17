@@ -1,5 +1,3 @@
-#pragma once
-
 //std
 #include <filesystem>
 
@@ -41,6 +39,15 @@ namespace canvas
 	unsigned Font::total_height(void)
 	{
 		return m_total_height;
+	}
+
+	unsigned Font::pixels_size(void)
+	{
+		return m_pixels_size;
+	}
+	unsigned Font::pixels_size(unsigned pixels_size)
+	{
+		return m_pixels_size = pixels_size;
 	}
 
 	Character& Font::character(unsigned index)
@@ -88,7 +95,7 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 		//size
-		if(FT_Set_Pixel_Sizes(m_face, 0, 256))
+		if(FT_Set_Pixel_Sizes(m_face, 0, m_pixels_size))
 		{
 			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
@@ -116,4 +123,5 @@ namespace canvas
 	FT_Library Font::m_library;
 	unsigned Font::m_total_width;
 	unsigned Font::m_total_height;
+	unsigned Font::m_pixels_size = 256;
 }

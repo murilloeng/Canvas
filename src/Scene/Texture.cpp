@@ -1,5 +1,3 @@
-#pragma once
-
 //canvas
 #include "inc/Scene/Texture.hpp"
 

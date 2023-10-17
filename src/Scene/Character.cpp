@@ -1,5 +1,3 @@
-#pragma once
-
 //canvas
 #include "inc/Scene/Font.hpp"
 #include "inc/Scene/Character.hpp"

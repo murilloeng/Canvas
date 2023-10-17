@@ -1,5 +1,7 @@
-//defines
+//def
+#ifndef STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
+#endif
 
 //os
 #ifdef _WIN32

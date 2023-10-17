@@ -134,11 +134,11 @@ namespace canvas
 		//buffers
 		unsigned Text::vbo_size(unsigned index) const
 		{
-			return 4 * length() * (index == 2);
+			return 4 * m_fill * length() * (index == 2);
 		}
 		unsigned Text::ibo_size(unsigned index) const
 		{
-			return 2 * length() * (index == 4);
+			return 2 * m_fill * length() * (index == 4);
 		}
 
 		//draw
@@ -225,8 +225,8 @@ namespace canvas
 		}
 		void Text::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
-			vbo_fill_data(vbo_data);
-			ibo_fill_data(ibo_data);
+			if(m_fill) vbo_fill_data(vbo_data);
+			if(m_fill) ibo_fill_data(ibo_data);
 		}
 	}
 }

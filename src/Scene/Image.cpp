@@ -1,5 +1,3 @@
-#pragma once
-
 //def
 #define STB_IMAGE_IMPLEMENTATION
 

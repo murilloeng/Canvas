@@ -12,6 +12,7 @@ namespace canvas
 {
 	class Font;
 	class Image;
+	class Equation;
 	namespace objects
 	{
 		class Object;
@@ -48,6 +49,10 @@ namespace canvas
 		Image* image(unsigned) const;
 		const std::vector<Image*>& images(void) const;
 
+		void add_equation(const char*);
+		Equation* equation(unsigned) const;
+		const std::vector<Equation*>& equations(void) const;
+
 		void clear_objects(void);
 		void add_object(objects::Object*);
 		objects::Object* object(unsigned) const;
@@ -63,6 +68,7 @@ namespace canvas
 		void draw_text(void);
 		void draw_model(void);
 		void draw_image(void);
+		void draw_equation(void);
 
 		//setup
 		void setup(void);
@@ -75,6 +81,7 @@ namespace canvas
 		void setup_buffers(void);
 		void setup_shaders(void);
 		void setup_textures(void);
+		void setup_equations(void);
 
 		//buffers
 		void buffers_data(void);
@@ -90,11 +97,11 @@ namespace canvas
 
 		unsigned m_vao_id[3];
 		unsigned m_vbo_id[3];
-		unsigned m_ibo_id[5];
+		unsigned m_ibo_id[6];
 		unsigned m_vbo_size[3];
-		unsigned m_ibo_size[5];
-		unsigned* m_ibo_data[5];
-		unsigned m_texture_id[2];
+		unsigned m_ibo_size[6];
+		unsigned* m_ibo_data[6];
+		unsigned m_texture_id[6];
 		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;
@@ -104,6 +111,7 @@ namespace canvas
 
 		std::vector<Font*> m_fonts;
 		std::vector<Image*> m_images;
+		std::vector<Equation*> m_equations;
 		std::vector<objects::Object*> m_objects;
 	};
 }
