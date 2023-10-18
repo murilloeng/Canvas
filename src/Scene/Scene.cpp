@@ -303,10 +303,10 @@ namespace canvas
 				font->setup(w, h);
 			}
 		}
-		//texture
 		if(!update) return;
-		Font::m_total_width = w;
-		Font::m_total_height = h;
+		//texture
+		Font::m_width = w;
+		Font::m_height = h;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);

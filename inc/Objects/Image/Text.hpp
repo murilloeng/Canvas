@@ -39,7 +39,6 @@ namespace canvas
 
 		private:
 			//text
-			unsigned lines(void) const;
 			unsigned width(void) const;
 			unsigned height(void) const;
 			unsigned length(void) const;
@@ -62,6 +61,7 @@ namespace canvas
 			vec3 m_position;
 			std::string m_text;
 			vec3 m_directions[2];
+			std::vector<unsigned> m_lines;
 		};
 	}
 }

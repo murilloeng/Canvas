@@ -49,8 +49,8 @@ namespace canvas
 	void Character::coordinates(float* coordinates) const
 	{
 		//data
-		const unsigned w = Font::total_width();
-		const unsigned h = Font::total_height();
+		const unsigned w = Font::width();
+		const unsigned h = Font::height();
 		//coordinates
 		coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
 		coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;

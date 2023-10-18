@@ -73,7 +73,7 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv);
 	//setup
-	examples::objects::equations(app->scene());
+	examples::objects::text(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks

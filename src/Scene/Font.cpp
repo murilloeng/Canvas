@@ -22,6 +22,15 @@ namespace canvas
 	}
 
 	//data
+	unsigned Font::width(void)
+	{
+		return m_width;
+	}
+	unsigned Font::height(void)
+	{
+		return m_height;
+	}
+
 	std::string Font::name(void) const
 	{
 		return m_name;
@@ -30,15 +39,6 @@ namespace canvas
 	{
 		m_status = false;
 		return m_name = name;
-	}
-
-	unsigned Font::total_width(void)
-	{
-		return m_total_width;
-	}
-	unsigned Font::total_height(void)
-	{
-		return m_total_height;
 	}
 
 	unsigned Font::pixels_size(void)
@@ -120,8 +120,8 @@ namespace canvas
 	}
 
 	//static
+	unsigned Font::m_width;
+	unsigned Font::m_height;
 	FT_Library Font::m_library;
-	unsigned Font::m_total_width;
-	unsigned Font::m_total_height;
 	unsigned Font::m_pixels_size = 256;
 }

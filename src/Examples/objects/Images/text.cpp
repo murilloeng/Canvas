@@ -34,6 +34,7 @@ namespace examples
 			quad->point(2, {+1, +1, 0});
 			quad->point(3, {-1, +1, 0});
 			//text
+			text[4]->size(0.2f);
 			text[4]->anchor("CC");
 			text[4]->position({0, 0, 0});
 			text[4]->color_fill({0, 1, 0});

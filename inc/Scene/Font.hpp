@@ -26,11 +26,11 @@ namespace canvas
 		~Font(void);
 
 		//data
+		static unsigned width(void);
+		static unsigned height(void);
+
 		std::string name(void) const;
 		std::string name(std::string);
-
-		static unsigned total_width(void);
-		static unsigned total_height(void);
 
 		static unsigned pixels_size(void);
 		static unsigned pixels_size(unsigned);
@@ -50,10 +50,10 @@ namespace canvas
 		FT_Face m_face;
 		std::string m_name;
 		Character m_chars[128];
+		static unsigned m_width;
+		static unsigned m_height;
 		static FT_Library m_library;
 		static unsigned m_pixels_size;
-		static unsigned m_total_width;
-		static unsigned m_total_height;
 
 		//friends
 		friend class Scene;
