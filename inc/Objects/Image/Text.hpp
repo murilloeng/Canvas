@@ -34,6 +34,9 @@ namespace canvas
 			std::string text(void) const;
 			std::string text(std::string);
 
+			float line_spacing(float);
+			float line_spacing(void) const;
+
 			vec3 direction(unsigned) const;
 			vec3 direction(unsigned, const vec3&);
 
@@ -61,6 +64,7 @@ namespace canvas
 			vec3 m_position;
 			std::string m_text;
 			vec3 m_directions[2];
+			float m_line_spacing;
 			std::vector<unsigned> m_lines;
 		};
 	}

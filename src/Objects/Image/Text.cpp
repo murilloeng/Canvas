@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Text::Text(void) : m_font(0), m_size(1.0f), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}
+		Text::Text(void) : m_font(0), m_size(1.0f), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
 		{
 			return;
 		}
@@ -66,6 +66,15 @@ namespace canvas
 			return m_text = text;
 		}
 
+		float Text::line_spacing(void) const
+		{
+			return m_line_spacing;
+		}
+		float Text::line_spacing(float line_spacing)
+		{
+			return m_line_spacing = m_line_spacing;
+		}
+
 		vec3 Text::direction(unsigned index) const
 		{
 			return m_directions[index];
@@ -103,7 +112,7 @@ namespace canvas
 			{
 				if(c == '\n' || c == '\v')
 				{
-					h += a + b, a = b = 0;
+					h += a + b + m_line_spacing * font->height(), a = b = 0;
 				}
 				else
 				{
@@ -190,18 +199,18 @@ namespace canvas
 					vbo_ptr += 4;
 					xs[0] += ps * r;
 				}
-				if(m_text[i] == '\n')
-				{
-					xs[0] = 0;
-					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2]);
-				}
-				if(m_text[i] == '\v')
-				{
-					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2]);
-				}
 				if(m_text[i] == '\t')
 				{
 					xs[0] += 4 * ps * font->character(' ').advance();
+				}
+				if(m_text[i] == '\n')
+				{
+					xs[0] = 0;
+					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
+				}
+				if(m_text[i] == '\v')
+				{
+					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
 				}
 			}
 		}
