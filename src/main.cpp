@@ -73,11 +73,11 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv);
 	//setup
-	examples::scenes::tensegrity_chair(app->scene());
+	examples::objects::spheres(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
