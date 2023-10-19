@@ -67,12 +67,16 @@ namespace canvas
 		void Polygon::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//data
+			const unsigned nt = m_triangles.size() / 3;
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
 			unsigned vbo_index = m_vbo_index[0] + m_stroke * m_loops.back();
 			//ibo data
-			for(unsigned i = 0; i < 3; i++)
+			for(unsigned i = 0; i < nt; i++)
 			{
-				
+				ibo_ptr[0] = vbo_index + m_triangles[3 * i + 0];
+				ibo_ptr[1] = vbo_index + m_triangles[3 * i + 1];
+				ibo_ptr[2] = vbo_index + m_triangles[3 * i + 2];
+				ibo_ptr += 3;
 			}
 		}
 		void Polygon::ibo_stroke_data(unsigned** ibo_data) const
@@ -99,7 +103,7 @@ namespace canvas
 			//vbo data
 			for(unsigned i = 0; i < m_points.size(); i++)
 			{
-				(vbo_ptr + i)->m_color = m_color_stroke;
+				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = {m_points[i][0], m_points[i][1], 0};
 			}
 		}
@@ -117,12 +121,9 @@ namespace canvas
 
 		void Polygon::setup_link(void)
 		{
-			//data
-			const unsigned nl = m_loops.size() - 2;
-			//links
-			m_links[0].resize(nl);
-			m_links[1].resize(nl);
-			for(unsigned i = 0; i < nl; i++)
+			m_links[0].resize(m_loops.size() - 2);
+			m_links[1].resize(m_loops.size() - 2);
+			for(unsigned i = 0; i < m_links[0].size(); i++)
 			{
 				float d = FLT_MAX;
 				for(unsigned po = m_loops[0]; po < m_loops[1]; po++)
@@ -131,8 +132,8 @@ namespace canvas
 					{
 						if((m_points[pi] - m_points[po]).norm() < d)
 						{
-							m_links[1][i] = pi;
 							m_links[0][i] = po;
+							m_links[1][i] = pi;
 							d = (m_points[pi] - m_points[po]).norm();
 						}
 					}
