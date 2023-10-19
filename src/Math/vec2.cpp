@@ -49,9 +49,11 @@ namespace canvas
 	}
 	float vec2::inner(const vec2& v) const
 	{
-		return 
-			m_data[0] * v.m_data[0] + 
-			m_data[1] * v.m_data[1];
+		return m_data[0] * v.m_data[0] + m_data[1] * v.m_data[1];
+	}
+	float vec2::cross(const vec2& v) const
+	{
+		return m_data[0] * v.m_data[1] - m_data[1] * v.m_data[0];
 	}
 	float vec2::min(unsigned* index, bool abs) const
 	{

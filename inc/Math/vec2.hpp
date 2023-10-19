@@ -21,6 +21,7 @@ namespace canvas
 		vec2 unit(void) const;
 		float norm(void) const;
 		float inner(const vec2&) const;
+		float cross(const vec2&) const;
 		float min(unsigned*, bool) const;
 		float max(unsigned*, bool) const;
 

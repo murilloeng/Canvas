@@ -18,7 +18,7 @@ namespace canvas
 			return;
 		}
 
-		//arrows
+		//curves
 		void Path::add_curve(Curve* curve)
 		{
 			m_objects.push_back(curve);
