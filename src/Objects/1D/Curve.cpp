@@ -91,18 +91,6 @@ namespace canvas
 		}
 
 		//path
-		float Curve::lenght(void) const
-		{
-			float l = 0;
-			const float pm = path_max();
-			for(unsigned i = 0; i < m_mesh; i++)
-			{
-				const vec3 p1 = path_position(float(i + 0) * pm / m_mesh);
-				const vec3 p2 = path_position(float(i + 1) * pm / m_mesh);
-				l += (p2 - p1).norm();
-			}
-			return l;
-		}
 		float Curve::path_max(void) const
 		{
 			return 1.0f;

@@ -39,7 +39,6 @@ namespace canvas
 			Arrow* arrow(unsigned) const;
 
 			//path
-			float lenght(void) const;
 			vec3 path_normal(float) const;
 			vec3 path_tangent(float) const;
 			vec3 path_binormal(float) const;

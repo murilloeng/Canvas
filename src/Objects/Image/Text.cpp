@@ -219,7 +219,7 @@ namespace canvas
 		{
 			//data
 			unsigned a = 0, b = 0;
-			Font* font =  m_scene->font(m_font);
+			Font* font = m_scene->font(m_font);
 			//check
 			if(m_font >= m_scene->fonts().size())
 			{
