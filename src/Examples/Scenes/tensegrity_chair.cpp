@@ -5,7 +5,7 @@
 #include "inc/Objects/3D/Cube.hpp"
 #include "inc/Objects/1D/Arrow.hpp"
 #include "inc/Objects/3D/Cylinder.hpp"
-#include "inc/Objects/Image/Equation.hpp"
+#include "inc/Objects/Image/Latex.hpp"
 
 //data
 static const unsigned nc = 3;
@@ -79,15 +79,15 @@ static void cables(canvas::Scene* scene)
 }
 static void labels(canvas::Scene* scene)
 {
-	//equations
-	scene->add_equation("$ e $");
-	scene->add_equation("$ H_c $");
-	scene->add_equation("$ H_t $");
-	scene->add_equation("$ H_r $");
-	scene->add_equation("$ R_r $");
+	//latex
+	scene->add_latex("$ e_r $");
+	scene->add_latex("$ H_c $");
+	scene->add_latex("$ H_t $");
+	scene->add_latex("$ H_r $");
+	scene->add_latex("$ R_r $");
 	//data
 	const canvas::Anchor a[] = {"SC", "CE", "CW", "CW", "NC"};
-	canvas::objects::Equation* labels = new canvas::objects::Equation[5];
+	canvas::objects::Latex* labels = new canvas::objects::Latex[5];
 	const canvas::vec3 x[] = {
 		{e / 2, 0, tr + Hr + 3 * tc / 2}, 
 		{-tc, 0, Ht / 2 + tr}, 

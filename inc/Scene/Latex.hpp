@@ -10,14 +10,14 @@ namespace canvas
 
 namespace canvas
 {
-	class Equation
+	class Latex
 	{
 	public:
 		//constructors
-		Equation(const char*);
+		Latex(const char*);
 
 		//destructor
-		~Equation(void);
+		~Latex(void);
 
 		//data
 		unsigned width(void) const;

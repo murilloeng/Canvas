@@ -10,7 +10,7 @@
 #include "inc/Scene/Font.hpp"
 #include "inc/Scene/Image.hpp"
 #include "inc/Scene/Scene.hpp"
-#include "inc/Scene/Equation.hpp"
+#include "inc/Scene/Latex.hpp"
 
 #include "inc/Objects/Object.hpp"
 
@@ -40,9 +40,10 @@ namespace canvas
 		//delete
 		Font::clean_ft();
 		for(const Font* font : m_fonts) delete font;
+		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
-		for (unsigned i = 0; i < 3; i++) delete[] m_vbo_data[i];
-		for (unsigned i = 0; i < 6; i++) delete[] m_ibo_data[i];
+		for(unsigned i = 0; i < 3; i++) delete[] m_vbo_data[i];
+		for(unsigned i = 0; i < 6; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
@@ -106,17 +107,17 @@ namespace canvas
 		return m_images;
 	}
 
-	void Scene::add_equation(const char* source)
+	void Scene::add_latex(const char* source)
 	{
-		m_equations.push_back(new Equation(source));
+		m_latex.push_back(new Latex(source));
 	}
-	Equation* Scene::equation(unsigned index) const
+	Latex* Scene::latex(unsigned index) const
 	{
-		return m_equations[index];
+		return m_latex[index];
 	}
-	const std::vector<Equation*>& Scene::equations(void) const
+	const std::vector<Latex*>& Scene::latex(void) const
 	{
-		return m_equations;
+		return m_latex;
 	}
 
 	void Scene::clear_objects(void)
@@ -417,30 +418,30 @@ namespace canvas
 		bool update = false;
 		unsigned w = 0, h = 0;
 		//images
-		for(Equation* equation : m_equations)
+		for(Latex* latex : m_latex)
 		{
-			if(update = update || !equation->m_status)
+			if(update = update || !latex->m_status)
 			{
-				equation->load();
-				equation->m_offset = w;
-				w += equation->m_width;
-				h = std::max(h, equation->m_height);
+				latex->load();
+				latex->m_offset = w;
+				w += latex->m_width;
+				h = std::max(h, latex->m_height);
 			}
 		}
 		//texture
 		if(!update) return;
-		Equation::m_total_width = w;
-		Equation::m_total_height = h;
+		Latex::m_total_width = w;
+		Latex::m_total_height = h;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
-		for(Equation* equation : m_equations)
+		for(Latex* latex : m_latex)
 		{
-			const unsigned w = equation->m_width;
-			const unsigned h = equation->m_height;
-			const unsigned x = equation->m_offset;
-			const unsigned char* data = equation->m_data;
+			const unsigned w = latex->m_width;
+			const unsigned h = latex->m_height;
+			const unsigned x = latex->m_offset;
+			const unsigned char* data = latex->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}

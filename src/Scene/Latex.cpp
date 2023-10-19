@@ -2,45 +2,45 @@
 #include "../external/cpp/inc/stb_image.h"
 
 //canvas
-#include "inc/Scene/Equation.hpp"
+#include "inc/Scene/Latex.hpp"
 
 static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
 
 namespace canvas
 {
 	//constructors
-	Equation::Equation(const char* source) : m_status(false), m_source(source), m_data(nullptr)
+	Latex::Latex(const char* source) : m_status(false), m_source(source), m_data(nullptr)
 	{
 		return;
 	}
 	
 	//destructor
-	Equation::~Equation(void)
+	Latex::~Latex(void)
 	{
 		if(m_data) stbi_image_free(m_data);
 	}
 
 	//data
-	unsigned Equation::width(void) const
+	unsigned Latex::width(void) const
 	{
 		return m_width;
 	}
-	unsigned Equation::height(void) const
+	unsigned Latex::height(void) const
 	{
 		return m_height;
 	}
-	std::string Equation::source(void) const
+	std::string Latex::source(void) const
 	{
 		return m_source;
 	}
-	std::string Equation::source(std::string source)
+	std::string Latex::source(std::string source)
 	{
 		m_status = false;
 		return m_source = source;
 	}
 
 	//load
-	void Equation::load(void)
+	void Latex::load(void)
 	{
 		//data
 		int w, h, c;
@@ -52,12 +52,12 @@ namespace canvas
 		//convert
 		if(system("pdflatex -halt-on-error temp.tex"))
 		{
-			fprintf(stderr, "Error: Latex compilation of equation %s failed!\n", m_source.c_str());
+			fprintf(stderr, "Error: Latex compilation of %s failed!\n", m_source.c_str());
 			exit(EXIT_FAILURE);
 		}
 		if(system("magick convert -density 2000 temp.pdf temp.png"))
 		{
-			fprintf(stderr, "Error: Could not convert equation %s from pdf to png!\n", m_source.c_str());
+			fprintf(stderr, "Error: Could not convert %s from pdf to png!\n", m_source.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//load
@@ -80,7 +80,7 @@ namespace canvas
 	}
 
 	//coordinates
-	void Equation::coordinates(float* coordinates) const
+	void Latex::coordinates(float* coordinates) const
 	{
 		coordinates[2] = 0;
 		coordinates[0] = float(m_offset) / m_total_width;
@@ -89,6 +89,6 @@ namespace canvas
 	}
 
 	//static
-	unsigned Equation::m_total_width = 0;
-	unsigned Equation::m_total_height = 0;
+	unsigned Latex::m_total_width = 0;
+	unsigned Latex::m_total_height = 0;
 }

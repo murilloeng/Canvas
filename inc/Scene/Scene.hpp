@@ -12,7 +12,7 @@ namespace canvas
 {
 	class Font;
 	class Image;
-	class Equation;
+	class Latex;
 	namespace objects
 	{
 		class Object;
@@ -49,9 +49,9 @@ namespace canvas
 		Image* image(unsigned) const;
 		const std::vector<Image*>& images(void) const;
 
-		void add_equation(const char*);
-		Equation* equation(unsigned) const;
-		const std::vector<Equation*>& equations(void) const;
+		void add_latex(const char*);
+		Latex* latex(unsigned) const;
+		const std::vector<Latex*>& latex(void) const;
 
 		void clear_objects(void);
 		void add_object(objects::Object*);
@@ -110,8 +110,8 @@ namespace canvas
 		unsigned m_shaders_fragment_id[3];
 
 		std::vector<Font*> m_fonts;
+		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
-		std::vector<Equation*> m_equations;
 		std::vector<objects::Object*> m_objects;
 	};
 }

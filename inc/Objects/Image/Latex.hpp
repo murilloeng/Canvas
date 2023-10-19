@@ -9,14 +9,14 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Equation : public Object
+		class Latex : public Object
 		{
 		public:
 			//constructors
-			Equation(void);
+			Latex(void);
 
 			//destructor
-			~Equation(void);
+			~Latex(void);
 
 			//data
 			float size(float);
