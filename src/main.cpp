@@ -73,7 +73,7 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv);
 	//setup
-	examples::objects::text(app->scene());
+	examples::scenes::tensegrity_chair(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks

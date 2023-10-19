@@ -96,8 +96,8 @@ namespace canvas
 			const unsigned wi = m_scene->equation(m_index)->width();
 			const unsigned hi = m_scene->equation(m_index)->height();
 			//vertices
-			const float w = m_size;
-			const float h = m_size * hi / wi;
+			const float h = m_size;
+			const float w = m_size * wi / hi;
 			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
 			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
 			for(unsigned i = 0; i < 4; i++)
