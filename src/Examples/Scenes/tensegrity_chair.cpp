@@ -3,11 +3,12 @@
 
 #include "inc/Objects/1D/Line.hpp"
 #include "inc/Objects/3D/Cube.hpp"
+#include "inc/Objects/1D/Arrow.hpp"
 #include "inc/Objects/3D/Cylinder.hpp"
 #include "inc/Objects/Image/Equation.hpp"
 
 //data
-static const unsigned nc = 5;
+static const unsigned nc = 3;
 static const float e = 5.50e-02;
 static const float tr = 4.00e-03;
 static const float tc = 1.00e-02;
@@ -85,19 +86,52 @@ static void labels(canvas::Scene* scene)
 	scene->add_equation("$ H_r $");
 	scene->add_equation("$ R_r $");
 	//data
+	const canvas::Anchor a[] = {"SC", "CE", "CW", "CW", "NC"};
 	canvas::objects::Equation* labels = new canvas::objects::Equation[5];
-	canvas::vec3 x[] = {{e / 2, 0, Hr + tc}, {0, 0, Ht / 2 + tr}, {Rr, 0, Ht / 2 + tr}, {e + tc / 2, 0, Hr / 2}, {0, 0, 0}};
+	const canvas::vec3 x[] = {
+		{e / 2, 0, tr + Hr + 3 * tc / 2}, 
+		{-tc, 0, Ht / 2 + tr}, 
+		{Rr + tc, 0, Ht / 2 + tr}, 
+		{e + 3 * tc / 2, 0, Hr / 2}, 
+		{Rr / 2, 0, -tc}
+	};
 	//labels
 	for(unsigned i = 0; i < 5; i++)
 	{
 		labels[i].index(i);
 		labels[i].size(Rr / 8);
+		labels[i].anchor(a[i]);
 		labels[i].position(x[i]);
 		labels[i].color_fill({1, 0, 0});
 		labels[i].direction(1, {0, 0, 1});
 		scene->add_object(labels + i);
 	}
-
+}
+static void guides(canvas::Scene* scene)
+{
+	//data
+	canvas::objects::Line* guides = new canvas::objects::Line[5];
+	const canvas::vec3 x[] = {
+		{-tc, 0, Hr - tc / 2 + tr}, {-tc, 0, Ht - Hr + tc / 2 + tr},
+		{0, 0, tr + Hr + 3 * tc / 2}, {e, 0, tr + Hr + 3 * tc / 2},
+		{Rr + tc, 0, tr}, {Rr + tc, 0, tr + Ht},
+		{e + 3 * tc / 2, 0, tr}, {e + 3 * tc / 2, 0, tr + Hr},
+		{0, 0, -tc}, {Rr, 0, -tc}
+	};
+	//arrows
+	for(unsigned i = 0; i < 5; i++)
+	{
+		guides[i].add_arrow(1, true);
+		guides[i].add_arrow(0, false);
+		guides[i].arrow(0)->height(tc);
+		guides[i].arrow(1)->height(tc);
+		guides[i].arrow(0)->width(0.0f);
+		guides[i].arrow(1)->width(0.0f);
+		guides[i].point(0, x[2 * i + 0]);
+		guides[i].point(1, x[2 * i + 1]);
+		guides[i].color_stroke({1, 0, 0});
+		scene->add_object(guides + i);
+	}
 }
 
 namespace examples
@@ -109,6 +143,8 @@ namespace examples
 			rigid(scene);
 			cables(scene);
 			labels(scene);
+			guides(scene);
+			scene->camera().rotation(canvas::vec3(-M_PI_2, 0, 0).quaternion());
 		}
 	}
 }
