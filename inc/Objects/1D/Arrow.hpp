@@ -63,7 +63,7 @@ namespace canvas
 			float m_parameter;
 			vec3 m_directions[2];
 			//friends
-			friend class Curve;
+			friend class Path;
 		};
 	}
 }

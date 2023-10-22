@@ -11,9 +11,9 @@ namespace examples
 		void text(canvas::Scene*);
 		void cubes(canvas::Scene*);
 		void lines(canvas::Scene*);
-		void paths(canvas::Scene*);
 		void quads(canvas::Scene*);
 		void latex(canvas::Scene*);
+		void curves(canvas::Scene*);
 		void points(canvas::Scene*);
 		void images(canvas::Scene*);
 		void circles(canvas::Scene*);

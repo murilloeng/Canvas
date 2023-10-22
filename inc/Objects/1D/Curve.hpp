@@ -1,25 +1,17 @@
 #pragma once
 
 //std
-#include <vector>
+#include <functional>
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Group.hpp"
+#include "inc/Objects/1D/Path.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Arrow;
-	}
-}
-
-namespace canvas
-{
-	namespace objects
-	{
-		class Curve : public Group
+		class Curve : public Path
 		{
 		public:
 			//constructors
@@ -29,38 +21,24 @@ namespace canvas
 			~Curve(void);
 
 			//data
-			unsigned mesh(unsigned);
-			unsigned mesh(void) const;
+			std::function<vec3(float)> hessian(void) const;
+			std::function<vec3(float)> gradient(void) const;
+			std::function<vec3(float)> position(void) const;
 
-			//arrows
-			void add_arrow(float, bool);
-			void remove_arrow(unsigned);
-			unsigned arrows(void) const;
-			Arrow* arrow(unsigned) const;
+			std::function<vec3(float)> hessian(std::function<vec3(float)>);
+			std::function<vec3(float)> gradient(std::function<vec3(float)>);
+			std::function<vec3(float)> position(std::function<vec3(float)>);
 
 			//path
-			vec3 path_normal(float) const;
-			vec3 path_tangent(float) const;
-			vec3 path_binormal(float) const;
-			virtual float path_max(void) const;
-			virtual vec3 path_hessian(float) const = 0;
-			virtual vec3 path_position(float) const = 0;
-			virtual vec3 path_gradient(float) const = 0;
+			vec3 path_hessian(float) const override;
+			vec3 path_position(float) const override;
+			vec3 path_gradient(float) const override;
 
-		protected:
-			//sizes
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
-
-			//buffers
-			virtual void ibo_stroke_data(unsigned**) const;
-			virtual void vbo_stroke_data(vertices::Vertex**) const;
-
-			void setup(unsigned[], unsigned[]) override;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
-
+		private:
 			//data
-			unsigned m_mesh;
+			std::function<vec3(float)> m_hessian;
+			std::function<vec3(float)> m_gradient;
+			std::function<vec3(float)> m_position;
 		};
 	}
 }

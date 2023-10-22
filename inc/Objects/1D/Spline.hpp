@@ -5,13 +5,13 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/1D/Curve.hpp"
+#include "inc/Objects/1D/Path.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Spline : public Curve
+		class Spline : public Path
 		{
 		public:
 			//constructors

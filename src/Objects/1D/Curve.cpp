@@ -1,9 +1,6 @@
-//std
-#include <cmath>
-
 //canvas
 #include "inc/Vertices/Model.hpp"
-#include "inc/Objects/1D/Arrow.hpp"
+
 #include "inc/Objects/1D/Curve.hpp"
 
 namespace canvas
@@ -11,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Curve::Curve(void) : m_mesh(40)
+		Curve::Curve(void)
 		{
 			return;
 		}
@@ -23,160 +20,44 @@ namespace canvas
 		}
 
 		//data
-		unsigned Curve::mesh(void) const
+		std::function<vec3(float)> Curve::hessian(void) const
 		{
-			return m_mesh;
+			return m_hessian;
 		}
-		unsigned Curve::mesh(unsigned mesh)
+		std::function<vec3(float)> Curve::gradient(void) const
 		{
-			return m_mesh = mesh;
+			return m_gradient;
+		}
+		std::function<vec3(float)> Curve::position(void) const
+		{
+			return m_position;
 		}
 
-		//arrows
-		void Curve::add_arrow(float s, bool sense)
+		std::function<vec3(float)> Curve::hessian(std::function<vec3(float)> hessian)
 		{
-			//data
-			Arrow* arrow = new Arrow;
-			//arrow
-			arrow->parameter(s);
-			arrow->sense(sense);
-			m_objects.push_back(arrow);
+			return m_hessian = hessian;
 		}
-		void Curve::remove_arrow(unsigned index)
+		std::function<vec3(float)> Curve::gradient(std::function<vec3(float)> gradient)
 		{
-			unsigned counter = 0;
-			for(unsigned i = 0; i < m_objects.size(); i++)
-			{
-				if(dynamic_cast<const Arrow*>(m_objects[i]))
-				{
-					if(counter == index)
-					{
-						delete m_objects[i];
-						m_objects.erase(m_objects.begin() + i);
-					}
-					counter++;
-				}
-			}
+			return m_gradient = gradient;
 		}
-		unsigned Curve::arrows(void) const
+		std::function<vec3(float)> Curve::position(std::function<vec3(float)> position)
 		{
-			unsigned counter = 0;
-			for(const Object* object : m_objects)
-			{
-				if(dynamic_cast<const Arrow*>(object))
-				{
-					counter++;
-				}
-			}
-			return counter;
-		}
-		Arrow* Curve::arrow(unsigned index) const
-		{
-			unsigned counter = 0;
-			for(Object* object : m_objects)
-			{
-				if(dynamic_cast<Arrow*>(object))
-				{
-					if(counter != index)
-					{
-						counter++;
-					}
-					else
-					{
-						return (Arrow*) object;
-					}
-				}
-			}
-			return nullptr;
+			return m_position = position;
 		}
 
 		//path
-		float Curve::path_max(void) const
+		vec3 Curve::path_hessian(float s) const
 		{
-			return 1.0f;
+			return m_hessian(s);
 		}
-		vec3 Curve::path_normal(float s) const
+		vec3 Curve::path_position(float s) const
 		{
-			//path
-			const vec3 h = path_hessian(s);
-			const vec3 g = path_gradient(s);
-			//normal
-			if(h.cross(g).norm() != 0)
-			{
-				const vec3 t = g.unit();
-				return (h - h.inner(t) * t).unit();
-			}
-			else
-			{
-				vec3 t2, t3;
-				g.unit().triad(t2, t3);
-				return t2;
-			}
+			return m_position(s);
 		}
-		vec3 Curve::path_tangent(float s) const
+		vec3 Curve::path_gradient(float s) const
 		{
-			return path_gradient(s).unit();
-		}
-		vec3 Curve::path_binormal(float s) const
-		{
-			return path_tangent(s).cross(path_normal(s));
-		}
-
-		//sizes
-		unsigned Curve::vbo_size(unsigned index) const
-		{
-			return Group::vbo_size(index) + (m_mesh + 1) * m_stroke * (index == 0);
-		}
-		unsigned Curve::ibo_size(unsigned index) const
-		{
-			return Group::ibo_size(index) + m_mesh * (index == 1) * m_stroke;
-		}
-
-		//buffers
-		void Curve::ibo_stroke_data(unsigned** ibo_data) const
-		{
-			//data
-			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
-			//ibo data
-			for(unsigned i = 0; i < m_mesh; i++)
-			{
-				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
-				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
-			}
-		}
-		void Curve::vbo_stroke_data(vertices::Vertex** vbo_data) const
-		{
-			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
-			//vbo data
-			for(unsigned i = 0; i <= m_mesh; i++)
-			{
-				const float s = i * path_max() / m_mesh;
-				(vbo_ptr + i)->m_color = m_color_stroke;
-				(vbo_ptr + i)->m_position = path_position(s);
-			}
-		}
-
-		void Curve::setup(unsigned vbo_counter[], unsigned ibo_counter[])
-		{
-			for(Object* object : m_objects)
-			{
-				if(dynamic_cast<Arrow*>(object))
-				{
-					float s = ((Arrow*) object)->m_parameter;
-					((Arrow*) object)->m_point = path_position(s);
-					((Arrow*) object)->m_directions[0] = path_normal(s);
-					((Arrow*) object)->m_directions[1] = path_binormal(s);
-				}
-			}
-			Group::setup(vbo_counter, ibo_counter);
-		}
-		void Curve::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
-		{
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
-			Group::buffers_data(vbo_data, ibo_data);
+			return m_gradient(s);
 		}
 	}
 }
