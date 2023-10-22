@@ -22,6 +22,7 @@ namespace examples
 		void grid_2D(canvas::Scene*);
 		void grid_3D(canvas::Scene*);
 		void polygons(canvas::Scene*);
+		void surfaces(canvas::Scene*);
 		void polylines(canvas::Scene*);
 		void triangles(canvas::Scene*);
 		void cylinders(canvas::Scene*);
