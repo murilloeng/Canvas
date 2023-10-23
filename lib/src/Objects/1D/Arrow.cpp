@@ -82,11 +82,11 @@ namespace canvas
 		//buffers
 		unsigned Arrow::vbo_size(unsigned index) const
 		{
-			return 5 * m_stroke;
+			return 5 * m_stroke * (index == 0);
 		}
 		unsigned Arrow::ibo_size(unsigned index) const
 		{
-			return 4 * (index == 1);
+			return 4 * m_stroke * (index == 1);
 		}
 
 		//draw
