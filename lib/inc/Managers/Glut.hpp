@@ -14,7 +14,7 @@ namespace canvas
 	{
 	public:
 		//constructors
-		Glut(int, char**);
+		Glut(int, char**, const char*);
 
 		//destructor
 		~Glut(void);

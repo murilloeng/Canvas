@@ -21,7 +21,8 @@
 namespace canvas
 {
 	//constructors
-	Scene::Scene(void) : 
+	Scene::Scene(std::string shaders_dir) : 
+		m_shaders_dir(shaders_dir),
 		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
 		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0)
 	{
@@ -396,9 +397,15 @@ namespace canvas
 	}
 	void Scene::setup_shaders(void)
 	{
-		setup_program(m_program_id[2], m_shaders_vertex_id[2], m_shaders_fragment_id[2], "shd/text.vert", "shd/text.frag");
-		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], "shd/model.vert", "shd/model.frag");
-		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], "shd/image.vert", "shd/image.frag");
+		const std::string text_vert = m_shaders_dir + "text.vert";
+		const std::string text_frag = m_shaders_dir + "text.frag";
+		const std::string model_vert = m_shaders_dir + "model.vert";
+		const std::string model_frag = m_shaders_dir + "model.frag";
+		const std::string image_vert = m_shaders_dir + "image.vert";
+		const std::string image_frag = m_shaders_dir + "image.frag";
+		setup_program(m_program_id[2], m_shaders_vertex_id[2], m_shaders_fragment_id[2], text_vert, text_frag);
+		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], model_vert, model_frag);
+		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], image_vert, image_frag);
 	}
 	void Scene::setup_textures(void)
 	{
@@ -487,10 +494,10 @@ namespace canvas
 	}
 
 	//misc
-	bool Scene::load_file(std::string& source, const char* path)
+	bool Scene::load_file(std::string& source, std::string path)
 	{
 		//open
-		FILE* file = fopen(path, "r");
+		FILE* file = fopen(path.c_str(), "r");
 		//check
 		if(!file) return false;
 		//read
@@ -502,13 +509,13 @@ namespace canvas
 		//return
 		return true;
 	}
-	void Scene::setup_shader(unsigned& id, unsigned type, unsigned program, const char* path)
+	void Scene::setup_shader(unsigned& id, unsigned type, unsigned program, std::string path)
 	{
 		//source
 		std::string source;
 		if(!load_file(source, path))
 		{
-			fprintf(stderr, "Error loading shader source! (%d)\n", type);
+			fprintf(stderr, "Error loading shader source! (%d %s)\n", type, path.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//create
@@ -538,7 +545,7 @@ namespace canvas
 		//attach
 		glAttachShader(program, id);
 	}
-	void Scene::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, const char* path_1, const char* path_2)
+	void Scene::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, std::string path_1, std::string path_2)
 	{
 		//create
 		id = glCreateProgram();

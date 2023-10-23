@@ -6,7 +6,7 @@ int main(int argc, char** argv)
 	//setup
 	Maker maker;
 	maker.m_lib = true;
-	maker.m_out = "Canvas";
+	maker.m_out = "canvas";
 	maker.setup(argc, argv);
 	maker.m_incs += "/I ext/inc ";
 	//build

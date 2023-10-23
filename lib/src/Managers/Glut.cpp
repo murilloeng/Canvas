@@ -12,7 +12,7 @@ canvas::Glut* master;
 namespace canvas
 {
 	//constructors
-	Glut::Glut(int argc, char** argv)
+	Glut::Glut(int argc, char** argv, const char* shaders_dir)
 	{
 		//glut
 		master = this;
@@ -30,8 +30,8 @@ namespace canvas
 			fprintf(stderr, "Error: can't setup glew!\n");
 			exit(EXIT_FAILURE);
 		}
+		m_scene = new Scene(shaders_dir);
 		//callbacks
-		m_scene = new Scene;
 		glutMouseFunc(callback_mouse);
 		glutMotionFunc(callback_motion);
 		glutDisplayFunc(callback_display);

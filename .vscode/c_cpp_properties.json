@@ -6,7 +6,8 @@
 			"includePath":
 			[
 				"${workspaceFolder}/lib",
-				"${workspaceFolder}/test"
+				"${workspaceFolder}/test",
+				"${workspaceFolder}/lib/ext/inc"
 			],
 			"defines":
 			[

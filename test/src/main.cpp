@@ -71,7 +71,7 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 int main(int argc, char** argv)
 {
 	//glut
-	app = new canvas::Glut(argc, argv);
+	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	examples::objects::curves(app->scene());
 	app->scene()->update();

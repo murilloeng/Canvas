@@ -26,7 +26,7 @@ void setup_libs(Maker& maker)
 	maker.m_libs += maker.m_elib + "glew32.lib ";
 	maker.m_libs += maker.m_elib + "freeglut.lib ";
 	maker.m_libs += maker.m_elib + "freetype.lib ";
-	maker.m_libs += "../lib/dist/" + maker.m_mode + "/Canvas.lib ";
+	maker.m_libs += "../lib/dist/" + maker.m_mode + "/libcanvas.lib ";
 }
 
 int main(int argc, char** argv)

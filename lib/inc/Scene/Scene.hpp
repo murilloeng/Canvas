@@ -29,7 +29,7 @@ namespace canvas
 	{
 	public:
 		//constructors
-		Scene(void);
+		Scene(std::string);
 
 		//destructor
 		~Scene(void);
@@ -88,9 +88,9 @@ namespace canvas
 		void buffers_transfer(void);
 
 		//misc
-		static bool load_file(std::string&, const char*);
-		static void setup_shader(unsigned&, unsigned, unsigned, const char*);
-		static void setup_program(unsigned&, unsigned&, unsigned&, const char*, const char*);
+		static bool load_file(std::string&, std::string);
+		static void setup_shader(unsigned&, unsigned, unsigned, std::string);
+		static void setup_program(unsigned&, unsigned&, unsigned&, std::string, std::string);
 
 		//data
 		Camera m_camera;
@@ -109,6 +109,7 @@ namespace canvas
 		unsigned m_shaders_vertex_id[3];
 		unsigned m_shaders_fragment_id[3];
 
+		std::string m_shaders_dir;
 		std::vector<Font*> m_fonts;
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
