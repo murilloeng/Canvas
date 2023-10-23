@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	examples::scenes::beam_1(app->scene());
+	examples::scenes::tensegrity_chair(app->scene());
 	// examples::objects::splines(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
