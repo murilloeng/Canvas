@@ -20,23 +20,6 @@
 #include "inc/examples.hpp"
 
 canvas::Glut* app;
-typedef void(*scene_fun)(canvas::Scene*);
-
-static scene_fun tests[] = {
-	examples::objects::arcs,
-	examples::objects::cubes,
-	examples::objects::lines,
-	examples::objects::quads,
-	examples::objects::points,
-	examples::objects::circles,
-	examples::objects::spheres,
-	examples::objects::splines,
-	examples::objects::grid_2D,
-	examples::objects::grid_3D,
-	examples::objects::polylines,
-	examples::objects::triangles,
-	examples::objects::cylinders
-};
 
 static void callback_idle(void)
 {
@@ -47,38 +30,18 @@ static void callback_idle(void)
 	app->scene()->update();
 	glutPostRedisplay();
 }
-static void callback_keyboard(unsigned char key, int x1, int x2)
-{
-	//data
-	static unsigned index = 0;
-	const unsigned size = sizeof(tests) / sizeof(scene_fun);
-	//callback
-	if(key == 'n')
-	{
-		app->scene()->clear_objects();
-		tests[index](app->scene());
-		app->scene()->update();
-		app->scene()->bound();
-		index = (index + 1) % size;
-		glutPostRedisplay();
-	}
-	else
-	{
-		canvas::Glut::callback_keyboard(key, x1, x2);
-	}
-}
 
 int main(int argc, char** argv)
 {
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	examples::objects::curves(app->scene());
+	examples::scenes::beam_1(app->scene());
+	// examples::objects::splines(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks
 	// glutIdleFunc(callback_idle);
-	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
 	//delete

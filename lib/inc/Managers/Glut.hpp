@@ -34,7 +34,7 @@ namespace canvas
 		static void callback_wheel(int, int, int, int);
 		static void callback_keyboard(unsigned char, int, int);
 
-	private:
+	protected:
 		//data
 		Scene* m_scene;
 	};

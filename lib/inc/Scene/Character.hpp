@@ -33,7 +33,7 @@ namespace canvas
 		//setup
 		void setup(FT_Face, char);
 
-	private:
+	protected:
 		//data
 		char m_code;
 		unsigned m_width;

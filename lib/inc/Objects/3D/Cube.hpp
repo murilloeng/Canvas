@@ -24,7 +24,7 @@ namespace canvas
 			vec3 center(void) const;
 			vec3 center(const vec3&);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

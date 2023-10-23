@@ -21,7 +21,7 @@ namespace canvas
 			vec3 point(unsigned) const;
 			vec3 point(unsigned, const vec3&);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

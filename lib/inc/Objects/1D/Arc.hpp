@@ -38,7 +38,7 @@ namespace canvas
 			vec3 path_position(float) const override;
 			vec3 path_gradient(float) const override;
 
-		private:
+		protected:
 			//data
 			vec3 m_base;
 			vec3 m_center;

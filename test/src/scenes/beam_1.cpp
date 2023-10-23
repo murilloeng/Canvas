@@ -24,9 +24,9 @@ namespace examples
 			canvas::objects::Arc* moment_1 = new canvas::objects::Arc;
 			canvas::objects::Line* force_1 = new canvas::objects::Line;
 			//supports
-			support_1->shift({3.00f, 0.00f, 0.10f});
-			support_2->shift({6.00f, 0.00f, 0.10f});
-			support_3->shift({0.00f, 0.00f, 0.10f});
+			support_1->shift({3.00f, 0.00f, 0.01f});
+			support_2->shift({6.00f, 0.00f, 0.01f});
+			support_3->shift({0.00f, 0.00f, 0.01f});
 			//forces
 			force_1->add_arrow(0.00f, true);
 			force_1->arrow(0)->sense(false);
@@ -43,7 +43,7 @@ namespace examples
 			moment_1->add_arrow(1.00f, true);
 			moment_1->arrow(0)->width(0.10f);
 			moment_1->arrow(0)->height(0.10f);
-			moment_1->center({1.50f, 0.00f, 0.10f});
+			moment_1->center({1.50f, 0.00f, 0.00f});
 			moment_1->color_stroke({1.00f, 0.00f, 0.00f});
 			//scene
 			scene->add_object(beam);

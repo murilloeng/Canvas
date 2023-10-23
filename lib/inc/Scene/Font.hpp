@@ -44,7 +44,7 @@ namespace canvas
 		static void clean_ft(void);
 		void setup(unsigned&, unsigned&);
 
-	private:
+	protected:
 		//data
 		bool m_status;
 		FT_Face m_face;

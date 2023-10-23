@@ -1,11 +1,11 @@
 #pragma once
 
 //canvas
-#include "inc/Objects/Group.hpp"
+#include "inc/Objects/2D/Polygon.hpp"
 
 namespace examples
 {
-	class Beam : public canvas::objects::Group
+	class Beam : public canvas::objects::Polygon
 	{
 	public:
 		//constructors
@@ -21,12 +21,13 @@ namespace examples
 		float length(float);
 		float length(void) const;
 
-	private:
-		//update
-		void update_objects(void);
+	protected:
+		//setup
+		void setup(unsigned[], unsigned[]) override;
 
 		//data
 		float m_length;
 		float m_height;
+		static unsigned m_na;
 	};
 }

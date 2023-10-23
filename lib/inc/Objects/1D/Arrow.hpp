@@ -18,7 +18,7 @@ namespace canvas
 	{
 		class Arrow : public Object
 		{
-		private:
+		protected:
 			//constructors
 			Arrow(void);
 
@@ -45,7 +45,7 @@ namespace canvas
 			vec3 direction(unsigned) const;
 			vec3 direction(unsigned, const vec3&);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

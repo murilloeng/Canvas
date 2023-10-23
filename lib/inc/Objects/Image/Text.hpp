@@ -40,7 +40,7 @@ namespace canvas
 			vec3 direction(unsigned) const;
 			vec3 direction(unsigned, const vec3&);
 
-		private:
+		protected:
 			//text
 			unsigned width(void) const;
 			unsigned height(void) const;

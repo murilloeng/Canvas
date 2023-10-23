@@ -63,7 +63,7 @@ namespace canvas
 		void bound(void);
 		void update(void);
 
-	private:
+	protected:
 		//draw
 		void draw_text(void);
 		void draw_model(void);

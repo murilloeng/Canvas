@@ -30,7 +30,7 @@ namespace canvas
 			std::vector<vec3>& points(void);
 			const std::vector<vec3>& points(void) const;
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

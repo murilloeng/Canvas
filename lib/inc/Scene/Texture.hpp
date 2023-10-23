@@ -9,7 +9,7 @@ namespace canvas
 {
 	class Texture
 	{
-	private:
+	protected:
 		//constructors
 		Texture(void);
 

@@ -23,7 +23,7 @@ namespace canvas
 		const char* mode(void) const;
 		const char* mode(const char*);
 
-	private:
+	protected:
 		//data
 		unsigned m_vertical;
 		unsigned m_horizontal;

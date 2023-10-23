@@ -28,7 +28,7 @@ namespace canvas
 			static unsigned mesh(void);
 			static unsigned mesh(unsigned);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

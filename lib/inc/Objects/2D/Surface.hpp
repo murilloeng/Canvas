@@ -30,7 +30,7 @@ namespace canvas
 			std::function<vec3(float, float)> position(void) const;
 			std::function<vec3(float, float)> position(std::function<vec3(float, float)>);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

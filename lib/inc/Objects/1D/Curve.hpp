@@ -37,7 +37,7 @@ namespace canvas
 			vec3 path_position(float) const override;
 			vec3 path_gradient(float) const override;
 
-		private:
+		protected:
 			//data
 			float m_domain[2];
 			std::function<vec3(float)> m_hessian;

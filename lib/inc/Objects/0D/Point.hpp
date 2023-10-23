@@ -21,7 +21,7 @@ namespace canvas
 			vec3 position(void) const;
 			vec3 position(const vec3&);
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

@@ -50,7 +50,7 @@ namespace canvas
 		//rotation
 		static vec3 arcball(float, float);
 
-	private:
+	protected:
 		vec3 m_shift;
 		quat m_rotation;
 		int m_position[2];

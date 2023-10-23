@@ -18,7 +18,7 @@ namespace examples
 		float size(float);
 		float size(void) const;
 
-	private:
+	protected:
 		//update
 		void update_objects(void);
 

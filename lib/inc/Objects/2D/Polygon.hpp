@@ -27,7 +27,7 @@ namespace canvas
 			std::vector<unsigned>& loops(void);
 			const std::vector<unsigned>& loops(void) const;
 
-		private:
+		protected:
 			//buffers
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;

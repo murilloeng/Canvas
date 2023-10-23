@@ -20,7 +20,7 @@ namespace canvas
 			unsigned mesh(unsigned) const;
 			unsigned mesh(unsigned, unsigned);
 
-		private:
+		protected:
 			//data
 			unsigned m_mesh[3];
 		};

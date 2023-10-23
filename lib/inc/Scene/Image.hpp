@@ -31,7 +31,7 @@ namespace canvas
 		//coordinates
 		void coordinates(float*) const;
 
-	private:
+	protected:
 		//data
 		bool m_status;
 		unsigned m_width;

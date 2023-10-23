@@ -57,7 +57,7 @@ namespace canvas
 		void callback_mouse(button, bool, int, int);
 		void callback_special(key, unsigned, int, int);
 
-	private:
+	protected:
 		//data
 		float m_zoom;
 		vec3 m_shift;

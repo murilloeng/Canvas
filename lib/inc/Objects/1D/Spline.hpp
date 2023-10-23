@@ -37,7 +37,7 @@ namespace canvas
 			vec3 path_position(float) const override;
 			vec3 path_gradient(float) const override;
 
-		private:
+		protected:
 			//data
 			std::vector<vec3> m_points;
 			std::vector<vec3> m_controls;

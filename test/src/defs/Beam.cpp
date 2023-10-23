@@ -1,8 +1,3 @@
-//canvas
-#include "inc/Objects/1D/Arc.hpp"
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/2D/Quad.hpp"
-
 //examples
 #include "inc/defs/Beam.hpp"
 
@@ -11,14 +6,10 @@ namespace examples
 	//constructors
 	Beam::Beam(float length, float height) : m_length(length), m_height(height)
 	{
-		//objects
-		m_objects.push_back(new canvas::objects::Arc);
-		m_objects.push_back(new canvas::objects::Arc);
-		m_objects.push_back(new canvas::objects::Line);
-		m_objects.push_back(new canvas::objects::Line);
-		m_objects.push_back(new canvas::objects::Quad);
-		//setup
-		update_objects();
+		m_points.resize(2 * m_na + 2);
+		m_loops.push_back(2 * m_na + 2);
+		m_color_fill = canvas::Color(0, 0, 1);
+		m_color_stroke = canvas::Color(0, 0, 0);
 	}
 
 	//destructor
@@ -34,9 +25,7 @@ namespace examples
 	}
 	float Beam::height(float height)
 	{
-		m_height = height;
-		update_objects();
-		return m_height;
+		return m_height = height;
 	}
 
 	float Beam::length(void) const
@@ -45,39 +34,25 @@ namespace examples
 	}
 	float Beam::length(float length)
 	{
-		m_length = length;
-		update_objects();
-		return m_length;
+		return m_length = length;
 	}
 
-	//update
-	void Beam::update_objects(void)
+	//setup
+	void Beam::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 	{
-		//cleanup
-		color_fill({0, 0, 1});
-		color_stroke({0, 0, 0});
-		for(canvas::objects::Object* object : m_objects)
+		for(unsigned i = 0; i <= m_na; i++)
 		{
-			object->affine(canvas::mat4());
+			const float t = +M_PI_2 + M_PI * i / m_na;
+			m_points[i] = {m_height / 2 * cosf(t), m_height / 2 * sinf(t)};
 		}
-		//arcs
-		((canvas::objects::Arc*) m_objects[0])->angle(1, M_PI);
-		((canvas::objects::Arc*) m_objects[1])->angle(1, M_PI);
-		((canvas::objects::Arc*) m_objects[0])->radius(m_height / 2);
-		((canvas::objects::Arc*) m_objects[1])->radius(m_height / 2);
-		((canvas::objects::Arc*) m_objects[0])->rotate({0, 0, +M_PI_2});
-		((canvas::objects::Arc*) m_objects[1])->rotate({0, 0, -M_PI_2});
-		((canvas::objects::Arc*) m_objects[1])->shift({m_length, 0, 0});
-		//lines
-		((canvas::objects::Line*) m_objects[2])->point(0, {0, -m_height / 2, 0});
-		((canvas::objects::Line*) m_objects[3])->point(0, {0, +m_height / 2, 0});
-		((canvas::objects::Line*) m_objects[2])->point(1, {m_length, -m_height / 2, 0});
-		((canvas::objects::Line*) m_objects[3])->point(1, {m_length, +m_height / 2, 0});
-		//quad
-		((canvas::objects::Quad*) m_objects[4])->stroke(false);
-		((canvas::objects::Quad*) m_objects[4])->point(0, {0, -m_height / 2, 0});
-		((canvas::objects::Quad*) m_objects[4])->point(3, {0, +m_height / 2, 0});
-		((canvas::objects::Quad*) m_objects[4])->point(1, {m_length, -m_height / 2, 0});
-		((canvas::objects::Quad*) m_objects[4])->point(2, {m_length, +m_height / 2, 0});
+		for(unsigned i = 0; i <= m_na; i++)
+		{
+			const float t = -M_PI_2 + M_PI * i / m_na;
+			m_points[i + m_na + 1] = {m_length + m_height / 2 * cosf(t), m_height / 2 * sinf(t)};
+		}
+		Polygon::setup(vbo_counter, ibo_counter);
 	}
+
+	//static
+	unsigned Beam::m_na = 40;
 }
