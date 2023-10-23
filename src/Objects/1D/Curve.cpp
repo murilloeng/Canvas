@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Curve::Curve(void)
+		Curve::Curve(void) : m_domain{0, 1}
 		{
 			return;
 		}
@@ -20,6 +20,15 @@ namespace canvas
 		}
 
 		//data
+		float Curve::domain(unsigned index) const
+		{
+			return m_domain[index];
+		}
+		float Curve::domain(unsigned index, float domain)
+		{
+			return m_domain[index] = domain;
+		}
+
 		std::function<vec3(float)> Curve::hessian(void) const
 		{
 			return m_hessian;
@@ -49,15 +58,21 @@ namespace canvas
 		//path
 		vec3 Curve::path_hessian(float s) const
 		{
-			return m_hessian(s);
+			const float a = m_domain[0];
+			const float b = m_domain[1];
+			return m_hessian(a + (b - a) * s);
 		}
 		vec3 Curve::path_position(float s) const
 		{
-			return m_position(s);
+			const float a = m_domain[0];
+			const float b = m_domain[1];
+			return m_position(a + (b - a) * s);
 		}
 		vec3 Curve::path_gradient(float s) const
 		{
-			return m_gradient(s);
+			const float a = m_domain[0];
+			const float b = m_domain[1];
+			return m_gradient(a + (b - a) * s);
 		}
 	}
 }
