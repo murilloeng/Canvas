@@ -115,9 +115,9 @@ namespace canvas
 		void Group::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
 			//data
-			unsigned vbo_group_counter[3], ibo_group_counter[5];
+			unsigned vbo_group_counter[3], ibo_group_counter[6];
 			memcpy(vbo_group_counter, vbo_counter, 3 * sizeof(unsigned));
-			memcpy(ibo_group_counter, ibo_counter, 5 * sizeof(unsigned));
+			memcpy(ibo_group_counter, ibo_counter, 6 * sizeof(unsigned));
 			//indexes
 			for(Object* object : m_objects)
 			{
