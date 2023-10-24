@@ -68,7 +68,7 @@ namespace canvas
 		//check
 		if(!m_data)
 		{
-			fprintf(stderr, "Error: Couldn't load image: temp.png!");
+			fprintf(stderr, "Error: Couldn't load image: temp.png!\n");
 			exit(EXIT_FAILURE);
 		}
 		//setup

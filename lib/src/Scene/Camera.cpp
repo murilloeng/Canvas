@@ -16,6 +16,7 @@
 #include "ext/inc/stb_image_write.h"
 
 //canvas
+#include "inc/GPU/Program.hpp"
 #include "inc/Scene/Camera.hpp"
 
 namespace canvas
@@ -41,8 +42,8 @@ namespace canvas
 	{
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform1f(glGetUniformLocation(m_program_id[i], "zoom"), zoom);
+			m_programs[i].use();
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "zoom"), zoom);
 		}
 		return m_zoom = zoom;
 	}
@@ -55,8 +56,8 @@ namespace canvas
 	{
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "shift"), shift[0], shift[1], shift[2]);
+			m_programs[i].use();
+			glUniform3f(glGetUniformLocation(m_programs[i].id(), "shift"), shift[0], shift[1], shift[2]);
 		}
 		return m_shift = shift;
 	}
@@ -70,8 +71,8 @@ namespace canvas
 		m_box_min = box_min;
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_min"), box_min[0], box_min[1], box_min[2]);
+			m_programs[i].use();
+			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_min"), box_min[0], box_min[1], box_min[2]);
 		}
 	}
 
@@ -84,8 +85,8 @@ namespace canvas
 		m_box_max = box_max;
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform3f(glGetUniformLocation(m_program_id[i], "box_max"), box_max[0], box_max[1], box_max[2]);
+			m_programs[i].use();
+			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_max"), box_max[0], box_max[1], box_max[2]);
 		}
 	}
 
@@ -121,8 +122,8 @@ namespace canvas
 	{
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform4f(glGetUniformLocation(m_program_id[i], "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
+			m_programs[i].use();
+			glUniform4f(glGetUniformLocation(m_programs[i].id(), "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
 		}
 		return m_rotation = rotation;
 	}
@@ -198,8 +199,8 @@ namespace canvas
 		glViewport(0, 0, width, height);
 		for(unsigned i = 0; i < 3; i++)
 		{
-			glUseProgram(m_program_id[i]);
-			glUniform2ui(glGetUniformLocation(m_program_id[i], "screen"), width, height);
+			m_programs[i].use();
+			glUniform2ui(glGetUniformLocation(m_programs[i].id(), "screen"), width, height);
 		}
 	}
 	void Camera::callback_wheel(int direction, int x1, int x2)

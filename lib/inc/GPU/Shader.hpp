@@ -17,6 +17,10 @@ namespace canvas
 		//constructors
 		~Shader(void);
 
+		//data
+		std::string path(void) const;
+		std::string path(std::string);
+
 		//setup
 		void setup(GLuint);
 		bool load_file(void);

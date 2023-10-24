@@ -28,6 +28,36 @@ namespace canvas
 		if(glIsProgram(m_id)) glDeleteProgram(m_id);
 	}
 
+	//data
+	GLuint Program::id(void) const
+	{
+		return m_id;
+	}
+	Shader* Program::vertex_shader(void) const
+	{
+		return m_vertex_shader;
+	}
+	Shader* Program::compute_shader(void) const
+	{
+		return m_compute_shader;
+	}
+	Shader* Program::geometry_shader(void) const
+	{
+		return m_geometry_shader;
+	}
+	Shader* Program::fragment_shader(void) const
+	{
+		return m_fragment_shader;
+	}
+	Shader* Program::tess_control_shader(void) const
+	{
+		return m_tess_control_shader;
+	}
+	Shader* Program::tess_evaluation_shader(void) const
+	{
+		return m_tess_evaluation_shader;
+	}
+
 	//setup
 	void Program::setup(void)
 	{
@@ -64,5 +94,9 @@ namespace canvas
 			fprintf(stderr, "Error validating shader program: %s\n", log);
 			exit(EXIT_FAILURE);
 		}
+	}
+	void Program::use(void) const
+	{
+		glUseProgram(m_id);
 	}
 }

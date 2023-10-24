@@ -7,6 +7,8 @@
 #include "ext/inc/GL/glew.h"
 
 //canvas
+#include "inc/GPU/Shader.hpp"
+
 #include "inc/Scene/Font.hpp"
 #include "inc/Scene/Image.hpp"
 #include "inc/Scene/Scene.hpp"
@@ -32,7 +34,7 @@ namespace canvas
 		setup_textures();
 		Font::setup_ft();
 		objects::Object::m_scene = this;
-		m_camera.m_program_id = m_program_id;
+		m_camera.m_programs = m_programs;
 	}
 
 	//destructor
@@ -50,17 +52,8 @@ namespace canvas
 		glUseProgram(0);
 		glDeleteBuffers(3, m_vbo_id);
 		glDeleteBuffers(6, m_ibo_id);
-		glDeleteProgram(m_program_id[0]);
-		glDeleteProgram(m_program_id[1]);
-		glDeleteProgram(m_program_id[2]);
 		glDeleteTextures(3, m_texture_id);
 		glDeleteVertexArrays(3, m_vao_id);
-		glDeleteShader(m_shaders_vertex_id[0]);
-		glDeleteShader(m_shaders_vertex_id[1]);
-		glDeleteShader(m_shaders_vertex_id[2]);
-		glDeleteShader(m_shaders_fragment_id[0]);
-		glDeleteShader(m_shaders_fragment_id[1]);
-		glDeleteShader(m_shaders_fragment_id[2]);
 	}
 
 	//data
@@ -192,7 +185,7 @@ namespace canvas
 	void Scene::draw_text(void)
 	{
 		//model
-		glUseProgram(m_program_id[2]);
+		m_programs[2].use();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
@@ -203,7 +196,7 @@ namespace canvas
 	void Scene::draw_model(void)
 	{
 		//model
-		glUseProgram(m_program_id[0]);
+		m_programs[0].use();
 		glBindVertexArray(m_vao_id[0]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
 		//draw points
@@ -219,7 +212,7 @@ namespace canvas
 	void Scene::draw_image(void)
 	{
 		//model
-		glUseProgram(m_program_id[1]);
+		m_programs[1].use();
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
@@ -230,7 +223,7 @@ namespace canvas
 	void Scene::draw_equation(void)
 	{
 		//model
-		glUseProgram(m_program_id[2]);
+		m_programs[2].use();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
@@ -397,15 +390,17 @@ namespace canvas
 	}
 	void Scene::setup_shaders(void)
 	{
-		const std::string text_vert = m_shaders_dir + "text.vert";
-		const std::string text_frag = m_shaders_dir + "text.frag";
-		const std::string model_vert = m_shaders_dir + "model.vert";
-		const std::string model_frag = m_shaders_dir + "model.frag";
-		const std::string image_vert = m_shaders_dir + "image.vert";
-		const std::string image_frag = m_shaders_dir + "image.frag";
-		setup_program(m_program_id[2], m_shaders_vertex_id[2], m_shaders_fragment_id[2], text_vert, text_frag);
-		setup_program(m_program_id[0], m_shaders_vertex_id[0], m_shaders_fragment_id[0], model_vert, model_frag);
-		setup_program(m_program_id[1], m_shaders_vertex_id[1], m_shaders_fragment_id[1], image_vert, image_frag);
+		//path
+		m_programs[2].vertex_shader()->path(m_shaders_dir + "text.vert");
+		m_programs[0].vertex_shader()->path(m_shaders_dir + "model.vert");
+		m_programs[1].vertex_shader()->path(m_shaders_dir + "image.vert");
+		m_programs[2].fragment_shader()->path(m_shaders_dir + "text.frag");
+		m_programs[0].fragment_shader()->path(m_shaders_dir + "model.frag");
+		m_programs[1].fragment_shader()->path(m_shaders_dir + "image.frag");
+		//setup
+		m_programs[0].setup();
+		m_programs[1].setup();
+		m_programs[2].setup();
 	}
 	void Scene::setup_textures(void)
 	{

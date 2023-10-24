@@ -5,6 +5,7 @@
 #include <vector>
 
 //canvas
+#include "inc/GPU/Program.hpp"
 #include "inc/Scene/Camera.hpp"
 #include "inc/Colors/Color.hpp"
 
@@ -105,9 +106,7 @@ namespace canvas
 		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;
-		unsigned m_program_id[3];
-		unsigned m_shaders_vertex_id[3];
-		unsigned m_shaders_fragment_id[3];
+		Program m_programs[3];
 
 		std::string m_shaders_dir;
 		std::vector<Font*> m_fonts;

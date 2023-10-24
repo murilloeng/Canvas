@@ -9,7 +9,7 @@ namespace examples
 {
 	namespace objects
 	{
-		void equations(canvas::Scene* scene)
+		void latex(canvas::Scene* scene)
 		{
 			//data
 			char source[200];
@@ -26,7 +26,7 @@ namespace examples
 				for(unsigned j = 0; j < 3; j++)
 				{
 					latex = new canvas::objects::Latex;
-					latex->size(0.5);
+					latex->size(0.15);
 					latex->anchor("SW");
 					latex->index(3 * i + j);
 					latex->shift({2 * float(i) / 4 - 1, 2 * float(j) / 3 - 1, 0});

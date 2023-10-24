@@ -12,6 +12,7 @@
 namespace canvas
 {
 	class Scene;
+	class Program;
 }
 
 namespace canvas
@@ -65,9 +66,9 @@ namespace canvas
 		vec3 m_box_min;
 		vec3 m_box_max;
 		quat m_rotation;
+		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];
-		unsigned* m_program_id;
 
 		//friends
 		friend class Scene;

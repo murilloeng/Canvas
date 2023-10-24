@@ -52,7 +52,7 @@ namespace canvas
 		//check
 		if(!m_data)
 		{
-			fprintf(stderr, "Error: Couldn't load image: %s!", m_path.c_str());
+			fprintf(stderr, "Error: Couldn't load image: %s!\n", m_path.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//setup

@@ -15,14 +15,28 @@ namespace canvas
 		if(glIsShader(m_id)) glDeleteShader(m_id);
 	}
 
+	//data
+	std::string Shader::path(void) const
+	{
+		return m_path;
+	}
+	std::string Shader::path(std::string path)
+	{
+		return m_path = path;
+	}
+
 	//setup
 	void Shader::setup(GLuint program_id)
 	{
 		//check
-		if(m_path.empty() && (m_type == GL_VERTEX_SHADER || m_type == GL_FRAGMENT_SHADER))
+		if(m_path.empty())
 		{
-			fprintf(stderr, "Error: %s missing!\n", name());
-			exit(EXIT_FAILURE);
+			if(m_type == GL_VERTEX_SHADER || m_type == GL_FRAGMENT_SHADER)
+			{
+				fprintf(stderr, "Error: %s missing!\n", name());
+				exit(EXIT_FAILURE);
+			}
+			return;
 		}
 		//source
 		if(!load_file())
