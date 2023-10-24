@@ -4,8 +4,9 @@
 !*.bat
 !*.cpp
 !*.hpp
-!*.frag
 !*.vert
+!*.geom
+!*.frag
 !*.json
 !.gitignore
 !test/data/images/*.jpg
