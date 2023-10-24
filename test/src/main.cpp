@@ -37,11 +37,11 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::beam_1(app->scene());
-	examples::objects::triangles(app->scene());
+	examples::objects::images(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks
-	glutIdleFunc(callback_idle);
+	// glutIdleFunc(callback_idle);
 	//start
 	app->start();
 	//delete

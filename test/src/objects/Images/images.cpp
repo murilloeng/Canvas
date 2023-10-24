@@ -13,11 +13,12 @@ namespace examples
 		{
 			//data
 			char path[200];
+			const unsigned ni = 10;
 			canvas::objects::Image* image;
 			//images
 			for(unsigned i = 0; i < 12; i++)
 			{
-				sprintf(path, "data/images/eldrazi-%d.png", i);
+				sprintf(path, "data/images/wizard-%d.png", i % ni);
 				scene->add_image(path);
 			}
 			//objects
