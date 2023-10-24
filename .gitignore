@@ -8,6 +8,6 @@
 !*.vert
 !*.json
 !.gitignore
-!data/images/*.jpg
-!data/images/*.png
-!data/images/*.gif
+!test/data/images/*.jpg
+!test/data/images/*.png
+!test/data/images/*.gif
