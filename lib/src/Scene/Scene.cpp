@@ -181,8 +181,8 @@ namespace canvas
 			}
 		}
 		//update
-		m_camera.box_min(box_min);
-		m_camera.box_max(box_max);
+		// m_camera.box_min(box_min);
+		// m_camera.box_max(box_max);
 	}
 	void Scene::update(void)
 	{

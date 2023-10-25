@@ -9,6 +9,7 @@
 #endif
 
 //std
+#include <cmath>
 #include <filesystem>
 
 //ext
@@ -22,7 +23,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_zoom(1.0f), m_output("screen")
+	Camera::Camera(void) : m_fov(M_PI), m_output("screen")
 	{
 		return;
 	}
@@ -34,60 +35,33 @@ namespace canvas
 	}
 
 	//data
-	float Camera::zoom(void) const
+	float Camera::fov(void) const
 	{
-		return m_zoom;
+		return m_fov;
 	}
-	float Camera::zoom(float zoom)
+	float Camera::fov(float fov)
 	{
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniform1f(glGetUniformLocation(m_programs[i].id(), "zoom"), zoom);
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "fov"), fov);
 		}
-		return m_zoom = zoom;
+		return m_fov = fov;
 	}
 
-	vec3 Camera::shift(void) const
+	vec3 Camera::position(void) const
 	{
-		return m_shift;
+		return m_position;
 	}
-	vec3 Camera::shift(const vec3& shift)
+	vec3 Camera::position(const vec3& position)
 	{
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniform3f(glGetUniformLocation(m_programs[i].id(), "shift"), shift[0], shift[1], shift[2]);
+			const unsigned location = glGetUniformLocation(m_programs[i].id(), "position");
+			glUniform3f(location, position[0], position[1], position[2]);
 		}
-		return m_shift = shift;
-	}
-
-	vec3 Camera::box_min(void) const
-	{
-		return m_box_min;
-	}
-	void Camera::box_min(const vec3& box_min)
-	{
-		m_box_min = box_min;
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_min"), box_min[0], box_min[1], box_min[2]);
-		}
-	}
-
-	vec3 Camera::box_max(void) const
-	{
-		return m_box_max;
-	}
-	void Camera::box_max(const vec3& box_max)
-	{
-		m_box_max = box_max;
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_max"), box_max[0], box_max[1], box_max[2]);
-		}
+		return m_position = position;
 	}
 
 	quat Camera::rotation(char mode)
@@ -123,7 +97,8 @@ namespace canvas
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniform4f(glGetUniformLocation(m_programs[i].id(), "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
+			const unsigned location = glGetUniformLocation(m_programs[i].id(), "rotation");
+			glUniform4f(location, rotation[0], rotation[1], rotation[2], rotation[3]);
 		}
 		return m_rotation = rotation;
 	}
@@ -168,29 +143,29 @@ namespace canvas
 	//callbacks
 	void Camera::callback_motion(int x1, int x2)
 	{
-		//data
-		const float z = m_zoom;
-		const int w = m_screen[0];
-		const int h = m_screen[1];
-		const float m = w < h ? w : h;
-		const int z1 = m_click.position(0);
-		const int z2 = m_click.position(1);
-		const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
-		//shift
-		if(m_click.button() == button::middle)
-		{
-			shift(m_click.shift() + xp - xc);
-		}
-		//rotation
-		if(m_click.button() == button::left)
-		{
-			const quat qc = m_click.rotation();
-			const vec3 v1 = Click::arcball(xc[0], xc[1]);
-			const vec3 v2 = Click::arcball(xp[0], xp[1]);
-			rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
-			shift(xp - m_rotation.rotate(m_click.rotation().conjugate().rotate(xc - m_click.shift())));
-		}
+		// //data
+		// const float z = m_zoom;
+		// const int w = m_screen[0];
+		// const int h = m_screen[1];
+		// const float m = w < h ? w : h;
+		// const int z1 = m_click.position(0);
+		// const int z2 = m_click.position(1);
+		// const vec3 xp((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		// const vec3 xc((2 * z1 - w) / m, (h - 2 * z2) / m, 0);
+		// //shift
+		// if(m_click.button() == button::middle)
+		// {
+		// 	shift(m_click.shift() + xp - xc);
+		// }
+		// //rotation
+		// if(m_click.button() == button::left)
+		// {
+		// 	const quat qc = m_click.rotation();
+		// 	const vec3 v1 = Click::arcball(xc[0], xc[1]);
+		// 	const vec3 v2 = Click::arcball(xp[0], xp[1]);
+		// 	rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
+		// 	shift(xp - m_rotation.rotate(m_click.rotation().conjugate().rotate(xc - m_click.shift())));
+		// }
 	}
 	void Camera::callback_reshape(int width, int height)
 	{
@@ -205,65 +180,65 @@ namespace canvas
 	}
 	void Camera::callback_wheel(int direction, int x1, int x2)
 	{
-		//screen
-		const int w = m_screen[0];
-		const int h = m_screen[1];
-		const float m = w < h ? w : h;
-		const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		//affine
-		const float dz = 0.05;
-		zoom((1 + direction * dz) * m_zoom);
-		shift(xs - (1 + direction * dz) * (xs - m_shift));
+		// //screen
+		// const int w = m_screen[0];
+		// const int h = m_screen[1];
+		// const float m = w < h ? w : h;
+		// const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		// //affine
+		// const float dz = 0.05;
+		// zoom((1 + direction * dz) * m_zoom);
+		// shift(xs - (1 + direction * dz) * (xs - m_shift));
 	}
 	void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 	{
-		//data
-		const float dx = 0.05;
-		const float dt = M_PI / 12;
-		const vec3 shift[] = {{-dx, 0, 0}, {+dx, 0, 0}, {0, -dx, 0}, {0, +dx, 0}};
-		const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
-		const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
-		//affine
-		for(unsigned i = 0; i < 4; i++)
-		{
-			if(key == keys[i])
-			{
-				if(modifiers & 1 << unsigned(modifier::alt))
-				{
-					this->shift(shift[i] + m_shift);
-				}
-				else if(modifiers & 1 << unsigned(modifier::ctrl))
-				{
-					this->rotation(rotation[i].quaternion() * m_rotation);
-				}
-				else if(modifiers & 1 << unsigned(modifier::shift))
-				{
-					this->rotation(m_rotation * rotation[i].quaternion());
-				}
-			}
-		}
+		// //data
+		// const float dx = 0.05;
+		// const float dt = M_PI / 12;
+		// const vec3 shift[] = {{-dx, 0, 0}, {+dx, 0, 0}, {0, -dx, 0}, {0, +dx, 0}};
+		// const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
+		// const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+		// //affine
+		// for(unsigned i = 0; i < 4; i++)
+		// {
+		// 	if(key == keys[i])
+		// 	{
+		// 		if(modifiers & 1 << unsigned(modifier::alt))
+		// 		{
+		// 			this->shift(shift[i] + m_shift);
+		// 		}
+		// 		else if(modifiers & 1 << unsigned(modifier::ctrl))
+		// 		{
+		// 			this->rotation(rotation[i].quaternion() * m_rotation);
+		// 		}
+		// 		else if(modifiers & 1 << unsigned(modifier::shift))
+		// 		{
+		// 			this->rotation(m_rotation * rotation[i].quaternion());
+		// 		}
+		// 	}
+		// }
 	}
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
-		if(key == 'p') screen_print();
-		else if(key == '-') zoom(m_zoom / 1.05);
-		else if(key == '+') zoom(m_zoom * 1.05);
-		else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());
-		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
+		// if(key == 'p') screen_print();
+		// else if(key == '-') zoom(m_zoom / 1.05);
+		// else if(key == '+') zoom(m_zoom * 1.05);
+		// else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());
+		// else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
-		if(pressed)
-		{
-			m_click.shift(m_shift);
-			m_click.button(button);
-			m_click.position(0, x1);
-			m_click.position(1, x2);
-			m_click.rotation(m_rotation);
-		}
-		else
-		{
-			m_click.button(canvas::button::none);
-		}
+		// if(pressed)
+		// {
+		// 	m_click.shift(m_shift);
+		// 	m_click.button(button);
+		// 	m_click.position(0, x1);
+		// 	m_click.position(1, x2);
+		// 	m_click.rotation(m_rotation);
+		// }
+		// else
+		// {
+		// 	m_click.button(canvas::button::none);
+		// }
 	}
 }

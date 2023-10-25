@@ -9,7 +9,7 @@
 namespace canvas
 {
 	//constructors
-	quat::quat(void) : m_data{1, 0, 0, 0}
+	quat::quat(void) : m_data{1.0f, 0.0f, 0.0f, 0.0f}
 	{
 		return;
 	}

@@ -27,17 +27,11 @@ namespace canvas
 		~Camera(void);
 
 		//data
-		float zoom(float);
-		float zoom(void) const;
+		float fov(float);
+		float fov(void) const;
 
-		vec3 shift(void) const;
-		vec3 shift(const vec3&);
-
-		vec3 box_min(void) const;
-		void box_min(const vec3&);
-
-		vec3 box_max(void) const;
-		void box_max(const vec3&);
+		vec3 position(void) const;
+		vec3 position(const vec3&);
 
 		quat rotation(char);
 		quat rotation(void) const;
@@ -60,11 +54,9 @@ namespace canvas
 
 	protected:
 		//data
-		float m_zoom;
-		vec3 m_shift;
+		float m_fov;
 		Click m_click;
-		vec3 m_box_min;
-		vec3 m_box_max;
+		vec3 m_position;
 		quat m_rotation;
 		Program* m_programs;
 		std::string m_output;

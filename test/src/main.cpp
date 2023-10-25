@@ -23,11 +23,14 @@ canvas::Glut* app;
 
 static void callback_idle(void)
 {
+	const canvas::vec3 xc(0, 0, 3);
+	const canvas::vec3 xl = app->scene()->light().position();
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
-		object->rotate({0, 4e-2, 0}, false);
+		// object->rotate({0, 1e-3, 0}, false);
 	}
 	app->scene()->update();
+	app->scene()->light().position(xc + canvas::vec3(0, 1e-3, 0).quaternion().rotate(xl - xc));
 	glutPostRedisplay();
 }
 
@@ -37,7 +40,7 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::tensegrity_chair(app->scene());
-	examples::objects::spheres(app->scene());
+	examples::objects::cubes(app->scene());
 	app->scene()->update();
 	app->scene()->bound();
 	//callbacks

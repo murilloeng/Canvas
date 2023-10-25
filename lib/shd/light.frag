@@ -1,63 +1,56 @@
 #version 460 core
 
-float shininess = 32;
+out vec4 fragment_color;
 
 in vec4 geometry_color;
 in vec3 geometry_normal;
 in vec3 geometry_position;
 
-out vec4 fragment_color;
+uniform vec3 camera_position;
+uniform float light_alpha = 32;
+uniform bool light_ambient = false;
+uniform bool light_diffuse = false;
+uniform bool light_specular = false;
+uniform vec3 light_position = vec3(0, 0, 0);
+uniform vec4 light_color_ambient = vec4(0.1, 0.1, 0.1, 1.0);
+uniform vec4 light_color_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 light_color_specular = vec4(1.0, 1.0, 1.0, 1.0);
 
-struct Light
+void apply_light_ambient(void)
 {
-	vec3 m_position;
-	bool m_has_ambient;
-	bool m_has_diffuse;
-	bool m_has_specular;
-	vec3 m_color_ambient;
-	vec3 m_color_diffuse;
-	vec3 m_color_specular;
-};
-
-uniform Light light = Light(
-	vec3(0.0, 0.0, 1.0), false, false, false,
-	vec3(0.5, 0.5, 0.5), vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0)
-);
+	fragment_color.r += geometry_color.r * light_color_ambient.r;
+	fragment_color.g += geometry_color.g * light_color_ambient.g;
+	fragment_color.b += geometry_color.b * light_color_ambient.b;
+}
+void apply_diffuse_color(vec3 vl)
+{
+	fragment_color.r += dot(geometry_normal, vl) * geometry_color.r * light_color_diffuse.r;
+	fragment_color.g += dot(geometry_normal, vl) * geometry_color.g * light_color_diffuse.g;
+	fragment_color.b += dot(geometry_normal, vl) * geometry_color.b * light_color_diffuse.b;
+}
+void apply_specular_color(vec3 vc, vec3 vr)
+{
+	fragment_color.r += pow(dot(vc, vr), light_alpha) * geometry_color.r * light_color_specular.r;
+	fragment_color.g += pow(dot(vc, vr), light_alpha) * geometry_color.g * light_color_specular.g;
+	fragment_color.b += pow(dot(vc, vr), light_alpha) * geometry_color.b * light_color_specular.b;
+}
 
 void main(void)
 {
-	if(!light.m_has_ambient && !light.m_has_diffuse && !light.m_has_specular)
+	if(!light_ambient && !light_diffuse && !light_specular)
 	{
 		fragment_color = geometry_color;
 	}
 	else
 	{
 		//data
+		vec3 vl = normalize(light_position - geometry_position);
+		vec3 vc = normalize(camera_position - geometry_position);
+		vec3 vr = -reflect(vl, geometry_normal);
+		//color
 		fragment_color = vec4(0, 0, 0, 1);
-		vec3 vpv = normalize(vec3(0, 0, 1) - geometry_position);
-		vec3 vpl = normalize(light.m_position - geometry_position);
-		vec3 vrn = -reflect(vpl, geometry_normal);
-		//ambient
-		if(light.m_has_ambient)
-		{
-			fragment_color.r += geometry_color.r * light.m_color_ambient.r;
-			fragment_color.g += geometry_color.g * light.m_color_ambient.g;
-			fragment_color.b += geometry_color.b * light.m_color_ambient.b;
-		}
-		//diffuse
-		if(light.m_has_diffuse && dot(geometry_normal, vpl) > 0)
-		{
-			fragment_color.r += dot(geometry_normal, vpl) * geometry_color.r * light.m_color_diffuse.r;
-			fragment_color.g += dot(geometry_normal, vpl) * geometry_color.g * light.m_color_diffuse.g;
-			fragment_color.b += dot(geometry_normal, vpl) * geometry_color.b * light.m_color_diffuse.b;
-		}
-		//specular
-		if(light.m_has_specular && dot(vpv, vrn) > 0)
-		{
-			float a = shininess;
-			fragment_color.r += pow(dot(vpv, vrn), a) * geometry_color.r * light.m_color_specular.r;
-			fragment_color.g += pow(dot(vpv, vrn), a) * geometry_color.g * light.m_color_specular.g;
-			fragment_color.b += pow(dot(vpv, vrn), a) * geometry_color.b * light.m_color_specular.b;
-		}
+		if(light_ambient) apply_light_ambient();
+		if(light_diffuse && dot(geometry_normal, vl) > 0) apply_diffuse_color(vl);
+		if(light_specular && dot(geometry_normal, vl) > 0 && dot(vc, vr) > 0) apply_specular_color(vc, vr);
 	}
 }

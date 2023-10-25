@@ -5,14 +5,10 @@ out vec4 vertex_color;
 layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
 
-uniform uvec2 screen = uvec2(700, 700);
-
-uniform vec3 box_min = vec3(-1, -1, -1);
-uniform vec3 box_max = vec3(+1, +1, +1);
-
-uniform float zoom = 1;
-uniform vec3 shift = vec3(0, 0, 0);
-uniform vec4 rotation = vec4(1, 0, 0, 0);
+uniform uvec2 screen;
+uniform float camera_fov = 0.78539816339;
+uniform vec3 camera_position = vec3(0, 0, 0);
+uniform vec4 camera_rotation = vec4(1, 0, 0, 0);
 
 vec3 quat_rotation(vec4 q, vec3 v)
 {
@@ -31,18 +27,15 @@ void main(void)
 {
 	//color
 	vertex_color = color;
-	//screen
+	//camera
 	uint w = screen[0];
 	uint h = screen[1];
 	float m = min(w, h);
-	//camera
-	float z = zoom;
-	vec3 xa = shift;
-	vec4 qr = rotation;
+	float z1 = 1 / tan(camera_fov / 2);
+	//affine
+	float z2 = 8 * z1;
+	float A = (z1 + z2) / (z2 - z1);
+	float B = -2 * z1 * z2 / (z2 - z1);
 	//position
-	vec3 xc = (box_min + box_max) / 2;
-	vec3 xs = (box_max - box_min) / 2;
-	float s = max(xs[0], max(xs[1], xs[2]));
-	vec3 xp = z / s * quat_rotation(qr, position - xc) + xa;
-	gl_Position = vec4(vec2(m / w, m / h) * xp.xy, -1e-2 * xp.z, 1);
+	gl_Position = vec4(z1 * m / w * position.x, z1 * m / h * position.y, A * position.z + B, position.z);
 }
