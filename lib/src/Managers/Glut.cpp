@@ -129,6 +129,11 @@ namespace canvas
 		{
 			glutDestroyWindow(glutGetWindow());
 		}
+		else if(key == 'a' || key == 'd' || key == 's')
+		{
+			master->scene()->light().callback_keyboard(key, x1, x2);
+			glutPostRedisplay();
+		}
 		else
 		{
 			master->scene()->camera().callback_keyboard(key, x1, x2);

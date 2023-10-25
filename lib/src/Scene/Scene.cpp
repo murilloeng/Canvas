@@ -35,6 +35,7 @@ namespace canvas
 		Font::setup_ft();
 		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
+		m_light.m_program = &m_programs[1];
 	}
 
 	//destructor
@@ -64,6 +65,15 @@ namespace canvas
 	Color Scene::background(Color background)
 	{
 		return m_background = background;
+	}
+
+	Light& Scene::light(void)
+	{
+		return m_light;
+	}
+	const Light& Scene::light(void) const
+	{
+		return m_light;
 	}
 
 	Camera& Scene::camera(void)
@@ -487,92 +497,6 @@ namespace canvas
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
-		}
-	}
-
-	//misc
-	bool Scene::load_file(std::string& source, std::string path)
-	{
-		//open
-		FILE* file = fopen(path.c_str(), "r");
-		//check
-		if(!file) return false;
-		//read
-		source.clear();
-		while(!feof(file)) source += fgetc(file);
-		source.back() = '\0';
-		//close
-		fclose(file);
-		//return
-		return true;
-	}
-	void Scene::setup_shader(unsigned& id, unsigned type, unsigned program, std::string path)
-	{
-		//source
-		std::string source;
-		if(!load_file(source, path))
-		{
-			fprintf(stderr, "Error loading shader source! (%d %s)\n", type, path.c_str());
-			exit(EXIT_FAILURE);
-		}
-		//create
-		id = glCreateShader(type);
-		if(id == 0)
-		{
-			fprintf(stderr, "Error creating shader! (%d)\n", type);
-			exit(EXIT_FAILURE);
-		}
-		//source
-		const GLchar* p = source.c_str();
-		glShaderSource(id, 1, &p, nullptr);
-		//compile
-		GLint status;
-		GLchar log[1024];
-		glCompileShader(id);
-		glGetShaderiv(id, GL_COMPILE_STATUS, &status);
-		if(status == 0)
-		{
-			glGetShaderInfoLog(id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error compiling shader!\n");
-			fprintf(stderr, "Shader type: %d\n", type);
-			fprintf(stderr, "Shader path: %s\n", path);
-			fprintf(stderr, "Error log: %hs\n", log);
-			exit(EXIT_FAILURE);
-		}
-		//attach
-		glAttachShader(program, id);
-	}
-	void Scene::setup_program(unsigned& id, unsigned& shader_1, unsigned& shader_2, std::string path_1, std::string path_2)
-	{
-		//create
-		id = glCreateProgram();
-		if(id == 0)
-		{
-			fprintf(stderr, "Error creating shader program!\n");
-			exit(EXIT_FAILURE);
-		}
-		//shaders
-		setup_shader(shader_1, GL_VERTEX_SHADER, id, path_1);
-		setup_shader(shader_2, GL_FRAGMENT_SHADER, id, path_2);
-		//link
-		GLint status;
-		GLchar log[1024];
-		glLinkProgram(id);
-		glGetProgramiv(id, GL_LINK_STATUS, &status);
-		if(status == 0)
-		{
-			glGetProgramInfoLog(id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error linking shader program: %s\n", log);
-			exit(EXIT_FAILURE);
-		}
-		//validate
-		glValidateProgram(id);
-		glGetProgramiv(id, GL_VALIDATE_STATUS, &status);
-		if(status == 0)
-		{
-			glGetProgramInfoLog(id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error validating shader program: %s\n", log);
-			exit(EXIT_FAILURE);
 		}
 	}
 }

@@ -25,6 +25,10 @@ namespace canvas
 		const float* channels(float, float, float);
 		const float* channels(float, float, float, float);
 
+		//operators
+		float& operator[](unsigned);
+		const float& operator[](unsigned) const;
+
 	private:
 		//misc
 		static void table_conversion(char*, const char*);

@@ -6,6 +6,7 @@
 
 //canvas
 #include "inc/GPU/Program.hpp"
+#include "inc/Scene/Light.hpp"
 #include "inc/Scene/Camera.hpp"
 #include "inc/Colors/Color.hpp"
 
@@ -38,6 +39,9 @@ namespace canvas
 		//data
 		Color background(Color);
 		Color background(void) const;
+
+		Light& light(void);
+		const Light& light(void) const;
 
 		Camera& camera(void);
 		const Camera& camera(void) const;
@@ -88,12 +92,8 @@ namespace canvas
 		void buffers_data(void);
 		void buffers_transfer(void);
 
-		//misc
-		static bool load_file(std::string&, std::string);
-		static void setup_shader(unsigned&, unsigned, unsigned, std::string);
-		static void setup_program(unsigned&, unsigned&, unsigned&, std::string, std::string);
-
 		//data
+		Light m_light;
 		Camera m_camera;
 
 		unsigned m_vao_id[3];

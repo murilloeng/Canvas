@@ -245,15 +245,10 @@ namespace canvas
 	}
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
-		if(key == 'f')
-		{
-			zoom(1.0f);
-			shift(vec3());
-			rotation(quat());
-		}
-		else if(key == 'p') screen_print();
+		if(key == 'p') screen_print();
 		else if(key == '-') zoom(m_zoom / 1.05);
 		else if(key == '+') zoom(m_zoom * 1.05);
+		else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());
 		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)

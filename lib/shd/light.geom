@@ -3,6 +3,7 @@
 in vec4 vertex_color[];
 out vec4 geometry_color;
 out vec3 geometry_normal;
+out vec3 geometry_position;
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
@@ -16,14 +17,17 @@ void main(void)
 
 	geometry_color = vertex_color[0];
 	gl_Position = gl_in[0].gl_Position;
+	geometry_position = gl_in[0].gl_Position.xyz;
 	EmitVertex();
 
 	geometry_color = vertex_color[1];
 	gl_Position = gl_in[1].gl_Position;
+	geometry_position = gl_in[1].gl_Position.xyz;
 	EmitVertex();
 
 	geometry_color = vertex_color[2];
 	gl_Position = gl_in[2].gl_Position;
+	geometry_position = gl_in[2].gl_Position.xyz;
 	EmitVertex();
 
 	EndPrimitive();

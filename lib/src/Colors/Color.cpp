@@ -113,6 +113,16 @@ namespace canvas
 		return m_channels;
 	}
 
+	//operators
+	float& Color::operator[](unsigned index)
+	{
+		return m_channels[index];
+	}
+	const float& Color::operator[](unsigned index) const
+	{
+		return m_channels[index];
+	}
+
 	//misc
 	void Color::table_conversion(char* color_string, const char* string)
 	{
