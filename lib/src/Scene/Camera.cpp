@@ -40,7 +40,7 @@ namespace canvas
 	}
 	float Camera::zoom(float zoom)
 	{
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform1f(glGetUniformLocation(m_programs[i].id(), "zoom"), zoom);
@@ -54,7 +54,7 @@ namespace canvas
 	}
 	vec3 Camera::shift(const vec3& shift)
 	{
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform3f(glGetUniformLocation(m_programs[i].id(), "shift"), shift[0], shift[1], shift[2]);
@@ -69,7 +69,7 @@ namespace canvas
 	void Camera::box_min(const vec3& box_min)
 	{
 		m_box_min = box_min;
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_min"), box_min[0], box_min[1], box_min[2]);
@@ -83,7 +83,7 @@ namespace canvas
 	void Camera::box_max(const vec3& box_max)
 	{
 		m_box_max = box_max;
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform3f(glGetUniformLocation(m_programs[i].id(), "box_max"), box_max[0], box_max[1], box_max[2]);
@@ -120,7 +120,7 @@ namespace canvas
 	}
 	quat Camera::rotation(const quat& rotation)
 	{
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform4f(glGetUniformLocation(m_programs[i].id(), "rotation"), rotation[0], rotation[1], rotation[2], rotation[3]);
@@ -197,7 +197,7 @@ namespace canvas
 		m_screen[0] = width;
 		m_screen[1] = height;
 		glViewport(0, 0, width, height);
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform2ui(glGetUniformLocation(m_programs[i].id(), "screen"), width, height);

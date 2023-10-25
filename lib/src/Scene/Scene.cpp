@@ -185,7 +185,7 @@ namespace canvas
 	void Scene::draw_text(void)
 	{
 		//model
-		m_programs[2].use();
+		m_programs[3].use();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
@@ -206,13 +206,14 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
 		glDrawElements(GL_LINES, 2 * m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
 		//draw triangles
+		m_programs[1].use();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_image(void)
 	{
 		//model
-		m_programs[1].use();
+		m_programs[2].use();
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
@@ -223,7 +224,7 @@ namespace canvas
 	void Scene::draw_equation(void)
 	{
 		//model
-		m_programs[2].use();
+		m_programs[3].use();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
@@ -391,16 +392,17 @@ namespace canvas
 	void Scene::setup_shaders(void)
 	{
 		//path
-		m_programs[2].vertex_shader()->path(m_shaders_dir + "text.vert");
+		m_programs[3].vertex_shader()->path(m_shaders_dir + "text.vert");
 		m_programs[0].vertex_shader()->path(m_shaders_dir + "model.vert");
-		m_programs[1].vertex_shader()->path(m_shaders_dir + "image.vert");
-		m_programs[2].fragment_shader()->path(m_shaders_dir + "text.frag");
+		m_programs[1].vertex_shader()->path(m_shaders_dir + "light.vert");
+		m_programs[2].vertex_shader()->path(m_shaders_dir + "image.vert");
+		m_programs[3].fragment_shader()->path(m_shaders_dir + "text.frag");
+		m_programs[1].geometry_shader()->path(m_shaders_dir + "light.geom");
 		m_programs[0].fragment_shader()->path(m_shaders_dir + "model.frag");
-		m_programs[1].fragment_shader()->path(m_shaders_dir + "image.frag");
+		m_programs[1].fragment_shader()->path(m_shaders_dir + "light.frag");
+		m_programs[2].fragment_shader()->path(m_shaders_dir + "image.frag");
 		//setup
-		m_programs[0].setup();
-		m_programs[1].setup();
-		m_programs[2].setup();
+		for(unsigned i = 0; i < 4; i++) m_programs[i].setup();
 	}
 	void Scene::setup_textures(void)
 	{

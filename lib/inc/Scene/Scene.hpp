@@ -106,7 +106,7 @@ namespace canvas
 		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;
-		Program m_programs[3];
+		Program m_programs[4];
 
 		std::string m_shaders_dir;
 		std::vector<Font*> m_fonts;
