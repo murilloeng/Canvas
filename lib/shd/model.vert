@@ -6,6 +6,7 @@ layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
 
 uniform uvec2 screen;
+uniform bool camera_ortho = true;
 uniform float camera_fov = 0.78539816339;
 uniform vec3 camera_position = vec3(0, 0, 0);
 uniform vec4 camera_rotation = vec4(1, 0, 0, 0);
@@ -37,5 +38,16 @@ void main(void)
 	float A = (z1 + z2) / (z2 - z1);
 	float B = -2 * z1 * z2 / (z2 - z1);
 	//position
-	gl_Position = vec4(z1 * m / w * position.x, z1 * m / h * position.y, A * position.z + B, position.z);
+	if(camera_ortho)
+	{
+		z2 = 256 * z1;
+		gl_Position.w = 1;
+		gl_Position.x = m / w * position.x / (z2 - z1);
+		gl_Position.y = m / h * position.y / (z2 - z1);
+		gl_Position.z = 2 * (position.z - z1) / (z2 - z1) - 1;
+	}
+	else
+	{
+		gl_Position = vec4(z1 * m / w * position.x, z1 * m / h * position.y, A * position.z + B, position.z);
+	}
 }

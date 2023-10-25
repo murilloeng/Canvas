@@ -37,6 +37,9 @@ namespace canvas
 		quat rotation(void) const;
 		quat rotation(const quat&);
 
+		bool orthogonal(bool);
+		bool orthogonal(void) const;
+
 		unsigned width(void) const;
 		unsigned height(void) const;
 
@@ -58,6 +61,7 @@ namespace canvas
 		Click m_click;
 		vec3 m_position;
 		quat m_rotation;
+		bool m_orthogonal;
 		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];

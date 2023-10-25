@@ -103,6 +103,17 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
+	bool Camera::orthogonal(void) const
+	{
+		return m_orthogonal;
+	}
+	bool Camera::orthogonal(bool orthogonal)
+	{
+		m_programs[0].use();
+		glUniform1i(glGetUniformLocation(m_programs[0].id(), "camera_ortho"), orthogonal);
+		return m_orthogonal = orthogonal;
+	}
+
 	unsigned Camera::width(void) const
 	{
 		return m_screen[0];
@@ -220,7 +231,8 @@ namespace canvas
 	}
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
-		// if(key == 'p') screen_print();
+		if(key == 'p') screen_print();
+		if(key == 'o') orthogonal(!m_orthogonal);
 		// else if(key == '-') zoom(m_zoom / 1.05);
 		// else if(key == '+') zoom(m_zoom * 1.05);
 		// else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());
