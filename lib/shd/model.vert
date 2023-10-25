@@ -6,8 +6,9 @@ layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
 
 uniform uvec2 screen;
+uniform float camera_far = 2.0;
+uniform float camera_near = 1.0;
 uniform bool camera_ortho = true;
-uniform float camera_fov = 0.78539816339;
 uniform vec3 camera_position = vec3(0, 0, 0);
 uniform vec4 camera_rotation = vec4(1, 0, 0, 0);
 
@@ -24,30 +25,27 @@ vec3 quat_rotation(vec4 q, vec3 v)
 	return r;
 }
 
-void main(void)
+vec4 apply_camera(vec3 xw)
 {
-	//color
-	vertex_color = color;
-	//camera
+	//data
+	vec4 xs;
 	uint w = screen[0];
 	uint h = screen[1];
 	float m = min(w, h);
-	float z1 = 1 / tan(camera_fov / 2);
-	//affine
-	float z2 = 8 * z1;
+	float z2 = camera_far;
+	float z1 = camera_near;
 	float A = (z1 + z2) / (z2 - z1);
 	float B = -2 * z1 * z2 / (z2 - z1);
-	//position
-	if(camera_ortho)
-	{
-		z2 = 256 * z1;
-		gl_Position.w = 1;
-		gl_Position.x = m / w * position.x / (z2 - z1);
-		gl_Position.y = m / h * position.y / (z2 - z1);
-		gl_Position.z = 2 * (position.z - z1) / (z2 - z1) - 1;
-	}
-	else
-	{
-		gl_Position = vec4(z1 * m / w * position.x, z1 * m / h * position.y, A * position.z + B, position.z);
-	}
+	//affine
+	xs.w = camera_ortho ? 1 : xw.z;
+	xs.x = camera_ortho ? m / w * xw.x / (z2 - z1) : z1 * m / w * xw.x;
+	xs.y = camera_ortho ? m / h * xw.y / (z2 - z1) : z1 * m / h * xw.y;
+	xs.z = camera_ortho ? 2 * (xw.z - z1) / (z2 - z1) - 1 : A * xw.z + B;
+	return xs;
+}
+
+void main(void)
+{
+	vertex_color = color;
+	gl_Position = apply_camera(position);
 }

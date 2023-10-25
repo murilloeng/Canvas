@@ -23,7 +23,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_fov(M_PI), m_output("screen")
+	Camera::Camera(void) : m_orthogonal(true), m_output("screen")
 	{
 		return;
 	}
@@ -35,20 +35,6 @@ namespace canvas
 	}
 
 	//data
-	float Camera::fov(void) const
-	{
-		return m_fov;
-	}
-	float Camera::fov(float fov)
-	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform1f(glGetUniformLocation(m_programs[i].id(), "fov"), fov);
-		}
-		return m_fov = fov;
-	}
-
 	vec3 Camera::position(void) const
 	{
 		return m_position;
@@ -109,8 +95,11 @@ namespace canvas
 	}
 	bool Camera::orthogonal(bool orthogonal)
 	{
-		m_programs[0].use();
-		glUniform1i(glGetUniformLocation(m_programs[0].id(), "camera_ortho"), orthogonal);
+		for(unsigned i = 0; i < 2; i++)
+		{
+			m_programs[i].use();
+			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_ortho"), orthogonal);
+		}
 		return m_orthogonal = orthogonal;
 	}
 

@@ -27,9 +27,6 @@ namespace canvas
 		~Camera(void);
 
 		//data
-		float fov(float);
-		float fov(void) const;
-
 		vec3 position(void) const;
 		vec3 position(const vec3&);
 
@@ -57,7 +54,6 @@ namespace canvas
 
 	protected:
 		//data
-		float m_fov;
 		Click m_click;
 		vec3 m_position;
 		quat m_rotation;
