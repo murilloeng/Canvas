@@ -53,7 +53,8 @@ int main(int argc, char** argv)
 	if(maker.m_clean)
 	{
 		maker.build_clean();
-		system(("rmdir /s /q ..\\lib\\build\\" + maker.m_mode).c_str());
+		std::filesystem::current_path("../lib");
+		system(maker.m_mode.compare("debug") == 0 ? "make clean" : "make clean m=r");
 	}
 	//return
 	return EXIT_SUCCESS;
