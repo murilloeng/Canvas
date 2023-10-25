@@ -53,6 +53,7 @@ int main(int argc, char** argv)
 	if(maker.m_clean)
 	{
 		maker.build_clean();
+		system(("rmdir /s /q ..\\lib\\build\\" + maker.m_mode).c_str());
 	}
 	//return
 	return EXIT_SUCCESS;
