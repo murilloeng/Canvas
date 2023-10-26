@@ -41,11 +41,6 @@ namespace canvas
 	}
 	bool Camera::mode(bool mode)
 	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_mode"), mode);
-		}
 		return m_mode = mode;
 	}
 
@@ -55,11 +50,6 @@ namespace canvas
 	}
 	vec3 Camera::position(const vec3& position)
 	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform3fv(glGetUniformLocation(m_programs[i].id(), "camera_position"), 1, position.memory());
-		}
 		return m_position = position;
 	}
 
@@ -93,11 +83,6 @@ namespace canvas
 	}
 	quat Camera::rotation(const quat& rotation)
 	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform4fv(glGetUniformLocation(m_programs[i].id(), "camera_rotation"), 1, rotation.memory());
-		}
 		return m_rotation = rotation;
 	}
 
@@ -116,11 +101,6 @@ namespace canvas
 	}
 	float Camera::plane_far(float plane_far)
 	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_far"), plane_far);
-		}
 		return m_plane_far = plane_far;
 	}
 
@@ -130,11 +110,6 @@ namespace canvas
 	}
 	float Camera::plane_near(float plane_near)
 	{
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_near"), plane_near);
-		}
 		return m_plane_near = plane_near;
 	}
 
@@ -164,6 +139,21 @@ namespace canvas
 	void Camera::screen_record(void) const
 	{
 		return;
+	}
+
+	//shaders
+	void Camera::projection(void)
+	{
+		m_mode ? projection_orthogonal() : projection_perspective();
+	}
+	void Camera::update_shaders(void) const
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			m_programs[i].use();
+			glUniform3fv(glGetUniformLocation(m_programs[i].id(), "camera_position"), 1, m_position.memory());
+			glUniformMatrix4fv(glGetUniformLocation(m_programs[i].id(), "camera_projection"), 1, false, m_projection.memory());
+		}
 	}
 
 	//callbacks
@@ -198,11 +188,6 @@ namespace canvas
 		m_screen[0] = width;
 		m_screen[1] = height;
 		glViewport(0, 0, width, height);
-		for(unsigned i = 0; i < 4; i++)
-		{
-			m_programs[i].use();
-			glUniform2ui(glGetUniformLocation(m_programs[i].id(), "screen"), width, height);
-		}
 	}
 	void Camera::callback_wheel(int direction, int x1, int x2)
 	{
@@ -267,5 +252,27 @@ namespace canvas
 		// {
 		// 	m_click.button(canvas::button::none);
 		// }
+	}
+	//affine
+	void Camera::projection_orthogonal(void)
+	{
+		//data
+		mat4 A;
+		const float z2 = m_plane_far;
+		const float z1 = m_plane_near;
+		const float dz = (z2 - z1) / 2;
+		const float zm = (z1 + z2) / 2;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		//camera
+		A(2, 2) = 1 / dz;
+		A(2, 3) = -zm / dz;
+		A(0, 0) = fminf(w, h) / w / dz;
+		A(1, 1) = fminf(w, h) / h / dz;
+		m_projection = A * m_rotation.conjugate().rotation() * (-m_position).shift();
+	}
+	void Camera::projection_perspective(void)
+	{
+		return;
 	}
 }

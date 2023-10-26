@@ -485,9 +485,9 @@ namespace canvas
 		//apply
 		xm[0] *= w / m;
 		xm[1] *= h / m;
-		m_camera.plane_near(dz);
-		m_camera.plane_far(3 * dz);
-		m_camera.position(qc.rotate(xm - 2 * dz * vec3(0, 0, 1)));
+		m_camera.m_plane_near = dz;
+		m_camera.m_plane_far = 3 * dz;
+		m_camera.m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
 	}
 	void Scene::bound_perspective(void)
 	{
