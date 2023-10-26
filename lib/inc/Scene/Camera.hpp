@@ -62,6 +62,7 @@ namespace canvas
 		//data
 		bool m_mode;
 		Click m_click;
+		Scene* m_scene;
 		vec3 m_position;
 		quat m_rotation;
 		float m_plane_far;

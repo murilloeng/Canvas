@@ -33,6 +33,7 @@ namespace canvas
 		setup_shaders();
 		setup_textures();
 		Font::setup_ft();
+		m_camera.m_scene = this;
 		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
 		m_light.m_program = &m_programs[1];

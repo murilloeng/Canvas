@@ -49,7 +49,7 @@ static void callback_idle(void)
 {
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
-		// object->rotate({0, 1e-2, 0}, false);
+		object->rotate({0, 4e-2, 0}, false);
 	}
 	app->scene()->update();
 	glutPostRedisplay();
@@ -80,7 +80,7 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::tensegrity_chair(app->scene());
-	examples::objects::latex(app->scene());
+	examples::objects::spheres(app->scene());
 	app->scene()->update();
 	//callbacks
 	glutIdleFunc(callback_idle);
