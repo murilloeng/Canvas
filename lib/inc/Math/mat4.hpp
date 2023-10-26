@@ -29,13 +29,16 @@ namespace canvas
 		vec3 operator*(const vec3&) const;
 		mat4 operator*(const mat4&) const;
 
+		//memory
+		float* memory(void);
+		const float* memory(void) const;
+
 		//affine
 		static mat4 scaling(float);
 		static mat4 scaling(const vec3&);
 		static mat4 shifting(const vec3&);
 		static mat4 rotation(const vec3&);
 		static mat4 rotation(const quat&);
-
 		static mat4 rotation(const vec3&, const vec3&);
 		static mat4 rotation(const vec3&, const quat&);
 

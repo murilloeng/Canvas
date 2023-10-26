@@ -77,6 +77,16 @@ namespace canvas
 		return r;
 	}
 
+	//memory
+	float* mat4::memory(void)
+	{
+		return m_data;
+	}
+	const float* mat4::memory(void) const
+	{
+		return m_data;
+	}
+
 	//affine
 	mat4 mat4::scaling(float s)
 	{
