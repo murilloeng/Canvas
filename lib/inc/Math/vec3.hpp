@@ -30,6 +30,7 @@ namespace canvas
 		float max(unsigned*, bool) const;
 
 		vec3 unit(void) const;
+		mat4 shift(void) const;
 		quat quaternion(void) const;
 		vec3 cross(const vec3&) const;
 		void triad(vec3&, vec3&) const;

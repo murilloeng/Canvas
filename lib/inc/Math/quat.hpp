@@ -3,6 +3,7 @@
 namespace canvas
 {
 	class vec3;
+	class mat4;
 }
 
 namespace canvas
@@ -38,6 +39,7 @@ namespace canvas
 		const float& operator[](unsigned) const;
 
 		//affine
+		mat4 rotation(void) const;
 		quat conjugate(void) const;
 		vec3 rotate(const vec3&) const;
 		vec3 conjugate(const vec3&) const;

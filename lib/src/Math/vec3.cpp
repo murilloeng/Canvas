@@ -83,6 +83,17 @@ namespace canvas
 	{
 		return *this / norm();
 	}
+	mat4 vec3::shift(void) const
+	{
+		//data
+		mat4 M;
+		//shift
+		M[0 + 4 * 3] = m_data[0];
+		M[1 + 4 * 3] = m_data[1];
+		M[2 + 4 * 3] = m_data[2];
+		//return
+		return M;
+	}
 	quat vec3::quaternion(void) const
 	{
 		//angle
