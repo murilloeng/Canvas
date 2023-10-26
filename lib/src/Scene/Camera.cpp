@@ -27,7 +27,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_mode(true), m_output("screen")
+	Camera::Camera(void) : m_mode(false), m_planes{1, 3}, m_position{0, 0, -1.1}, m_output("screen")
 	{
 		return;
 	}
@@ -272,7 +272,22 @@ namespace canvas
 	}
 	void Camera::matrix_perspective(void)
 	{
-		return;
+		//data
+		mat4 A;
+		const float z1 = m_planes[0];
+		const float z2 = m_planes[1];
+		const float dz = (z2 - z1) / 2;
+		const float zm = (z1 + z2) / 2;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		//camera
+		A(3, 2) = 1;
+		A(3, 3) = 0;
+		A(2, 2) = zm / dz;
+		A(2, 3) = -z1 * z2 / dz;
+		A(0, 0) = fminf(w, h) / w * z1;
+		A(1, 1) = fminf(w, h) / h * z1;
+		m_matrix = A * m_rotation.conjugate().rotation() * (-m_position).shift();
 	}
 
 	//bound
