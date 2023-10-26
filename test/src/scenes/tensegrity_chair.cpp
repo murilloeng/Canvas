@@ -145,7 +145,7 @@ namespace examples
 			cables(scene);
 			labels(scene);
 			guides(scene);
-			scene->camera().rotation(canvas::vec3(-M_PI_2, 0, 0).quaternion());
+			scene->camera().rotation(canvas::vec3(M_PI_2, 0, 0).quaternion());
 		}
 	}
 }
