@@ -88,6 +88,10 @@ namespace canvas
 		void setup_textures(void);
 		void setup_equations(void);
 
+		//update
+		void bound_orthogonal(void);
+		void bound_perspective(void);
+
 		//buffers
 		void buffers_data(void);
 		void buffers_transfer(void);

@@ -40,6 +40,7 @@ namespace canvas
 		//affine
 		quat conjugate(void) const;
 		vec3 rotate(const vec3&) const;
+		vec3 conjugate(const vec3&) const;
 
 	private:
 		//data

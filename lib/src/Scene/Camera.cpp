@@ -23,7 +23,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_orthogonal(true), m_output("screen")
+	Camera::Camera(void) : m_mode(true), m_plane_far(3.0f), m_plane_near(1.0f), m_output("screen")
 	{
 		return;
 	}
@@ -35,6 +35,20 @@ namespace canvas
 	}
 
 	//data
+	bool Camera::mode(void) const
+	{
+		return m_mode;
+	}
+	bool Camera::mode(bool mode)
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			m_programs[i].use();
+			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_mode"), mode);
+		}
+		return m_mode = mode;
+	}
+
 	vec3 Camera::position(void) const
 	{
 		return m_position;
@@ -44,8 +58,7 @@ namespace canvas
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			const unsigned location = glGetUniformLocation(m_programs[i].id(), "position");
-			glUniform3f(location, position[0], position[1], position[2]);
+			glUniform3fv(glGetUniformLocation(m_programs[i].id(), "camera_position"), 1, position.memory());
 		}
 		return m_position = position;
 	}
@@ -83,24 +96,9 @@ namespace canvas
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			const unsigned location = glGetUniformLocation(m_programs[i].id(), "rotation");
-			glUniform4f(location, rotation[0], rotation[1], rotation[2], rotation[3]);
+			glUniform4fv(glGetUniformLocation(m_programs[i].id(), "camera_rotation"), 1, rotation.memory());
 		}
 		return m_rotation = rotation;
-	}
-
-	bool Camera::orthogonal(void) const
-	{
-		return m_orthogonal;
-	}
-	bool Camera::orthogonal(bool orthogonal)
-	{
-		for(unsigned i = 0; i < 2; i++)
-		{
-			m_programs[i].use();
-			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_ortho"), orthogonal);
-		}
-		return m_orthogonal = orthogonal;
 	}
 
 	unsigned Camera::width(void) const
@@ -110,6 +108,34 @@ namespace canvas
 	unsigned Camera::height(void) const
 	{
 		return m_screen[1];
+	}
+
+	float Camera::plane_far(void) const
+	{
+		return m_plane_far;
+	}
+	float Camera::plane_far(float plane_far)
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			m_programs[i].use();
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_far"), plane_far);
+		}
+		return m_plane_far = plane_far;
+	}
+
+	float Camera::plane_near(void) const
+	{
+		return m_plane_near;
+	}
+	float Camera::plane_near(float plane_near)
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			m_programs[i].use();
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_near"), plane_near);
+		}
+		return m_plane_near = plane_near;
 	}
 
 	//screen
@@ -220,8 +246,8 @@ namespace canvas
 	}
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
+		if(key == 'm') mode(!m_mode);
 		if(key == 'p') screen_print();
-		if(key == 'o') orthogonal(!m_orthogonal);
 		// else if(key == '-') zoom(m_zoom / 1.05);
 		// else if(key == '+') zoom(m_zoom * 1.05);
 		// else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());

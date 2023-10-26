@@ -23,8 +23,7 @@ namespace examples
 					const float x2 = 2 * i * s - 1 + s;
 					scene->add_object(new canvas::objects::Cylinder);
 					((canvas::objects::Cylinder*) scene->object(n * i + j))->scale(s / 2);
-					((canvas::objects::Cylinder*) scene->object(n * i + j))->stroke(false);
-					((canvas::objects::Cylinder*) scene->object(n * i + j))->shift({x1, x2, 3.1});
+					((canvas::objects::Cylinder*) scene->object(n * i + j))->shift({x1, x2, 0});
 					((canvas::objects::Cylinder*) scene->object(n * i + j))->color_fill({0.0f, 0.0f, 1.0f});
 					((canvas::objects::Cylinder*) scene->object(n * i + j))->color_stroke({1.0f, 1.0f, 1.0f});
 				}

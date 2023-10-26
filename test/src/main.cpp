@@ -19,19 +19,59 @@
 //examples
 #include "inc/examples.hpp"
 
-canvas::Glut* app;
+static canvas::Glut* app;
+static unsigned index = 0;
+typedef void(*test_fun)(canvas::Scene*);
+
+test_fun list[] = {
+	examples::objects::arcs,
+	examples::objects::text,
+	examples::objects::quads,
+	examples::objects::lines,
+	examples::objects::cubes,
+	examples::objects::latex,
+	examples::objects::points,
+	examples::objects::curves,
+	examples::objects::images,
+	examples::objects::splines,
+	examples::objects::circles,
+	examples::objects::spheres,
+	examples::objects::grid_2D,
+	examples::objects::grid_3D,
+	examples::objects::polygons,
+	examples::objects::surfaces,
+	examples::objects::polylines,
+	examples::objects::triangles,
+	examples::objects::cylinders
+};
 
 static void callback_idle(void)
 {
-	const canvas::vec3 xc(0, 0, 3);
-	const canvas::vec3 xl = app->scene()->light().position();
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
-		// object->rotate({0, 1e-3, 0}, false);
+		object->rotate({0, 1e-2, 0}, false);
 	}
 	app->scene()->update();
-	app->scene()->light().position(xc + canvas::vec3(0, 1e-3, 0).quaternion().rotate(xl - xc));
 	glutPostRedisplay();
+}
+static void callback_keyboard(unsigned char key, int x1, int x2)
+{
+	//data
+	const unsigned nf = sizeof(list) / sizeof(test_fun);
+	//callback
+	if(key == 'n')
+	{
+		index = (index + 1) % nf;
+		app->scene()->clear_objects();
+		list[index](app->scene());
+		app->scene()->update();
+		app->scene()->bound();
+		glutPostRedisplay();
+	}
+	else
+	{
+		canvas::Glut::callback_keyboard(key, x1, x2);
+	}
 }
 
 int main(int argc, char** argv)
@@ -40,11 +80,11 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::tensegrity_chair(app->scene());
-	examples::objects::cubes(app->scene());
+	examples::objects::cylinders(app->scene());
 	app->scene()->update();
-	app->scene()->bound();
 	//callbacks
 	glutIdleFunc(callback_idle);
+	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
 	//delete

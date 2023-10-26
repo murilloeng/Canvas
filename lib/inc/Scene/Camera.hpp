@@ -27,6 +27,9 @@ namespace canvas
 		~Camera(void);
 
 		//data
+		bool mode(bool);
+		bool mode(void) const;
+
 		vec3 position(void) const;
 		vec3 position(const vec3&);
 
@@ -34,11 +37,14 @@ namespace canvas
 		quat rotation(void) const;
 		quat rotation(const quat&);
 
-		bool orthogonal(bool);
-		bool orthogonal(void) const;
-
 		unsigned width(void) const;
 		unsigned height(void) const;
+
+		float plane_far(float);
+		float plane_far(void) const;
+
+		float plane_near(float);
+		float plane_near(void) const;
 
 		//screen
 		void screen_print(void) const;
@@ -54,10 +60,12 @@ namespace canvas
 
 	protected:
 		//data
+		bool m_mode;
 		Click m_click;
 		vec3 m_position;
 		quat m_rotation;
-		bool m_orthogonal;
+		float m_plane_far;
+		float m_plane_near;
 		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];

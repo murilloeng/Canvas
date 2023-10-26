@@ -161,28 +161,7 @@ namespace canvas
 	}
 	void Scene::bound(void)
 	{
-		//data
-		vec3 box_min = {+FLT_MAX, +FLT_MAX, +FLT_MAX};
-		vec3 box_max = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
-		//bound
-		for(unsigned i = 0; i < 3; i++)
-		{
-			for(unsigned j = 0; j < m_vbo_size[i]; j++)
-			{
-				for(unsigned k = 0; k < 3; k++)
-				{
-					if(i == 2) box_min[k] = fminf(box_min[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 2) box_max[k] = fmaxf(box_max[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 0) box_min[k] = fminf(box_min[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 0) box_max[k] = fmaxf(box_max[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 1) box_min[k] = fminf(box_min[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 1) box_max[k] = fmaxf(box_max[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
-				}
-			}
-		}
-		//update
-		// m_camera.box_min(box_min);
-		// m_camera.box_max(box_max);
+		m_camera.m_mode ? bound_orthogonal() : bound_perspective();
 	}
 	void Scene::update(void)
 	{
@@ -413,6 +392,16 @@ namespace canvas
 		m_programs[2].fragment_shader()->path(m_shaders_dir + "image.frag");
 		//setup
 		for(unsigned i = 0; i < 4; i++) m_programs[i].setup();
+		//uniforms
+		for(unsigned i = 0; i < 2; i++)
+		{
+			m_programs[i].use();
+			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_mode"), m_camera.m_mode);
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_far"), m_camera.m_plane_far);
+			glUniform1f(glGetUniformLocation(m_programs[i].id(), "camera_near"), m_camera.m_plane_near);
+			glUniform3fv(glGetUniformLocation(m_programs[i].id(), "camera_position"), 1, m_camera.m_position.memory());
+			glUniform4fv(glGetUniformLocation(m_programs[i].id(), "camera_rotation"), 1, m_camera.m_rotation.memory());
+		}
 	}
 	void Scene::setup_textures(void)
 	{
@@ -458,6 +447,50 @@ namespace canvas
 			const unsigned char* data = latex->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
+	}
+
+	//update
+	void Scene::bound_orthogonal(void)
+	{
+		//data
+		vec3 xw;
+		const quat& qc = m_camera.m_rotation;
+		const unsigned w = m_camera.m_screen[0];
+		const unsigned h = m_camera.m_screen[1];
+		vec3 x1 = {+FLT_MAX, +FLT_MAX, +FLT_MAX};
+		vec3 x2 = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
+		//bound
+		const float m = fminf(w, h);
+		for(unsigned i = 0; i < 3; i++)
+		{
+			for(unsigned j = 0; j < m_vbo_size[i]; j++)
+			{
+				//position
+				if(i == 2) xw = qc.conjugate(((vertices::Text*) m_vbo_data[i] + j)->m_position);
+				if(i == 0) xw = qc.conjugate(((vertices::Model*) m_vbo_data[i] + j)->m_position);
+				if(i == 1) xw = qc.conjugate(((vertices::Image*) m_vbo_data[i] + j)->m_position);
+				//bouding box
+				x1[2] = fminf(x1[2], xw[2]);
+				x2[2] = fmaxf(x2[2], xw[2]);
+				x1[0] = fminf(x1[0], m / w * xw[0]);
+				x2[0] = fmaxf(x2[0], m / w * xw[0]);
+				x1[1] = fminf(x1[1], m / h * xw[1]);
+				x2[1] = fmaxf(x2[1], m / h * xw[1]);
+			}
+		}
+		vec3 xm = (x1 + x2) / 2;
+		const vec3 xs = (x2 - x1) / 2;
+		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		//apply
+		xm[0] *= w / m;
+		xm[1] *= h / m;
+		m_camera.plane_near(dz);
+		m_camera.plane_far(3 * dz);
+		m_camera.position(qc.rotate(xm - 2 * dz * vec3(0, 0, 1)));
+	}
+	void Scene::bound_perspective(void)
+	{
+
 	}
 
 	//buffers

@@ -115,4 +115,8 @@ namespace canvas
 		r[2] = a * v[2] + b * x[2] + 2 * s * (x[0] * v[1] - x[1] * v[0]);
 		return r;
 	}
+	vec3 quat::conjugate(const vec3& v) const
+	{
+		return conjugate().rotate(v);
+	}
 }
