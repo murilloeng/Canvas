@@ -63,9 +63,13 @@ namespace canvas
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
+		//buffers
+		unsigned vbo_size(unsigned) const;
+		unsigned ibo_size(unsigned) const;
+		vertices::Vertex* vertex(unsigned, unsigned) const;
+
 		//update
 		void draw(void);
-		void bound(void);
 		void update(void);
 
 	protected:
@@ -87,10 +91,6 @@ namespace canvas
 		void setup_shaders(void);
 		void setup_textures(void);
 		void setup_equations(void);
-
-		//update
-		void bound_orthogonal(void);
-		void bound_perspective(void);
 
 		//buffers
 		void buffers_data(void);
@@ -117,5 +117,8 @@ namespace canvas
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
 		std::vector<objects::Object*> m_objects;
+
+		//friends
+		friend class Camera;
 	};
 }

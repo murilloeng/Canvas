@@ -75,8 +75,8 @@ namespace canvas
 	void Glut::callback_reshape(int width, int height)
 	{
 		master->scene()->camera().callback_reshape(width, height);
-		master->scene()->bound();
-		master->scene()->camera().projection();
+		master->scene()->camera().bound();
+		master->scene()->camera().update_matrix();
 		master->scene()->camera().update_shaders();
 		glutPostRedisplay();
 	}

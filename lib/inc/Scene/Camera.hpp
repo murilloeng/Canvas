@@ -41,18 +41,16 @@ namespace canvas
 		unsigned width(void) const;
 		unsigned height(void) const;
 
-		float plane_far(float);
-		float plane_far(void) const;
-
-		float plane_near(float);
-		float plane_near(void) const;
+		float plane(unsigned) const;
+		float plane(unsigned, float);
 
 		//screen
 		void screen_print(void) const;
 		void screen_record(void) const;
 
 		//shaders
-		void projection(void);
+		void bound(void);
+		void update_matrix(void);
 		void update_shaders(void) const;
 
 		//callbacks
@@ -64,19 +62,22 @@ namespace canvas
 		void callback_special(key, unsigned, int, int);
 
 	protected:
-		//projection
-		void projection_orthogonal(void);
-		void projection_perspective(void);
+		//matrix
+		void matrix_orthogonal(void);
+		void matrix_perspective(void);
+
+		//bound
+		void bound_orthogonal(void);
+		void bound_perspective(void);
 
 		//data
 		bool m_mode;
 		Click m_click;
+		mat4 m_matrix;
 		Scene* m_scene;
 		vec3 m_position;
 		quat m_rotation;
-		mat4 m_projection;
-		float m_plane_far;
-		float m_plane_near;
+		float m_planes[2];
 		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];

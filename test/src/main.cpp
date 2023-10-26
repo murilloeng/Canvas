@@ -65,7 +65,9 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 		app->scene()->clear_objects();
 		list[index](app->scene());
 		app->scene()->update();
-		app->scene()->bound();
+		app->scene()->camera().bound();
+		app->scene()->camera().update_matrix();
+		app->scene()->camera().update_shaders();
 		glutPostRedisplay();
 	}
 	else
@@ -80,10 +82,10 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::tensegrity_chair(app->scene());
-	examples::objects::spheres(app->scene());
+	examples::objects::arcs(app->scene());
 	app->scene()->update();
 	//callbacks
-	glutIdleFunc(callback_idle);
+	// glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();

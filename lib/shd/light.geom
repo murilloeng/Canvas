@@ -7,7 +7,7 @@ out vec3 geometry_normal;
 out vec3 geometry_position;
 
 uniform vec3 camera_position;
-uniform mat4 camera_projection;
+uniform mat4 camera_matrix;
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
@@ -22,17 +22,17 @@ void main(void)
 	//vertex 1
 	geometry_position = x0;
 	geometry_color = vertex_color[0];
-	gl_Position = camera_projection * vec4(x0, 1);
+	gl_Position = camera_matrix * vec4(x0, 1);
 	EmitVertex();
 	//vertex 2
 	geometry_position = x1;
 	geometry_color = vertex_color[1];
-	gl_Position = camera_projection * vec4(x1, 1);
+	gl_Position = camera_matrix * vec4(x1, 1);
 	EmitVertex();
 	//vertex 3
 	geometry_position = x2;
 	geometry_color = vertex_color[2];
-	gl_Position = camera_projection * vec4(x2, 1);
+	gl_Position = camera_matrix * vec4(x2, 1);
 	EmitVertex();
 	//triangle
 	EndPrimitive();
