@@ -42,13 +42,16 @@ vec4 camera_orthogonal(vec3 xw)
 	float m = min(w, h);
 	float z2 = camera_far;
 	float z1 = camera_near;
+	float dz = (z2 - z1) / 2;
+	float zm = (z1 + z2) / 2;
 	//camera
-	xw = rotate(conjugate(camera_rotation), xw - camera_position);
+	xw = xw - camera_position;
+	xw = rotate(conjugate(camera_rotation), xw);
 	//position
 	xs.w = 1.0;
-	xs.x = m / w * 2 / (z2 - z1) * xw.x;
-	xs.y = m / h * 2 / (z2 - z1) * xw.y;
-	xs.z = 2 * (xw.z - z1) / (z2 - z1) - 1;
+	xs.z = (xw.z - zm) / dz;
+	xs.x = m / w * xw.x / dz;
+	xs.y = m / h * xw.y / dz;
 	//return
 	return xs;
 }

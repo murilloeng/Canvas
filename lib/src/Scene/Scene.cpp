@@ -393,7 +393,7 @@ namespace canvas
 		//setup
 		for(unsigned i = 0; i < 4; i++) m_programs[i].setup();
 		//uniforms
-		for(unsigned i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
 			glUniform1i(glGetUniformLocation(m_programs[i].id(), "camera_mode"), m_camera.m_mode);

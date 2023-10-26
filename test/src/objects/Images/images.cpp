@@ -30,7 +30,7 @@ namespace examples
 					image->size(0.5);
 					image->anchor("CC");
 					image->index(3 * i + j);
-					image->shift({2 * float(i) / 4 - 1, 2 * float(j) / 3 - 1, 0});
+					image->shift({(2 * float(i) + 1) / 4 - 1, (2 * float(j) + 1) / 3 - 1, 0});
 					scene->add_object(image);
 				}
 			}
