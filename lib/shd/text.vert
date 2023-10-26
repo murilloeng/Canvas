@@ -1,5 +1,12 @@
 #version 460 core
 
+uniform uvec2 screen;
+uniform bool camera_mode;
+uniform float camera_far;
+uniform float camera_near;
+uniform vec3 camera_position;
+uniform vec4 camera_rotation;
+
 out vec4 vertex_color;
 out vec2 vertex_texture_coordinates;
 
@@ -7,16 +14,11 @@ layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
 layout (location = 2) in vec2 texture_coordinates;
 
-uniform uvec2 screen = uvec2(700, 700);
-
-uniform vec3 box_min = vec3(-1, -1, -1);
-uniform vec3 box_max = vec3(+1, +1, +1);
-
-uniform float zoom = 1;
-uniform vec3 shift = vec3(0, 0, 0);
-uniform vec4 rotation = vec4(1, 0, 0, 0);
-
-vec3 quat_rotation(vec4 q, vec3 v)
+vec4 conjugate(vec4 q)
+{
+	return vec4(q[0], -q[1], -q[2], -q[3]);
+}
+vec3 rotate(vec4 q, vec3 v)
 {
 	vec3 r;
 	vec3 x = q.yzw;
@@ -29,23 +31,51 @@ vec3 quat_rotation(vec4 q, vec3 v)
 	return r;
 }
 
-void main(void)
+vec4 camera_orthogonal(vec3 xw)
 {
-	//screen
+	//data
+	vec4 xs;
 	uint w = screen[0];
 	uint h = screen[1];
 	float m = min(w, h);
+	float z2 = camera_far;
+	float z1 = camera_near;
+	float dz = (z2 - z1) / 2;
+	float zm = (z1 + z2) / 2;
 	//camera
-	float z = zoom;
-	vec3 xa = shift;
-	vec4 qr = rotation;
-	//outputs
+	xw = xw - camera_position;
+	xw = rotate(conjugate(camera_rotation), xw);
+	//position
+	xs.w = 1.0;
+	xs.z = (xw.z - zm) / dz;
+	xs.x = m / w * xw.x / dz;
+	xs.y = m / h * xw.y / dz;
+	//return
+	return xs;
+}
+vec4 camera_perspective(vec3 xw)
+{
+	//data
+	vec4 xs;
+	uint w = screen[0];
+	uint h = screen[1];
+	float m = min(w, h);
+	float z2 = camera_far;
+	float z1 = camera_near;
+	float A = (z1 + z2) / (z2 - z1);
+	float B = -2 * z1 * z2 / (z2 - z1);
+	//affine
+	xs.w = xw.z;
+	xs.z = A * xw.z + B;
+	xs.x = z1 * m / w * xw.x;
+	xs.y = z1 * m / h * xw.y;
+	//return
+	return xs;
+}
+
+void main(void)
+{
 	vertex_color = color;
 	vertex_texture_coordinates = texture_coordinates;
-	//position
-	vec3 xc = (box_min + box_max) / 2;
-	vec3 xs = (box_max - box_min) / 2;
-	float s = max(xs[0], max(xs[1], xs[2]));
-	vec3 xp = z / s * quat_rotation(qr, position - xc) + xa;
-	gl_Position = vec4(vec2(m / w, m / h) * xp.xy, -1e-2 * xp.z, 1);
+	gl_Position = camera_mode ? camera_orthogonal(position) : camera_perspective(position);
 }

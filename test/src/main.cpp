@@ -80,7 +80,7 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	// examples::scenes::tensegrity_chair(app->scene());
-	examples::objects::images(app->scene());
+	examples::objects::latex(app->scene());
 	app->scene()->update();
 	//callbacks
 	glutIdleFunc(callback_idle);
