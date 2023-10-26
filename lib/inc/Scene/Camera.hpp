@@ -7,6 +7,7 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
+#include "inc/Math/mat4.hpp"
 #include "inc/Scene/Click.hpp"
 
 namespace canvas
@@ -50,6 +51,10 @@ namespace canvas
 		void screen_print(void) const;
 		void screen_record(void) const;
 
+		//shaders
+		void projection(void);
+		void update_shaders(void) const;
+
 		//callbacks
 		void callback_motion(int, int);
 		void callback_reshape(int, int);
@@ -59,12 +64,17 @@ namespace canvas
 		void callback_special(key, unsigned, int, int);
 
 	protected:
+		//projection
+		void projection_orthogonal(void);
+		void projection_perspective(void);
+
 		//data
 		bool m_mode;
 		Click m_click;
 		Scene* m_scene;
 		vec3 m_position;
 		quat m_rotation;
+		mat4 m_projection;
 		float m_plane_far;
 		float m_plane_near;
 		Program* m_programs;
