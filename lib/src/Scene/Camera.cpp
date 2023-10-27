@@ -150,9 +150,10 @@ namespace canvas
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniform3fv(glGetUniformLocation(m_programs[i].id(), "camera_position"), 1, m_position.memory());
-			glUniformMatrix4fv(glGetUniformLocation(m_programs[i].id(), "camera_matrix"), 1, false, m_matrix.memory());
+			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, m_matrix.memory());
 		}
+		m_programs[1].use();
+		glUniform3fv(m_programs[1].uniform("camera_position"), 1, m_position.memory());
 	}
 
 	//callbacks
