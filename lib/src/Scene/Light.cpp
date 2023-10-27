@@ -10,7 +10,7 @@ namespace canvas
 	//constructor
 	Light::Light(void) : 
 		m_alpha(32), m_ambient(false), m_diffuse(false), m_specular(false), m_position(0, 0, 0), 
-		m_color_ambient(0.2f, 0.2f, 0.2f), m_color_diffuse(1.0f, 1.0f, 1.0f), m_color_specular(1.0f, 1.0f, 10000.0f)
+		m_color_ambient(0.2f, 0.2f, 0.2f), m_color_diffuse(1.0f, 1.0f, 1.0f), m_color_specular(1.0f, 1.0f, 1.0f)
 	{
 		return;
 	}
