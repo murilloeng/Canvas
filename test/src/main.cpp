@@ -81,11 +81,15 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	examples::scenes::tensegrity_chair(app->scene());
-	// examples::objects::spheres(app->scene());
+	examples::objects::spheres(app->scene());
+	// examples::scenes::tensegrity_chair(app->scene());
+	for(canvas::objects::Object* object : app->scene()->objects()) object->stroke(false);
 	app->scene()->update();
+	//light
+	app->scene()->light().position({0, 0, -1});
+	app->scene()->light().update_shaders();
 	//callbacks
-	// glutIdleFunc(callback_idle);
+	glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();
