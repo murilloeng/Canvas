@@ -27,7 +27,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_mode(false), m_planes{1, 3}, m_position{0, 0, -1.1}, m_output("screen")
+	Camera::Camera(void) : m_mode(true), m_planes{1.9, 3.9}, m_position{0, 0, -2}, m_output("screen")
 	{
 		return;
 	}
@@ -184,8 +184,13 @@ namespace canvas
 	}
 	void Camera::callback_reshape(int width, int height)
 	{
+		//data
 		m_screen[0] = width;
 		m_screen[1] = height;
+		//update
+		bound();
+		update_matrix();
+		update_shaders();
 		glViewport(0, 0, width, height);
 	}
 	void Camera::callback_wheel(int direction, int x1, int x2)
@@ -285,8 +290,8 @@ namespace canvas
 		A(3, 3) = 0;
 		A(2, 2) = zm / dz;
 		A(2, 3) = -z1 * z2 / dz;
-		A(0, 0) = fminf(w, h) / w * z1;
-		A(1, 1) = fminf(w, h) / h * z1;
+		A(0, 0) = fminf(w, h) / w * z1 / dz;
+		A(1, 1) = fminf(w, h) / h * z1 / dz;
 		m_matrix = A * m_rotation.conjugate().rotation() * (-m_position).shift();
 	}
 
@@ -294,13 +299,37 @@ namespace canvas
 	void Camera::bound_orthogonal(void)
 	{
 		//data
-		vec3 xw;
+		vec3 x1, x2;
+		bounding_box(x1, x2);
 		const quat& qc = m_rotation;
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
-		vec3 x1 = {+FLT_MAX, +FLT_MAX, +FLT_MAX};
-		vec3 x2 = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
 		//bound
+		vec3 xm = (x1 + x2) / 2;
+		const vec3 xs = (x2 - x1) / 2;
+		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		//apply
+		m_planes[0] = dz;
+		m_planes[1] = 3 * dz;
+		xm[0] *= w / fminf(w, h);
+		xm[1] *= h / fminf(w, h);
+		m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
+	}
+	void Camera::bound_perspective(void)
+	{
+		return;
+	}
+	void Camera::bounding_box(vec3& x1, vec3& x2)
+	{
+		//data
+		vec3 xw;
+		const float a = FLT_MAX;
+		const quat& qc = m_rotation;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		//bound
+		x1 = {+a, +a, +a};
+		x2 = {-a, -a, -a};
 		const float m = fminf(w, h);
 		for(unsigned i = 0; i < 3; i++)
 		{
@@ -319,18 +348,5 @@ namespace canvas
 				x2[1] = fmaxf(x2[1], m / h * xw[1]);
 			}
 		}
-		vec3 xm = (x1 + x2) / 2;
-		const vec3 xs = (x2 - x1) / 2;
-		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
-		//apply
-		xm[0] *= w / m;
-		xm[1] *= h / m;
-		m_planes[0] = dz;
-		m_planes[1] = 3 * dz;
-		m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
-	}
-	void Camera::bound_perspective(void)
-	{
-		return;
 	}
 }

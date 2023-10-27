@@ -69,6 +69,7 @@ namespace canvas
 		//bound
 		void bound_orthogonal(void);
 		void bound_perspective(void);
+		void bounding_box(vec3&, vec3&);
 
 		//data
 		bool m_mode;
