@@ -99,4 +99,20 @@ namespace canvas
 	{
 		glUseProgram(m_id);
 	}
+
+	//uniforms
+	GLint Program::uniform(const char* uniform)
+	{
+		//uniform
+		GLint location = glGetUniformLocation(m_id, uniform);
+		//check
+		GLenum last_error = glGetError();
+		if(location == -1 || last_error != GL_NO_ERROR)
+		{
+			printf("Error getting uniform %s location!\n", uniform);
+			exit(EXIT_FAILURE);
+		}
+		//return
+		return location;
+	}
 }
