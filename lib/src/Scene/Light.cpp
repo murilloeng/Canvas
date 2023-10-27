@@ -8,7 +8,9 @@
 namespace canvas
 {
 	//constructor
-	Light::Light(void) : m_ambient(false), m_diffuse(false), m_specular(false), m_position(0, 0, 1)
+	Light::Light(void) : 
+		m_alpha(32), m_ambient(false), m_diffuse(false), m_specular(false), m_position(0, 0, 0), 
+		m_color_ambient(0.2f, 0.2f, 0.2f), m_color_diffuse(1.0f, 1.0f, 1.0f), m_color_specular(1.0f, 1.0f, 10000.0f)
 	{
 		return;
 	}
@@ -26,8 +28,6 @@ namespace canvas
 	}
 	bool Light::ambient(bool ambient)
 	{
-		m_program->use();
-		glUniform1i(glGetUniformLocation(m_program->id(), "light_ambient"), ambient);
 		return m_ambient = ambient;
 	}
 
@@ -37,8 +37,6 @@ namespace canvas
 	}
 	bool Light::diffuse(bool diffuse)
 	{
-		m_program->use();
-		glUniform1i(glGetUniformLocation(m_program->id(), "light_diffuse"), diffuse);
 		return m_diffuse = diffuse;
 	}
 
@@ -48,8 +46,6 @@ namespace canvas
 	}
 	bool Light::specular(bool specular)
 	{
-		m_program->use();
-		glUniform1i(glGetUniformLocation(m_program->id(), "light_specular"), specular);
 		return m_specular = specular;
 	}
 
@@ -59,8 +55,6 @@ namespace canvas
 	}
 	vec3 Light::position(vec3 position)
 	{
-		m_program->use();
-		glUniform3f(glGetUniformLocation(m_program->id(), "light_position"), position[0], position[1], position[2]);
 		return m_position = position;
 	}
 
@@ -70,9 +64,6 @@ namespace canvas
 	}
 	Color Light::color_ambient(Color color_ambient)
 	{
-		m_program->use();
-		unsigned location = glGetUniformLocation(m_program->id(), "light_color_ambient");
-		glUniform4f(location, color_ambient[0], color_ambient[1], color_ambient[2], color_ambient[3]);
 		return m_color_ambient = color_ambient;
 	}
 
@@ -82,9 +73,6 @@ namespace canvas
 	}
 	Color Light::color_diffuse(Color color_diffuse)
 	{
-		m_program->use();
-		unsigned location = glGetUniformLocation(m_program->id(), "light_color_diffuse");
-		glUniform4f(location, color_diffuse[0], color_diffuse[1], color_diffuse[2], color_diffuse[3]);
 		return m_color_diffuse = color_diffuse;
 	}
 
@@ -94,10 +82,21 @@ namespace canvas
 	}
 	Color Light::color_specular(Color color_specular)
 	{
-		m_program->use();
-		unsigned location = glGetUniformLocation(m_program->id(), "light_color_specular");
-		glUniform4f(location, color_specular[0], color_specular[1], color_specular[2], color_specular[3]);
 		return m_color_specular = color_specular;
+	}
+
+	//shaders
+	void Light::update_shaders(void) const
+	{
+		m_program->use();
+		glUniform1f(glGetUniformLocation(m_program->id(), "light_alpha"), m_alpha);
+		glUniform1i(glGetUniformLocation(m_program->id(), "light_ambient"), m_ambient);
+		glUniform1i(glGetUniformLocation(m_program->id(), "light_diffuse"), m_diffuse);
+		glUniform1i(glGetUniformLocation(m_program->id(), "light_specular"), m_specular);
+		glUniform3fv(glGetUniformLocation(m_program->id(), "light_position"), 1, m_position.memory());
+		glUniform4fv(glGetUniformLocation(m_program->id(), "light_color_ambient"), 1, m_color_ambient.channels());
+		glUniform4fv(glGetUniformLocation(m_program->id(), "light_color_diffuse"), 1, m_color_diffuse.channels());
+		glUniform4fv(glGetUniformLocation(m_program->id(), "light_color_specular"), 1, m_color_specular.channels());
 	}
 
 	//callbacks
@@ -106,5 +105,6 @@ namespace canvas
 		if(key == 'a') ambient(!m_ambient);
 		if(key == 'd') diffuse(!m_diffuse);
 		if(key == 's') specular(!m_specular);
+		update_shaders();
 	}
 }

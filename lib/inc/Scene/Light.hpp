@@ -43,11 +43,15 @@ namespace canvas
 		Color color_specular(Color);
 		Color color_specular(void) const;
 
+		//shaders
+		void update_shaders(void) const;
+
 		//callbacks
 		void callback_keyboard(char, int, int);
 
 	private:
 		//data
+		float m_alpha;
 		bool m_ambient;
 		bool m_diffuse;
 		bool m_specular;

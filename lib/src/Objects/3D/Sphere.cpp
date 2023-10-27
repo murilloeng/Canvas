@@ -197,17 +197,17 @@ namespace canvas
 				for(unsigned j = 0; j < m_mesh; j++)
 				{
 					ibo_ptr[0] = vbo_index + vertex_index(i, 0, j + 0);
-					ibo_ptr[1] = vbo_index + vertex_index(i, 1, j + 0);
-					ibo_ptr[2] = vbo_index + vertex_index(i, 0, j + 1);
+					ibo_ptr[1] = vbo_index + vertex_index(i, 0, j + 1);
+					ibo_ptr[2] = vbo_index + vertex_index(i, 1, j + 0);
 					ibo_ptr += 3;
 					for(unsigned k = 0; k + j + 1 < m_mesh; k++)
 					{
 						ibo_ptr[0] = vbo_index + vertex_index(i, k + 1, j + 0);
-						ibo_ptr[1] = vbo_index + vertex_index(i, k + 1, j + 1);
-						ibo_ptr[2] = vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[1] = vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[2] = vbo_index + vertex_index(i, k + 1, j + 1);
 						ibo_ptr[3] = vbo_index + vertex_index(i, k + 1, j + 0);
-						ibo_ptr[4] = vbo_index + vertex_index(i, k + 2, j + 0);
-						ibo_ptr[5] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr[4] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr[5] = vbo_index + vertex_index(i, k + 2, j + 0);
 						ibo_ptr += 6;
 					}
 				}

@@ -6,8 +6,8 @@ out vec4 geometry_color;
 out vec3 geometry_normal;
 out vec3 geometry_position;
 
-uniform vec3 camera_position;
 uniform mat4 camera_matrix;
+uniform vec3 camera_position;
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;

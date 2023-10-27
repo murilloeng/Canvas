@@ -6,15 +6,15 @@ in vec4 geometry_color;
 in vec3 geometry_normal;
 in vec3 geometry_position;
 
+uniform float light_alpha;
+uniform bool light_ambient;
+uniform bool light_diffuse;
+uniform bool light_specular;
+uniform vec3 light_position;
 uniform vec3 camera_position;
-uniform float light_alpha = 32;
-uniform bool light_ambient = false;
-uniform bool light_diffuse = false;
-uniform bool light_specular = false;
-uniform vec3 light_position = vec3(0, 0, 0);
-uniform vec4 light_color_ambient = vec4(0.1, 0.1, 0.1, 1.0);
-uniform vec4 light_color_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
-uniform vec4 light_color_specular = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4 light_color_ambient;
+uniform vec4 light_color_diffuse;
+uniform vec4 light_color_specular;
 
 void apply_light_ambient(void)
 {

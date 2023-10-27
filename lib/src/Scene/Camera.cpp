@@ -27,7 +27,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_mode(true), m_planes{1.9, 3.9}, m_position{0, 0, -2}, m_output("screen")
+	Camera::Camera(void) : m_mode(true), m_output("screen")
 	{
 		return;
 	}
@@ -317,7 +317,22 @@ namespace canvas
 	}
 	void Camera::bound_perspective(void)
 	{
-		return;
+		//data
+		vec3 x1, x2;
+		bounding_box(x1, x2);
+		const quat& qc = m_rotation;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		//bound
+		vec3 xm = (x1 + x2) / 2;
+		const vec3 xs = (x2 - x1) / 2;
+		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		//apply
+		m_planes[0] = dz;
+		m_planes[1] = 3 * dz;
+		xm[0] *= w / fminf(w, h);
+		xm[1] *= h / fminf(w, h);
+		m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
 	}
 	void Camera::bounding_box(vec3& x1, vec3& x2)
 	{
