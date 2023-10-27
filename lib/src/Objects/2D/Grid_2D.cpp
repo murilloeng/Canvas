@@ -84,11 +84,11 @@ namespace canvas
 			const unsigned vbo_index = m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
 			//ibo data
 			ibo_ptr[3 * 0 + 0] = vbo_index + 0;
-			ibo_ptr[3 * 0 + 1] = vbo_index + 1;
-			ibo_ptr[3 * 0 + 2] = vbo_index + 2;
+			ibo_ptr[3 * 0 + 1] = vbo_index + 2;
+			ibo_ptr[3 * 0 + 2] = vbo_index + 1;
 			ibo_ptr[3 * 1 + 0] = vbo_index + 0;
-			ibo_ptr[3 * 1 + 1] = vbo_index + 2;
-			ibo_ptr[3 * 1 + 2] = vbo_index + 3;
+			ibo_ptr[3 * 1 + 1] = vbo_index + 3;
+			ibo_ptr[3 * 1 + 2] = vbo_index + 2;
 		}
 		void Grid_2D::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{

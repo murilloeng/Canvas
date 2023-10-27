@@ -74,11 +74,11 @@ namespace canvas
 				for(unsigned j = 0; j < n1; j++)
 				{
 					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
-					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
-					ibo_ptr[2] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
+					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
+					ibo_ptr[2] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
 					ibo_ptr[3] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
-					ibo_ptr[4] = vbo_index + (n1 + 1) * (i + 1) + j + 1;
-					ibo_ptr[5] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
+					ibo_ptr[4] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
+					ibo_ptr[5] = vbo_index + (n1 + 1) * (i + 1) + j + 1;
 					ibo_ptr += 6;
 				}
 			}

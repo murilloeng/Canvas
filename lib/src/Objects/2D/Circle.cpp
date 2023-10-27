@@ -75,8 +75,8 @@ namespace canvas
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index[0] + m_stroke * m_mesh + 0;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
-				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
+				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
 			}
 		}
 		void Circle::ibo_stroke_data(unsigned** ibo_data) const

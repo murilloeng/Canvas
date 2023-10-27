@@ -42,8 +42,8 @@ namespace canvas
 		void Triangle::ibo_fill_data(unsigned** ibo_data) const
 		{
 			ibo_data[2][m_ibo_index[2] + 0] = m_vbo_index[0] + 3 * m_stroke + 0;
-			ibo_data[2][m_ibo_index[2] + 1] = m_vbo_index[0] + 3 * m_stroke + 1;
-			ibo_data[2][m_ibo_index[2] + 2] = m_vbo_index[0] + 3 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 1] = m_vbo_index[0] + 3 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 2] = m_vbo_index[0] + 3 * m_stroke + 1;
 			
 		}
 		void Triangle::ibo_stroke_data(unsigned** ibo_data) const
