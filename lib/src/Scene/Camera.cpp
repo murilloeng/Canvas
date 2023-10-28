@@ -27,7 +27,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_mode(true), m_output("screen")
+	Camera::Camera(void) : m_mode(true), m_scale(1.0f), m_output("screen")
 	{
 		return;
 	}
@@ -46,6 +46,15 @@ namespace canvas
 	bool Camera::mode(bool mode)
 	{
 		return m_mode = mode;
+	}
+
+	float Camera::scale(void) const
+	{
+		return m_scale;
+	}
+	float Camera::scale(float scale)
+	{
+		return m_scale = scale;
 	}
 
 	vec3 Camera::position(void) const
@@ -99,15 +108,6 @@ namespace canvas
 		return m_screen[1];
 	}
 
-	float Camera::plane(unsigned index) const
-	{
-		return m_planes[index];
-	}
-	float Camera::plane(unsigned index, float plane)
-	{
-		return m_planes[index] = plane;
-	}
-
 	//screen
 	void Camera::screen_print(void) const
 	{
@@ -141,16 +141,25 @@ namespace canvas
 	{
 		m_mode ? bound_orthogonal() : bound_perspective();
 	}
-	void Camera::update_matrix(void)
+	void Camera::update_view(void)
 	{
-		m_mode ? matrix_orthogonal() : matrix_perspective();
+		m_view_matrix = m_rotation.conjugate().rotation() * (-m_position).shift();
 	}
-	void Camera::update_shaders(void) const
+	void Camera::update_projection(void)
 	{
+		m_mode ? update_orthogonal() : update_perspective();
+	}
+	void Camera::update_shaders(void)
+	{
+		//data
+		update_view();
+		update_projection();
+		const mat4 Mvp = m_projection_matrix * m_view_matrix;
+		//update
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, m_matrix.memory());
+			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, Mvp.memory());
 		}
 		m_programs[1].use();
 		glUniform3fv(m_programs[1].uniform("camera_position"), 1, m_position.memory());
@@ -190,7 +199,6 @@ namespace canvas
 		m_screen[1] = height;
 		//update
 		bound();
-		update_matrix();
 		update_shaders();
 		glViewport(0, 0, width, height);
 	}
@@ -259,41 +267,21 @@ namespace canvas
 		// }
 	}
 	//affine
-	void Camera::matrix_orthogonal(void)
+	void Camera::update_orthogonal(void)
 	{
 		//data
-		mat4 A;
-		const float z1 = m_planes[0];
-		const float z2 = m_planes[1];
-		const float dz = (z2 - z1) / 2;
-		const float zm = (z1 + z2) / 2;
+		const float s = m_scale;
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
-		//camera
-		A(2, 2) = 1 / dz;
-		A(2, 3) = -zm / dz;
-		A(0, 0) = fminf(w, h) / w / dz;
-		A(1, 1) = fminf(w, h) / h / dz;
-		m_matrix = A * m_rotation.conjugate().rotation() * (-m_position).shift();
+		//projection
+		m_projection_matrix(2, 3) = -2;
+		m_projection_matrix(2, 2) = 1 / s;
+		m_projection_matrix(0, 0) = fminf(w, h) / w / s;
+		m_projection_matrix(1, 1) = fminf(w, h) / h / s;
 	}
-	void Camera::matrix_perspective(void)
+	void Camera::update_perspective(void)
 	{
-		//data
-		mat4 A;
-		const float z1 = m_planes[0];
-		const float z2 = m_planes[1];
-		const float dz = (z2 - z1) / 2;
-		const float zm = (z1 + z2) / 2;
-		const unsigned w = m_screen[0];
-		const unsigned h = m_screen[1];
-		//camera
-		A(3, 2) = 1;
-		A(3, 3) = 0;
-		A(2, 2) = zm / dz;
-		A(2, 3) = -z1 * z2 / dz;
-		A(0, 0) = fminf(w, h) / w * z1 / dz;
-		A(1, 1) = fminf(w, h) / h * z1 / dz;
-		m_matrix = A * m_rotation.conjugate().rotation() * (-m_position).shift();
+		return;
 	}
 
 	//bound
@@ -308,32 +296,15 @@ namespace canvas
 		//bound
 		vec3 xm = (x1 + x2) / 2;
 		const vec3 xs = (x2 - x1) / 2;
-		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		m_scale = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
 		//apply
-		m_planes[0] = dz;
-		m_planes[1] = 3 * dz;
 		xm[0] *= w / fminf(w, h);
 		xm[1] *= h / fminf(w, h);
-		m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
+		m_position = qc.rotate(xm - vec3(0, 0, 2 * m_scale));
 	}
 	void Camera::bound_perspective(void)
 	{
-		//data
-		vec3 x1, x2;
-		bounding_box(x1, x2);
-		const quat& qc = m_rotation;
-		const unsigned w = m_screen[0];
-		const unsigned h = m_screen[1];
-		//bound
-		vec3 xm = (x1 + x2) / 2;
-		const vec3 xs = (x2 - x1) / 2;
-		const float dz = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
-		//apply
-		m_planes[0] = dz;
-		m_planes[1] = 3 * dz;
-		xm[0] *= w / fminf(w, h);
-		xm[1] *= h / fminf(w, h);
-		m_position = qc.rotate(xm - 2 * dz * vec3(0, 0, 1));
+		return;
 	}
 	void Camera::bounding_box(vec3& x1, vec3& x2)
 	{

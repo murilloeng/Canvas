@@ -1,4 +1,6 @@
 //std
+#include <thread>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 
@@ -47,12 +49,22 @@ test_fun list[] = {
 
 static void callback_idle(void)
 {
+	//time
+	using namespace std::chrono;
+	const float fr = app->scene()->frame_rate();
+	const steady_clock::time_point t1 = high_resolution_clock::now();
+	//objects
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
-		object->rotate({0, 4e-2, 0}, false);
+		object->rotate({0, float(M_PI) / fr, 0}, false);
 	}
 	app->scene()->update();
+	//draw
 	glutPostRedisplay();
+	//time
+	const steady_clock::time_point t2 = high_resolution_clock::now();
+	//wait
+	std::this_thread::sleep_for(duration<float, std::milli>(1000 / fr) - duration<float, std::milli>(t2 - t1));
 }
 static void callback_keyboard(unsigned char key, int x1, int x2)
 {
@@ -66,7 +78,6 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 		list[index](app->scene());
 		app->scene()->update();
 		app->scene()->camera().bound();
-		app->scene()->camera().update_matrix();
 		app->scene()->camera().update_shaders();
 		glutPostRedisplay();
 	}
@@ -81,15 +92,14 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	examples::objects::spheres(app->scene());
-	// examples::scenes::tensegrity_chair(app->scene());
-	for(canvas::objects::Object* object : app->scene()->objects()) object->stroke(false);
+	// examples::objects::spheres(app->scene());
+	examples::scenes::tensegrity_chair(app->scene());
 	app->scene()->update();
 	//light
 	app->scene()->light().position({0, 0, -1});
 	app->scene()->light().update_shaders();
 	//callbacks
-	glutIdleFunc(callback_idle);
+	// glutIdleFunc(callback_idle);
 	glutKeyboardFunc(callback_keyboard);
 	//start
 	app->start();

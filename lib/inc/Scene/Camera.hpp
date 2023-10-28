@@ -31,6 +31,9 @@ namespace canvas
 		bool mode(bool);
 		bool mode(void) const;
 
+		float scale(float);
+		float scale(void) const;
+
 		vec3 position(void) const;
 		vec3 position(const vec3&);
 
@@ -41,17 +44,13 @@ namespace canvas
 		unsigned width(void) const;
 		unsigned height(void) const;
 
-		float plane(unsigned) const;
-		float plane(unsigned, float);
-
 		//screen
 		void screen_print(void) const;
 		void screen_record(void) const;
 
 		//shaders
 		void bound(void);
-		void update_matrix(void);
-		void update_shaders(void) const;
+		void update_shaders(void);
 
 		//callbacks
 		void callback_motion(int, int);
@@ -63,8 +62,10 @@ namespace canvas
 
 	protected:
 		//matrix
-		void matrix_orthogonal(void);
-		void matrix_perspective(void);
+		void update_view(void);
+		void update_projection(void);
+		void update_orthogonal(void);
+		void update_perspective(void);
 
 		//bound
 		void bound_orthogonal(void);
@@ -73,15 +74,18 @@ namespace canvas
 
 		//data
 		bool m_mode;
+		float m_scale;
 		Click m_click;
-		mat4 m_matrix;
 		Scene* m_scene;
 		vec3 m_position;
 		quat m_rotation;
-		float m_planes[2];
+
 		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];
+
+		mat4 m_view_matrix;
+		mat4 m_projection_matrix;
 
 		//friends
 		friend class Scene;
