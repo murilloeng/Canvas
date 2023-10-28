@@ -40,6 +40,9 @@ namespace canvas
 		Color background(Color);
 		Color background(void) const;
 
+		float frame_rate(float);
+		float frame_rate(void) const;
+
 		Light& light(void);
 		const Light& light(void) const;
 
@@ -100,6 +103,7 @@ namespace canvas
 		Light m_light;
 		Camera m_camera;
 
+		float m_frame_rate;
 		unsigned m_vao_id[3];
 		unsigned m_vbo_id[3];
 		unsigned m_ibo_id[6];
