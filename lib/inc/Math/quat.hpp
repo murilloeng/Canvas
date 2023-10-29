@@ -20,8 +20,8 @@ namespace canvas
 		~quat(void);
 
 		//data
-		float* memory(void);
-		const float* memory(void) const;
+		float* data(void);
+		const float* data(void) const;
 
 		//views
 		static quat view_x1(void);

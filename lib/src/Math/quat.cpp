@@ -30,11 +30,11 @@ namespace canvas
 	}
 
 	//data
-	float* quat::memory(void)
+	float* quat::data(void)
 	{
 		return m_data;
 	}
-	const float* quat::memory(void) const
+	const float* quat::data(void) const
 	{
 		return m_data;
 	}

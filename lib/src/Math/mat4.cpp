@@ -77,12 +77,12 @@ namespace canvas
 		return r;
 	}
 
-	//memory
-	float* mat4::memory(void)
+	//data
+	float* mat4::data(void)
 	{
 		return m_data;
 	}
-	const float* mat4::memory(void) const
+	const float* mat4::data(void) const
 	{
 		return m_data;
 	}

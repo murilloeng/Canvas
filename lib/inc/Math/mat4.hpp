@@ -29,9 +29,9 @@ namespace canvas
 		vec3 operator*(const vec3&) const;
 		mat4 operator*(const mat4&) const;
 
-		//memory
-		float* memory(void);
-		const float* memory(void) const;
+		//data
+		float* data(void);
+		const float* data(void) const;
 
 		//affine
 		static mat4 scaling(float);

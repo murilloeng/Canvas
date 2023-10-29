@@ -20,8 +20,8 @@ namespace canvas
 		~vec3(void);
 
 		//data
-		float* memory(void);
-		const float* memory(void) const;
+		float* data(void);
+		const float* data(void) const;
 
 		//linear
 		float norm(void) const;

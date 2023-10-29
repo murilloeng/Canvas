@@ -31,11 +31,11 @@ namespace canvas
 	}
 
 	//data
-	float* vec3::memory(void)
+	float* vec3::data(void)
 	{
 		return m_data;
 	}
-	const float* vec3::memory(void) const
+	const float* vec3::data(void) const
 	{
 		return m_data;
 	}
