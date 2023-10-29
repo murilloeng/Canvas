@@ -93,7 +93,7 @@ namespace canvas
 		glUniform1i(m_program->uniform("light_ambient"), m_ambient);
 		glUniform1i(m_program->uniform("light_diffuse"), m_diffuse);
 		glUniform1i(m_program->uniform("light_specular"), m_specular);
-		glUniform3fv(m_program->uniform("light_position"), 1, m_position.memory());
+		glUniform3fv(m_program->uniform("light_position"), 1, m_position.data());
 		glUniform4fv(m_program->uniform("light_color_ambient"), 1, m_color_ambient.channels());
 		glUniform4fv(m_program->uniform("light_color_diffuse"), 1, m_color_diffuse.channels());
 		glUniform4fv(m_program->uniform("light_color_specular"), 1, m_color_specular.channels());

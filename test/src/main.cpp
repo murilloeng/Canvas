@@ -56,7 +56,7 @@ static void callback_idle(void)
 	//objects
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
-		object->rotate({0, float(M_PI) / fr, 0}, false);
+		object->rotate({0, float(M_PI_4) / fr, 0}, false);
 	}
 	app->scene()->update();
 	//draw
@@ -92,8 +92,8 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	// examples::objects::spheres(app->scene());
-	examples::scenes::tensegrity_chair(app->scene());
+	examples::objects::spheres(app->scene());
+	// examples::scenes::tensegrity_chair(app->scene());
 	app->scene()->update();
 	//light
 	app->scene()->light().position({0, 0, -1});

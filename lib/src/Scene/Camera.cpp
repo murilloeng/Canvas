@@ -27,7 +27,7 @@
 namespace canvas
 {
 	//constructors
-	Camera::Camera(void) : m_mode(true), m_scale(1.0f), m_output("screen")
+	Camera::Camera(void) : m_mode(true), m_fov(M_PI_2), m_scale(1.0f), m_output("screen")
 	{
 		return;
 	}
@@ -46,6 +46,15 @@ namespace canvas
 	bool Camera::mode(bool mode)
 	{
 		return m_mode = mode;
+	}
+
+	float Camera::fov(float fov)
+	{
+		return m_fov = fov;
+	}
+	float Camera::fov(void) const
+	{
+		return m_fov;
 	}
 
 	float Camera::scale(void) const
@@ -98,6 +107,10 @@ namespace canvas
 	{
 		return m_rotation = rotation;
 	}
+	quat Camera::rotation(const vec3& rotation)
+	{
+		return m_rotation = rotation.quaternion();
+	}
 
 	unsigned Camera::width(void) const
 	{
@@ -136,18 +149,10 @@ namespace canvas
 		return;
 	}
 
-	//shaders
+	//update
 	void Camera::bound(void)
 	{
 		m_mode ? bound_orthogonal() : bound_perspective();
-	}
-	void Camera::update_view(void)
-	{
-		m_view_matrix = m_rotation.conjugate().rotation() * (-m_position).shift();
-	}
-	void Camera::update_projection(void)
-	{
-		m_mode ? update_orthogonal() : update_perspective();
 	}
 	void Camera::update_shaders(void)
 	{
@@ -159,10 +164,10 @@ namespace canvas
 		for(unsigned i = 0; i < 4; i++)
 		{
 			m_programs[i].use();
-			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, Mvp.memory());
+			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, Mvp.data());
 		}
 		m_programs[1].use();
-		glUniform3fv(m_programs[1].uniform("camera_position"), 1, m_position.memory());
+		glUniform3fv(m_programs[1].uniform("camera_position"), 1, m_position.data());
 	}
 
 	//callbacks
@@ -204,15 +209,18 @@ namespace canvas
 	}
 	void Camera::callback_wheel(int direction, int x1, int x2)
 	{
-		// //screen
-		// const int w = m_screen[0];
-		// const int h = m_screen[1];
-		// const float m = w < h ? w : h;
-		// const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
-		// //affine
-		// const float dz = 0.05;
-		// zoom((1 + direction * dz) * m_zoom);
-		// shift(xs - (1 + direction * dz) * (xs - m_shift));
+		//data
+		const float ds = 0.05;
+		const int w = m_screen[0];
+		const int h = m_screen[1];
+		const float m = fminf(w, h);
+		const quat& qc = m_rotation;
+		const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		//update
+		m_scale *= 1 - direction * ds;
+		m_position += direction * ds * qc.rotate(mat4::scaling({w / m, h / m, 1}) * (xs + 2 * vec3(0, 0, 1)));
+		//shaders
+		update_shaders();
 	}
 	void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 	{
@@ -266,7 +274,16 @@ namespace canvas
 		// 	m_click.button(canvas::button::none);
 		// }
 	}
-	//affine
+
+	//update
+	void Camera::update_view(void)
+	{
+		m_view_matrix = m_rotation.conjugate().rotation() * (-m_position).shift();
+	}
+	void Camera::update_projection(void)
+	{
+		m_mode ? update_orthogonal() : update_perspective();
+	}
 	void Camera::update_orthogonal(void)
 	{
 		//data
@@ -281,19 +298,33 @@ namespace canvas
 	}
 	void Camera::update_perspective(void)
 	{
-		return;
+		//data
+		const float a = m_fov;
+		const float s = m_scale;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		const float z1 = 1 / tanf(a / 2);
+		const float z2 = 100 / tanf(a / 2) + 2;
+		//projection
+		m_projection_matrix(3, 3) = 0;
+		m_projection_matrix(3, 2) = 1 / s;
+		m_projection_matrix(2, 3) = -2 * z1 * z2 / (z2 - z1);
+		m_projection_matrix(0, 0) = fminf(w, h) / w * z1 / s;
+		m_projection_matrix(1, 1) = fminf(w, h) / h * z1 / s;
+		m_projection_matrix(2, 2) = (z1 + z2) / (z2 - z1) / s;
 	}
 
 	//bound
 	void Camera::bound_orthogonal(void)
 	{
 		//data
-		vec3 x1, x2;
-		bounding_box(x1, x2);
+		const vec3& x1 = m_box_min;
+		const vec3& x2 = m_box_max;
 		const quat& qc = m_rotation;
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
 		//bound
+		bound_box();
 		vec3 xm = (x1 + x2) / 2;
 		const vec3 xs = (x2 - x1) / 2;
 		m_scale = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
@@ -304,9 +335,24 @@ namespace canvas
 	}
 	void Camera::bound_perspective(void)
 	{
-		return;
+		//data
+		const vec3& x1 = m_box_min;
+		const vec3& x2 = m_box_max;
+		const quat& qc = m_rotation;
+		const unsigned w = m_screen[0];
+		const unsigned h = m_screen[1];
+		//bound
+		bound_box();
+		vec3 xm = (x1 + x2) / 2;
+		const vec3 xs = (x2 - x1) / 2;
+		m_scale = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
+		//apply
+		xm[0] *= w / fminf(w, h);
+		xm[1] *= h / fminf(w, h);
+		const float z1 = 1 / tanf(m_fov / 2);
+		m_position = qc.rotate(xm - m_scale * vec3(0, 0, 1 + z1));
 	}
-	void Camera::bounding_box(vec3& x1, vec3& x2)
+	void Camera::bound_box(void)
 	{
 		//data
 		vec3 xw;
@@ -315,8 +361,8 @@ namespace canvas
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
 		//bound
-		x1 = {+a, +a, +a};
-		x2 = {-a, -a, -a};
+		m_box_min = {+a, +a, +a};
+		m_box_max = {-a, -a, -a};
 		const float m = fminf(w, h);
 		for(unsigned i = 0; i < 3; i++)
 		{
@@ -327,12 +373,12 @@ namespace canvas
 				if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
 				if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
 				//bouding box
-				x1[2] = fminf(x1[2], xw[2]);
-				x2[2] = fmaxf(x2[2], xw[2]);
-				x1[0] = fminf(x1[0], m / w * xw[0]);
-				x2[0] = fmaxf(x2[0], m / w * xw[0]);
-				x1[1] = fminf(x1[1], m / h * xw[1]);
-				x2[1] = fmaxf(x2[1], m / h * xw[1]);
+				m_box_min[2] = fminf(m_box_min[2], xw[2]);
+				m_box_max[2] = fmaxf(m_box_max[2], xw[2]);
+				m_box_min[0] = fminf(m_box_min[0], m / w * xw[0]);
+				m_box_max[0] = fmaxf(m_box_max[0], m / w * xw[0]);
+				m_box_min[1] = fminf(m_box_min[1], m / h * xw[1]);
+				m_box_max[1] = fmaxf(m_box_max[1], m / h * xw[1]);
 			}
 		}
 	}

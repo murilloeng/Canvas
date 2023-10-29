@@ -31,6 +31,9 @@ namespace canvas
 		bool mode(bool);
 		bool mode(void) const;
 
+		float fov(float);
+		float fov(void) const;
+
 		float scale(float);
 		float scale(void) const;
 
@@ -39,6 +42,7 @@ namespace canvas
 
 		quat rotation(char);
 		quat rotation(void) const;
+		quat rotation(const vec3&);
 		quat rotation(const quat&);
 
 		unsigned width(void) const;
@@ -61,22 +65,26 @@ namespace canvas
 		void callback_special(key, unsigned, int, int);
 
 	protected:
-		//matrix
+		//update
 		void update_view(void);
 		void update_projection(void);
 		void update_orthogonal(void);
 		void update_perspective(void);
 
 		//bound
+		void bound_box(void);
 		void bound_orthogonal(void);
 		void bound_perspective(void);
-		void bounding_box(vec3&, vec3&);
 
 		//data
 		bool m_mode;
+		float m_fov;
+		float m_plane;
 		float m_scale;
 		Click m_click;
 		Scene* m_scene;
+		vec3 m_box_min;
+		vec3 m_box_max;
 		vec3 m_position;
 		quat m_rotation;
 
