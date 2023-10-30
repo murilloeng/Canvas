@@ -137,8 +137,10 @@ namespace canvas
 		{
 			for(objects::Object* object : master->m_scene->objects())
 			{
-				object->fill(!object->stroke());
+				object->fill(!object->fill());
 			}
+			master->scene()->update();
+			glutPostRedisplay();
 		}
 		else if(key == 'l')
 		{
@@ -146,6 +148,8 @@ namespace canvas
 			{
 				object->stroke(!object->stroke());
 			}
+			master->scene()->update();
+			glutPostRedisplay();
 		}
 		else if(key == 'a' || key == 'd' || key == 's')
 		{
