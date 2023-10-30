@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 
 //canvas
@@ -37,6 +38,19 @@ namespace canvas
 	const float* quat::data(void) const
 	{
 		return m_data;
+	}
+
+	//print
+	void quat::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 4; i++)
+		{
+			printf("%+.2e\n", m_data[i]);
+		}
 	}
 
 	//views

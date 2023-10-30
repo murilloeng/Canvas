@@ -23,6 +23,9 @@ namespace canvas
 		float* data(void);
 		const float* data(void) const;
 
+		//print
+		void print(const char* = "") const;
+
 		//views
 		static quat view_x1(void);
 		static quat view_x2(void);

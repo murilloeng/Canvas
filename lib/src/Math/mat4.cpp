@@ -1,3 +1,7 @@
+//std
+#include <cstdio>
+#include <cstring>
+
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
@@ -19,6 +23,33 @@ namespace canvas
 	mat4::~mat4(void)
 	{
 		return;
+	}
+
+	//data
+	float* mat4::data(void)
+	{
+		return m_data;
+	}
+	const float* mat4::data(void) const
+	{
+		return m_data;
+	}
+
+	//print
+	void mat4::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 4; i++)
+		{
+			for(unsigned j = 0; j < 4; j++)
+			{
+				printf("%+.2e ", m_data[i + 4 * j]);
+			}
+			printf("\n");
+		}
 	}
 
 	//operators
@@ -75,16 +106,6 @@ namespace canvas
 			}
 		}
 		return r;
-	}
-
-	//data
-	float* mat4::data(void)
-	{
-		return m_data;
-	}
-	const float* mat4::data(void) const
-	{
-		return m_data;
 	}
 
 	//affine

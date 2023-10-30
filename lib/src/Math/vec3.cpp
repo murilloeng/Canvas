@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <cstdio>
 #include <cfloat>
 #include <cstring>
 
@@ -38,6 +39,19 @@ namespace canvas
 	const float* vec3::data(void) const
 	{
 		return m_data;
+	}
+
+	//print
+	void vec3::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 3; i++)
+		{
+			printf("%+.2e\n", m_data[i]);
+		}
 	}
 
 	//linear

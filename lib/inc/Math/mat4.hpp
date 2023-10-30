@@ -17,6 +17,13 @@ namespace canvas
 		//destructor
 		~mat4(void);
 
+		//data
+		float* data(void);
+		const float* data(void) const;
+
+		//print
+		void print(const char* = "") const;
+
 		//operators
 		float& operator()(unsigned);
 		float& operator[](unsigned);
@@ -28,10 +35,6 @@ namespace canvas
 
 		vec3 operator*(const vec3&) const;
 		mat4 operator*(const mat4&) const;
-
-		//data
-		float* data(void);
-		const float* data(void) const;
 
 		//affine
 		static mat4 scaling(float);
