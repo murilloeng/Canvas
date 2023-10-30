@@ -36,8 +36,15 @@ namespace canvas
 		const float& operator[](unsigned) const;
 		const float& operator()(unsigned, unsigned) const;
 
+		mat4 operator+(void) const;
+		mat4 operator-(void) const;
 		vec3 operator*(const vec3&) const;
 		mat4 operator*(const mat4&) const;
+		mat4 operator+(const mat4&) const;
+		mat4 operator-(const mat4&) const;
+
+		mat4& operator*=(float);
+		friend mat4 operator*(float, const mat4&);
 
 		//affine
 		static mat4 scaling(float);
