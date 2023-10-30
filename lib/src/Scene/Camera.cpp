@@ -237,31 +237,37 @@ namespace canvas
 	}
 	void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 	{
-		// //data
-		// const float dx = 0.05;
-		// const float dt = M_PI / 12;
-		// const vec3 shift[] = {{-dx, 0, 0}, {+dx, 0, 0}, {0, -dx, 0}, {0, +dx, 0}};
-		// const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
-		// const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
-		// //affine
-		// for(unsigned i = 0; i < 4; i++)
-		// {
-		// 	if(key == keys[i])
-		// 	{
-		// 		if(modifiers & 1 << unsigned(modifier::alt))
-		// 		{
-		// 			this->shift(shift[i] + m_shift);
-		// 		}
-		// 		else if(modifiers & 1 << unsigned(modifier::ctrl))
-		// 		{
-		// 			this->rotation(rotation[i].quaternion() * m_rotation);
-		// 		}
-		// 		else if(modifiers & 1 << unsigned(modifier::shift))
-		// 		{
-		// 			this->rotation(m_rotation * rotation[i].quaternion());
-		// 		}
-		// 	}
-		// }
+		//data
+		const float ds = 0.05;
+		const float s = m_scale;
+		const int w = m_screen[0];
+		const int h = m_screen[1];
+		const float dt = M_PI / 12;
+		const float m = fminf(w, h);
+		const quat& qc = m_rotation;
+		const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
+		const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
+		const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+		//affine
+		for(unsigned i = 0; i < 4; i++)
+		{
+			if(key == keys[i])
+			{
+				if(modifiers & 1 << unsigned(modifier::alt))
+				{
+					m_position -= qc.rotate(s * mat4::scaling({w / m, h / m, 1}) * shift[i]);
+				}
+				else if(modifiers & 1 << unsigned(modifier::ctrl))
+				{
+					// this->rotation(rotation[i].quaternion() * m_rotation);
+				}
+				else if(modifiers & 1 << unsigned(modifier::shift))
+				{
+					// this->rotation(m_rotation * rotation[i].quaternion());
+				}
+				update_shaders();
+			}
+		}
 	}
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
