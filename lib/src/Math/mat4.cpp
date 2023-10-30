@@ -1,4 +1,5 @@
 //std
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 
@@ -33,6 +34,17 @@ namespace canvas
 	const float* mat4::data(void) const
 	{
 		return m_data;
+	}
+
+	//linear
+	float mat4::norm(void) const
+	{
+		float v = 0;
+		for(unsigned i = 0; i < 16; i++)
+		{
+			v += m_data[i] * m_data[i];
+		}
+		return sqrtf(v);
 	}
 
 	//print

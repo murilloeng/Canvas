@@ -21,6 +21,9 @@ namespace canvas
 		float* data(void);
 		const float* data(void) const;
 
+		//linear
+		float norm(void) const;
+
 		//print
 		void print(const char* = "") const;
 
