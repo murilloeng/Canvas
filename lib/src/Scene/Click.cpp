@@ -8,8 +8,8 @@ namespace canvas
 {
 	//constructors
 	Click::Click(void) : 
-		m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, 
-		m_position{0, 0}, m_modifiers(0), m_button(canvas::button::none)
+		m_position{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, 
+		m_screen{0, 0}, m_modifiers(0), m_button(canvas::button::none)
 	{
 		return;
 	}
@@ -21,13 +21,13 @@ namespace canvas
 	}
 
 	//data
-	vec3 Click::shift(vec3 shift)
+	vec3 Click::position(void) const
 	{
-		return m_shift = shift;
+		return m_position;
 	}
-	vec3 Click::shift(void) const
+	vec3 Click::position(vec3 position)
 	{
-		return m_shift;
+		return m_position = position;
 	}
 
 	quat Click::rotation(void) const
@@ -39,13 +39,13 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
-	int Click::position(unsigned index) const
+	int Click::screen(unsigned index) const
 	{
-		return m_position[index];
+		return m_screen[index];
 	}
-	int Click::position(unsigned index, int position)
+	int Click::screen(unsigned index, int screen)
 	{
-		return m_position[index] = position;
+		return m_screen[index] = screen;
 	}
 
 	unsigned Click::modifiers(void) const

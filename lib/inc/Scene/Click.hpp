@@ -32,14 +32,14 @@ namespace canvas
 		~Click(void);
 
 		//data
-		vec3 shift(vec3);
-		vec3 shift(void) const;
+		vec3 position(vec3);
+		vec3 position(void) const;
 
 		quat rotation(quat);
 		quat rotation(void) const;
 
-		int position(unsigned, int);
-		int position(unsigned) const;
+		int screen(unsigned, int);
+		int screen(unsigned) const;
 
 		unsigned modifiers(unsigned);
 		unsigned modifiers(void) const;
@@ -51,9 +51,9 @@ namespace canvas
 		static vec3 arcball(float, float);
 
 	protected:
-		vec3 m_shift;
+		int m_screen[2];
+		vec3 m_position;
 		quat m_rotation;
-		int m_position[2];
 		unsigned m_modifiers;
 		canvas::button m_button;
 	};

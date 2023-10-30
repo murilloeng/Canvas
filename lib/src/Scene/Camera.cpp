@@ -121,6 +121,15 @@ namespace canvas
 		return m_screen[1];
 	}
 
+	float Camera::plane(unsigned index) const
+	{
+		return m_planes[index];
+	}
+	float Camera::plane(unsigned index, float plane)
+	{
+		return m_planes[index] = plane;
+	}
+
 	//screen
 	void Camera::screen_print(void) const
 	{
@@ -211,14 +220,16 @@ namespace canvas
 	{
 		//data
 		const float ds = 0.05;
+		const float s = m_scale;
 		const int w = m_screen[0];
 		const int h = m_screen[1];
 		const float m = fminf(w, h);
 		const quat& qc = m_rotation;
-		const vec3 xs((2 * x1 - w) / m, (h - 2 * x2) / m, 0);
+		const float s1 = 2 * float(x1) / w - 1;
+		const float s2 = 1 - 2 * float(x2) / h;
 		//update
 		m_scale *= 1 - direction * ds;
-		m_position += direction * ds * qc.rotate(mat4::scaling({w / m, h / m, 1}) * (xs + 2 * vec3(0, 0, 1)));
+		m_position += direction * ds * s * qc.rotate({w / m * s1, h / m * s2, 0});
 		//shaders
 		update_shaders();
 	}
@@ -256,23 +267,23 @@ namespace canvas
 		if(key == 'p') screen_print();
 		// else if(key == '-') zoom(m_zoom / 1.05);
 		// else if(key == '+') zoom(m_zoom * 1.05);
-		// else if(key == 'f') zoom(1.0f), shift(vec3()), rotation(quat());
+		else if(key == 'f') bound(), update_shaders();
 		// else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
 	}
 	void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
-		// if(pressed)
-		// {
-		// 	m_click.shift(m_shift);
-		// 	m_click.button(button);
-		// 	m_click.position(0, x1);
-		// 	m_click.position(1, x2);
-		// 	m_click.rotation(m_rotation);
-		// }
-		// else
-		// {
-		// 	m_click.button(canvas::button::none);
-		// }
+		if(pressed)
+		{
+			m_click.screen(0, x1);
+			m_click.screen(1, x2);
+			m_click.button(button);
+			m_click.position(m_position);
+			m_click.rotation(m_rotation);
+		}
+		else
+		{
+			m_click.button(canvas::button::none);
+		}
 	}
 
 	//update
@@ -288,13 +299,15 @@ namespace canvas
 	{
 		//data
 		const float s = m_scale;
+		const float z1 = m_planes[0];
+		const float z2 = m_planes[1];
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
 		//projection
-		m_projection_matrix(2, 3) = -2;
-		m_projection_matrix(2, 2) = 1 / s;
+		m_projection_matrix(2, 2) = 2 / (z2 - z1);
 		m_projection_matrix(0, 0) = fminf(w, h) / w / s;
 		m_projection_matrix(1, 1) = fminf(w, h) / h / s;
+		m_projection_matrix(2, 3) = -(z1 + z2) / (z2 - z1);
 	}
 	void Camera::update_perspective(void)
 	{
@@ -327,11 +340,13 @@ namespace canvas
 		bound_box();
 		vec3 xm = (x1 + x2) / 2;
 		const vec3 xs = (x2 - x1) / 2;
-		m_scale = fmaxf(xs[0], fmaxf(xs[1], xs[2]));
 		//apply
+		m_planes[0] = 1;
 		xm[0] *= w / fminf(w, h);
 		xm[1] *= h / fminf(w, h);
-		m_position = qc.rotate(xm - vec3(0, 0, 2 * m_scale));
+		m_scale = fmaxf(xs[0], xs[1]);
+		m_planes[1] = 1 + 2 * xs.norm();
+		m_position = qc.rotate(xm - vec3(0, 0, m_planes[0] + xs.norm()));
 	}
 	void Camera::bound_perspective(void)
 	{

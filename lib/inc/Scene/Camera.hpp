@@ -48,6 +48,9 @@ namespace canvas
 		unsigned width(void) const;
 		unsigned height(void) const;
 
+		float plane(unsigned) const;
+		float plane(unsigned, float);
+
 		//screen
 		void screen_print(void) const;
 		void screen_record(void) const;
@@ -79,7 +82,6 @@ namespace canvas
 		//data
 		bool m_mode;
 		float m_fov;
-		float m_plane;
 		float m_scale;
 		Click m_click;
 		Scene* m_scene;
@@ -87,6 +89,7 @@ namespace canvas
 		vec3 m_box_max;
 		vec3 m_position;
 		quat m_rotation;
+		float m_planes[2];
 
 		Program* m_programs;
 		std::string m_output;
