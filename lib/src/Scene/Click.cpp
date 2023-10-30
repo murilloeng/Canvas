@@ -8,8 +8,8 @@ namespace canvas
 {
 	//constructors
 	Click::Click(void) : 
-		m_position{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, 
-		m_screen{0, 0}, m_modifiers(0), m_button(canvas::button::none)
+		m_screen{0, 0}, m_position{0.0f, 0.0f, 0.0f}, 
+		m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_modifiers(0), m_button(canvas::button::none)
 	{
 		return;
 	}
