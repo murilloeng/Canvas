@@ -243,8 +243,11 @@ namespace canvas
 		const int w = m_screen[0];
 		const int h = m_screen[1];
 		const float dt = M_PI / 12;
-		const float m = fminf(w, h);
+		const quat qn = m_rotation;
 		const quat& qc = m_rotation;
+		const float m = fminf(w, h);
+		const float z1 = m_planes[0];
+		const float z2 = m_planes[1];
 		const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
 		const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
 		const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
@@ -259,11 +262,13 @@ namespace canvas
 				}
 				else if(modifiers & 1 << unsigned(modifier::ctrl))
 				{
-					// this->rotation(rotation[i].quaternion() * m_rotation);
+					m_rotation = rotation[i].quaternion() * m_rotation;
+					m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 				}
 				else if(modifiers & 1 << unsigned(modifier::shift))
 				{
-					// this->rotation(m_rotation * rotation[i].quaternion());
+					m_rotation = m_rotation * rotation[i].quaternion();
+					m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 				}
 				update_shaders();
 			}
@@ -272,11 +277,11 @@ namespace canvas
 	void Camera::callback_keyboard(char key, int x1, int x2)
 	{
 		if(key == 'm') mode(!m_mode);
-		if(key == 'p') screen_print();
+		else if(key == 'p') screen_print();
 		else if(key == 'f') bound(), update_shaders();
 		else if(key == '-') callback_wheel(-1, m_screen[0] / 2, m_screen[1] / 2);
 		else if(key == '+') callback_wheel(+1, m_screen[0] / 2, m_screen[1] / 2);
-		// else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key);
+		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update_shaders();
 	}
 	void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
