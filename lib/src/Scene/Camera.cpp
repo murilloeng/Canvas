@@ -168,6 +168,7 @@ namespace canvas
 		update_view();
 		update_projection();
 		const mat4 Mvp = m_projection_matrix * m_view_matrix;
+		const vec3 xc(m_position[0], m_position[1], -m_position[2]);
 		//update
 		for(unsigned i = 0; i < 4; i++)
 		{
@@ -175,7 +176,7 @@ namespace canvas
 			glUniformMatrix4fv(m_programs[i].uniform("camera_matrix"), 1, false, Mvp.data());
 		}
 		m_programs[1].use();
-		glUniform3fv(m_programs[1].uniform("camera_position"), 1, m_position.data());
+		glUniform3fv(m_programs[1].uniform("camera_position"), 1, xc.data());
 	}
 
 	//callbacks
@@ -261,12 +262,12 @@ namespace canvas
 				}
 				else if(modifiers & 1 << unsigned(modifier::ctrl))
 				{
-					m_rotation = rotation[i].quaternion() * m_rotation;
+					m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
 					m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 				}
 				else if(modifiers & 1 << unsigned(modifier::shift))
 				{
-					m_rotation = m_rotation * rotation[i].quaternion();
+					m_rotation = m_rotation * rotation[i].quaternion().conjugate();
 					m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 				}
 				update_shaders();
@@ -341,9 +342,9 @@ namespace canvas
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
 		//projection
-		m_projection_matrix(2, 2) = 2 / (z2 - z1);
+		m_projection_matrix(2, 2) = -2 / (z2 - z1);
 		m_projection_matrix(0, 0) = fminf(w, h) / w / s;
 		m_projection_matrix(1, 1) = fminf(w, h) / h / s;
-		m_projection_matrix(2, 3) = -(z1 + z2) / (z2 - z1);
+		m_projection_matrix(2, 3) = (z1 + z2) / (z2 - z1);
 	}
 }
