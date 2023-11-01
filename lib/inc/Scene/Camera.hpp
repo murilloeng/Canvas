@@ -28,12 +28,6 @@ namespace canvas
 		~Camera(void);
 
 		//data
-		bool mode(bool);
-		bool mode(void) const;
-
-		float fov(float);
-		float fov(void) const;
-
 		float scale(float);
 		float scale(void) const;
 
@@ -69,19 +63,11 @@ namespace canvas
 
 	protected:
 		//update
+		void bound_box(void);
 		void update_view(void);
 		void update_projection(void);
-		void update_orthogonal(void);
-		void update_perspective(void);
-
-		//bound
-		void bound_box(void);
-		void bound_orthogonal(void);
-		void bound_perspective(void);
 
 		//data
-		bool m_mode;
-		float m_fov;
 		float m_scale;
 		Click m_click;
 		Scene* m_scene;
