@@ -184,27 +184,30 @@ namespace canvas
 	{
 		//data
 		const float s = m_scale;
-		const int w = m_screen[0];
-		const int h = m_screen[1];
+		const float w = m_screen[0];
+		const float h = m_screen[1];
 		const float m = fminf(w, h);
-		const quat& qc = m_rotation;
-		const int z1 = m_click.screen(0);
-		const int z2 = m_click.screen(1);
+		const float z1 = m_planes[0];
+		const float z2 = m_planes[1];
+		const int a1 = m_click.screen(0);
+		const int a2 = m_click.screen(1);
+		const float b1 = 2 * s * (x1 - a1) / m;
+		const float b2 = 2 * s * (a2 - x2) / m;
+		const vec3 xp = m_click.rotation().rotate({w * s / m * b1, h * s / m * b2, (z1 + z2) / 2}) + m_click.position();
 		//shift
 		if(m_click.button() == button::middle)
 		{
-			const float a1 = 2 * s * (x1 - z1) / m;
-			const float a2 = 2 * s * (z2 - x2) / m;
-			m_position = m_click.position() - qc.rotate({a1, a2, 0});
+			m_position = m_click.position() - m_rotation.rotate({b1, b2, 0});
 		}
 		//rotation
 		if(m_click.button() == button::left)
 		{
-			// const quat qc = m_click.rotation();
-			// const vec3 v1 = Click::arcball(xc[0], xc[1]);
-			// const vec3 v2 = Click::arcball(xp[0], xp[1]);
-			// rotation((acosf(v1.inner(v2)) * v1.cross(v2).unit()).quaternion() * m_click.rotation());
-			// shift(xp - m_rotation.rotate(m_click.rotation().conjugate().rotate(xc - m_click.shift())));
+			const vec3 vr = Click::arcball(b1, b2);
+			const float tr = acosf(vec3(0, 0, 1).inner(vr));
+			const quat qr = (tr * vec3(0, 0, 1).cross(vr).unit()).quaternion().conjugate();
+			//update
+			m_rotation = qr * m_click.rotation();
+			m_position = xp + qr.rotate(m_click.position() - xp);
 		}
 		if(m_click.button() != button::none) update_shaders();
 	}
