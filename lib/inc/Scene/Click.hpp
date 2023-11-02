@@ -49,6 +49,7 @@ namespace canvas
 
 		//rotation
 		static vec3 arcball(float, float);
+		static quat arcball(const vec3&, const vec3&);
 
 	protected:
 		int m_screen[2];

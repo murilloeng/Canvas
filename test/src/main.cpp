@@ -93,7 +93,7 @@ int main(int argc, char** argv)
 	//glut
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
-	examples::objects::arrows(app->scene());
+	examples::objects::spheres(app->scene());
 	// examples::scenes::tensegrity_chair(app->scene());
 	app->scene()->update();
 	//light
