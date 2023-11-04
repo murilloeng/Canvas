@@ -4,6 +4,15 @@
 //canvas
 #include "inc/Scene/Latex.hpp"
 
+//defines
+#ifndef _WIN32
+#define pdf_delete system("rm temp.*")
+#define pdf_convert system("convert -density 2000 temp.pdf temp.png")
+#else
+#define pdf_delete system("del temp.*")
+#define pdf_convert system("magick convert -density 2000 temp.pdf temp.png")
+#endif
+
 static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
 
 namespace canvas
@@ -55,7 +64,7 @@ namespace canvas
 			fprintf(stderr, "Error: Latex compilation of %s failed!\n", m_source.c_str());
 			exit(EXIT_FAILURE);
 		}
-		if(system("magick convert -density 2000 temp.pdf temp.png"))
+		if(pdf_convert)
 		{
 			fprintf(stderr, "Error: Could not convert %s from pdf to png!\n", m_source.c_str());
 			exit(EXIT_FAILURE);
@@ -76,7 +85,7 @@ namespace canvas
 		m_height = h;
 		m_status = true;
 		//cleanup
-		if(system("del temp.*") != 0)
+		if(pdf_delete != 0)
 		{
 			fprintf(stderr, "Error: Couldn't delete pdf file!\n");
 			exit(EXIT_FAILURE);

@@ -23,7 +23,8 @@
 			"includePath":
 			[
 				"${workspaceFolder}/lib",
-				"${workspaceFolder}/test"
+				"${workspaceFolder}/test",
+				"${workspaceFolder}/lib/ext/inc"
 			],
 			"cStandard": "c17",
 			"cppStandard": "c++17",

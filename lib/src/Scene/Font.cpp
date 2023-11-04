@@ -7,6 +7,13 @@
 //canvas
 #include "inc/Scene/Font.hpp"
 
+//defines
+#ifdef _WIN32
+#define fonts_dir "C:/Windows/Fonts/"
+#else
+#define fonts_dir "/usr/share/fonts/truetype/msttcorefonts/"
+#endif
+
 namespace canvas
 {
 	//constructors
@@ -86,7 +93,7 @@ namespace canvas
 	void Font::setup(unsigned& w, unsigned& h)
 	{
 		//data
-		const std::string path = "C:/Windows/Fonts/" + m_name + ".ttf";
+		const std::string path = fonts_dir + m_name + ".ttf";
 		//font
 		FT_Done_Face(m_face);
 		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
