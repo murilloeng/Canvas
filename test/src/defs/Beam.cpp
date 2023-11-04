@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //examples
 #include "inc/defs/Beam.hpp"
 

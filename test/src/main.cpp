@@ -1,4 +1,5 @@
 //std
+#include <cmath>
 #include <thread>
 #include <chrono>
 #include <cstdio>
@@ -53,7 +54,7 @@ static void callback_idle(void)
 	//time
 	using namespace std::chrono;
 	const float fr = app->scene()->frame_rate();
-	const steady_clock::time_point t1 = high_resolution_clock::now();
+	const high_resolution_clock::time_point t1 = high_resolution_clock::now();
 	//objects
 	for(canvas::objects::Object* object : app->scene()->objects())
 	{
@@ -63,7 +64,7 @@ static void callback_idle(void)
 	//draw
 	glutPostRedisplay();
 	//time
-	const steady_clock::time_point t2 = high_resolution_clock::now();
+	const high_resolution_clock::time_point t2 = high_resolution_clock::now();
 	//wait
 	std::this_thread::sleep_for(duration<float, std::milli>(1000 / fr) - duration<float, std::milli>(t2 - t1));
 }
