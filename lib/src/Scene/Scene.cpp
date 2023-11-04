@@ -3,6 +3,10 @@
 #include <Windows.h>
 #endif
 
+//std
+#include <cmath>
+#include <cfloat>
+
 //ext
 #include "ext/inc/GL/glew.h"
 
@@ -24,9 +28,8 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_shaders_dir(shaders_dir),
 		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
-		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0)
+		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
 		setup_buffers();

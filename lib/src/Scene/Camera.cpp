@@ -169,7 +169,6 @@ namespace canvas
 	void Camera::callback_motion(int x1, int x2)
 	{
 		//data
-		const float z = m_zoom;
 		const int w = m_screen[0];
 		const int h = m_screen[1];
 		const float m = w < h ? w : h;

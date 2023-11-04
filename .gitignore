@@ -8,6 +8,7 @@
 !*.geom
 !*.frag
 !*.json
+!*Makefile
 !.gitignore
 !test/data/images/*.jpg
 !test/data/images/*.png

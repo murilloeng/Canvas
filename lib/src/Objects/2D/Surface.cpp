@@ -7,7 +7,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Surface::Surface(void) : m_mesh{10, 10}, m_domain{0, 1, 0, 1}
+		Surface::Surface(void) : m_domain{0, 1, 0, 1}, m_mesh{10, 10}
 		{
 			return;
 		}

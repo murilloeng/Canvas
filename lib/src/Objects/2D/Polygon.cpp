@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <cfloat>
 
 //canvas
 #include "inc/Vertices/Model.hpp"
