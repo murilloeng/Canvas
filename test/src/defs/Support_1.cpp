@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "inc/Objects/1D/Line.hpp"
 #include "inc/Objects/2D/Triangle.hpp"

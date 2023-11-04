@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Objects/1D/Arc.hpp"
@@ -15,7 +18,6 @@ namespace examples
 			//data
 			const unsigned n = 10;
 			const float r = 1.0f / n;
-			canvas::objects::Arc* arc;
 			//objects
 			for(unsigned i = 0; i < n; i++)
 			{

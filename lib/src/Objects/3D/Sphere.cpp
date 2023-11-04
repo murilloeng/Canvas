@@ -128,7 +128,7 @@ namespace canvas
 		unsigned Sphere::vertex_index(unsigned face, unsigned index_1, unsigned index_2) const
 		{
 			//data
-			bool i0, i1, i2;
+			bool i0 = true, i1 = true, i2 = true;
 			const unsigned e0 = edge_index(face, 0, i0);
 			const unsigned e1 = edge_index(face, 1, i1);
 			const unsigned e2 = edge_index(face, 2, i2);
@@ -197,17 +197,17 @@ namespace canvas
 				for(unsigned j = 0; j < m_mesh; j++)
 				{
 					ibo_ptr[0] = vbo_index + vertex_index(i, 0, j + 0);
-					ibo_ptr[1] = vbo_index + vertex_index(i, 1, j + 0);
-					ibo_ptr[2] = vbo_index + vertex_index(i, 0, j + 1);
+					ibo_ptr[1] = vbo_index + vertex_index(i, 0, j + 1);
+					ibo_ptr[2] = vbo_index + vertex_index(i, 1, j + 0);
 					ibo_ptr += 3;
 					for(unsigned k = 0; k + j + 1 < m_mesh; k++)
 					{
 						ibo_ptr[0] = vbo_index + vertex_index(i, k + 1, j + 0);
-						ibo_ptr[1] = vbo_index + vertex_index(i, k + 1, j + 1);
-						ibo_ptr[2] = vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[1] = vbo_index + vertex_index(i, k + 0, j + 1);
+						ibo_ptr[2] = vbo_index + vertex_index(i, k + 1, j + 1);
 						ibo_ptr[3] = vbo_index + vertex_index(i, k + 1, j + 0);
-						ibo_ptr[4] = vbo_index + vertex_index(i, k + 2, j + 0);
-						ibo_ptr[5] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr[4] = vbo_index + vertex_index(i, k + 1, j + 1);
+						ibo_ptr[5] = vbo_index + vertex_index(i, k + 2, j + 0);
 						ibo_ptr += 6;
 					}
 				}

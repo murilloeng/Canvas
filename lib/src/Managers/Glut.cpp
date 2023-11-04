@@ -1,10 +1,14 @@
 //std
+#include <chrono>
+
+//ext
 #include "ext/inc/GL/glew.h"
 #include "ext/inc/GL/freeglut.h"
 
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Managers/Glut.hpp"
+#include "inc/Objects/Object.hpp"
 
 //static data
 canvas::Glut* master;
@@ -63,18 +67,18 @@ namespace canvas
 	void Glut::callback_display(void)
 	{
 		//draw
-		master->scene()->draw();
+		master->m_scene->draw();
 		//swap
 		glutSwapBuffers();
 	}
 	void Glut::callback_motion(int x1, int x2)
 	{
-		master->scene()->camera().callback_motion(x1, x2);
+		master->m_scene->camera().callback_motion(x1, x2);
 		glutPostRedisplay();
 	}
 	void Glut::callback_reshape(int width, int height)
 	{
-		master->scene()->camera().callback_reshape(width, height);
+		master->m_scene->camera().callback_reshape(width, height);
 		glutPostRedisplay();
 	}
 	void Glut::callback_special(int key, int x1, int x2)
@@ -98,7 +102,7 @@ namespace canvas
 		{
 			if(unsigned(key) == glut_keys[i])
 			{
-				master->scene()->camera().callback_special(canvas_keys[i], canvas_mod, x1, x2);
+				master->m_scene->camera().callback_special(canvas_keys[i], canvas_mod, x1, x2);
 			}
 		}
 		glutPostRedisplay();
@@ -113,14 +117,14 @@ namespace canvas
 		{
 			if(unsigned(button) == glut_buttons[i])
 			{
-				master->scene()->camera().callback_mouse(canvas_buttons[i], !state, x1, x2);
+				master->m_scene->camera().callback_mouse(canvas_buttons[i], !state, x1, x2);
 			}
 		}
 		glutPostRedisplay();
 	}
 	void Glut::callback_wheel(int, int direction, int x1, int x2)
 	{
-		master->scene()->camera().callback_wheel(direction, x1, x2);
+		master->m_scene->camera().callback_wheel(direction, x1, x2);
 		glutPostRedisplay();
 	}
 	void Glut::callback_keyboard(unsigned char key, int x1, int x2)
@@ -129,15 +133,33 @@ namespace canvas
 		{
 			glutDestroyWindow(glutGetWindow());
 		}
+		else if(key == 't')
+		{
+			for(objects::Object* object : master->m_scene->objects())
+			{
+				object->fill(!object->fill());
+			}
+			master->scene()->update();
+			glutPostRedisplay();
+		}
+		else if(key == 'l')
+		{
+			for(objects::Object* object : master->m_scene->objects())
+			{
+				object->stroke(!object->stroke());
+			}
+			master->scene()->update();
+			glutPostRedisplay();
+		}
 		else if(key == 'a' || key == 'd' || key == 's')
 		{
-			master->scene()->light().callback_keyboard(key, x1, x2);
+			master->m_scene->light().callback_keyboard(key, x1, x2);
 			glutPostRedisplay();
 		}
 		else
 		{
-			master->scene()->camera().callback_keyboard(key, x1, x2);
-			master->scene()->update();
+			master->m_scene->camera().callback_keyboard(key, x1, x2);
+			master->m_scene->update();
 			glutPostRedisplay();
 		}
 	}

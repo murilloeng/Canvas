@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <cstdio>
 #include <cfloat>
 #include <cstring>
 
@@ -31,13 +32,26 @@ namespace canvas
 	}
 
 	//data
-	float* vec3::memory(void)
+	float* vec3::data(void)
 	{
 		return m_data;
 	}
-	const float* vec3::memory(void) const
+	const float* vec3::data(void) const
 	{
 		return m_data;
+	}
+
+	//print
+	void vec3::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 3; i++)
+		{
+			printf("%+.2e\n", m_data[i]);
+		}
 	}
 
 	//linear
@@ -82,6 +96,17 @@ namespace canvas
 	vec3 vec3::unit(void) const
 	{
 		return *this / norm();
+	}
+	mat4 vec3::shift(void) const
+	{
+		//data
+		mat4 M;
+		//shift
+		M[0 + 4 * 3] = m_data[0];
+		M[1 + 4 * 3] = m_data[1];
+		M[2 + 4 * 3] = m_data[2];
+		//return
+		return M;
 	}
 	quat vec3::quaternion(void) const
 	{

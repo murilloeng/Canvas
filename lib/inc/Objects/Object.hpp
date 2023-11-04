@@ -49,10 +49,10 @@ namespace canvas
 			Color color_stroke(void) const;
 			virtual Color color_stroke(const Color&);
 
-			//affine
-			mat4 affine(mat4);
-			mat4 affine(void) const;
-			mat4 apply_affine(mat4, bool = true);
+			//model matrix
+			mat4 model_matrix(mat4);
+			mat4 model_matrix(void) const;
+			mat4 apply_matrix(mat4, bool = true);
 
 			void scale(float);
 			void scale(const vec3&, bool = true);
@@ -76,14 +76,14 @@ namespace canvas
 			bool m_fill;
 			bool m_stroke;
 
-			mat4 m_affine;
+			mat4 m_model_matrix;
 
 			Color m_color_dot;
 			Color m_color_fill;
 			Color m_color_stroke;
 
 			unsigned m_vbo_index[3];
-			unsigned m_ibo_index[5];
+			unsigned m_ibo_index[6];
 
 			static canvas::Scene* m_scene;
 

@@ -102,8 +102,8 @@ namespace canvas
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
 				ibo_ptr[3 * i + 0] = vbo_index + 0;
-				ibo_ptr[3 * i + 1] = vbo_index + 1 + (i + 0) % m_mesh;
-				ibo_ptr[3 * i + 2] = vbo_index + 1 + (i + 1) % m_mesh;
+				ibo_ptr[3 * i + 1] = vbo_index + 1 + (i + 1) % m_mesh;
+				ibo_ptr[3 * i + 2] = vbo_index + 1 + (i + 0) % m_mesh;
 			}
 			//face +x3
 			for(unsigned i = 0; i < m_mesh; i++)

@@ -74,53 +74,53 @@ namespace canvas
 			return m_color_stroke = color_stroke;
 		}
 
-		//affine
-		mat4 Object::affine(void) const
+		//model matrix
+		mat4 Object::model_matrix(void) const
 		{
-			return m_affine;
+			return m_model_matrix;
 		}
-		mat4 Object::affine(mat4 affine)
+		mat4 Object::model_matrix(mat4 model_matrix)
 		{
-			return m_affine = affine;
+			return m_model_matrix = model_matrix;
 		}
-		mat4 Object::apply_affine(mat4 affine, bool left)
+		mat4 Object::apply_matrix(mat4 affine, bool left)
 		{
-			return m_affine = left ? affine * m_affine : m_affine * affine;
+			return m_model_matrix = left ? affine * m_model_matrix : m_model_matrix * affine;
 		}
 
 		void Object::scale(float s)
 		{
-			m_affine = mat4::scaling(s) * m_affine;
+			m_model_matrix = mat4::scaling(s) * m_model_matrix;
 		}
 		void Object::scale(const vec3& s, bool left)
 		{
 			const mat4 A = mat4::scaling(s);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 		void Object::shift(const vec3& x , bool left)
 		{
 			const mat4 A = mat4::shifting(x);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 		void Object::rotate(const vec3& t, bool left)
 		{
 			const mat4 A = mat4::rotation(t);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 		void Object::rotate(const quat& q, bool left)
 		{
 			const mat4 A = mat4::rotation(q);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 		void Object::rotate(const vec3& x, const vec3& t, bool left)
 		{
 			const mat4 A = mat4::rotation(x, t);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 		void Object::rotate(const vec3& x, const quat& q, bool left)
 		{
 			const mat4 A = mat4::rotation(x, q);
-			m_affine = left ? A * m_affine : m_affine * A;
+			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 
 		//buffers

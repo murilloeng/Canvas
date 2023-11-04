@@ -8,8 +8,8 @@ namespace canvas
 {
 	//constructors
 	Click::Click(void) : 
-		m_shift{0.0f, 0.0f, 0.0f}, m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, 
-		m_position{0, 0}, m_modifiers(0), m_button(canvas::button::none)
+		m_screen{0, 0}, m_position{0.0f, 0.0f, 0.0f}, 
+		m_rotation{1.0f, 0.0f, 0.0f, 0.0f}, m_modifiers(0), m_button(canvas::button::none)
 	{
 		return;
 	}
@@ -21,13 +21,13 @@ namespace canvas
 	}
 
 	//data
-	vec3 Click::shift(vec3 shift)
+	vec3 Click::position(void) const
 	{
-		return m_shift = shift;
+		return m_position;
 	}
-	vec3 Click::shift(void) const
+	vec3 Click::position(vec3 position)
 	{
-		return m_shift;
+		return m_position = position;
 	}
 
 	quat Click::rotation(void) const
@@ -39,13 +39,13 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
-	int Click::position(unsigned index) const
+	int Click::screen(unsigned index) const
 	{
-		return m_position[index];
+		return m_screen[index];
 	}
-	int Click::position(unsigned index, int position)
+	int Click::screen(unsigned index, int screen)
 	{
-		return m_position[index] = position;
+		return m_screen[index] = screen;
 	}
 
 	unsigned Click::modifiers(void) const
@@ -69,7 +69,13 @@ namespace canvas
 	//rotation
 	vec3 Click::arcball(float x1, float x2)
 	{
-		const float r = sqrtf(x1 * x1 + x2 * x2);
-		return vec3(x1 / fmaxf(r, 1), x2 / fmaxf(r, 1), sqrtf(1 - fminf(r * r, 1)));
+		const float r1 = fminf(1, sqrtf(x1 * x1 + x2 * x2));
+		const float r2 = fmaxf(1, sqrtf(x1 * x1 + x2 * x2));
+		return vec3(x1 / r2, x2 / r2, sqrtf(1 - r1 * r1));
+	}
+	quat Click::arcball(const vec3& v1, const vec3& v2)
+	{
+		const float tr = acosf(v1.inner(v2));
+		return (tr * v1.cross(v2).unit()).quaternion().conjugate();
 	}
 }

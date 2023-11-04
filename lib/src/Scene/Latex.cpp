@@ -76,7 +76,11 @@ namespace canvas
 		m_height = h;
 		m_status = true;
 		//cleanup
-		system("del temp.*");
+		if(system("del temp.*") != 0)
+		{
+			fprintf(stderr, "Error: Couldn't delete pdf file!\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	//coordinates

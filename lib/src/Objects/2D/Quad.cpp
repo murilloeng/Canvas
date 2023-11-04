@@ -43,11 +43,11 @@ namespace canvas
 		void Quad::ibo_fill_data(unsigned** ibo_data) const
 		{
 			ibo_data[2][m_ibo_index[2] + 0] = m_vbo_index[0] + 4 * m_stroke + 0;
-			ibo_data[2][m_ibo_index[2] + 1] = m_vbo_index[0] + 4 * m_stroke + 1;
-			ibo_data[2][m_ibo_index[2] + 2] = m_vbo_index[0] + 4 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 1] = m_vbo_index[0] + 4 * m_stroke + 2;
+			ibo_data[2][m_ibo_index[2] + 2] = m_vbo_index[0] + 4 * m_stroke + 1;
 			ibo_data[2][m_ibo_index[2] + 3] = m_vbo_index[0] + 4 * m_stroke + 0;
-			ibo_data[2][m_ibo_index[2] + 4] = m_vbo_index[0] + 4 * m_stroke + 2;
-			ibo_data[2][m_ibo_index[2] + 5] = m_vbo_index[0] + 4 * m_stroke + 3;
+			ibo_data[2][m_ibo_index[2] + 4] = m_vbo_index[0] + 4 * m_stroke + 3;
+			ibo_data[2][m_ibo_index[2] + 5] = m_vbo_index[0] + 4 * m_stroke + 2;
 		}
 		void Quad::ibo_stroke_data(unsigned** ibo_data) const
 		{

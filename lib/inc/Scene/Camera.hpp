@@ -7,6 +7,7 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
+#include "inc/Math/mat4.hpp"
 #include "inc/Scene/Click.hpp"
 
 namespace canvas
@@ -27,28 +28,30 @@ namespace canvas
 		~Camera(void);
 
 		//data
-		float zoom(float);
-		float zoom(void) const;
+		float scale(float);
+		float scale(void) const;
 
-		vec3 shift(void) const;
-		vec3 shift(const vec3&);
-
-		vec3 box_min(void) const;
-		void box_min(const vec3&);
-
-		vec3 box_max(void) const;
-		void box_max(const vec3&);
+		vec3 position(void) const;
+		vec3 position(const vec3&);
 
 		quat rotation(char);
 		quat rotation(void) const;
+		quat rotation(const vec3&);
 		quat rotation(const quat&);
 
 		unsigned width(void) const;
 		unsigned height(void) const;
 
+		float plane(unsigned) const;
+		float plane(unsigned, float);
+
 		//screen
 		void screen_print(void) const;
 		void screen_record(void) const;
+
+		//shaders
+		void bound(void);
+		void update_shaders(void);
 
 		//callbacks
 		void callback_motion(int, int);
@@ -59,16 +62,27 @@ namespace canvas
 		void callback_special(key, unsigned, int, int);
 
 	protected:
+		//update
+		void bound_box(void);
+		void update_view(void);
+		void update_projection(void);
+
 		//data
-		float m_zoom;
-		vec3 m_shift;
+		float m_scale;
 		Click m_click;
+		Scene* m_scene;
 		vec3 m_box_min;
 		vec3 m_box_max;
+		vec3 m_position;
 		quat m_rotation;
+		float m_planes[2];
+
 		Program* m_programs;
 		std::string m_output;
 		unsigned m_screen[2];
+
+		mat4 m_view_matrix;
+		mat4 m_projection_matrix;
 
 		//friends
 		friend class Scene;

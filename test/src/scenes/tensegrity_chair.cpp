@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "inc/Objects/1D/Line.hpp"
 #include "inc/Objects/3D/Cube.hpp"
@@ -145,7 +148,7 @@ namespace examples
 			cables(scene);
 			labels(scene);
 			guides(scene);
-			scene->camera().rotation(canvas::vec3(-M_PI_2, 0, 0).quaternion());
+			scene->camera().rotation({M_PI_2, 0, 0});
 		}
 	}
 }

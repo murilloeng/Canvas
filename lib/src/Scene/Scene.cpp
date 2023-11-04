@@ -28,7 +28,7 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_frame_rate(60), m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
 		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
@@ -36,6 +36,7 @@ namespace canvas
 		setup_shaders();
 		setup_textures();
 		Font::setup_ft();
+		m_camera.m_scene = this;
 		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
 		m_light.m_program = &m_programs[1];
@@ -68,6 +69,15 @@ namespace canvas
 	Color Scene::background(Color background)
 	{
 		return m_background = background;
+	}
+
+	float Scene::frame_rate(void) const
+	{
+		return m_frame_rate;
+	}
+	float Scene::frame_rate(float frame_rate)
+	{
+		return m_frame_rate = frame_rate;
 	}
 
 	Light& Scene::light(void)
@@ -148,6 +158,23 @@ namespace canvas
 		return m_objects;
 	}
 
+	//buffers
+	unsigned Scene::vbo_size(unsigned index) const
+	{
+		return m_vbo_size[index];
+	}
+	unsigned Scene::ibo_size(unsigned index) const
+	{
+		return m_ibo_size[index];
+	}
+	vertices::Vertex* Scene::vertex(unsigned type, unsigned index) const
+	{
+		if(type == 2) return (vertices::Text*) m_vbo_data[2] + index;
+		else if(type == 0) return (vertices::Model*) m_vbo_data[0] + index;
+		else if(type == 1) return (vertices::Image*) m_vbo_data[1] + index;
+		else return nullptr;
+	}
+
 	//draw
 	void Scene::draw(void)
 	{
@@ -161,31 +188,6 @@ namespace canvas
 		draw_model();
 		draw_image();
 		draw_equation();
-	}
-	void Scene::bound(void)
-	{
-		//data
-		vec3 box_min = {+FLT_MAX, +FLT_MAX, +FLT_MAX};
-		vec3 box_max = {-FLT_MAX, -FLT_MAX, -FLT_MAX};
-		//bound
-		for(unsigned i = 0; i < 3; i++)
-		{
-			for(unsigned j = 0; j < m_vbo_size[i]; j++)
-			{
-				for(unsigned k = 0; k < 3; k++)
-				{
-					if(i == 2) box_min[k] = fminf(box_min[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 2) box_max[k] = fmaxf(box_max[k], ((vertices::Text*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 0) box_min[k] = fminf(box_min[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 0) box_max[k] = fmaxf(box_max[k], ((vertices::Model*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 1) box_min[k] = fminf(box_min[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
-					if(i == 1) box_max[k] = fmaxf(box_max[k], ((vertices::Image*) m_vbo_data[i] + j)->m_position[k]);
-				}
-			}
-		}
-		//update
-		m_camera.box_min(box_min);
-		m_camera.box_max(box_max);
 	}
 	void Scene::update(void)
 	{
@@ -307,7 +309,7 @@ namespace canvas
 		//fonts
 		for(Font* font : m_fonts)
 		{
-			if(update = update || !font->m_status)
+			if((update = update || !font->m_status))
 			{
 				font->setup(w, h);
 			}
@@ -333,7 +335,7 @@ namespace canvas
 		//images
 		for(Image* image : m_images)
 		{
-			if(update = update || !image->m_status)
+			if((update = update || !image->m_status))
 			{
 				image->load();
 				image->m_offset = w;
@@ -423,10 +425,10 @@ namespace canvas
 		for(unsigned i = 0; i < 3; i++)
 		{
 			glBindTexture(GL_TEXTURE_2D, m_texture_id[i]);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		}
 	}
 	void Scene::setup_equations(void)
@@ -437,7 +439,7 @@ namespace canvas
 		//images
 		for(Latex* latex : m_latex)
 		{
-			if(update = update || !latex->m_status)
+			if((update = update || !latex->m_status))
 			{
 				latex->load();
 				latex->m_offset = w;
@@ -479,7 +481,7 @@ namespace canvas
 					if(i == 2) vertex = (vertices::Text*) m_vbo_data[i] + iv;
 					if(i == 0) vertex = (vertices::Model*) m_vbo_data[i] + iv;
 					if(i == 1) vertex = (vertices::Image*) m_vbo_data[i] + iv;
-					vertex->m_position = object->affine() * vertex->m_position;
+					vertex->m_position = object->model_matrix() * vertex->m_position;
 				}
 			}
 		}

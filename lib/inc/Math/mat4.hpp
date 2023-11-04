@@ -17,6 +17,16 @@ namespace canvas
 		//destructor
 		~mat4(void);
 
+		//data
+		float* data(void);
+		const float* data(void) const;
+
+		//linear
+		float norm(void) const;
+
+		//print
+		void print(const char* = "") const;
+
 		//operators
 		float& operator()(unsigned);
 		float& operator[](unsigned);
@@ -26,8 +36,15 @@ namespace canvas
 		const float& operator[](unsigned) const;
 		const float& operator()(unsigned, unsigned) const;
 
+		mat4 operator+(void) const;
+		mat4 operator-(void) const;
 		vec3 operator*(const vec3&) const;
 		mat4 operator*(const mat4&) const;
+		mat4 operator+(const mat4&) const;
+		mat4 operator-(const mat4&) const;
+
+		mat4& operator*=(float);
+		friend mat4 operator*(float, const mat4&);
 
 		//affine
 		static mat4 scaling(float);
@@ -35,7 +52,6 @@ namespace canvas
 		static mat4 shifting(const vec3&);
 		static mat4 rotation(const vec3&);
 		static mat4 rotation(const quat&);
-
 		static mat4 rotation(const vec3&, const vec3&);
 		static mat4 rotation(const vec3&, const quat&);
 

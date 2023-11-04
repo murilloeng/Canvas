@@ -1,3 +1,8 @@
+//std
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
@@ -19,6 +24,44 @@ namespace canvas
 	mat4::~mat4(void)
 	{
 		return;
+	}
+
+	//data
+	float* mat4::data(void)
+	{
+		return m_data;
+	}
+	const float* mat4::data(void) const
+	{
+		return m_data;
+	}
+
+	//linear
+	float mat4::norm(void) const
+	{
+		float v = 0;
+		for(unsigned i = 0; i < 16; i++)
+		{
+			v += m_data[i] * m_data[i];
+		}
+		return sqrtf(v);
+	}
+
+	//print
+	void mat4::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 4; i++)
+		{
+			for(unsigned j = 0; j < 4; j++)
+			{
+				printf("%+.2e ", m_data[i + 4 * j]);
+			}
+			printf("\n");
+		}
 	}
 
 	//operators
@@ -47,6 +90,14 @@ namespace canvas
 		return m_data[i + 4 * j];
 	}
 
+	mat4 mat4::operator+(void) const
+	{
+		return *this;
+	}
+	mat4 mat4::operator-(void) const
+	{
+		return mat4(*this) *= -1;
+	}
 	vec3 mat4::operator*(const vec3& v) const
 	{
 		vec3 r;
@@ -60,7 +111,7 @@ namespace canvas
 		}
 		return r;
 	}
-	mat4 mat4::operator*(const mat4& m) const
+	mat4 mat4::operator*(const mat4& M) const
 	{
 		mat4 r;
 		for(unsigned i = 0; i < 4; i++)
@@ -70,11 +121,42 @@ namespace canvas
 				r.m_data[i + 4 * j] = 0;
 				for(unsigned k = 0; k < 4; k++)
 				{
-					r.m_data[i + 4 * j] += m_data[i + 4 * k] * m.m_data[k + 4 * j];
+					r.m_data[i + 4 * j] += m_data[i + 4 * k] * M.m_data[k + 4 * j];
 				}
 			}
 		}
 		return r;
+	}
+	mat4 mat4::operator+(const mat4& M) const
+	{
+		mat4 A;
+		for(unsigned i = 0; i < 16; i++)
+		{
+			A.m_data[i] = m_data[i] + M.m_data[i];
+		}
+		return A;
+	}
+	mat4 mat4::operator-(const mat4& M) const
+	{
+		mat4 A;
+		for(unsigned i = 0; i < 16; i++)
+		{
+			A.m_data[i] = m_data[i] - M.m_data[i];
+		}
+		return A;
+	}
+
+	mat4& mat4::operator*=(float s)
+	{
+		for(unsigned i = 0; i < 16; i++)
+		{
+			m_data[i] *= s;
+		}
+		return *this;
+	}
+	mat4 operator*(float s, const mat4& M)
+	{
+		return mat4(M) *= s;
 	}
 
 	//affine

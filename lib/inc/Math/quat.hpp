@@ -3,6 +3,7 @@
 namespace canvas
 {
 	class vec3;
+	class mat4;
 }
 
 namespace canvas
@@ -19,8 +20,11 @@ namespace canvas
 		~quat(void);
 
 		//data
-		float* memory(void);
-		const float* memory(void) const;
+		float* data(void);
+		const float* data(void) const;
+
+		//print
+		void print(const char* = "") const;
 
 		//views
 		static quat view_x1(void);
@@ -38,8 +42,10 @@ namespace canvas
 		const float& operator[](unsigned) const;
 
 		//affine
+		mat4 rotation(void) const;
 		quat conjugate(void) const;
 		vec3 rotate(const vec3&) const;
+		vec3 conjugate(const vec3&) const;
 
 	private:
 		//data

@@ -32,6 +32,9 @@ namespace canvas
 		void setup(void);
 		void use(void) const;
 
+		//uniforms
+		GLint uniform(const char*);
+
 	private:
 		//data
 		GLuint m_id;

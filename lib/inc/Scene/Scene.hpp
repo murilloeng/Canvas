@@ -40,6 +40,9 @@ namespace canvas
 		Color background(Color);
 		Color background(void) const;
 
+		float frame_rate(float);
+		float frame_rate(void) const;
+
 		Light& light(void);
 		const Light& light(void) const;
 
@@ -63,9 +66,13 @@ namespace canvas
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
+		//buffers
+		unsigned vbo_size(unsigned) const;
+		unsigned ibo_size(unsigned) const;
+		vertices::Vertex* vertex(unsigned, unsigned) const;
+
 		//update
 		void draw(void);
-		void bound(void);
 		void update(void);
 
 	protected:
@@ -96,6 +103,7 @@ namespace canvas
 		Light m_light;
 		Camera m_camera;
 
+		float m_frame_rate;
 		unsigned m_vao_id[3];
 		unsigned m_vbo_id[3];
 		unsigned m_ibo_id[6];
@@ -113,5 +121,8 @@ namespace canvas
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
 		std::vector<objects::Object*> m_objects;
+
+		//friends
+		friend class Camera;
 	};
 }

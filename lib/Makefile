@@ -1,6 +1,6 @@
 #compiler
 CXX = g++
-WARS = -Wall
+WARS = -Wall -Werror
 INCS = -I . -I ext/inc/
 CXXFLAGS = -std=c++20 -fPIC -pipe -fopenmp -MT $@ -MMD -MP -MF $(subst .o,.d, $@) $(DEFS) $(INCS) $(WARS)
 

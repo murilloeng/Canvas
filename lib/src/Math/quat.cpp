@@ -1,15 +1,17 @@
 //std
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Math/quat.hpp"
+#include "inc/Math/mat4.hpp"
 
 namespace canvas
 {
 	//constructors
-	quat::quat(void) : m_data{1, 0, 0, 0}
+	quat::quat(void) : m_data{1.0f, 0.0f, 0.0f, 0.0f}
 	{
 		return;
 	}
@@ -29,13 +31,26 @@ namespace canvas
 	}
 
 	//data
-	float* quat::memory(void)
+	float* quat::data(void)
 	{
 		return m_data;
 	}
-	const float* quat::memory(void) const
+	const float* quat::data(void) const
 	{
 		return m_data;
+	}
+
+	//print
+	void quat::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 4; i++)
+		{
+			printf("%+.2e\n", m_data[i]);
+		}
 	}
 
 	//views
@@ -99,6 +114,26 @@ namespace canvas
 	}
 
 	//affine
+	mat4 quat::rotation(void) const
+	{
+		//data
+		mat4 M;
+		const vec3 x(m_data + 1);
+		const float s = m_data[0];
+		const float a = s * s - x.inner(x);
+		//rotation
+		M[0 + 4 * 0] = a + 2 * x[0] * x[0];
+		M[1 + 4 * 1] = a + 2 * x[1] * x[1];
+		M[2 + 4 * 2] = a + 2 * x[2] * x[2];
+		M[0 + 4 * 1] = 2 * x[0] * x[1] - 2 * s * x[2];
+		M[0 + 4 * 2] = 2 * x[0] * x[2] + 2 * s * x[1];
+		M[1 + 4 * 0] = 2 * x[0] * x[1] + 2 * s * x[2];
+		M[1 + 4 * 2] = 2 * x[1] * x[2] - 2 * s * x[0];
+		M[2 + 4 * 0] = 2 * x[0] * x[2] - 2 * s * x[1];
+		M[2 + 4 * 1] = 2 * x[1] * x[2] + 2 * s * x[0];
+		//return
+		return M;
+	}
 	quat quat::conjugate(void) const
 	{
 		return quat(m_data[0], -m_data[1], -m_data[2], -m_data[3]);
@@ -114,5 +149,9 @@ namespace canvas
 		r[1] = a * v[1] + b * x[1] + 2 * s * (x[2] * v[0] - x[0] * v[2]);
 		r[2] = a * v[2] + b * x[2] + 2 * s * (x[0] * v[1] - x[1] * v[0]);
 		return r;
+	}
+	vec3 quat::conjugate(const vec3& v) const
+	{
+		return conjugate().rotate(v);
 	}
 }

@@ -20,8 +20,11 @@ namespace canvas
 		~vec3(void);
 
 		//data
-		float* memory(void);
-		const float* memory(void) const;
+		float* data(void);
+		const float* data(void) const;
+
+		//print
+		void print(const char* = "") const;
 
 		//linear
 		float norm(void) const;
@@ -30,6 +33,7 @@ namespace canvas
 		float max(unsigned*, bool) const;
 
 		vec3 unit(void) const;
+		mat4 shift(void) const;
 		quat quaternion(void) const;
 		vec3 cross(const vec3&) const;
 		void triad(vec3&, vec3&) const;

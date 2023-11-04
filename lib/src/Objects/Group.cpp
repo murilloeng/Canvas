@@ -98,23 +98,6 @@ namespace canvas
 		}
 
 		//draw
-		void Group::vbo_affine(vertices::Vertex** vbo_data) const
-		{
-			for(unsigned i = 0; i < 3; i++)
-			{
-				unsigned vbo_index = m_vbo_index[i];
-				for(const Object* object : m_objects)
-				{
-					for(unsigned j = 0; j < object->vbo_size(i); j++)
-					{
-						if(i == 2) ((vertices::Text*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
-						if(i == 0) ((vertices::Model*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
-						if(i == 1) ((vertices::Image*) vbo_data[i] + vbo_index + j)->m_position *= object->affine();
-					}
-					vbo_index += object->vbo_size(i);
-				}
-			}
-		}
 		void Group::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
 			//data
@@ -128,13 +111,30 @@ namespace canvas
 			}
 			Object::setup(vbo_counter, ibo_counter);
 		}
+		void Group::vbo_model_matrix(vertices::Vertex** vbo_data) const
+		{
+			for(unsigned i = 0; i < 3; i++)
+			{
+				unsigned vbo_index = m_vbo_index[i];
+				for(const Object* object : m_objects)
+				{
+					for(unsigned j = 0; j < object->vbo_size(i); j++)
+					{
+						if(i == 2) ((vertices::Text*) vbo_data[i] + vbo_index + j)->m_position *= object->model_matrix();
+						if(i == 0) ((vertices::Model*) vbo_data[i] + vbo_index + j)->m_position *= object->model_matrix();
+						if(i == 1) ((vertices::Image*) vbo_data[i] + vbo_index + j)->m_position *= object->model_matrix();
+					}
+					vbo_index += object->vbo_size(i);
+				}
+			}
+		}
 		void Group::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			for(const Object* object : m_objects)
 			{
 				object->buffers_data(vbo_data, ibo_data);
 			}
-			vbo_affine(vbo_data);
+			vbo_model_matrix(vbo_data);
 		}
 	}
 }

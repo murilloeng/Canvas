@@ -1,6 +1,7 @@
 //std
 #include <cmath>
 #include <cfloat>
+#include <cstdio>
 #include <cstring>
 
 //canvas
@@ -29,13 +30,26 @@ namespace canvas
 	}
 
 	//data
-	float* vec2::memory(void)
+	float* vec2::data(void)
 	{
 		return m_data;
 	}
-	const float* vec2::memory(void) const
+	const float* vec2::data(void) const
 	{
 		return m_data;
+	}
+
+	//print
+	void vec2::print(const char* label) const
+	{
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(unsigned i = 0; i < 2; i++)
+		{
+			printf("%+.2e\n", m_data[i]);
+		}
 	}
 
 	//linear
@@ -87,7 +101,6 @@ namespace canvas
 	{
 		m_data[0] *= s;
 		m_data[1] *= s;
-		m_data[2] *= s;
 		return *this;
 	}
 	vec2& vec2::operator/=(float s)

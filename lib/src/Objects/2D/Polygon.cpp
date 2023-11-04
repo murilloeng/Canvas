@@ -75,8 +75,8 @@ namespace canvas
 			for(unsigned i = 0; i < nt; i++)
 			{
 				ibo_ptr[0] = vbo_index + m_triangles[3 * i + 0];
-				ibo_ptr[1] = vbo_index + m_triangles[3 * i + 1];
-				ibo_ptr[2] = vbo_index + m_triangles[3 * i + 2];
+				ibo_ptr[1] = vbo_index + m_triangles[3 * i + 2];
+				ibo_ptr[2] = vbo_index + m_triangles[3 * i + 1];
 				ibo_ptr += 3;
 			}
 		}

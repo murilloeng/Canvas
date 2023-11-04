@@ -14,8 +14,11 @@ namespace canvas
 		~vec2(void);
 
 		//data
-		float* memory(void);
-		const float* memory(void) const;
+		float* data(void);
+		const float* data(void) const;
+
+		//print
+		void print(const char* = "") const;
 
 		//linear
 		vec2 unit(void) const;
