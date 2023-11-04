@@ -83,7 +83,7 @@ namespace canvas
 			Color m_color_stroke;
 
 			unsigned m_vbo_index[3];
-			unsigned m_ibo_index[5];
+			unsigned m_ibo_index[6];
 
 			static canvas::Scene* m_scene;
 

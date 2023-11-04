@@ -128,7 +128,7 @@ namespace canvas
 		unsigned Sphere::vertex_index(unsigned face, unsigned index_1, unsigned index_2) const
 		{
 			//data
-			bool i0, i1, i2;
+			bool i0 = true, i1 = true, i2 = true;
 			const unsigned e0 = edge_index(face, 0, i0);
 			const unsigned e1 = edge_index(face, 1, i1);
 			const unsigned e2 = edge_index(face, 2, i2);

@@ -1,3 +1,6 @@
+//std
+#include <cstring>
+
 //canvas
 #include "inc/Objects/Group.hpp"
 #include "inc/Vertices/Text.hpp"

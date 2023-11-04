@@ -61,7 +61,7 @@ namespace canvas
 		if(status == 0)
 		{
 			glGetShaderInfoLog(m_id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error compiling %s!\nError log: %hs\n", name(), log);
+			fprintf(stderr, "Error compiling %s!\nError log: %s\n", name(), log);
 			exit(EXIT_FAILURE);
 		}
 		//attach

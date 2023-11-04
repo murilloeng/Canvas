@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Text::Text(void) : m_font(0), m_size(1.0f), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
+		Text::Text(void) : m_size(1.0f), m_font(0), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
 		{
 			return;
 		}

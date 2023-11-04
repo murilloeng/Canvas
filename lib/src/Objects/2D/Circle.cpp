@@ -11,7 +11,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Circle::Circle(void) : m_radius(0), m_center{0, 0, 0}, m_normal{0, 0, 1}
+		Circle::Circle(void) : m_center{0, 0, 0}, m_normal{0, 0, 1}, m_radius(0)
 		{
 			return;
 		}

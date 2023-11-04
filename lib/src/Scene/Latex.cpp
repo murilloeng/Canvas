@@ -64,7 +64,7 @@ namespace canvas
 		if(m_data) stbi_image_free(m_data);
 		stbi_set_flip_vertically_on_load(true);
 		m_data = stbi_load("temp.png", &w, &h, &c, 1);
-		for(unsigned i = 0; i < w * h; i++) m_data[i] = 255 - m_data[i];
+		for(unsigned i = 0; i < unsigned(w * h); i++) m_data[i] = 255 - m_data[i];
 		//check
 		if(!m_data)
 		{
@@ -76,7 +76,11 @@ namespace canvas
 		m_height = h;
 		m_status = true;
 		//cleanup
-		system("del temp.*");
+		if(system("del temp.*") != 0)
+		{
+			fprintf(stderr, "Error: Couldn't delete pdf file!\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	//coordinates

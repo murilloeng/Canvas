@@ -101,7 +101,6 @@ namespace canvas
 	{
 		m_data[0] *= s;
 		m_data[1] *= s;
-		m_data[2] *= s;
 		return *this;
 	}
 	vec2& vec2::operator/=(float s)

@@ -10,6 +10,7 @@
 
 //std
 #include <cmath>
+#include <cfloat>
 #include <filesystem>
 
 //ext

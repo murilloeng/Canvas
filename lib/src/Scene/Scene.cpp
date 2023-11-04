@@ -24,9 +24,8 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_frame_rate(60), m_shaders_dir(shaders_dir),
-		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
-		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0)
+		m_frame_rate(60), m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
 		setup_buffers();
@@ -306,7 +305,7 @@ namespace canvas
 		//fonts
 		for(Font* font : m_fonts)
 		{
-			if(update = update || !font->m_status)
+			if((update = update || !font->m_status))
 			{
 				font->setup(w, h);
 			}
@@ -332,7 +331,7 @@ namespace canvas
 		//images
 		for(Image* image : m_images)
 		{
-			if(update = update || !image->m_status)
+			if((update = update || !image->m_status))
 			{
 				image->load();
 				image->m_offset = w;
@@ -436,7 +435,7 @@ namespace canvas
 		//images
 		for(Latex* latex : m_latex)
 		{
-			if(update = update || !latex->m_status)
+			if((update = update || !latex->m_status))
 			{
 				latex->load();
 				latex->m_offset = w;

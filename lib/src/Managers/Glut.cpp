@@ -100,7 +100,7 @@ namespace canvas
 		}
 		for(unsigned i = 0; i < 4; i++)
 		{
-			if(key == glut_keys[i])
+			if(unsigned(key) == glut_keys[i])
 			{
 				master->m_scene->camera().callback_special(canvas_keys[i], canvas_mod, x1, x2);
 			}
@@ -115,7 +115,7 @@ namespace canvas
 		//callback
 		for(unsigned i = 0; i < 3; i++)
 		{
-			if(glut_buttons[i] == button)
+			if(unsigned(button) == glut_buttons[i])
 			{
 				master->m_scene->camera().callback_mouse(canvas_buttons[i], !state, x1, x2);
 			}
