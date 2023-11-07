@@ -98,6 +98,11 @@ namespace canvas
 		return m_camera;
 	}
 
+	void Scene::clear_fonts(void)
+	{
+		for(const Font* font : m_fonts) delete font;
+		m_fonts.clear();
+	}
 	Font* Scene::font(unsigned index) const
 	{
 		return m_fonts[index];
@@ -111,6 +116,11 @@ namespace canvas
 		return m_fonts;
 	}
 
+	void Scene::clear_images(void)
+	{
+		for(const Image* image : m_images) delete image;
+		m_images.clear();
+	}
 	void Scene::add_image(const char* path)
 	{
 		m_images.push_back(new Image(path));
@@ -124,6 +134,11 @@ namespace canvas
 		return m_images;
 	}
 
+	void Scene::clear_latex(void)
+	{
+		for(const Latex* latex : m_latex) delete latex;
+		m_latex.clear();
+	}
 	void Scene::add_latex(const char* source)
 	{
 		m_latex.push_back(new Latex(source));

@@ -49,14 +49,17 @@ namespace canvas
 		Camera& camera(void);
 		const Camera& camera(void) const;
 
+		void clear_fonts(void);
 		void add_font(const char*);
 		Font* font(unsigned) const;
 		const std::vector<Font*>& fonts(void) const;
 
+		void clear_images(void);
 		void add_image(const char*);
 		Image* image(unsigned) const;
 		const std::vector<Image*>& images(void) const;
 
+		void clear_latex(void);
 		void add_latex(const char*);
 		Latex* latex(unsigned) const;
 		const std::vector<Latex*>& latex(void) const;
