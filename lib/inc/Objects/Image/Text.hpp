@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <string>
+
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Objects/Anchor.hpp"
