@@ -140,6 +140,7 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	{
 		index_light = 0;
 		app->scene()->light().position({0, 0, 1});
+		app->scene()->light().update_shaders();
 		glutPostRedisplay();
 	}
 	if(key == '1')
