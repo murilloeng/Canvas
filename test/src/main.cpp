@@ -22,8 +22,10 @@
 //examples
 #include "inc/examples.hpp"
 
+static float t = 0;
 static canvas::Glut* app;
-static unsigned index = 0;
+static unsigned index_light = 0;
+static unsigned index_example = 0;
 typedef void(*test_fun)(canvas::Scene*);
 
 test_fun list[] = {
@@ -71,7 +73,7 @@ unsigned idle_index[] = {
 	0, 0
 };
 
-static void callback_idle_1(void)
+static void callback_idle(void)
 {
 	//time
 	const float fr = app->scene()->frame_rate();
@@ -82,6 +84,19 @@ static void callback_idle_1(void)
 		object->rotate({0, float(M_PI) / fr, 0}, false);
 	}
 	app->scene()->update();
+	//light
+	if(index_light == 1)
+	{
+		t += 2 * float(M_PI) / fr;
+		app->scene()->light().position({0, 0, sinf(t) + 1});
+		app->scene()->light().update_shaders();
+	}
+	if(index_light == 2)
+	{
+		const canvas::vec3 xl = app->scene()->light().position();
+		app->scene()->light().position(canvas::vec3(0, float(M_PI) / fr, 0).quaternion().rotate(xl));
+		app->scene()->light().update_shaders();
+	}
 	//draw
 	glutPostRedisplay();
 	//wait
@@ -97,8 +112,10 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 	//callback
 	if(key == 'n')
 	{
+		//index
+		index_example = (index_example + 1) % nf;
 		//setup
-		index = (index + 1) % nf;
+		t = 0;
 		app->scene()->clear_fonts();
 		app->scene()->clear_latex();
 		app->scene()->clear_images();
@@ -108,15 +125,32 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 		app->scene()->light().update_shaders();
 		app->scene()->camera().rotation(canvas::quat::view_x3());
 		//redraw
-		list[index](app->scene());
+		list[index_example](app->scene());
 		//update
 		app->scene()->update();
 		app->scene()->camera().bound();
 		app->scene()->camera().update_shaders();
 		//idle
-		if(idle_index[index] == 0) glutIdleFunc(nullptr);
-		else if(idle_index[index] == 1) glutIdleFunc(callback_idle_1);
+		if(idle_index[index_example] == 0) glutIdleFunc(nullptr);
+		else if(idle_index[index_example] == 1) glutIdleFunc(callback_idle);
 		//swap
+		glutPostRedisplay();
+	}
+	if(key == '0')
+	{
+		index_light = 0;
+		app->scene()->light().position({0, 0, 1});
+		glutPostRedisplay();
+	}
+	if(key == '1')
+	{
+		index_light = 1;
+		glutPostRedisplay();
+	}
+	if(key == '2')
+	{
+		index_light = 2;
+		app->scene()->light().position({0, 0, 1});
 		glutPostRedisplay();
 	}
 	else
