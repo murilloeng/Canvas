@@ -21,7 +21,6 @@ A number of pre-defined objects (listed below) are defined for convenience. The 
 |       | Spline   | Polygon  |          |           |
 |       | Polyline | Surface  |          |           |
 |       |          | Triangle |          |           |
-|       |          |          |          |           |
 
 ## Textures
 
