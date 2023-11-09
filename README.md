@@ -10,6 +10,44 @@ Author: Murillo Vinicius Bento Santana
 
 Contact: [murillo.bento-santana@univ-amu.fr](mailto:murillo.bento-santana@univ-amu.fr)
 
+## Setup
+
+### Setup in Windows
+
+The MSVC C++ compiler is used for building and debugging. Be sure to have it [installed](https://visualstudio.microsoft.com/vs/community/) and [available](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022) in the path. All used external libraries are packed with the code.
+
+Generate an executable (make.exe) that will be used to build the code: `win\make.bat`
+
+### Setup in Unix
+
+The [GNU C++](https://gcc.gnu.org/) compiler and the [GNU Make](https://www.gnu.org/software/make/) tool are used for the build. The [GNU GDB](https://www.sourceware.org/gdb/) debugger is used to debug the code. Be sure to have them installed by running the following commands:
+
+`sudo apt-get install g++`
+
+`sudo apt-get install gdb`
+
+`sudo apt-get install make`
+
+## Build and Run
+
+Build the debug version of the code: `make`
+
+Run the debug version of the code: `make run`
+
+Clean the debug version of the code: `make clean`
+
+To build, run or clean the release version, simply add the option `m=r` to the make commands above.
+
+## Debug
+
+### Debug in Windows
+
+Debug the code: `make debug`
+
+### Debug in Unix
+
+Debug the code: `gdb ./dist/debug/test.out`
+
 ## Objects
 
 A number of pre-defined objects (listed below) are defined for convenience. The user has also the possibility of creating its own objects, derived of the base class `canvas::objects::Object`. Objects can also be grouped via the base class `canvas::objects::Group`.
@@ -38,55 +76,13 @@ Latex can be added to the scene via the class `canvas::objects::Latex`. Latex su
 
 Images can be added to the scene via the class `canvas::objects::Image`. Image support is made available via the [stb library](https://github.com/nothings/stb). Screenshots can also be converted to images via the `canvas::Scene` class.
 
-## Setup
-
-### Setup in Windows
-
-The MSVC C++ compiler is used for building and debugging. Be sure to have it [installed](https://visualstudio.microsoft.com/vs/community/) and [available](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022) in the path. All used external libraries are packed with the code.
-
-Generate an executable (make.exe) that will be used to build the code: `win\make.bat`
-
-### Setup in Unix
-
-The [GNU C++](https://gcc.gnu.org/) compiler and the [GNU Make](https://www.gnu.org/software/make/) tool are used for the build. The [GNU GDB](https://www.sourceware.org/gdb/) debugger is used to debug the code. Be sure to have them installed by running the following commands:
-
-`sudo apt-get install g++`
-
-`sudo apt-get install gdb`
-
-`sudo apt-get install make`
-
-## Build and Run
-
-Build the debug version of the code: `make`
-
-Build the release version of the code: `make m=r`
-
-Run the debug version of the code: `make run`
-
-Run the release version of the code: `make run m=r`
-
-Clean the debug version of the code: `make clean`
-
-Clean the release version of the code: `make clean m=r`
-
-## Debug
-
-### Debug in Windows
-
-Debug the code: `make debug`
-
-### Debug in Unix
-
-Debug the code: `gdb ./dist/debug/test.out`
-
 ## Examples
 
 ### 0D
 
 <details>
 	<summary>Points</summary>
-	<img src="https://github.com/murilloeng/Canvas/blob/main/test/data/tutorial/points.gif?raw=true" height="400"/>
+	<img src="test/data/tutorial/0D/points.png" height="400"/>
 
 	//canvas
 	#include "inc/Scene/Scene.hpp"
