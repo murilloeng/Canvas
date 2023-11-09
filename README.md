@@ -1,5 +1,7 @@
 # Canvas
 
+<!-- markdownlint-disable MD010 MD033 -->
+
 Canvas is a C++ library for creating 2D and 3D scenes and scientific drawings. It aims at begin as simple to use as possible, while providing a comprehensive control of the code. The library is based on modern OpenGL 4.6 and can be integrated with any window system that provides an OpenGL context. Default managers for GLUT and QT are added for convenience.
 
 A python binding, allowing for the library to be called and used via python scripts, is planned for the near future.
@@ -80,4 +82,34 @@ Debug the code: `gdb ./dist/debug/test.out`
 
 ## Examples
 
-[Alt text](https://github.com/murilloeng/Canvas/blob/main/test/data/tutorial/points.gif?raw=true)
+### 0D
+
+<details>
+	<summary>Points</summary>
+	<img src="https://github.com/murilloeng/Canvas/blob/main/test/data/tutorial/points.gif?raw=true" height="400"/>
+
+	//canvas
+	#include "inc/Scene/Scene.hpp"
+	#include "inc/Objects/0D/Point.hpp"
+
+	//examples
+	#include "inc/examples.hpp"
+
+	void points(canvas::Scene* scene)
+	{
+		//data
+		const unsigned n = 10;
+		const float r = 1.0f / n;
+		//objects
+		for(unsigned i = 0; i < n; i++)
+		{
+			for(unsigned j = 0; j < n; j++)
+			{
+				const float x1 = 2 * r * j + r - 1;
+				const float x2 = 2 * r * i + r - 1;
+				scene->add_object(new canvas::objects::Point);
+				((canvas::objects::Point*) scene->object(n * i + j))->position({x1, x2, 0});
+			}
+		}
+	}
+</details>
