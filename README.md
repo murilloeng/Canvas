@@ -77,3 +77,7 @@ Debug the code: `make debug`
 ### Debug in Unix
 
 Debug the code: `gdb ./dist/debug/test.out`
+
+## Examples
+
+[Alt text](https://github.com/murilloeng/Canvas/blob/main/test/data/tutorial/points.gif?raw=true)
