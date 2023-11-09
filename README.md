@@ -848,3 +848,25 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		}
 	}
 </details>
+
+### Light
+
+<details>
+	<summary>Moving</summary>
+	<img src="test/data/tutorial/Light/light_1.gif" height="600"/>
+</details>
+
+<details>
+	<summary>Rotating</summary>
+	<img src="test/data/tutorial/Light/light_2.gif" height="600"/>
+</details>
+
+<details>
+	<summary>Diffuse</summary>
+	<img src="test/data/tutorial/Light/light_3.gif" height="600"/>
+</details>
+
+<details>
+	<summary>Specular</summary>
+	<img src="test/data/tutorial/Light/light_4.gif" height="600"/>
+</details>
