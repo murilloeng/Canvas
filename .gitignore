@@ -12,3 +12,4 @@
 !.gitignore
 !test/data/images/*.png
 !test/data/tutorial/*/*.png
+!test/data/tutorial/*/*.gif
