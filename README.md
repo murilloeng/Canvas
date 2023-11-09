@@ -26,11 +26,11 @@ A number of pre-defined objects (listed below) are defined for convenience. The 
 
 ### Text
 
-Text can be added to the scene via the class `canvas::objects::Text`. Text support is made available via the [freetype library](http://freetype.org/). Fonts are loaded from true type font files (`.ttf`). In windows, these files are usually located under `C:\Windows\Fonts`, while on Unix they are usually located under `/usr/share/fonts/`.
+Text can be added to the scene via the class `canvas::objects::Text`. Text support is made available via the [freetype library](http://freetype.org/). Fonts are loaded from true type font files (`.ttf`). In windows, these files are usually located under `C:\Windows\Fonts`, while on Unix they are usually located under `/usr/share/fonts`.
 
 ### Latex
 
-Latex can be added to the scene via the class `canvas::objects::Latex`. Latex support is made available via the `pdflatex  TeX compiler` distributed in the [MiKTeX package](https://miktex.org/). Make sure to have it installed and available in the path before using the Latex class.
+Latex can be added to the scene via the class `canvas::objects::Latex`. Latex support is made available via the `pdflatex TeX compiler` distributed by the [MiKTeX package](https://miktex.org/). Make sure to have it installed and available in the path before using the Latex class.
 
 ### Images
 
@@ -40,7 +40,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 ### Setup in Windows
 
-The MSVC C++ compiler is used for the build and debugging. Be sure to have it [installed](https://visualstudio.microsoft.com/vs/community/) and [available](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022) in the path. All used external libraries are packed with the code.
+The MSVC C++ compiler is used for building and debugging. Be sure to have it [installed](https://visualstudio.microsoft.com/vs/community/) and [available](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022) in the path. All used external libraries are packed with the code.
 
 Generate an executable (make.exe) that will be used to build the code: `win\make.bat`
 

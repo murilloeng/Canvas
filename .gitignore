@@ -10,6 +10,5 @@
 !*.json
 !*Makefile
 !.gitignore
-!test/data/images/*.jpg
 !test/data/images/*.png
-!test/data/images/*.gif
+!test/data/tutorial/*.gif
