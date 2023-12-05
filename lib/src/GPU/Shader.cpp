@@ -36,7 +36,6 @@ namespace canvas
 				fprintf(stderr, "Error: %s missing!\n", name());
 				exit(EXIT_FAILURE);
 			}
-			return;
 		}
 		//source
 		if(!load_file())

@@ -280,7 +280,6 @@ namespace canvas
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		//values
-		glLineWidth(1);
 		glPointSize(7);
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
