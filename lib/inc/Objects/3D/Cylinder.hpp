@@ -2,13 +2,13 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Cylinder : public Object
+		class Cylinder : public Geometry
 		{
 		public:
 			//constructors

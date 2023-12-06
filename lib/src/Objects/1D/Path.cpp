@@ -40,19 +40,19 @@ namespace canvas
 			//arrow
 			arrow->parameter(s);
 			arrow->sense(sense);
-			m_objects.push_back(arrow);
+			m_geometries.push_back(arrow);
 		}
 		void Path::remove_arrow(unsigned index)
 		{
 			unsigned counter = 0;
-			for(unsigned i = 0; i < m_objects.size(); i++)
+			for(unsigned i = 0; i < m_geometries.size(); i++)
 			{
-				if(dynamic_cast<const Arrow*>(m_objects[i]))
+				if(dynamic_cast<const Arrow*>(m_geometries[i]))
 				{
 					if(counter == index)
 					{
-						delete m_objects[i];
-						m_objects.erase(m_objects.begin() + i);
+						delete m_geometries[i];
+						m_geometries.erase(m_geometries.begin() + i);
 					}
 					counter++;
 				}
@@ -61,7 +61,7 @@ namespace canvas
 		unsigned Path::arrows(void) const
 		{
 			unsigned counter = 0;
-			for(const Object* object : m_objects)
+			for(const Object* object : m_geometries)
 			{
 				if(dynamic_cast<const Arrow*>(object))
 				{
@@ -73,9 +73,9 @@ namespace canvas
 		Arrow* Path::arrow(unsigned index) const
 		{
 			unsigned counter = 0;
-			for(Object* object : m_objects)
+			for(Geometry* geometry : m_geometries)
 			{
-				if(dynamic_cast<Arrow*>(object))
+				if(dynamic_cast<Arrow*>(geometry))
 				{
 					if(counter != index)
 					{
@@ -83,7 +83,7 @@ namespace canvas
 					}
 					else
 					{
-						return (Arrow*) object;
+						return (Arrow*) geometry;
 					}
 				}
 			}
@@ -160,14 +160,14 @@ namespace canvas
 
 		void Path::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
-			for(Object* object : m_objects)
+			for(Geometry* geometry : m_geometries)
 			{
-				if(dynamic_cast<Arrow*>(object))
+				if(dynamic_cast<Arrow*>(geometry))
 				{
-					float s = ((Arrow*) object)->m_parameter;
-					((Arrow*) object)->m_point = path_position(s);
-					((Arrow*) object)->m_directions[0] = path_normal(s);
-					((Arrow*) object)->m_directions[1] = path_binormal(s);
+					float s = ((Arrow*) geometry)->m_parameter;
+					((Arrow*) geometry)->m_point = path_position(s);
+					((Arrow*) geometry)->m_directions[0] = path_normal(s);
+					((Arrow*) geometry)->m_directions[1] = path_binormal(s);
 				}
 			}
 			Group::setup(vbo_counter, ibo_counter);

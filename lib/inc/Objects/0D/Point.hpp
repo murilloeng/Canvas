@@ -2,13 +2,13 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Point : public Object
+		class Point : public Geometry
 		{
 		public:
 			//constructors

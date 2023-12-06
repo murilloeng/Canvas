@@ -3,13 +3,13 @@
 //canvas
 #include "inc/Math/vec3.hpp"
 #include "inc/Objects/Anchor.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Latex : public Object
+		class Latex : public Geometry
 		{
 		public:
 			//constructors

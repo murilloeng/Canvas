@@ -8,7 +8,7 @@
 //canvas
 #include "inc/Scene/Scene.hpp"
 #include "inc/Managers/Glut.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 //static data
 canvas::Glut* master;
@@ -137,7 +137,11 @@ namespace canvas
 		{
 			for(objects::Object* object : master->m_scene->objects())
 			{
-				object->fill(!object->fill());
+				objects::Geometry* geometry = dynamic_cast<objects::Geometry*>(object);
+				if(geometry)
+				{
+					geometry->fill(!geometry->fill());
+				}
 			}
 			master->scene()->update();
 			glutPostRedisplay();
@@ -146,7 +150,11 @@ namespace canvas
 		{
 			for(objects::Object* object : master->m_scene->objects())
 			{
-				object->stroke(!object->stroke());
+				objects::Geometry* geometry = dynamic_cast<objects::Geometry*>(object);
+				if(geometry)
+				{
+					geometry->stroke(!geometry->stroke());
+				}
 			}
 			master->scene()->update();
 			glutPostRedisplay();

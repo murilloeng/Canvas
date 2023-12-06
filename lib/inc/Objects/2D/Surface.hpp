@@ -5,13 +5,13 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Surface : public Object
+		class Surface : public Geometry
 		{
 		public:
 			//constructors

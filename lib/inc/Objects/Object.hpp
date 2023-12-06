@@ -2,7 +2,6 @@
 
 //canvas
 #include "inc/Math/mat4.hpp"
-#include "inc/Colors/Color.hpp"
 
 namespace canvas
 {
@@ -10,10 +9,6 @@ namespace canvas
 	namespace vertices
 	{
 		class Vertex;
-	}
-	namespace objects
-	{
-		class Group;
 	}
 }
 
@@ -29,25 +24,6 @@ namespace canvas
 
 			//destructor
 			virtual ~Object(void);
-
-			//data
-			bool dot(void) const;
-			virtual bool dot(bool);
-
-			bool fill(void) const;
-			virtual bool fill(bool);
-
-			bool stroke(void) const;
-			virtual bool stroke(bool);
-
-			Color color_dot(void) const;
-			virtual Color color_dot(const Color&);
-
-			Color color_fill(void) const;
-			virtual Color color_fill(const Color&);
-
-			Color color_stroke(void) const;
-			virtual Color color_stroke(const Color&);
 
 			//model matrix
 			mat4 model_matrix(mat4);
@@ -72,15 +48,7 @@ namespace canvas
 			virtual void buffers_data(vertices::Vertex**, unsigned**) const = 0;
 
 			//data
-			bool m_dot;
-			bool m_fill;
-			bool m_stroke;
-
 			mat4 m_model_matrix;
-
-			Color m_color_dot;
-			Color m_color_fill;
-			Color m_color_stroke;
 
 			unsigned m_vbo_index[3];
 			unsigned m_ibo_index[6];
@@ -88,7 +56,6 @@ namespace canvas
 			static canvas::Scene* m_scene;
 
 			//friends
-			friend class Group;
 			friend class canvas::Scene;
 		};
 	}

@@ -5,13 +5,13 @@
 
 //canvas
 #include "inc/Math/vec2.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Polygon : public Object
+		class Polygon : public Geometry
 		{
 		public:
 			//constructors

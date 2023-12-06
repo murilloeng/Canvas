@@ -17,10 +17,10 @@ namespace examples
 	Support_2::Support_2(float size) : m_size(size)
 	{
 		//objects
-		m_objects.push_back(new canvas::objects::Triangle);
+		m_geometries.push_back(new canvas::objects::Triangle);
 		for(unsigned i = 0; i <= nl; i++)
 		{
-			m_objects.push_back(new canvas::objects::Line);
+			m_geometries.push_back(new canvas::objects::Line);
 		}
 		//setup
 		update_objects();
@@ -53,17 +53,17 @@ namespace examples
 		//triangle
 		const float a1 = 4 * M_PI / 3;
 		const float a2 = 5 * M_PI / 3;
-		((canvas::objects::Triangle*) m_objects[0])->point(0, {0, 0, 0});
-		((canvas::objects::Triangle*) m_objects[0])->point(1, {m_size * cosf(a1), m_size * sinf(a1), 0});
-		((canvas::objects::Triangle*) m_objects[0])->point(2, {m_size * cosf(a2), m_size * sinf(a2), 0});
+		((canvas::objects::Triangle*) m_geometries[0])->point(0, {0, 0, 0});
+		((canvas::objects::Triangle*) m_geometries[0])->point(1, {m_size * cosf(a1), m_size * sinf(a1), 0});
+		((canvas::objects::Triangle*) m_geometries[0])->point(2, {m_size * cosf(a2), m_size * sinf(a2), 0});
 		//lines
 		for(unsigned i = 0; i <= nl; i++)
 		{
 			const float s = float(i) / nl;
 			const float x2 = m_size * sinf(a1);
 			const float x1 = m_size * cosf(a1) * (1 - 2 * s);
-			((canvas::objects::Line*) m_objects[i + 1])->point(0, {x1, x2, 0});
-			((canvas::objects::Line*) m_objects[i + 1])->point(1, {x1 - 0.2f / sqrtf(3) * m_size, x2 - 0.2f * m_size, 0});
+			((canvas::objects::Line*) m_geometries[i + 1])->point(0, {x1, x2, 0});
+			((canvas::objects::Line*) m_geometries[i + 1])->point(1, {x1 - 0.2f / sqrtf(3) * m_size, x2 - 0.2f * m_size, 0});
 		}
 		
 	}

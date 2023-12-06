@@ -4,13 +4,13 @@
 #include <vector>
 
 //canvas
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Group : public Object
+		class Group : public Geometry
 		{
 		public:
 			//constructors
@@ -39,7 +39,7 @@ namespace canvas
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
-			std::vector<Object*> m_objects;
+			std::vector<Geometry*> m_geometries;
 		};
 	}
 }

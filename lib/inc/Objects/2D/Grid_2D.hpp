@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
@@ -15,7 +15,7 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Grid_2D : public Object
+		class Grid_2D : public Geometry
 		{
 		public:
 			//constructors

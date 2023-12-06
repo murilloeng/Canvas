@@ -2,7 +2,7 @@
 
 //canvas
 #include "inc/Math/vec3.hpp"
-#include "inc/Objects/Object.hpp"
+#include "inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
@@ -16,7 +16,7 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Arrow : public Object
+		class Arrow : public Geometry
 		{
 		protected:
 			//constructors

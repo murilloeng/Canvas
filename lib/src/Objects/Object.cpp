@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_dot(true), m_fill(true), m_stroke(true), m_vbo_index{0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0}
+		Object::Object(void) : m_vbo_index{0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0}
 		{
 			return;
 		}
@@ -17,61 +17,6 @@ namespace canvas
 		Object::~Object(void)
 		{
 			return;
-		}
-
-		//data
-		bool Object::dot(bool dot)
-		{
-			return m_dot = dot;
-		}
-		bool Object::dot(void) const
-		{
-			return m_dot;
-		}
-
-		bool Object::fill(bool fill)
-		{
-			return m_fill = fill;
-		}
-		bool Object::fill(void) const
-		{
-			return m_fill;
-		}
-
-		bool Object::stroke(void) const
-		{
-			return m_stroke;
-		}
-		bool Object::stroke(bool stroke)
-		{
-			return m_stroke = stroke;
-		}
-
-		Color Object::color_dot(void) const
-		{
-			return m_color_dot;
-		}
-		Color Object::color_dot(const Color& color_dot)
-		{
-			return m_color_dot = color_dot;
-		}
-
-		Color Object::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Object::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Object::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Object::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
 		}
 
 		//model matrix
