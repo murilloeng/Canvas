@@ -27,6 +27,7 @@ namespace canvas
 
 		//operators
 		float& operator[](unsigned);
+		Color& operator=(const float*);
 		const float& operator[](unsigned) const;
 
 	private:

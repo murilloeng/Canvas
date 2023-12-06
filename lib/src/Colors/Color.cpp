@@ -118,6 +118,14 @@ namespace canvas
 	{
 		return m_channels[index];
 	}
+	Color& Color::operator=(const float* channels)
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			m_channels[i] = channels[i];
+		}
+		return *this;
+	}
 	const float& Color::operator[](unsigned index) const
 	{
 		return m_channels[index];
