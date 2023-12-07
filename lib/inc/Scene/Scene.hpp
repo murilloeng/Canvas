@@ -76,7 +76,7 @@ namespace canvas
 
 		//update
 		void draw(void);
-		void update(void);
+		void update(bool);
 
 	protected:
 		//draw
@@ -86,17 +86,16 @@ namespace canvas
 		void draw_equation(void);
 
 		//setup
-		void setup(void);
 		void setup_gl(void);
 		void setup_vbo(void);
 		void setup_ibo(void);
 		void setup_fonts(void);
+		void setup_latex(void);
 		void setup_images(void);
 		void setup_objects(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
 		void setup_textures(void);
-		void setup_equations(void);
 
 		//buffers
 		void buffers_data(void);

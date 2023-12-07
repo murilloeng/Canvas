@@ -83,7 +83,7 @@ static void callback_idle(void)
 	{
 		object->rotate({0, float(M_PI) / fr, 0}, false);
 	}
-	app->scene()->update();
+	app->scene()->update(true);
 	//light
 	if(index_light == 1)
 	{
@@ -127,7 +127,7 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 		//redraw
 		list[index_example](app->scene());
 		//update
-		app->scene()->update();
+		app->scene()->update(true);
 		app->scene()->camera().bound();
 		app->scene()->camera().update_shaders();
 		//idle
@@ -166,7 +166,7 @@ int main(int argc, char** argv)
 	app = new canvas::Glut(argc, argv, "../lib/shd/");
 	//setup
 	list[0](app->scene());
-	app->scene()->update();
+	app->scene()->update(true);
 	//callbacks
 	glutKeyboardFunc(callback_keyboard);
 	//start

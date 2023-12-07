@@ -143,7 +143,7 @@ namespace canvas
 					geometry->fill(!geometry->fill());
 				}
 			}
-			master->scene()->update();
+			master->scene()->update(true);
 			glutPostRedisplay();
 		}
 		else if(key == 'l')
@@ -156,7 +156,7 @@ namespace canvas
 					geometry->stroke(!geometry->stroke());
 				}
 			}
-			master->scene()->update();
+			master->scene()->update(true);
 			glutPostRedisplay();
 		}
 		else if(key == 'a' || key == 'd' || key == 's')
@@ -167,7 +167,7 @@ namespace canvas
 		else
 		{
 			master->m_scene->camera().callback_keyboard(key, x1, x2);
-			master->m_scene->update();
+			master->m_scene->update(true);
 			glutPostRedisplay();
 		}
 	}

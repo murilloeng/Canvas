@@ -204,9 +204,19 @@ namespace canvas
 		draw_image();
 		draw_equation();
 	}
-	void Scene::update(void)
+	void Scene::update(bool setup)
 	{
-		setup();
+		//setup
+		if(setup)
+		{
+			setup_vbo();
+			setup_ibo();
+			setup_fonts();
+			setup_latex();
+			setup_images();
+			setup_objects();
+		}
+		//buffers
 		buffers_data();
 		buffers_transfer();
 	}
@@ -264,15 +274,6 @@ namespace canvas
 	}
 
 	//setup
-	void Scene::setup(void)
-	{
-		setup_vbo();
-		setup_ibo();
-		setup_fonts();
-		setup_images();
-		setup_objects();
-		setup_equations();
-	}
 	void Scene::setup_gl(void)
 	{
 		//enable
@@ -339,6 +340,39 @@ namespace canvas
 		for(Font* font : m_fonts)
 		{
 			font->setup_texture();
+		}
+	}
+	void Scene::setup_latex(void)
+	{
+		//data
+		bool update = false;
+		unsigned w = 0, h = 0;
+		//images
+		for(Latex* latex : m_latex)
+		{
+			if((update = update || !latex->m_status))
+			{
+				latex->load();
+				latex->m_offset = w;
+				w += latex->m_width;
+				h = std::max(h, latex->m_height);
+			}
+		}
+		//texture
+		if(!update) return;
+		Latex::m_total_width = w;
+		Latex::m_total_height = h;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+		//texture data
+		for(Latex* latex : m_latex)
+		{
+			const unsigned w = latex->m_width;
+			const unsigned h = latex->m_height;
+			const unsigned x = latex->m_offset;
+			const unsigned char* data = latex->m_data;
+			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
 	void Scene::setup_images(void)
@@ -443,39 +477,6 @@ namespace canvas
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		}
-	}
-	void Scene::setup_equations(void)
-	{
-		//data
-		bool update = false;
-		unsigned w = 0, h = 0;
-		//images
-		for(Latex* latex : m_latex)
-		{
-			if((update = update || !latex->m_status))
-			{
-				latex->load();
-				latex->m_offset = w;
-				w += latex->m_width;
-				h = std::max(h, latex->m_height);
-			}
-		}
-		//texture
-		if(!update) return;
-		Latex::m_total_width = w;
-		Latex::m_total_height = h;
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
-		//texture data
-		for(Latex* latex : m_latex)
-		{
-			const unsigned w = latex->m_width;
-			const unsigned h = latex->m_height;
-			const unsigned x = latex->m_offset;
-			const unsigned char* data = latex->m_data;
-			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
 
