@@ -119,7 +119,7 @@ static void callback_keyboard(unsigned char key, int x1, int x2)
 		app->scene()->clear_fonts();
 		app->scene()->clear_latex();
 		app->scene()->clear_images();
-		app->scene()->clear_objects();
+		app->scene()->clear_objects(true);
 		app->scene()->background({0, 0, 0});
 		app->scene()->light().position({0, 0, +1});
 		app->scene()->light().update_shaders();

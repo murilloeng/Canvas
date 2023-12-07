@@ -152,11 +152,14 @@ namespace canvas
 		return m_latex;
 	}
 
-	void Scene::clear_objects(void)
+	void Scene::clear_objects(bool free)
 	{
-		for(const objects::Object* object : m_objects)
+		if(free)
 		{
-			delete object;
+			for(const objects::Object* object : m_objects)
+			{
+				delete object;
+			}
 		}
 		m_objects.clear();
 	}

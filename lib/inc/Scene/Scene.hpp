@@ -64,7 +64,7 @@ namespace canvas
 		Latex* latex(unsigned) const;
 		const std::vector<Latex*>& latex(void) const;
 
-		void clear_objects(void);
+		void clear_objects(bool);
 		void add_object(objects::Object*);
 		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
