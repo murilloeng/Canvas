@@ -85,8 +85,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/0D/points.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/0D/Point.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/0D/Point.hpp"
 
 	void points(canvas::Scene* scene)
 	{
@@ -117,9 +117,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	#include <cmath>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Arc.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arc.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
 
 	void arcs(canvas::Scene* scene)
 	{
@@ -151,9 +151,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/1D/lines.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Line.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
 
 	void lines(canvas::Scene* scene)
 	{
@@ -184,9 +184,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/1D/arrows.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Line.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
 
 	void arrows(canvas::Scene* scene)
 	{
@@ -222,9 +222,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	#include <cmath>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Curve.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Curve.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
 
 	void curves(canvas::Scene* scene)
 	{
@@ -259,9 +259,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/1D/splines.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
-	#include "inc/Objects/1D/Spline.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Spline.hpp"
 
 	void splines(canvas::Scene* scene)
 	{
@@ -306,9 +306,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/1D/polylines.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
-	#include "inc/Objects/1D/Polyline.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Polyline.hpp"
 
 	void polylines(canvas::Scene* scene)
 	{
@@ -351,8 +351,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/quads.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Quad.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Quad.hpp"
 
 	void quads(canvas::Scene* scene)
 	{
@@ -381,8 +381,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/circles.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Circle.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Circle.hpp"
 
 	void circles(canvas::Scene* scene)
 	{
@@ -409,8 +409,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/grid_2D.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Grid_2D.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Grid_2D.hpp"
 
 	void grid_2D(canvas::Scene* scene)
 	{
@@ -439,8 +439,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/grid_3D.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Grid_3D.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Grid_3D.hpp"
 
 	void grid_3D(canvas::Scene* scene)
 	{
@@ -469,8 +469,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/surfaces.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Surface.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Surface.hpp"
 
 	void surfaces(canvas::Scene* scene)
 	{
@@ -501,8 +501,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/polygons.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Polygon.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Polygon.hpp"
 
 	void polygons(canvas::Scene* scene)
 	{
@@ -545,8 +545,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/2D/triangles.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Triangle.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Triangle.hpp"
 
 	void triangles(canvas::Scene* scene)
 	{
@@ -577,8 +577,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/3D/cubes.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/3D/Cube.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/3D/Cube.hpp"
 
 	void cubes(canvas::Scene* scene)
 	{
@@ -607,8 +607,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/3D/spheres.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/3D/Sphere.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/3D/Sphere.hpp"
 
 	void spheres(canvas::Scene* scene)
 	{
@@ -637,8 +637,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/3D/cylinders.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/3D/Cylinder.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/3D/Cylinder.hpp"
 
 	void cylinders(canvas::Scene* scene)
 	{
@@ -669,9 +669,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/Images/text.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/2D/Quad.hpp"
-	#include "inc/Objects/Image/Text.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/2D/Quad.hpp"
+	#include "Canvas/lib/inc/Objects/Image/Text.hpp"
 
 	//static
 	static const float x[] = {-1, -1, +1, -1, +1, +1, -1, +1};
@@ -723,8 +723,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/Images/latex.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/Image/Latex.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/Image/Latex.hpp"
 
 	void latex(canvas::Scene* scene)
 	{
@@ -758,8 +758,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	<img src="test/data/tutorial/Images/images.png" height="600"/>
 
 	//canvas
-	#include "inc/Scene/Scene.hpp"
-	#include "inc/Objects/Image/Image.hpp"
+	#include "Canvas/lib/inc/Scene/Scene.hpp"
+	#include "Canvas/lib/inc/Objects/Image/Image.hpp"
 
 	void images(canvas::Scene* scene)
 	{
@@ -821,11 +821,11 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	#include <cmath>
 
 	//canvas
-	#include "inc/Objects/1D/Line.hpp"
-	#include "inc/Objects/3D/Cube.hpp"
-	#include "inc/Objects/1D/Arrow.hpp"
-	#include "inc/Objects/3D/Cylinder.hpp"
-	#include "inc/Objects/Image/Latex.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+	#include "Canvas/lib/inc/Objects/3D/Cube.hpp"
+	#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
+	#include "Canvas/lib/inc/Objects/3D/Cylinder.hpp"
+	#include "Canvas/lib/inc/Objects/Image/Latex.hpp"
 
 	//data
 	static const unsigned nc = 3;

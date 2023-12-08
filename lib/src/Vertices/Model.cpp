@@ -1,5 +1,5 @@
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/lib/inc/Vertices/Model.hpp"
 
 namespace canvas
 {

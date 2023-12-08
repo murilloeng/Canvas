@@ -1,5 +1,5 @@
 //maker
-#include "../../Maker/inc/Maker.hpp"
+#include "Maker/inc/Maker.hpp"
 
 int main(int argc, char** argv)
 {
@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 	maker.m_lib = true;
 	maker.m_out = "canvas";
 	maker.setup(argc, argv);
-	maker.m_incs += "/I ext/inc ";
+	maker.m_incs += "/I ../.. /I ../ext/inc ";
 	//build
 	if(!maker.m_clean)
 	{

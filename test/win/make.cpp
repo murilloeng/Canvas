@@ -1,5 +1,5 @@
 //maker
-#include "../../Maker/inc/Maker.hpp"
+#include "Maker/inc/Maker.hpp"
 
 void build_lib(const Maker& maker)
 {
@@ -35,9 +35,9 @@ int main(int argc, char** argv)
 	Maker maker;
 	maker.m_out = "test";
 	maker.setup(argc, argv);
-	maker.m_incs += "/I ../lib/ ";
-	maker.m_elib = "../lib/ext/lib/";
-	maker.m_edll = "../lib/ext/dll/";
+	maker.m_incs = "/I ../.. ";
+	maker.m_elib = "../ext/lib/";
+	maker.m_edll = "../ext/dll/";
 	//build
 	if(!maker.m_clean)
 	{

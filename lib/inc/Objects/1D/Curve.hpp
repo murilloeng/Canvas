@@ -4,8 +4,8 @@
 #include <functional>
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Objects/1D/Path.hpp"
+#include "Canvas/lib/inc/Math/vec3.hpp"
+#include "Canvas/lib/inc/Objects/1D/Path.hpp"
 
 namespace canvas
 {

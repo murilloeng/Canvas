@@ -2,7 +2,7 @@
 #include <cmath>
 
 //examples
-#include "inc/defs/Beam.hpp"
+#include "Canvas/test/inc/defs/Beam.hpp"
 
 namespace examples
 {

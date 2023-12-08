@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Objects/Group.hpp"
+#include "Canvas/lib/inc/Objects/Group.hpp"
 
 namespace examples
 {

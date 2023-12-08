@@ -4,10 +4,10 @@
 #include <string>
 
 //ext
-#include "ext/inc/freetype/freetype.h"
+#include "Canvas/ext/inc/freetype/freetype.h"
 
 //canvas
-#include "inc/Scene/Character.hpp"
+#include "Canvas/lib/inc/Scene/Character.hpp"
 
 namespace canvas
 {

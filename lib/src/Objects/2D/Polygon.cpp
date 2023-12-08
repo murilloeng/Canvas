@@ -3,9 +3,9 @@
 #include <cfloat>
 
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/lib/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/2D/Polygon.hpp"
+#include "Canvas/lib/inc/Objects/2D/Polygon.hpp"
 
 namespace canvas
 {

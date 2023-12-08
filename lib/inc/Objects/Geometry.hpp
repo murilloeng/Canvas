@@ -1,8 +1,8 @@
 #pragma once
 
 //canvas
-#include "inc/Colors/Color.hpp"
-#include "inc/Objects/Object.hpp"
+#include "Canvas/lib/inc/Colors/Color.hpp"
+#include "Canvas/lib/inc/Objects/Object.hpp"
 
 namespace canvas
 {

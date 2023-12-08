@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Math/vec3.hpp"
+#include "Canvas/lib/inc/Math/vec3.hpp"
 
 namespace canvas
 {

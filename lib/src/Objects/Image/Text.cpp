@@ -1,8 +1,8 @@
 //canvas
-#include "inc/Scene/Font.hpp"
-#include "inc/Scene/Scene.hpp"
-#include "inc/Vertices/Text.hpp"
-#include "inc/Objects/Image/Text.hpp"
+#include "Canvas/lib/inc/Scene/Font.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Vertices/Text.hpp"
+#include "Canvas/lib/inc/Objects/Image/Text.hpp"
 
 namespace canvas
 {

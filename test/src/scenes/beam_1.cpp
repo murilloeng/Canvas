@@ -2,16 +2,16 @@
 #include <cmath>
 
 //canvas
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/1D/Arrow.hpp"
-#include "inc/Objects/Image/Text.hpp"
+#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
+#include "Canvas/lib/inc/Objects/Image/Text.hpp"
 
 //examples
-#include "inc/examples.hpp"
-#include "inc/defs/Beam.hpp"
-#include "inc/defs/Support_1.hpp"
-#include "inc/defs/Support_2.hpp"
-#include "inc/defs/Support_3.hpp"
+#include "Canvas/test/inc/examples.hpp"
+#include "Canvas/test/inc/defs/Beam.hpp"
+#include "Canvas/test/inc/defs/Support_1.hpp"
+#include "Canvas/test/inc/defs/Support_2.hpp"
+#include "Canvas/test/inc/defs/Support_3.hpp"
 
 namespace examples
 {

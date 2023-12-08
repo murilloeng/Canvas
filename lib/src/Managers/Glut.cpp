@@ -2,13 +2,13 @@
 #include <chrono>
 
 //ext
-#include "ext/inc/GL/glew.h"
-#include "ext/inc/GL/freeglut.h"
+#include "Canvas/ext/inc/GL/glew.h"
+#include "Canvas/ext/inc/GL/freeglut.h"
 
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Managers/Glut.hpp"
-#include "inc/Objects/Geometry.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Managers/Glut.hpp"
+#include "Canvas/lib/inc/Objects/Geometry.hpp"
 
 //static data
 canvas::Glut* master;

@@ -14,16 +14,16 @@
 #include <filesystem>
 
 //ext
-#include "ext/inc/GL/glew.h"
-#include "ext/inc/stb_image_write.h"
+#include "Canvas/ext/inc/GL/glew.h"
+#include "Canvas/ext/inc/stb_image_write.h"
 
 //canvas
-#include "inc/GPU/Program.hpp"
-#include "inc/Scene/Scene.hpp"
-#include "inc/Scene/Camera.hpp"
-#include "inc/Vertices/Text.hpp"
-#include "inc/Vertices/Model.hpp"
-#include "inc/Vertices/Image.hpp"
+#include "Canvas/lib/inc/GPU/Program.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Scene/Camera.hpp"
+#include "Canvas/lib/inc/Vertices/Text.hpp"
+#include "Canvas/lib/inc/Vertices/Model.hpp"
+#include "Canvas/lib/inc/Vertices/Image.hpp"
 
 namespace canvas
 {

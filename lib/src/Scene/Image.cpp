@@ -2,10 +2,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 //ext
-#include "ext/inc/stb_image.h"
+#include "Canvas/ext/inc/stb_image.h"
 
 //canvas
-#include "inc/Scene/Image.hpp"
+#include "Canvas/lib/inc/Scene/Image.hpp"
 
 namespace canvas
 {

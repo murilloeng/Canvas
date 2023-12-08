@@ -1,9 +1,9 @@
 //ext
-#include "ext/inc/GL/glew.h"
+#include "Canvas/ext/inc/GL/glew.h"
 
 //canvas
-#include "inc/Scene/Light.hpp"
-#include "inc/GPU/Program.hpp"
+#include "Canvas/lib/inc/Scene/Light.hpp"
+#include "Canvas/lib/inc/GPU/Program.hpp"
 
 namespace canvas
 {

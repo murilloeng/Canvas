@@ -1,10 +1,10 @@
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/1D/Arrow.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+#include "Canvas/lib/inc/Objects/1D/Arrow.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/test/inc/examples.hpp"
 
 namespace examples
 {

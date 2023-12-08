@@ -1,7 +1,7 @@
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Math/quat.hpp"
-#include "inc/Objects/Object.hpp"
+#include "Canvas/lib/inc/Math/vec3.hpp"
+#include "Canvas/lib/inc/Math/quat.hpp"
+#include "Canvas/lib/inc/Objects/Object.hpp"
 
 namespace canvas
 {

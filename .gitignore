@@ -10,6 +10,10 @@
 !*.json
 !*Makefile
 !.gitignore
+!ext/dll/*.dll
+!ext/lib/*.lib
+!ext/lib/*.exp
+!ext/inc/**/*.h
 !test/data/images/*.png
 !test/data/tutorial/*/*.png
 !test/data/tutorial/*/*.gif

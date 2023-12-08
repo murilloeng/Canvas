@@ -5,9 +5,8 @@
 			"name": "Win32",
 			"includePath":
 			[
-				"${workspaceFolder}/lib",
-				"${workspaceFolder}/test",
-				"${workspaceFolder}/lib/ext/inc"
+				"${workspaceFolder}/..",
+				"${workspaceFolder}/ext/inc"
 			],
 			"defines":
 			[
@@ -22,8 +21,7 @@
 			"name": "Linux",
 			"includePath":
 			[
-				"${workspaceFolder}/lib",
-				"${workspaceFolder}/test",
+				"${workspaceFolder}/..",
 				"${workspaceFolder}/lib/ext/inc"
 			],
 			"cStandard": "c17",

@@ -1,6 +1,6 @@
 //canvas
-#include "inc/Vertices/Model.hpp"
-#include "inc/Objects/2D/Surface.hpp"
+#include "Canvas/lib/inc/Vertices/Model.hpp"
+#include "Canvas/lib/inc/Objects/2D/Surface.hpp"
 
 namespace canvas
 {

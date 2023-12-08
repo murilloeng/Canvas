@@ -1,7 +1,7 @@
 #pragma once
 
 //ext
-#include "ext/inc/freetype/freetype.h"
+#include "Canvas/ext/inc/freetype/freetype.h"
 
 namespace canvas
 {

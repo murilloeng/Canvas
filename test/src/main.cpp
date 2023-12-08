@@ -11,16 +11,16 @@
 #endif
 
 //ext
-#include "ext/inc/GL/glew.h"
-#include "ext/inc/GL/freeglut.h"
+#include "Canvas/ext/inc/GL/glew.h"
+#include "Canvas/ext/inc/GL/freeglut.h"
 
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Managers/Glut.hpp"
-#include "inc/Objects/Object.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Managers/Glut.hpp"
+#include "Canvas/lib/inc/Objects/Object.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/test/inc/examples.hpp"
 
 static float t = 0;
 static canvas::Glut* app;

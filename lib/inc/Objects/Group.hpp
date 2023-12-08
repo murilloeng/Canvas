@@ -4,7 +4,7 @@
 #include <vector>
 
 //canvas
-#include "inc/Objects/Geometry.hpp"
+#include "Canvas/lib/inc/Objects/Geometry.hpp"
 
 namespace canvas
 {

@@ -1,9 +1,9 @@
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/2D/Grid_3D.hpp"
+#include "Canvas/lib/inc/Scene/Scene.hpp"
+#include "Canvas/lib/inc/Objects/2D/Grid_3D.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/test/inc/examples.hpp"
 
 namespace examples
 {

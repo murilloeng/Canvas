@@ -1,9 +1,9 @@
 //canvas
-#include "inc/Scene/Font.hpp"
-#include "inc/Scene/Character.hpp"
+#include "Canvas/lib/inc/Scene/Font.hpp"
+#include "Canvas/lib/inc/Scene/Character.hpp"
 
 //ext
-#include "ext/inc/freetype/freetype.h"
+#include "Canvas/ext/inc/freetype/freetype.h"
 
 namespace canvas
 {

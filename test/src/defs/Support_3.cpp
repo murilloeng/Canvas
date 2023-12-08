@@ -1,8 +1,8 @@
 //canvas
-#include "inc/Objects/2D/Quad.hpp"
+#include "Canvas/lib/inc/Objects/2D/Quad.hpp"
 
 //examples
-#include "inc/defs/Support_3.hpp"
+#include "Canvas/test/inc/defs/Support_3.hpp"
 
 namespace examples
 {

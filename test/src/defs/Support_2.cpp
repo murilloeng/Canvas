@@ -2,11 +2,11 @@
 #include <cmath>
 
 //canvas
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/2D/Triangle.hpp"
+#include "Canvas/lib/inc/Objects/1D/Line.hpp"
+#include "Canvas/lib/inc/Objects/2D/Triangle.hpp"
 
 //examples
-#include "inc/defs/Support_2.hpp"
+#include "Canvas/test/inc/defs/Support_2.hpp"
 
 //static data
 static const unsigned nl = 5;

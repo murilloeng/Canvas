@@ -5,10 +5,10 @@
 #include <vector>
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Math/quat.hpp"
-#include "inc/Math/mat4.hpp"
-#include "inc/Scene/Click.hpp"
+#include "Canvas/lib/inc/Math/vec3.hpp"
+#include "Canvas/lib/inc/Math/quat.hpp"
+#include "Canvas/lib/inc/Math/mat4.hpp"
+#include "Canvas/lib/inc/Scene/Click.hpp"
 
 namespace canvas
 {
