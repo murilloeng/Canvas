@@ -28,7 +28,10 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_frame_rate(60), m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_frame_rate(60), 
+		m_vbo_size{0, 0, 0}, 
+		m_ibo_size{0, 0, 0, 0, 0, 0}, 
+		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr}, 
 		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();

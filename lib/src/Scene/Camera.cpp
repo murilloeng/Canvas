@@ -310,6 +310,13 @@ namespace canvas
 		const quat& qc = m_rotation;
 		const unsigned w = m_screen[0];
 		const unsigned h = m_screen[1];
+		//check
+		if(m_scene->m_objects.empty())
+		{
+			m_box_min[0] = m_box_min[1] = m_box_min[2] = -1;
+			m_box_max[0] = m_box_max[1] = m_box_max[2] = +1;
+			return;
+		}
 		//bound
 		m_box_min = {+a, +a, +a};
 		m_box_max = {-a, -a, -a};
