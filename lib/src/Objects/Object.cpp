@@ -19,7 +19,7 @@ namespace canvas
 			return;
 		}
 
-		//model matrix
+		//data
 		mat4 Object::model_matrix(void) const
 		{
 			return m_model_matrix;
@@ -32,7 +32,16 @@ namespace canvas
 		{
 			return m_model_matrix = left ? affine * m_model_matrix : m_model_matrix * affine;
 		}
+		const unsigned* Object::ibo_index(void) const
+		{
+			return m_ibo_index;
+		}
+		const unsigned* Object::vbo_index(void) const
+		{
+			return m_vbo_index;
+		}
 
+		//affine
 		void Object::scale(float s)
 		{
 			m_model_matrix = mat4::scaling(s) * m_model_matrix;

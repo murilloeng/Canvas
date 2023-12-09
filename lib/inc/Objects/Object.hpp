@@ -25,11 +25,14 @@ namespace canvas
 			//destructor
 			virtual ~Object(void);
 
-			//model matrix
+			//data
 			mat4 model_matrix(mat4);
 			mat4 model_matrix(void) const;
 			mat4 apply_matrix(mat4, bool = true);
+			const unsigned* ibo_index(void) const;
+			const unsigned* vbo_index(void) const;
 
+			//affine
 			void scale(float);
 			void scale(const vec3&, bool = true);
 			void shift(const vec3&, bool = true);
