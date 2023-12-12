@@ -338,6 +338,12 @@ namespace canvas
 				m_box_max[1] = fmaxf(m_box_max[1], m / h * xw[1]);
 			}
 		}
+		//check
+		if(m_box_min[0] == m_box_max[0] && m_box_min[1] == m_box_max[1] && m_box_min[2] == m_box_max[2])
+		{
+			m_box_min[0] -= 1; m_box_min[1] -= 1; m_box_min[2] -= 1;
+			m_box_max[0] += 1; m_box_max[1] += 1; m_box_max[2] += 1;
+		}
 	}
 	void Camera::update_view(void)
 	{
