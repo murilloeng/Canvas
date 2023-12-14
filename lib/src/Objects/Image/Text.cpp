@@ -224,8 +224,6 @@ namespace canvas
 				fprintf(stderr, "Error: Text's font has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
-			//indexes
-			Object::setup(vbo_counter, ibo_counter);
 			//lines
 			for(char c : m_text)
 			{
@@ -241,6 +239,8 @@ namespace canvas
 				}
 			}
 			m_lines.push_back(a), m_lines.push_back(b);
+			//indexes
+			Object::setup(vbo_counter, ibo_counter);
 		}
 		void Text::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
