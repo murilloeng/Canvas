@@ -78,18 +78,6 @@ namespace canvas
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
-	void Font::setup_ft(void)
-	{
-		if(FT_Init_FreeType(&m_library))
-		{
-			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Font::clean_ft(void)
-	{
-		FT_Done_FreeType(m_library);
-	}
 	void Font::setup(unsigned& w, unsigned& h)
 	{
 		//data
@@ -124,6 +112,18 @@ namespace canvas
 			w += m_chars[i].m_width;
 			h = std::max(h, m_chars[i].m_height);
 		}
+	}
+	void Font::setup_freetype(void)
+	{
+		if(FT_Init_FreeType(&m_library))
+		{
+			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
+			exit(EXIT_FAILURE);
+		}
+	}
+	void Font::clean_freetype(void)
+	{
+		FT_Done_FreeType(m_library);
 	}
 
 	//static

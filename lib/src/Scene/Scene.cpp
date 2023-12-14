@@ -38,7 +38,7 @@ namespace canvas
 		setup_buffers();
 		setup_shaders();
 		setup_textures();
-		Font::setup_ft();
+		Font::setup_freetype();
 		m_camera.m_scene = this;
 		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
@@ -49,7 +49,6 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
-		Font::clean_ft();
 		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
@@ -62,6 +61,8 @@ namespace canvas
 		glDeleteBuffers(6, m_ibo_id);
 		glDeleteTextures(3, m_texture_id);
 		glDeleteVertexArrays(3, m_vao_id);
+		//freetype
+		Font::clean_freetype();
 	}
 
 	//data

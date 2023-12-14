@@ -40,9 +40,9 @@ namespace canvas
 
 		//setup
 		void setup_texture(void);
-		static void setup_ft(void);
-		static void clean_ft(void);
 		void setup(unsigned&, unsigned&);
+		static void setup_freetype(void);
+		static void clean_freetype(void);
 
 	protected:
 		//data
