@@ -235,7 +235,7 @@ namespace canvas
 				}
 				else
 				{
-					Font* font = m_scene->font(m_font);
+					const Font* font = m_scene->font(m_font);
 					a = std::max(a, font->character(c).bearing(1));
 					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
 				}
