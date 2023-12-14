@@ -217,10 +217,8 @@ namespace canvas
 
 		void Text::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
-			//data
-			unsigned a = 0, b = 0;
-			Font* font = m_scene->font(m_font);
 			//check
+			unsigned a = 0, b = 0;
 			if(m_font >= m_scene->fonts().size())
 			{
 				fprintf(stderr, "Error: Text's font has out of range index!\n");
@@ -237,6 +235,7 @@ namespace canvas
 				}
 				else
 				{
+					Font* font = m_scene->font(m_font);
 					a = std::max(a, font->character(c).bearing(1));
 					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
 				}
