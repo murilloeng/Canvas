@@ -166,7 +166,7 @@ namespace canvas
 		}
 		else
 		{
-			master->m_scene->camera().callback_keyboard(key, x1, x2);
+			master->m_scene->camera().callback_keyboard(key);
 			master->m_scene->update(true);
 			glutPostRedisplay();
 		}

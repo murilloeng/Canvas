@@ -54,10 +54,10 @@ namespace canvas
 		void update_shaders(void);
 
 		//callbacks
+		void callback_keyboard(char);
 		void callback_motion(int, int);
 		void callback_reshape(int, int);
 		void callback_wheel(int, int, int);
-		void callback_keyboard(char, int, int);
 		void callback_mouse(button, bool, int, int);
 		void callback_special(key, unsigned, int, int);
 

@@ -181,6 +181,14 @@ namespace canvas
 	}
 
 	//callbacks
+	void Camera::callback_keyboard(char key)
+	{
+		if(key == 'p') screen_print();
+		else if(key == 'f') bound(), update_shaders();
+		else if(key == '-') callback_wheel(-1, m_screen[0] / 2, m_screen[1] / 2);
+		else if(key == '+') callback_wheel(+1, m_screen[0] / 2, m_screen[1] / 2);
+		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update_shaders();
+	}
 	void Camera::callback_motion(int x1, int x2)
 	{
 		//data
@@ -276,14 +284,6 @@ namespace canvas
 				update_shaders();
 			}
 		}
-	}
-	void Camera::callback_keyboard(char key, int x1, int x2)
-	{
-		if(key == 'p') screen_print();
-		else if(key == 'f') bound(), update_shaders();
-		else if(key == '-') callback_wheel(-1, m_screen[0] / 2, m_screen[1] / 2);
-		else if(key == '+') callback_wheel(+1, m_screen[0] / 2, m_screen[1] / 2);
-		else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update_shaders();
 	}
 	void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 	{
