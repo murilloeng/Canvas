@@ -153,14 +153,15 @@ namespace canvas
 		//bound
 		bound_box();
 		vec3 xm = (x1 + x2) / 2;
-		const vec3 xs = (x2 - x1) / 2;
-		//planes
-		m_planes[0] = 1;
-		m_planes[1] = 1 + 2 * xs.norm();
+		vec3 xs = (x2 - x1) / 2;
+		m_scale = fmaxf(xs[0], xs[1]);
 		//update
+		m_planes[0] = 1;
 		xm[0] *= w / fminf(w, h);
 		xm[1] *= h / fminf(w, h);
-		m_scale = fmaxf(xs[0], xs[1]);
+		xs[0] *= w / fminf(w, h);
+		xs[1] *= h / fminf(w, h);
+		m_planes[1] = 1 + 2 * xs.norm();
 		m_position = qc.rotate(xm - vec3(0, 0, m_planes[0] + xs.norm()));
 	}
 	void Camera::update_shaders(void)
