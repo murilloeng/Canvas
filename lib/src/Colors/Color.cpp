@@ -8,21 +8,22 @@
 
 //static
 static const char* colors_table[] = {
-	"red",		"#ff0000",
-	"blue",		"#0000ff",
-	"cyan",		"#00ffff",
-	"gray",		"#808080",
-	"pink",		"#FFC0CB",
-	"black",	"#000000",
-	"brown",	"#A52A2A",
-	"white",	"#ffffff",
-	"green",	"#00ff00",
-	"purple",	"#800080",
-	"orange",	"#FFA500",
-	"silver",	"#c0c0c0",
-	"violet",	"#EE82EE",
-	"yellow",	"#ffff00",
-	"magenta",	"#ff00ff"
+	"red",			"#ff0000",
+	"blue",			"#0000ff",
+	"cyan",			"#00ffff",
+	"gray",			"#808080",
+	"pink",			"#FFC0CB",
+	"black",		"#000000",
+	"brown",		"#A52A2A",
+	"white",		"#ffffff",
+	"green",		"#00ff00",
+	"purple",		"#800080",
+	"orange",		"#FFA500",
+	"silver",		"#c0c0c0",
+	"violet",		"#EE82EE",
+	"yellow",		"#ffff00",
+	"magenta",		"#ff00ff",
+	"dark green",	"#013220"
 };
 
 namespace canvas
