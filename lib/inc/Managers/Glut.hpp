@@ -21,11 +21,13 @@ namespace canvas
 
 		//data
 		Scene* scene(void) const;
+		void callback_idle(std::function<void(void)>);
 
 		//loop
 		void start(void);
 
 		//callbacks
+		static void callback_idle(void);
 		static void callback_display(void);
 		static void callback_motion(int, int);
 		static void callback_reshape(int, int);
@@ -37,5 +39,6 @@ namespace canvas
 	protected:
 		//data
 		Scene* m_scene;
+		std::function<void(void)> m_callback_idle;
 	};
 }

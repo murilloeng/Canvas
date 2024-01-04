@@ -36,6 +36,7 @@ namespace canvas
 		}
 		m_scene = new Scene(shaders_dir);
 		//callbacks
+		glutIdleFunc(callback_idle);
 		glutMouseFunc(callback_mouse);
 		glutMotionFunc(callback_motion);
 		glutDisplayFunc(callback_display);
@@ -56,6 +57,10 @@ namespace canvas
 	{
 		return m_scene;
 	}
+	void Glut::callback_idle(std::function<void(void)> callback_idle)
+	{
+		m_callback_idle = callback_idle;
+	}
 
 	//loop
 	void Glut::start(void)
@@ -64,6 +69,14 @@ namespace canvas
 	}
 
 	//callbacks
+	void Glut::callback_idle(void)
+	{
+		if(master->m_callback_idle)
+		{
+			master->m_callback_idle();
+		}
+		glutPostRedisplay();
+	}
 	void Glut::callback_display(void)
 	{
 		//draw
