@@ -82,7 +82,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Points</summary>
-	<img src="test/data/tutorial/0D/points.png" height="600"/>
+	<img src="tutorial/0D/points.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -111,7 +111,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Arcs</summary>
-	<img src="test/data/tutorial/1D/arcs.png" height="600"/>
+	<img src="tutorial/1D/arcs.png" height="600"/>
 
 	//std
 	#include <cmath>
@@ -148,7 +148,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Lines</summary>
-	<img src="test/data/tutorial/1D/lines.png" height="600"/>
+	<img src="tutorial/1D/lines.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -181,7 +181,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Arrows</summary>
-	<img src="test/data/tutorial/1D/arrows.png" height="600"/>
+	<img src="tutorial/1D/arrows.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -216,7 +216,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Curves</summary>
-	<img src="test/data/tutorial/1D/curves.png" height="600"/>
+	<img src="tutorial/1D/curves.png" height="600"/>
 
 	//std
 	#include <cmath>
@@ -256,7 +256,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Splines</summary>
-	<img src="test/data/tutorial/1D/splines.png" height="600"/>
+	<img src="tutorial/1D/splines.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -303,7 +303,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Polylines</summary>
-	<img src="test/data/tutorial/1D/polylines.png" height="600"/>
+	<img src="tutorial/1D/polylines.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -348,7 +348,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Quads</summary>
-	<img src="test/data/tutorial/2D/quads.png" height="600"/>
+	<img src="tutorial/2D/quads.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -378,7 +378,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Circles</summary>
-	<img src="test/data/tutorial/2D/circles.png" height="600"/>
+	<img src="tutorial/2D/circles.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -406,7 +406,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Grids 2D</summary>
-	<img src="test/data/tutorial/2D/grid_2D.png" height="600"/>
+	<img src="tutorial/2D/grid_2D.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -436,7 +436,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Grids 3D</summary>
-	<img src="test/data/tutorial/2D/grid_3D.png" height="600"/>
+	<img src="tutorial/2D/grid_3D.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -466,7 +466,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Surfaces</summary>
-	<img src="test/data/tutorial/2D/surfaces.png" height="600"/>
+	<img src="tutorial/2D/surfaces.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -498,7 +498,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Polygons</summary>
-	<img src="test/data/tutorial/2D/polygons.png" height="600"/>
+	<img src="tutorial/2D/polygons.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -542,7 +542,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Triangles</summary>
-	<img src="test/data/tutorial/2D/triangles.png" height="600"/>
+	<img src="tutorial/2D/triangles.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -574,7 +574,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Cubes</summary>
-	<img src="test/data/tutorial/3D/cubes.png" height="600"/>
+	<img src="tutorial/3D/cubes.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -604,7 +604,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Spheres</summary>
-	<img src="test/data/tutorial/3D/spheres.png" height="600"/>
+	<img src="tutorial/3D/spheres.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -634,7 +634,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Cylinders</summary>
-	<img src="test/data/tutorial/3D/cylinders.png" height="600"/>
+	<img src="tutorial/3D/cylinders.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -666,7 +666,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Text</summary>
-	<img src="test/data/tutorial/Images/text.png" height="600"/>
+	<img src="tutorial/Images/text.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -720,7 +720,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Latex</summary>
-	<img src="test/data/tutorial/Images/latex.png" height="600"/>
+	<img src="tutorial/Images/latex.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -755,7 +755,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Images</summary>
-	<img src="test/data/tutorial/Images/images.png" height="600"/>
+	<img src="tutorial/Images/images.png" height="600"/>
 
 	//canvas
 	#include "Canvas/lib/inc/Scene/Scene.hpp"
@@ -793,29 +793,29 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 
 <details>
 	<summary>Moving</summary>
-	<img src="test/data/tutorial/Light/light_1.gif" height="600"/>
+	<img src="tutorial/Light/light_1.gif" height="600"/>
 </details>
 
 <details>
 	<summary>Rotating</summary>
-	<img src="test/data/tutorial/Light/light_2.gif" height="600"/>
+	<img src="tutorial/Light/light_2.gif" height="600"/>
 </details>
 
 <details>
 	<summary>Diffuse</summary>
-	<img src="test/data/tutorial/Light/light_3.gif" height="600"/>
+	<img src="tutorial/Light/light_3.gif" height="600"/>
 </details>
 
 <details>
 	<summary>Specular</summary>
-	<img src="test/data/tutorial/Light/light_4.gif" height="600"/>
+	<img src="tutorial/Light/light_4.gif" height="600"/>
 </details>
 
 ### Extra
 
 <details>
 	<summary>Tensegrity chair</summary>
-	<img src="test/data/tutorial/Extra/tensegrity_chair.png" height="600"/>
+	<img src="tutorial/Extra/tensegrity_chair.png" height="600"/>
 
 	//std
 	#include <cmath>
