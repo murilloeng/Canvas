@@ -1,9 +1,9 @@
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/3D/Cube.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/3D/Cube.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 namespace examples
 {

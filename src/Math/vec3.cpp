@@ -5,9 +5,9 @@
 #include <cstring>
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Math/quat.hpp"
-#include "inc/Math/mat4.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Math/quat.hpp"
+#include "Canvas/inc/Math/mat4.hpp"
 
 namespace canvas
 {

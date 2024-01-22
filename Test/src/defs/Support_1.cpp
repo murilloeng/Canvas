@@ -2,11 +2,11 @@
 #include <cmath>
 
 //canvas
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/2D/Triangle.hpp"
+#include "Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/inc/Objects/2D/Triangle.hpp"
 
 //examples
-#include "inc/defs/Support_1.hpp"
+#include "Canvas/Test/inc/defs/Support_1.hpp"
 
 namespace examples
 {

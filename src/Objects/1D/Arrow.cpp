@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/1D/Arrow.hpp"
+#include "Canvas/inc/Objects/1D/Arrow.hpp"
 
 namespace canvas
 {

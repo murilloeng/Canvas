@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Objects/Geometry.hpp"
+#include "Canvas/inc/Objects/Geometry.hpp"
 
 namespace canvas
 {

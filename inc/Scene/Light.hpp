@@ -1,8 +1,8 @@
 #pragma once
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Colors/Color.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Colors/Color.hpp"
 
 namespace canvas
 {

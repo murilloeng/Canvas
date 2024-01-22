@@ -1,5 +1,5 @@
 //canvas
-#include "inc/Scene/Texture.hpp"
+#include "Canvas/inc/Scene/Texture.hpp"
 
 namespace canvas
 {

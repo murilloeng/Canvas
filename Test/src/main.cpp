@@ -2,9 +2,9 @@
 #include <cstdlib>
 
 //canvas
-#include "inc/examples.hpp"
-#include "inc/Managers/Glut.hpp"
-#include "inc/Objects/Object.hpp"
+#include "Canvas/Test/inc/examples.hpp"
+#include "Canvas/inc/Managers/Glut.hpp"
+#include "Canvas/inc/Objects/Object.hpp"
 
 //data
 static float t = 0;
@@ -19,14 +19,14 @@ static void callback_idle(void)
 	//objects
 	for(canvas::objects::Object* object : scene->objects())
 	{
-		object->rotate({ 0, float(M_PI) / fr, 0 }, false);
+		object->rotate({0, float(M_PI) / fr, 0}, false);
 	}
 	scene->update(true);
 	//light
 	if(index_light == 1)
 	{
 		t += 2 * float(M_PI) / fr;
-		scene->light().position({ 0, 0, sinf(t) + 1 });
+		scene->light().position({0, 0, sinf(t) + 1});
 		scene->light().update_shaders();
 	}
 	if(index_light == 2)

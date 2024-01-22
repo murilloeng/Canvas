@@ -2,7 +2,7 @@
 #include "stb_image.h"
 
 //canvas
-#include "inc/Scene/Latex.hpp"
+#include "Canvas/inc/Scene/Latex.hpp"
 
 //defines
 #ifndef _WIN32

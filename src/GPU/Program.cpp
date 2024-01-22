@@ -1,6 +1,6 @@
 //canvas
-#include "inc/GPU/Shader.hpp"
-#include "inc/GPU/Program.hpp"
+#include "Canvas/inc/GPU/Shader.hpp"
+#include "Canvas/inc/GPU/Program.hpp"
 
 namespace canvas
 {

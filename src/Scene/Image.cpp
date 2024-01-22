@@ -5,7 +5,7 @@
 #include "stb_image.h"
 
 //canvas
-#include "inc/Scene/Image.hpp"
+#include "Canvas/inc/Scene/Image.hpp"
 
 namespace canvas
 {

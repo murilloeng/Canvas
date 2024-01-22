@@ -1,9 +1,9 @@
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/0D/Point.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/0D/Point.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 namespace examples
 {

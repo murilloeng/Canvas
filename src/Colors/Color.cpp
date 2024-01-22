@@ -4,7 +4,7 @@
 #include <cstring>
 
 //canvas
-#include "inc/Colors/Color.hpp"
+#include "Canvas/inc/Colors/Color.hpp"
 
 //static
 static const char* colors_table[] = {

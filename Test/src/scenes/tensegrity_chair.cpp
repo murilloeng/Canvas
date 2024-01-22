@@ -2,14 +2,14 @@
 #include <cmath>
 
 //canvas
-#include "inc/Objects/1D/Line.hpp"
-#include "inc/Objects/3D/Cube.hpp"
-#include "inc/Objects/1D/Arrow.hpp"
-#include "inc/Objects/3D/Cylinder.hpp"
-#include "inc/Objects/Image/Latex.hpp"
+#include "Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/inc/Objects/3D/Cube.hpp"
+#include "Canvas/inc/Objects/1D/Arrow.hpp"
+#include "Canvas/inc/Objects/3D/Cylinder.hpp"
+#include "Canvas/inc/Objects/Image/Latex.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 //data
 static const unsigned nc = 3;

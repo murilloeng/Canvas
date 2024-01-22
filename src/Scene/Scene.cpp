@@ -8,21 +8,21 @@
 #include <cfloat>
 
 //ext
-#include "GL/glew.h"
+#include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "inc/GPU/Shader.hpp"
+#include "Canvas/inc/GPU/Shader.hpp"
 
-#include "inc/Scene/Font.hpp"
-#include "inc/Scene/Image.hpp"
-#include "inc/Scene/Scene.hpp"
-#include "inc/Scene/Latex.hpp"
+#include "Canvas/inc/Scene/Font.hpp"
+#include "Canvas/inc/Scene/Image.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Scene/Latex.hpp"
 
-#include "inc/Objects/Object.hpp"
+#include "Canvas/inc/Objects/Object.hpp"
 
-#include "inc/Vertices/Text.hpp"
-#include "inc/Vertices/Model.hpp"
-#include "inc/Vertices/Image.hpp"
+#include "Canvas/inc/Vertices/Text.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Image.hpp"
 
 namespace canvas
 {

@@ -1,9 +1,9 @@
 #pragma once
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Vertices/Model.hpp"
-#include "inc/Objects/Geometry.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Objects/Geometry.hpp"
 
 namespace canvas
 {

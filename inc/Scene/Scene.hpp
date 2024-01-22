@@ -5,10 +5,10 @@
 #include <vector>
 
 //canvas
-#include "inc/GPU/Program.hpp"
-#include "inc/Scene/Light.hpp"
-#include "inc/Scene/Camera.hpp"
-#include "inc/Colors/Color.hpp"
+#include "Canvas/inc/GPU/Program.hpp"
+#include "Canvas/inc/Scene/Light.hpp"
+#include "Canvas/inc/Scene/Camera.hpp"
+#include "Canvas/inc/Colors/Color.hpp"
 
 namespace canvas
 {

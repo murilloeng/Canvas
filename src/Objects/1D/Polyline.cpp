@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/1D/Polyline.hpp"
+#include "Canvas/inc/Objects/1D/Polyline.hpp"
 
 namespace canvas
 {

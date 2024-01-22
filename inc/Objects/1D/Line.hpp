@@ -1,8 +1,8 @@
 #pragma once
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Objects/1D/Path.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Objects/1D/Path.hpp"
 
 namespace canvas
 {

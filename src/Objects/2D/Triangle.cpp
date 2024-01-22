@@ -1,7 +1,7 @@
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/2D/Triangle.hpp"
+#include "Canvas/inc/Objects/2D/Triangle.hpp"
 
 namespace canvas
 {

@@ -1,7 +1,7 @@
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/3D/Cube.hpp"
+#include "Canvas/inc/Objects/3D/Cube.hpp"
 
 //static data
 static const float positions[] = {

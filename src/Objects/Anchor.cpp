@@ -2,7 +2,7 @@
 #include <cstring>
 
 //canvas
-#include "inc/Objects/Anchor.hpp"
+#include "Canvas/inc/Objects/Anchor.hpp"
 
 namespace canvas
 {

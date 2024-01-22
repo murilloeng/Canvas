@@ -1,10 +1,10 @@
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/2D/Quad.hpp"
-#include "inc/Objects/Image/Text.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/2D/Quad.hpp"
+#include "Canvas/inc/Objects/Image/Text.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 //static
 static const float x[] = {-1, -1, +1, -1, +1, +1, -1, +1};

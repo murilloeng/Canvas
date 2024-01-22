@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Objects/2D/Polygon.hpp"
+#include "Canvas/inc/Objects/2D/Polygon.hpp"
 
 namespace examples
 {

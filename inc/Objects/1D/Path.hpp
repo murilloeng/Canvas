@@ -4,8 +4,8 @@
 #include <vector>
 
 //canvas
-#include "inc/Math/vec3.hpp"
-#include "inc/Objects/Group.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Objects/Group.hpp"
 
 namespace canvas
 {

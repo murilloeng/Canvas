@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/2D/Grid_2D.hpp"
+#include "Canvas/inc/Objects/2D/Grid_2D.hpp"
 
 namespace canvas
 {

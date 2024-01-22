@@ -2,10 +2,10 @@
 #include <cstring>
 
 //canvas
-#include "inc/Objects/Group.hpp"
-#include "inc/Vertices/Text.hpp"
-#include "inc/Vertices/Model.hpp"
-#include "inc/Vertices/Image.hpp"
+#include "Canvas/inc/Objects/Group.hpp"
+#include "Canvas/inc/Vertices/Text.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Image.hpp"
 
 namespace canvas
 {

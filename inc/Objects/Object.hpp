@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "inc/Math/mat4.hpp"
+#include "Canvas/inc/Math/mat4.hpp"
 
 namespace canvas
 {

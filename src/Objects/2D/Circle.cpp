@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model.hpp"
 
-#include "inc/Objects/2D/Circle.hpp"
+#include "Canvas/inc/Objects/2D/Circle.hpp"
 
 namespace canvas
 {

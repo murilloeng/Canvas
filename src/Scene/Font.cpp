@@ -2,10 +2,10 @@
 #include <filesystem>
 
 //ext
-#include "GL/glew.h"
+#include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "inc/Scene/Font.hpp"
+#include "Canvas/inc/Scene/Font.hpp"
 
 //defines
 #ifdef _WIN32

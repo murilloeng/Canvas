@@ -5,7 +5,7 @@
 #include <cstring>
 
 //canvas
-#include "inc/Math/vec2.hpp"
+#include "Canvas/inc/Math/vec2.hpp"
 
 namespace canvas
 {

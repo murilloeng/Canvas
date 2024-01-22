@@ -2,12 +2,12 @@
 #include <cmath>
 
 //canvas
-#include "inc/Scene/Scene.hpp"
-#include "inc/Objects/1D/Curve.hpp"
-#include "inc/Objects/1D/Arrow.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/1D/Curve.hpp"
+#include "Canvas/inc/Objects/1D/Arrow.hpp"
 
 //examples
-#include "inc/examples.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 namespace examples
 {
