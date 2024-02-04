@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Objects/2D/Surface.hpp"

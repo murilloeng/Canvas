@@ -5,8 +5,7 @@
 			"name": "Win32",
 			"includePath":
 			[
-				"${workspaceFolder}/..",
-				"${workspaceFolder}/ext/inc"
+				"${workspaceFolder}/.."
 			],
 			"defines":
 			[
@@ -21,8 +20,7 @@
 			"name": "Linux",
 			"includePath":
 			[
-				"${workspaceFolder}/..",
-				"${workspaceFolder}/lib/ext/inc"
+				"${workspaceFolder}/.."
 			],
 			"cStandard": "c17",
 			"cppStandard": "c++17",
