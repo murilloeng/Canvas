@@ -41,7 +41,7 @@ static void callback_idle(void)
 int main(int argc, char** argv)
 {
 	//data
-	canvas::Glut app(argc, argv, "../shd/");
+	canvas::Glut app(argc, argv, "shd/");
 	//scene
 	scene = app.scene();
 	examples::objects::spheres(scene);
