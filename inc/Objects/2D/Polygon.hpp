@@ -6,6 +6,7 @@
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
 #include "Canvas/inc/Objects/Geometry.hpp"
+#include "Canvas/inc/Objects/Tesselator.hpp"
 
 namespace canvas
 {
@@ -32,28 +33,17 @@ namespace canvas
 			unsigned vbo_size(unsigned) const override;
 			unsigned ibo_size(unsigned) const override;
 
-			//topology
-			bool angle(unsigned, unsigned, unsigned) const;
-			bool inside(unsigned, unsigned, unsigned, unsigned) const;
-
 			//draw
 			void ibo_fill_data(unsigned**) const;
 			void ibo_stroke_data(unsigned**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
 
-			void setup_link(void);
-			void setup_list(void);
-			void setup_triangles(void);
 			void setup(unsigned[], unsigned[]) override;
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
-			std::vector<vec2> m_points;
-			std::vector<unsigned> m_list;
-			std::vector<unsigned> m_loops;
-			std::vector<unsigned> m_links[2];
-			std::vector<unsigned> m_triangles;
+			Tesselator m_tesselator;
 		};
 	}
 }

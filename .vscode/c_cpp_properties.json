@@ -20,10 +20,9 @@
 			"name": "Linux",
 			"includePath":
 			[
-				"${workspaceFolder}/.."
+				"${workspaceFolder}/..",
+				"${workspaceFolder}/../external/cpp/inc"
 			],
-			"cStandard": "c17",
-			"cppStandard": "c++17",
 			"intelliSenseMode": "linux-gcc-x64"
 		}
 	],

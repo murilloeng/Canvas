@@ -97,7 +97,7 @@ namespace examples
 			text_4->position({4.50f, 0.60f, 0.00f});
 			text_4->color_fill({1.00f, 0.00f, 0.00f});
 			//fonts
-			scene->add_font("Times");
+			scene->add_font("times");
 			//scene
 			scene->add_object(beam);
 			scene->add_object(text_1);

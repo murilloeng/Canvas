@@ -9,10 +9,12 @@ namespace examples
 	//constructors
 	Beam::Beam(float length, float height) : m_length(length), m_height(height)
 	{
-		m_points.resize(2 * m_na + 2);
-		m_loops.push_back(2 * m_na + 2);
+		//color
 		m_color_fill = canvas::Color(0, 0, 1);
 		m_color_stroke = canvas::Color(0, 0, 0);
+		//points
+		m_tesselator.points().resize(2 * m_na);
+		m_tesselator.loops().push_back(2 * m_na);
 	}
 
 	//destructor
@@ -43,20 +45,24 @@ namespace examples
 	//setup
 	void Beam::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 	{
-		const float a = float(M_PI_2);
-		for(unsigned i = 0; i <= m_na; i++)
+		//data
+		const float L = m_length;
+		const float H = m_height;
+		//points
+		for(unsigned i = 0; i < m_na; i++)
 		{
-			const float t = a * i / m_na  + a;
-			m_points[i] = {m_height / 2 * cosf(t), m_height / 2 * sinf(t)};
+			const float t = M_PI * i / (m_na - 1);
+			m_tesselator.point(i) = {-H / 2 * sinf(t), H / 2 * cosf(t)};
 		}
-		for(unsigned i = 0; i <= m_na; i++)
+		for(unsigned i = 0; i < m_na; i++)
 		{
-			const float t = a * i / m_na  - a;
-			m_points[i + m_na + 1] = {m_length + m_height / 2 * cosf(t), m_height / 2 * sinf(t)};
+			const float t = M_PI * i / (m_na - 1);
+			m_tesselator.point(i + m_na) = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
 		}
+		//polygon
 		Polygon::setup(vbo_counter, ibo_counter);
 	}
 
 	//static
-	unsigned Beam::m_na = 40;
+	unsigned Beam::m_na = 20;
 }
