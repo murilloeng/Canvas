@@ -412,6 +412,11 @@ namespace canvas
 			//planes
 			m_plane_far = e - z1;
 			m_plane_near = e - z2;
+			if(fabsf(z2 - z1) < 1e-5 * e)
+			{
+				m_plane_far += 1;
+				m_plane_near -= 1;
+			}
 			//position
 			m_position = qc.rotate(xr + vec3(0, 0, e));
 		}
