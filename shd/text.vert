@@ -1,6 +1,7 @@
 #version 460 core
 
-uniform mat4 camera_matrix;
+uniform mat4 view;
+uniform mat4 projection;
 
 out vec4 vertex_color;
 out vec2 vertex_texture_coordinates;
@@ -13,5 +14,5 @@ void main(void)
 {
 	vertex_color = color;
 	vertex_texture_coordinates = texture_coordinates;
-	gl_Position = camera_matrix * vec4(position, 1);
+	gl_Position = projection * view * vec4(position, 1);
 }

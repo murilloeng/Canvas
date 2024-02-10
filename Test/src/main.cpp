@@ -3,8 +3,8 @@
 #include <cstdlib>
 
 //canvas
+#include "Canvas/inc/Windows/Glut.hpp"
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/inc/Managers/Glut.hpp"
 #include "Canvas/inc/Objects/Object.hpp"
 
 //data
@@ -41,11 +41,14 @@ static void callback_idle(void)
 int main(int argc, char** argv)
 {
 	//data
-	canvas::Glut app(argc, argv, "shd/");
+	canvas::windows::Glut app(argc, argv, "shd/");
 	//scene
 	scene = app.scene();
-	examples::objects::text(scene);
+	examples::objects::cubes(scene);
 	scene->update(true);
+	scene->camera().bound();
+	scene->camera().apply();
+	scene->camera().update();
 	//callbacks
 	app.callback_idle(callback_idle);
 	//start

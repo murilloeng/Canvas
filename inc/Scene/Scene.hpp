@@ -46,8 +46,8 @@ namespace canvas
 		Light& light(void);
 		const Light& light(void) const;
 
-		Camera& camera(void);
-		const Camera& camera(void) const;
+		camera::Camera& camera(void);
+		const camera::Camera& camera(void) const;
 
 		void clear_fonts(void);
 		void add_font(const char*);
@@ -103,7 +103,7 @@ namespace canvas
 
 		//data
 		Light m_light;
-		Camera m_camera;
+		camera::Camera m_camera;
 
 		float m_frame_rate;
 		unsigned m_vao_id[3];
@@ -125,6 +125,6 @@ namespace canvas
 		std::vector<objects::Object*> m_objects;
 
 		//friends
-		friend class Camera;
+		friend class camera::Camera;
 	};
 }

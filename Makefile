@@ -1,6 +1,6 @@
 #compiler
 CXX = g++
-WARS = -Wall -Werror
+WARS = -Wall
 INCS = -I .. -I ../external/cpp/inc
 CXXFLAGS = -std=c++20 -fPIC -pipe -fopenmp -MT $@ -MMD -MP -MF $(subst .o,.d, $@) $(DEFS) $(INCS) $(WARS)
 
@@ -34,6 +34,9 @@ all : exe
 
 run : exe
 	./$(out_exe)
+
+debug : exe
+	gdb ./$(out_exe)
 
 lib : $(out_lib)
 	@echo 'library build - $(mode): complete!'

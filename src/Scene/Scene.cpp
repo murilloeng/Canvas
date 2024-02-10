@@ -93,11 +93,11 @@ namespace canvas
 		return m_light;
 	}
 
-	Camera& Scene::camera(void)
+	camera::Camera& Scene::camera(void)
 	{
 		return m_camera;
 	}
-	const Camera& Scene::camera(void) const
+	const camera::Camera& Scene::camera(void) const
 	{
 		return m_camera;
 	}

@@ -37,6 +37,16 @@ namespace canvas
 	}
 
 	//linear
+	void mat4::clear(void)
+	{
+		for(unsigned i = 0; i < 4; i++)
+		{
+			for(unsigned j = 0; j < 4; j++)
+			{
+				m_data[4 * i + j] = i == j;
+			}
+		}
+	}
 	float mat4::norm(void) const
 	{
 		float v = 0;
