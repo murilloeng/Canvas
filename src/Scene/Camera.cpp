@@ -349,13 +349,13 @@ namespace canvas
 		{
 			//data
 			vec3 xw;
-			const float a = FLT_MAX;
+			const float q = FLT_MAX;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
 			const quat& qc = m_rotation;
 			const vec3 xr = bound_center();
-			float v1 = 0, v2 = 0, z1 = +a, z2 = -a;
+			float v1 = 0, v2 = 0, z1 = +q, z2 = -q;
 			//bound
 			for(unsigned i = 0; i < 3; i++)
 			{
@@ -383,7 +383,37 @@ namespace canvas
 		}
 		void Camera::bound_perspective(void)
 		{
-
+			//data
+			vec3 xw;
+			const float a = m_fov;
+			const float q = FLT_MAX;
+			const float w = m_width;
+			const float h = m_height;
+			const float m = fminf(w, h);
+			const quat& qc = m_rotation;
+			const vec3 xr = bound_center();
+			//offset
+			float e = 0, z1 = +q, z2 = -q;
+			for(unsigned i = 0; i < 3; i++)
+			{
+				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				{
+					//position
+					if(i == 2) xw = qc.conjugate(((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position);
+					if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
+					if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
+					//bound
+					z1 = fminf(z1, xw[2] - xr[2]);
+					z2 = fmaxf(z2, xw[2] - xr[2]);
+					e = fmaxf(e, xw[2] - xr[2] + m / w * fabsf(xw[0] - xr[0]) / tanf(a / 2));
+					e = fmaxf(e, xw[2] - xr[2] + m / h * fabsf(xw[1] - xr[1]) / tanf(a / 2));
+				}
+			}
+			//planes
+			m_plane_far = e - z1;
+			m_plane_near = e - z2;
+			//position
+			m_position = qc.rotate(xr + vec3(0, 0, e));
 		}
 		vec3 Camera::bound_center(void) const
 		{

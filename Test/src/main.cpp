@@ -44,8 +44,9 @@ int main(int argc, char** argv)
 	canvas::windows::Glut app(argc, argv, "shd/");
 	//scene
 	scene = app.scene();
-	examples::objects::cubes(scene);
+	examples::objects::text(scene);
 	scene->update(true);
+	scene->camera().type(canvas::camera::type::perspective);
 	scene->camera().bound();
 	scene->camera().apply();
 	scene->camera().update();
