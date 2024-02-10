@@ -372,9 +372,9 @@ namespace canvas
 					v2 = fmaxf(v2, fabsf(xw[1] - xr[1]));
 				}
 			}
+			if(!v1 && !v2 && !z1 && !z2) z2 = 1.0f;
 			//planes
-			m_plane_far = 1.0f;
-			m_plane_near = 1.0f;
+			m_plane_far = m_plane_near = 1.0f;
 			m_plane_far = fmaxf(m_plane_far, m_plane_near + z2 - z1);
 			m_plane_far = fmaxf(m_plane_far, m_plane_near + 2 * m / w * v1);
 			m_plane_far = fmaxf(m_plane_far, m_plane_near + 2 * m / h * v2);
@@ -410,13 +410,9 @@ namespace canvas
 				}
 			}
 			//planes
-			m_plane_far = e - z1;
-			m_plane_near = e - z2;
-			if(fabsf(z2 - z1) < 1e-5 * e)
-			{
-				m_plane_far += 1;
-				m_plane_near -= 1;
-			}
+			e = fmaxf(e, e == 0);
+			m_plane_far = 1.05 * e - z1;
+			m_plane_near = 0.95 * e - z2;
 			//position
 			m_position = qc.rotate(xr + vec3(0, 0, e));
 		}
