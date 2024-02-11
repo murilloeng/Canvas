@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 	scene->camera().apply();
 	scene->camera().update();
 	//callbacks
-	app.callback_idle(callback_idle);
+	// app.callback_idle(callback_idle);
 	//start
 	app.start();
 	//return

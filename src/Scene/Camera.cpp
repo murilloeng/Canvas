@@ -242,25 +242,23 @@ namespace canvas
 			const float m = fminf(w, h);
 			const float z2 = m_plane_far;
 			const float z1 = m_plane_near;
+			const float t = tanf(m_fov / 2);
 			const float s1 = 2 * x1 / w - 1;
 			const float s2 = 1 - 2 * x2 / h;
 			const float s = direction < 0 ? q : 1 / q;
 			//orthogonal
 			if(m_type == type::orthogonal)
 			{
-				//data
-				const float zs = z2 - z1;
-				//update plane
-				m_plane_far = z1 + s * zs;
+				//update fov
+				m_fov = 2 * atanf(s * t);
 				//update position
-				const float sn = (1 - s) * zs / m / 2;
-				m_position += m_rotation.rotate({sn * w * s1, sn * h * s2, (1 - s) * z2 / 2});
+				const float tn = tanf(m_fov / 2);
+				m_position += m_rotation.rotate({(t - tn) * w / m * s1, (t - tn) * h / m * s2, 0});
 			}
 			//perspective
 			if(m_type == type::perspective)
 			{
 				//data
-				const float t = tanf(m_fov / 2);
 				const float a = (z1 + z2) / (z2 - z1);
 				const float b = -2 * z1 * z2 / (z2 - z1);
 				//update fov
@@ -337,6 +335,7 @@ namespace canvas
 		void Camera::apply_orthogonal(void)
 		{
 			//data
+			const float a = m_fov;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
@@ -345,8 +344,8 @@ namespace canvas
 			//projection
 			m_projection.clear();
 			m_projection(2, 2) = -2 / (z2 - z1);
-			m_projection(0, 0) = +2 * m / w / (z2 - z1);
-			m_projection(1, 1) = +2 * m / h / (z2 - z1);
+			m_projection(0, 0) = +m / w / tanf(a / 2);
+			m_projection(1, 1) = +m / h / tanf(a / 2);
 			m_projection(2, 3) = -(z1 + z2) / (z2 - z1);
 		}
 		void Camera::apply_perspective(void)
@@ -372,15 +371,17 @@ namespace canvas
 		void Camera::bound_orthogonal(void)
 		{
 			//data
-			vec3 xw;
-			const float q = FLT_MAX;
+			float sr;
+			vec3 xw, xr;
+			bound_center(xr, sr);
+			const float a = FLT_MAX;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
 			const quat& qc = m_rotation;
-			const vec3 xr = bound_center();
-			float v1 = 0, v2 = 0, z1 = +q, z2 = -q;
+			float v3_min = +a, v3_max = -a;
 			//bound
+			m_fov = 0;
 			for(unsigned i = 0; i < 3; i++)
 			{
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
@@ -390,32 +391,31 @@ namespace canvas
 					if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
 					if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
 					//bound
-					z1 = fminf(z1, xw[2] - xr[2]);
-					z2 = fmaxf(z2, xw[2] - xr[2]);
-					v1 = fmaxf(v1, fabsf(xw[0] - xr[0]));
-					v2 = fmaxf(v2, fabsf(xw[1] - xr[1]));
+					v3_min = fminf(v3_min, xw[2] - xr[2]);
+					v3_max = fmaxf(v3_max, xw[2] - xr[2]);
+					m_fov = fmaxf(m_fov, 2 * atanf(m / w * fabsf(xw[0] - xr[0])));
+					m_fov = fmaxf(m_fov, 2 * atanf(m / h * fabsf(xw[1] - xr[1])));
 				}
 			}
-			if(!v1 && !v2 && !z1 && !z2) z2 = 1.0f;
-			//planes
-			m_plane_far = m_plane_near = 1.0f;
-			m_plane_far = fmaxf(m_plane_far, m_plane_near + z2 - z1);
-			m_plane_far = fmaxf(m_plane_far, m_plane_near + 2 * m / w * v1);
-			m_plane_far = fmaxf(m_plane_far, m_plane_near + 2 * m / h * v2);
-			//position
-			m_position = qc.rotate(xr + vec3(0, 0, (m_plane_far + m_plane_near + z1 + z2) / 2));
+			if(m_fov == 0) m_fov = M_PI_4;
+			if(v3_min && !v3_max) v3_max = 1.0f;
+			//update
+			m_plane_near = 1.0f;
+			m_plane_far = 1.0f + sr;
+			m_position = qc.rotate(xr + vec3(0, 0, 1.0f + (sr + v3_min + v3_max) / 2));
 		}
 		void Camera::bound_perspective(void)
 		{
 			//data
-			vec3 xw;
+			float sr;
+			vec3 xw, xr;
+			bound_center(xr, sr);
 			const float a = m_fov;
 			const float q = FLT_MAX;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
 			const quat& qc = m_rotation;
-			const vec3 xr = bound_center();
 			//offset
 			float e = 0, z1 = +q, z2 = -q;
 			for(unsigned i = 0; i < 3; i++)
@@ -440,13 +440,17 @@ namespace canvas
 			//position
 			m_position = qc.rotate(xr + vec3(0, 0, e));
 		}
-		vec3 Camera::bound_center(void) const
+		void Camera::bound_center(vec3& xr, float& sr) const
 		{
 			//data
 			const float a = FLT_MAX;
 			const quat& qc = m_rotation;
 			//check
-			if(m_scene->m_objects.empty()) return vec3(0, 0, 0);
+			if(m_scene->m_objects.empty())
+			{
+				sr = 1.0f;
+				xr = {0.0f, 0.0f, 0.0f};
+			}
 			//bound
 			vec3 xw;
 			vec3 x_min = {+a, +a, +a};
@@ -469,7 +473,8 @@ namespace canvas
 				}
 			}
 			//return
-			return (x_min + x_max) / 2;
+			xr = (x_min + x_max) / 2;
+			sr = (x_max - x_min).norm();
 		}
 	}
 }
