@@ -195,7 +195,6 @@ namespace canvas
 			else
 			{
 				master->m_scene->camera().callback_keyboard(key);
-				master->m_scene->update(true);
 				glutPostRedisplay();
 			}
 		}

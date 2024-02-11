@@ -185,11 +185,11 @@ namespace canvas
 		//callbacks
 		void Camera::callback_keyboard(char key)
 		{
-			// if(key == 'p') screen_print();
-			// else if(key == 'f') bound(), update_shaders();
-			// else if(key == '-') callback_wheel(-1, m_screen[0] / 2, m_screen[1] / 2);
-			// else if(key == '+') callback_wheel(+1, m_screen[0] / 2, m_screen[1] / 2);
-			// else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update_shaders();
+			if(key == 'p') screen_print();
+			else if(key == 'f') bound(), apply(), update();
+			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
+			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
+			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
 		}
 		void Camera::callback_motion(int x1, int x2)
 		{

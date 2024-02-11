@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 	scene = app.scene();
 	examples::objects::spheres(scene);
 	scene->update(true);
-	scene->camera().type(canvas::camera::type::orthogonal);
+	scene->camera().type(canvas::camera::type::perspective);
 	scene->camera().bound();
 	scene->camera().apply();
 	scene->camera().update();
