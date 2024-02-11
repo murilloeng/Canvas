@@ -235,20 +235,44 @@ namespace canvas
 		}
 		void Camera::callback_wheel(int direction, int x1, int x2)
 		{
-			// //data
-			// const float ds = 1.05f;
-			// const float s = m_scale;
-			// const quat& qc = m_rotation;
-			// const float w = (float) m_screen[0];
-			// const float h = (float) m_screen[1];
-			// const float s1 = 2 * float(x1) / w - 1;
-			// const float s2 = 1 - 2 * float(x2) / h;
-			// //update
-			// const float m = fminf(w, h);
-			// m_scale = direction > 0 ? s / ds : s * ds;
-			// m_position -= (m_scale - s) * qc.rotate({w / m * s1, h / m * s2, 0});
-			// //shaders
-			// update_shaders();
+			//data
+			const float q = 1.05;
+			const float w = m_width;
+			const float h = m_height;
+			const float m = fminf(w, h);
+			const float z2 = m_plane_far;
+			const float z1 = m_plane_near;
+			const float s1 = 2 * x1 / w - 1;
+			const float s2 = 1 - 2 * x2 / h;
+			const float s = direction < 0 ? q : 1 / q;
+			//orthogonal
+			if(m_type == type::orthogonal)
+			{
+				//data
+				const float zs = z2 - z1;
+				//update plane
+				m_plane_far = z1 + s * zs;
+				//update position
+				const float sn = (1 - s) * zs / m / 2;
+				m_position += m_rotation.rotate({sn * w * s1, sn * h * s2, (1 - s) * z2 / 2});
+			}
+			//perspective
+			if(m_type == type::perspective)
+			{
+				//data
+				const float t = tanf(m_fov / 2);
+				const float a = (z1 + z2) / (z2 - z1);
+				const float b = -2 * z1 * z2 / (z2 - z1);
+				//update fov
+				m_fov = M_PI * s * m_fov / (M_PI + (s - 1) * m_fov);
+				//update position
+				const float tn = tan(m_fov / 2);
+				const float sn = b / a / m * (tn - t);
+				m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
+			}
+			//apply
+			apply();
+			update();
 		}
 		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 		{
