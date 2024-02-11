@@ -193,34 +193,44 @@ namespace canvas
 		}
 		void Camera::callback_motion(int x1, int x2)
 		{
-			// //data
-			// const float s = m_scale;
-			// const float z1 = m_planes[0];
-			// const float z2 = m_planes[1];
-			// const int a1 = m_click.screen(0);
-			// const int a2 = m_click.screen(1);
-			// const vec3 xc = m_click.position();
-			// const quat qc = m_click.rotation();
-			// const float w = (float) m_screen[0];
-			// const float h = (float) m_screen[1];
-			// //arcball
-			// const float m = fminf(w, h);
-			// const vec3 v1 = Click::arcball((2 * a1 - w) / m, (h - 2 * a2) / m);
-			// const vec3 v2 = Click::arcball((2 * x1 - w) / m, (h - 2 * x2) / m);
-			// //shift
-			// if(m_click.button() == button::middle)
-			// {
-			// 	const float b1 = 2 * s * (x1 - a1) / m;
-			// 	const float b2 = 2 * s * (a2 - x2) / m;
-			// 	m_position = m_click.position() - m_rotation.rotate({b1, b2, 0});
-			// }
-			// //rotation
-			// if(m_click.button() == button::left)
-			// {
-			// 	m_rotation = qc * Click::arcball(v1, v2);
-			// 	m_position = xc + (z1 + z2) / 2 * (qc.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
-			// }
-			// if(m_click.button() != button::none) update_shaders();
+			//data
+			const float a = m_fov;
+			const float w = m_width;
+			const float h = m_height;
+			const float z2 = m_plane_far;
+			const float z1 = m_plane_near;
+			const int a1 = m_click.screen(0);
+			const int a2 = m_click.screen(1);
+			const vec3 xc = m_click.position();
+			const quat qc = m_click.rotation();
+			//arcball
+			const float m = fminf(w, h);
+			const vec3 v1 = Click::arcball((2 * a1 - w) / m, (h - 2 * a2) / m);
+			const vec3 v2 = Click::arcball((2 * x1 - w) / m, (h - 2 * x2) / m);
+			//shift
+			if(m_click.button() == button::middle)
+			{
+				if(m_type == type::orthogonal)
+				{
+					const float b1 = 2 * tanf(a / 2) / m * (a1 - x1);
+					const float b2 = 2 * tanf(a / 2) / m * (x2 - a2);
+					m_position = m_click.position() + m_rotation.rotate({b1, b2, 0});
+				}
+				if(m_type == type::perspective)
+				{
+					const float v3 = -2 * z1 * z2 / (z1 + z2);
+					const float b1 = -2 * tanf(a / 2) * v3 / m * (a1 - x1);
+					const float b2 = -2 * tanf(a / 2) * v3 / m * (x2 - a2);
+					m_position = m_click.position() + m_rotation.rotate({b1, b2, 0});
+				}
+			}
+			//rotation
+			if(m_click.button() == button::left)
+			{
+				// m_rotation = qc * Click::arcball(v1, v2);
+				// m_position = xc + (z1 + z2) / 2 * (qc.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
+			}
+			if(m_click.button() != button::none) apply(), update();
 		}
 		void Camera::callback_reshape(int width, int height)
 		{
@@ -275,15 +285,15 @@ namespace canvas
 		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 		{
 			// //data
+			// const float a = m_fov;
 			// const float ds = 0.05f;
-			// const float s = m_scale;
 			// const quat qn = m_rotation;
 			// const quat& qc = m_rotation;
-			// const float z1 = m_planes[0];
-			// const float z2 = m_planes[1];
+			// const float w = m_width;
+			// const float h = m_height;
+			// const float z2 = m_plane_far;
+			// const float z1 = m_plane_near;
 			// const float dt = float(M_PI) / 12;
-			// const float w = (float) m_screen[0];
-			// const float h = (float) m_screen[1];
 			// const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
 			// const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
 			// const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
@@ -307,7 +317,8 @@ namespace canvas
 			// 			m_rotation = m_rotation * rotation[i].quaternion().conjugate();
 			// 			m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 			// 		}
-			// 		update_shaders();
+			// 		apply();
+			// 		update();
 			// 	}
 			// }
 		}
