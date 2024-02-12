@@ -486,6 +486,7 @@ namespace canvas
 			//return
 			xr = (x_min + x_max) / 2;
 			sr = (x_max - x_min).norm();
+			sr = sr == 0 ? 1 : sr;
 		}
 	}
 }
