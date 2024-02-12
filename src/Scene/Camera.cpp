@@ -461,6 +461,7 @@ namespace canvas
 			{
 				sr = 1.0f;
 				xr = {0.0f, 0.0f, 0.0f};
+				return;
 			}
 			//bound
 			vec3 xw;

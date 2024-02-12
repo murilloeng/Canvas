@@ -40,6 +40,34 @@ namespace canvas
 		return m_data;
 	}
 
+	//linear
+	void quat::normalize(void)
+	{
+		//data
+		const float s = norm();
+		//update
+		if(s == 0)
+		{
+			*this = quat();
+		}
+		else
+		{
+			for(unsigned i = 0; i < 4; i++)
+			{
+				m_data[i] /= s;
+			}
+		}
+	}
+	float quat::norm(void) const
+	{
+		float s = 0;
+		for(unsigned i = 0; i < 4; i++)
+		{
+			s += m_data[i] * m_data[i];
+		}
+		return sqrtf(s);
+	}
+
 	//print
 	void quat::print(const char* label) const
 	{
