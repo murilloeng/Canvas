@@ -246,7 +246,7 @@ namespace canvas
 		void Camera::callback_wheel(int direction, int x1, int x2)
 		{
 			//data
-			const float q = 1.05;
+			const float q = 1.05f;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
@@ -446,8 +446,8 @@ namespace canvas
 			}
 			//planes
 			e = fmaxf(e, e == 0);
-			m_plane_far = 1.05 * e - z1;
-			m_plane_near = 0.95 * e - z2;
+			m_plane_far = 1.05f * e - z1;
+			m_plane_near = 0.95f * e - z2;
 			//position
 			m_position = qc.rotate(xr + vec3(0, 0, e));
 		}
