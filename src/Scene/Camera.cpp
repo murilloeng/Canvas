@@ -189,6 +189,7 @@ namespace canvas
 			else if(key == 'f') bound(), apply(), update();
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
+			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(),apply(), update();
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
 		}
 		void Camera::callback_motion(int x1, int x2)
@@ -227,8 +228,8 @@ namespace canvas
 			//rotation
 			if(m_click.button() == button::left)
 			{
-				// m_rotation = qc * Click::arcball(v1, v2);
-				// m_position = xc + (z1 + z2) / 2 * (qc.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
+				m_rotation = qc * Click::arcball(v1, v2).conjugate();
+				m_position = xc + (z1 + z2) / 2 * (qc.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
 			}
 			if(m_click.button() != button::none) apply(), update();
 		}
@@ -284,43 +285,42 @@ namespace canvas
 		}
 		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 		{
-			// //data
-			// const float a = m_fov;
-			// const float ds = 0.05f;
-			// const quat qn = m_rotation;
-			// const quat& qc = m_rotation;
-			// const float w = m_width;
-			// const float h = m_height;
-			// const float z2 = m_plane_far;
-			// const float z1 = m_plane_near;
-			// const float dt = float(M_PI) / 12;
-			// const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
-			// const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
-			// const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
-			// //affine
-			// for(unsigned i = 0; i < 4; i++)
-			// {
-			// 	if(key == keys[i])
-			// 	{
-			// 		if(modifiers & 1 << unsigned(modifier::alt))
-			// 		{
-			// 			const float m = fminf(w, h);
-			// 			m_position -= qc.rotate(s * mat4::scaling({w / m, h / m, 1}) * shift[i]);
-			// 		}
-			// 		else if(modifiers & 1 << unsigned(modifier::ctrl))
-			// 		{
-			// 			m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
-			// 			m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
-			// 		}
-			// 		else if(modifiers & 1 << unsigned(modifier::shift))
-			// 		{
-			// 			m_rotation = m_rotation * rotation[i].quaternion().conjugate();
-			// 			m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
-			// 		}
-			// 		apply();
-			// 		update();
-			// 	}
-			// }
+			//data
+			const float ds = 0.05f;
+			const quat qn = m_rotation;
+			const quat& qc = m_rotation;
+			const float w = m_width;
+			const float h = m_height;
+			const float z2 = m_plane_far;
+			const float z1 = m_plane_near;
+			const float dt = float(M_PI) / 12;
+			const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
+			const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
+			const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
+			//affine
+			for(unsigned i = 0; i < 4; i++)
+			{
+				if(key == keys[i])
+				{
+					if(modifiers & 1 << unsigned(modifier::alt))
+					{
+						const float m = fminf(w, h);
+						m_position -= qc.rotate(1.05 * mat4::scaling({w / m, h / m, 1}) * shift[i]);
+					}
+					else if(modifiers & 1 << unsigned(modifier::ctrl))
+					{
+						m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
+						m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
+					}
+					else if(modifiers & 1 << unsigned(modifier::shift))
+					{
+						m_rotation = m_rotation * rotation[i].quaternion().conjugate();
+						m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
+					}
+					apply();
+					update();
+				}
+			}
 		}
 		void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
 		{
@@ -382,38 +382,31 @@ namespace canvas
 		void Camera::bound_orthogonal(void)
 		{
 			//data
-			float sr;
-			vec3 xw, xr;
-			bound_center(xr, sr);
-			const float a = FLT_MAX;
+			vec3 xw, x_min, x_max;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
 			const quat& qc = m_rotation;
-			float v3_min = +a, v3_max = -a;
 			//bound
-			m_fov = 0;
-			for(unsigned i = 0; i < 3; i++)
+			bound_center(x_min, x_max);
+			const float s = (x_max - x_min).norm();
+			if(x_min[0] == x_max[0] && x_min[1] == x_max[1])
 			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
-				{
-					//position
-					if(i == 2) xw = qc.conjugate(((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
-					//bound
-					v3_min = fminf(v3_min, xw[2] - xr[2]);
-					v3_max = fmaxf(v3_max, xw[2] - xr[2]);
-					m_fov = fmaxf(m_fov, 2 * atanf(m / w * fabsf(xw[0] - xr[0])));
-					m_fov = fmaxf(m_fov, 2 * atanf(m / h * fabsf(xw[1] - xr[1])));
-				}
+				x_min[0] -= 1.0f;
+				x_max[0] += 1.0f;
+				x_min[1] -= 1.0f;
+				x_max[1] += 1.0f;
 			}
-			if(m_fov == 0) m_fov = M_PI_4;
-			if(v3_min && !v3_max) v3_max = 1.0f;
+			if(x_min[2] == x_max[2])
+			{
+				x_min[2] -= 1.0f;
+				x_max[2] += 1.0f;
+			}
 			//update
 			m_plane_near = 1.0f;
-			m_plane_far = 1.0f + sr;
-			m_position = qc.rotate(xr + vec3(0, 0, 1.0f + (sr + v3_min + v3_max) / 2));
+			m_plane_far = m_plane_near + s;
+			m_fov = 2 * atanf(fmaxf(m / w / 2 * (x_max[0] - x_min[0]), m / h / 2 * (x_max[1] - x_min[1])));
+			m_position = qc.rotate({(x_min[0] + x_max[0]) / 2, (x_min[1] + x_max[1]) / 2, m_plane_near + s / 2});
 		}
 		void Camera::bound_perspective(void)
 		{
@@ -450,6 +443,44 @@ namespace canvas
 			m_plane_near = 0.95 * e - z2;
 			//position
 			m_position = qc.rotate(xr + vec3(0, 0, e));
+		}
+		void Camera::bound_center(vec3& x_min, vec3& x_max) const
+		{
+			//data
+			vec3 xw;
+			const float a = FLT_MAX;
+			const quat& qc = m_rotation;
+			//check
+			if(m_scene->m_objects.empty())
+			{
+				x_min = {-1.0f, -1.0f, -1.0f};
+				x_max = {+1.0f, +1.0f, +1.0f};
+				return;
+			}
+			//triad
+			const vec3 t1 = qc.rotate({1.0f, 0.0f, 0.0f});
+			const vec3 t2 = qc.rotate({0.0f, 1.0f, 0.0f});
+			const vec3 t3 = qc.rotate({0.0f, 0.0f, 1.0f});
+			//bound
+			x_min = {+a, +a, +a};
+			x_max = {-a, -a, -a};
+			for(unsigned i = 0; i < 3; i++)
+			{
+				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				{
+					//position
+					if(i == 2) xw = ((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xw = ((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xw = ((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					//bouding box
+					x_min[0] = fminf(x_min[0], xw.inner(t1));
+					x_max[0] = fmaxf(x_max[0], xw.inner(t1));
+					x_min[1] = fminf(x_min[1], xw.inner(t2));
+					x_max[1] = fmaxf(x_max[1], xw.inner(t2));
+					x_min[2] = fminf(x_min[2], xw.inner(t3));
+					x_max[2] = fmaxf(x_max[2], xw.inner(t3));
+				}
+			}
 		}
 		void Camera::bound_center(vec3& xr, float& sr) const
 		{
