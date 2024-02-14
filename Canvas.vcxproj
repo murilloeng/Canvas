@@ -22,7 +22,6 @@
     <ClInclude Include="inc\Colors\Color.hpp" />
     <ClInclude Include="inc\GPU\Program.hpp" />
     <ClInclude Include="inc\GPU\Shader.hpp" />
-    <ClInclude Include="inc\Managers\Glut.hpp" />
     <ClInclude Include="inc\Math\mat4.hpp" />
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
@@ -52,6 +51,7 @@
     <ClInclude Include="inc\Objects\Image\Latex.hpp" />
     <ClInclude Include="inc\Objects\Image\Text.hpp" />
     <ClInclude Include="inc\Objects\Object.hpp" />
+    <ClInclude Include="inc\Objects\Tesselator.hpp" />
     <ClInclude Include="inc\Scene\Camera.hpp" />
     <ClInclude Include="inc\Scene\Character.hpp" />
     <ClInclude Include="inc\Scene\Click.hpp" />
@@ -65,12 +65,12 @@
     <ClInclude Include="inc\Vertices\Model.hpp" />
     <ClInclude Include="inc\Vertices\Text.hpp" />
     <ClInclude Include="inc\Vertices\Vertex.hpp" />
+    <ClInclude Include="inc\Windows\Glut.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Colors\Color.cpp" />
     <ClCompile Include="src\GPU\Program.cpp" />
     <ClCompile Include="src\GPU\Shader.cpp" />
-    <ClCompile Include="src\Managers\Glut.cpp" />
     <ClCompile Include="src\Math\mat4.cpp" />
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />
@@ -100,6 +100,7 @@
     <ClCompile Include="src\Objects\Image\Latex.cpp" />
     <ClCompile Include="src\Objects\Image\Text.cpp" />
     <ClCompile Include="src\Objects\Object.cpp" />
+    <ClCompile Include="src\Objects\Tesselator.cpp" />
     <ClCompile Include="src\Scene\Camera.cpp" />
     <ClCompile Include="src\Scene\Character.cpp" />
     <ClCompile Include="src\Scene\Click.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="src\Vertices\Model.cpp" />
     <ClCompile Include="src\Vertices\Text.cpp" />
     <ClCompile Include="src\Vertices\Vertex.cpp" />
+    <ClCompile Include="src\Windows\Glut.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
