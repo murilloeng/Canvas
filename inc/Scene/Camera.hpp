@@ -46,10 +46,11 @@ namespace canvas
 			unsigned width(void) const;
 			unsigned height(void) const;
 
-			float fov(float);
-			float fov(void) const;
+			float scale(float);
 			float plane_far(float);
 			float plane_near(float);
+			
+			float scale(void) const;
 			float plane_far(void) const;
 			float plane_near(void) const;
 
@@ -82,6 +83,7 @@ namespace canvas
 			//bound
 			void bound_orthogonal(void);
 			void bound_perspective(void);
+			void bound_perspective_3(void);
 			void bound_center(vec3&, vec3&) const;
 			void bound_center(vec3&, float&) const;
 
@@ -94,10 +96,10 @@ namespace canvas
 			vec3 m_position;
 			quat m_rotation;
 
-			float m_fov;
 			unsigned m_width;
 			unsigned m_height;
 
+			float m_scale;
 			float m_plane_far;
 			float m_plane_near;
 
