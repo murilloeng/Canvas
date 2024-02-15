@@ -35,6 +35,9 @@ namespace canvas
 			~Camera(void);
 
 			//data
+			float scale(float);
+			float scale(void) const;
+
 			vec3 position(void) const;
 			vec3 position(const vec3&);
 
@@ -46,13 +49,8 @@ namespace canvas
 			unsigned width(void) const;
 			unsigned height(void) const;
 
-			float scale(float);
-			float plane_far(float);
-			float plane_near(float);
-			
-			float scale(void) const;
-			float plane_far(void) const;
-			float plane_near(void) const;
+			float plane(unsigned) const;
+			float plane(unsigned, float);
 
 			camera::type type(void) const;
 			camera::type type(camera::type);
@@ -98,8 +96,7 @@ namespace canvas
 			unsigned m_height;
 
 			float m_scale;
-			float m_plane_far;
-			float m_plane_near;
+			float m_planes[2];
 
 			mat4 m_view;
 			mat4 m_projection;
