@@ -83,9 +83,7 @@ namespace canvas
 			//bound
 			void bound_orthogonal(void);
 			void bound_perspective(void);
-			void bound_perspective_3(void);
 			void bound_center(vec3&, vec3&) const;
-			void bound_center(vec3&, float&) const;
 
 			//data
 			Click m_click;

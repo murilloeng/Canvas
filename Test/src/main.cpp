@@ -16,6 +16,7 @@ static unsigned index_light = 0;
 static void callback_idle(void)
 {
 	//data
+	return;
 	const unsigned fr = 60;
 	//objects
 	for(canvas::objects::Object* object : scene->objects())

@@ -247,41 +247,41 @@ namespace canvas
 		}
 		void Camera::callback_wheel(int direction, int x1, int x2)
 		{
-			//data
-			const float q = 1.05f;
-			const float s = m_scale;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
-			const float z2 = m_plane_far;
-			const float z1 = m_plane_near;
-			const float s1 = 2 * x1 / w - 1;
-			const float s2 = 1 - 2 * x2 / h;
-			const float sz = direction < 0 ? q : 1 / q;
-			//orthogonal
-			if(m_type == type::orthogonal)
-			{
-				//update fov
-				m_scale = sz * s;
-				//update position
-				m_position += m_rotation.rotate({(s - m_scale) * w / m * s1, (s - m_scale) * h / m * s2, 0});
-			}
-			//perspective
-			if(m_type == type::perspective)
-			{
-				// //data
-				// const float a = (z1 + z2) / (z2 - z1);
-				// const float b = -2 * z1 * z2 / (z2 - z1);
-				// //update fov
-				// m_fov = M_PI * sz * m_fov / (M_PI + (sz - 1) * m_fov);
-				// //update position
-				// const float tn = tan(m_fov / 2);
-				// const float sn = b / a / m * (tn - s);
-				// m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
-			}
-			//apply
-			apply();
-			update();
+			// //data
+			// const float q = 1.05f;
+			// const float s = m_scale;
+			// const float w = m_width;
+			// const float h = m_height;
+			// const float m = fminf(w, h);
+			// const float z2 = m_plane_far;
+			// const float z1 = m_plane_near;
+			// const float s1 = 2 * x1 / w - 1;
+			// const float s2 = 1 - 2 * x2 / h;
+			// const float sz = direction < 0 ? q : 1 / q;
+			// //orthogonal
+			// if(m_type == type::orthogonal)
+			// {
+			// 	//update fov
+			// 	m_scale = sz * s;
+			// 	//update position
+			// 	m_position += m_rotation.rotate({(s - m_scale) * w / m * s1, (s - m_scale) * h / m * s2, 0});
+			// }
+			// //perspective
+			// if(m_type == type::perspective)
+			// {
+			// 	// //data
+			// 	// const float a = (z1 + z2) / (z2 - z1);
+			// 	// const float b = -2 * z1 * z2 / (z2 - z1);
+			// 	// //update fov
+			// 	// m_fov = M_PI * sz * m_fov / (M_PI + (sz - 1) * m_fov);
+			// 	// //update position
+			// 	// const float tn = tan(m_fov / 2);
+			// 	// const float sn = b / a / m * (tn - s);
+			// 	// m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
+			// }
+			// //apply
+			// apply();
+			// update();
 		}
 		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 		{
@@ -382,73 +382,6 @@ namespace canvas
 		void Camera::bound_orthogonal(void)
 		{
 			//data
-			vec3 xw, x_min, x_max;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
-			const quat& qc = m_rotation;
-			//bound
-			bound_center(x_min, x_max);
-			const float s = (x_max - x_min).norm();
-			if(x_min[0] == x_max[0] && x_min[1] == x_max[1])
-			{
-				x_min[0] -= 1.0f;
-				x_max[0] += 1.0f;
-				x_min[1] -= 1.0f;
-				x_max[1] += 1.0f;
-			}
-			if(x_min[2] == x_max[2])
-			{
-				x_min[2] -= 1.0f;
-				x_max[2] += 1.0f;
-			}
-			//update
-			m_plane_near = 1.0f;
-			m_plane_far = m_plane_near + s;
-			m_scale = fmaxf(m / w / 2 * (x_max[0] - x_min[0]), m / h / 2 * (x_max[1] - x_min[1]));
-			m_position = qc.rotate({(x_min[0] + x_max[0]) / 2, (x_min[1] + x_max[1]) / 2, m_plane_near + s / 2});
-		}
-		void Camera::bound_perspective(void)
-		{
-			//data
-			float sr;
-			vec3 xw, xr;
-			bound_center(xr, sr);
-			const float q = FLT_MAX;
-			const float s = m_scale;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
-			const quat& qc = m_rotation;
-			//offset
-			float e = 0, z1 = +q, z2 = -q;
-			for(unsigned i = 0; i < 3; i++)
-			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
-				{
-					//position
-					if(i == 2) xw = qc.conjugate(((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
-					//bound
-					z1 = fminf(z1, xw[2] - xr[2]);
-					z2 = fmaxf(z2, xw[2] - xr[2]);
-					e = fmaxf(e, xw[2] - xr[2] + m / w * fabsf(xw[0] - xr[0]) / s);
-					e = fmaxf(e, xw[2] - xr[2] + m / h * fabsf(xw[1] - xr[1]) / s);
-				}
-			}
-			//planes
-			e = fmaxf(e, e == 0);
-			m_plane_far = 1.05f * e - z1;
-			m_plane_near = 0.95f * e - z2;
-			//position
-			m_position = qc.rotate(xr + vec3(0, 0, e));
-		}
-		void Camera::bound_perspective_3(void)
-		{
-			//data
-			const vec3 *xa, *xb;
-			const float s = m_scale;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
@@ -456,51 +389,49 @@ namespace canvas
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
-			m_position[2] = -FLT_MAX;
-			for(unsigned ia = 0; ia < 3; ia++)
-			{
-				for(unsigned ib = 0; ib < 3; ib++)
-				{
-					for(unsigned ja = 0; ja < m_scene->m_vbo_size[ia]; ja++)
-					{
-						for(unsigned jb = 0; jb < m_scene->m_vbo_size[ib]; jb++)
-						{
-							//position
-							if(ia == 2) xa = &((vertices::Text*) m_scene->m_vbo_data[ia] + ja)->m_position;
-							if(ib == 2) xb = &((vertices::Text*) m_scene->m_vbo_data[ib] + jb)->m_position;
-							if(ia == 0) xa = &((vertices::Model*) m_scene->m_vbo_data[ia] + ja)->m_position;
-							if(ib == 0) xb = &((vertices::Model*) m_scene->m_vbo_data[ib] + jb)->m_position;
-							if(ia == 1) xa = &((vertices::Image*) m_scene->m_vbo_data[ia] + ja)->m_position;
-							if(ib == 1) xb = &((vertices::Image*) m_scene->m_vbo_data[ib] + jb)->m_position;
-							//bound
-							const float s1 = (xa->inner(t1) - xb->inner(t1)) / 2;
-							const float s2 = (xa->inner(t2) - xb->inner(t2)) / 2;
-							const float c3 = (xa->inner(t3) + xb->inner(t3)) / 2;
-							m_position[2] = fmaxf(m_position[2], c3 + m / w / s * s1);
-							m_position[2] = fmaxf(m_position[2], c3 + m / h / s * s2);
-						}
-					}
-				}
-			}
+			vec3 x_min, x_max;
+			bound_center(x_min, x_max);
+			//update
+			m_plane_near = 1.0f;
+			m_position[0] = (x_min[0] + x_max[0]) / 2;
+			m_position[1] = (x_min[1] + x_max[1]) / 2;
+			m_plane_far = m_plane_near + (x_max - x_min).norm();
+			m_position[2] = m_plane_near + (x_max - x_min).norm() / 2 + (x_min[2] + x_max[2]) / 2;
+			m_scale = fmaxf(m / w * (x_max[0] - x_min[0]) / 2, m / h * (x_max[1] - x_min[1]) / 2);
+			m_position = m_rotation.rotate(m_position);
+		}
+		void Camera::bound_perspective(void)
+		{
+			//data
+			const float s = m_scale;
+			const float w = m_width;
+			const float h = m_height;
+			const float m = fminf(w, h);
+			//bound
+			vec3 x_min, x_max;
+			bound_center(x_min, x_max);
+			const float c1 = (x_min[0] + x_max[0]) / 2;
+			const float c2 = (x_min[1] + x_max[1]) / 2;
+			const float c3 = (x_min[2] + x_max[2]) / 2;
+			const float s1 = (x_max[0] - x_min[0]) / 2;
+			const float s2 = (x_max[1] - x_min[1]) / 2;
+			//update
+			m_position[0] = c1;
+			m_position[1] = c2;
+			m_position[2] = c3 + m / s * fmaxf(s1 / w, s2 / h);
+			m_plane_far = m_position[2] - x_min[2];
+			m_plane_near = m_position[2] - x_max[2];
+			m_position = m_rotation.rotate(m_position);
 		}
 		void Camera::bound_center(vec3& x_min, vec3& x_max) const
 		{
 			//data
-			vec3 xw;
 			const float a = FLT_MAX;
-			const quat& qc = m_rotation;
-			//check
-			if(m_scene->m_objects.empty())
-			{
-				x_min = {-1.0f, -1.0f, -1.0f};
-				x_max = {+1.0f, +1.0f, +1.0f};
-				return;
-			}
-			//triad
-			const vec3 t1 = qc.rotate({1.0f, 0.0f, 0.0f});
-			const vec3 t2 = qc.rotate({0.0f, 1.0f, 0.0f});
-			const vec3 t3 = qc.rotate({0.0f, 0.0f, 1.0f});
+			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
+			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
+			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
+			vec3 xm;
 			x_min = {+a, +a, +a};
 			x_max = {-a, -a, -a};
 			for(unsigned i = 0; i < 3; i++)
@@ -508,56 +439,32 @@ namespace canvas
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
-					if(i == 2) xw = ((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xw = ((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xw = ((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
-					//bouding box
-					x_min[0] = fminf(x_min[0], xw.inner(t1));
-					x_max[0] = fmaxf(x_max[0], xw.inner(t1));
-					x_min[1] = fminf(x_min[1], xw.inner(t2));
-					x_max[1] = fmaxf(x_max[1], xw.inner(t2));
-					x_min[2] = fminf(x_min[2], xw.inner(t3));
-					x_max[2] = fmaxf(x_max[2], xw.inner(t3));
+					if(i == 2) xm = ((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xm = ((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xm = ((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					//bound
+					x_min[0] = fminf(x_min[0], xm.inner(t1));
+					x_min[1] = fminf(x_min[1], xm.inner(t2));
+					x_min[2] = fminf(x_min[2], xm.inner(t3));
+					x_max[0] = fmaxf(x_max[0], xm.inner(t1));
+					x_max[1] = fmaxf(x_max[1], xm.inner(t2));
+					x_max[2] = fmaxf(x_max[2], xm.inner(t3));
 				}
 			}
-		}
-		void Camera::bound_center(vec3& xr, float& sr) const
-		{
-			//data
-			const float a = FLT_MAX;
-			const quat& qc = m_rotation;
 			//check
-			if(m_scene->m_objects.empty())
+			if(m_scene->objects().empty())
 			{
-				sr = 1.0f;
-				xr = {0.0f, 0.0f, 0.0f};
-				return;
+				x_min = {-1.0f, -1.0f, -1.0f};
+				x_max = {+1.0f, +1.0f, +1.0f};
 			}
-			//bound
-			vec3 xw;
-			vec3 x_min = {+a, +a, +a};
-			vec3 x_max = {-a, -a, -a};
 			for(unsigned i = 0; i < 3; i++)
 			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				if(x_min[i] == x_max[i])
 				{
-					//position
-					if(i == 2) xw = qc.conjugate(((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 0) xw = qc.conjugate(((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position);
-					if(i == 1) xw = qc.conjugate(((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position);
-					//bouding box
-					x_min[0] = fminf(x_min[0], xw[0]);
-					x_max[0] = fmaxf(x_max[0], xw[0]);
-					x_min[1] = fminf(x_min[1], xw[1]);
-					x_max[1] = fmaxf(x_max[1], xw[1]);
-					x_min[2] = fminf(x_min[2], xw[2]);
-					x_max[2] = fmaxf(x_max[2], xw[2]);
+					x_min[i] -= 1.0f;
+					x_max[i] += 1.0f;
 				}
 			}
-			//return
-			xr = (x_min + x_max) / 2;
-			sr = (x_max - x_min).norm();
-			sr = sr == 0 ? 1 : sr;
 		}
 	}
 }
