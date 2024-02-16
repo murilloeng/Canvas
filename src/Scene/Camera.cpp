@@ -188,7 +188,7 @@ namespace canvas
 		void Camera::callback_keyboard(char key)
 		{
 			if(key == 'p') screen_print();
-			else if(key == 'f') bound(), apply(), update();
+			else if(key == 'f') m_fov = M_PI / 3, bound(), apply(), update();
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
 			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(),apply(), update();
@@ -200,14 +200,13 @@ namespace canvas
 			const float s = m_scale;
 			const float w = m_width;
 			const float h = m_height;
+			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
 			const int a1 = m_click.screen(0);
 			const int a2 = m_click.screen(1);
 			const vec3 xc = m_click.position();
 			const quat qc = m_click.rotation();
-			//arcball
-			const float m = fminf(w, h);
 			const vec3 v1 = Click::arcball((2 * a1 - w) / m, (h - 2 * a2) / m);
 			const vec3 v2 = Click::arcball((2 * x1 - w) / m, (h - 2 * x2) / m);
 			//shift
@@ -221,9 +220,10 @@ namespace canvas
 				}
 				if(m_type == type::perspective)
 				{
-					const float v3 = -2 * z1 * z2 / (z1 + z2);
-					const float b1 = -2 * s * v3 / m * (a1 - x1);
-					const float b2 = -2 * s * v3 / m * (x2 - a2);
+					const float t = tanf(m_fov / 2);
+					const float v3 = -2 * z1 * z1 / (z1 + z2);
+					const float b1 = -2 * t * v3 / m * (a1 - x1);
+					const float b2 = -2 * t * v3 / m * (x2 - a2);
 					m_position = m_click.position() + m_rotation.rotate({b1, b2, 0});
 				}
 			}
@@ -248,41 +248,42 @@ namespace canvas
 		}
 		void Camera::callback_wheel(int direction, int x1, int x2)
 		{
-			// //data
-			// const float q = 1.05f;
-			// const float s = m_scale;
-			// const float w = m_width;
-			// const float h = m_height;
-			// const float m = fminf(w, h);
-			// const float z2 = m_plane_far;
-			// const float z1 = m_plane_near;
-			// const float s1 = 2 * x1 / w - 1;
-			// const float s2 = 1 - 2 * x2 / h;
-			// const float sz = direction < 0 ? q : 1 / q;
-			// //orthogonal
-			// if(m_type == type::orthogonal)
-			// {
-			// 	//update fov
-			// 	m_scale = sz * s;
-			// 	//update position
-			// 	m_position += m_rotation.rotate({(s - m_scale) * w / m * s1, (s - m_scale) * h / m * s2, 0});
-			// }
-			// //perspective
-			// if(m_type == type::perspective)
-			// {
-			// 	// //data
-			// 	// const float a = (z1 + z2) / (z2 - z1);
-			// 	// const float b = -2 * z1 * z2 / (z2 - z1);
-			// 	// //update fov
-			// 	// m_fov = M_PI * sz * m_fov / (M_PI + (sz - 1) * m_fov);
-			// 	// //update position
-			// 	// const float tn = tan(m_fov / 2);
-			// 	// const float sn = b / a / m * (tn - s);
-			// 	// m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
-			// }
-			// //apply
-			// apply();
-			// update();
+			//data
+			const float q = 1.05f;
+			const float s = m_scale;
+			const float w = m_width;
+			const float h = m_height;
+			const float m = fminf(w, h);
+			const float z1 = m_planes[0];
+			const float z2 = m_planes[1];
+			const float s1 = 2 * x1 / w - 1;
+			const float s2 = 1 - 2 * x2 / h;
+			const float sz = direction < 0 ? q : 1 / q;
+			//orthogonal
+			if(m_type == type::orthogonal)
+			{
+				//update fov
+				m_scale = sz * s;
+				//update position
+				m_position += m_rotation.rotate({(s - m_scale) * w / m * s1, (s - m_scale) * h / m * s2, 0});
+			}
+			//perspective
+			if(m_type == type::perspective)
+			{
+				//data
+				const float t = tanf(m_fov / 2);
+				const float a = (z1 + z2) / (z2 - z1);
+				const float b = -2 * z1 * z2 / (z2 - z1);
+				//update fov
+				m_fov = M_PI * sz * m_fov / (M_PI + (sz - 1) * m_fov);
+				//update position
+				const float tn = tan(m_fov / 2);
+				const float sn = b / a / m * (tn - t);
+				m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
+			}
+			//apply
+			apply();
+			update();
 		}
 		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
 		{
