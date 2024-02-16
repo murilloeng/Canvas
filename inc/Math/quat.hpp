@@ -23,10 +23,6 @@ namespace canvas
 		float* data(void);
 		const float* data(void) const;
 
-		//linear
-		void normalize(void);
-		float norm(void) const;
-
 		//print
 		void print(const char* = "") const;
 
@@ -46,6 +42,7 @@ namespace canvas
 		const float& operator[](unsigned) const;
 
 		//affine
+		vec3 vector(void) const;
 		mat4 rotation(void) const;
 		quat conjugate(void) const;
 		vec3 rotate(const vec3&) const;
