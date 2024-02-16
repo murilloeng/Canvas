@@ -31,7 +31,7 @@ namespace canvas
 	{
 
 		//constructors
-		Camera::Camera(void) : m_type(camera::type::orthogonal), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
+		Camera::Camera(void) : m_type(camera::type::orthogonal), m_fov(M_PI / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;
 		}
@@ -43,6 +43,15 @@ namespace canvas
 		}
 
 		//data
+		float Camera::fov(float fov)
+		{
+			return m_fov = fov;
+		}
+		float Camera::fov(void) const
+		{
+			return m_fov;
+		}
+
 		float Camera::scale(void) const
 		{
 			return m_scale;
@@ -354,18 +363,18 @@ namespace canvas
 		void Camera::apply_perspective(void)
 		{
 			//data
-			const float s = m_scale;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
+			const float ts = tanf(m_fov / 2);
 			//projection
 			m_projection.clear();
 			m_projection(3, 3) = +0.0f;
 			m_projection(3, 2) = -1.0f;
-			m_projection(0, 0) = m / w / s;
-			m_projection(1, 1) = m / h / s;
+			m_projection(0, 0) = m / w / ts;
+			m_projection(1, 1) = m / h / ts;
 			m_projection(2, 2) = -(z1 + z2) / (z2 - z1);
 			m_projection(2, 3) = -2 * z1 * z2 / (z2 - z1);
 		}
@@ -397,23 +406,37 @@ namespace canvas
 		void Camera::bound_perspective(void)
 		{
 			//data
-			const float s = m_scale;
 			const float w = m_width;
 			const float h = m_height;
 			const float m = fminf(w, h);
+			const float ts = tanf(m_fov / 2);
+			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
+			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
+			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
 			vec3 x_min, x_max;
 			bound_center(x_min, x_max);
-			const float c1 = (x_min[0] + x_max[0]) / 2;
-			const float c2 = (x_min[1] + x_max[1]) / 2;
-			const float c3 = (x_min[2] + x_max[2]) / 2;
-			const float s1 = (x_max[0] - x_min[0]) / 2;
-			const float s2 = (x_max[1] - x_min[1]) / 2;
-			const float s3 = (x_max[2] - x_min[2]) / 2;
+			m_position[0] = (x_min[0] + x_max[0]) / 2;
+			m_position[1] = (x_min[1] + x_max[1]) / 2;
+			m_position[2] = (x_min[2] + x_max[2]) / 2;
 			//position
-			m_position[0] = c1;
-			m_position[1] = c2;
-			m_position[2] = c3 + s3 + m / s * fmaxf(s1 / w, s2 / h);
+			for(unsigned i = 0; i < 3; i++)
+			{
+				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				{
+					//position
+					const vec3* xm;
+					if(i == 2) xm = &((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xm = &((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xm = &((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					//bound
+					const float x1 = xm->inner(t1);
+					const float x2 = xm->inner(t2);
+					const float x3 = xm->inner(t3);
+					m_position[2] = fmaxf(m_position[2], x3 + m / w / ts * fabs(x1 - m_position[0]));
+					m_position[2] = fmaxf(m_position[2], x3 + m / h / ts * fabs(x2 - m_position[1]));
+				}
+			}
 			//planes
 			m_planes[0] = m_position[2] - x_max[2];
 			m_planes[1] = m_position[2] - x_min[2];
@@ -427,7 +450,7 @@ namespace canvas
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
-			vec3 xm;
+			const vec3* xm;
 			x_min = {+a, +a, +a};
 			x_max = {-a, -a, -a};
 			for(unsigned i = 0; i < 3; i++)
@@ -435,16 +458,16 @@ namespace canvas
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
-					if(i == 2) xm = ((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xm = ((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xm = ((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 2) xm = &((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xm = &((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xm = &((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
 					//bound
-					x_min[0] = fminf(x_min[0], xm.inner(t1));
-					x_min[1] = fminf(x_min[1], xm.inner(t2));
-					x_min[2] = fminf(x_min[2], xm.inner(t3));
-					x_max[0] = fmaxf(x_max[0], xm.inner(t1));
-					x_max[1] = fmaxf(x_max[1], xm.inner(t2));
-					x_max[2] = fmaxf(x_max[2], xm.inner(t3));
+					x_min[0] = fminf(x_min[0], xm->inner(t1));
+					x_min[1] = fminf(x_min[1], xm->inner(t2));
+					x_min[2] = fminf(x_min[2], xm->inner(t3));
+					x_max[0] = fmaxf(x_max[0], xm->inner(t1));
+					x_max[1] = fmaxf(x_max[1], xm->inner(t2));
+					x_max[2] = fmaxf(x_max[2], xm->inner(t3));
 				}
 			}
 			//check

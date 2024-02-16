@@ -35,6 +35,9 @@ namespace canvas
 			~Camera(void);
 
 			//data
+			float fov(float);
+			float fov(void) const;
+
 			float scale(float);
 			float scale(void) const;
 
@@ -95,6 +98,7 @@ namespace canvas
 			unsigned m_width;
 			unsigned m_height;
 
+			float m_fov;
 			float m_scale;
 			float m_planes[2];
 
