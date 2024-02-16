@@ -382,6 +382,14 @@ namespace canvas
 			//bound
 			vec3 x_min, x_max;
 			bound_center(x_min, x_max);
+			for(unsigned i = 0; i < 3; i++)
+			{
+				if(x_min[i] == x_max[i])
+				{
+					x_min[i] -= 1.0f;
+					x_max[i] += 1.0f;
+				}
+			}
 			//planes
 			m_planes[0] = 1.0f;
 			m_planes[1] = m_planes[0] + (x_max - x_min).norm();
@@ -428,8 +436,8 @@ namespace canvas
 				}
 			}
 			//planes
-			m_planes[0] = m_position[2] - x_max[2];
-			m_planes[1] = m_position[2] - x_min[2];
+			m_planes[0] = m_position[2] - x_max[2] - (x_max[2] == x_min[2]) * m_position[2] / 2;
+			m_planes[1] = m_position[2] - x_min[2] + (x_max[2] == x_min[2]) * m_position[2] / 2;
 			m_position = m_rotation.rotate(m_position);
 		}
 		void Camera::bound_center(vec3& x_min, vec3& x_max) const
@@ -465,14 +473,6 @@ namespace canvas
 			{
 				x_min = {-1.0f, -1.0f, -1.0f};
 				x_max = {+1.0f, +1.0f, +1.0f};
-			}
-			for(unsigned i = 0; i < 3; i++)
-			{
-				if(x_min[i] == x_max[i])
-				{
-					x_min[i] -= 1.0f;
-					x_max[i] += 1.0f;
-				}
 			}
 		}
 	}
