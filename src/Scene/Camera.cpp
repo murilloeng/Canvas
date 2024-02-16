@@ -212,26 +212,15 @@ namespace canvas
 			//shift
 			if(m_click.button() == button::middle)
 			{
-				if(m_type == type::orthogonal)
-				{
-					const float b1 = 2 * s / m * (a1 - x1);
-					const float b2 = 2 * s / m * (x2 - a2);
-					m_position = m_click.position() + m_rotation.rotate({b1, b2, 0});
-				}
-				if(m_type == type::perspective)
-				{
-					const float t = tanf(m_fov / 2);
-					const float v3 = -2 * z1 * z1 / (z1 + z2);
-					const float b1 = -2 * t * v3 / m * (a1 - x1);
-					const float b2 = -2 * t * v3 / m * (x2 - a2);
-					m_position = m_click.position() + m_rotation.rotate({b1, b2, 0});
-				}
+				const float b1 = 2 * s / m * (a1 - x1);
+				const float b2 = 2 * s / m * (x2 - a2);
+				m_position = xc + m_rotation.rotate({b1, b2, 0});
 			}
 			//rotation
 			if(m_click.button() == button::left)
 			{
 				m_rotation = qc * Click::arcball(v1, v2).conjugate();
-				m_position = xc + (z1 + z2) / 2 * (qc.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
+				m_position = xc + (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 			}
 			if(m_click.button() != button::none) apply(), update();
 		}
