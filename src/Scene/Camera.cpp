@@ -31,7 +31,8 @@ namespace canvas
 	{
 
 		//constructors
-		Camera::Camera(void) : m_type(camera::type::orthogonal), m_fov(M_PI / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
+		Camera::Camera(void) : 
+			m_type(camera::type::orthogonal), m_width(100), m_height(100), m_fov(M_PI / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;
 		}
@@ -282,7 +283,6 @@ namespace canvas
 			const float h = m_height;
 			const float dt = M_PI / 12;
 			const quat qn = m_rotation;
-			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
 			const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
@@ -295,17 +295,18 @@ namespace canvas
 				{
 					if(modifiers & 1 << unsigned(modifier::alt))
 					{
+						const float m = fminf(w, h);
 						m_position -= m_rotation.rotate(1.05 * mat4::scaling({w / m, h / m, 1}) * shift[i]);
 					}
 					else if(modifiers & 1 << unsigned(modifier::ctrl))
 					{
 						m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
-						m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
+						m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
 					}
 					else if(modifiers & 1 << unsigned(modifier::shift))
 					{
 						m_rotation = m_rotation * rotation[i].quaternion().conjugate();
-						m_position += (z1 + z2) / 2 * (qn.rotate({0, 0, 1}) - m_rotation.rotate({0, 0, 1}));
+						m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
 					}
 					apply();
 					update();
