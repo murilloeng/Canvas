@@ -6,6 +6,7 @@
 
 //canvas
 #include "Canvas/inc/Scene/Font.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
 
 //defines
 #ifdef _WIN32
@@ -17,7 +18,7 @@
 namespace canvas
 {
 	//constructors
-	Font::Font(const char* name) : m_status(false), m_face(nullptr), m_name(name)
+	Font::Font(Scene* scene, const char* name) : m_status(false), m_scene(scene), m_face(nullptr), m_name(name)
 	{
 		return;
 	}
@@ -84,7 +85,7 @@ namespace canvas
 		const std::string path = fonts_dir + m_name + ".ttf";
 		//font
 		FT_Done_Face(m_face);
-		if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
+		if(FT_New_Face(m_scene->m_ft_library, path.c_str(), 0, &m_face))
 		{
 			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
 			exit(EXIT_FAILURE);
@@ -113,22 +114,9 @@ namespace canvas
 			h = std::max(h, m_chars[i].m_height);
 		}
 	}
-	void Font::setup_freetype(void)
-	{
-		if(FT_Init_FreeType(&m_library))
-		{
-			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Font::clean_freetype(void)
-	{
-		FT_Done_FreeType(m_library);
-	}
 
 	//static
 	unsigned Font::m_width;
 	unsigned Font::m_height;
-	FT_Library Font::m_library;
 	unsigned Font::m_pixels_size = 256;
 }

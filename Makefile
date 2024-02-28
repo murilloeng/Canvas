@@ -75,13 +75,11 @@ $(dep_exe) : ;
 clean :
 	@rm -rf dist/$(mode)
 	@rm -rf build/$(mode)
+	@rm -rf Test/dist/$(mode)
+	@rm -rf Test/build/$(mode)
 	@echo 'clean($(mode)): complete!'
-
-cleanlib : ;
-
-cleanall : clean cleanlib
 
 print-% :
 	@echo $* = $($*)
 
-.PHONY : all clean cleanlib cleanall print-%
+.PHONY : all clean print-%

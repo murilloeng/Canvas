@@ -38,7 +38,7 @@ namespace canvas
 		setup_buffers();
 		setup_shaders();
 		setup_textures();
-		Font::setup_freetype();
+		setup_freetype();
 		m_camera.m_scene = this;
 		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
@@ -62,7 +62,7 @@ namespace canvas
 		glDeleteTextures(3, m_texture_id);
 		glDeleteVertexArrays(3, m_vao_id);
 		//freetype
-		Font::clean_freetype();
+		FT_Done_FreeType(m_ft_library);
 	}
 
 	//data
@@ -113,7 +113,7 @@ namespace canvas
 	}
 	void Scene::add_font(const char* name)
 	{
-		m_fonts.push_back(new Font(name));
+		m_fonts.push_back(new Font(this, name));
 	}
 	const std::vector<Font*>& Scene::fonts(void) const
 	{
@@ -484,6 +484,14 @@ namespace canvas
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		}
+	}
+	void Scene::setup_freetype(void)
+	{
+		if(FT_Init_FreeType(&m_ft_library))
+		{
+			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 

@@ -10,6 +10,9 @@
 #include "Canvas/inc/Scene/Camera.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
 
+//ext
+#include "external/cpp/inc/freetype/freetype.h"
+
 namespace canvas
 {
 	class Font;
@@ -96,6 +99,7 @@ namespace canvas
 		void setup_buffers(void);
 		void setup_shaders(void);
 		void setup_textures(void);
+		void setup_freetype(void);
 
 		//buffers
 		void buffers_data(void);
@@ -118,6 +122,7 @@ namespace canvas
 		Color m_background;
 		Program m_programs[4];
 
+		FT_Library m_ft_library;
 		std::string m_shaders_dir;
 		std::vector<Font*> m_fonts;
 		std::vector<Latex*> m_latex;
@@ -125,6 +130,7 @@ namespace canvas
 		std::vector<objects::Object*> m_objects;
 
 		//friends
+		friend class Font;
 		friend class camera::Camera;
 	};
 }
