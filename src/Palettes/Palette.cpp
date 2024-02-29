@@ -11,7 +11,7 @@ namespace canvas
 		//constructor
 		Palette::Palette(void) : m_size(0), m_colors(nullptr)
 		{
-			load(palettes::type::moreland);
+			type(palettes::type::spectral);
 		}
 
 		//destructor
@@ -62,21 +62,22 @@ namespace canvas
 			Color color;
 			value = fminf(fmaxf((value - value_min) / (value_max - value_min), 0.0f), 1.0f);
 			//check
-			if(value == 0)
+			if(value == 0.0f)
 			{
 				const float* color_ptr = m_colors;
 				return Color(color_ptr[0], color_ptr[1], color_ptr[2]);
 			}
-			if(value == 1)
+			if(value == 1.0f)
 			{
 				const float* color_ptr = m_colors + 3 * (m_size - 1);
 				return Color(color_ptr[0], color_ptr[1], color_ptr[2]);
 			}
 			//index
-			const unsigned index = (unsigned) floor(value * m_size);
-			color[0] = (1 + index - value * m_size) * m_colors[3 * index + 0] + (value * m_size - index) * m_colors[3 * index + 3];
-			color[1] = (1 + index - value * m_size) * m_colors[3 * index + 1] + (value * m_size - index) * m_colors[3 * index + 4];
-			color[2] = (1 + index - value * m_size) * m_colors[3 * index + 2] + (value * m_size - index) * m_colors[3 * index + 5];
+			value *= m_size - 1;
+			const unsigned index = (unsigned) floor(value);
+			color[0] = (1 + index - value) * m_colors[3 * index + 0] + (value - index) * m_colors[3 * index + 3];
+			color[1] = (1 + index - value) * m_colors[3 * index + 1] + (value - index) * m_colors[3 * index + 4];
+			color[2] = (1 + index - value) * m_colors[3 * index + 2] + (value - index) * m_colors[3 * index + 5];
 			//return
 			return color;
 		}
