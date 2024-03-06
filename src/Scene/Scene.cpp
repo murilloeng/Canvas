@@ -39,7 +39,6 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_frame_rate(60), 
 		m_vbo_size{0, 0, 0}, 
 		m_ibo_size{0, 0, 0, 0, 0, 0}, 
 		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
@@ -84,15 +83,6 @@ namespace canvas
 	Color Scene::background(Color background)
 	{
 		return m_background = background;
-	}
-
-	float Scene::frame_rate(void) const
-	{
-		return m_frame_rate;
-	}
-	float Scene::frame_rate(float frame_rate)
-	{
-		return m_frame_rate = frame_rate;
 	}
 
 	Light& Scene::light(void)

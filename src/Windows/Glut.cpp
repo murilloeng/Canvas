@@ -75,10 +75,6 @@ namespace canvas
 		//callbacks
 		void Glut::callback_idle(void)
 		{
-			//data
-			const float fr = master->scene()->frame_rate();
-			const std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-			//idle
 			if(master->m_callback_idle)
 			{
 				//idle
@@ -86,11 +82,6 @@ namespace canvas
 				//redraw
 				glutPostRedisplay();
 			}
-			//sleep
-			const unsigned tf = (unsigned) round(1000 / fr);
-			const std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-			const unsigned dt = (unsigned) round(std::chrono::duration<float, std::milli>(t2 - t1).count());
-			std::this_thread::sleep_for(std::chrono::milliseconds((dt < tf) * (tf - dt)));
 		}
 		void Glut::callback_display(void)
 		{
