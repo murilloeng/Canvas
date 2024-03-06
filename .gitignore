@@ -13,3 +13,4 @@
 !.gitignore
 !tutorial/*/*.png
 !tutorial/*/*.gif
+!data/images/*.png

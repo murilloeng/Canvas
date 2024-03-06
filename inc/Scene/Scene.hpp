@@ -116,7 +116,7 @@ namespace canvas
 		unsigned m_vbo_size[3];
 		unsigned m_ibo_size[6];
 		unsigned* m_ibo_data[6];
-		unsigned m_texture_id[6];
+		unsigned m_texture_id[3];
 		vertices::Vertex* m_vbo_data[3];
 
 		Color m_background;

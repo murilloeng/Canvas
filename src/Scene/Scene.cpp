@@ -30,18 +30,10 @@
 // (2) text:	position (3) color (4) texture (2)
 
 // ibo
-// (0) points
-// (1) lines
-// (2) triangles
-// (3) images
-// (4) text
-// (5) latex
+// (0) points, (1) lines, (2) triangles, (3) images, (4) text, (5) latex
 
 // programs
-// (0) model	view(mat4), projection(mat4)
-// (1) light	view(mat4), projection(mat4), ...
-// (2) images	view(mat4), projection(mat4), fragment_sampler(sampler2D)
-// (3) text		view(mat4), projection(mat4), fragment_sampler(sampler2D)
+// (0) model, (1) light, (2) images, (3) text
 
 namespace canvas
 {
