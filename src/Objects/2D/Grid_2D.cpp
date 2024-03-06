@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/2D/Grid_2D.hpp"
 
@@ -97,7 +97,7 @@ namespace canvas
 			const unsigned n2 = m_mesh[1];
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
@@ -128,7 +128,7 @@ namespace canvas
 			const unsigned n2 = m_mesh[1];
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{

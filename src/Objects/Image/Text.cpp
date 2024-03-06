@@ -1,7 +1,7 @@
 //canvas
 #include "Canvas/inc/Scene/Font.hpp"
 #include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Vertices/Text.hpp"
+#include "Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/inc/Objects/Image/Text.hpp"
 
 namespace canvas
@@ -167,7 +167,7 @@ namespace canvas
 			const vec3& t2 = m_directions[1];
 			const Font* font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
-			vertices::Text* vbo_ptr = (vertices::Text*) vbo_data[2] + m_vbo_index[2];
+			vertices::Text3D* vbo_ptr = (vertices::Text3D*) vbo_data[2] + m_vbo_index[2];
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;

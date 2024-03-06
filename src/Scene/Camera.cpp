@@ -21,9 +21,9 @@
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Scene/Camera.hpp"
-#include "Canvas/inc/Vertices/Text.hpp"
-#include "Canvas/inc/Vertices/Model.hpp"
-#include "Canvas/inc/Vertices/Image.hpp"
+#include "Canvas/inc/Vertices/Text3D.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/inc/Vertices/Image3D.hpp"
 
 namespace canvas
 {
@@ -424,9 +424,9 @@ namespace canvas
 				{
 					//position
 					const vec3* xm;
-					if(i == 2) xm = &((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xm = &((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xm = &((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 2) xm = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xm = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xm = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
 					//bound
 					const float x1 = xm->inner(t1);
 					const float x2 = xm->inner(t2);
@@ -456,9 +456,9 @@ namespace canvas
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
-					if(i == 2) xm = &((vertices::Text*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xm = &((vertices::Model*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xm = &((vertices::Image*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 2) xm = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 0) xm = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 1) xm = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
 					//bound
 					x_min[0] = fminf(x_min[0], xm->inner(t1));
 					x_min[1] = fminf(x_min[1], xm->inner(t2));

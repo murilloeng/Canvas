@@ -1,7 +1,6 @@
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
-
 #include "Canvas/inc/Objects/0D/Point.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 namespace canvas
 {
@@ -47,8 +46,8 @@ namespace canvas
 			//ibo data
 			ibo_data[0][m_ibo_index[0]] = m_vbo_index[0];
 			//vbo data
-			((vertices::Model*) vbo_data[0] + m_vbo_index[0])->m_color = m_color_dot;
-			((vertices::Model*) vbo_data[0] + m_vbo_index[0])->m_position = m_position;
+			((vertices::Model3D*) vbo_data[0] + m_vbo_index[0])->m_color = m_color_dot;
+			((vertices::Model3D*) vbo_data[0] + m_vbo_index[0])->m_position = m_position;
 		}
 	}
 }

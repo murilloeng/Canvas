@@ -3,7 +3,7 @@
 #include <cstdio>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/3D/Sphere.hpp"
 
@@ -217,7 +217,7 @@ namespace canvas
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -232,7 +232,7 @@ namespace canvas
 		{
 			//data
 			const unsigned nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + nv * m_stroke;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + nv * m_stroke;
 			//color
 			for(unsigned i = 0; i < nv; i++)
 			{
@@ -243,10 +243,10 @@ namespace canvas
 			vbo_faces_data(vbo_ptr);
 			vbo_vertices_data(vbo_ptr);
 		}
-		void Sphere::vbo_edges_data(vertices::Model* vbo_data) const
+		void Sphere::vbo_edges_data(vertices::Model3D* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + 12;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data + 12;
 			//edges
 			for(unsigned i = 0; i < 30; i++)
 			{
@@ -263,13 +263,13 @@ namespace canvas
 				vbo_ptr += m_mesh - 1;
 			}
 		}
-		void Sphere::vbo_faces_data(vertices::Model* vbo_data) const
+		void Sphere::vbo_faces_data(vertices::Model3D* vbo_data) const
 		{
 			//data
 			unsigned counter = 0;
 			const float l = 2 * a / m_mesh;
 			const float h = sqrtf(3) / 2 * l;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data + 12 + 30 * (m_mesh - 1);
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data + 12 + 30 * (m_mesh - 1);
 			//faces
 			for(unsigned i = 0; i < 20; i++)
 			{
@@ -294,10 +294,10 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::vbo_vertices_data(vertices::Model* vbo_data) const
+		void Sphere::vbo_vertices_data(vertices::Model3D* vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data;
 			//vertices
 			for(unsigned i = 0; i < 12; i++)
 			{

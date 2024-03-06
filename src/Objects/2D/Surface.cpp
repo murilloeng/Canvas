@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/inc/Objects/2D/Surface.hpp"
 
 namespace canvas
@@ -119,7 +119,7 @@ namespace canvas
 			const float b2 = m_domain[3];
 			const unsigned n1 = m_mesh[0];
 			const unsigned n2 = m_mesh[1];
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i <= n2; i++)
 			{
@@ -141,7 +141,7 @@ namespace canvas
 			const float b2 = m_domain[3];
 			const unsigned n1 = m_mesh[0];
 			const unsigned n2 = m_mesh[1];
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i <= n2; i++)
 			{

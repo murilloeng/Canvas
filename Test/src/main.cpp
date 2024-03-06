@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 	canvas::windows::Glut app(argc, argv, "shd/");
 	//scene
 	scene = app.scene();
-	examples::objects::spheres(scene);
+	examples::objects::latex(scene);
 	scene->update(true);
 	scene->camera().bound();
 	scene->camera().apply();

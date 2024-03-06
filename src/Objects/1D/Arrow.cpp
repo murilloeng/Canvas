@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/1D/Arrow.hpp"
 
@@ -109,7 +109,7 @@ namespace canvas
 			//data
 			const vec3 t2 = m_directions[0];
 			const vec3 t3 = m_directions[1];
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			const vec3 t1 = t2.cross(t3);
 			(vbo_ptr + 0)->m_position = m_point;

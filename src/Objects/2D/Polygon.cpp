@@ -3,7 +3,7 @@
 #include <cfloat>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/2D/Polygon.hpp"
 
@@ -93,7 +93,7 @@ namespace canvas
 		{
 			//data
 			const std::vector<vec2>& points = m_tesselator.points();
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + m_stroke * points.size();
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + m_stroke * points.size();
 			//vbo data
 			for(unsigned i = 0; i < points.size(); i++)
 			{
@@ -105,7 +105,7 @@ namespace canvas
 		{
 			//data
 			const std::vector<vec2>& points = m_tesselator.points();
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < points.size(); i++)
 			{

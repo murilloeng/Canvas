@@ -1,18 +1,18 @@
 //canvas
-#include "Canvas/inc/Vertices/Text.hpp"
+#include "Canvas/inc/Vertices/Vertex2D.hpp"
 
 namespace canvas
 {
 	namespace vertices
 	{
 		//constructor
-		Text::Text(void)
+		Vertex2D::Vertex2D(void)
 		{
 			return;
 		}
 
 		//destructor
-		Text::~Text(void)
+		Vertex2D::~Vertex2D(void)
 		{
 			return;
 		}

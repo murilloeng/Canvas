@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/2D/Quad.hpp"
 
@@ -59,7 +59,7 @@ namespace canvas
 		void Quad::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 4 * m_stroke;
+			vertices::Model3D* vbo_fill_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 4 * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{
@@ -70,7 +70,7 @@ namespace canvas
 		void Quad::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_stroke_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < 4; i++)
 			{

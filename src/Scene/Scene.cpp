@@ -20,9 +20,9 @@
 
 #include "Canvas/inc/Objects/Object.hpp"
 
-#include "Canvas/inc/Vertices/Text.hpp"
-#include "Canvas/inc/Vertices/Model.hpp"
-#include "Canvas/inc/Vertices/Image.hpp"
+#include "Canvas/inc/Vertices/Text3D.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/inc/Vertices/Image3D.hpp"
 
 // vbo
 // (0) model:	position (3) color (4)
@@ -192,9 +192,9 @@ namespace canvas
 	}
 	vertices::Vertex* Scene::vertex(unsigned type, unsigned index) const
 	{
-		if(type == 2) return (vertices::Text*) m_vbo_data[2] + index;
-		else if(type == 0) return (vertices::Model*) m_vbo_data[0] + index;
-		else if(type == 1) return (vertices::Image*) m_vbo_data[1] + index;
+		if(type == 2) return (vertices::Text3D*) m_vbo_data[2] + index;
+		else if(type == 0) return (vertices::Model3D*) m_vbo_data[0] + index;
+		else if(type == 1) return (vertices::Image3D*) m_vbo_data[1] + index;
 		else return nullptr;
 	}
 
@@ -303,9 +303,9 @@ namespace canvas
 				m_vbo_size[i] += object->vbo_size(i);
 			}
 			delete[] m_vbo_data[i];
-			if(i == 2) m_vbo_data[i] = new vertices::Text[m_vbo_size[i]];
-			if(i == 0) m_vbo_data[i] = new vertices::Model[m_vbo_size[i]];
-			if(i == 1) m_vbo_data[i] = new vertices::Image[m_vbo_size[i]];
+			if(i == 2) m_vbo_data[i] = new vertices::Text3D[m_vbo_size[i]];
+			if(i == 0) m_vbo_data[i] = new vertices::Model3D[m_vbo_size[i]];
+			if(i == 1) m_vbo_data[i] = new vertices::Image3D[m_vbo_size[i]];
 		}
 	}
 	void Scene::setup_ibo(void)
@@ -439,16 +439,16 @@ namespace canvas
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (3 * sizeof(float)));
 		//vao image
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (3 * sizeof(float)));
 		//vao text
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
@@ -456,9 +456,9 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (3 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text), (unsigned*) (7 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (7 * sizeof(float)));
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -508,10 +508,10 @@ namespace canvas
 				const unsigned ib = object->m_vbo_index[i];
 				for(unsigned iv = ib; iv < ib + is; iv++)
 				{
-					vertices::Vertex* vertex;
-					if(i == 2) vertex = (vertices::Text*) m_vbo_data[i] + iv;
-					if(i == 0) vertex = (vertices::Model*) m_vbo_data[i] + iv;
-					if(i == 1) vertex = (vertices::Image*) m_vbo_data[i] + iv;
+					vertices::Vertex3D* vertex;
+					if(i == 2) vertex = (vertices::Text3D*) m_vbo_data[i] + iv;
+					if(i == 0) vertex = (vertices::Model3D*) m_vbo_data[i] + iv;
+					if(i == 1) vertex = (vertices::Image3D*) m_vbo_data[i] + iv;
 					vertex->m_position = object->model_matrix() * vertex->m_position;
 				}
 			}
@@ -521,7 +521,7 @@ namespace canvas
 	{
 		//data
 		const unsigned is[] = {1, 2, 3, 3, 3, 3};
-		const unsigned vs[] = {sizeof(vertices::Model), sizeof(vertices::Image), sizeof(vertices::Text)};
+		const unsigned vs[] = {sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D)};
 		//vbo data
 		for(unsigned i = 0; i < 3; i++)
 		{

@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/1D/Polyline.hpp"
 
@@ -80,7 +80,7 @@ namespace canvas
 		void Polyline::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
 			for(unsigned i = 0; i < m_points.size(); i++)
 			{

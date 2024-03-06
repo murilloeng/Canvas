@@ -1,7 +1,7 @@
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Scene/Image.hpp"
-#include "Canvas/inc/Vertices/Image.hpp"
+#include "Canvas/inc/Vertices/Image3D.hpp"
 #include "Canvas/inc/Objects/Image/Image.hpp"
 
 namespace canvas
@@ -104,8 +104,8 @@ namespace canvas
 			{
 				const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
 				const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
-				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_texture_coordinates = t[i];
-				((vertices::Image*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
+				((vertices::Image3D*) vbo_data[1] + m_vbo_index[1] + i)->m_texture_coordinates = t[i];
+				((vertices::Image3D*) vbo_data[1] + m_vbo_index[1] + i)->m_position = m_position + x1 * t1 + x2 * t2;
 			}
 		}
 

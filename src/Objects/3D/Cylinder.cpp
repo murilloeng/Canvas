@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/3D/Cylinder.hpp"
 
@@ -128,7 +128,7 @@ namespace canvas
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{
@@ -144,7 +144,7 @@ namespace canvas
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 2 * m_mesh * m_stroke;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < m_mesh; i++)
 			{

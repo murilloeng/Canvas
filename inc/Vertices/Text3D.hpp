@@ -2,23 +2,24 @@
 
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
-#include "Canvas/inc/Math/vec3.hpp"
-#include "Canvas/inc/Vertices/Vertex.hpp"
+#include "Canvas/inc/Colors/Color.hpp"
+#include "Canvas/inc/Vertices/Vertex3D.hpp"
 
 namespace canvas
 {
 	namespace vertices
 	{
-		class Image : public Vertex
+		class Text3D : public Vertex3D
 		{
 		public:
 			//constructor
-			Image(void);
+			Text3D(void);
 
 			//destructor
-			~Image(void);
+			~Text3D(void);
 
 			//data
+			Color m_color;
 			vec2 m_texture_coordinates;
 		};
 	}

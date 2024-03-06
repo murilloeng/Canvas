@@ -2,7 +2,7 @@
 
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/inc/Objects/Geometry.hpp"
 
 namespace canvas
@@ -46,9 +46,9 @@ namespace canvas
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
 			
-			void vbo_edges_data(vertices::Model*) const;
-			void vbo_faces_data(vertices::Model*) const;
-			void vbo_vertices_data(vertices::Model*) const;
+			void vbo_edges_data(vertices::Model3D*) const;
+			void vbo_faces_data(vertices::Model3D*) const;
+			void vbo_vertices_data(vertices::Model3D*) const;
 
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 

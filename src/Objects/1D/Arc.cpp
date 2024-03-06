@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/1D/Arc.hpp"
 

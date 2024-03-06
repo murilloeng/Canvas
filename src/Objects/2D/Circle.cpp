@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/2D/Circle.hpp"
 
@@ -91,7 +91,7 @@ namespace canvas
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_fill_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + m_stroke * m_mesh;
+			vertices::Model3D* vbo_fill_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)
@@ -110,7 +110,7 @@ namespace canvas
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			vertices::Model* vbo_stroke_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_stroke_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(unsigned i = 0; i < m_mesh; i++)

@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/inc/Vertices/Model.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/3D/Cube.hpp"
 
@@ -126,7 +126,7 @@ namespace canvas
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes / 2);
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{
@@ -138,7 +138,7 @@ namespace canvas
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes / 2);
-			vertices::Model* vbo_ptr = (vertices::Model*) vbo_data[0] + m_vbo_index[0] + 8 * m_stroke;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 8 * m_stroke;
 			//vbo data
 			for(unsigned i = 0; i < 8; i++)
 			{

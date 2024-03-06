@@ -3,9 +3,9 @@
 
 //canvas
 #include "Canvas/inc/Objects/Group.hpp"
-#include "Canvas/inc/Vertices/Text.hpp"
-#include "Canvas/inc/Vertices/Model.hpp"
-#include "Canvas/inc/Vertices/Image.hpp"
+#include "Canvas/inc/Vertices/Text3D.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/inc/Vertices/Image3D.hpp"
 
 namespace canvas
 {
@@ -120,9 +120,9 @@ namespace canvas
 				{
 					for(unsigned j = 0; j < geometry->vbo_size(i); j++)
 					{
-						if(i == 2) ((vertices::Text*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
-						if(i == 0) ((vertices::Model*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
-						if(i == 1) ((vertices::Image*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
+						if(i == 2) ((vertices::Text3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
+						if(i == 0) ((vertices::Model3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
+						if(i == 1) ((vertices::Image3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
 					}
 					vbo_index += geometry->vbo_size(i);
 				}
