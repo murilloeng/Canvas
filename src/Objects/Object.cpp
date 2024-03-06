@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_vbo_index{0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0}
+		Object::Object(void) : m_vbo_index{0, 0, 0, 0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0, 0}
 		{
 			return;
 		}

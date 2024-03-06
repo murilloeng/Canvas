@@ -463,15 +463,15 @@ namespace canvas
 	void Scene::setup_shaders(void)
 	{
 		//path
-		m_programs[3].vertex_shader()->path(m_shaders_dir + "text.vert");
-		m_programs[0].vertex_shader()->path(m_shaders_dir + "model.vert");
 		m_programs[1].vertex_shader()->path(m_shaders_dir + "light.vert");
-		m_programs[2].vertex_shader()->path(m_shaders_dir + "image.vert");
-		m_programs[3].fragment_shader()->path(m_shaders_dir + "text.frag");
+		m_programs[3].vertex_shader()->path(m_shaders_dir + "text3D.vert");
+		m_programs[0].vertex_shader()->path(m_shaders_dir + "model3D.vert");
+		m_programs[2].vertex_shader()->path(m_shaders_dir + "image3D.vert");
 		m_programs[1].geometry_shader()->path(m_shaders_dir + "light.geom");
-		m_programs[0].fragment_shader()->path(m_shaders_dir + "model.frag");
 		m_programs[1].fragment_shader()->path(m_shaders_dir + "light.frag");
-		m_programs[2].fragment_shader()->path(m_shaders_dir + "image.frag");
+		m_programs[3].fragment_shader()->path(m_shaders_dir + "text3D.frag");
+		m_programs[0].fragment_shader()->path(m_shaders_dir + "model3D.frag");
+		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
 		for(unsigned i = 0; i < 4; i++) m_programs[i].setup();
 	}
