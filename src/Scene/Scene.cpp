@@ -20,14 +20,20 @@
 
 #include "Canvas/inc/Objects/Object.hpp"
 
+#include "Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/inc/Vertices/Text3D.hpp"
+#include "Canvas/inc/Vertices/Model2D.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/inc/Vertices/Image2D.hpp"
 #include "Canvas/inc/Vertices/Image3D.hpp"
 
 // vbo
-// (0) model:	position (3) color (4)
-// (1) image:	position (3) texture (2)
-// (2) text:	position (3) color (4) texture (2)
+// (0) model3D:	position (3) color (4)
+// (1) image3D:	position (3) texture (2)
+// (2) text3D:	position (3) color (4) texture (2)
+// (3) model3D:	position (2) color (4)
+// (4) image3D:	position (2) texture (2)
+// (6) text2D:	position (2) color (4) texture (2)
 
 // ibo
 // (0) points, (1) lines, (2) triangles, (3) images, (4) text, (5) latex
@@ -39,10 +45,11 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_vbo_size{0, 0, 0}, 
+		m_vbo_size{0, 0, 0, 0, 0, 0}, 
 		m_ibo_size{0, 0, 0, 0, 0, 0}, 
 		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
-		m_vbo_data{nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
+		m_vbo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
 		setup_buffers();
@@ -62,15 +69,15 @@ namespace canvas
 		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
-		for(unsigned i = 0; i < 3; i++) delete[] m_vbo_data[i];
+		for(unsigned i = 0; i < 6; i++) delete[] m_vbo_data[i];
 		for(unsigned i = 0; i < 6; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
-		glDeleteBuffers(3, m_vbo_id);
+		glDeleteBuffers(6, m_vbo_id);
 		glDeleteBuffers(6, m_ibo_id);
 		glDeleteTextures(3, m_texture_id);
-		glDeleteVertexArrays(3, m_vao_id);
+		glDeleteVertexArrays(6, m_vao_id);
 		//freetype
 		FT_Done_FreeType(m_ft_library);
 	}
@@ -192,10 +199,13 @@ namespace canvas
 	}
 	vertices::Vertex* Scene::vertex(unsigned type, unsigned index) const
 	{
+		if(type == 5) return (vertices::Text2D*) m_vbo_data[5] + index;
 		if(type == 2) return (vertices::Text3D*) m_vbo_data[2] + index;
-		else if(type == 0) return (vertices::Model3D*) m_vbo_data[0] + index;
-		else if(type == 1) return (vertices::Image3D*) m_vbo_data[1] + index;
-		else return nullptr;
+		if(type == 3) return (vertices::Model2D*) m_vbo_data[3] + index;
+		if(type == 0) return (vertices::Model3D*) m_vbo_data[0] + index;
+		if(type == 4) return (vertices::Image2D*) m_vbo_data[4] + index;
+		if(type == 1) return (vertices::Image3D*) m_vbo_data[1] + index;
+		return nullptr;
 	}
 
 	//draw
@@ -295,7 +305,7 @@ namespace canvas
 	}
 	void Scene::setup_vbo(void)
 	{
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 6; i++)
 		{
 			m_vbo_size[i] = 0;
 			for(const objects::Object* object : m_objects)
@@ -303,8 +313,11 @@ namespace canvas
 				m_vbo_size[i] += object->vbo_size(i);
 			}
 			delete[] m_vbo_data[i];
+			if(i == 5) m_vbo_data[i] = new vertices::Text2D[m_vbo_size[i]];
 			if(i == 2) m_vbo_data[i] = new vertices::Text3D[m_vbo_size[i]];
+			if(i == 3) m_vbo_data[i] = new vertices::Model2D[m_vbo_size[i]];
 			if(i == 0) m_vbo_data[i] = new vertices::Model3D[m_vbo_size[i]];
+			if(i == 4) m_vbo_data[i] = new vertices::Image2D[m_vbo_size[i]];
 			if(i == 1) m_vbo_data[i] = new vertices::Image3D[m_vbo_size[i]];
 		}
 	}
@@ -419,7 +432,7 @@ namespace canvas
 	void Scene::setup_objects(void)
 	{
 		//data
-		unsigned vbo_counter[] = {0, 0, 0};
+		unsigned vbo_counter[] = {0, 0, 0, 0, 0, 0};
 		unsigned ibo_counter[] = {0, 0, 0, 0, 0, 0};
 		//objects
 		for(objects::Object* object : m_objects)
@@ -430,35 +443,12 @@ namespace canvas
 	void Scene::setup_buffers(void)
 	{
 		//generate
-		glGenBuffers(3, m_vbo_id);
+		glGenBuffers(6, m_vbo_id);
 		glGenBuffers(6, m_ibo_id);
-		glGenVertexArrays(3, m_vao_id);
-		//vao model
-		glBindVertexArray(m_vao_id[0]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
-		//attributes
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (3 * sizeof(float)));
-		//vao image
-		glBindVertexArray(m_vao_id[1]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
-		//attributes
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (3 * sizeof(float)));
-		//vao text
-		glBindVertexArray(m_vao_id[2]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
-		//attributes
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (3 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (7 * sizeof(float)));
+		glGenVertexArrays(6, m_vao_id);
+		//buffers
+		setup_buffers_2D();
+		setup_buffers_3D();
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -495,6 +485,64 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 	}
+	void Scene::setup_buffers_2D(void)
+	{
+		//vao model
+		glBindVertexArray(m_vao_id[3]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[3]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (2 * sizeof(float)));
+		//vao image
+		glBindVertexArray(m_vao_id[4]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (2 * sizeof(float)));
+		//vao text
+		glBindVertexArray(m_vao_id[5]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (6 * sizeof(float)));
+	}
+	void Scene::setup_buffers_3D(void)
+	{
+		//vao model
+		glBindVertexArray(m_vao_id[0]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (3 * sizeof(float)));
+		//vao image
+		glBindVertexArray(m_vao_id[1]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (3 * sizeof(float)));
+		//vao text
+		glBindVertexArray(m_vao_id[2]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
+		//attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (7 * sizeof(float)));
+	}
 
 	//buffers
 	void Scene::buffers_data(void)
@@ -520,10 +568,15 @@ namespace canvas
 	void Scene::buffers_transfer(void)
 	{
 		//data
-		const unsigned is[] = {1, 2, 3, 3, 3, 3};
-		const unsigned vs[] = {sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D)};
+		const unsigned is[] = {
+			1, 2, 3, 3, 3, 3
+		};
+		const unsigned vs[] = {
+			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D),
+			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
+		};
 		//vbo data
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 6; i++)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[i]);
 			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);

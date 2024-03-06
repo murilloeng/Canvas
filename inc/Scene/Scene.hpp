@@ -97,6 +97,8 @@ namespace canvas
 		void setup_shaders(void);
 		void setup_textures(void);
 		void setup_freetype(void);
+		void setup_buffers_2D(void);
+		void setup_buffers_3D(void);
 
 		//buffers
 		void buffers_data(void);
@@ -106,14 +108,14 @@ namespace canvas
 		Light m_light;
 		camera::Camera m_camera;
 
-		unsigned m_vao_id[3];
-		unsigned m_vbo_id[3];
+		unsigned m_vao_id[6];
+		unsigned m_vbo_id[6];
 		unsigned m_ibo_id[6];
-		unsigned m_vbo_size[3];
+		unsigned m_vbo_size[6];
 		unsigned m_ibo_size[6];
 		unsigned* m_ibo_data[6];
 		unsigned m_texture_id[3];
-		vertices::Vertex* m_vbo_data[3];
+		vertices::Vertex* m_vbo_data[6];
 
 		Color m_background;
 		Program m_programs[4];
