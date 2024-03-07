@@ -31,25 +31,24 @@
 // (0) model3D:	position (3) color (4)
 // (1) image3D:	position (3) texture (2)
 // (2) text3D:	position (3) color (4) texture (2)
-// (3) model3D:	position (2) color (4)
-// (4) image3D:	position (2) texture (2)
+// (3) model2D:	position (2) color (4)
+// (4) image2D:	position (2) texture (2)
 // (6) text2D:	position (2) color (4) texture (2)
 
 // ibo
-// (0) points, (1) lines, (2) triangles, (3) images, (4) text, (5) latex
+// ( 0) points 3D, ( 1) lines 3D, ( 2) triangles 3D, ( 3) images 3D, ( 4) text 3D, ( 5) latex 3D
+// ( 6) points 2D, ( 7) lines 2D, ( 8) triangles 2D, ( 9) images 2D, (10) text 2D, (11) latex 2D
 
 // programs
-// (0) model, (1) light, (2) images, (3) text
+// ( 0) model, (1) light, (2) images, (3) text
 
 namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_vbo_size{0, 0, 0, 0, 0, 0}, 
-		m_ibo_size{0, 0, 0, 0, 0, 0}, 
-		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
-		m_vbo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
-		m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
+		m_vbo_size{0, 0, 0, 0, 0, 0}, m_ibo_size{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, 
+		m_vbo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, m_background(0, 0, 0, 0), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
 		setup_buffers();
@@ -70,12 +69,12 @@ namespace canvas
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
 		for(unsigned i = 0; i < 6; i++) delete[] m_vbo_data[i];
-		for(unsigned i = 0; i < 6; i++) delete[] m_ibo_data[i];
+		for(unsigned i = 0; i < 12; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
 		glDeleteBuffers(6, m_vbo_id);
-		glDeleteBuffers(6, m_ibo_id);
+		glDeleteBuffers(12, m_ibo_id);
 		glDeleteTextures(3, m_texture_id);
 		glDeleteVertexArrays(6, m_vao_id);
 		//freetype
@@ -216,11 +215,16 @@ namespace canvas
 		//clear
 		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//draw
-		draw_text();
-		draw_model();
-		draw_image();
-		draw_equation();
+		//draw 3D
+		draw_text_3D();
+		draw_model_3D();
+		draw_image_3D();
+		draw_latex_3D();
+		//draw 2D
+		draw_text_2D();
+		draw_model_2D();
+		draw_image_2D();
+		draw_latex_2D();
 	}
 	void Scene::update(bool setup)
 	{
@@ -240,7 +244,18 @@ namespace canvas
 	}
 
 	//draw
-	void Scene::draw_text(void)
+	void Scene::draw_text_2D(void)
+	{
+		//model
+		m_programs[6].use();
+		glBindVertexArray(m_vao_id[5]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[10]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[10], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_text_3D(void)
 	{
 		//model
 		m_programs[3].use();
@@ -251,7 +266,23 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[4]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[4], GL_UNSIGNED_INT, nullptr);
 	}
-	void Scene::draw_model(void)
+	void Scene::draw_model_2D(void)
+	{
+		//model
+		m_programs[4].use();
+		glBindVertexArray(m_vao_id[3]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[3]);
+		//draw points
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[6]);
+		glDrawElements(GL_POINTS, m_ibo_size[6], GL_UNSIGNED_INT, nullptr);
+		//draw lines
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[7]);
+		glDrawElements(GL_LINES, 2 * m_ibo_size[7], GL_UNSIGNED_INT, nullptr);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[8]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[8], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_model_3D(void)
 	{
 		//model
 		m_programs[0].use();
@@ -268,7 +299,18 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
-	void Scene::draw_image(void)
+	void Scene::draw_image_2D(void)
+	{
+		//model
+		m_programs[5].use();
+		glBindVertexArray(m_vao_id[4]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[9]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[9], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_image_3D(void)
 	{
 		//model
 		m_programs[2].use();
@@ -279,7 +321,18 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
 	}
-	void Scene::draw_equation(void)
+	void Scene::draw_latex_2D(void)
+	{
+		//model
+		m_programs[6].use();
+		glBindVertexArray(m_vao_id[5]);
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
+		//draw triangles
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[11]);
+		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[11], GL_UNSIGNED_INT, nullptr);
+	}
+	void Scene::draw_latex_3D(void)
 	{
 		//model
 		m_programs[3].use();
@@ -454,16 +507,22 @@ namespace canvas
 	{
 		//path
 		m_programs[1].vertex_shader()->path(m_shaders_dir + "light.vert");
+		m_programs[6].vertex_shader()->path(m_shaders_dir + "text2D.vert");
 		m_programs[3].vertex_shader()->path(m_shaders_dir + "text3D.vert");
+		m_programs[4].vertex_shader()->path(m_shaders_dir + "model2D.vert");
 		m_programs[0].vertex_shader()->path(m_shaders_dir + "model3D.vert");
+		m_programs[5].vertex_shader()->path(m_shaders_dir + "image2D.vert");
 		m_programs[2].vertex_shader()->path(m_shaders_dir + "image3D.vert");
 		m_programs[1].geometry_shader()->path(m_shaders_dir + "light.geom");
 		m_programs[1].fragment_shader()->path(m_shaders_dir + "light.frag");
+		m_programs[6].fragment_shader()->path(m_shaders_dir + "text2D.frag");
 		m_programs[3].fragment_shader()->path(m_shaders_dir + "text3D.frag");
+		m_programs[4].fragment_shader()->path(m_shaders_dir + "model2D.frag");
 		m_programs[0].fragment_shader()->path(m_shaders_dir + "model3D.frag");
+		m_programs[5].fragment_shader()->path(m_shaders_dir + "image2D.frag");
 		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
-		for(unsigned i = 0; i < 4; i++) m_programs[i].setup();
+		for(unsigned i = 0; i < 7; i++) m_programs[i].setup();
 	}
 	void Scene::setup_textures(void)
 	{

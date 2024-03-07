@@ -80,10 +80,14 @@ namespace canvas
 
 	protected:
 		//draw
-		void draw_text(void);
-		void draw_model(void);
-		void draw_image(void);
-		void draw_equation(void);
+		void draw_text_2D(void);
+		void draw_text_3D(void);
+		void draw_model_2D(void);
+		void draw_model_3D(void);
+		void draw_image_2D(void);
+		void draw_image_3D(void);
+		void draw_latex_2D(void);
+		void draw_latex_3D(void);
 
 		//setup
 		void setup_gl(void);
@@ -110,15 +114,15 @@ namespace canvas
 
 		unsigned m_vao_id[6];
 		unsigned m_vbo_id[6];
-		unsigned m_ibo_id[6];
+		unsigned m_ibo_id[12];
 		unsigned m_vbo_size[6];
-		unsigned m_ibo_size[6];
-		unsigned* m_ibo_data[6];
+		unsigned m_ibo_size[12];
+		unsigned* m_ibo_data[12];
 		unsigned m_texture_id[3];
 		vertices::Vertex* m_vbo_data[6];
 
 		Color m_background;
-		Program m_programs[4];
+		Program m_programs[7];
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;

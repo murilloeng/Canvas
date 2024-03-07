@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_vbo_index{0, 0, 0, 0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0, 0}
+		Object::Object(void) : m_vbo_index{0, 0, 0, 0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 		{
 			return;
 		}
@@ -81,14 +81,14 @@ namespace canvas
 		void Object::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
 			//data
-			const unsigned ibo_offset[] = {1, 2, 3, 3, 3, 3};
+			const unsigned ibo_offset[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
 			//buffers
-			for(unsigned i = 0; i < 3; i++)
+			for(unsigned i = 0; i < 6; i++)
 			{
 				m_vbo_index[i] = vbo_counter[i];
 				vbo_counter[i] += vbo_size(i);
 			}
-			for(unsigned i = 0; i < 6; i++)
+			for(unsigned i = 0; i < 12; i++)
 			{
 				m_ibo_index[i] = ibo_counter[i];
 				ibo_counter[i] += ibo_offset[i] * ibo_size(i);
