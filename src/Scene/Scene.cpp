@@ -377,9 +377,9 @@ namespace canvas
 	void Scene::setup_ibo(void)
 	{
 		//data
-		const unsigned is[] = {1, 2, 3, 3, 3, 3};
+		const unsigned is[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
 		//ibo data
-		for(unsigned i = 0; i < 6; i++)
+		for(unsigned i = 0; i < 12; i++)
 		{
 			m_ibo_size[i] = 0;
 			for(const objects::Object* object : m_objects)
@@ -486,7 +486,7 @@ namespace canvas
 	{
 		//data
 		unsigned vbo_counter[] = {0, 0, 0, 0, 0, 0};
-		unsigned ibo_counter[] = {0, 0, 0, 0, 0, 0};
+		unsigned ibo_counter[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		//objects
 		for(objects::Object* object : m_objects)
 		{
@@ -497,7 +497,7 @@ namespace canvas
 	{
 		//generate
 		glGenBuffers(6, m_vbo_id);
-		glGenBuffers(6, m_ibo_id);
+		glGenBuffers(12, m_ibo_id);
 		glGenVertexArrays(6, m_vao_id);
 		//buffers
 		setup_buffers_2D();
@@ -552,16 +552,16 @@ namespace canvas
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (unsigned*) (2 * sizeof(float)));
 		//vao image
 		glBindVertexArray(m_vao_id[4]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (unsigned*) (2 * sizeof(float)));
 		//vao text
 		glBindVertexArray(m_vao_id[5]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
@@ -569,9 +569,9 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (2 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (6 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (6 * sizeof(float)));
 	}
 	void Scene::setup_buffers_3D(void)
 	{
@@ -628,7 +628,7 @@ namespace canvas
 	{
 		//data
 		const unsigned is[] = {
-			1, 2, 3, 3, 3, 3
+			1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3
 		};
 		const unsigned vs[] = {
 			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D),
@@ -641,7 +641,7 @@ namespace canvas
 			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
 		}
 		//ibo data
-		for(unsigned i = 0; i < 6; i++)
+		for(unsigned i = 0; i < 12; i++)
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);

@@ -1,6 +1,7 @@
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Objects/3D/Sphere.hpp"
+#include "Canvas/inc/Objects/Image/Palette.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
@@ -28,6 +29,7 @@ namespace examples
 					((canvas::objects::Sphere*) scene->object(n * i + j))->color_stroke({1.0f, 1.0f, 1.0f});
 				}
 			}
+			scene->add_object(new canvas::objects::Palette);
 		}
 	}
 }
