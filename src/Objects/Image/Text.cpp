@@ -52,7 +52,7 @@ namespace canvas
 		{
 			return m_position;
 		}
-		vec3 Text::position(const vec3& position)
+		vec3 Text::position(const vec3 &position)
 		{
 			return m_position = position;
 		}
@@ -79,7 +79,7 @@ namespace canvas
 		{
 			return m_directions[index];
 		}
-		vec3 Text::direction(unsigned index, const vec3& direction)
+		vec3 Text::direction(unsigned index, const vec3 &direction)
 		{
 			return m_directions[index] = direction;
 		}
@@ -89,9 +89,9 @@ namespace canvas
 		{
 			unsigned w = 0;
 			unsigned v = 0;
-			for(char c : m_text)
+			for (char c : m_text)
 			{
-				if(c == '\n')
+				if (c == '\n')
 				{
 					w = std::max(w, v), v = 0;
 				}
@@ -106,11 +106,11 @@ namespace canvas
 		{
 			//data
 			unsigned h = 0, a = 0, b = 0;
-			Font* font = m_scene->font(m_font);
+			Font *font = m_scene->font(m_font);
 			//height
-			for(char c : m_text)
+			for (char c : m_text)
 			{
-				if(c == '\n' || c == '\v')
+				if (c == '\n' || c == '\v')
 				{
 					h += a + b + unsigned(m_line_spacing) * font->height(), a = b = 0;
 				}
@@ -125,9 +125,10 @@ namespace canvas
 		unsigned Text::length(void) const
 		{
 			unsigned v = 0;
-			for(char c : m_text)
+			for (char c : m_text)
 			{
-				if(c >= 32) v++;
+				if (c >= 32)
+					v++;
 			}
 			return v;
 		}
@@ -143,10 +144,10 @@ namespace canvas
 		}
 
 		//draw
-		void Text::ibo_fill_data(unsigned** ibo_data) const
+		void Text::ibo_fill_data(unsigned **ibo_data) const
 		{
 			const unsigned s = length();
-			for(unsigned i = 0; i < s; i++)
+			for (unsigned i = 0; i < s; i++)
 			{
 				ibo_data[4][m_ibo_index[4] + 6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
 				ibo_data[4][m_ibo_index[4] + 6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
@@ -156,26 +157,26 @@ namespace canvas
 				ibo_data[4][m_ibo_index[4] + 6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
 			}
 		}
-		void Text::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Text::vbo_fill_data(vertices::Vertex **vbo_data) const
 		{
 			//data
 			unsigned line = 0;
 			const unsigned wt = width();
 			const unsigned ht = height();
 			float xa[2], xs[2], xc[8], tc[8];
-			const vec3& t1 = m_directions[0];
-			const vec3& t2 = m_directions[1];
-			const Font* font = m_scene->font(m_font);
+			const vec3 &t1 = m_directions[0];
+			const vec3 &t2 = m_directions[1];
+			const Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
-			vertices::Text3D* vbo_ptr = (vertices::Text3D*) vbo_data[2] + m_vbo_index[2];
+			vertices::Text3D *vbo_ptr = (vertices::Text3D *)vbo_data[2] + m_vbo_index[2];
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;
 			xa[1] = -ps * m_lines[0] + ps * ht * (2 - m_anchor.vertical()) / 2;
 			//vbo data
-			for(unsigned i = 0; i < m_text.length(); i++)
+			for (unsigned i = 0; i < m_text.length(); i++)
 			{
-				if(m_text[i] >= 32)
+				if (m_text[i] >= 32)
 				{
 					//character
 					font->character(m_text[i]).coordinates(tc);
@@ -190,7 +191,7 @@ namespace canvas
 					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xa[0] + xs[0] + ps * (a + w);
 					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xa[1] + xs[1] + ps * (b - h);
 					//vertices
-					for(unsigned j = 0; j < 4; j++)
+					for (unsigned j = 0; j < 4; j++)
 					{
 						(vbo_ptr + j)->m_color = m_color_fill;
 						(vbo_ptr + j)->m_texture_coordinates = tc + 2 * j;
@@ -199,16 +200,16 @@ namespace canvas
 					vbo_ptr += 4;
 					xs[0] += ps * r;
 				}
-				if(m_text[i] == '\t')
+				if (m_text[i] == '\t')
 				{
 					xs[0] += 4 * ps * font->character(' ').advance();
 				}
-				if(m_text[i] == '\n')
+				if (m_text[i] == '\n')
 				{
 					xs[0] = 0;
 					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
 				}
-				if(m_text[i] == '\v')
+				if (m_text[i] == '\v')
 				{
 					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
 				}
@@ -219,21 +220,21 @@ namespace canvas
 		{
 			//check
 			unsigned a = 0, b = 0;
-			if(m_font >= m_scene->fonts().size())
+			if (m_font >= m_scene->fonts().size())
 			{
 				fprintf(stderr, "Error: Text's font has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
 			//lines
-			for(char c : m_text)
+			for (char c : m_text)
 			{
-				if(c == '\n' || c == '\v')
+				if (c == '\n' || c == '\v')
 				{
 					m_lines.push_back(a), m_lines.push_back(b), a = b = 0;
 				}
 				else
 				{
-					const Font* font = m_scene->font(m_font);
+					const Font *font = m_scene->font(m_font);
 					a = std::max(a, font->character(c).bearing(1));
 					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
 				}
@@ -242,10 +243,12 @@ namespace canvas
 			//indexes
 			Object::setup(vbo_counter, ibo_counter);
 		}
-		void Text::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Text::buffers_data(vertices::Vertex **vbo_data, unsigned **ibo_data) const
 		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
+			if (m_fill)
+				vbo_fill_data(vbo_data);
+			if (m_fill)
+				ibo_fill_data(ibo_data);
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace canvas
 		//constructor
 		Palette::Palette(void) : m_size(0), m_colors(nullptr)
 		{
-			type(palettes::type::spectral);
+			type(palettes::type::moreland);
 		}
 
 		//destructor

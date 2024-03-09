@@ -29,6 +29,7 @@ namespace examples
 					((canvas::objects::Sphere*) scene->object(n * i + j))->color_stroke({1.0f, 1.0f, 1.0f});
 				}
 			}
+			scene->add_font("times");
 			scene->add_object(new canvas::objects::Palette);
 		}
 	}
