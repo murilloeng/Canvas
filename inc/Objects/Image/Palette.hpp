@@ -34,6 +34,8 @@ namespace canvas
 			unsigned marks(unsigned);
 			unsigned marks(void) const;
 
+			palettes::Palette& palette(void);
+
 		protected:
 			//text
 			unsigned text_width(const char*) const;

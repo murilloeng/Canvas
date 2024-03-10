@@ -71,6 +71,11 @@ namespace canvas
 			return m_marks = marks;
 		}
 
+		palettes::Palette& Palette::palette(void)
+		{
+			return m_palette;
+		}
+
 		//text
 		unsigned Palette::text_width(const char* string) const
 		{
