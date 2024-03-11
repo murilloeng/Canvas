@@ -296,7 +296,7 @@ namespace canvas
 					if(modifiers & 1 << unsigned(modifier::alt))
 					{
 						const float m = fminf(w, h);
-						m_position -= m_rotation.rotate(1.05 * mat4::scaling({w / m, h / m, 1}) * shift[i]);
+						m_position -= m_rotation.rotate(m_scale * mat4::scaling({w / m, h / m, 1}) * shift[i]);
 					}
 					else if(modifiers & 1 << unsigned(modifier::ctrl))
 					{
