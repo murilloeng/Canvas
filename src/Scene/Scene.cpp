@@ -56,7 +56,6 @@ namespace canvas
 		setup_textures();
 		setup_freetype();
 		m_camera.m_scene = this;
-		objects::Object::m_scene = this;
 		m_camera.m_programs = m_programs;
 		m_light.m_program = &m_programs[1];
 	}
@@ -176,6 +175,7 @@ namespace canvas
 	}
 	void Scene::add_object(objects::Object* object)
 	{
+		object->m_scene = this;
 		m_objects.push_back(object);
 	}
 	objects::Object* Scene::object(unsigned index) const

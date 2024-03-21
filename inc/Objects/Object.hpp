@@ -26,6 +26,7 @@ namespace canvas
 			virtual ~Object(void);
 
 			//data
+			Scene* scene(void);
 			mat4 model_matrix(mat4);
 			mat4 model_matrix(void) const;
 			mat4 apply_matrix(mat4, bool = true);
@@ -51,12 +52,10 @@ namespace canvas
 			virtual void buffers_data(vertices::Vertex**, unsigned**) const = 0;
 
 			//data
+			Scene* m_scene;
 			mat4 m_model_matrix;
-
 			unsigned m_vbo_index[6];
 			unsigned m_ibo_index[12];
-
-			static canvas::Scene* m_scene;
 
 			//friends
 			friend class canvas::Scene;

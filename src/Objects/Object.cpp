@@ -20,6 +20,10 @@ namespace canvas
 		}
 
 		//data
+		Scene* Object::scene(void)
+		{
+			return m_scene;
+		}
 		mat4 Object::model_matrix(void) const
 		{
 			return m_model_matrix;
@@ -94,8 +98,5 @@ namespace canvas
 				ibo_counter[i] += ibo_offset[i] * ibo_size(i);
 			}
 		}
-
-		//static
-		Scene* Object::m_scene = nullptr;
 	}
 }
