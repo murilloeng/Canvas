@@ -38,6 +38,12 @@ namespace canvas
 			float fov(float);
 			float fov(void) const;
 
+			vec3 x_min(vec3);
+			vec3 x_min(void) const;
+
+			vec3 x_max(vec3);
+			vec3 x_max(void) const;
+
 			float scale(float);
 			float scale(void) const;
 
@@ -82,9 +88,9 @@ namespace canvas
 			void apply_perspective(void);
 
 			//bound
+			void bound_center(void);
 			void bound_orthogonal(void);
 			void bound_perspective(void);
-			void bound_center(vec3&, vec3&) const;
 
 			//data
 			Click m_click;
@@ -103,6 +109,8 @@ namespace canvas
 			float m_planes[2];
 
 			mat4 m_view;
+			vec3 m_x_min;
+			vec3 m_x_max;
 			mat4 m_projection;
 
 			std::string m_output;
