@@ -114,6 +114,17 @@ namespace canvas
 		return m_channels;
 	}
 
+	//linear
+	Color Color::inverse(void) const
+	{
+		Color inverse;
+		inverse.m_channels[3] = m_channels[3];
+		inverse.m_channels[0] = 1 - m_channels[0];
+		inverse.m_channels[1] = 1 - m_channels[1];
+		inverse.m_channels[2] = 1 - m_channels[2];
+		return inverse;
+	}
+
 	//operators
 	float& Color::operator[](unsigned index)
 	{
