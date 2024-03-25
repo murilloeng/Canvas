@@ -26,10 +26,12 @@ namespace canvas
 			virtual ~Object(void);
 
 			//data
-			Scene* scene(void);
+			Scene* scene(void) const;
+
 			mat4 model_matrix(mat4);
 			mat4 model_matrix(void) const;
 			mat4 apply_matrix(mat4, bool = true);
+
 			const unsigned* ibo_index(void) const;
 			const unsigned* vbo_index(void) const;
 

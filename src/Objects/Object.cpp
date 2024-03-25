@@ -20,10 +20,11 @@ namespace canvas
 		}
 
 		//data
-		Scene* Object::scene(void)
+		Scene* Object::scene(void) const
 		{
 			return m_scene;
 		}
+
 		mat4 Object::model_matrix(void) const
 		{
 			return m_model_matrix;
@@ -36,6 +37,7 @@ namespace canvas
 		{
 			return m_model_matrix = left ? affine * m_model_matrix : m_model_matrix * affine;
 		}
+
 		const unsigned* Object::ibo_index(void) const
 		{
 			return m_ibo_index;
