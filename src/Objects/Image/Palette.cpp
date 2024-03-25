@@ -14,7 +14,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Palette::Palette(void) : m_min(0.0f), m_max(1.0f), m_size(0.10f), m_font(0), m_marks(11)
+		Palette::Palette(void) : m_min(0.0f), m_max(1.0f), m_size(0.08f), m_font(0), m_marks(11)
 		{
 			return;
 		}
