@@ -14,6 +14,7 @@ namespace canvas
 		//constructors
 		quat(void);
 		quat(const float*);
+		quat(vec3, vec3, vec3);
 		quat(float, float, float, float);
 
 		//destructor

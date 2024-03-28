@@ -19,6 +19,41 @@ namespace canvas
 	{
 		return;
 	}
+	quat::quat(vec3 s1, vec3 s2, vec3 s3)
+	{
+		const double d0 = s1[0];
+		const double d1 = s2[1];
+		const double d2 = s3[2];
+		const double tr = d0 + d1 + d2;
+		if(tr >= d0 && tr >= d1 && tr >= d2)
+		{
+			m_data[0] = sqrt(1 + tr) / 2;
+			m_data[1] = (s2[2] - s3[1]) / (4 * m_data[0]);
+			m_data[2] = (s3[0] - s1[2]) / (4 * m_data[0]);
+			m_data[3] = (s1[1] - s2[0]) / (4 * m_data[0]);
+		}
+		else if(d0 >= d1 && d0 >= d2)
+		{
+			m_data[1] = sqrt(1 - tr + 2 * d0) / 2;
+			m_data[0] = (s2[2] - s3[1]) / (4 * m_data[1]);
+			m_data[2] = (s2[0] + s1[1]) / (4 * m_data[1]);
+			m_data[3] = (s3[0] + s1[2]) / (4 * m_data[1]);
+		}
+		else if(d1 >= d2)
+		{
+			m_data[2] = sqrt(1 - tr + 2 * d1) / 2;
+			m_data[0] = (s3[0] - s1[2]) / (4 * m_data[2]);
+			m_data[1] = (s2[0] + s1[1]) / (4 * m_data[2]);
+			m_data[3] = (s3[1] + s2[2]) / (4 * m_data[2]);
+		}
+		else
+		{
+			m_data[3] = sqrt(1 - tr + 2 * d2) / 2;
+			m_data[0] = (s1[1] - s2[0]) / (4 * m_data[3]);
+			m_data[1] = (s3[0] + s1[2]) / (4 * m_data[3]);
+			m_data[2] = (s3[1] + s2[2]) / (4 * m_data[3]);
+		}
+	}
 	quat::quat(float q0, float q1, float q2, float q3) : m_data{q0, q1, q2, q3}
 	{
 		return;
