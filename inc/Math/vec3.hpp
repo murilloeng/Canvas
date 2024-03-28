@@ -14,6 +14,7 @@ namespace canvas
 		//constructors
 		vec3(void);
 		vec3(const float*);
+		vec3(const double*);
 		vec3(float, float, float);
 
 		//destructor

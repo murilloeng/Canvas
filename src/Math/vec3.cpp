@@ -20,6 +20,10 @@ namespace canvas
 	{
 		return;
 	}
+	vec3::vec3(const double* x) : m_data{(float) x[0], (float) x[1], (float) x[2]}
+	{
+		return;
+	}
 	vec3::vec3(float x1, float x2, float x3) : m_data{x1, x2, x3}
 	{
 		return;
