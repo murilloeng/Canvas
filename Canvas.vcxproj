@@ -61,10 +61,15 @@
     <ClInclude Include="inc\Scene\Light.hpp" />
     <ClInclude Include="inc\Scene\Scene.hpp" />
     <ClInclude Include="inc\Scene\Texture.hpp" />
-    <ClInclude Include="inc\Vertices\Image.hpp" />
-    <ClInclude Include="inc\Vertices\Model.hpp" />
-    <ClInclude Include="inc\Vertices\Text.hpp" />
+    <ClInclude Include="inc\Vertices\Image2D.hpp" />
+    <ClInclude Include="inc\Vertices\Image3D.hpp" />
+    <ClInclude Include="inc\Vertices\Model2D.hpp" />
+    <ClInclude Include="inc\Vertices\Model3D.hpp" />
+    <ClInclude Include="inc\Vertices\Text2D.hpp" />
+    <ClInclude Include="inc\Vertices\Text3D.hpp" />
     <ClInclude Include="inc\Vertices\Vertex.hpp" />
+    <ClInclude Include="inc\Vertices\Vertex2D.hpp" />
+    <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
     <ClInclude Include="inc\Windows\Glut.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,10 +115,15 @@
     <ClCompile Include="src\Scene\Light.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Texture.cpp" />
-    <ClCompile Include="src\Vertices\Image.cpp" />
-    <ClCompile Include="src\Vertices\Model.cpp" />
-    <ClCompile Include="src\Vertices\Text.cpp" />
+    <ClCompile Include="src\Vertices\Image2D.cpp" />
+    <ClCompile Include="src\Vertices\Image3D.cpp" />
+    <ClCompile Include="src\Vertices\Model2D.cpp" />
+    <ClCompile Include="src\Vertices\Model3D.cpp" />
+    <ClCompile Include="src\Vertices\Text2D.cpp" />
+    <ClCompile Include="src\Vertices\Text3D.cpp" />
     <ClCompile Include="src\Vertices\Vertex.cpp" />
+    <ClCompile Include="src\Vertices\Vertex2D.cpp" />
+    <ClCompile Include="src\Vertices\Vertex3D.cpp" />
     <ClCompile Include="src\Windows\Glut.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

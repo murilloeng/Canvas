@@ -32,7 +32,7 @@ namespace canvas
 
 		//constructors
 		Camera::Camera(void) : 
-			m_type(camera::type::orthogonal), m_width(100), m_height(100), m_fov(M_PI / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
+			m_type(camera::type::orthogonal), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;
 		}
@@ -218,9 +218,9 @@ namespace canvas
 		void Camera::callback_keyboard(char key)
 		{
 			if(key == 'p') screen_print();
-			else if(key == 'f') m_fov = M_PI / 3, bound(), apply(), update();
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
+			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), apply(), update();
 			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(),apply(), update();
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
 		}

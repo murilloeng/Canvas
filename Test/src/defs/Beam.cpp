@@ -51,12 +51,12 @@ namespace examples
 		//points
 		for(unsigned i = 0; i < m_na; i++)
 		{
-			const float t = M_PI * i / (m_na - 1);
+			const float t = (float) M_PI * i / (m_na - 1);
 			m_tesselator.point(i) = {-H / 2 * sinf(t), H / 2 * cosf(t)};
 		}
 		for(unsigned i = 0; i < m_na; i++)
 		{
-			const float t = M_PI * i / (m_na - 1);
+			const float t = (float) M_PI * i / (m_na - 1);
 			m_tesselator.point(i + m_na) = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
 		}
 		//polygon

@@ -45,13 +45,13 @@ namespace canvas
 		//buffers
 		unsigned Polygon::vbo_size(unsigned index) const
 		{
-			const unsigned np = m_tesselator.points().size();
-			return (unsigned) np * (m_stroke + m_fill) * (index == 0);
+			const unsigned np = (unsigned) m_tesselator.points().size();
+			return np * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Polygon::ibo_size(unsigned index) const
 		{
 			const unsigned nl = m_tesselator.loops().back();
-			const unsigned ns = m_tesselator.loops().size();
+			const unsigned ns = (unsigned) m_tesselator.loops().size();
 			return nl * m_stroke * (index == 1) + (nl + 2 * ns - 6) * m_fill * (index == 2);
 		}
 
