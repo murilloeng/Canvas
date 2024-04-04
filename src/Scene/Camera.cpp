@@ -154,6 +154,15 @@ namespace canvas
 			return m_type = type;
 		}
 
+		const mat4& Camera::view(void) const
+		{
+			return m_view;
+		}
+		const mat4& Camera::projection(void) const
+		{
+			return m_projection;
+		}
+
 		//screen
 		void Camera::screen_print(void) const
 		{

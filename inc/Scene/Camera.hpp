@@ -64,6 +64,9 @@ namespace canvas
 			camera::type type(void) const;
 			camera::type type(camera::type);
 
+			const mat4& view(void) const;
+			const mat4& projection(void) const;
+
 			//screen
 			void screen_print(void) const;
 			void screen_record(void) const;
