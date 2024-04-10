@@ -22,6 +22,7 @@ namespace canvas
 			//data
 			Scene* scene(void) const;
 			void callback_idle(std::function<void(void)>);
+			void callback_special(std::function<void(int, int, int)>);
 
 			//loop
 			void start(void);
@@ -40,6 +41,7 @@ namespace canvas
 			//data
 			Scene* m_scene;
 			std::function<void(void)> m_callback_idle;
+			std::function<void(int, int, int)> m_callback_special;
 		};
 	}
 }

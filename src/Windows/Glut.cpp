@@ -20,7 +20,7 @@ namespace canvas
 	namespace windows
 	{
 		//constructors
-		Glut::Glut(int argc, char** argv, const char* shaders_dir)
+		Glut::Glut(int argc, char** argv, const char* shaders_dir) : m_callback_idle(nullptr), m_callback_special(nullptr)
 		{
 			//glut
 			master = this;
@@ -64,6 +64,10 @@ namespace canvas
 		void Glut::callback_idle(std::function<void(void)> callback_idle)
 		{
 			m_callback_idle = callback_idle;
+		}
+		void Glut::callback_special(std::function<void(int, int, int)> callback_special)
+		{
+			m_callback_special = callback_special;
 		}
 
 		//loop
@@ -110,6 +114,8 @@ namespace canvas
 			const unsigned glut_modifiers[] = {GLUT_ACTIVE_ALT, GLUT_ACTIVE_CTRL, GLUT_ACTIVE_SHIFT};
 			const canvas::key canvas_keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
 			const canvas::modifier canvas_modifiers[] = {canvas::modifier::alt, canvas::modifier::ctrl, canvas::modifier::shift};
+			//master
+			if(master->m_callback_special) master->m_callback_special(key, x1, x2);
 			//callback
 			for(unsigned i = 0; i < 3; i++)
 			{
