@@ -23,6 +23,7 @@ namespace canvas
 			Scene* scene(void) const;
 			void callback_idle(std::function<void(void)>);
 			void callback_special(std::function<void(int, int, int)>);
+			void callback_keyboard(std::function<void(unsigned char, int, int)>);
 
 			//loop
 			void start(void);
@@ -42,6 +43,7 @@ namespace canvas
 			Scene* m_scene;
 			std::function<void(void)> m_callback_idle;
 			std::function<void(int, int, int)> m_callback_special;
+			std::function<void(unsigned char, int, int)> m_callback_keyboard;
 		};
 	}
 }

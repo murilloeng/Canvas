@@ -20,7 +20,8 @@ namespace canvas
 	namespace windows
 	{
 		//constructors
-		Glut::Glut(int argc, char** argv, const char* shaders_dir) : m_callback_idle(nullptr), m_callback_special(nullptr)
+		Glut::Glut(int argc, char** argv, const char* shaders_dir) : 
+			m_callback_idle(nullptr), m_callback_special(nullptr), m_callback_keyboard(nullptr)
 		{
 			//glut
 			master = this;
@@ -68,6 +69,10 @@ namespace canvas
 		void Glut::callback_special(std::function<void(int, int, int)> callback_special)
 		{
 			m_callback_special = callback_special;
+		}
+		void Glut::callback_keyboard(std::function<void(unsigned char, int, int)> callback_keyboard)
+		{
+			m_callback_keyboard = callback_keyboard;
 		}
 
 		//loop
@@ -155,6 +160,9 @@ namespace canvas
 		}
 		void Glut::callback_keyboard(unsigned char key, int x1, int x2)
 		{
+			//master
+			if(master->m_callback_keyboard) master->callback_keyboard(key, x1, x2);
+			//Canvas
 			if(key == 27)
 			{
 				glutDestroyWindow(glutGetWindow());
