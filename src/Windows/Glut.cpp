@@ -161,7 +161,7 @@ namespace canvas
 		void Glut::callback_keyboard(unsigned char key, int x1, int x2)
 		{
 			//master
-			if(master->m_callback_keyboard) master->callback_keyboard(key, x1, x2);
+			if(master->m_callback_keyboard) master->m_callback_keyboard(key, x1, x2);
 			//Canvas
 			if(key == 27)
 			{
