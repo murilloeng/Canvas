@@ -20,7 +20,7 @@ namespace canvas
 	namespace windows
 	{
 		//constructors
-		Glut::Glut(int argc, char** argv, const char* shaders_dir) : 
+		Glut::Glut(int argc, char** argv, const char* shaders_dir) :
 			m_callback_idle(nullptr), m_callback_special(nullptr), m_callback_keyboard(nullptr)
 		{
 			//glut

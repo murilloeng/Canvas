@@ -65,9 +65,9 @@ namespace canvas
 	}
 	float vec3::inner(const vec3& v) const
 	{
-		return 
-			m_data[0] * v.m_data[0] + 
-			m_data[1] * v.m_data[1] + 
+		return
+			m_data[0] * v.m_data[0] +
+			m_data[1] * v.m_data[1] +
 			m_data[2] * v.m_data[2];
 	}
 	float vec3::min(unsigned* index, bool abs) const

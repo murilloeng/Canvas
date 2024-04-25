@@ -5,7 +5,7 @@
 namespace canvas
 {
 	//constructors
-	Program::Program(void) : m_id(0), 
+	Program::Program(void) : m_id(0),
 		m_vertex_shader(new Shader(GL_VERTEX_SHADER)),
 		m_compute_shader(new Shader(GL_COMPUTE_SHADER)),
 		m_geometry_shader(new Shader(GL_GEOMETRY_SHADER)),

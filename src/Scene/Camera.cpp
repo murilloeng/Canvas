@@ -31,7 +31,7 @@ namespace canvas
 	{
 
 		//constructors
-		Camera::Camera(void) : 
+		Camera::Camera(void) :
 			m_type(camera::type::orthogonal), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;

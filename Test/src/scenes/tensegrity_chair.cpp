@@ -98,10 +98,10 @@ static void labels(canvas::Scene* scene)
 	const canvas::Anchor a[] = {"SC", "CE", "CW", "CW", "NC"};
 	for(unsigned i = 0; i < 5; i++) labels[i] = new canvas::objects::Latex;
 	const canvas::vec3 x[] = {
-		{e / 2, 0, tr + Hr + 3 * tc / 2}, 
-		{-tc, 0, Ht / 2 + tr}, 
-		{Rr + tc, 0, Ht / 2 + tr}, 
-		{e + 3 * tc / 2, 0, Hr / 2}, 
+		{e / 2, 0, tr + Hr + 3 * tc / 2},
+		{-tc, 0, Ht / 2 + tr},
+		{Rr + tc, 0, Ht / 2 + tr},
+		{e + 3 * tc / 2, 0, Hr / 2},
 		{Rr / 2, 0, -tc}
 	};
 	//labels

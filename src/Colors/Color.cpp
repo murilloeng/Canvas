@@ -33,7 +33,7 @@ namespace canvas
 	{
 		return;
 	}
-	Color::Color(const char* string) 
+	Color::Color(const char* string)
 	{
 		channels(string);
 	}

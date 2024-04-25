@@ -87,12 +87,12 @@ namespace canvas
 		{
 			//data
 			const float* colors[] = {
-				m_palette_jet, 
-				m_palette_greys, 
-				m_palette_plasma, 
-				m_palette_whylrd, 
-				m_palette_viridis, 
-				m_palette_moreland, 
+				m_palette_jet,
+				m_palette_greys,
+				m_palette_plasma,
+				m_palette_whylrd,
+				m_palette_viridis,
+				m_palette_moreland,
 				m_palette_spectral
 			};
 			const unsigned sizes[] = {9, 8, 256, 5, 256, 257, 8};
