@@ -7,7 +7,6 @@
 !*.vert
 !*.geom
 !*.frag
-!*.json
 !*.vcxproj
 !*Makefile
 !.gitignore
