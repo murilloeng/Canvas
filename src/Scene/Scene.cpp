@@ -33,7 +33,7 @@
 // (2) text3D:	position (3) color (4) texture (2)
 // (3) model2D:	position (2) color (4)
 // (4) image2D:	position (2) texture (2)
-// (6) text2D:	position (2) color (4) texture (2)
+// (5) text2D:	position (2) color (4) texture (2)
 
 // ibo
 // ( 0) points 3D, ( 1) lines 3D, ( 2) triangles 3D, ( 3) images 3D, ( 4) text 3D, ( 5) latex 3D
