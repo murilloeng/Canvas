@@ -55,12 +55,12 @@ $(out_exe) : $(obj_exe)
 	@echo 'executable - $(mode): $@'
 
 build/$(mode)/%.o : src/%.cpp build/$(mode)/%.d
-	@echo 'compiling($(mode)): $<'
+	@echo 'compiling - $(mode): $<'
 	@mkdir -p $(dir $@) && rm -rf $@
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 Test/build/$(mode)/%.o : Test/src/%.cpp Test/build/$(mode)/%.d
-	@echo 'compiling($(mode)): $<'
+	@echo 'compiling - $(mode): $<'
 	@mkdir -p $(dir $@) && rm -rf $@
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
