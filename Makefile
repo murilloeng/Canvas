@@ -77,7 +77,7 @@ clean :
 	@rm -rf build/$(mode)
 	@rm -rf Test/dist/$(mode)
 	@rm -rf Test/build/$(mode)
-	@echo 'clean($(mode)): complete!'
+	@echo 'clean - $(mode): complete!'
 
 print-% :
 	@echo $* = $($*)
