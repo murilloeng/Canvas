@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Test\dist\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Test\dist\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,12 +119,12 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../x64/Debug/Canvas.lib;../../external/cpp/lib/x64/glew32.lib;../../external/cpp/lib/x64/freeglut.lib;../../external/cpp/lib/x64/freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\x64\glew32.dll ..\x64\Debug &gt; nul
-copy ..\..\external\cpp\dll\x64\freeglut.dll ..\x64\Debug &gt; nul
-copy ..\..\external\cpp\dll\x64\freetype.dll ..\x64\Debug &gt; nul</Command>
+      <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\freeglut.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configuration) &gt; nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,12 +144,12 @@ copy ..\..\external\cpp\dll\x64\freetype.dll ..\x64\Debug &gt; nul</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../x64/Release/Canvas.lib;../../external/cpp/lib/x64/glew32.lib;../../external/cpp/lib/x64/freeglut.lib;../../external/cpp/lib/x64/freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\x64\glew32.dll ..\x64\Release &gt; nul
-copy ..\..\external\cpp\dll\x64\freeglut.dll ..\x64\Release &gt; nul
-copy ..\..\external\cpp\dll\x64\freetype.dll ..\x64\Release &gt; nul</Command>
+      <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\freeglut.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configuration) &gt; nul</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
