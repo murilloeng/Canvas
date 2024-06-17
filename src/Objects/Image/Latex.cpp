@@ -114,7 +114,7 @@ namespace canvas
 		{
 			if(m_index >= m_scene->latex().size())
 			{
-				fprintf(stderr, "Error: Equation has out of range index!\n");
+				fprintf(stderr, "Error: Latex has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
 			Object::setup(vbo_counter, ibo_counter);

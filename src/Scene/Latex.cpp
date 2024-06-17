@@ -1,5 +1,5 @@
 //ext
-#include "stb_image.h"
+#include "external/cpp/inc/stb_image.h"
 
 //canvas
 #include "Canvas/inc/Scene/Latex.hpp"
@@ -10,7 +10,7 @@
 #define pdf_convert system("convert -density 2000 temp.pdf temp.png")
 #else
 #define pdf_delete system("del temp.*")
-#define pdf_convert system("magick convert -density 2000 temp.pdf temp.png")
+#define pdf_convert system("magick -density 2000 temp.pdf temp.png")
 #endif
 
 static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
