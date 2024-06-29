@@ -228,15 +228,16 @@ namespace canvas
 		{
 			//data
 			const float s = m_scale;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
+			const float w = (float) m_width;
+			const float h = (float) m_height;
 			const int a1 = m_click.screen(0);
 			const int a2 = m_click.screen(1);
 			const vec3 xc = m_click.position();
 			const quat qc = m_click.rotation();
+			//data
+			const float m = fminf(w, h);
 			const vec3 v1 = Click::arcball((2 * a1 - w) / m, (h - 2 * a2) / m);
 			const vec3 v2 = Click::arcball((2 * x1 - w) / m, (h - 2 * x2) / m);
 			//shift
@@ -270,13 +271,14 @@ namespace canvas
 			//data
 			const float q = 1.05f;
 			const float s = m_scale;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
-			const float s1 = 2 * x1 / w - 1;
-			const float s2 = 1 - 2 * x2 / h;
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			//data
+			const float m = fminf(ws, hs);
+			const float s1 = 2 * x1 / ws - 1;
+			const float s2 = 1 - 2 * x2 / hs;
 			const float sz = direction < 0 ? q : 1 / q;
 			//orthogonal
 			if(m_type == type::orthogonal)
@@ -284,21 +286,22 @@ namespace canvas
 				//update fov
 				m_scale = sz * s;
 				//update position
-				m_position += m_rotation.rotate({(s - m_scale) * w / m * s1, (s - m_scale) * h / m * s2, 0});
+				m_position += m_rotation.rotate({(s - m_scale) * ws / m * s1, (s - m_scale) * hs / m * s2, 0});
 			}
 			//perspective
 			if(m_type == type::perspective)
 			{
 				//data
+				const float p = float(M_PI);
 				const float t = tanf(m_fov / 2);
 				const float a = (z1 + z2) / (z2 - z1);
 				const float b = -2 * z1 * z2 / (z2 - z1);
 				//update fov
-				m_fov = M_PI * sz * m_fov / (M_PI + (sz - 1) * m_fov);
+				m_fov = p * sz * m_fov / (p + (sz - 1) * m_fov);
 				//update position
 				const float tn = tan(m_fov / 2);
 				const float sn = b / a / m * (tn - t);
-				m_position += m_rotation.rotate({w * sn * s1, h * sn * s2, 0});
+				m_position += m_rotation.rotate({ws * sn * s1, hs * sn * s2, 0});
 			}
 			//apply
 			apply();
@@ -308,12 +311,12 @@ namespace canvas
 		{
 			//data
 			const float ds = 0.05f;
-			const float w = m_width;
-			const float h = m_height;
-			const float dt = M_PI / 12;
 			const quat qn = m_rotation;
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			const float dt = (float) M_PI / 12;
 			const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
 			const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
 			const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
@@ -324,8 +327,8 @@ namespace canvas
 				{
 					if(modifiers & 1 << unsigned(modifier::alt))
 					{
-						const float m = fminf(w, h);
-						m_position -= m_rotation.rotate(m_scale * mat4::scaling({w / m, h / m, 1}) * shift[i]);
+						const float ms = fminf(ws, hs);
+						m_position -= m_rotation.rotate(m_scale * mat4::scaling({ws / ms, hs / ms, 1}) * shift[i]);
 					}
 					else if(modifiers & 1 << unsigned(modifier::ctrl))
 					{
@@ -367,33 +370,35 @@ namespace canvas
 		{
 			//data
 			const float s = m_scale;
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
-			//projection
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			//data
 			m_projection.clear();
-			m_projection(0, 0) = +m / w / s;
-			m_projection(1, 1) = +m / h / s;
+			const float ms = fminf(ws, hs);
+			//projection
+			m_projection(0, 0) = +ms / ws / s;
+			m_projection(1, 1) = +ms / hs / s;
 			m_projection(2, 2) = -2 / (z2 - z1);
 			m_projection(2, 3) = -(z1 + z2) / (z2 - z1);
 		}
 		void Camera::apply_perspective(void)
 		{
 			//data
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			//data
+			const float ms = fminf(ws, hs);
 			const float ts = tanf(m_fov / 2);
 			//projection
 			m_projection.clear();
 			m_projection(3, 3) = +0.0f;
 			m_projection(3, 2) = -1.0f;
-			m_projection(0, 0) = m / w / ts;
-			m_projection(1, 1) = m / h / ts;
+			m_projection(0, 0) = ms / ws / ts;
+			m_projection(1, 1) = ms / hs / ts;
 			m_projection(2, 2) = -(z1 + z2) / (z2 - z1);
 			m_projection(2, 3) = -2 * z1 * z2 / (z2 - z1);
 		}
@@ -437,13 +442,13 @@ namespace canvas
 		void Camera::bound_orthogonal(void)
 		{
 			//data
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
 			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
+			const float ms = fminf(ws, hs);
 			for(unsigned i = 0; i < 3; i++)
 			{
 				if(m_x_min[i] == m_x_max[i])
@@ -461,15 +466,14 @@ namespace canvas
 			m_position[2] = m_planes[0] + (m_x_max - m_x_min).norm() / 2 + (m_x_min[2] + m_x_max[2]) / 2;
 			m_position = m_rotation.rotate(m_position);
 			//scale
-			m_scale = fmaxf(m / w * (m_x_max[0] - m_x_min[0]) / 2, m / h * (m_x_max[1] - m_x_min[1]) / 2);
+			m_scale = fmaxf(ms / ws * (m_x_max[0] - m_x_min[0]) / 2, ms / hs * (m_x_max[1] - m_x_min[1]) / 2);
 		}
 		void Camera::bound_perspective(void)
 		{
 			//data
-			const float w = m_width;
-			const float h = m_height;
-			const float m = fminf(w, h);
 			const float ts = tanf(m_fov / 2);
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
 			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
@@ -478,6 +482,7 @@ namespace canvas
 			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
 			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2;
 			//position
+			const float ms = fminf(ws, hs);
 			for(unsigned i = 0; i < 3; i++)
 			{
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
@@ -491,8 +496,8 @@ namespace canvas
 					const float x1 = xm->inner(t1);
 					const float x2 = xm->inner(t2);
 					const float x3 = xm->inner(t3);
-					m_position[2] = fmaxf(m_position[2], x3 + m / w / ts * fabs(x1 - m_position[0]));
-					m_position[2] = fmaxf(m_position[2], x3 + m / h / ts * fabs(x2 - m_position[1]));
+					m_position[2] = fmaxf(m_position[2], x3 + ms / ws / ts * fabs(x1 - m_position[0]));
+					m_position[2] = fmaxf(m_position[2], x3 + ms / hs / ts * fabs(x2 - m_position[1]));
 				}
 			}
 			//planes

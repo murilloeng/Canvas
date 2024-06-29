@@ -5,7 +5,8 @@
 			"name": "Win32",
 			"includePath":
 			[
-				"${workspaceFolder}/.."
+				"${workspaceFolder}/..",
+				"${workspaceFolder}/../external/cpp/inc"
 			],
 			"defines":
 			[
@@ -21,7 +22,6 @@
 			"includePath":
 			[
 				"${workspaceFolder}/..",
-				"/home/murillo/Qt/6.6.1/gcc_64/include",
 				"${workspaceFolder}/../external/cpp/inc"
 			],
 			"intelliSenseMode": "linux-gcc-x64"

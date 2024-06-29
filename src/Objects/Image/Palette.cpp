@@ -80,7 +80,7 @@ namespace canvas
 		unsigned Palette::text_width(const char* string) const
 		{
 			//data
-			const unsigned nc = strlen(string);
+			const unsigned nc = (unsigned) strlen(string);
 			//width
 			unsigned w = 0;
 			for(unsigned i = 0; i < nc; i++)
@@ -93,8 +93,8 @@ namespace canvas
 		{
 			//data
 			unsigned a = 0, b = 0;
-			const unsigned nc = strlen(string);
 			const Font* font = m_scene->font(m_font);
+			const unsigned nc = (unsigned) strlen(string);
 			//height
 			for(unsigned i = 0; i < nc; i++)
 			{
@@ -178,8 +178,8 @@ namespace canvas
 			float xs[2], xc[8], tc[8];
 			const Font* font = m_scene->font(m_font);
 			const float ps = m_size / font->pixels_size();
-			const unsigned ws = m_scene->camera().width();
-			const unsigned hs = m_scene->camera().height();
+			const float ws = (float) m_scene->camera().width();
+			const float hs = (float) m_scene->camera().height();
 			vertices::Text2D* vbo_ptr = (vertices::Text2D*) vbo_data[5] + m_vbo_index[5];
 			//vbo data
 			const float ms = fminf(ws, hs);
