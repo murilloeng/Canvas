@@ -19,6 +19,10 @@ namespace canvas
 	{
 		return;
 	}
+	quat::quat(const double* q) : m_data{(float) q[0], (float) q[1], (float) q[2], (float) q[3]}
+	{
+		return;
+	}
 	quat::quat(vec3 s1, vec3 s2, vec3 s3)
 	{
 		const float d0 = s1[0];
@@ -55,6 +59,10 @@ namespace canvas
 		}
 	}
 	quat::quat(float q0, float q1, float q2, float q3) : m_data{q0, q1, q2, q3}
+	{
+		return;
+	}
+	quat::quat(double q0, double q1, double q2, double q3) : m_data{(float) q0, (float) q1, (float) q2, (float) q3}
 	{
 		return;
 	}
