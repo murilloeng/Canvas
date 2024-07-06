@@ -100,7 +100,7 @@ namespace canvas
 				printf("Error: Tesselator must have at least one loop!\n");
 				exit(EXIT_FAILURE);
 			}
-			for(unsigned i = 0; i < m_loops.size(); i++)
+			for(unsigned i = 0; i < m_loops.size() - 1; i++)
 			{
 				if(m_loops[i + 1] - m_loops[i] < 3)
 				{
