@@ -32,7 +32,7 @@ namespace canvas
 
 		//constructors
 		Camera::Camera(void) :
-			m_type(camera::type::orthogonal), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
+			m_type(camera::type::orthographic), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;
 		}
@@ -195,12 +195,12 @@ namespace canvas
 		void Camera::apply(void)
 		{
 			apply_view();
-			m_type == camera::type::orthogonal ? apply_orthogonal() : apply_perspective();
+			m_type == camera::type::orthographic ? apply_orthographic() : apply_perspective();
 		}
 		void Camera::bound(void)
 		{
 			bound_center();
-			m_type == camera::type::orthogonal ? bound_orthogonal() : bound_perspective();
+			m_type == camera::type::orthographic ? bound_orthographic() : bound_perspective();
 		}
 		void Camera::update(void)
 		{
@@ -280,8 +280,8 @@ namespace canvas
 			const float s1 = 2 * x1 / ws - 1;
 			const float s2 = 1 - 2 * x2 / hs;
 			const float sz = direction < 0 ? q : 1 / q;
-			//orthogonal
-			if(m_type == type::orthogonal)
+			//orthographic
+			if(m_type == type::orthographic)
 			{
 				//update fov
 				m_scale = sz * s;
@@ -366,7 +366,24 @@ namespace canvas
 		{
 			m_view = m_rotation.conjugate().rotation() * (-m_position).shift();
 		}
-		void Camera::apply_orthogonal(void)
+		void Camera::apply_perspective(void)
+		{
+			//data
+			const float z1 = m_planes[0];
+			const float z2 = m_planes[1];
+			const float ts = tanf(m_fov / 2);
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			//projection
+			m_projection.clear();
+			m_projection(3, 3) = +0.0f;
+			m_projection(3, 2) = -1.0f;
+			m_projection(2, 2) = -(z1 + z2) / (z2 - z1);
+			m_projection(0, 0) = fminf(ws, hs) / ws / ts;
+			m_projection(1, 1) = fminf(ws, hs) / hs / ts;
+			m_projection(2, 3) = -2 * z1 * z2 / (z2 - z1);
+		}
+		void Camera::apply_orthographic(void)
 		{
 			//data
 			const float s = m_scale;
@@ -374,32 +391,12 @@ namespace canvas
 			const float z2 = m_planes[1];
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
-			const float ms = fminf(ws, hs);
 			//projection
 			m_projection.clear();
-			m_projection(0, 0) = +ms / ws / s;
-			m_projection(1, 1) = +ms / hs / s;
 			m_projection(2, 2) = -2 / (z2 - z1);
 			m_projection(2, 3) = -(z1 + z2) / (z2 - z1);
-		}
-		void Camera::apply_perspective(void)
-		{
-			//data
-			const float z1 = m_planes[0];
-			const float z2 = m_planes[1];
-			const float ws = (float) m_width;
-			const float hs = (float) m_height;
-			//data
-			const float ms = fminf(ws, hs);
-			const float ts = tanf(m_fov / 2);
-			//projection
-			m_projection.clear();
-			m_projection(3, 3) = +0.0f;
-			m_projection(3, 2) = -1.0f;
-			m_projection(0, 0) = ms / ws / ts;
-			m_projection(1, 1) = ms / hs / ts;
-			m_projection(2, 2) = -(z1 + z2) / (z2 - z1);
-			m_projection(2, 3) = -2 * z1 * z2 / (z2 - z1);
+			m_projection(0, 0) = +fminf(ws, hs) / ws / s;
+			m_projection(1, 1) = +fminf(ws, hs) / hs / s;
 		}
 
 		//bound
@@ -438,16 +435,32 @@ namespace canvas
 				m_x_max = {+1.0f, +1.0f, +1.0f};
 			}
 		}
-		void Camera::bound_orthogonal(void)
+		void Camera::bound_perspective(void)
 		{
 			//data
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
-			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
-			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
-			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
-			//bound
+			//planes
+			m_planes[0] = 1.0f;
+			m_planes[1] = m_planes[0] + (m_x_max - m_x_min).norm();
+			//position
+			m_position[0] = (m_x_min[0] + m_x_max[0]) / 2;
+			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
+			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2 + (m_planes[0] + m_planes[1]) / 2;
+			//scale
 			const float ms = fminf(ws, hs);
+			const float s1 = ms / ws / 2 * (m_x_max[0] - m_x_min[0]) / (m_position[2] - m_x_max[2]);
+			const float s2 = ms / hs / 2 * (m_x_max[1] - m_x_min[1]) / (m_position[2] - m_x_max[2]);
+			//update
+			m_fov = 2 * atan(fmaxf(s1, s2));
+			m_position = m_rotation.rotate(m_position);
+		}
+		void Camera::bound_orthographic(void)
+		{
+			//data
+			const float ws = (float) m_width;
+			const float hs = (float) m_height;
+			//bound
 			for(unsigned i = 0; i < 3; i++)
 			{
 				if(m_x_min[i] == m_x_max[i])
@@ -463,45 +476,12 @@ namespace canvas
 			m_position[0] = (m_x_min[0] + m_x_max[0]) / 2;
 			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
 			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2 + (m_planes[0] + m_planes[1]) / 2;
-			//bound
-			m_position = m_rotation.rotate(m_position);
-			m_scale = fmaxf(ms / ws * (m_x_max[0] - m_x_min[0]) / 2, ms / hs * (m_x_max[1] - m_x_min[1]) / 2);
-		}
-		void Camera::bound_perspective(void)
-		{
-			//data
-			const float ts = tanf(m_fov / 2);
-			const float ws = (float) m_width;
-			const float hs = (float) m_height;
-			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
-			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
-			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
-			//bound
-			m_position[0] = (m_x_min[0] + m_x_max[0]) / 2;
-			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
-			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2;
-			//position
+			//scale
 			const float ms = fminf(ws, hs);
-			for(unsigned i = 0; i < 3; i++)
-			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
-				{
-					//position
-					const vec3* xm;
-					if(i == 2) xm = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xm = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xm = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					//bound
-					const float x1 = xm->inner(t1);
-					const float x2 = xm->inner(t2);
-					const float x3 = xm->inner(t3);
-					m_position[2] = fmaxf(m_position[2], x3 + ms / ws / ts * fabs(x1 - m_position[0]));
-					m_position[2] = fmaxf(m_position[2], x3 + ms / hs / ts * fabs(x2 - m_position[1]));
-				}
-			}
-			//planes
-			m_planes[0] = m_position[2] - m_x_max[2] - (m_x_max[2] == m_x_min[2]) * m_position[2] / 2;
-			m_planes[1] = m_position[2] - m_x_min[2] + (m_x_max[2] == m_x_min[2]) * m_position[2] / 2;
+			const float s1 = ms / ws * (m_x_max[0] - m_x_min[0]) / 2;
+			const float s2 = ms / hs * (m_x_max[1] - m_x_min[1]) / 2;
+			//bound
+			m_scale = fmaxf(s1, s2);
 			m_position = m_rotation.rotate(m_position);
 		}
 	}

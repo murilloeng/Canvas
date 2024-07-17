@@ -22,8 +22,8 @@ namespace canvas
 	{
 		enum class type : unsigned
 		{
-			orthogonal,
-			perspective
+			perspective,
+			orthographic
 		};
 		class Camera
 		{
@@ -87,13 +87,13 @@ namespace canvas
 		protected:
 			//apply
 			void apply_view(void);
-			void apply_orthogonal(void);
 			void apply_perspective(void);
+			void apply_orthographic(void);
 
 			//bound
 			void bound_center(void);
-			void bound_orthogonal(void);
 			void bound_perspective(void);
+			void bound_orthographic(void);
 
 			//data
 			Click m_click;
