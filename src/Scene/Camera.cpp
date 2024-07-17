@@ -374,10 +374,9 @@ namespace canvas
 			const float z2 = m_planes[1];
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
-			//data
-			m_projection.clear();
 			const float ms = fminf(ws, hs);
 			//projection
+			m_projection.clear();
 			m_projection(0, 0) = +ms / ws / s;
 			m_projection(1, 1) = +ms / hs / s;
 			m_projection(2, 2) = -2 / (z2 - z1);
@@ -463,9 +462,9 @@ namespace canvas
 			//position
 			m_position[0] = (m_x_min[0] + m_x_max[0]) / 2;
 			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
-			m_position[2] = m_planes[0] + (m_x_max - m_x_min).norm() / 2 + (m_x_min[2] + m_x_max[2]) / 2;
+			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2 + (m_planes[0] + m_planes[1]) / 2;
+			//bound
 			m_position = m_rotation.rotate(m_position);
-			//scale
 			m_scale = fmaxf(ms / ws * (m_x_max[0] - m_x_min[0]) / 2, ms / hs * (m_x_max[1] - m_x_min[1]) / 2);
 		}
 		void Camera::bound_perspective(void)
