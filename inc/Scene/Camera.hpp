@@ -64,8 +64,8 @@ namespace canvas
 			camera::type type(void) const;
 			camera::type type(camera::type);
 
-			const mat4& view(void) const;
-			const mat4& projection(void) const;
+			const mat4& view_matrix(void) const;
+			const mat4& projection_matrix(void) const;
 
 			//screen
 			void screen_print(void) const;
@@ -91,9 +91,17 @@ namespace canvas
 			void apply_orthographic(void);
 
 			//bound
-			void bound_center(void);
+			void bound_box(void);
+			void bound_check(void);
+			void bound_limits(void);
+			void bound_search_1(void);
+			void bound_search_2(void);
+			void bound_bisection_1(void);
+			void bound_bisection_2(void);
 			void bound_perspective(void);
 			void bound_orthographic(void);
+			float bound_bisection_1(float);
+			float bound_bisection_2(float);
 
 			//data
 			Click m_click;
@@ -107,14 +115,15 @@ namespace canvas
 			unsigned m_width;
 			unsigned m_height;
 
+			vec3 m_x_min;
+			vec3 m_x_max;
+			mat4 m_view_matrix;
+			mat4 m_projection_matrix;
+
 			float m_fov;
 			float m_scale;
 			float m_planes[2];
-
-			mat4 m_view;
-			vec3 m_x_min;
-			vec3 m_x_max;
-			mat4 m_projection;
+			std::vector<vec3> m_bounds;
 
 			std::string m_output;
 
