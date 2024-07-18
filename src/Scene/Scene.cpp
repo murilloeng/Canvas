@@ -409,12 +409,15 @@ namespace canvas
 		Font::m_height = h;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
 		for(Font* font : m_fonts)
 		{
 			font->setup_texture();
 		}
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_latex(void)
 	{
@@ -438,6 +441,8 @@ namespace canvas
 		Latex::m_total_height = h;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
 		for(Latex* latex : m_latex)
@@ -448,6 +453,7 @@ namespace canvas
 			const unsigned char* data = latex->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_images(void)
 	{
@@ -471,6 +477,8 @@ namespace canvas
 		Image::m_total_height = h;
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		//texture data
 		for(Image* image : m_images)
@@ -481,6 +489,7 @@ namespace canvas
 			const unsigned char* data = image->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_objects(void)
 	{
