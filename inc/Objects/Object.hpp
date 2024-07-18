@@ -56,6 +56,7 @@ namespace canvas
 			//data
 			Scene* m_scene;
 			mat4 m_model_matrix;
+			bool m_has_model_matrix;
 			unsigned m_vbo_index[6];
 			unsigned m_ibo_index[12];
 

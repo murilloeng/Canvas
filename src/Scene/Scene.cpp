@@ -628,7 +628,10 @@ namespace canvas
 					if(i == 2) vertex = (vertices::Text3D*) m_vbo_data[i] + iv;
 					if(i == 0) vertex = (vertices::Model3D*) m_vbo_data[i] + iv;
 					if(i == 1) vertex = (vertices::Image3D*) m_vbo_data[i] + iv;
-					vertex->m_position = object->model_matrix() * vertex->m_position;
+					if(object->m_has_model_matrix)
+					{
+						vertex->m_position = object->m_model_matrix * vertex->m_position;
+					}
 				}
 			}
 		}
