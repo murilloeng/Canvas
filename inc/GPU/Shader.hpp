@@ -27,6 +27,7 @@ namespace canvas
 
 		//name
 		const char* name(void) const;
+		static const char* name(GLenum);
 
 	private:
 		//data

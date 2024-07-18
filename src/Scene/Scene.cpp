@@ -247,7 +247,7 @@ namespace canvas
 	void Scene::draw_text_2D(void)
 	{
 		//model
-		m_programs[6].use();
+		m_programs[6].bind();
 		glBindVertexArray(m_vao_id[5]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
@@ -258,7 +258,7 @@ namespace canvas
 	void Scene::draw_text_3D(void)
 	{
 		//model
-		m_programs[3].use();
+		m_programs[3].bind();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
@@ -269,7 +269,7 @@ namespace canvas
 	void Scene::draw_model_2D(void)
 	{
 		//model
-		m_programs[4].use();
+		m_programs[4].bind();
 		glBindVertexArray(m_vao_id[3]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[3]);
 		//draw points
@@ -285,7 +285,7 @@ namespace canvas
 	void Scene::draw_model_3D(void)
 	{
 		//model
-		m_programs[0].use();
+		m_programs[0].bind();
 		glBindVertexArray(m_vao_id[0]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
 		//draw points
@@ -295,14 +295,14 @@ namespace canvas
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
 		glDrawElements(GL_LINES, 2 * m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
 		//draw triangles
-		m_programs[1].use();
+		m_programs[1].bind();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
 		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_image_2D(void)
 	{
 		//model
-		m_programs[5].use();
+		m_programs[5].bind();
 		glBindVertexArray(m_vao_id[4]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
@@ -313,7 +313,7 @@ namespace canvas
 	void Scene::draw_image_3D(void)
 	{
 		//model
-		m_programs[2].use();
+		m_programs[2].bind();
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
@@ -324,7 +324,7 @@ namespace canvas
 	void Scene::draw_latex_2D(void)
 	{
 		//model
-		m_programs[6].use();
+		m_programs[6].bind();
 		glBindVertexArray(m_vao_id[5]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
@@ -335,7 +335,7 @@ namespace canvas
 	void Scene::draw_latex_3D(void)
 	{
 		//model
-		m_programs[3].use();
+		m_programs[3].bind();
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);

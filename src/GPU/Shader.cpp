@@ -41,7 +41,8 @@ namespace canvas
 		//source
 		if(!load_file())
 		{
-			fprintf(stderr, "Error loading shader source!\n\tType: %s\n\tPath: %s\n", name(), m_path.c_str());
+			fprintf(stderr, "Error loading shader source!\n");
+			fprintf(stderr, "\tType: %s\n\tPath: %s\n", name(), m_path.c_str());
 			exit(EXIT_FAILURE);
 		}
 		//create
@@ -86,12 +87,16 @@ namespace canvas
 	//name
 	const char* Shader::name(void) const
 	{
-		if(m_type == GL_VERTEX_SHADER) return "Vertex Shader";
-		else if(m_type == GL_COMPUTE_SHADER) return "Compute Shader";
-		else if(m_type == GL_GEOMETRY_SHADER) return "Geometry Shader";
-		else if(m_type == GL_FRAGMENT_SHADER) return "Fragment Shader";
-		else if(m_type == GL_TESS_CONTROL_SHADER) return "Tesselation Control Shader";
-		else if(m_type == GL_TESS_EVALUATION_SHADER) return "Tesselation Evaluation Shader";
+		return name(m_type);
+	}
+	const char* Shader::name(GLenum type)
+	{
+		if(type == GL_VERTEX_SHADER) return "Vertex Shader";
+		else if(type == GL_COMPUTE_SHADER) return "Compute Shader";
+		else if(type == GL_GEOMETRY_SHADER) return "Geometry Shader";
+		else if(type == GL_FRAGMENT_SHADER) return "Fragment Shader";
+		else if(type == GL_TESS_CONTROL_SHADER) return "Tesselation Control Shader";
+		else if(type == GL_TESS_EVALUATION_SHADER) return "Tesselation Evaluation Shader";
 		else return "Invalid shader type!";
 	}
 }

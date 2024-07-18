@@ -88,15 +88,15 @@ namespace canvas
 	//shaders
 	void Light::update_shaders(void) const
 	{
-		m_program->use();
-		glUniform1f(m_program->uniform("light_alpha"), m_alpha);
-		glUniform1i(m_program->uniform("light_ambient"), m_ambient);
-		glUniform1i(m_program->uniform("light_diffuse"), m_diffuse);
-		glUniform1i(m_program->uniform("light_specular"), m_specular);
-		glUniform3fv(m_program->uniform("light_position"), 1, m_position.data());
-		glUniform4fv(m_program->uniform("light_color_ambient"), 1, m_color_ambient.channels());
-		glUniform4fv(m_program->uniform("light_color_diffuse"), 1, m_color_diffuse.channels());
-		glUniform4fv(m_program->uniform("light_color_specular"), 1, m_color_specular.channels());
+		m_program->bind();
+		m_program->set_uniform("light_alpha", m_alpha);
+		m_program->set_uniform("light_ambient", m_ambient);
+		m_program->set_uniform("light_diffuse", m_diffuse);
+		m_program->set_uniform("light_specular", m_specular);
+		m_program->set_uniform("light_position", m_position.data(), 3);
+		m_program->set_uniform("light_color_ambient", m_color_ambient.channels(), 4);
+		m_program->set_uniform("light_color_diffuse", m_color_diffuse.channels(), 4);
+		m_program->set_uniform("light_color_specular", m_color_specular.channels(), 4);
 	}
 
 	//callbacks

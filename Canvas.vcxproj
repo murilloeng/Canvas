@@ -11,13 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\Colors\Color.hpp" />
-    <ClInclude Include="inc\GPU\Program.hpp" />
-    <ClInclude Include="inc\GPU\Shader.hpp" />
     <ClInclude Include="inc\Math\mat4.hpp" />
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
     <ClInclude Include="inc\Math\vec3.hpp" />
+    <ClInclude Include="inc\GPU\Buffer.hpp" />
+    <ClInclude Include="inc\GPU\Shader.hpp" />
+    <ClInclude Include="inc\GPU\Program.hpp" />
+    <ClInclude Include="inc\Colors\Color.hpp" />
     <ClInclude Include="inc\Objects\0D\Point.hpp" />
     <ClInclude Include="inc\Objects\1D\Arc.hpp" />
     <ClInclude Include="inc\Objects\1D\Arrow.hpp" />
@@ -68,13 +69,14 @@
     <ClInclude Include="inc\Windows\Glut.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Colors\Color.cpp" />
-    <ClCompile Include="src\GPU\Program.cpp" />
-    <ClCompile Include="src\GPU\Shader.cpp" />
     <ClCompile Include="src\Math\mat4.cpp" />
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />
     <ClCompile Include="src\Math\vec3.cpp" />
+    <ClCompile Include="src\GPU\Shader.cpp" />
+    <ClCompile Include="src\GPU\Buffer.cpp" />
+    <ClCompile Include="src\GPU\Program.cpp" />
+    <ClCompile Include="src\Colors\Color.cpp" />
     <ClCompile Include="src\Objects\0D\Point.cpp" />
     <ClCompile Include="src\Objects\1D\Arc.cpp" />
     <ClCompile Include="src\Objects\1D\Arrow.cpp" />

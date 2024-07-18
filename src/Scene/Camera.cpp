@@ -208,12 +208,12 @@ namespace canvas
 		{
 			for(unsigned i = 0; i < 4; i++)
 			{
-				m_programs[i].use();
-				glUniformMatrix4fv(m_programs[i].uniform("view"), 1, false, m_view_matrix.data());
-				glUniformMatrix4fv(m_programs[i].uniform("projection"), 1, false, m_projection_matrix.data());
+				m_programs[i].bind();
+				m_programs[i].set_uniform_matrix("view", m_view_matrix.data(), 4);
+				m_programs[i].set_uniform_matrix("projection", m_projection_matrix.data(), 4);
 			}
-			m_programs[1].use();
-			glUniform3f(m_programs[1].uniform("camera_position"), m_position[0], m_position[1], -m_position[2]);
+			m_programs[1].bind();
+			m_programs[1].set_uniform("camera_position", m_position[0], m_position[1], -m_position[2]);
 		}
 
 		//callbacks
@@ -223,7 +223,7 @@ namespace canvas
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
 			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), apply(), update();
-			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(),apply(), update();
+			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(), apply(), update();
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
 		}
 		void Camera::callback_motion(int x1, int x2)
