@@ -412,7 +412,7 @@ namespace canvas
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bound
-			const vec3* xm;
+			const vec3* xp;
 			m_x_min = {+a, +a, +a};
 			m_x_max = {-a, -a, -a};
 			for(unsigned i = 0; i < 3; i++)
@@ -420,16 +420,16 @@ namespace canvas
 				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
-					if(i == 2) xm = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xm = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xm = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
 					//bound
-					m_x_min[0] = fminf(m_x_min[0], xm->inner(t1));
-					m_x_min[1] = fminf(m_x_min[1], xm->inner(t2));
-					m_x_min[2] = fminf(m_x_min[2], xm->inner(t3));
-					m_x_max[0] = fmaxf(m_x_max[0], xm->inner(t1));
-					m_x_max[1] = fmaxf(m_x_max[1], xm->inner(t2));
-					m_x_max[2] = fmaxf(m_x_max[2], xm->inner(t3));
+					m_x_min[0] = fminf(m_x_min[0], xp->inner(t1));
+					m_x_min[1] = fminf(m_x_min[1], xp->inner(t2));
+					m_x_min[2] = fminf(m_x_min[2], xp->inner(t3));
+					m_x_max[0] = fmaxf(m_x_max[0], xp->inner(t1));
+					m_x_max[1] = fmaxf(m_x_max[1], xp->inner(t2));
+					m_x_max[2] = fmaxf(m_x_max[2], xp->inner(t3));
 				}
 			}
 		}
@@ -457,6 +457,8 @@ namespace canvas
 		{
 			//data
 			const vec3* xp;
+			const float* x1 = m_x_min.data();
+			const float* x2 = m_x_max.data();
 			const float s = (m_x_max - m_x_min).norm();
 			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
 			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
@@ -469,16 +471,14 @@ namespace canvas
 				{
 					//position
 					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
-					if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbo_data[i] + j)->m_position;
+					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbo_data[i] + j)->m_position;
 					//update
 					const vec3 xs(xp->inner(t1), xp->inner(t2), xp->inner(t3));
-					if(fabs(xs[0] - m_x_min[0]) < 1e-5 * s) m_bounds.push_back(xs);
-					if(fabs(xs[0] - m_x_max[0]) < 1e-5 * s) m_bounds.push_back(xs);
-					if(fabs(xs[1] - m_x_min[1]) < 1e-5 * s) m_bounds.push_back(xs);
-					if(fabs(xs[1] - m_x_max[1]) < 1e-5 * s) m_bounds.push_back(xs);
-					if(fabs(xs[2] - m_x_min[2]) < 1e-5 * s) m_bounds.push_back(xs);
-					if(fabs(xs[2] - m_x_max[2]) < 1e-5 * s) m_bounds.push_back(xs);
+					const bool c1 = fabs(xs[0] - x1[0]) < 1e-5 * s || fabs(xs[0] - x2[0]) < 1e-5 * s;
+					const bool c2 = fabs(xs[1] - x1[1]) < 1e-5 * s || fabs(xs[1] - x2[1]) < 1e-5 * s;
+					const bool c3 = fabs(xs[2] - x1[2]) < 1e-5 * s || fabs(xs[2] - x2[2]) < 1e-5 * s;
+					if(c1 || c2 || c3) m_bounds.push_back(xs);
 				}
 			}
 		}
@@ -531,6 +531,8 @@ namespace canvas
 			float s2 = ms / ws / 2 * dx1 / ds3;
 			float f1 = bound_bisection_1(s1);
 			float f2 = bound_bisection_1(s2);
+			if(fabsf(f1) < 1e-5 * dx1) { m_scale = fmaxf(m_scale, s1); return; };
+			if(fabsf(f2) < 1e-5 * dx1) { m_scale = fmaxf(m_scale, s2); return; };
 			//bisection
 			while(true)
 			{
@@ -558,6 +560,8 @@ namespace canvas
 			float s2 = ms / hs / 2 * dx2 / ds3;
 			float f1 = bound_bisection_2(s1);
 			float f2 = bound_bisection_2(s2);
+			if(fabsf(f1) < 1e-5 * dx2) { m_scale = fmaxf(m_scale, s1); return; };
+			if(fabsf(f2) < 1e-5 * dx2) { m_scale = fmaxf(m_scale, s2); return; };
 			//bisection
 			while(true)
 			{
