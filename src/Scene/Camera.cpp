@@ -579,9 +579,6 @@ namespace canvas
 			//planes
 			m_planes[0] = 1.0f;
 			m_planes[1] = m_planes[0] + (m_x_max - m_x_min).norm();
-			//position
-			m_position[0] = (m_x_min[0] + m_x_max[0]) / 2;
-			m_position[1] = (m_x_min[1] + m_x_max[1]) / 2;
 			m_position[2] = (m_x_min[2] + m_x_max[2]) / 2 + (m_planes[0] + m_planes[1]) / 2;
 			//scale
 			m_scale = 0;
