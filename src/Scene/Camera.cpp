@@ -520,7 +520,6 @@ namespace canvas
 		{
 			//data
 			float fn, sn;
-			const float c3 = m_position[2];
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
 			const float ms = ws < hs ? ws : hs;
@@ -549,7 +548,6 @@ namespace canvas
 		{
 			//data
 			float fn, sn;
-			const float c3 = m_position[2];
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
 			const float ms = ws < hs ? ws : hs;
@@ -576,10 +574,6 @@ namespace canvas
 		}
 		void Camera::bound_perspective(void)
 		{
-			//data
-			const float ws = (float) m_width;
-			const float hs = (float) m_height;
-			const float ms = ws < hs ? ws : hs;
 			//planes
 			m_planes[0] = 1.0f;
 			m_planes[1] = m_planes[0] + (m_x_max - m_x_min).norm();
