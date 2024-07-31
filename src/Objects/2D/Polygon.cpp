@@ -26,32 +26,32 @@ namespace canvas
 		//data
 		std::vector<vec2>& Polygon::points(void)
 		{
-			return m_tesselator.points();
+			return m_tessellator.points();
 		}
 		const std::vector<vec2>& Polygon::points(void) const
 		{
-			return m_tesselator.points();
+			return m_tessellator.points();
 		}
 
 		std::vector<unsigned>& Polygon::loops(void)
 		{
-			return m_tesselator.loops();
+			return m_tessellator.loops();
 		}
 		const std::vector<unsigned>& Polygon::loops(void) const
 		{
-			return m_tesselator.loops();
+			return m_tessellator.loops();
 		}
 
 		//buffers
 		unsigned Polygon::vbo_size(unsigned index) const
 		{
-			const unsigned np = (unsigned) m_tesselator.points().size();
+			const unsigned np = (unsigned) m_tessellator.points().size();
 			return np * (m_stroke + m_fill) * (index == 0);
 		}
 		unsigned Polygon::ibo_size(unsigned index) const
 		{
-			const unsigned nl = m_tesselator.loops().back();
-			const unsigned ns = (unsigned) m_tesselator.loops().size();
+			const unsigned nl = m_tessellator.loops().back();
+			const unsigned ns = (unsigned) m_tessellator.loops().size();
 			return nl * m_stroke * (index == 1) + (nl + 2 * ns - 6) * m_fill * (index == 2);
 		}
 
@@ -60,8 +60,8 @@ namespace canvas
 		{
 			//data
 			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const std::vector<unsigned>& triangles = m_tesselator.triangles();
-			unsigned vbo_index = m_vbo_index[0] + m_stroke * m_tesselator.loops().back();
+			const std::vector<unsigned>& triangles = m_tessellator.triangles();
+			unsigned vbo_index = m_vbo_index[0] + m_stroke * m_tessellator.loops().back();
 			//ibo data
 			for(unsigned i = 0; i < triangles.size() / 3; i++)
 			{
@@ -76,7 +76,7 @@ namespace canvas
 			//data
 			unsigned vbo_index = m_vbo_index[0];
 			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
-			const std::vector<unsigned>& loops = m_tesselator.loops();
+			const std::vector<unsigned>& loops = m_tessellator.loops();
 			//ibo data
 			for(unsigned i = 0; i + 1 < loops.size(); i++)
 			{
@@ -92,7 +92,7 @@ namespace canvas
 		void Polygon::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			const std::vector<vec2>& points = m_tesselator.points();
+			const std::vector<vec2>& points = m_tessellator.points();
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + m_stroke * points.size();
 			//vbo data
 			for(unsigned i = 0; i < points.size(); i++)
@@ -104,7 +104,7 @@ namespace canvas
 		void Polygon::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			const std::vector<vec2>& points = m_tesselator.points();
+			const std::vector<vec2>& points = m_tessellator.points();
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			for(unsigned i = 0; i < points.size(); i++)
@@ -116,7 +116,7 @@ namespace canvas
 
 		void Polygon::setup(unsigned vbo_counter[], unsigned ibo_counter[])
 		{
-			m_tesselator.tessellate();
+			m_tessellator.tessellate();
 			Object::setup(vbo_counter, ibo_counter);
 		}
 		void Polygon::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const

@@ -45,7 +45,7 @@
     <ClInclude Include="inc\Objects\Image\Palette.hpp" />
     <ClInclude Include="inc\Objects\Image\Text.hpp" />
     <ClInclude Include="inc\Objects\Object.hpp" />
-    <ClInclude Include="inc\Objects\Tesselator.hpp" />
+    <ClInclude Include="inc\Objects\Tessellator.hpp" />
     <ClInclude Include="inc\Palettes\Palette.hpp" />
     <ClInclude Include="inc\Palettes\Types.hpp" />
     <ClInclude Include="inc\Scene\Camera.hpp" />
@@ -103,7 +103,7 @@
     <ClCompile Include="src\Objects\Image\Palette.cpp" />
     <ClCompile Include="src\Objects\Image\Text.cpp" />
     <ClCompile Include="src\Objects\Object.cpp" />
-    <ClCompile Include="src\Objects\Tesselator.cpp" />
+    <ClCompile Include="src\Objects\Tessellator.cpp" />
     <ClCompile Include="src\Palettes\Greys.cpp" />
     <ClCompile Include="src\Palettes\Jet.cpp" />
     <ClCompile Include="src\Palettes\Moreland.cpp" />

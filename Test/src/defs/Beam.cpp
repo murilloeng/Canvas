@@ -13,8 +13,8 @@ namespace examples
 		m_color_fill = canvas::Color(0, 0, 1);
 		m_color_stroke = canvas::Color(0, 0, 0);
 		//points
-		m_tesselator.points().resize(2 * m_na);
-		m_tesselator.loops().push_back(2 * m_na);
+		m_tessellator.points().resize(2 * m_na);
+		m_tessellator.loops().push_back(2 * m_na);
 	}
 
 	//destructor
@@ -52,12 +52,12 @@ namespace examples
 		for(unsigned i = 0; i < m_na; i++)
 		{
 			const float t = (float) M_PI * i / (m_na - 1);
-			m_tesselator.point(i) = {-H / 2 * sinf(t), H / 2 * cosf(t)};
+			m_tessellator.point(i) = {-H / 2 * sinf(t), H / 2 * cosf(t)};
 		}
 		for(unsigned i = 0; i < m_na; i++)
 		{
 			const float t = (float) M_PI * i / (m_na - 1);
-			m_tesselator.point(i + m_na) = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
+			m_tessellator.point(i + m_na) = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
 		}
 		//polygon
 		Polygon::setup(vbo_counter, ibo_counter);

@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
@@ -144,7 +144,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul

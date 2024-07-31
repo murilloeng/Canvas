@@ -6,7 +6,7 @@
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
 #include "Canvas/inc/Objects/Geometry.hpp"
-#include "Canvas/inc/Objects/Tesselator.hpp"
+#include "Canvas/inc/Objects/Tessellator.hpp"
 
 namespace canvas
 {
@@ -43,7 +43,7 @@ namespace canvas
 			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
-			Tesselator m_tesselator;
+			Tessellator m_tessellator;
 		};
 	}
 }

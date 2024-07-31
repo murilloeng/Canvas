@@ -5,19 +5,20 @@
 
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
+#include "Canvas/inc/Math/vec3.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Tesselator
+		class Tessellator
 		{
 		public:
 			//constructor
-			Tesselator(void);
+			Tessellator(void);
 
 			//destructor
-			~Tesselator(void);
+			~Tessellator(void);
 
 			//data
 			vec2& point(unsigned);
@@ -31,6 +32,8 @@ namespace canvas
 
 			//mesh
 			void tessellate(void);
+			static void tessellate(const vec2*, unsigned*, unsigned);
+			static void tessellate(const vec3*, unsigned*, unsigned);
 		
 		private:
 			//mesh
@@ -39,6 +42,11 @@ namespace canvas
 			void setup_list(void);
 			bool angle(unsigned, unsigned, unsigned);
 			bool inside(unsigned, unsigned, unsigned, unsigned);
+
+			//mesh
+			static bool area_sign(const vec2*, unsigned);
+			static bool area_sign(unsigned, unsigned, unsigned, const vec2*, bool);
+			static bool vertex_inside(unsigned, unsigned, unsigned, unsigned, const vec2*, bool);
 
 			//data
 			std::vector<vec2> m_points;
