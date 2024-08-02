@@ -55,9 +55,14 @@ namespace canvas
 
 			//data
 			Scene* m_scene;
+
 			mat4 m_model_matrix;
 			bool m_has_model_matrix;
+
+			uint32_t m_vbo_size[6];
 			uint32_t m_vbo_index[6];
+
+			uint32_t m_ibo_size[12];
 			uint32_t m_ibo_index[12];
 
 			//friends
