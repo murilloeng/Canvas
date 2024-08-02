@@ -15,45 +15,43 @@ namespace canvas
 		{
 		public:
 			//constructor
-			Tessellator(void);
+			Tessellator(const vec2*, const uint32_t*, uint32_t, uint32_t*);
+			Tessellator(const vec3*, const uint32_t*, uint32_t, uint32_t*);
 
 			//destructor
 			~Tessellator(void);
 
 			//data
-			vec2& point(unsigned);
-			std::vector<vec2>& points(void);
-			const std::vector<vec2>& points(void) const;
+			uint32_t* triangles(void) const;
+			uint32_t loops_count(void) const;
+			const vec2* vertices(void) const;
+			const uint32_t* loops(void) const;
+			const vec2& vertex(uint32_t) const;
 
-			std::vector<unsigned>& loops(void);
-			const std::vector<unsigned>& loops(void) const;
-
-			const std::vector<unsigned>& triangles(void) const;
-
-			//mesh
+			//tessellation
 			void tessellate(void);
-			static void tessellate(const vec2*, unsigned*, unsigned);
-			static void tessellate(const vec3*, unsigned*, unsigned);
-		
-		private:
-			//mesh
-			void check(void);
-			void setup_link(void);
-			void setup_list(void);
-			bool angle(unsigned, unsigned, unsigned);
-			bool inside(unsigned, unsigned, unsigned, unsigned);
 
-			//mesh
-			static bool area_sign(const vec2*, unsigned);
-			static bool area_sign(unsigned, unsigned, unsigned, const vec2*, bool);
-			static bool vertex_inside(unsigned, unsigned, unsigned, unsigned, const vec2*, bool);
+		private:
+			//tessellation
+			void tessellate_2D(void);
+			void tessellate_3D(void);
+
+			bool check(void) const;
+			bool area_sign(uint32_t) const;
+			void setup_list(uint32_t*) const;
+			void setup_links(uint32_t*) const;
+
+			bool is_ear(uint32_t, const uint32_t*, uint32_t, bool) const;
+			bool is_vertex_in_triangle(uint32_t, uint32_t, uint32_t, uint32_t) const;
+
+			void list_add_loop(uint32_t*, uint32_t&, uint32_t, uint32_t, uint32_t) const;
 
 			//data
-			std::vector<vec2> m_points;
-			std::vector<unsigned> m_list;
-			std::vector<unsigned> m_loops;
-			std::vector<unsigned> m_links[2];
-			std::vector<unsigned> m_triangles;
+			uint32_t* m_triangles;
+			uint32_t m_loops_count;
+			const uint32_t* m_loops;
+			const vec2* m_vertices_2D;
+			const vec3* m_vertices_3D;
 		};
 	}
 }

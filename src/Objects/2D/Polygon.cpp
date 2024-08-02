@@ -6,6 +6,7 @@
 #include "Canvas/inc/Vertices/Model3D.hpp"
 
 #include "Canvas/inc/Objects/2D/Polygon.hpp"
+#include "Canvas/inc/Objects/Tessellator.hpp"
 
 namespace canvas
 {
@@ -24,46 +25,49 @@ namespace canvas
 		}
 
 		//data
-		std::vector<vec2>& Polygon::points(void)
+		std::vector<vec2>& Polygon::vertices(void)
 		{
-			return m_tessellator.points();
+			return m_vertices;
 		}
-		const std::vector<vec2>& Polygon::points(void) const
+		const std::vector<vec2>& Polygon::vertices(void) const
 		{
-			return m_tessellator.points();
+			return m_vertices;
 		}
 
-		std::vector<unsigned>& Polygon::loops(void)
+		std::vector<uint32_t>& Polygon::loops(void)
 		{
-			return m_tessellator.loops();
+			return m_loops;
 		}
-		const std::vector<unsigned>& Polygon::loops(void) const
+		const std::vector<uint32_t>& Polygon::loops(void) const
 		{
-			return m_tessellator.loops();
+			return m_loops;
 		}
 
 		//buffers
-		unsigned Polygon::vbo_size(unsigned index) const
+		uint32_t Polygon::vbo_size(uint32_t index) const
 		{
-			const unsigned np = (unsigned) m_tessellator.points().size();
-			return np * (m_stroke + m_fill) * (index == 0);
+			return (uint32_t) m_vertices.size() * (m_stroke + m_fill) * (index == 0);
 		}
-		unsigned Polygon::ibo_size(unsigned index) const
+		uint32_t Polygon::ibo_size(uint32_t index) const
 		{
-			const unsigned nl = m_tessellator.loops().back();
-			const unsigned ns = (unsigned) m_tessellator.loops().size();
-			return nl * m_stroke * (index == 1) + (nl + 2 * ns - 6) * m_fill * (index == 2);
+			const uint32_t nl = (uint32_t) m_loops.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
+			return nv * m_stroke * (index == 1) + (nv + 2 * nl - 6) * m_fill * (index == 2);
 		}
 
 		//draw
-		void Polygon::ibo_fill_data(unsigned** ibo_data) const
+		void Polygon::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			//data
-			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			const std::vector<unsigned>& triangles = m_tessellator.triangles();
-			unsigned vbo_index = m_vbo_index[0] + m_stroke * m_tessellator.loops().back();
+			const uint32_t nl = (uint32_t) m_loops.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
+			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			uint32_t vbo_index = m_vbo_index[0] + nv * m_stroke;
+			uint32_t* triangles = (uint32_t*) alloca(3 * (nv + 2 * nl - 6) * sizeof(uint32_t));
+			//tessellation
+			Tessellator(m_vertices.data(), m_loops.data(), nl - 1, triangles).tessellate();
 			//ibo data
-			for(unsigned i = 0; i < triangles.size() / 3; i++)
+			for(uint32_t i = 0; i < nv + 2 * nl - 6; i++)
 			{
 				ibo_ptr[0] = vbo_index + triangles[3 * i + 0];
 				ibo_ptr[1] = vbo_index + triangles[3 * i + 2];
@@ -71,20 +75,19 @@ namespace canvas
 				ibo_ptr += 3;
 			}
 		}
-		void Polygon::ibo_stroke_data(unsigned** ibo_data) const
+		void Polygon::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index[0];
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
-			const std::vector<unsigned>& loops = m_tessellator.loops();
+			uint32_t vbo_index = m_vbo_index[0];
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//ibo data
-			for(unsigned i = 0; i + 1 < loops.size(); i++)
+			for(uint32_t i = 0; i + 1 < m_loops.size(); i++)
 			{
-				const unsigned ls = loops[i + 1] - loops[i];
-				for(unsigned j = loops[i]; j < loops[i + 1]; j++)
+				const uint32_t ls = m_loops[i + 1] - m_loops[i];
+				for(uint32_t j = m_loops[i]; j < m_loops[i + 1]; j++)
 				{
-					ibo_ptr[0] = vbo_index + loops[i] + (j + 0 - loops[i]) % ls;
-					ibo_ptr[1] = vbo_index + loops[i] + (j + 1 - loops[i]) % ls;
+					ibo_ptr[0] = vbo_index + m_loops[i] + (j + 0 - m_loops[i]) % ls;
+					ibo_ptr[1] = vbo_index + m_loops[i] + (j + 1 - m_loops[i]) % ls;
 					ibo_ptr += 2;
 				}
 			}
@@ -92,34 +95,29 @@ namespace canvas
 		void Polygon::vbo_fill_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			const std::vector<vec2>& points = m_tessellator.points();
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + m_stroke * points.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
-			for(unsigned i = 0; i < points.size(); i++)
+			vbo_ptr += nv * m_stroke;
+			for(uint32_t i = 0; i < nv; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_fill;
-				(vbo_ptr + i)->m_position = {points[i][0], points[i][1], 0};
+				(vbo_ptr + i)->m_position = {m_vertices[i][0], m_vertices[i][1], 0};
 			}
 		}
 		void Polygon::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			const std::vector<vec2>& points = m_tessellator.points();
+			const uint32_t nv = (uint32_t) m_vertices.size();
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
-			for(unsigned i = 0; i < points.size(); i++)
+			for(uint32_t i = 0; i < nv; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_stroke;
-				(vbo_ptr + i)->m_position = {points[i][0], points[i][1], 0};
+				(vbo_ptr + i)->m_position = {m_vertices[i][0], m_vertices[i][1], 0};
 			}
 		}
-
-		void Polygon::setup(unsigned vbo_counter[], unsigned ibo_counter[])
-		{
-			m_tessellator.tessellate();
-			Object::setup(vbo_counter, ibo_counter);
-		}
-		void Polygon::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Polygon::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

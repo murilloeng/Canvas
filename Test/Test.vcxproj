@@ -180,6 +180,12 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\objects\Images\text.cpp" />
     <ClCompile Include="src\scenes\beam_1.cpp" />
     <ClCompile Include="src\scenes\tensegrity_chair.cpp" />
+    <ClCompile Include="src\tessellation\convex_cw_3.cpp" />
+    <ClCompile Include="src\tessellation\convex_ccw_3.cpp" />
+    <ClCompile Include="src\tessellation\non_convex_cw_7.cpp" />
+    <ClCompile Include="src\tessellation\non_convex_ccw_4.cpp" />
+    <ClCompile Include="src\tessellation\convex_loop_ccw_8.cpp" />
+    <ClCompile Include="src\tessellation\convex_loop_cw_12.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\defs\Beam.hpp" />
@@ -187,6 +193,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClInclude Include="inc\defs\Support_2.hpp" />
     <ClInclude Include="inc\defs\Support_3.hpp" />
     <ClInclude Include="inc\examples.hpp" />
+    <ClInclude Include="inc\tessellation.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

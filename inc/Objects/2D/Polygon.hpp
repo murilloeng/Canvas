@@ -6,7 +6,6 @@
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
 #include "Canvas/inc/Objects/Geometry.hpp"
-#include "Canvas/inc/Objects/Tessellator.hpp"
 
 namespace canvas
 {
@@ -22,28 +21,27 @@ namespace canvas
 			~Polygon(void);
 
 			//data
-			std::vector<vec2>& points(void);
-			const std::vector<vec2>& points(void) const;
+			std::vector<vec2>& vertices(void);
+			const std::vector<vec2>& vertices(void) const;
 
-			std::vector<unsigned>& loops(void);
-			const std::vector<unsigned>& loops(void) const;
+			std::vector<uint32_t>& loops(void);
+			const std::vector<uint32_t>& loops(void) const;
 
 		protected:
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			uint32_t vbo_size(uint32_t) const override;
+			uint32_t ibo_size(uint32_t) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
+			void ibo_fill_data(uint32_t**) const;
+			void ibo_stroke_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
-
-			void setup(unsigned[], unsigned[]) override;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
-			Tessellator m_tessellator;
+			std::vector<vec2> m_vertices;
+			std::vector<uint32_t> m_loops;
 		};
 	}
 }

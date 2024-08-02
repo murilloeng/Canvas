@@ -11,7 +11,13 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Tessellator::Tessellator(void) : m_loops({0})
+		Tessellator::Tessellator(const vec2* vertices_2D, const uint32_t* loops, uint32_t loops_count, uint32_t* triangles) : 
+			m_triangles(triangles), m_loops_count(loops_count), m_loops(loops), m_vertices_2D(vertices_2D), m_vertices_3D(nullptr)
+		{
+			return;
+		}
+		Tessellator::Tessellator(const vec3* vertices_3D, const uint32_t* loops, uint32_t loops_count, uint32_t* triangles) : 
+			m_triangles(triangles), m_loops_count(loops_count), m_loops(loops), m_vertices_2D(nullptr), m_vertices_3D(vertices_3D)
 		{
 			return;
 		}
@@ -23,264 +29,217 @@ namespace canvas
 		}
 
 		//data
-		vec2& Tessellator::point(unsigned index)
-		{
-			return m_points[index];
-		}
-		std::vector<vec2>& Tessellator::points(void)
-		{
-			return m_points;
-		}
-		const std::vector<vec2>& Tessellator::points(void) const
-		{
-			return m_points;
-		}
-
-		std::vector<unsigned>& Tessellator::loops(void)
-		{
-			return m_loops;
-		}
-		const std::vector<unsigned>& Tessellator::loops(void) const
-		{
-			return m_loops;
-		}
-
-		const std::vector<unsigned>& Tessellator::triangles(void) const
+		uint32_t* Tessellator::triangles(void) const
 		{
 			return m_triangles;
 		}
+		uint32_t Tessellator::loops_count(void) const
+		{
+			return m_loops_count;
+		}
+		const vec2* Tessellator::vertices(void) const
+		{
+			return m_vertices_2D;
+		}
+		const uint32_t* Tessellator::loops(void) const
+		{
+			return m_loops;
+		}
+		const vec2& Tessellator::vertex(uint32_t index) const
+		{
+			return m_vertices_2D[index];
+		}
 
-		//mesh
+		//tessellation
 		void Tessellator::tessellate(void)
 		{
-			//data
-			unsigned index = 0;
-			//setup
-			check();
-			setup_link();
-			setup_list();
-			//earcut
-			while(true)
-			{
-				//candidate
-				const unsigned p0 = m_list[(index + 0) % m_list.size()];
-				const unsigned p1 = m_list[(index + 1) % m_list.size()];
-				const unsigned p2 = m_list[(index + 2) % m_list.size()];
-				//check
-				if(!angle(p0, p1, p2))
-				{
-					index++;
-					continue;
-				}
-				bool test = true;
-				for(unsigned pc : m_list)
-				{
-					test = test && (p0 == pc || p1 == pc || p2 == pc || !inside(pc, p0, p1, p2));
-				}
-				if(!test)
-				{
-					index++;
-					continue;
-				}
-				//triangle
-				m_triangles.push_back(p0);
-				m_triangles.push_back(p1);
-				m_triangles.push_back(p2);
-				m_list.erase(m_list.begin() + (index + 1) % m_list.size());
-				if(m_list.size() < 3) break;
-			}
+			m_vertices_3D ? tessellate_3D() : tessellate_2D();
 		}
-		void Tessellator::tessellate(const vec2* vertices, unsigned* triangles, unsigned vertices_count)
+
+		void Tessellator::tessellate_2D(void)
 		{
 			//data
-			unsigned index = 0;
-			unsigned triangles_count = 0;
-			const bool sign = area_sign(vertices, vertices_count);
-			unsigned* list = (unsigned*) alloca(vertices_count * sizeof(unsigned));
-			//list
-			for(unsigned i = 0; i < vertices_count; i++) list[i] = i;
-			//earcut
-			while(true)
+			uint32_t index = 0;
+			uint32_t triangles_count = 0;
+			const bool sign = area_sign(0);
+			const uint32_t nl = m_loops_count;
+			uint32_t list_size = m_loops[nl] + 2 * (nl - 1);
+			uint32_t* list = (uint32_t*) alloca(list_size * sizeof(uint32_t));
+			//check
+			if(!check()) exit(EXIT_FAILURE);
+			//tessellate
+			setup_list(list);
+			while(list_size >= 3)
 			{
-				//candidate
-				const unsigned p0 = list[index + 0];
-				const unsigned p1 = list[index + 1];
-				const unsigned p2 = list[index + 2];
-				//check
-				if(!area_sign(p0, p1, p2, vertices, sign))
+				if(is_ear(index, list, list_size, sign))
 				{
-					index = (index + 1) % vertices_count;
-					continue;
+					//triangle
+					m_triangles[3 * triangles_count + 0] = list[(index + 0) % list_size];
+					m_triangles[3 * triangles_count + 1] = list[(index + 1) % list_size];
+					m_triangles[3 * triangles_count + 2] = list[(index + 2) % list_size];
+					//list
+					list_size--;
+					for(uint32_t i = index + 1; i < list_size; i++) list[i] = list[i + 1];
+					//update
+					index = 0;
+					triangles_count++;
 				}
-				bool test = true;
-				for(unsigned i = 0; i < vertices_count; i++)
+				else
 				{
-					unsigned pc = list[i];
-					if(pc != p0 && pc != p1 && pc != p2)
-					{
-						test = test && !vertex_inside(pc, p0, p1, p2, vertices, sign);
-					}
+					index = (index + 1) % list_size;
 				}
-				if(!test)
-				{
-					index = (index + 1) % vertices_count;
-					continue;
-				}
-				//triangle
-				triangles[3 * triangles_count + 0] = p0;
-				triangles[3 * triangles_count + 1] = p1;
-				triangles[3 * triangles_count + 2] = p2;
-				//update
-				vertices_count--;
-				triangles_count++;
-				for(unsigned i = index + 1; i < vertices_count; i++) list[i] = list[i + 1];
-				//break
-				index = 0;
-				if(vertices_count < 3) break;
 			}
 		}
-		void Tessellator::tessellate(const vec3* vertices, unsigned* triangles, unsigned vertices_count)
+		void Tessellator::tessellate_3D(void)
 		{
 			//data
 			vec3 normal, t1, t2;
-			vec2* vertices_2D = (vec2*) alloca(vertices_count * sizeof(vec2));
+			const uint32_t nv = m_loops[m_loops_count];
+			vec2* vertices_2D = (vec2*) alloca(nv * sizeof(vec2));
 			//normal
-			for(unsigned i = 0; i < vertices_count - 2; i++)
+			for(uint32_t i = 0; i < nv - 2; i++)
 			{
-				const vec3& v0 = vertices[i + 0];
-				const vec3& v1 = vertices[i + 1];
-				const vec3& v2 = vertices[i + 2];
+				const vec3& v0 = m_vertices_3D[i + 0];
+				const vec3& v1 = m_vertices_3D[i + 0];
+				const vec3& v2 = m_vertices_3D[i + 0];
+				normal = (v1 - v0).cross(v2 - v0);
 				const float s1 = (v1 - v0).norm();
 				const float s2 = (v2 - v0).norm();
-				const vec3 nc = (v1 - v0).cross(v2 - v0);
-				if(nc.norm() > 1e-8 * s1 * s2) { normal = nc; break; }
+				if(normal.norm() > 1e-5 * fmaxf(s1, s2)) break;
 			}
-			//vertices
-			(normal /= normal.norm()).triad(t1, t2);
-			for(unsigned i = 0; i < vertices_count; i++)
+			//projection
+			normal.unit().triad(t1, t2);
+			for(uint32_t i = 0; i < nv; i++)
 			{
-				vertices_2D[i][0] = (vertices[i] - vertices[0]).inner(t1);
-				vertices_2D[i][1] = (vertices[i] - vertices[0]).inner(t2);
+				vertices_2D[i][0] = (m_vertices_3D[i] - m_vertices_3D[0]).inner(t1);
+				vertices_2D[i][1] = (m_vertices_3D[i] - m_vertices_3D[0]).inner(t2);
 			}
 			//tessellation
-			tessellate(vertices_2D, triangles, vertices_count);
+			m_vertices_2D = vertices_2D; tessellate_2D();
 		}
 
-		//mesh
-		void Tessellator::check(void)
+		bool Tessellator::check(void) const
 		{
-			//size
-			if(m_loops.size() < 2)
+			const bool s0 = area_sign(0);
+			for(uint32_t loop_index = 1; loop_index < m_loops_count; loop_index++)
 			{
-				printf("Error: Tessellator must have at least one loop!\n");
-				exit(EXIT_FAILURE);
+				if(area_sign(loop_index) == s0) return false;
 			}
-			for(unsigned i = 0; i < m_loops.size() - 1; i++)
-			{
-				if(m_loops[i + 1] - m_loops[i] < 3)
-				{
-					printf("Error: Tessellator's loop %d does not have enough points!\n", i);
-					exit(EXIT_FAILURE);
-				}
-			}
-			//direction
-			double A_outer = 0;
-			for(unsigned i = 0; i + 2 < m_loops[1]; i++)
-			{
-				A_outer += (m_points[i + 1] - m_points[0]).cross(m_points[i + 2] - m_points[0]);
-			}
-			for(unsigned i = 1; i + 1 < m_loops.size(); i++)
-			{
-				double A_inner = 0;
-				const vec2 xr = m_points[m_loops[i]];
-				for(unsigned j = m_loops[i]; j + 2 < m_loops[i + 1]; j++)
-				{
-					A_inner += (m_points[j + 1] - xr).cross(m_points[j + 2] - xr);
-				}
-				if(A_inner * A_outer > 0)
-				{
-					printf("Error: Tessellator's loop %d has the same direction as outer loop!\n", i);
-					exit(EXIT_FAILURE);
-				}
-			}
+			return true;
 		}
-		void Tessellator::setup_link(void)
+		bool Tessellator::area_sign(uint32_t loop_index) const
 		{
-			m_links[0].resize(m_loops.size() - 2);
-			m_links[1].resize(m_loops.size() - 2);
-			for(unsigned i = 0; i < m_links[0].size(); i++)
-			{
-				float d = FLT_MAX;
-				for(unsigned po = m_loops[0]; po < m_loops[1]; po++)
-				{
-					for(unsigned pi = m_loops[i + 1]; pi < m_loops[i + 2]; pi++)
-					{
-						if((m_points[pi] - m_points[po]).norm() < d)
-						{
-							m_links[0][i] = po;
-							m_links[1][i] = pi;
-							d = (m_points[pi] - m_points[po]).norm();
-						}
-					}
-				}
-			}
-		}
-		void Tessellator::setup_list(void)
-		{
-			m_list.clear();
-			m_triangles.clear();
-			for(unsigned i = m_loops[0]; i < m_loops[1]; i++)
-			{
-				m_list.push_back(i);
-				for(unsigned j = 0; j < m_links[0].size(); j++)
-				{
-					if(m_links[0][j] == i)
-					{
-						const unsigned a = m_links[1][j] - m_loops[j + 1];
-						const unsigned s = m_loops[j + 2] - m_loops[j + 1];
-						for(unsigned k = 0; k <= s; k++)
-						{
-							m_list.push_back(m_loops[j + 1] + (a + k) % s);
-						}
-						m_list.push_back(i);
-					}
-				}
-			}
-		}
-		bool Tessellator::angle(unsigned p0, unsigned p1, unsigned p2)
-		{
-			return (m_points[p1] - m_points[p0]).cross(m_points[p2] - m_points[p0]) >= 0;
-		}
-		bool Tessellator::inside(unsigned pc, unsigned p0, unsigned p1, unsigned p2)
-		{
-			return angle(p0, p1, pc) && angle(p1, p2, pc) && angle(p2, p0, pc);
-		}
-
-		//mesh
-		bool Tessellator::area_sign(const vec2* vertices, unsigned vertices_count)
-		{
+			//data
 			float A = 0;
-			const vec2& v0 = vertices[0];
-			for (unsigned i = 0; i < vertices_count - 2; i++)
+			const uint32_t loop_size = m_loops[loop_index + 1] - m_loops[loop_index];
+			//area
+			for(uint32_t i = 0; i < loop_size; i++)
 			{
-				A += (vertices[i + 1] - v0).cross(vertices[i + 2] - v0);
+				const vec2& v0 = m_vertices_2D[m_loops[loop_index] + (i + 0) % loop_size];
+				const vec2& v1 = m_vertices_2D[m_loops[loop_index] + (i + 1) % loop_size];
+				A += v0.cross(v1);
 			}
+			//return
 			return A > 0;
 		}
-		bool Tessellator::area_sign(unsigned p0, unsigned p1, unsigned p2, const vec2* vertices, bool sign)
+		void Tessellator::setup_list(uint32_t* list) const
 		{
-			const int s = sign ? +1 : -1;
-			const vec2& v0 = vertices[p0];
-			const vec2& v1 = vertices[p1];
-			const vec2& v2 = vertices[p2];
-			return s * (v1 - v0).cross(v2 - v0) >= 0;
+			//data
+			uint32_t* links = (uint32_t*) alloca(2 * (m_loops_count - 1) * sizeof(uint32_t));
+			//list
+			setup_links(links);
+			uint32_t list_size = m_loops[1];
+			for(uint32_t i = 0; i < m_loops[1]; i++)
+			{
+				list[i] = i;
+			}
+			for(uint32_t i = 1; i < m_loops_count; i++)
+			{
+				for(uint32_t j = 0; j < list_size; j++)
+				{
+					if(list[j] == links[2 * (i - 1) + 0])
+					{
+						list_add_loop(list, list_size, j, i, links[2 * (i - 1) + 1]);
+						break;
+					}
+				}
+			}
 		}
-		bool Tessellator::vertex_inside(unsigned pc, unsigned p0, unsigned p1, unsigned p2, const vec2* vertices, bool sign)
+		void Tessellator::setup_links(uint32_t* links) const
 		{
-			return 
-				area_sign(p0, p1, pc, vertices, sign) && 
-				area_sign(p1, p2, pc, vertices, sign) && 
-				area_sign(p2, p0, pc, vertices, sign);
+			for(uint32_t i = 1; i < m_loops_count; i++)
+			{
+				float d = FLT_MAX;
+				for(uint32_t j = m_loops[0]; j < m_loops[1]; j++)
+				{
+					for(uint32_t k = m_loops[i]; k < m_loops[i + 1]; k++)
+					{
+						const vec2& v0 = m_vertices_2D[j];
+						const vec2& v1 = m_vertices_2D[k];
+						if(d > (v1 - v0).norm())
+						{
+							d = (v1 - v0).norm();
+							links[2 * (i - 1) + 0] = j;
+							links[2 * (i - 1) + 1] = k - m_loops[i];
+						}
+					}
+				}
+			}
+		}
+
+		bool Tessellator::is_ear(uint32_t index, const uint32_t* list, uint32_t list_size, bool sign) const
+		{
+			//data
+			const int s = sign ? +1 : -1;
+			const uint16_t i0 = list[(index + 0) % list_size];
+			const uint16_t i1 = list[(index + 1) % list_size];
+			const uint16_t i2 = list[(index + 2) % list_size];
+			//check sign
+			const vec2& v0 = m_vertices_2D[i0];
+			const vec2& v1 = m_vertices_2D[i1];
+			const vec2& v2 = m_vertices_2D[i2];
+			if(s * (v1 - v0).cross(v2 - v0) <= 0) return false;
+			//check vertices
+			for(uint32_t i = 0; i < list_size; i++)
+			{
+				uint32_t ip = list[i];
+				if(ip != i0 && ip != i1 && ip != i2 && is_vertex_in_triangle(ip, i0, i1, i2))
+				{
+					return false;
+				}
+			}
+			//return
+			return true;
+		}
+		bool Tessellator::is_vertex_in_triangle(uint32_t ip, uint32_t i0, uint32_t i1, uint32_t i2) const
+		{
+			const vec2& vp = m_vertices_2D[ip];
+			const vec2& v0 = m_vertices_2D[i0];
+			const vec2& v1 = m_vertices_2D[i1];
+			const vec2& v2 = m_vertices_2D[i2];
+			const float a0 = (v0 - vp).cross(v1 - vp);
+			const float a1 = (v1 - vp).cross(v2 - vp);
+			const float a2 = (v2 - vp).cross(v0 - vp);
+			return (a0 >= 0 && a1 >= 0 && a2 >= 0) || (a0 <= 0 && a1 <= 0 && a2 <= 0);
+		}
+
+		void Tessellator::list_add_loop(uint32_t* list, uint32_t& list_size, uint32_t list_index, uint32_t loop_index, uint32_t loop_link) const
+		{
+			//data
+			const uint32_t loop_size = m_loops[loop_index + 1] - m_loops[loop_index];
+			//shift
+			for(uint32_t i = 0; i < list_size - list_index - 1; i++)
+			{
+				list[list_size - i + loop_size + 1] = list[list_size - i - 1];
+			}
+			//update
+			list_size += loop_size + 2;
+			for(uint32_t i = 0; i < loop_size; i++)
+			{
+				list[list_index + 1 + i] = m_loops[loop_index] + (loop_link + i) % loop_size;
+			}
+			list[list_index + loop_size + 2] = list[list_index];
+			list[list_index + loop_size + 1] = m_loops[loop_index] + loop_link;
 		}
 	}
 }
