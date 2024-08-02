@@ -66,7 +66,7 @@ namespace canvas
 		}
 		uint32_t Cylinder::ibo_size(uint32_t index) const
 		{
-			return 3 * m_mesh * (index == 1) * m_stroke + 4 * m_mesh * (index == 2) * m_fill;
+			return 6 * m_mesh * (index == 1) * m_stroke + 12 * m_mesh * (index == 2) * m_fill;
 		}
 
 		//draw

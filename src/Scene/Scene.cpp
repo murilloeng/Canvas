@@ -253,7 +253,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[10]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[10], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[10], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_text_3D(void)
 	{
@@ -264,7 +264,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[4]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[4], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[4], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_model_2D(void)
 	{
@@ -277,10 +277,10 @@ namespace canvas
 		glDrawElements(GL_POINTS, m_ibo_size[6], GL_UNSIGNED_INT, nullptr);
 		//draw lines
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[7]);
-		glDrawElements(GL_LINES, 2 * m_ibo_size[7], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_LINES, m_ibo_size[7], GL_UNSIGNED_INT, nullptr);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[8]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[8], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[8], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_model_3D(void)
 	{
@@ -293,11 +293,11 @@ namespace canvas
 		glDrawElements(GL_POINTS, m_ibo_size[0], GL_UNSIGNED_INT, nullptr);
 		//draw lines
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
-		glDrawElements(GL_LINES, 2 * m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_LINES, m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
 		//draw triangles
 		m_programs[1].bind();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_image_2D(void)
 	{
@@ -308,7 +308,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[9]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[9], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[9], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_image_3D(void)
 	{
@@ -319,7 +319,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_latex_2D(void)
 	{
@@ -330,7 +330,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[11]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[11], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[11], GL_UNSIGNED_INT, nullptr);
 	}
 	void Scene::draw_latex_3D(void)
 	{
@@ -341,7 +341,7 @@ namespace canvas
 		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
 		//draw triangles
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[5]);
-		glDrawElements(GL_TRIANGLES, 3 * m_ibo_size[5], GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, m_ibo_size[5], GL_UNSIGNED_INT, nullptr);
 	}
 
 	//setup
@@ -376,9 +376,6 @@ namespace canvas
 	}
 	void Scene::setup_ibo(void)
 	{
-		//data
-		const uint32_t is[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
-		//ibo data
 		for(uint32_t i = 0; i < 12; i++)
 		{
 			m_ibo_size[i] = 0;
@@ -387,7 +384,7 @@ namespace canvas
 				m_ibo_size[i] += object->ibo_size(i);
 			}
 			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new uint32_t[is[i] * m_ibo_size[i]];
+			m_ibo_data[i] = new uint32_t[m_ibo_size[i]];
 		}
 	}
 	void Scene::setup_fonts(void)
@@ -639,9 +636,6 @@ namespace canvas
 	void Scene::buffers_transfer(void)
 	{
 		//data
-		const uint32_t is[] = {
-			1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3
-		};
 		const uint32_t vs[] = {
 			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D),
 			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
@@ -656,7 +650,7 @@ namespace canvas
 		for(uint32_t i = 0; i < 12; i++)
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(uint32_t), m_ibo_data[i], GL_DYNAMIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ibo_size[i] * sizeof(uint32_t), m_ibo_data[i], GL_DYNAMIC_DRAW);
 		}
 	}
 }

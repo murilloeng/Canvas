@@ -86,7 +86,7 @@ namespace canvas
 		}
 		uint32_t Arrow::ibo_size(uint32_t index) const
 		{
-			return 4 * m_stroke * (index == 1);
+			return 8 * m_stroke * (index == 1);
 		}
 
 		//draw

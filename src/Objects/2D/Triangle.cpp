@@ -35,7 +35,7 @@ namespace canvas
 		}
 		uint32_t Triangle::ibo_size(uint32_t index) const
 		{
-			return 3 * (index == 1) * m_stroke + (index == 2) * m_fill;
+			return 6 * (index == 1) * m_stroke + 3 * (index == 2) * m_fill;
 		}
 
 		//draw

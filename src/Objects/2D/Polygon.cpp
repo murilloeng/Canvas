@@ -52,7 +52,7 @@ namespace canvas
 		{
 			const uint32_t nl = (uint32_t) m_loops.size();
 			const uint32_t nv = (uint32_t) m_vertices.size();
-			return nv * m_stroke * (index == 1) + (nv + 2 * nl - 6) * m_fill * (index == 2);
+			return 2 * nv * m_stroke * (index == 1) + 3 * (nv + 2 * nl - 6) * m_fill * (index == 2);
 		}
 
 		//draw

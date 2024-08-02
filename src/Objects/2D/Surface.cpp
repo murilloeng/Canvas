@@ -57,7 +57,7 @@ namespace canvas
 		{
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			return (n1 + n2 + 2 * n1 * n2) * m_stroke * (index == 1) + 2 * n1 * n2 * m_fill * (index == 2);
+			return 2 * (n1 + n2 + 2 * n1 * n2) * m_stroke * (index == 1) + 6 * n1 * n2 * m_fill * (index == 2);
 		}
 
 		//draw

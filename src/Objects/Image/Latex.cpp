@@ -73,7 +73,7 @@ namespace canvas
 		}
 		uint32_t Latex::ibo_size(uint32_t index) const
 		{
-			return 2 * m_fill * (index == 5);
+			return 6 * m_fill * (index == 5);
 		}
 
 		//draw

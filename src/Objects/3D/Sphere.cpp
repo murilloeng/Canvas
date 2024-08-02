@@ -82,8 +82,8 @@ namespace canvas
 		uint32_t Sphere::ibo_size(uint32_t index) const
 		{
 			return
-				30 * m_mesh * m_mesh * (index == 1) * m_stroke +
-				20 * m_mesh * m_mesh * (index == 2) * m_fill;
+				60 * m_mesh * m_mesh * (index == 1) * m_stroke +
+				60 * m_mesh * m_mesh * (index == 2) * m_fill;
 		}
 
 		//edges

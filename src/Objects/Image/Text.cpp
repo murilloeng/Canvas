@@ -140,7 +140,7 @@ namespace canvas
 		}
 		uint32_t Text::ibo_size(uint32_t index) const
 		{
-			return 2 * m_fill * length() * (index == 4);
+			return 6 * m_fill * length() * (index == 4);
 		}
 
 		//draw

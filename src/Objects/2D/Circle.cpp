@@ -66,7 +66,7 @@ namespace canvas
 		}
 		uint32_t Circle::ibo_size(uint32_t index) const
 		{
-			return ((index == 1 && m_stroke) + (index == 2 && m_fill)) * m_mesh;
+			return (2 * (index == 1 && m_stroke) + 3 * (index == 2 && m_fill)) * m_mesh;
 		}
 
 		//draw

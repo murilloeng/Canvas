@@ -36,7 +36,7 @@ namespace canvas
 		}
 		uint32_t Quad::ibo_size(uint32_t index) const
 		{
-			return 4 * (index == 1) * m_stroke + 2 * (index == 2) * m_fill;
+			return 8 * (index == 1) * m_stroke + 6 * (index == 2) * m_fill;
 		}
 
 		//draw

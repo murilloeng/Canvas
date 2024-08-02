@@ -57,7 +57,7 @@ namespace canvas
 		}
 		uint32_t Cube::ibo_size(uint32_t index) const
 		{
-			return 12 * ((index == 1 && m_stroke) + (index == 2 && m_fill));
+			return 24 * m_stroke * (index == 1) + 36 * m_fill * (index == 2);
 		}
 
 		//draw

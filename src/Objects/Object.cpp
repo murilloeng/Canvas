@@ -96,9 +96,6 @@ namespace canvas
 		//buffers
 		void Object::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
-			//data
-			const uint32_t ibo_offset[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
-			//buffers
 			for(uint32_t i = 0; i < 6; i++)
 			{
 				m_vbo_index[i] = vbo_counter[i];
@@ -107,7 +104,7 @@ namespace canvas
 			for(uint32_t i = 0; i < 12; i++)
 			{
 				m_ibo_index[i] = ibo_counter[i];
-				ibo_counter[i] += ibo_offset[i] * ibo_size(i);
+				ibo_counter[i] += ibo_size(i);
 			}
 		}
 	}

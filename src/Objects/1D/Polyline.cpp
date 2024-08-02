@@ -61,7 +61,7 @@ namespace canvas
 		}
 		uint32_t Polyline::ibo_size(uint32_t index) const
 		{
-			return Group::ibo_size(index) + uint32_t(m_points.size() - 1) * (index == 1) * m_stroke;
+			return Group::ibo_size(index) + 2 * uint32_t(m_points.size() - 1) * (index == 1) * m_stroke;
 		}
 
 		//draw
@@ -69,7 +69,7 @@ namespace canvas
 		{
 			//data
 			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + Group::ibo_size(1);
 			//ibo data
 			for(uint32_t i = 0; i + 1 < m_points.size(); i++)
 			{
