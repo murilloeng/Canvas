@@ -158,6 +158,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\defs\Support_2.cpp" />
     <ClCompile Include="src\defs\Support_3.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\managers\Glut.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
     <ClCompile Include="src\objects\1D\arcs.cpp" />
     <ClCompile Include="src\objects\1D\arrows.cpp" />
@@ -193,6 +194,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClInclude Include="inc\defs\Support_2.hpp" />
     <ClInclude Include="inc\defs\Support_3.hpp" />
     <ClInclude Include="inc\examples.hpp" />
+    <ClCompile Include="inc\managers\Glut.hpp" />
     <ClInclude Include="inc\tessellation.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

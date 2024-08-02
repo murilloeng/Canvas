@@ -66,7 +66,6 @@
     <ClInclude Include="inc\Vertices\Vertex.hpp" />
     <ClInclude Include="inc\Vertices\Vertex2D.hpp" />
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
-    <ClInclude Include="inc\Windows\Glut.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Math\mat4.cpp" />
@@ -130,7 +129,6 @@
     <ClCompile Include="src\Vertices\Vertex.cpp" />
     <ClCompile Include="src\Vertices\Vertex2D.cpp" />
     <ClCompile Include="src\Vertices\Vertex3D.cpp" />
-    <ClCompile Include="src\Windows\Glut.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -2,27 +2,22 @@
 #include <cmath>
 #include <cstdlib>
 
-//canvas
-#include "Canvas/inc/Windows/Glut.hpp"
+//test
 #include "Canvas/Test/inc/examples.hpp"
-
-//data
-static canvas::Scene* scene;
+#include "Canvas/Test/inc/managers/Glut.hpp"
 
 int main(int argc, char** argv)
 {
 	//data
-	canvas::windows::Glut app(argc, argv, "shd/");
+	Glut app(argc, argv, "shd/");
 	//scene
-	scene = app.scene();
-	examples::objects::polygons(scene);
-	scene->update(true);
-	scene->camera().bound();
-	scene->camera().apply();
-	scene->camera().update();
+	examples::objects::polygons(app.scene());
+	app.scene()->update(true);
+	app.scene()->camera().bound();
+	app.scene()->camera().apply();
+	app.scene()->camera().update();
 	//start
 	app.start();
-
 	//return
 	return EXIT_SUCCESS;
 }
