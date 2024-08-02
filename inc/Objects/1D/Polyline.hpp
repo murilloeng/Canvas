@@ -32,13 +32,13 @@ namespace canvas
 
 		protected:
 			//buffers
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			unsigned vbo_size(unsigned) const override;
+			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_stroke_data(uint32_t**) const override;
+			void ibo_stroke_data(unsigned**) const override;
 			void vbo_stroke_data(vertices::Vertex**) const override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			std::vector<vec3> m_points;

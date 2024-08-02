@@ -51,28 +51,28 @@ namespace canvas
 
 		void clear_fonts(void);
 		void add_font(const char*);
-		Font* font(uint32_t) const;
+		Font* font(unsigned) const;
 		const std::vector<Font*>& fonts(void) const;
 
 		void clear_images(void);
 		void add_image(const char*);
-		Image* image(uint32_t) const;
+		Image* image(unsigned) const;
 		const std::vector<Image*>& images(void) const;
 
 		void clear_latex(void);
 		void add_latex(const char*);
-		Latex* latex(uint32_t) const;
+		Latex* latex(unsigned) const;
 		const std::vector<Latex*>& latex(void) const;
 
 		void clear_objects(bool);
 		void add_object(objects::Object*);
-		objects::Object* object(uint32_t) const;
+		objects::Object* object(unsigned) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
 		//buffers
-		uint32_t vbo_size(uint32_t) const;
-		uint32_t ibo_size(uint32_t) const;
-		vertices::Vertex* vertex(uint32_t, uint32_t) const;
+		unsigned vbo_size(unsigned) const;
+		unsigned ibo_size(unsigned) const;
+		vertices::Vertex* vertex(unsigned, unsigned) const;
 
 		//update
 		void draw(void);
@@ -112,13 +112,13 @@ namespace canvas
 		Light m_light;
 		camera::Camera m_camera;
 
-		uint32_t m_vao_id[6];
-		uint32_t m_vbo_id[6];
-		uint32_t m_ibo_id[12];
-		uint32_t m_vbo_size[6];
-		uint32_t m_ibo_size[12];
-		uint32_t* m_ibo_data[12];
-		uint32_t m_texture_id[3];
+		unsigned m_vao_id[6];
+		unsigned m_vbo_id[6];
+		unsigned m_ibo_id[12];
+		unsigned m_vbo_size[6];
+		unsigned m_ibo_size[12];
+		unsigned* m_ibo_data[12];
+		unsigned m_texture_id[3];
 		vertices::Vertex* m_vbo_data[6];
 
 		Color m_background;

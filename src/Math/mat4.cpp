@@ -39,9 +39,9 @@ namespace canvas
 	//linear
 	void mat4::clear(void)
 	{
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
-			for(uint32_t j = 0; j < 4; j++)
+			for(unsigned j = 0; j < 4; j++)
 			{
 				m_data[4 * i + j] = i == j;
 			}
@@ -50,7 +50,7 @@ namespace canvas
 	float mat4::norm(void) const
 	{
 		float v = 0;
-		for(uint32_t i = 0; i < 16; i++)
+		for(unsigned i = 0; i < 16; i++)
 		{
 			v += m_data[i] * m_data[i];
 		}
@@ -64,9 +64,9 @@ namespace canvas
 		{
 			printf("%s\n", label);
 		}
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
-			for(uint32_t j = 0; j < 4; j++)
+			for(unsigned j = 0; j < 4; j++)
 			{
 				printf("%+.2e ", m_data[i + 4 * j]);
 			}
@@ -75,27 +75,27 @@ namespace canvas
 	}
 
 	//operators
-	float& mat4::operator()(uint32_t i)
+	float& mat4::operator()(unsigned i)
 	{
 		return m_data[i];
 	}
-	float& mat4::operator[](uint32_t i)
+	float& mat4::operator[](unsigned i)
 	{
 		return m_data[i];
 	}
-	float& mat4::operator()(uint32_t i, uint32_t j)
+	float& mat4::operator()(unsigned i, unsigned j)
 	{
 		return m_data[i + 4 * j];
 	}
-	const float& mat4::operator()(uint32_t i) const
+	const float& mat4::operator()(unsigned i) const
 	{
 		return m_data[i];
 	}
-	const float& mat4::operator[](uint32_t i) const
+	const float& mat4::operator[](unsigned i) const
 	{
 		return m_data[i];
 	}
-	const float& mat4::operator()(uint32_t i, uint32_t j) const
+	const float& mat4::operator()(unsigned i, unsigned j) const
 	{
 		return m_data[i + 4 * j];
 	}
@@ -111,10 +111,10 @@ namespace canvas
 	vec3 mat4::operator*(const vec3& v) const
 	{
 		vec3 r;
-		for(uint32_t i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 3; i++)
 		{
 			r[i] = m_data[i + 4 * 3];
-			for(uint32_t j = 0; j < 3; j++)
+			for(unsigned j = 0; j < 3; j++)
 			{
 				r[i] += m_data[i + 4 * j] * v[j];
 			}
@@ -124,12 +124,12 @@ namespace canvas
 	mat4 mat4::operator*(const mat4& M) const
 	{
 		mat4 r;
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
-			for(uint32_t j = 0; j < 4; j++)
+			for(unsigned j = 0; j < 4; j++)
 			{
 				r.m_data[i + 4 * j] = 0;
-				for(uint32_t k = 0; k < 4; k++)
+				for(unsigned k = 0; k < 4; k++)
 				{
 					r.m_data[i + 4 * j] += m_data[i + 4 * k] * M.m_data[k + 4 * j];
 				}
@@ -140,7 +140,7 @@ namespace canvas
 	mat4 mat4::operator+(const mat4& M) const
 	{
 		mat4 A;
-		for(uint32_t i = 0; i < 16; i++)
+		for(unsigned i = 0; i < 16; i++)
 		{
 			A.m_data[i] = m_data[i] + M.m_data[i];
 		}
@@ -149,7 +149,7 @@ namespace canvas
 	mat4 mat4::operator-(const mat4& M) const
 	{
 		mat4 A;
-		for(uint32_t i = 0; i < 16; i++)
+		for(unsigned i = 0; i < 16; i++)
 		{
 			A.m_data[i] = m_data[i] - M.m_data[i];
 		}
@@ -158,7 +158,7 @@ namespace canvas
 
 	mat4& mat4::operator*=(float s)
 	{
-		for(uint32_t i = 0; i < 16; i++)
+		for(unsigned i = 0; i < 16; i++)
 		{
 			m_data[i] *= s;
 		}

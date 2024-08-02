@@ -22,7 +22,7 @@ namespace examples
 			//objects
 			canvas::objects::Quad* quad;
 			canvas::objects::Text* text[9];
-			for(uint32_t i = 0; i < 9; i++)
+			for(unsigned i = 0; i < 9; i++)
 			{
 				scene->add_object(text[i] = new canvas::objects::Text);
 			}
@@ -38,7 +38,7 @@ namespace examples
 			text[4]->anchor("CC");
 			text[4]->position({0, 0, 0});
 			text[4]->color_fill({0, 1, 0});
-			for(uint32_t i = 0; i < 4; i++)
+			for(unsigned i = 0; i < 4; i++)
 			{
 				text[i + 0]->size(0.2f);
 				text[i + 5]->size(0.2f);

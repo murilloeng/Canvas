@@ -28,29 +28,29 @@ namespace canvas
 			vec3 position(void) const;
 			vec3 position(const vec3&);
 
-			uint32_t index(uint32_t);
-			uint32_t index(void) const;
+			unsigned index(unsigned);
+			unsigned index(void) const;
 
-			vec3 direction(uint32_t) const;
-			vec3 direction(uint32_t, const vec3&);
+			vec3 direction(unsigned) const;
+			vec3 direction(unsigned, const vec3&);
 
 		protected:
 			//buffers
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			unsigned vbo_size(unsigned) const override;
+			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_fill_data(uint32_t**) const;
+			void ibo_fill_data(unsigned**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 
-			void setup(uint32_t[], uint32_t[]) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void setup(unsigned[], unsigned[]) override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			float m_size;
 			Anchor m_anchor;
 			vec3 m_position;
-			uint32_t m_index;
+			unsigned m_index;
 			vec3 m_directions[2];
 		};
 	}

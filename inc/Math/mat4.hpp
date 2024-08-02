@@ -29,13 +29,13 @@ namespace canvas
 		void print(const char* = "") const;
 
 		//operators
-		float& operator()(uint32_t);
-		float& operator[](uint32_t);
-		float& operator()(uint32_t, uint32_t);
+		float& operator()(unsigned);
+		float& operator[](unsigned);
+		float& operator()(unsigned, unsigned);
 
-		const float& operator()(uint32_t) const;
-		const float& operator[](uint32_t) const;
-		const float& operator()(uint32_t, uint32_t) const;
+		const float& operator()(unsigned) const;
+		const float& operator[](unsigned) const;
+		const float& operator()(unsigned, unsigned) const;
 
 		mat4 operator+(void) const;
 		mat4 operator-(void) const;

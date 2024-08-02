@@ -12,12 +12,12 @@ namespace examples
 		void grid_3D(canvas::Scene* scene)
 		{
 			//data
-			const uint32_t n = 10;
+			const unsigned n = 10;
 			const float s = 1.0f / n;
 			//objects
-			for(uint32_t i = 0; i < n; i++)
+			for(unsigned i = 0; i < n; i++)
 			{
-				for(uint32_t j = 0; j < n; j++)
+				for(unsigned j = 0; j < n; j++)
 				{
 					const float x1 = 2 * j * s - 1 + s;
 					const float x2 = 2 * i * s - 1 + s;

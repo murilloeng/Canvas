@@ -8,24 +8,24 @@ namespace canvas
 		//constructors
 		Anchor(void);
 		Anchor(const char*);
-		Anchor(uint32_t, uint32_t);
+		Anchor(unsigned, unsigned);
 
 		//destructor
 		~Anchor(void);
 
 		//data
-		uint32_t vertical(uint32_t);
-		uint32_t vertical(void) const;
+		unsigned vertical(unsigned);
+		unsigned vertical(void) const;
 
-		uint32_t horizontal(uint32_t);
-		uint32_t horizontal(void) const;
+		unsigned horizontal(unsigned);
+		unsigned horizontal(void) const;
 
 		const char* mode(void) const;
 		const char* mode(const char*);
 
 	protected:
 		//data
-		uint32_t m_vertical;
-		uint32_t m_horizontal;
+		unsigned m_vertical;
+		unsigned m_horizontal;
 	};
 }

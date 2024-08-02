@@ -35,11 +35,11 @@ namespace canvas
 		}
 
 		//data
-		uint32_t Grid_3D::mesh(uint32_t index) const
+		unsigned Grid_3D::mesh(unsigned index) const
 		{
 			return m_mesh[index];
 		}
-		uint32_t Grid_3D::mesh(uint32_t index, uint32_t mesh)
+		unsigned Grid_3D::mesh(unsigned index, unsigned mesh)
 		{
 			((Grid_2D*) m_geometries[(index + 0) % 3])->mesh(0, mesh);
 			((Grid_2D*) m_geometries[(index + 2) % 3])->mesh(1, mesh);

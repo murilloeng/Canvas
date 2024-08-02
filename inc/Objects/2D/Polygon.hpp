@@ -29,8 +29,8 @@ namespace canvas
 
 		protected:
 			//buffers
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			uint32_t vbo_size(uint32_t) const override;
+			uint32_t ibo_size(uint32_t) const override;
 
 			//draw
 			void ibo_fill_data(uint32_t**) const;

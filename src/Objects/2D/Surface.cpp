@@ -19,20 +19,20 @@ namespace canvas
 		}
 
 		//data
-		uint32_t Surface::mesh(uint32_t index) const
+		unsigned Surface::mesh(unsigned index) const
 		{
 			return m_mesh[index];
 		}
-		uint32_t Surface::mesh(uint32_t index, uint32_t mesh)
+		unsigned Surface::mesh(unsigned index, unsigned mesh)
 		{
 			return m_mesh[index] = mesh;
 		}
 
-		float Surface::domain(uint32_t i, uint32_t j) const
+		float Surface::domain(unsigned i, unsigned j) const
 		{
 			return m_domain[2 * i + j];
 		}
-		float Surface::domain(uint32_t i, uint32_t j, float domain)
+		float Surface::domain(unsigned i, unsigned j, float domain)
 		{
 			return m_domain[2 * i + j] = domain;
 		}
@@ -47,32 +47,31 @@ namespace canvas
 		}
 
 		//buffers
-		void Surface::vbo_size(uint32_t vbo_counter[]) const
+		unsigned Surface::vbo_size(unsigned index) const
 		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			vbo_counter[0] += (n1 + 1) * (n2 + 1) * (m_stroke + m_fill);
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
+			return (n1 + 1) * (n2 + 1) * (m_stroke + m_fill) * (index == 0);
 		}
-		void Surface::ibo_size(uint32_t ibo_counter[]) const
+		unsigned Surface::ibo_size(unsigned index) const
 		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			ibo_counter[2] += 6 * n1 * n2 * m_fill;
-			ibo_counter[1] += 2 * (n1 + n2 + 2 * n1 * n2) * m_stroke;
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
+			return (n1 + n2 + 2 * n1 * n2) * m_stroke * (index == 1) + 2 * n1 * n2 * m_fill * (index == 2);
 		}
 
 		//draw
-		void Surface::ibo_fill_data(uint32_t** ibo_data) const
+		void Surface::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//data
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			uint32_t vbo_index = m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
+			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			unsigned vbo_index = m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
 			//ibo data
-			for(uint32_t i = 0; i < n2; i++)
+			for(unsigned i = 0; i < n2; i++)
 			{
-				for(uint32_t j = 0; j < n1; j++)
+				for(unsigned j = 0; j < n1; j++)
 				{
 					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
 					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
@@ -84,26 +83,26 @@ namespace canvas
 				}
 			}
 		}
-		void Surface::ibo_stroke_data(uint32_t** ibo_data) const
+		void Surface::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			uint32_t vbo_index = m_vbo_index[0];
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
+			unsigned vbo_index = m_vbo_index[0];
+			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//ibo data
-			for(uint32_t i = 0; i <= n2; i++)
+			for(unsigned i = 0; i <= n2; i++)
 			{
-				for(uint32_t j = 0; j < n1; j++)
+				for(unsigned j = 0; j < n1; j++)
 				{
 					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
 					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
 					ibo_ptr += 2;
 				}
 			}
-			for(uint32_t i = 0; i < n2; i++)
+			for(unsigned i = 0; i < n2; i++)
 			{
-				for(uint32_t j = 0; j <= n1; j++)
+				for(unsigned j = 0; j <= n1; j++)
 				{
 					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
 					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
@@ -118,13 +117,13 @@ namespace canvas
 			const float b1 = m_domain[1];
 			const float a2 = m_domain[2];
 			const float b2 = m_domain[3];
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
 			//vbo data
-			for(uint32_t i = 0; i <= n2; i++)
+			for(unsigned i = 0; i <= n2; i++)
 			{
-				for(uint32_t j = 0; j <= n1; j++)
+				for(unsigned j = 0; j <= n1; j++)
 				{
 					const float s1 = a1 + (b1 - a1) * j / n1;
 					const float s2 = a2 + (b2 - a2) * i / n2;
@@ -140,13 +139,13 @@ namespace canvas
 			const float b1 = m_domain[1];
 			const float a2 = m_domain[2];
 			const float b2 = m_domain[3];
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
+			const unsigned n1 = m_mesh[0];
+			const unsigned n2 = m_mesh[1];
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
-			for(uint32_t i = 0; i <= n2; i++)
+			for(unsigned i = 0; i <= n2; i++)
 			{
-				for(uint32_t j = 0; j <= n1; j++)
+				for(unsigned j = 0; j <= n1; j++)
 				{
 					const float s1 = a1 + (b1 - a1) * j / n1;
 					const float s2 = a2 + (b2 - a2) * i / n2;
@@ -155,7 +154,7 @@ namespace canvas
 				}
 			}
 		}
-		void Surface::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Surface::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

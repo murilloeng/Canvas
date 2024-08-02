@@ -20,7 +20,7 @@ namespace canvas
 {
 	namespace camera
 	{
-		enum class type : uint32_t
+		enum class type : unsigned
 		{
 			perspective,
 			orthographic
@@ -55,11 +55,11 @@ namespace canvas
 			quat rotation(const vec3&);
 			quat rotation(const quat&);
 
-			uint32_t width(void) const;
-			uint32_t height(void) const;
+			unsigned width(void) const;
+			unsigned height(void) const;
 
-			float plane(uint32_t) const;
-			float plane(uint32_t, float);
+			float plane(unsigned) const;
+			float plane(unsigned, float);
 
 			camera::type type(void) const;
 			camera::type type(camera::type);
@@ -82,7 +82,7 @@ namespace canvas
 			void callback_reshape(int, int);
 			void callback_wheel(int, int, int);
 			void callback_mouse(button, bool, int, int);
-			void callback_special(key, uint32_t, int, int);
+			void callback_special(key, unsigned, int, int);
 
 		protected:
 			//apply
@@ -112,8 +112,8 @@ namespace canvas
 			vec3 m_position;
 			quat m_rotation;
 
-			uint32_t m_width;
-			uint32_t m_height;
+			unsigned m_width;
+			unsigned m_height;
 
 			vec3 m_x_min;
 			vec3 m_x_max;

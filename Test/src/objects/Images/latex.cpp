@@ -15,15 +15,15 @@ namespace examples
 			char source[200];
 			canvas::objects::Latex* latex;
 			//images
-			for(uint32_t i = 0; i < 12; i++)
+			for(unsigned i = 0; i < 12; i++)
 			{
 				sprintf(source, "$ \\int_{0}^{L} %c_{%d} dx $", i + 65, i);
 				scene->add_latex(source);
 			}
 			//objects
-			for(uint32_t i = 0; i < 4; i++)
+			for(unsigned i = 0; i < 4; i++)
 			{
-				for(uint32_t j = 0; j < 3; j++)
+				for(unsigned j = 0; j < 3; j++)
 				{
 					latex = new canvas::objects::Latex;
 					latex->size(0.15f);

@@ -46,7 +46,7 @@ namespace canvas
 		{
 			printf("%s\n", label);
 		}
-		for(uint32_t i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 2; i++)
 		{
 			printf("%+.2e\n", m_data[i]);
 		}
@@ -69,10 +69,10 @@ namespace canvas
 	{
 		return m_data[0] * v.m_data[1] - m_data[1] * v.m_data[0];
 	}
-	float vec2::min(uint32_t* index, bool abs) const
+	float vec2::min(unsigned* index, bool abs) const
 	{
 		float min = +FLT_MAX;
-		for(uint32_t i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 2; i++)
 		{
 			if(min > (abs ? fabsf(m_data[i]) : m_data[i]))
 			{
@@ -82,10 +82,10 @@ namespace canvas
 		}
 		return min;
 	}
-	float vec2::max(uint32_t* index, bool abs) const
+	float vec2::max(unsigned* index, bool abs) const
 	{
 		float max = -FLT_MAX;
-		for(uint32_t i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 2; i++)
 		{
 			if(max < (abs ? fabsf(m_data[i]) : m_data[i]))
 			{
@@ -156,19 +156,19 @@ namespace canvas
 		return vec2(m_data) -= p;
 	}
 
-	float& vec2::operator()(uint32_t index)
+	float& vec2::operator()(unsigned index)
 	{
 		return m_data[index];
 	}
-	float& vec2::operator[](uint32_t index)
+	float& vec2::operator[](unsigned index)
 	{
 		return m_data[index];
 	}
-	const float& vec2::operator()(uint32_t index) const
+	const float& vec2::operator()(unsigned index) const
 	{
 		return m_data[index];
 	}
-	const float& vec2::operator[](uint32_t index) const
+	const float& vec2::operator[](unsigned index) const
 	{
 		return m_data[index];
 	}

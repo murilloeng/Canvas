@@ -6,15 +6,15 @@
 
 namespace canvas
 {
-	enum class key : uint32_t
+	enum class key : unsigned
 	{
 		left, right, down, up
 	};
-	enum class button : uint32_t
+	enum class button : unsigned
 	{
 		none, left, middle, right
 	};
-	enum class modifier : uint32_t
+	enum class modifier : unsigned
 	{
 		alt, ctrl, shift
 	};
@@ -38,11 +38,11 @@ namespace canvas
 		quat rotation(quat);
 		quat rotation(void) const;
 
-		int screen(uint32_t, int);
-		int screen(uint32_t) const;
+		int screen(unsigned, int);
+		int screen(unsigned) const;
 
-		uint32_t modifiers(uint32_t);
-		uint32_t modifiers(void) const;
+		unsigned modifiers(unsigned);
+		unsigned modifiers(void) const;
 
 		canvas::button button(void) const;
 		canvas::button button(canvas::button);
@@ -55,7 +55,7 @@ namespace canvas
 		int m_screen[2];
 		vec3 m_position;
 		quat m_rotation;
-		uint32_t m_modifiers;
+		unsigned m_modifiers;
 		canvas::button m_button;
 	};
 }

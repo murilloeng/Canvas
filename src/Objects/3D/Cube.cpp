@@ -51,22 +51,21 @@ namespace canvas
 		}
 
 		//buffers
-		void Cube::vbo_size(uint32_t vbo_counter[]) const
+		unsigned Cube::vbo_size(unsigned index) const
 		{
-			vbo_counter[0] += 8 * (m_stroke + m_fill);
+			return 8 * (m_stroke + m_fill) * (index == 0);
 		}
-		void Cube::ibo_size(uint32_t ibo_counter[]) const
+		unsigned Cube::ibo_size(unsigned index) const
 		{
-			ibo_counter[2] += 36 * m_fill;
-			ibo_counter[1] += 24 * m_stroke;
+			return 12 * ((index == 1 && m_stroke) + (index == 2 && m_fill));
 		}
 
 		//draw
-		void Cube::ibo_stroke_data(uint32_t** ibo_data) const
+		void Cube::ibo_stroke_data(unsigned** ibo_data) const
 		{
 			//data
-			uint32_t vbo_index = m_vbo_index[0];
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			unsigned vbo_index = m_vbo_index[0];
+			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//edges
 			ibo_ptr[2 * 0 + 0] = vbo_index + 0;
 			ibo_ptr[2 * 0 + 1] = vbo_index + 4;
@@ -87,11 +86,11 @@ namespace canvas
 			ibo_ptr[2 *  9 + 1] = ibo_ptr[2 * 10 + 0] = vbo_index + 6;
 			ibo_ptr[2 * 10 + 1] = ibo_ptr[2 * 11 + 0] = vbo_index + 7;
 		}
-		void Cube::ibo_fill_data(uint32_t** ibo_data) const
+		void Cube::ibo_fill_data(unsigned** ibo_data) const
 		{
 			//data
-			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
-			uint32_t vbo_index = m_vbo_index[0] + 8 * m_stroke;
+			unsigned* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			unsigned vbo_index = m_vbo_index[0] + 8 * m_stroke;
 			//face -x3
 			ibo_ptr[3 * 0 + 2] = vbo_index + 1;
 			ibo_ptr[3 * 1 + 1] = vbo_index + 3;
@@ -129,7 +128,7 @@ namespace canvas
 			const mat4 A = mat4::scaling(m_sizes / 2);
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
-			for(uint32_t i = 0; i < 8; i++)
+			for(unsigned i = 0; i < 8; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
@@ -141,13 +140,13 @@ namespace canvas
 			const mat4 A = mat4::scaling(m_sizes / 2);
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 8 * m_stroke;
 			//vbo data
-			for(uint32_t i = 0; i < 8; i++)
+			for(unsigned i = 0; i < 8; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
 		}
-		void Cube::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Cube::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

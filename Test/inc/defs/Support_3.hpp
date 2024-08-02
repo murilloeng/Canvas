@@ -15,8 +15,8 @@ namespace examples
 		~Support_3(void);
 
 		//data
-		float size(uint32_t) const;
-		float size(uint32_t, float);
+		float size(unsigned) const;
+		float size(unsigned, float);
 
 	protected:
 		//update

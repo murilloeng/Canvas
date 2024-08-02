@@ -42,18 +42,18 @@ namespace canvas
 			float parameter(float);
 			float parameter(void) const;
 
-			vec3 direction(uint32_t) const;
-			vec3 direction(uint32_t, const vec3&);
+			vec3 direction(unsigned) const;
+			vec3 direction(unsigned, const vec3&);
 
 		protected:
 			//buffers
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			unsigned vbo_size(unsigned) const override;
+			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_stroke_data(uint32_t**) const;
+			void ibo_stroke_data(unsigned**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			bool m_sense;

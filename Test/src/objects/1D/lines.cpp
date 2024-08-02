@@ -14,13 +14,13 @@ namespace examples
 		{
 			//data
 			float s = 0.90f;
-			const uint32_t n = 5;
+			const unsigned n = 5;
 			const float x1[] = {-1, +1, +1, -1};
 			const float x2[] = {-1, -1, +1, +1};
 			//objects
-			for(uint32_t i = 0; i < n; i++)
+			for(unsigned i = 0; i < n; i++)
 			{
-				for(uint32_t j = 0; j < 4; j++)
+				for(unsigned j = 0; j < 4; j++)
 				{
 					scene->add_object(new canvas::objects::Line);
 					((canvas::objects::Line*) scene->object(4 * i + j))->add_arrow(0.50f, true);

@@ -9,7 +9,7 @@
 #include "Canvas/Test/inc/defs/Support_2.hpp"
 
 //static data
-static const uint32_t nl = 5;
+static const unsigned nl = 5;
 
 namespace examples
 {
@@ -18,7 +18,7 @@ namespace examples
 	{
 		//objects
 		m_geometries.push_back(new canvas::objects::Triangle);
-		for(uint32_t i = 0; i <= nl; i++)
+		for(unsigned i = 0; i <= nl; i++)
 		{
 			m_geometries.push_back(new canvas::objects::Line);
 		}
@@ -57,7 +57,7 @@ namespace examples
 		((canvas::objects::Triangle*) m_geometries[0])->point(1, {m_size * cosf(a1), m_size * sinf(a1), 0});
 		((canvas::objects::Triangle*) m_geometries[0])->point(2, {m_size * cosf(a2), m_size * sinf(a2), 0});
 		//lines
-		for(uint32_t i = 0; i <= nl; i++)
+		for(unsigned i = 0; i <= nl; i++)
 		{
 			const float s = float(i) / nl;
 			const float x2 = m_size * sinf(a1);

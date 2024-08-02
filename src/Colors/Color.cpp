@@ -57,11 +57,11 @@ namespace canvas
 	}
 
 	//data
-	float Color::channel(uint32_t index) const
+	float Color::channel(unsigned index) const
 	{
 		return m_channels[index];
 	}
-	float Color::channel(uint32_t index, float channel)
+	float Color::channel(unsigned index, float channel)
 	{
 		return m_channels[index] = channel;
 	}
@@ -126,19 +126,19 @@ namespace canvas
 	}
 
 	//operators
-	float& Color::operator[](uint32_t index)
+	float& Color::operator[](unsigned index)
 	{
 		return m_channels[index];
 	}
 	Color& Color::operator=(const float* channels)
 	{
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			m_channels[i] = channels[i];
 		}
 		return *this;
 	}
-	const float& Color::operator[](uint32_t index) const
+	const float& Color::operator[](unsigned index) const
 	{
 		return m_channels[index];
 	}
@@ -147,7 +147,7 @@ namespace canvas
 	void Color::table_conversion(char* color_string, const char* string)
 	{
 		bool test = false;
-		for(uint32_t i = 0; i < sizeof(colors_table) / sizeof(char*); i++)
+		for(unsigned i = 0; i < sizeof(colors_table) / sizeof(char*); i++)
 		{
 			if(strcmp(string, colors_table[2 * i]) == 0)
 			{
@@ -162,7 +162,7 @@ namespace canvas
 			exit(EXIT_FAILURE);
 		}
 	}
-	float Color::string_channel(const char* color_string, uint32_t index)
+	float Color::string_channel(const char* color_string, unsigned index)
 	{
 		char channel_string[2];
 		memcpy(channel_string, color_string + 2 * index + 1, 2 * sizeof(char));

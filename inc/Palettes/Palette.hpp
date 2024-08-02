@@ -25,7 +25,7 @@ namespace canvas
 			static const char* name(palettes::type);
 
 			//data
-			uint32_t size(void) const;
+			unsigned size(void) const;
 			palettes::type type(void) const;
 			palettes::type type(palettes::type);
 
@@ -34,7 +34,7 @@ namespace canvas
 			void load(palettes::type);
 
 			//data
-			uint32_t m_size;
+			unsigned m_size;
 			const float* m_colors;
 			palettes::type m_type;
 			static const float m_palette_jet[];

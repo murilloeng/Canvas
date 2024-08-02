@@ -33,16 +33,16 @@ namespace canvas
 		static quat view_x1(void);
 		static quat view_x2(void);
 		static quat view_x3(void);
-		static quat view_iso(uint32_t);
+		static quat view_iso(unsigned);
 
 		//operators
 		quat& operator*=(const quat&);
 		quat operator*(const quat&) const;
 
-		float& operator()(uint32_t);
-		float& operator[](uint32_t);
-		const float& operator()(uint32_t) const;
-		const float& operator[](uint32_t) const;
+		float& operator()(unsigned);
+		float& operator[](unsigned);
+		const float& operator()(unsigned) const;
+		const float& operator[](unsigned) const;
 
 		//affine
 		vec3 vector(void) const;

@@ -20,8 +20,8 @@ namespace canvas
 		~Latex(void);
 
 		//data
-		uint32_t width(void) const;
-		uint32_t height(void) const;
+		unsigned width(void) const;
+		unsigned height(void) const;
 		std::string source(void) const;
 		std::string source(std::string);
 
@@ -34,13 +34,13 @@ namespace canvas
 	protected:
 		//data
 		bool m_status;
-		uint8_t* m_data;
-		uint32_t m_width;
-		uint32_t m_height;
-		uint32_t m_offset;
+		unsigned m_width;
+		unsigned m_height;
+		unsigned m_offset;
 		std::string m_source;
-		static uint32_t m_total_width;
-		static uint32_t m_total_height;
+		unsigned char* m_data;
+		static unsigned m_total_width;
+		static unsigned m_total_height;
 
 		//friends
 		friend class Scene;

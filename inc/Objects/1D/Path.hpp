@@ -29,14 +29,14 @@ namespace canvas
 			~Path(void);
 
 			//data
-			uint32_t mesh(uint32_t);
-			uint32_t mesh(void) const;
+			unsigned mesh(unsigned);
+			unsigned mesh(void) const;
 
 			//arrows
 			void add_arrow(float, bool);
-			void remove_arrow(uint32_t);
-			uint32_t arrows(void) const;
-			Arrow* arrow(uint32_t) const;
+			void remove_arrow(unsigned);
+			unsigned arrows(void) const;
+			Arrow* arrow(unsigned) const;
 
 			//path
 			vec3 path_normal(float) const;
@@ -49,18 +49,18 @@ namespace canvas
 
 		protected:
 			//sizes
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			unsigned vbo_size(unsigned) const override;
+			unsigned ibo_size(unsigned) const override;
 
 			//buffers
-			virtual void ibo_stroke_data(uint32_t**) const;
+			virtual void ibo_stroke_data(unsigned**) const;
 			virtual void vbo_stroke_data(vertices::Vertex**) const;
 
-			void setup(uint32_t[], uint32_t[]) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void setup(unsigned[], unsigned[]) override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
-			uint32_t m_mesh;
+			unsigned m_mesh;
 		};
 	}
 }

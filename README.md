@@ -91,12 +91,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void points(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float r = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * r * j + r - 1;
 				const float x2 = 2 * r * i + r - 1;
@@ -124,12 +124,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void arcs(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float r = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				scene->add_object(new canvas::objects::Arc);
 				((canvas::objects::Arc*) scene->object(n * i + j))->radius(r);
@@ -159,13 +159,13 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	{
 		//data
 		float s = 0.90f;
-		const uint32_t n = 5;
+		const unsigned n = 5;
 		const float x1[] = {-1, +1, +1, -1};
 		const float x2[] = {-1, -1, +1, +1};
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < 4; j++)
+			for(unsigned j = 0; j < 4; j++)
 			{
 				scene->add_object(new canvas::objects::Line);
 				((canvas::objects::Line*) scene->object(4 * i + j))->add_arrow(0.50f, true);
@@ -230,8 +230,8 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	{
 		//data
 		const float r = 1.0f;
-		const uint32_t nt = 5;
-		const uint32_t nm = 200;
+		const unsigned nt = 5;
+		const unsigned nm = 200;
 		//curve
 		canvas::objects::Curve* curve = new canvas::objects::Curve;
 		curve->position([r] (float s){ 
@@ -333,7 +333,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		polyline->points().push_back({-w / 2, -h / 2, 0});
 		polyline->points().push_back({-w / 2, -h / 2 - t, 0});
 		//arrows
-		for(uint32_t i = 0; i < 12; i++)
+		for(unsigned i = 0; i < 12; i++)
 		{
 			polyline->add_arrow(i + 0.5f, true);
 			polyline->arrow(i)->width(2.50e-03);
@@ -357,12 +357,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void quads(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 40;
+		const unsigned n = 40;
 		const float s = 2.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				scene->add_object(new canvas::objects::Quad);
 				((canvas::objects::Quad*) scene->object(n * i + j))->color_fill({0, 0, 1});
@@ -387,12 +387,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void circles(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float r = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				scene->add_object(new canvas::objects::Circle);
 				((canvas::objects::Circle*) scene->object(n * i + j))->radius(0.9 * r);
@@ -415,12 +415,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void grid_2D(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float s = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * j * s - 1 + s;
 				const float x2 = 2 * i * s - 1 + s;
@@ -445,12 +445,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void grid_3D(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float s = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * j * s - 1 + s;
 				const float x2 = 2 * i * s - 1 + s;
@@ -551,12 +551,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void triangles(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float r = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				scene->add_object(new canvas::objects::Triangle);
 				((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
@@ -583,12 +583,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void cubes(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float s = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * j * s - 1 + s;
 				const float x2 = 2 * i * s - 1 + s;
@@ -613,12 +613,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void spheres(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float s = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * j * s - 1 + s;
 				const float x2 = 2 * i * s - 1 + s;
@@ -643,12 +643,12 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	void cylinders(canvas::Scene* scene)
 	{
 		//data
-		const uint32_t n = 10;
+		const unsigned n = 10;
 		const float s = 1.0f / n;
 		//objects
-		for(uint32_t i = 0; i < n; i++)
+		for(unsigned i = 0; i < n; i++)
 		{
-			for(uint32_t j = 0; j < n; j++)
+			for(unsigned j = 0; j < n; j++)
 			{
 				const float x1 = 2 * j * s - 1 + s;
 				const float x2 = 2 * i * s - 1 + s;
@@ -685,7 +685,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		//objects
 		canvas::objects::Quad* quad;
 		canvas::objects::Text* text[9];
-		for(uint32_t i = 0; i < 9; i++)
+		for(unsigned i = 0; i < 9; i++)
 		{
 			scene->add_object(text[i] = new canvas::objects::Text);
 		}
@@ -701,7 +701,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		text[4]->anchor("CC");
 		text[4]->position({0, 0, 0});
 		text[4]->color_fill({0, 1, 0});
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
 			text[i + 0]->size(0.2f);
 			text[i + 5]->size(0.2f);
@@ -732,15 +732,15 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		char source[200];
 		canvas::objects::Latex* latex;
 		//images
-		for(uint32_t i = 0; i < 12; i++)
+		for(unsigned i = 0; i < 12; i++)
 		{
 			sprintf(source, "$ \\int_{0}^{L} %c_{%d} dx $", i + 65, i);
 			scene->add_latex(source);
 		}
 		//objects
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
-			for(uint32_t j = 0; j < 3; j++)
+			for(unsigned j = 0; j < 3; j++)
 			{
 				latex = new canvas::objects::Latex;
 				latex->size(0.15);
@@ -765,18 +765,18 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	{
 		//data
 		char path[200];
-		const uint32_t ni = 10;
+		const unsigned ni = 10;
 		canvas::objects::Image* image;
 		//images
-		for(uint32_t i = 0; i < 12; i++)
+		for(unsigned i = 0; i < 12; i++)
 		{
 			sprintf(path, "data/images/wizard-%d.png", i % ni);
 			scene->add_image(path);
 		}
 		//objects
-		for(uint32_t i = 0; i < 4; i++)
+		for(unsigned i = 0; i < 4; i++)
 		{
-			for(uint32_t j = 0; j < 3; j++)
+			for(unsigned j = 0; j < 3; j++)
 			{
 				image = new canvas::objects::Image;
 				image->size(0.5);
@@ -828,7 +828,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	#include "Canvas/lib/inc/Objects/Image/Latex.hpp"
 
 	//data
-	static const uint32_t nc = 3;
+	static const unsigned nc = 3;
 	static const float e = 5.50e-02;
 	static const float tr = 4.00e-03;
 	static const float tc = 1.00e-02;
@@ -846,10 +846,10 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		const canvas::vec3 s1(tc, tc, Hr + tc / 2);
 		const canvas::vec3 x1(e, 0, Hr / 2 + tc / 4 + tr);
 		const canvas::vec3 x2(e / 2 - tc / 4, 0, Hr + tr);
-		for(uint32_t i = 0; i < 4; i++) links[i] = new canvas::objects::Cube;
-		for(uint32_t i = 0; i < 2; i++) bases[i] = new canvas::objects::Cylinder;
+		for(unsigned i = 0; i < 4; i++) links[i] = new canvas::objects::Cube;
+		for(unsigned i = 0; i < 2; i++) bases[i] = new canvas::objects::Cylinder;
 		//bases
-		for(uint32_t i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 2; i++)
 		{
 			bases[i]->radius(Rr);
 			bases[i]->height(tr);
@@ -858,7 +858,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 			scene->add_object(bases[i]);
 		}
 		//links
-		for(uint32_t i = 0; i < 2; i++)
+		for(unsigned i = 0; i < 2; i++)
 		{
 			links[i + 0]->color_fill({0, 0, 1});
 			links[i + 2]->color_fill({0, 0, 1});
@@ -882,9 +882,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 	{
 		//data
 		canvas::objects::Line* cables[nc + 1];
-		for(uint32_t i = 0; i <= nc; i++) cables[i] = new canvas::objects::Line;
+		for(unsigned i = 0; i <= nc; i++) cables[i] = new canvas::objects::Line;
 		//cables
-		for(uint32_t i = 0; i <= nc; i++)
+		for(unsigned i = 0; i <= nc; i++)
 		{
 			if(i == nc)
 			{
@@ -911,7 +911,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 		//data
 		canvas::objects::Latex* labels[5];
 		const canvas::Anchor a[] = {"SC", "CE", "CW", "CW", "NC"};
-		for(uint32_t i = 0; i < 5; i++) labels[i] = new canvas::objects::Latex;
+		for(unsigned i = 0; i < 5; i++) labels[i] = new canvas::objects::Latex;
 		const canvas::vec3 x[] = {
 			{e / 2, 0, tr + Hr + 3 * tc / 2}, 
 			{-tc, 0, Ht / 2 + tr}, 
@@ -920,7 +920,7 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 			{Rr / 2, 0, -tc}
 		};
 		//labels
-		for(uint32_t i = 0; i < 5; i++)
+		for(unsigned i = 0; i < 5; i++)
 		{
 			labels[i]->index(i);
 			labels[i]->size(Rr / 8);
@@ -942,9 +942,9 @@ Images can be added to the scene via the class `canvas::objects::Image`. Image s
 			{e + 3 * tc / 2, 0, tr}, {e + 3 * tc / 2, 0, tr + Hr},
 			{0, 0, -tc}, {Rr, 0, -tc}
 		};
-		for(uint32_t i = 0; i < 5; i++) guides[i] = new canvas::objects::Line;
+		for(unsigned i = 0; i < 5; i++) guides[i] = new canvas::objects::Line;
 		//arrows
-		for(uint32_t i = 0; i < 5; i++)
+		for(unsigned i = 0; i < 5; i++)
 		{
 			guides[i]->add_arrow(1, true);
 			guides[i]->add_arrow(0, false);

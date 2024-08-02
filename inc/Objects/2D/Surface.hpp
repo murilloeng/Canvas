@@ -21,30 +21,30 @@ namespace canvas
 			~Surface(void);
 
 			//data
-			uint32_t mesh(uint32_t) const;
-			uint32_t mesh(uint32_t, uint32_t);
+			unsigned mesh(unsigned) const;
+			unsigned mesh(unsigned, unsigned);
 
-			float domain(uint32_t, uint32_t) const;
-			float domain(uint32_t, uint32_t, float);
+			float domain(unsigned, unsigned) const;
+			float domain(unsigned, unsigned, float);
 
 			std::function<vec3(float, float)> position(void) const;
 			std::function<vec3(float, float)> position(std::function<vec3(float, float)>);
 
 		protected:
 			//buffers
-			void vbo_size(uint32_t[]) const override;
-			void ibo_size(uint32_t[]) const override;
+			unsigned vbo_size(unsigned) const override;
+			unsigned ibo_size(unsigned) const override;
 
 			//draw
-			void ibo_fill_data(uint32_t**) const;
-			void ibo_stroke_data(uint32_t**) const;
+			void ibo_fill_data(unsigned**) const;
+			void ibo_stroke_data(unsigned**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(vertices::Vertex**, unsigned**) const override;
 
 			//data
 			float m_domain[4];
-			uint32_t m_mesh[2];
+			unsigned m_mesh[2];
 			std::function<vec3(float, float)> m_position;
 		};
 	}

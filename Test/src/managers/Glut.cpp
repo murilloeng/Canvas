@@ -69,7 +69,7 @@ void Glut::callback_special(std::function<void(int, int, int)> callback_special)
 {
 	m_callback_special = callback_special;
 }
-void Glut::callback_keyboard(std::function<void(uint8_t, int, int)> callback_keyboard)
+void Glut::callback_keyboard(std::function<void(unsigned char, int, int)> callback_keyboard)
 {
 	m_callback_keyboard = callback_keyboard;
 }
@@ -112,25 +112,25 @@ void Glut::callback_reshape(int width, int height)
 void Glut::callback_special(int key, int x1, int x2)
 {
 	//data
-	uint32_t canvas_mod = 0;
+	unsigned canvas_mod = 0;
 	int glut_mod = glutGetModifiers();
-	const uint32_t glut_keys[] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_UP};
-	const uint32_t glut_modifiers[] = {GLUT_ACTIVE_ALT, GLUT_ACTIVE_CTRL, GLUT_ACTIVE_SHIFT};
+	const unsigned glut_keys[] = {GLUT_KEY_LEFT, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_UP};
+	const unsigned glut_modifiers[] = {GLUT_ACTIVE_ALT, GLUT_ACTIVE_CTRL, GLUT_ACTIVE_SHIFT};
 	const canvas::key canvas_keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
 	const canvas::modifier canvas_modifiers[] = {canvas::modifier::alt, canvas::modifier::ctrl, canvas::modifier::shift};
 	//master
 	if(master->m_callback_special) master->m_callback_special(key, x1, x2);
 	//callback
-	for(uint32_t i = 0; i < 3; i++)
+	for(unsigned i = 0; i < 3; i++)
 	{
 		if(glut_mod & glut_modifiers[i])
 		{
-			canvas_mod |= 1 << uint32_t(canvas_modifiers[i]);
+			canvas_mod |= 1 << unsigned(canvas_modifiers[i]);
 		}
 	}
-	for(uint32_t i = 0; i < 4; i++)
+	for(unsigned i = 0; i < 4; i++)
 	{
-		if(uint32_t(key) == glut_keys[i])
+		if(unsigned(key) == glut_keys[i])
 		{
 			master->m_scene->camera().callback_special(canvas_keys[i], canvas_mod, x1, x2);
 		}
@@ -140,12 +140,12 @@ void Glut::callback_special(int key, int x1, int x2)
 void Glut::callback_mouse(int button, int state, int x1, int x2)
 {
 	//data
-	uint32_t glut_buttons[] = {GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON, GLUT_MIDDLE_BUTTON};
+	unsigned glut_buttons[] = {GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON, GLUT_MIDDLE_BUTTON};
 	canvas::button canvas_buttons[] = {canvas::button::left, canvas::button::right, canvas::button::middle};
 	//callback
-	for(uint32_t i = 0; i < 3; i++)
+	for(unsigned i = 0; i < 3; i++)
 	{
-		if(uint32_t(button) == glut_buttons[i])
+		if(unsigned(button) == glut_buttons[i])
 		{
 			master->m_scene->camera().callback_mouse(canvas_buttons[i], !state, x1, x2);
 		}
@@ -157,7 +157,7 @@ void Glut::callback_wheel(int, int direction, int x1, int x2)
 	master->m_scene->camera().callback_wheel(direction, x1, x2);
 	glutPostRedisplay();
 }
-void Glut::callback_keyboard(uint8_t key, int x1, int x2)
+void Glut::callback_keyboard(unsigned char key, int x1, int x2)
 {
 	//master
 	if(master->m_callback_keyboard) master->m_callback_keyboard(key, x1, x2);

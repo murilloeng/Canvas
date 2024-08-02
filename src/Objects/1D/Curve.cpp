@@ -20,11 +20,11 @@ namespace canvas
 		}
 
 		//data
-		float Curve::domain(uint32_t index) const
+		float Curve::domain(unsigned index) const
 		{
 			return m_domain[index];
 		}
-		float Curve::domain(uint32_t index, float domain)
+		float Curve::domain(unsigned index, float domain)
 		{
 			return m_domain[index] = domain;
 		}

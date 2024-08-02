@@ -21,11 +21,11 @@ namespace canvas
 			~Spline(void);
 
 			//data
-			vec3 point(uint32_t) const;
-			vec3 point(uint32_t, const vec3&);
+			vec3 point(unsigned) const;
+			vec3 point(unsigned, const vec3&);
 
-			vec3 control(uint32_t, uint32_t) const;
-			vec3 control(uint32_t, uint32_t, const vec3&);
+			vec3 control(unsigned, unsigned) const;
+			vec3 control(unsigned, unsigned, const vec3&);
 
 			void add_point(const vec3&);
 			const std::vector<vec3>& points(void) const;

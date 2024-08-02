@@ -23,11 +23,11 @@ namespace examples
 
 	protected:
 		//setup
-		void setup(uint32_t[], uint32_t[]) override;
+		void setup(unsigned[], unsigned[]) override;
 
 		//data
 		float m_length;
 		float m_height;
-		static uint32_t m_na;
+		static unsigned m_na;
 	};
 }

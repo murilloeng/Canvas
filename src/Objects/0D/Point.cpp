@@ -29,17 +29,17 @@ namespace canvas
 		}
 
 		//buffers
-		void Point::vbo_size(uint32_t vbo_counter[]) const
+		unsigned Point::vbo_size(unsigned index) const
 		{
-			vbo_counter[0] += m_dot;
+			return m_dot * (index == 0);
 		}
-		void Point::ibo_size(uint32_t ibo_counter[]) const
+		unsigned Point::ibo_size(unsigned index) const
 		{
-			ibo_counter[0] += m_dot;
+			return (index == 0) * m_dot;
 		}
 
 		//draw
-		void Point::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Point::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
 		{
 			//check
 			if(!m_dot) return;

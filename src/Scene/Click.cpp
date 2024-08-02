@@ -39,20 +39,20 @@ namespace canvas
 		return m_rotation = rotation;
 	}
 
-	int Click::screen(uint32_t index) const
+	int Click::screen(unsigned index) const
 	{
 		return m_screen[index];
 	}
-	int Click::screen(uint32_t index, int screen)
+	int Click::screen(unsigned index, int screen)
 	{
 		return m_screen[index] = screen;
 	}
 
-	uint32_t Click::modifiers(void) const
+	unsigned Click::modifiers(void) const
 	{
 		return m_modifiers;
 	}
-	uint32_t Click::modifiers(uint32_t modifiers)
+	unsigned Click::modifiers(unsigned modifiers)
 	{
 		return m_modifiers = modifiers;
 	}
