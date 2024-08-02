@@ -43,18 +43,18 @@ namespace examples
 	}
 
 	//setup
-	void Beam::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+	void Beam::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 	{
 		//data
 		const float L = m_length;
 		const float H = m_height;
 		//points
-		for(unsigned i = 0; i < m_na; i++)
+		for(uint32_t i = 0; i < m_na; i++)
 		{
 			const float t = (float) M_PI * i / (m_na - 1);
 			m_vertices[i] = {-H / 2 * sinf(t), H / 2 * cosf(t)};
 		}
-		for(unsigned i = 0; i < m_na; i++)
+		for(uint32_t i = 0; i < m_na; i++)
 		{
 			const float t = (float) M_PI * i / (m_na - 1);
 			m_vertices[i + m_na] = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
@@ -64,5 +64,5 @@ namespace examples
 	}
 
 	//static
-	unsigned Beam::m_na = 20;
+	uint32_t Beam::m_na = 20;
 }

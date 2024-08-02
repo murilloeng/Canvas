@@ -26,21 +26,21 @@ namespace canvas
 		~Font(void);
 
 		//data
-		static unsigned width(void);
-		static unsigned height(void);
+		static uint32_t width(void);
+		static uint32_t height(void);
 
 		std::string name(void) const;
 		std::string name(std::string);
 
-		static unsigned pixels_size(void);
-		static unsigned pixels_size(unsigned);
+		static uint32_t pixels_size(void);
+		static uint32_t pixels_size(uint32_t);
 
-		Character& character(unsigned);
-		const Character& character(unsigned) const;
+		Character& character(uint32_t);
+		const Character& character(uint32_t) const;
 
 		//setup
 		void setup_texture(void);
-		void setup(unsigned&, unsigned&);
+		void setup(uint32_t&, uint32_t&);
 
 	protected:
 		//data
@@ -49,9 +49,9 @@ namespace canvas
 		FT_Face m_face;
 		std::string m_name;
 		Character m_chars[128];
-		static unsigned m_width;
-		static unsigned m_height;
-		static unsigned m_pixels_size;
+		static uint32_t m_width;
+		static uint32_t m_height;
+		static uint32_t m_pixels_size;
 
 		//friends
 		friend class Scene;

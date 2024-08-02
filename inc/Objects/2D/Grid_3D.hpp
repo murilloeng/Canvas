@@ -17,12 +17,12 @@ namespace canvas
 			~Grid_3D(void);
 
 			//data
-			unsigned mesh(unsigned) const;
-			unsigned mesh(unsigned, unsigned);
+			uint32_t mesh(uint32_t) const;
+			uint32_t mesh(uint32_t, uint32_t);
 
 		protected:
 			//data
-			unsigned m_mesh[3];
+			uint32_t m_mesh[3];
 		};
 	}
 }

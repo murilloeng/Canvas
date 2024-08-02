@@ -23,20 +23,20 @@ namespace canvas
 		}
 
 		//data
-		vec3 Spline::point(unsigned index) const
+		vec3 Spline::point(uint32_t index) const
 		{
 			return m_points[index];
 		}
-		vec3 Spline::point(unsigned index, const vec3& position)
+		vec3 Spline::point(uint32_t index, const vec3& position)
 		{
 			return m_points[index] = position;
 		}
 
-		vec3 Spline::control(unsigned index, unsigned side) const
+		vec3 Spline::control(uint32_t index, uint32_t side) const
 		{
 			return m_controls[2 * index + side - 1];
 		}
-		vec3 Spline::control(unsigned index, unsigned side, const vec3& position)
+		vec3 Spline::control(uint32_t index, uint32_t side, const vec3& position)
 		{
 			return m_controls[2 * index + side - 1] = position;
 		}
@@ -69,7 +69,7 @@ namespace canvas
 		{
 			//data
 			vec3 h;
-			unsigned k = unsigned(s);
+			uint32_t k = uint32_t(s);
 			if(k + 1 == m_points.size()) k--;
 			//hessian
 			const float t2 = s - k;
@@ -85,7 +85,7 @@ namespace canvas
 		{
 			//data
 			vec3 p;
-			unsigned k = unsigned(s);
+			uint32_t k = uint32_t(s);
 			if(k + 1 == m_points.size()) k--;
 			//position
 			const float t2 = s - k;
@@ -101,7 +101,7 @@ namespace canvas
 		{
 			//data
 			vec3 g;
-			unsigned k = unsigned(s);
+			uint32_t k = uint32_t(s);
 			if(k + 1 == m_points.size()) k--;
 			//gradient
 			const float t2 = s - k;

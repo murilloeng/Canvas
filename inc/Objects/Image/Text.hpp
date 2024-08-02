@@ -26,8 +26,8 @@ namespace canvas
 			float size(float);
 			float size(void) const;
 
-			unsigned font(unsigned);
-			unsigned font(void) const;
+			uint32_t font(uint32_t);
+			uint32_t font(void) const;
 
 			Anchor anchor(Anchor);
 			Anchor anchor(void) const;
@@ -41,35 +41,35 @@ namespace canvas
 			float line_spacing(float);
 			float line_spacing(void) const;
 
-			vec3 direction(unsigned) const;
-			vec3 direction(unsigned, const vec3&);
+			vec3 direction(uint32_t) const;
+			vec3 direction(uint32_t, const vec3&);
 
 		protected:
 			//text
-			unsigned width(void) const;
-			unsigned height(void) const;
-			unsigned length(void) const;
+			uint32_t width(void) const;
+			uint32_t height(void) const;
+			uint32_t length(void) const;
 
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			void vbo_size(uint32_t[]) const override;
+			void ibo_size(uint32_t[]) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
+			void ibo_fill_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 
-			void setup(unsigned[], unsigned[]) override;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void setup(uint32_t[], uint32_t[]) override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			float m_size;
-			unsigned m_font;
+			uint32_t m_font;
 			Anchor m_anchor;
 			vec3 m_position;
 			std::string m_text;
 			vec3 m_directions[2];
 			float m_line_spacing;
-			std::vector<unsigned> m_lines;
+			std::vector<uint32_t> m_lines;
 		};
 	}
 }

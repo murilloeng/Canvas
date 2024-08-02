@@ -21,8 +21,8 @@ namespace canvas
 			~Curve(void);
 
 			//data
-			float domain(unsigned) const;
-			float domain(unsigned, float);
+			float domain(uint32_t) const;
+			float domain(uint32_t, float);
 
 			std::function<vec3(float)> hessian(void) const;
 			std::function<vec3(float)> gradient(void) const;

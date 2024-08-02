@@ -30,11 +30,11 @@ namespace canvas
 	}
 
 	//data
-	unsigned Latex::width(void) const
+	uint32_t Latex::width(void) const
 	{
 		return m_width;
 	}
-	unsigned Latex::height(void) const
+	uint32_t Latex::height(void) const
 	{
 		return m_height;
 	}
@@ -73,7 +73,7 @@ namespace canvas
 		if(m_data) stbi_image_free(m_data);
 		stbi_set_flip_vertically_on_load(true);
 		m_data = stbi_load("temp.png", &w, &h, &c, 1);
-		for(unsigned i = 0; i < unsigned(w * h); i++) m_data[i] = 255 - m_data[i];
+		for(uint32_t i = 0; i < uint32_t(w * h); i++) m_data[i] = 255 - m_data[i];
 		//check
 		if(!m_data)
 		{
@@ -102,6 +102,6 @@ namespace canvas
 	}
 
 	//static
-	unsigned Latex::m_total_width = 0;
-	unsigned Latex::m_total_height = 0;
+	uint32_t Latex::m_total_width = 0;
+	uint32_t Latex::m_total_height = 0;
 }

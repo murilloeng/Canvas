@@ -90,7 +90,7 @@ namespace canvas
 		{
 			printf("%s\n", label);
 		}
-		for(unsigned i = 0; i < 4; i++)
+		for(uint32_t i = 0; i < 4; i++)
 		{
 			printf("%+.2e\n", m_data[i]);
 		}
@@ -109,7 +109,7 @@ namespace canvas
 	{
 		return quat();
 	}
-	quat quat::view_iso(unsigned index)
+	quat quat::view_iso(uint32_t index)
 	{
 		//data
 		const float t = float(M_PI_4);
@@ -143,19 +143,19 @@ namespace canvas
 		return r;
 	}
 
-	float& quat::operator()(unsigned index)
+	float& quat::operator()(uint32_t index)
 	{
 		return m_data[index];
 	}
-	float& quat::operator[](unsigned index)
+	float& quat::operator[](uint32_t index)
 	{
 		return m_data[index];
 	}
-	const float& quat::operator()(unsigned index) const
+	const float& quat::operator()(uint32_t index) const
 	{
 		return m_data[index];
 	}
-	const float& quat::operator[](unsigned index) const
+	const float& quat::operator[](uint32_t index) const
 	{
 		return m_data[index];
 	}

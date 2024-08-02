@@ -18,8 +18,8 @@ namespace canvas
 			~Line(void);
 
 			//data
-			vec3 point(unsigned) const;
-			vec3 point(unsigned, const vec3&);
+			vec3 point(uint32_t) const;
+			vec3 point(uint32_t, const vec3&);
 
 			//path
 			vec3 path_hessian(float) const override;
@@ -28,13 +28,13 @@ namespace canvas
 
 		protected:
 			//sizes
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			void vbo_size(uint32_t[]) const override;
+			void ibo_size(uint32_t[]) const override;
 
 			//buffers
-			void ibo_stroke_data(unsigned**) const override;
+			void ibo_stroke_data(uint32_t**) const override;
 			void vbo_stroke_data(vertices::Vertex**) const override;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			vec3 m_points[2];

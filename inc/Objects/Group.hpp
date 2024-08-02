@@ -30,13 +30,13 @@ namespace canvas
 
 		protected:
 			//sizes
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			void vbo_size(uint32_t[]) const override;
+			void ibo_size(uint32_t[]) const override;
 
 			//buffers
-			void setup(unsigned[], unsigned[]) override;
+			void setup(uint32_t[], uint32_t[]) override;
 			void vbo_model_matrix(vertices::Vertex**) const;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			std::vector<Geometry*> m_geometries;

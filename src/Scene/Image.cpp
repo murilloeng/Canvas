@@ -22,11 +22,11 @@ namespace canvas
 	}
 
 	//data
-	unsigned Image::width(void) const
+	uint32_t Image::width(void) const
 	{
 		return m_width;
 	}
-	unsigned Image::height(void) const
+	uint32_t Image::height(void) const
 	{
 		return m_height;
 	}
@@ -71,6 +71,6 @@ namespace canvas
 	}
 
 	//static
-	unsigned Image::m_total_width = 0;
-	unsigned Image::m_total_height = 0;
+	uint32_t Image::m_total_width = 0;
+	uint32_t Image::m_total_height = 0;
 }

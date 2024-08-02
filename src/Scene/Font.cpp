@@ -30,11 +30,11 @@ namespace canvas
 	}
 
 	//data
-	unsigned Font::width(void)
+	uint32_t Font::width(void)
 	{
 		return m_width;
 	}
-	unsigned Font::height(void)
+	uint32_t Font::height(void)
 	{
 		return m_height;
 	}
@@ -49,20 +49,20 @@ namespace canvas
 		return m_name = name;
 	}
 
-	unsigned Font::pixels_size(void)
+	uint32_t Font::pixels_size(void)
 	{
 		return m_pixels_size;
 	}
-	unsigned Font::pixels_size(unsigned pixels_size)
+	uint32_t Font::pixels_size(uint32_t pixels_size)
 	{
 		return m_pixels_size = pixels_size;
 	}
 
-	Character& Font::character(unsigned index)
+	Character& Font::character(uint32_t index)
 	{
 		return m_chars[index];
 	}
-	const Character& Font::character(unsigned index) const
+	const Character& Font::character(uint32_t index) const
 	{
 		return m_chars[index];
 	}
@@ -70,16 +70,16 @@ namespace canvas
 	//setup
 	void Font::setup_texture(void)
 	{
-		for(unsigned i = 0; i < 128; i++)
+		for(uint32_t i = 0; i < 128; i++)
 		{
-			const unsigned w = m_chars[i].m_width;
-			const unsigned h = m_chars[i].m_height;
-			const unsigned x = m_chars[i].m_offset;
-			const unsigned char* data = m_chars[i].m_data;
+			const uint32_t w = m_chars[i].m_width;
+			const uint32_t h = m_chars[i].m_height;
+			const uint32_t x = m_chars[i].m_offset;
+			const uint8_t* data = m_chars[i].m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 	}
-	void Font::setup(unsigned& w, unsigned& h)
+	void Font::setup(uint32_t& w, uint32_t& h)
 	{
 		//data
 		const std::string path = fonts_dir + m_name + ".ttf";
@@ -98,7 +98,7 @@ namespace canvas
 		}
 		//characters
 		m_status = true;
-		for(unsigned i = 0; i < 128; i++)
+		for(uint32_t i = 0; i < 128; i++)
 		{
 			//load
 			if(FT_Load_Char(m_face, i, FT_LOAD_RENDER))
@@ -116,7 +116,7 @@ namespace canvas
 	}
 
 	//static
-	unsigned Font::m_width;
-	unsigned Font::m_height;
-	unsigned Font::m_pixels_size = 256;
+	uint32_t Font::m_width;
+	uint32_t Font::m_height;
+	uint32_t Font::m_pixels_size = 256;
 }

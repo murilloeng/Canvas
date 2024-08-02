@@ -52,7 +52,7 @@ namespace canvas
 		{
 			printf("%s\n", label);
 		}
-		for(unsigned i = 0; i < 3; i++)
+		for(uint32_t i = 0; i < 3; i++)
 		{
 			printf("%+.2e\n", m_data[i]);
 		}
@@ -70,10 +70,10 @@ namespace canvas
 			m_data[1] * v.m_data[1] +
 			m_data[2] * v.m_data[2];
 	}
-	float vec3::min(unsigned* index, bool abs) const
+	float vec3::min(uint32_t* index, bool abs) const
 	{
 		float min = +FLT_MAX;
-		for(unsigned i = 0; i < 3; i++)
+		for(uint32_t i = 0; i < 3; i++)
 		{
 			if(min > (abs ? fabsf(m_data[i]) : m_data[i]))
 			{
@@ -83,10 +83,10 @@ namespace canvas
 		}
 		return min;
 	}
-	float vec3::max(unsigned* index, bool abs) const
+	float vec3::max(uint32_t* index, bool abs) const
 	{
 		float max = -FLT_MAX;
-		for(unsigned i = 0; i < 3; i++)
+		for(uint32_t i = 0; i < 3; i++)
 		{
 			if(max < (abs ? fabsf(m_data[i]) : m_data[i]))
 			{
@@ -137,11 +137,11 @@ namespace canvas
 	void vec3::triad(vec3& t2, vec3& t3) const
 	{
 		//data
-		unsigned index;
+		uint32_t index;
 		min(&index, true);
-		const unsigned k1 = (index + 1) % 3;
-		const unsigned k2 = (index + 2) % 3;
-		const unsigned k3 = (index + 0) % 3;
+		const uint32_t k1 = (index + 1) % 3;
+		const uint32_t k2 = (index + 2) % 3;
+		const uint32_t k3 = (index + 0) % 3;
 		//triad
 		t2[k3] = 0;
 		t2[k1] = -m_data[k2] / sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
@@ -216,19 +216,19 @@ namespace canvas
 		return vec3(m_data) -= p;
 	}
 
-	float& vec3::operator()(unsigned index)
+	float& vec3::operator()(uint32_t index)
 	{
 		return m_data[index];
 	}
-	float& vec3::operator[](unsigned index)
+	float& vec3::operator[](uint32_t index)
 	{
 		return m_data[index];
 	}
-	const float& vec3::operator()(unsigned index) const
+	const float& vec3::operator()(uint32_t index) const
 	{
 		return m_data[index];
 	}
-	const float& vec3::operator[](unsigned index) const
+	const float& vec3::operator[](uint32_t index) const
 	{
 		return m_data[index];
 	}

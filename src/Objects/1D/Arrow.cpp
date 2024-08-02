@@ -70,30 +70,30 @@ namespace canvas
 			return m_parameter = parameter;
 		}
 
-		vec3 Arrow::direction(unsigned index) const
+		vec3 Arrow::direction(uint32_t index) const
 		{
 			return m_directions[index];
 		}
-		vec3 Arrow::direction(unsigned index, const vec3& direction)
+		vec3 Arrow::direction(uint32_t index, const vec3& direction)
 		{
 			return m_directions[index] = direction;
 		}
 
 		//buffers
-		unsigned Arrow::vbo_size(unsigned index) const
+		void Arrow::vbo_size(uint32_t vbo_counter[]) const
 		{
-			return 5 * m_stroke * (index == 0);
+			vbo_counter[0] += 5 * m_stroke;
 		}
-		unsigned Arrow::ibo_size(unsigned index) const
+		void Arrow::ibo_size(uint32_t ibo_counter[]) const
 		{
-			return 4 * m_stroke * (index == 1);
+			ibo_counter[1] += 8 * m_stroke;
 		}
 
 		//draw
-		void Arrow::ibo_stroke_data(unsigned** ibo_data) const
+		void Arrow::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
 			//ibo data
 			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
 			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 1;
@@ -117,12 +117,12 @@ namespace canvas
 			(vbo_ptr + 2)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 + m_height * t2;
 			(vbo_ptr + 3)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 - m_height * t3;
 			(vbo_ptr + 4)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
-			for(unsigned i = 0; i < 5; i++)
+			for(uint32_t i = 0; i < 5; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_stroke;
 			}
 		}
-		void Arrow::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Arrow::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);

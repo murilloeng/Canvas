@@ -48,36 +48,36 @@ namespace canvas
 			return m_position = position;
 		}
 
-		unsigned Latex::index(void) const
+		uint32_t Latex::index(void) const
 		{
 			return m_index;
 		}
-		unsigned Latex::index(unsigned index)
+		uint32_t Latex::index(uint32_t index)
 		{
 			return m_index = index;
 		}
 
-		vec3 Latex::direction(unsigned index) const
+		vec3 Latex::direction(uint32_t index) const
 		{
 			return m_directions[index];
 		}
-		vec3 Latex::direction(unsigned index, const vec3& direction)
+		vec3 Latex::direction(uint32_t index, const vec3& direction)
 		{
 			return m_directions[index] = direction;
 		}
 
 		//buffers
-		unsigned Latex::vbo_size(unsigned index) const
+		void Latex::vbo_size(uint32_t vbo_counter[]) const
 		{
-			return 4 * m_fill * (index == 2);
+			vbo_counter[2] += 4 * m_fill;
 		}
-		unsigned Latex::ibo_size(unsigned index) const
+		void Latex::ibo_size(uint32_t ibo_counter[]) const
 		{
-			return 2 * m_fill * (index == 5);
+			ibo_counter[5] += 6 * m_fill;
 		}
 
 		//draw
-		void Latex::ibo_fill_data(unsigned** ibo_data) const
+		void Latex::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			ibo_data[5][m_ibo_index[5] + 3 * 0 + 0] = m_vbo_index[2] + 0;
 			ibo_data[5][m_ibo_index[5] + 3 * 0 + 1] = m_vbo_index[2] + 1;
@@ -93,14 +93,14 @@ namespace canvas
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
 			m_scene->latex(m_index)->coordinates(tc);
-			const unsigned wi = m_scene->latex(m_index)->width();
-			const unsigned hi = m_scene->latex(m_index)->height();
+			const uint32_t wi = m_scene->latex(m_index)->width();
+			const uint32_t hi = m_scene->latex(m_index)->height();
 			//vertices
 			const float h = m_size;
 			const float w = m_size * wi / hi;
 			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
 			const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
-			for(unsigned i = 0; i < 4; i++)
+			for(uint32_t i = 0; i < 4; i++)
 			{
 				const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
 				const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
@@ -110,7 +110,7 @@ namespace canvas
 			}
 		}
 
-		void Latex::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+		void Latex::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
 			if(m_index >= m_scene->latex().size())
 			{
@@ -119,7 +119,7 @@ namespace canvas
 			}
 			Object::setup(vbo_counter, ibo_counter);
 		}
-		void Latex::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Latex::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

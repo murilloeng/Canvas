@@ -23,11 +23,11 @@ namespace canvas
 
 		protected:
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			void vbo_size(uint32_t[]) const override;
+			void ibo_size(uint32_t[]) const override;
 
 			//draw
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			vec3 m_position;

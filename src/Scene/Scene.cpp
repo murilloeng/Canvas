@@ -67,8 +67,8 @@ namespace canvas
 		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
-		for(unsigned i = 0; i < 6; i++) delete[] m_vbo_data[i];
-		for(unsigned i = 0; i < 12; i++) delete[] m_ibo_data[i];
+		for(uint32_t i = 0; i < 6; i++) delete[] m_vbo_data[i];
+		for(uint32_t i = 0; i < 12; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
@@ -113,7 +113,7 @@ namespace canvas
 		for(const Font* font : m_fonts) delete font;
 		m_fonts.clear();
 	}
-	Font* Scene::font(unsigned index) const
+	Font* Scene::font(uint32_t index) const
 	{
 		return m_fonts[index];
 	}
@@ -135,7 +135,7 @@ namespace canvas
 	{
 		m_images.push_back(new Image(path));
 	}
-	Image* Scene::image(unsigned index) const
+	Image* Scene::image(uint32_t index) const
 	{
 		return m_images[index];
 	}
@@ -153,7 +153,7 @@ namespace canvas
 	{
 		m_latex.push_back(new Latex(source));
 	}
-	Latex* Scene::latex(unsigned index) const
+	Latex* Scene::latex(uint32_t index) const
 	{
 		return m_latex[index];
 	}
@@ -178,7 +178,7 @@ namespace canvas
 		object->m_scene = this;
 		m_objects.push_back(object);
 	}
-	objects::Object* Scene::object(unsigned index) const
+	objects::Object* Scene::object(uint32_t index) const
 	{
 		return m_objects[index];
 	}
@@ -188,15 +188,15 @@ namespace canvas
 	}
 
 	//buffers
-	unsigned Scene::vbo_size(unsigned index) const
+	uint32_t Scene::vbo_size(uint32_t vbo_index) const
 	{
-		return m_vbo_size[index];
+		return m_vbo_size[vbo_index];
 	}
-	unsigned Scene::ibo_size(unsigned index) const
+	uint32_t Scene::ibo_size(uint32_t ibo_index) const
 	{
-		return m_ibo_size[index];
+		return m_ibo_size[ibo_index];
 	}
-	vertices::Vertex* Scene::vertex(unsigned type, unsigned index) const
+	vertices::Vertex* Scene::vertex(uint32_t type, uint32_t index) const
 	{
 		if(type == 5) return (vertices::Text2D*) m_vbo_data[5] + index;
 		if(type == 2) return (vertices::Text3D*) m_vbo_data[2] + index;
@@ -358,13 +358,13 @@ namespace canvas
 	}
 	void Scene::setup_vbo(void)
 	{
-		for(unsigned i = 0; i < 6; i++)
+		memset(m_vbo_size, 0, sizeof(m_vbo_size));
+		for(const objects::Object* object : m_objects)
 		{
-			m_vbo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_vbo_size[i] += object->vbo_size(i);
-			}
+			object->vbo_size(m_vbo_size);
+		}
+		for(uint32_t i = 0; i < 6; i++)
+		{
 			delete[] m_vbo_data[i];
 			if(i == 5) m_vbo_data[i] = new vertices::Text2D[m_vbo_size[i]];
 			if(i == 2) m_vbo_data[i] = new vertices::Text3D[m_vbo_size[i]];
@@ -376,25 +376,22 @@ namespace canvas
 	}
 	void Scene::setup_ibo(void)
 	{
-		//data
-		const unsigned is[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
-		//ibo data
-		for(unsigned i = 0; i < 12; i++)
+		memset(m_ibo_size, 0, sizeof(m_ibo_size));
+		for(const objects::Object* object : m_objects)
 		{
-			m_ibo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_ibo_size[i] += object->ibo_size(i);
-			}
+			object->ibo_size(m_ibo_size);
+		}
+		for(uint32_t i = 0; i < 12; i++)
+		{
 			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new unsigned[is[i] * m_ibo_size[i]];
+			m_ibo_data[i] = new uint32_t[m_ibo_size[i]];
 		}
 	}
 	void Scene::setup_fonts(void)
 	{
 		//data
 		bool update = false;
-		unsigned w = 0, h = 0;
+		uint32_t w = 0, h = 0;
 		//fonts
 		for(Font* font : m_fonts)
 		{
@@ -423,7 +420,7 @@ namespace canvas
 	{
 		//data
 		bool update = false;
-		unsigned w = 0, h = 0;
+		uint32_t w = 0, h = 0;
 		//images
 		for(Latex* latex : m_latex)
 		{
@@ -447,10 +444,10 @@ namespace canvas
 		//texture data
 		for(Latex* latex : m_latex)
 		{
-			const unsigned w = latex->m_width;
-			const unsigned h = latex->m_height;
-			const unsigned x = latex->m_offset;
-			const unsigned char* data = latex->m_data;
+			const uint32_t w = latex->m_width;
+			const uint32_t h = latex->m_height;
+			const uint32_t x = latex->m_offset;
+			const uint8_t* data = latex->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -459,7 +456,7 @@ namespace canvas
 	{
 		//data
 		bool update = false;
-		unsigned w = 0, h = 0;
+		uint32_t w = 0, h = 0;
 		//images
 		for(Image* image : m_images)
 		{
@@ -483,10 +480,10 @@ namespace canvas
 		//texture data
 		for(Image* image : m_images)
 		{
-			const unsigned w = image->m_width;
-			const unsigned h = image->m_height;
-			const unsigned x = image->m_offset;
-			const unsigned char* data = image->m_data;
+			const uint32_t w = image->m_width;
+			const uint32_t h = image->m_height;
+			const uint32_t x = image->m_offset;
+			const uint8_t* data = image->m_data;
 			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -494,8 +491,8 @@ namespace canvas
 	void Scene::setup_objects(void)
 	{
 		//data
-		unsigned vbo_counter[] = {0, 0, 0, 0, 0, 0};
-		unsigned ibo_counter[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		uint32_t vbo_counter[] = {0, 0, 0, 0, 0, 0};
+		uint32_t ibo_counter[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		//objects
 		for(objects::Object* object : m_objects)
 		{
@@ -531,12 +528,12 @@ namespace canvas
 		m_programs[5].fragment_shader()->path(m_shaders_dir + "image2D.frag");
 		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
-		for(unsigned i = 0; i < 7; i++) m_programs[i].setup();
+		for(uint32_t i = 0; i < 7; i++) m_programs[i].setup();
 	}
 	void Scene::setup_textures(void)
 	{
 		glGenTextures(3, m_texture_id);
-		for(unsigned i = 0; i < 3; i++)
+		for(uint32_t i = 0; i < 3; i++)
 		{
 			glBindTexture(GL_TEXTURE_2D, m_texture_id[i]);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -561,16 +558,16 @@ namespace canvas
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model2D), (uint32_t*) (2 * sizeof(float)));
 		//vao image
 		glBindVertexArray(m_vao_id[4]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (unsigned*) (2 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image2D), (uint32_t*) (2 * sizeof(float)));
 		//vao text
 		glBindVertexArray(m_vao_id[5]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
@@ -578,9 +575,9 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (2 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (unsigned*) (6 * sizeof(float)));
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (uint32_t*) (2 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text2D), (uint32_t*) (6 * sizeof(float)));
 	}
 	void Scene::setup_buffers_3D(void)
 	{
@@ -590,16 +587,16 @@ namespace canvas
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Model3D), (uint32_t*) (3 * sizeof(float)));
 		//vao image
 		glBindVertexArray(m_vao_id[1]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
 		//attributes
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (unsigned*) (3 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Image3D), (uint32_t*) (3 * sizeof(float)));
 		//vao text
 		glBindVertexArray(m_vao_id[2]);
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
@@ -607,22 +604,25 @@ namespace canvas
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (0 * sizeof(float)));
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (3 * sizeof(float)));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (unsigned*) (7 * sizeof(float)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (uint32_t*) (0 * sizeof(float)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (uint32_t*) (3 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertices::Text3D), (uint32_t*) (7 * sizeof(float)));
 	}
 
 	//buffers
 	void Scene::buffers_data(void)
 	{
+		uint32_t vbo_size[6];
 		for(const objects::Object* object : m_objects)
 		{
 			object->buffers_data(m_vbo_data, m_ibo_data);
-			for(unsigned i = 0; i < 3; i++)
+			for(uint32_t i = 0; i < 3; i++)
 			{
-				const unsigned is = object->vbo_size(i);
-				const unsigned ib = object->m_vbo_index[i];
-				for(unsigned iv = ib; iv < ib + is; iv++)
+				vbo_size[i] = 0;
+				object->vbo_size(vbo_size);
+				const uint32_t ib = object->m_vbo_index[i];
+				for(uint32_t iv = ib; iv < ib + vbo_size[i]; iv++)
+
 				{
 					vertices::Vertex3D* vertex;
 					if(i == 2) vertex = (vertices::Text3D*) m_vbo_data[i] + iv;
@@ -639,24 +639,21 @@ namespace canvas
 	void Scene::buffers_transfer(void)
 	{
 		//data
-		const unsigned is[] = {
-			1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3
-		};
-		const unsigned vs[] = {
+		const uint32_t vs[] = {
 			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D),
 			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
 		};
 		//vbo data
-		for(unsigned i = 0; i < 6; i++)
+		for(uint32_t i = 0; i < 6; i++)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[i]);
 			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
 		}
 		//ibo data
-		for(unsigned i = 0; i < 12; i++)
+		for(uint32_t i = 0; i < 12; i++)
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, is[i] * m_ibo_size[i] * sizeof(unsigned), m_ibo_data[i], GL_DYNAMIC_DRAW);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ibo_size[i] * sizeof(uint32_t), m_ibo_data[i], GL_DYNAMIC_DRAW);
 		}
 	}
 }

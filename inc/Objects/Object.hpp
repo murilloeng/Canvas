@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 //canvas
 #include "Canvas/inc/Math/mat4.hpp"
 
@@ -32,8 +35,10 @@ namespace canvas
 			mat4 model_matrix(void) const;
 			mat4 apply_matrix(mat4, bool = true);
 
-			const unsigned* ibo_index(void) const;
-			const unsigned* vbo_index(void) const;
+			uint32_t ibo_index(uint32_t) const;
+			uint32_t vbo_index(uint32_t) const;
+			const uint32_t* ibo_index(void) const;
+			const uint32_t* vbo_index(void) const;
 
 			//affine
 			void scale(float);
@@ -46,19 +51,19 @@ namespace canvas
 
 		protected:
 			//size
-			virtual unsigned vbo_size(unsigned) const = 0;
-			virtual unsigned ibo_size(unsigned) const = 0;
+			virtual void vbo_size(uint32_t[]) const = 0;
+			virtual void ibo_size(uint32_t[]) const = 0;
 
 			//buffers
-			virtual void setup(unsigned[], unsigned[]);
-			virtual void buffers_data(vertices::Vertex**, unsigned**) const = 0;
+			virtual void setup(uint32_t[], uint32_t[]);
+			virtual void buffers_data(vertices::Vertex**, uint32_t**) const = 0;
 
 			//data
 			Scene* m_scene;
 			mat4 m_model_matrix;
 			bool m_has_model_matrix;
-			unsigned m_vbo_index[6];
-			unsigned m_ibo_index[12];
+			uint32_t m_vbo_index[6];
+			uint32_t m_ibo_index[12];
 
 			//friends
 			friend class canvas::Scene;

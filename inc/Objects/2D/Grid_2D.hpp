@@ -25,23 +25,23 @@ namespace canvas
 			~Grid_2D(void);
 
 			//data
-			unsigned mesh(unsigned) const;
-			unsigned mesh(unsigned, unsigned);
+			uint32_t mesh(uint32_t) const;
+			uint32_t mesh(uint32_t, uint32_t);
 
 		protected:
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			void vbo_size(uint32_t[]) const override;
+			void ibo_size(uint32_t[]) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
+			void ibo_fill_data(uint32_t**) const;
+			void ibo_stroke_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
-			unsigned m_mesh[2];
+			uint32_t m_mesh[2];
 
 			//friends
 			friend class Grid_3D;

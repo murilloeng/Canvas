@@ -41,13 +41,21 @@ namespace canvas
 			return m_model_matrix = left ? affine * m_model_matrix : m_model_matrix * affine;
 		}
 
-		const unsigned* Object::ibo_index(void) const
+		const uint32_t* Object::ibo_index(void) const
 		{
 			return m_ibo_index;
 		}
-		const unsigned* Object::vbo_index(void) const
+		const uint32_t* Object::vbo_index(void) const
 		{
 			return m_vbo_index;
+		}
+		uint32_t Object::ibo_index(uint32_t index) const
+		{
+			return m_ibo_index[index];
+		}
+		uint32_t Object::vbo_index(uint32_t index) const
+		{
+			return m_vbo_index[index];
 		}
 
 		//affine
@@ -94,21 +102,18 @@ namespace canvas
 		}
 
 		//buffers
-		void Object::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+		void Object::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
-			//data
-			const unsigned ibo_offset[] = {1, 2, 3, 3, 3, 3, 1, 2, 3, 3, 3, 3};
-			//buffers
-			for(unsigned i = 0; i < 6; i++)
+			for(uint32_t i = 0; i < 6; i++)
 			{
 				m_vbo_index[i] = vbo_counter[i];
-				vbo_counter[i] += vbo_size(i);
 			}
-			for(unsigned i = 0; i < 12; i++)
+			for(uint32_t i = 0; i < 12; i++)
 			{
 				m_ibo_index[i] = ibo_counter[i];
-				ibo_counter[i] += ibo_offset[i] * ibo_size(i);
 			}
+			vbo_size(vbo_counter);
+			ibo_size(ibo_counter);
 		}
 	}
 }

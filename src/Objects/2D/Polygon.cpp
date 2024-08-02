@@ -44,15 +44,18 @@ namespace canvas
 		}
 
 		//buffers
-		uint32_t Polygon::vbo_size(uint32_t index) const
+		void Polygon::vbo_size(uint32_t vbo_counter[]) const
 		{
-			return (uint32_t) m_vertices.size() * (m_stroke + m_fill) * (index == 0);
+			vbo_counter[0] += (uint32_t) m_vertices.size() * (m_stroke + m_fill);
 		}
-		uint32_t Polygon::ibo_size(uint32_t index) const
+		void Polygon::ibo_size(uint32_t ibo_counter[]) const
 		{
+			//data
 			const uint32_t nl = (uint32_t) m_loops.size();
 			const uint32_t nv = (uint32_t) m_vertices.size();
-			return nv * m_stroke * (index == 1) + (nv + 2 * nl - 6) * m_fill * (index == 2);
+			//size
+			ibo_counter[1] += 2 * nv * m_stroke;
+			ibo_counter[2] += 3 * (nv + 2 * nl - 6) * m_fill;
 		}
 
 		//draw

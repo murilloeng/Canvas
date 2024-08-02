@@ -4,7 +4,7 @@ namespace canvas
 {
 	namespace palettes
 	{
-		enum class type : unsigned
+		enum class type : uint32_t
 		{
 			jet,
 			greys,

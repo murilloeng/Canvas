@@ -20,27 +20,27 @@ namespace canvas
 	}
 
 	//data
-	unsigned Character::width(void) const
+	uint32_t Character::width(void) const
 	{
 		return m_width;
 	}
-	unsigned Character::height(void) const
+	uint32_t Character::height(void) const
 	{
 		return m_height;
 	}
-	unsigned Character::offset(void) const
+	uint32_t Character::offset(void) const
 	{
 		return m_offset;
 	}
-	unsigned Character::advance(void) const
+	uint32_t Character::advance(void) const
 	{
 		return m_advance;
 	}
-	unsigned Character::bearing(unsigned index) const
+	uint32_t Character::bearing(uint32_t index) const
 	{
 		return m_bearings[index];
 	}
-	const unsigned char* Character::data(void) const
+	const uint8_t* Character::data(void) const
 	{
 		return m_data;
 	}
@@ -49,8 +49,8 @@ namespace canvas
 	void Character::coordinates(float* coordinates) const
 	{
 		//data
-		const unsigned w = Font::width();
-		const unsigned h = Font::height();
+		const uint32_t w = Font::width();
+		const uint32_t h = Font::height();
 		//coordinates
 		coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
 		coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
@@ -70,7 +70,7 @@ namespace canvas
 		m_bearings[0] = face->glyph->bitmap_left;
 		//buffer
 		if(m_data) delete[] m_data;
-		m_data = new unsigned char[m_width * m_height];
-		memcpy(m_data, face->glyph->bitmap.buffer, m_width * m_height * sizeof(unsigned char));
+		m_data = new uint8_t[m_width * m_height];
+		memcpy(m_data, face->glyph->bitmap.buffer, m_width * m_height * sizeof(uint8_t));
 	}
 }

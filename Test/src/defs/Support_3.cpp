@@ -22,11 +22,11 @@ namespace examples
 	}
 
 	//data
-	float Support_3::size(unsigned index) const
+	float Support_3::size(uint32_t index) const
 	{
 		return m_size[index];
 	}
-	float Support_3::size(unsigned index, float size)
+	float Support_3::size(uint32_t index, float size)
 	{
 		m_size[index] = size;
 		update_objects();
