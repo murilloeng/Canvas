@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 namespace canvas
 {
 	class Color
@@ -16,8 +19,8 @@ namespace canvas
 		~Color(void);
 
 		//data
-		float channel(unsigned) const;
-		float channel(unsigned, float);
+		float channel(uint32_t) const;
+		float channel(uint32_t, float);
 
 		const float* channels(void) const;
 		const float* channels(const char*);
@@ -29,14 +32,14 @@ namespace canvas
 		Color inverse(void) const;
 
 		//operators
-		float& operator[](unsigned);
+		float& operator[](uint32_t);
 		Color& operator=(const float*);
-		const float& operator[](unsigned) const;
+		const float& operator[](uint32_t) const;
 
 	private:
 		//misc
 		static void table_conversion(char*, const char*);
-		static float string_channel(const char*, unsigned);
+		static float string_channel(const char*, uint32_t);
 
 		//data
 		float m_channels[4];

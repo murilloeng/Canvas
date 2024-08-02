@@ -30,8 +30,8 @@ namespace canvas
 			float radius(float);
 			float radius(void) const;
 
-			float angle(unsigned) const;
-			float angle(unsigned, float);
+			float angle(uint32_t) const;
+			float angle(uint32_t, float);
 
 			//path
 			vec3 path_hessian(float) const override;

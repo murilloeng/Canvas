@@ -33,7 +33,7 @@ namespace examples
 			polyline->points().push_back({-w / 2, -h / 2, 0});
 			polyline->points().push_back({-w / 2, -h / 2 - t, 0});
 			//arrows
-			for(unsigned i = 0; i < 12; i++)
+			for(uint32_t i = 0; i < 12; i++)
 			{
 				polyline->add_arrow(i + 0.5f, true);
 				polyline->arrow(i)->width(2.50e-03f);

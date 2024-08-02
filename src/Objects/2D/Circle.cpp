@@ -50,38 +50,38 @@ namespace canvas
 			return m_radius = radius;
 		}
 
-		unsigned Circle::mesh(void)
+		uint32_t Circle::mesh(void)
 		{
 			return m_mesh;
 		}
-		unsigned Circle::mesh(unsigned mesh)
+		uint32_t Circle::mesh(uint32_t mesh)
 		{
 			return m_mesh = mesh;
 		}
 
 		//buffers
-		unsigned Circle::vbo_size(unsigned index) const
+		uint32_t Circle::vbo_size(uint32_t index) const
 		{
 			return (m_stroke * m_mesh + m_fill * (m_mesh + 1)) * (index == 0);
 		}
-		unsigned Circle::ibo_size(unsigned index) const
+		uint32_t Circle::ibo_size(uint32_t index) const
 		{
-			return (index == 1 || index == 2) * m_mesh;
+			return ((index == 1 && m_stroke) + (index == 2 && m_fill)) * m_mesh;
 		}
 
 		//draw
-		void Circle::ibo_fill_data(unsigned** ibo_data) const
+		void Circle::ibo_fill_data(uint32_t** ibo_data) const
 		{
-			for(unsigned i = 0; i < m_mesh; i++)
+			for(uint32_t i = 0; i < m_mesh; i++)
 			{
 				ibo_data[2][m_ibo_index[2] + 3 * i + 0] = m_vbo_index[0] + m_stroke * m_mesh + 0;
 				ibo_data[2][m_ibo_index[2] + 3 * i + 1] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 1) % m_mesh;
 				ibo_data[2][m_ibo_index[2] + 3 * i + 2] = m_vbo_index[0] + m_stroke * m_mesh + 1 + (i + 0) % m_mesh;
 			}
 		}
-		void Circle::ibo_stroke_data(unsigned** ibo_data) const
+		void Circle::ibo_stroke_data(uint32_t** ibo_data) const
 		{
-			for(unsigned i = 0; i < m_mesh; i++)
+			for(uint32_t i = 0; i < m_mesh; i++)
 			{
 				ibo_data[1][m_ibo_index[1] + 2 * i + 0] = m_vbo_index[0] + (i + 0) % m_mesh;
 				ibo_data[1][m_ibo_index[1] + 2 * i + 1] = m_vbo_index[0] + (i + 1) % m_mesh;
@@ -94,7 +94,7 @@ namespace canvas
 			vertices::Model3D* vbo_fill_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + m_stroke * m_mesh;
 			//vbo data
 			m_normal.triad(t1, t2);
-			for(unsigned i = 0; i < m_mesh; i++)
+			for(uint32_t i = 0; i < m_mesh; i++)
 			{
 				//position
 				const float t = 2 * float(M_PI) * i / m_mesh;
@@ -113,7 +113,7 @@ namespace canvas
 			vertices::Model3D* vbo_stroke_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			m_normal.triad(t1, t2);
-			for(unsigned i = 0; i < m_mesh; i++)
+			for(uint32_t i = 0; i < m_mesh; i++)
 			{
 				//position
 				const float t = 2 * float(M_PI) * i / m_mesh;
@@ -123,7 +123,7 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
 		}
-		void Circle::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Circle::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);
@@ -132,6 +132,6 @@ namespace canvas
 		}
 
 		//static
-		unsigned Circle::m_mesh = 60;
+		uint32_t Circle::m_mesh = 60;
 	}
 }

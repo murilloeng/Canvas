@@ -106,7 +106,7 @@ namespace canvas
 			}
 			else if(mode == 'i')
 			{
-				static unsigned index = 1;
+				static uint32_t index = 1;
 				return rotation(quat::view_iso(index = (index + 1) % 3).conjugate());
 			}
 			else
@@ -127,20 +127,20 @@ namespace canvas
 			return m_rotation = rotation.quaternion();
 		}
 
-		unsigned Camera::width(void) const
+		uint32_t Camera::width(void) const
 		{
 			return m_width;
 		}
-		unsigned Camera::height(void) const
+		uint32_t Camera::height(void) const
 		{
 			return m_height;
 		}
 
-		float Camera::plane(unsigned index) const
+		float Camera::plane(uint32_t index) const
 		{
 			return m_planes[index];
 		}
-		float Camera::plane(unsigned index, float plane)
+		float Camera::plane(uint32_t index, float plane)
 		{
 			return m_planes[index] = plane;
 		}
@@ -168,10 +168,10 @@ namespace canvas
 		{
 			//data
 			char path[200];
-			unsigned index = 0;
-			const unsigned w = m_width;
-			const unsigned h = m_height;
-			unsigned* buffer = new unsigned[4 * w * h];
+			uint32_t index = 0;
+			const uint32_t w = m_width;
+			const uint32_t h = m_height;
+			uint32_t* buffer = new uint32_t[4 * w * h];
 			//read
 			glReadBuffer(GL_FRONT);
 			glPixelStorei(GL_PACK_ALIGNMENT, 4);
@@ -206,7 +206,7 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(unsigned i = 0; i < 4; i++)
+			for(uint32_t i = 0; i < 4; i++)
 			{
 				m_programs[i].bind();
 				m_programs[i].set_uniform_matrix("view", m_view_matrix.data(), 4);
@@ -223,7 +223,7 @@ namespace canvas
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
 			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), apply(), update();
-			else if(key == 'c') m_type = camera::type(!unsigned(m_type)), bound(), apply(), update();
+			else if(key == 'c') m_type = camera::type(!uint32_t(m_type)), bound(), apply(), update();
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
 		}
 		void Camera::callback_motion(int x1, int x2)
@@ -309,7 +309,7 @@ namespace canvas
 			apply();
 			update();
 		}
-		void Camera::callback_special(canvas::key key, unsigned modifiers, int x1, int x2)
+		void Camera::callback_special(canvas::key key, uint32_t modifiers, int x1, int x2)
 		{
 			//data
 			const float ds = 0.05f;
@@ -323,21 +323,21 @@ namespace canvas
 			const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
 			const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
 			//affine
-			for(unsigned i = 0; i < 4; i++)
+			for(uint32_t i = 0; i < 4; i++)
 			{
 				if(key == keys[i])
 				{
-					if(modifiers & 1 << unsigned(modifier::alt))
+					if(modifiers & 1 << uint32_t(modifier::alt))
 					{
 						const float ms = fminf(ws, hs);
 						m_position -= m_rotation.rotate(m_scale * mat4::scaling({ws / ms, hs / ms, 1}) * shift[i]);
 					}
-					else if(modifiers & 1 << unsigned(modifier::ctrl))
+					else if(modifiers & 1 << uint32_t(modifier::ctrl))
 					{
 						m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
 						m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
 					}
-					else if(modifiers & 1 << unsigned(modifier::shift))
+					else if(modifiers & 1 << uint32_t(modifier::shift))
 					{
 						m_rotation = m_rotation * rotation[i].quaternion().conjugate();
 						m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
@@ -415,9 +415,9 @@ namespace canvas
 			const vec3* xp;
 			m_x_min = {+a, +a, +a};
 			m_x_max = {-a, -a, -a};
-			for(unsigned i = 0; i < 3; i++)
+			for(uint32_t i = 0; i < 3; i++)
 			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				for(uint32_t j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
 					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;
@@ -465,9 +465,9 @@ namespace canvas
 			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
 			//bounds
 			m_bounds.clear();
-			for(unsigned i = 0; i < 3; i++)
+			for(uint32_t i = 0; i < 3; i++)
 			{
-				for(unsigned j = 0; j < m_scene->m_vbo_size[i]; j++)
+				for(uint32_t j = 0; j < m_scene->m_vbo_size[i]; j++)
 				{
 					//position
 					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo_data[i] + j)->m_position;

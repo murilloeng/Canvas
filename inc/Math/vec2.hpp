@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 namespace canvas
 {
 	class vec2
@@ -25,8 +28,8 @@ namespace canvas
 		float norm(void) const;
 		float inner(const vec2&) const;
 		float cross(const vec2&) const;
-		float min(unsigned*, bool) const;
-		float max(unsigned*, bool) const;
+		float min(uint32_t*, bool) const;
+		float max(uint32_t*, bool) const;
 
 		//operators
 		vec2& operator*=(float);
@@ -43,10 +46,10 @@ namespace canvas
 		vec2 operator+(const vec2&) const;
 		vec2 operator-(const vec2&) const;
 
-		float& operator()(unsigned);
-		float& operator[](unsigned);
-		const float& operator()(unsigned) const;
-		const float& operator[](unsigned) const;
+		float& operator()(uint32_t);
+		float& operator[](uint32_t);
+		const float& operator()(uint32_t) const;
+		const float& operator[](uint32_t) const;
 
 		//friends
 		friend vec2 operator*(float, const vec2&);

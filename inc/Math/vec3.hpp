@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 namespace canvas
 {
 	class quat;
@@ -30,8 +33,8 @@ namespace canvas
 		//linear
 		float norm(void) const;
 		float inner(const vec3&) const;
-		float min(unsigned*, bool) const;
-		float max(unsigned*, bool) const;
+		float min(uint32_t*, bool) const;
+		float max(uint32_t*, bool) const;
 
 		vec3 unit(void) const;
 		mat4 shift(void) const;
@@ -55,10 +58,10 @@ namespace canvas
 		vec3 operator+(const vec3&) const;
 		vec3 operator-(const vec3&) const;
 
-		float& operator()(unsigned);
-		float& operator[](unsigned);
-		const float& operator()(unsigned) const;
-		const float& operator[](unsigned) const;
+		float& operator()(uint32_t);
+		float& operator[](uint32_t);
+		const float& operator()(uint32_t) const;
+		const float& operator[](uint32_t) const;
 
 		//friends
 		friend vec3 operator*(float, const vec3&);

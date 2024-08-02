@@ -23,11 +23,11 @@ namespace canvas
 		}
 
 		//data
-		unsigned Path::mesh(void) const
+		uint32_t Path::mesh(void) const
 		{
 			return m_mesh;
 		}
-		unsigned Path::mesh(unsigned mesh)
+		uint32_t Path::mesh(uint32_t mesh)
 		{
 			return m_mesh = mesh;
 		}
@@ -42,10 +42,10 @@ namespace canvas
 			arrow->sense(sense);
 			m_geometries.push_back(arrow);
 		}
-		void Path::remove_arrow(unsigned index)
+		void Path::remove_arrow(uint32_t index)
 		{
-			unsigned counter = 0;
-			for(unsigned i = 0; i < m_geometries.size(); i++)
+			uint32_t counter = 0;
+			for(uint32_t i = 0; i < m_geometries.size(); i++)
 			{
 				if(dynamic_cast<const Arrow*>(m_geometries[i]))
 				{
@@ -58,9 +58,9 @@ namespace canvas
 				}
 			}
 		}
-		unsigned Path::arrows(void) const
+		uint32_t Path::arrows(void) const
 		{
-			unsigned counter = 0;
+			uint32_t counter = 0;
 			for(const Object* object : m_geometries)
 			{
 				if(dynamic_cast<const Arrow*>(object))
@@ -70,9 +70,9 @@ namespace canvas
 			}
 			return counter;
 		}
-		Arrow* Path::arrow(unsigned index) const
+		Arrow* Path::arrow(uint32_t index) const
 		{
-			unsigned counter = 0;
+			uint32_t counter = 0;
 			for(Geometry* geometry : m_geometries)
 			{
 				if(dynamic_cast<Arrow*>(geometry))
@@ -123,23 +123,23 @@ namespace canvas
 		}
 
 		//sizes
-		unsigned Path::vbo_size(unsigned index) const
+		uint32_t Path::vbo_size(uint32_t index) const
 		{
 			return Group::vbo_size(index) + (m_mesh + 1) * m_stroke * (index == 0);
 		}
-		unsigned Path::ibo_size(unsigned index) const
+		uint32_t Path::ibo_size(uint32_t index) const
 		{
 			return Group::ibo_size(index) + m_mesh * (index == 1) * m_stroke;
 		}
 
 		//buffers
-		void Path::ibo_stroke_data(unsigned** ibo_data) const
+		void Path::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
+			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
 			//ibo data
-			for(unsigned i = 0; i < m_mesh; i++)
+			for(uint32_t i = 0; i < m_mesh; i++)
 			{
 				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
 				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
@@ -150,7 +150,7 @@ namespace canvas
 			//data
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
 			//vbo data
-			for(unsigned i = 0; i <= m_mesh; i++)
+			for(uint32_t i = 0; i <= m_mesh; i++)
 			{
 				const float s = i * path_max() / m_mesh;
 				(vbo_ptr + i)->m_color = m_color_stroke;
@@ -158,7 +158,7 @@ namespace canvas
 			}
 		}
 
-		void Path::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+		void Path::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
 			for(Geometry* geometry : m_geometries)
 			{
@@ -172,7 +172,7 @@ namespace canvas
 			}
 			Group::setup(vbo_counter, ibo_counter);
 		}
-		void Path::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Path::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);

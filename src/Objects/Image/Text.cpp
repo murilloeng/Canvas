@@ -30,11 +30,11 @@ namespace canvas
 			return m_size = size;
 		}
 
-		unsigned Text::font(void) const
+		uint32_t Text::font(void) const
 		{
 			return m_font;
 		}
-		unsigned Text::font(unsigned font)
+		uint32_t Text::font(uint32_t font)
 		{
 			return m_font = font;
 		}
@@ -75,20 +75,20 @@ namespace canvas
 			return m_line_spacing = m_line_spacing;
 		}
 
-		vec3 Text::direction(unsigned index) const
+		vec3 Text::direction(uint32_t index) const
 		{
 			return m_directions[index];
 		}
-		vec3 Text::direction(unsigned index, const vec3 &direction)
+		vec3 Text::direction(uint32_t index, const vec3 &direction)
 		{
 			return m_directions[index] = direction;
 		}
 
 		//text
-		unsigned Text::width(void) const
+		uint32_t Text::width(void) const
 		{
-			unsigned w = 0;
-			unsigned v = 0;
+			uint32_t w = 0;
+			uint32_t v = 0;
 			for(char c : m_text)
 			{
 				if(c == '\n')
@@ -102,17 +102,17 @@ namespace canvas
 			}
 			return std::max(w, v);
 		}
-		unsigned Text::height(void) const
+		uint32_t Text::height(void) const
 		{
 			//data
-			unsigned h = 0, a = 0, b = 0;
+			uint32_t h = 0, a = 0, b = 0;
 			Font *font = m_scene->font(m_font);
 			//height
 			for(char c : m_text)
 			{
 				if(c == '\n' || c == '\v')
 				{
-					h += a + b + unsigned(m_line_spacing) * font->height(), a = b = 0;
+					h += a + b + uint32_t(m_line_spacing) * font->height(), a = b = 0;
 				}
 				else
 				{
@@ -122,9 +122,9 @@ namespace canvas
 			}
 			return h + a + b;
 		}
-		unsigned Text::length(void) const
+		uint32_t Text::length(void) const
 		{
-			unsigned v = 0;
+			uint32_t v = 0;
 			for(char c : m_text)
 			{
 				if(c >= 32)
@@ -134,20 +134,20 @@ namespace canvas
 		}
 
 		//buffers
-		unsigned Text::vbo_size(unsigned index) const
+		uint32_t Text::vbo_size(uint32_t index) const
 		{
 			return 4 * m_fill * length() * (index == 2);
 		}
-		unsigned Text::ibo_size(unsigned index) const
+		uint32_t Text::ibo_size(uint32_t index) const
 		{
 			return 2 * m_fill * length() * (index == 4);
 		}
 
 		//draw
-		void Text::ibo_fill_data(unsigned **ibo_data) const
+		void Text::ibo_fill_data(uint32_t **ibo_data) const
 		{
-			const unsigned s = length();
-			for(unsigned i = 0; i < s; i++)
+			const uint32_t s = length();
+			for(uint32_t i = 0; i < s; i++)
 			{
 				ibo_data[4][m_ibo_index[4] + 6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
 				ibo_data[4][m_ibo_index[4] + 6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
@@ -160,9 +160,9 @@ namespace canvas
 		void Text::vbo_fill_data(vertices::Vertex **vbo_data) const
 		{
 			//data
-			unsigned line = 0;
-			const unsigned wt = width();
-			const unsigned ht = height();
+			uint32_t line = 0;
+			const uint32_t wt = width();
+			const uint32_t ht = height();
 			float xa[2], xs[2], xc[8], tc[8];
 			const vec3 &t1 = m_directions[0];
 			const vec3 &t2 = m_directions[1];
@@ -174,7 +174,7 @@ namespace canvas
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;
 			xa[1] = -ps * m_lines[0] + ps * ht * (2 - m_anchor.vertical()) / 2;
 			//vbo data
-			for(unsigned i = 0; i < m_text.length(); i++)
+			for(uint32_t i = 0; i < m_text.length(); i++)
 			{
 				if(m_text[i] >= 32)
 				{
@@ -191,7 +191,7 @@ namespace canvas
 					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xa[0] + xs[0] + ps * (a + w);
 					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xa[1] + xs[1] + ps * (b - h);
 					//vertices
-					for(unsigned j = 0; j < 4; j++)
+					for(uint32_t j = 0; j < 4; j++)
 					{
 						(vbo_ptr + j)->m_color = m_color_fill;
 						(vbo_ptr + j)->m_texture_coordinates = tc + 2 * j;
@@ -216,10 +216,10 @@ namespace canvas
 			}
 		}
 
-		void Text::setup(unsigned vbo_counter[], unsigned ibo_counter[])
+		void Text::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
 			//check
-			unsigned a = 0, b = 0;
+			uint32_t a = 0, b = 0;
 			if(m_font >= m_scene->fonts().size())
 			{
 				fprintf(stderr, "Error: Text's font has out of range index!\n");
@@ -243,7 +243,7 @@ namespace canvas
 			//indexes
 			Object::setup(vbo_counter, ibo_counter);
 		}
-		void Text::buffers_data(vertices::Vertex **vbo_data, unsigned **ibo_data) const
+		void Text::buffers_data(vertices::Vertex **vbo_data, uint32_t **ibo_data) const
 		{
 			if(m_fill) vbo_fill_data(vbo_data);
 			if(m_fill) ibo_fill_data(ibo_data);

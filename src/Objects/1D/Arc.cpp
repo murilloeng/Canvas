@@ -59,11 +59,11 @@ namespace canvas
 			return m_radius = radius;
 		}
 
-		float Arc::angle(unsigned index) const
+		float Arc::angle(uint32_t index) const
 		{
 			return m_angles[index];
 		}
-		float Arc::angle(unsigned index, float angle)
+		float Arc::angle(uint32_t index, float angle)
 		{
 			return m_angles[index] = angle;
 		}

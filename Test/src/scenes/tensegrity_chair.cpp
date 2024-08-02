@@ -12,7 +12,7 @@
 #include "Canvas/Test/inc/examples.hpp"
 
 //data
-static const unsigned nc = 3;
+static const uint32_t nc = 3;
 static const float e = 5.50e-02f;
 static const float tr = 4.00e-03f;
 static const float tc = 1.00e-02f;
@@ -30,10 +30,10 @@ static void rigid(canvas::Scene* scene)
 	const canvas::vec3 s1(tc, tc, Hr + tc / 2);
 	const canvas::vec3 x1(e, 0, Hr / 2 + tc / 4 + tr);
 	const canvas::vec3 x2(e / 2 - tc / 4, 0, Hr + tr);
-	for(unsigned i = 0; i < 4; i++) links[i] = new canvas::objects::Cube;
-	for(unsigned i = 0; i < 2; i++) bases[i] = new canvas::objects::Cylinder;
+	for(uint32_t i = 0; i < 4; i++) links[i] = new canvas::objects::Cube;
+	for(uint32_t i = 0; i < 2; i++) bases[i] = new canvas::objects::Cylinder;
 	//bases
-	for(unsigned i = 0; i < 2; i++)
+	for(uint32_t i = 0; i < 2; i++)
 	{
 		bases[i]->radius(Rr);
 		bases[i]->height(tr);
@@ -42,7 +42,7 @@ static void rigid(canvas::Scene* scene)
 		scene->add_object(bases[i]);
 	}
 	//links
-	for(unsigned i = 0; i < 2; i++)
+	for(uint32_t i = 0; i < 2; i++)
 	{
 		links[i + 0]->color_fill({0, 0, 1});
 		links[i + 2]->color_fill({0, 0, 1});
@@ -67,9 +67,9 @@ static void cables(canvas::Scene* scene)
 	//data
 	const float pi = float(M_PI);
 	canvas::objects::Line* cables[nc + 1];
-	for(unsigned i = 0; i <= nc; i++) cables[i] = new canvas::objects::Line;
+	for(uint32_t i = 0; i <= nc; i++) cables[i] = new canvas::objects::Line;
 	//cables
-	for(unsigned i = 0; i <= nc; i++)
+	for(uint32_t i = 0; i <= nc; i++)
 	{
 		if(i == nc)
 		{
@@ -96,7 +96,7 @@ static void labels(canvas::Scene* scene)
 	//data
 	canvas::objects::Latex* labels[5];
 	const canvas::Anchor a[] = {"SC", "CE", "CW", "CW", "NC"};
-	for(unsigned i = 0; i < 5; i++) labels[i] = new canvas::objects::Latex;
+	for(uint32_t i = 0; i < 5; i++) labels[i] = new canvas::objects::Latex;
 	const canvas::vec3 x[] = {
 		{e / 2, 0, tr + Hr + 3 * tc / 2},
 		{-tc, 0, Ht / 2 + tr},
@@ -105,7 +105,7 @@ static void labels(canvas::Scene* scene)
 		{Rr / 2, 0, -tc}
 	};
 	//labels
-	for(unsigned i = 0; i < 5; i++)
+	for(uint32_t i = 0; i < 5; i++)
 	{
 		labels[i]->index(i);
 		labels[i]->size(Rr / 8);
@@ -127,9 +127,9 @@ static void guides(canvas::Scene* scene)
 		{e + 3 * tc / 2, 0, tr}, {e + 3 * tc / 2, 0, tr + Hr},
 		{0, 0, -tc}, {Rr, 0, -tc}
 	};
-	for(unsigned i = 0; i < 5; i++) guides[i] = new canvas::objects::Line;
+	for(uint32_t i = 0; i < 5; i++) guides[i] = new canvas::objects::Line;
 	//arrows
-	for(unsigned i = 0; i < 5; i++)
+	for(uint32_t i = 0; i < 5; i++)
 	{
 		guides[i]->add_arrow(1, true);
 		guides[i]->add_arrow(0, false);

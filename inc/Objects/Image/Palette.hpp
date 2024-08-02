@@ -28,38 +28,38 @@ namespace canvas
 			float size(float);
 			float size(void) const;
 
-			unsigned font(unsigned);
-			unsigned font(void) const;
+			uint32_t font(uint32_t);
+			uint32_t font(void) const;
 
-			unsigned marks(unsigned);
-			unsigned marks(void) const;
+			uint32_t marks(uint32_t);
+			uint32_t marks(void) const;
 
 			palettes::Palette& palette(void);
 
 		protected:
 			//text
-			unsigned text_width(const char*) const;
-			unsigned text_height(const char*) const;
+			uint32_t text_width(const char*) const;
+			uint32_t text_height(const char*) const;
 
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			uint32_t vbo_size(uint32_t) const override;
+			uint32_t ibo_size(uint32_t) const override;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_text_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
+			void ibo_fill_data(uint32_t**) const;
+			void ibo_text_data(uint32_t**) const;
+			void ibo_stroke_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_text_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			float m_min;
 			float m_max;
 			float m_size;
-			unsigned m_font;
-			unsigned m_marks;
+			uint32_t m_font;
+			uint32_t m_marks;
 			palettes::Palette m_palette;
 		};
 	}

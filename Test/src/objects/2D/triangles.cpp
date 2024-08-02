@@ -12,12 +12,12 @@ namespace examples
 		void triangles(canvas::Scene* scene)
 		{
 			//data
-			const unsigned n = 10;
+			const uint32_t n = 10;
 			const float r = 1.0f / n;
 			//objects
-			for(unsigned i = 0; i < n; i++)
+			for(uint32_t i = 0; i < n; i++)
 			{
-				for(unsigned j = 0; j < n; j++)
+				for(uint32_t j = 0; j < n; j++)
 				{
 					scene->add_object(new canvas::objects::Triangle);
 					((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);

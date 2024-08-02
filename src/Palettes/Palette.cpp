@@ -21,7 +21,7 @@ namespace canvas
 		}
 
 		//data
-		unsigned Palette::size(void) const
+		uint32_t Palette::size(void) const
 		{
 			return m_size;
 		}
@@ -45,7 +45,7 @@ namespace canvas
 			//data
 			const char* names[] = {"jet", "greys", "plasma", "whylrd", "viridis", "moreland", "spectral"};
 			//name
-			for(unsigned i = 0; i < unsigned(palettes::type::last); i++)
+			for(uint32_t i = 0; i < uint32_t(palettes::type::last); i++)
 			{
 				if(type == palettes::type(i))
 				{
@@ -74,7 +74,7 @@ namespace canvas
 			}
 			//index
 			value *= m_size - 1;
-			const unsigned index = (unsigned) floor(value);
+			const uint32_t index = (uint32_t) floor(value);
 			color[0] = (1 + index - value) * m_colors[3 * index + 0] + (value - index) * m_colors[3 * index + 3];
 			color[1] = (1 + index - value) * m_colors[3 * index + 1] + (value - index) * m_colors[3 * index + 4];
 			color[2] = (1 + index - value) * m_colors[3 * index + 2] + (value - index) * m_colors[3 * index + 5];
@@ -95,9 +95,9 @@ namespace canvas
 				m_palette_moreland,
 				m_palette_spectral
 			};
-			const unsigned sizes[] = {9, 8, 256, 5, 256, 257, 8};
+			const uint32_t sizes[] = {9, 8, 256, 5, 256, 257, 8};
 			//load
-			for(unsigned i = 0; i < unsigned(palettes::type::last); i++)
+			for(uint32_t i = 0; i < uint32_t(palettes::type::last); i++)
 			{
 				if(type == palettes::type(i))
 				{

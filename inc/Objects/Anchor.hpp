@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 namespace canvas
 {
 	class Anchor
@@ -8,24 +11,24 @@ namespace canvas
 		//constructors
 		Anchor(void);
 		Anchor(const char*);
-		Anchor(unsigned, unsigned);
+		Anchor(uint32_t, uint32_t);
 
 		//destructor
 		~Anchor(void);
 
 		//data
-		unsigned vertical(unsigned);
-		unsigned vertical(void) const;
+		uint32_t vertical(uint32_t);
+		uint32_t vertical(void) const;
 
-		unsigned horizontal(unsigned);
-		unsigned horizontal(void) const;
+		uint32_t horizontal(uint32_t);
+		uint32_t horizontal(void) const;
 
 		const char* mode(void) const;
 		const char* mode(const char*);
 
 	protected:
 		//data
-		unsigned m_vertical;
-		unsigned m_horizontal;
+		uint32_t m_vertical;
+		uint32_t m_horizontal;
 	};
 }

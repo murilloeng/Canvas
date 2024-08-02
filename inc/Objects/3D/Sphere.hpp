@@ -25,24 +25,24 @@ namespace canvas
 			float radius(float);
 			float radius(void) const;
 
-			static unsigned mesh(void);
-			static unsigned mesh(unsigned);
+			static uint32_t mesh(void);
+			static uint32_t mesh(uint32_t);
 
 		protected:
 			//buffers
-			unsigned vbo_size(unsigned) const override;
-			unsigned ibo_size(unsigned) const override;
+			uint32_t vbo_size(uint32_t) const override;
+			uint32_t ibo_size(uint32_t) const override;
 
 			//edges
-			unsigned edge_index(unsigned, unsigned, bool&) const;
+			uint32_t edge_index(uint32_t, uint32_t, bool&) const;
 
 			//vertices
-			unsigned vertex_index(unsigned, unsigned) const;
-			unsigned vertex_index(unsigned, unsigned, unsigned) const;
+			uint32_t vertex_index(uint32_t, uint32_t) const;
+			uint32_t vertex_index(uint32_t, uint32_t, uint32_t) const;
 
 			//draw
-			void ibo_fill_data(unsigned**) const;
-			void ibo_stroke_data(unsigned**) const;
+			void ibo_fill_data(uint32_t**) const;
+			void ibo_stroke_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
 			
@@ -50,12 +50,12 @@ namespace canvas
 			void vbo_faces_data(vertices::Model3D*) const;
 			void vbo_vertices_data(vertices::Model3D*) const;
 
-			void buffers_data(vertices::Vertex**, unsigned**) const override;
+			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
 			vec3 m_center;
 			float m_radius;
-			static unsigned m_mesh;
+			static uint32_t m_mesh;
 		};
 	}
 }

@@ -19,11 +19,11 @@ namespace canvas
 		}
 
 		//data
-		vec3 Line::point(unsigned index) const
+		vec3 Line::point(uint32_t index) const
 		{
 			return m_points[index];
 		}
-		vec3 Line::point(unsigned index, const vec3& point)
+		vec3 Line::point(uint32_t index, const vec3& point)
 		{
 			return m_points[index] = point;
 		}
@@ -43,21 +43,21 @@ namespace canvas
 		}
 
 		//sizes
-		unsigned Line::vbo_size(unsigned index) const
+		uint32_t Line::vbo_size(uint32_t index) const
 		{
 			return Group::vbo_size(index) + 2 * m_stroke * (index == 0);
 		}
-		unsigned Line::ibo_size(unsigned index) const
+		uint32_t Line::ibo_size(uint32_t index) const
 		{
 			return Group::ibo_size(index) + (index == 1) * m_stroke;
 		}
 
 		//buffers
-		void Line::ibo_stroke_data(unsigned** ibo_data) const
+		void Line::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			unsigned vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			unsigned* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
+			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + 2 * Group::ibo_size(1);
 			//ibo data
 			ibo_ptr[0] = vbo_index + 0;
 			ibo_ptr[1] = vbo_index + 1;
@@ -72,7 +72,7 @@ namespace canvas
 			(vbo_ptr + 0)->m_position = m_points[0];
 			(vbo_ptr + 1)->m_position = m_points[1];
 		}
-		void Line::buffers_data(vertices::Vertex** vbo_data, unsigned** ibo_data) const
+		void Line::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);

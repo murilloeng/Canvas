@@ -12,12 +12,12 @@ namespace examples
 		void quads(canvas::Scene* scene)
 		{
 			//data
-			const unsigned n = 40;
+			const uint32_t n = 40;
 			const float s = 2.0f / n;
 			//objects
-			for(unsigned i = 0; i < n; i++)
+			for(uint32_t i = 0; i < n; i++)
 			{
-				for(unsigned j = 0; j < n; j++)
+				for(uint32_t j = 0; j < n; j++)
 				{
 					scene->add_object(new canvas::objects::Quad);
 					((canvas::objects::Quad*) scene->object(n * i + j))->color_fill({0, 0, 1});

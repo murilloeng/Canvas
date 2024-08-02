@@ -15,7 +15,7 @@ namespace canvas
 	{
 		this->mode(mode);
 	}
-	Anchor::Anchor(unsigned horizontal, unsigned vertical) : m_vertical(vertical), m_horizontal(horizontal)
+	Anchor::Anchor(uint32_t horizontal, uint32_t vertical) : m_vertical(vertical), m_horizontal(horizontal)
 	{
 		return;
 	}
@@ -27,20 +27,20 @@ namespace canvas
 	}
 
 	//data
-	unsigned Anchor::vertical(void) const
+	uint32_t Anchor::vertical(void) const
 	{
 		return m_vertical;
 	}
-	unsigned Anchor::vertical(unsigned vertical)
+	uint32_t Anchor::vertical(uint32_t vertical)
 	{
 		return m_vertical = vertical;
 	}
 
-	unsigned Anchor::horizontal(void) const
+	uint32_t Anchor::horizontal(void) const
 	{
 		return m_horizontal;
 	}
-	unsigned Anchor::horizontal(unsigned horizontal)
+	uint32_t Anchor::horizontal(uint32_t horizontal)
 	{
 		return m_horizontal = horizontal;
 	}
@@ -48,11 +48,11 @@ namespace canvas
 	const char* Anchor::mode(void) const
 	{
 		//data
-		const unsigned v[] = {0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2};
-		const unsigned h[] = {0, 2, 0, 0, 0, 1, 2, 0, 1, 2, 0, 1, 2};
+		const uint32_t v[] = {0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2};
+		const uint32_t h[] = {0, 2, 0, 0, 0, 1, 2, 0, 1, 2, 0, 1, 2};
 		const char* modes[] = {"W", "E", "S", "N", "SW", "SC", "SE", "CW", "CC", "CE", "NW", "NC", "NE"};
 		//mode
-		for(unsigned i = 0; i < sizeof(v) / sizeof(unsigned); i++)
+		for(uint32_t i = 0; i < sizeof(v) / sizeof(uint32_t); i++)
 		{
 			if(m_vertical == v[i] && m_horizontal == h[i])
 			{
@@ -64,11 +64,11 @@ namespace canvas
 	const char* Anchor::mode(const char* mode)
 	{
 		//data
-		const unsigned v[] = {0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2};
-		const unsigned h[] = {0, 2, 0, 0, 0, 1, 2, 0, 1, 2, 0, 1, 2};
+		const uint32_t v[] = {0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 2, 2, 2};
+		const uint32_t h[] = {0, 2, 0, 0, 0, 1, 2, 0, 1, 2, 0, 1, 2};
 		const char* modes[] = {"W", "E", "S", "N", "SW", "SC", "SE", "CW", "CC", "CE", "NW", "NC", "NE"};
 		//mode
-		for(unsigned i = 0; i < sizeof(v) / sizeof(unsigned); i++)
+		for(uint32_t i = 0; i < sizeof(v) / sizeof(uint32_t); i++)
 		{
 			if(strcmp(modes[i], mode) == 0)
 			{
