@@ -127,23 +127,41 @@ namespace canvas
 			uint32_t v = 0;
 			for(char c : m_text)
 			{
-				if(c >= 32)
-					v++;
+				if(c >= 32) v++;
 			}
 			return v;
 		}
 
-		//buffers
-		uint32_t Text::vbo_size(uint32_t index) const
+		//setup
+		void Text::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
-			return 4 * m_fill * length() * (index == 2);
-		}
-		uint32_t Text::ibo_size(uint32_t index) const
-		{
-			return 6 * m_fill * length() * (index == 4);
+			//check
+			uint32_t a = 0, b = 0;
+			if(m_font >= m_scene->fonts().size())
+			{
+				fprintf(stderr, "Error: Text's font has out of range index!\n");
+				exit(EXIT_FAILURE);
+			}
+			//lines
+			for(char c : m_text)
+			{
+				if(c == '\n' || c == '\v')
+				{
+					m_lines.push_back(a), m_lines.push_back(b), a = b = 0;
+				}
+				else
+				{
+					const Font *font = m_scene->font(m_font);
+					a = std::max(a, font->character(c).bearing(1));
+					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
+				}
+			}
+			m_lines.push_back(a), m_lines.push_back(b);
+			//indexes
+			Object::setup(vbo_counter, ibo_counter);
 		}
 
-		//draw
+		//data
 		void Text::ibo_fill_data(uint32_t **ibo_data) const
 		{
 			const uint32_t s = length();
@@ -216,32 +234,11 @@ namespace canvas
 			}
 		}
 
-		void Text::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		//buffers
+		void Text::buffers_size(void)
 		{
-			//check
-			uint32_t a = 0, b = 0;
-			if(m_font >= m_scene->fonts().size())
-			{
-				fprintf(stderr, "Error: Text's font has out of range index!\n");
-				exit(EXIT_FAILURE);
-			}
-			//lines
-			for(char c : m_text)
-			{
-				if(c == '\n' || c == '\v')
-				{
-					m_lines.push_back(a), m_lines.push_back(b), a = b = 0;
-				}
-				else
-				{
-					const Font *font = m_scene->font(m_font);
-					a = std::max(a, font->character(c).bearing(1));
-					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
-				}
-			}
-			m_lines.push_back(a), m_lines.push_back(b);
-			//indexes
-			Object::setup(vbo_counter, ibo_counter);
+			m_vbo_size[2] = 4 * m_fill * length();
+			m_ibo_size[4] = 6 * m_fill * length();
 		}
 		void Text::buffers_data(vertices::Vertex **vbo_data, uint32_t **ibo_data) const
 		{

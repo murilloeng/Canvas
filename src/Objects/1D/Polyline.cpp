@@ -54,22 +54,13 @@ namespace canvas
 			return m_points;
 		}
 
-		//buffers
-		uint32_t Polyline::vbo_size(uint32_t index) const
-		{
-			return Group::vbo_size(index) + (uint32_t) m_points.size() * m_stroke * (index == 0);
-		}
-		uint32_t Polyline::ibo_size(uint32_t index) const
-		{
-			return Group::ibo_size(index) + 2 * uint32_t(m_points.size() - 1) * (index == 1) * m_stroke;
-		}
-
-		//draw
+		//data
 		void Polyline::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + Group::ibo_size(1);
+			const uint32_t nv = (uint32_t) m_points.size();
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - nv;
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + m_ibo_size[1] - 2 * (nv - 1);
 			//ibo data
 			for(uint32_t i = 0; i + 1 < m_points.size(); i++)
 			{
@@ -80,13 +71,23 @@ namespace canvas
 		void Polyline::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
+			const uint32_t nv = (uint32_t) m_points.size();
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - nv;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + vbo_index;
 			//vbo data
-			for(uint32_t i = 0; i < m_points.size(); i++)
+			for(uint32_t i = 0; i < nv; i++)
 			{
 				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = m_points[i];
 			}
+		}
+
+		//buffers
+		void Polyline::buffers_size(void)
+		{
+			Group::buffers_size();
+			m_vbo_size[0] += (uint32_t) m_points.size() * m_stroke;
+			m_ibo_size[1] += 2 * uint32_t(m_points.size() - 1) * m_stroke;
 		}
 		void Polyline::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

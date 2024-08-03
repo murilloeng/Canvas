@@ -59,17 +59,7 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		//buffers
-		uint32_t Circle::vbo_size(uint32_t index) const
-		{
-			return (m_stroke * m_mesh + m_fill * (m_mesh + 1)) * (index == 0);
-		}
-		uint32_t Circle::ibo_size(uint32_t index) const
-		{
-			return (2 * (index == 1 && m_stroke) + 3 * (index == 2 && m_fill)) * m_mesh;
-		}
-
-		//draw
+		//data
 		void Circle::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -122,6 +112,14 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_color = m_color_stroke;
 				(vbo_stroke_ptr + i)->m_position = vertex_position;
 			}
+		}
+
+		//buffers
+		void Circle::buffers_size(void)
+		{
+			m_ibo_size[2] = 3 * m_fill * m_mesh;
+			m_ibo_size[1] = 2 * m_stroke * m_mesh;
+			m_vbo_size[0] = m_stroke * m_mesh + m_fill * (m_mesh + 1);
 		}
 		void Circle::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

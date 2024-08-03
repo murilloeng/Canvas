@@ -50,17 +50,7 @@ namespace canvas
 			return m_center;
 		}
 
-		//buffers
-		uint32_t Cube::vbo_size(uint32_t index) const
-		{
-			return 8 * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Cube::ibo_size(uint32_t index) const
-		{
-			return 24 * m_stroke * (index == 1) + 36 * m_fill * (index == 2);
-		}
-
-		//draw
+		//data
 		void Cube::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -145,6 +135,14 @@ namespace canvas
 				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = m_center + A * vec3(positions + 3 * i);
 			}
+		}
+
+		//buffers
+		void Cube::buffers_size(void)
+		{
+			m_ibo_size[2] = 36 * m_fill;
+			m_ibo_size[1] = 24 * m_stroke;
+			m_vbo_size[0] = 8 * (m_stroke + m_fill);
 		}
 		void Cube::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

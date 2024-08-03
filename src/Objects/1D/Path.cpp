@@ -122,42 +122,7 @@ namespace canvas
 			return path_tangent(s).cross(path_normal(s));
 		}
 
-		//sizes
-		uint32_t Path::vbo_size(uint32_t index) const
-		{
-			return Group::vbo_size(index) + (m_mesh + 1) * m_stroke * (index == 0);
-		}
-		uint32_t Path::ibo_size(uint32_t index) const
-		{
-			return Group::ibo_size(index) + 2 * m_mesh * (index == 1) * m_stroke;
-		}
-
-		//buffers
-		void Path::ibo_stroke_data(uint32_t** ibo_data) const
-		{
-			//data
-			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + Group::ibo_size(1);
-			//ibo data
-			for(uint32_t i = 0; i < m_mesh; i++)
-			{
-				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
-				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
-			}
-		}
-		void Path::vbo_stroke_data(vertices::Vertex** vbo_data) const
-		{
-			//data
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
-			//vbo data
-			for(uint32_t i = 0; i <= m_mesh; i++)
-			{
-				const float s = i * path_max() / m_mesh;
-				(vbo_ptr + i)->m_color = m_color_stroke;
-				(vbo_ptr + i)->m_position = path_position(s);
-			}
-		}
-
+		//setup
 		void Path::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
 			for(Geometry* geometry : m_geometries)
@@ -171,6 +136,41 @@ namespace canvas
 				}
 			}
 			Group::setup(vbo_counter, ibo_counter);
+		}
+
+		//data
+		void Path::ibo_stroke_data(uint32_t** ibo_data) const
+		{
+			//data
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - m_mesh - 1;
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + m_ibo_size[1] - 2 * m_mesh;
+			//ibo data
+			for(uint32_t i = 0; i < m_mesh; i++)
+			{
+				ibo_ptr[2 * i + 0] = vbo_index + i + 0;
+				ibo_ptr[2 * i + 1] = vbo_index + i + 1;
+			}
+		}
+		void Path::vbo_stroke_data(vertices::Vertex** vbo_data) const
+		{
+			//data
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - m_mesh - 1;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + vbo_index;
+			//vbo data
+			for(uint32_t i = 0; i <= m_mesh; i++)
+			{
+				const float s = i * path_max() / m_mesh;
+				(vbo_ptr + i)->m_color = m_color_stroke;
+				(vbo_ptr + i)->m_position = path_position(s);
+			}
+		}
+
+		//buffers
+		void Path::buffers_size(void)
+		{
+			Group::buffers_size();
+			m_ibo_size[1] += 2 * m_mesh * m_stroke;
+			m_vbo_size[0] += (m_mesh + 1) * m_stroke;
 		}
 		void Path::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

@@ -1,3 +1,6 @@
+//std
+#include <cstring>
+
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
 #include "Canvas/inc/Math/quat.hpp"
@@ -8,10 +11,12 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_has_model_matrix(false), 
-			m_vbo_index{0, 0, 0, 0, 0, 0}, m_ibo_index{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+		Object::Object(void) : m_has_model_matrix(false)
 		{
-			return;
+			memset(m_vbo_size, 0, sizeof(m_vbo_size));
+			memset(m_ibo_size, 0, sizeof(m_ibo_size));
+			memset(m_vbo_index, 0, sizeof(m_vbo_index));
+			memset(m_ibo_index, 0, sizeof(m_ibo_index));
 		}
 
 		//destructor
@@ -96,15 +101,16 @@ namespace canvas
 		//buffers
 		void Object::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
+			buffers_size();
 			for(uint32_t i = 0; i < 6; i++)
 			{
 				m_vbo_index[i] = vbo_counter[i];
-				vbo_counter[i] += vbo_size(i);
+				vbo_counter[i] += m_vbo_size[i];
 			}
 			for(uint32_t i = 0; i < 12; i++)
 			{
 				m_ibo_index[i] = ibo_counter[i];
-				ibo_counter[i] += ibo_size(i);
+				ibo_counter[i] += m_ibo_size[i];
 			}
 		}
 	}

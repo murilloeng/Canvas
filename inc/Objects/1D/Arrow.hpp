@@ -46,13 +46,12 @@ namespace canvas
 			vec3 direction(uint32_t, const vec3&);
 
 		protected:
-			//buffers
-			uint32_t vbo_size(uint32_t) const override;
-			uint32_t ibo_size(uint32_t) const override;
-
-			//draw
+			//data
 			void ibo_stroke_data(uint32_t**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
+
+			//buffers
+			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data

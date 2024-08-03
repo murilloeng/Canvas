@@ -77,27 +77,7 @@ namespace canvas
 			return m_color_stroke = color_stroke;
 		}
 
-		//buffers
-		uint32_t Group::vbo_size(uint32_t index) const
-		{
-			uint32_t s = 0;
-			for(const Geometry* geometry : m_geometries)
-			{
-				s += geometry->vbo_size(index);
-			}
-			return s;
-		}
-		uint32_t Group::ibo_size(uint32_t index) const
-		{
-			uint32_t s = 0;
-			for(const Geometry* geometry : m_geometries)
-			{
-				s += geometry->ibo_size(index);
-			}
-			return s;
-		}
-
-		//draw
+		//setup
 		void Group::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
 			//data
@@ -111,6 +91,8 @@ namespace canvas
 			}
 			Object::setup(vbo_counter, ibo_counter);
 		}
+
+		//model
 		void Group::vbo_model_matrix(vertices::Vertex** vbo_data) const
 		{
 			for(uint32_t i = 0; i < 3; i++)
@@ -118,14 +100,27 @@ namespace canvas
 				uint32_t vbo_index = m_vbo_index[i];
 				for(const Geometry* geometry : m_geometries)
 				{
-					for(uint32_t j = 0; j < geometry->vbo_size(i); j++)
+					for(uint32_t j = 0; j < geometry->m_vbo_size[i]; j++)
 					{
 						if(i == 2) ((vertices::Text3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
 						if(i == 0) ((vertices::Model3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
 						if(i == 1) ((vertices::Image3D*) vbo_data[i] + vbo_index + j)->m_position *= geometry->model_matrix();
 					}
-					vbo_index += geometry->vbo_size(i);
+					vbo_index += geometry->m_vbo_size[i];
 				}
+			}
+		}
+
+		//buffers
+		void Group::buffers_size(void)
+		{
+			memset(m_vbo_size, 0, sizeof(m_vbo_size));
+			memset(m_ibo_size, 0, sizeof(m_ibo_size));
+			for(Geometry* geometry : m_geometries)
+			{
+				geometry->buffers_size();
+				for(uint32_t i = 0; i <  6; i++) m_vbo_size[i] += geometry->m_vbo_size[i];
+				for(uint32_t i = 0; i < 12; i++) m_ibo_size[i] += geometry->m_ibo_size[i];
 			}
 		}
 		void Group::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const

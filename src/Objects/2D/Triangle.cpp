@@ -28,17 +28,7 @@ namespace canvas
 			return m_points[index] = position;
 		}
 
-		//buffers
-		uint32_t Triangle::vbo_size(uint32_t index) const
-		{
-			return 3 * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Triangle::ibo_size(uint32_t index) const
-		{
-			return 6 * (index == 1) * m_stroke + 3 * (index == 2) * m_fill;
-		}
-
-		//draw
+		//data
 		void Triangle::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			ibo_data[2][m_ibo_index[2] + 0] = m_vbo_index[0] + 3 * m_stroke + 0;
@@ -73,6 +63,14 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_color = m_color_stroke;
 				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
+		}
+
+		//buffers
+		void Triangle::buffers_size(void)
+		{
+			m_ibo_size[2] = 3 * m_fill;
+			m_ibo_size[1] = 6 * m_stroke;
+			m_vbo_size[0] = 3 * (m_stroke + m_fill);
 		}
 		void Triangle::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

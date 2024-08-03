@@ -66,17 +66,18 @@ namespace canvas
 			return m_directions[index] = direction;
 		}
 
-		//buffers
-		uint32_t Image::vbo_size(uint32_t index) const
+		//setup
+		void Image::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
-			return 4 * m_fill * (index == 1);
-		}
-		uint32_t Image::ibo_size(uint32_t index) const
-		{
-			return 6 * m_fill * (index == 3);
+			if(m_index >= m_scene->images().size())
+			{
+				fprintf(stderr, "Error: Image has out of range index!\n");
+				exit(EXIT_FAILURE);
+			}
+			Object::setup(vbo_counter, ibo_counter);
 		}
 
-		//draw
+		//data
 		void Image::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			ibo_data[3][m_ibo_index[3] + 3 * 0 + 0] = m_vbo_index[1] + 0;
@@ -109,14 +110,11 @@ namespace canvas
 			}
 		}
 
-		void Image::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		//buffers
+		void Image::buffers_size(void)
 		{
-			if(m_index >= m_scene->images().size())
-			{
-				fprintf(stderr, "Error: Image has out of range index!\n");
-				exit(EXIT_FAILURE);
-			}
-			Object::setup(vbo_counter, ibo_counter);
+			m_vbo_size[1] = 4 * m_fill;
+			m_ibo_size[3] = 6 * m_fill;
 		}
 		void Image::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

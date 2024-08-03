@@ -74,18 +74,6 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		//buffers
-		uint32_t Sphere::vbo_size(uint32_t index) const
-		{
-			return (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Sphere::ibo_size(uint32_t index) const
-		{
-			return
-				60 * m_mesh * m_mesh * (index == 1) * m_stroke +
-				60 * m_mesh * m_mesh * (index == 2) * m_fill;
-		}
-
 		//edges
 		uint32_t Sphere::edge_index(uint32_t face, uint32_t index, bool& inversed) const
 		{
@@ -303,6 +291,14 @@ namespace canvas
 			{
 				(vbo_ptr + i)->m_position = m_center + m_radius * vec3(base_vertices[i]);
 			}
+		}
+
+		//buffers
+		void Sphere::buffers_size(void)
+		{
+			m_ibo_size[2] = 60 * m_mesh * m_mesh * m_fill;
+			m_ibo_size[1] = 60 * m_mesh * m_mesh * m_stroke;
+			m_vbo_size[0] = (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill);
 		}
 		void Sphere::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

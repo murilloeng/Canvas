@@ -231,8 +231,6 @@ namespace canvas
 		//setup
 		if(setup)
 		{
-			setup_vbo();
-			setup_ibo();
 			setup_fonts();
 			setup_latex();
 			setup_images();
@@ -360,11 +358,6 @@ namespace canvas
 	{
 		for(uint32_t i = 0; i < 6; i++)
 		{
-			m_vbo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_vbo_size[i] += object->vbo_size(i);
-			}
 			delete[] m_vbo_data[i];
 			if(i == 5) m_vbo_data[i] = new vertices::Text2D[m_vbo_size[i]];
 			if(i == 2) m_vbo_data[i] = new vertices::Text3D[m_vbo_size[i]];
@@ -378,11 +371,6 @@ namespace canvas
 	{
 		for(uint32_t i = 0; i < 12; i++)
 		{
-			m_ibo_size[i] = 0;
-			for(const objects::Object* object : m_objects)
-			{
-				m_ibo_size[i] += object->ibo_size(i);
-			}
 			delete[] m_ibo_data[i];
 			m_ibo_data[i] = new uint32_t[m_ibo_size[i]];
 		}
@@ -491,13 +479,15 @@ namespace canvas
 	void Scene::setup_objects(void)
 	{
 		//data
-		uint32_t vbo_counter[] = {0, 0, 0, 0, 0, 0};
-		uint32_t ibo_counter[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		memset(m_vbo_size, 0, sizeof(m_vbo_size));
+		memset(m_ibo_size, 0, sizeof(m_ibo_size));
 		//objects
 		for(objects::Object* object : m_objects)
 		{
-			object->setup(vbo_counter, ibo_counter);
+			object->setup(m_vbo_size, m_ibo_size);
 		}
+		setup_vbo();
+		setup_ibo();
 	}
 	void Scene::setup_buffers(void)
 	{
@@ -617,7 +607,7 @@ namespace canvas
 			object->buffers_data(m_vbo_data, m_ibo_data);
 			for(uint32_t i = 0; i < 3; i++)
 			{
-				const uint32_t is = object->vbo_size(i);
+				const uint32_t is = object->m_vbo_size[i];
 				const uint32_t ib = object->m_vbo_index[i];
 				for(uint32_t iv = ib; iv < ib + is; iv++)
 				{

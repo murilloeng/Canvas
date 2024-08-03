@@ -59,17 +59,7 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		//buffers
-		uint32_t Cylinder::vbo_size(uint32_t index) const
-		{
-			return (2 * m_mesh * m_stroke + 2 * (m_mesh + 1) * m_fill) * (index == 0);
-		}
-		uint32_t Cylinder::ibo_size(uint32_t index) const
-		{
-			return 6 * m_mesh * (index == 1) * m_stroke + 12 * m_mesh * (index == 2) * m_fill;
-		}
-
-		//draw
+		//data
 		void Cylinder::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -158,6 +148,14 @@ namespace canvas
 			(vbo_ptr + 1 * (m_mesh + 1))->m_color = m_color_fill;
 			(vbo_ptr + 0 * (m_mesh + 1))->m_position = {0.0f, 0.0f, -m_height / 2};
 			(vbo_ptr + 1 * (m_mesh + 1))->m_position = {0.0f, 0.0f, +m_height / 2};
+		}
+
+		//buffers
+		void Cylinder::buffers_size(void)
+		{
+			m_ibo_size[2] = 12 * m_mesh * m_fill;
+			m_ibo_size[1] = 6 * m_mesh * m_stroke;
+			m_vbo_size[0] = 2 * m_mesh * m_stroke + 2 * (m_mesh + 1) * m_fill;
 		}
 		void Cylinder::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

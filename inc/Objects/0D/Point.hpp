@@ -23,10 +23,7 @@ namespace canvas
 
 		protected:
 			//buffers
-			uint32_t vbo_size(uint32_t) const override;
-			uint32_t ibo_size(uint32_t) const override;
-
-			//draw
+			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data

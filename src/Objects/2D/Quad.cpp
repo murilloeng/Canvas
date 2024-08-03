@@ -29,17 +29,7 @@ namespace canvas
 			return m_points[index] = position;
 		}
 
-		//buffers
-		uint32_t Quad::vbo_size(uint32_t index) const
-		{
-			return 4 * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Quad::ibo_size(uint32_t index) const
-		{
-			return 8 * (index == 1) * m_stroke + 6 * (index == 2) * m_fill;
-		}
-
-		//draw
+		//data
 		void Quad::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			ibo_data[2][m_ibo_index[2] + 0] = m_vbo_index[0] + 4 * m_stroke + 0;
@@ -77,6 +67,14 @@ namespace canvas
 				(vbo_stroke_ptr + i)->m_color = m_color_stroke;
 				(vbo_stroke_ptr + i)->m_position = m_points[i];
 			}
+		}
+
+		//buffers
+		void Quad::buffers_size(void)
+		{
+			m_ibo_size[2] = 6 * m_fill;
+			m_ibo_size[1] = 8 * m_stroke;
+			m_vbo_size[0] = 4 * (m_stroke + m_fill);
 		}
 		void Quad::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

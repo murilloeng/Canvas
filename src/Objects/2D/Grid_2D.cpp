@@ -32,21 +32,7 @@ namespace canvas
 			return m_mesh[index] = mesh;
 		}
 
-		//buffers
-		uint32_t Grid_2D::vbo_size(uint32_t index) const
-		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			return (2 * (n1 + n2) * m_stroke + 4 * m_fill) * (index == 0);
-		}
-		uint32_t Grid_2D::ibo_size(uint32_t index) const
-		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			return 2 * (n1 + n2 + 2) * (index == 1) * m_stroke + 6 * (index == 2) * m_fill;
-		}
-
-		//draw
+		//data
 		void Grid_2D::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -135,6 +121,14 @@ namespace canvas
 				(vbo_ptr + i)->m_color = m_color_fill;
 				(vbo_ptr + i)->m_position = {x1[i], x2[i], 0.0f};
 			}
+		}
+
+		//buffers
+		void Grid_2D::buffers_size(void)
+		{
+			m_ibo_size[2] = 6 * m_fill;
+			m_ibo_size[1] = 2 * (m_mesh[0] + m_mesh[1] + 2) * m_stroke;
+			m_vbo_size[0] = 2 * (m_mesh[0] + m_mesh[1]) * m_stroke + 4 * m_fill;
 		}
 		void Grid_2D::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

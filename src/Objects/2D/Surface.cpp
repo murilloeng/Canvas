@@ -46,21 +46,7 @@ namespace canvas
 			return m_position = position;
 		}
 
-		//buffers
-		uint32_t Surface::vbo_size(uint32_t index) const
-		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			return (n1 + 1) * (n2 + 1) * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Surface::ibo_size(uint32_t index) const
-		{
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			return 2 * (n1 + n2 + 2 * n1 * n2) * m_stroke * (index == 1) + 6 * n1 * n2 * m_fill * (index == 2);
-		}
-
-		//draw
+		//data
 		void Surface::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -153,6 +139,16 @@ namespace canvas
 					(vbo_ptr + (n1 + 1) * i + j)->m_position = m_position(s1, s2);
 				}
 			}
+		}
+
+		//buffers
+		void Surface::buffers_size(void)
+		{
+			const uint32_t n1 = m_mesh[0];
+			const uint32_t n2 = m_mesh[1];
+			m_ibo_size[2] = 6 * n1 * n2 * m_fill;
+			m_ibo_size[1] = 2 * (n1 + n2 + 2 * n1 * n2) * m_stroke;
+			m_vbo_size[0] = (n1 + 1) * (n2 + 1) * (m_stroke + m_fill);
 		}
 		void Surface::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

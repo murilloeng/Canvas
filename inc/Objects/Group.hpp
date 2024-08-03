@@ -29,13 +29,14 @@ namespace canvas
 			Color color_stroke(const Color&) override;
 
 		protected:
-			//sizes
-			uint32_t vbo_size(uint32_t) const override;
-			uint32_t ibo_size(uint32_t) const override;
-
-			//buffers
+			//setup
 			void setup(uint32_t[], uint32_t[]) override;
+
+			//model
 			void vbo_model_matrix(vertices::Vertex**) const;
+			
+			//buffers
+			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data

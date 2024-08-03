@@ -45,12 +45,11 @@ namespace canvas
 			void rotate(const vec3&, const quat&, bool = true);
 
 		protected:
-			//size
-			virtual uint32_t vbo_size(uint32_t) const = 0;
-			virtual uint32_t ibo_size(uint32_t) const = 0;
+			//setup
+			virtual void setup(uint32_t[], uint32_t[]);
 
 			//buffers
-			virtual void setup(uint32_t[], uint32_t[]);
+			virtual void buffers_size(void) = 0;
 			virtual void buffers_data(vertices::Vertex**, uint32_t**) const = 0;
 
 			//data

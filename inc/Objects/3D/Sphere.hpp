@@ -29,10 +29,6 @@ namespace canvas
 			static uint32_t mesh(uint32_t);
 
 		protected:
-			//buffers
-			uint32_t vbo_size(uint32_t) const override;
-			uint32_t ibo_size(uint32_t) const override;
-
 			//edges
 			uint32_t edge_index(uint32_t, uint32_t, bool&) const;
 
@@ -40,7 +36,7 @@ namespace canvas
 			uint32_t vertex_index(uint32_t, uint32_t) const;
 			uint32_t vertex_index(uint32_t, uint32_t, uint32_t) const;
 
-			//draw
+			//data
 			void ibo_fill_data(uint32_t**) const;
 			void ibo_stroke_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
@@ -50,6 +46,8 @@ namespace canvas
 			void vbo_faces_data(vertices::Model3D*) const;
 			void vbo_vertices_data(vertices::Model3D*) const;
 
+			//buffers
+			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data

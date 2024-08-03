@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 	//data
 	Glut app(argc, argv, "shd/");
 	//scene
-	examples::objects::spheres(app.scene());
+	examples::objects::triangles(app.scene());
 	app.scene()->update(true);
 	app.scene()->camera().bound();
 	app.scene()->camera().apply();

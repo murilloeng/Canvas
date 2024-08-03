@@ -104,17 +104,7 @@ namespace canvas
 			return a + b;
 		}
 
-		//buffers
-		uint32_t Palette::vbo_size(uint32_t index) const
-		{
-			return 2 * (m_marks + m_palette.size()) * (index == 3) + 36 * m_marks * (index == 5);
-		}
-		uint32_t Palette::ibo_size(uint32_t index) const
-		{
-			return (m_marks + 2) * (index == 7) + 2 * (m_palette.size() - 1) * (index == 8) + 18 * m_marks * (index == 10);
-		}
-
-		//draw
+		//data
 		void Palette::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -233,6 +223,16 @@ namespace canvas
 				vbo_ptr[i + 0 * m_marks].m_position[1] = 1.90f * i / (m_marks - 1) - 0.95f;
 				vbo_ptr[i + 1 * m_marks].m_position[1] = 1.90f * i / (m_marks - 1) - 0.95f;
 			}
+		}
+
+		//buffers
+		void Palette::buffers_size(void)
+		{
+			m_ibo_size[ 7] = m_marks + 2;
+			m_vbo_size[ 5] = 36 * m_marks;
+			m_ibo_size[10] = 18 * m_marks;
+			m_ibo_size[ 8] = 2 * (m_palette.size() - 1);
+			m_vbo_size[ 3] = 2 * (m_marks + m_palette.size());
 		}
 		void Palette::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

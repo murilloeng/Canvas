@@ -43,19 +43,7 @@ namespace canvas
 			return m_loops;
 		}
 
-		//buffers
-		uint32_t Polygon::vbo_size(uint32_t index) const
-		{
-			return (uint32_t) m_vertices.size() * (m_stroke + m_fill) * (index == 0);
-		}
-		uint32_t Polygon::ibo_size(uint32_t index) const
-		{
-			const uint32_t nl = (uint32_t) m_loops.size();
-			const uint32_t nv = (uint32_t) m_vertices.size();
-			return 2 * nv * m_stroke * (index == 1) + 3 * (nv + 2 * nl - 6) * m_fill * (index == 2);
-		}
-
-		//draw
+		//data
 		void Polygon::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -116,6 +104,18 @@ namespace canvas
 				(vbo_ptr + i)->m_color = m_color_stroke;
 				(vbo_ptr + i)->m_position = {m_vertices[i][0], m_vertices[i][1], 0};
 			}
+		}
+
+		//buffers
+		void Polygon::buffers_size(void)
+		{
+			//data
+			const uint32_t nl = (uint32_t) m_loops.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
+			//size
+			m_ibo_size[1] = 2 * nv * m_stroke;
+			m_vbo_size[0] = nv * (m_stroke + m_fill);
+			m_ibo_size[2] = 3 * (nv + 2 * nl - 6) * m_fill;
 		}
 		void Polygon::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

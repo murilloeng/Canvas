@@ -42,22 +42,12 @@ namespace canvas
 			return m_points[1] - m_points[0];
 		}
 
-		//sizes
-		uint32_t Line::vbo_size(uint32_t index) const
-		{
-			return Group::vbo_size(index) + 2 * m_stroke * (index == 0);
-		}
-		uint32_t Line::ibo_size(uint32_t index) const
-		{
-			return Group::ibo_size(index) + 2 * (index == 1) * m_stroke;
-		}
-
-		//buffers
+		//data
 		void Line::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
-			uint32_t vbo_index = m_vbo_index[0] + Group::vbo_size(0);
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + Group::ibo_size(1);
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - 2;
+			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1] + m_ibo_size[1] - 2;
 			//ibo data
 			ibo_ptr[0] = vbo_index + 0;
 			ibo_ptr[1] = vbo_index + 1;
@@ -65,12 +55,21 @@ namespace canvas
 		void Line::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + Group::vbo_size(0);
+			uint32_t vbo_index = m_vbo_index[0] + m_vbo_size[0] - 2;
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + vbo_index;
 			//vbo data
 			(vbo_ptr + 0)->m_color = m_color_stroke;
 			(vbo_ptr + 1)->m_color = m_color_stroke;
 			(vbo_ptr + 0)->m_position = m_points[0];
 			(vbo_ptr + 1)->m_position = m_points[1];
+		}
+
+		//buffers
+		void Line::buffers_size(void)
+		{
+			Group::buffers_size();
+			m_vbo_size[0] += 2 * m_stroke;
+			m_ibo_size[1] += 2 * m_stroke;
 		}
 		void Line::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

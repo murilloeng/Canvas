@@ -79,17 +79,7 @@ namespace canvas
 			return m_directions[index] = direction;
 		}
 
-		//buffers
-		uint32_t Arrow::vbo_size(uint32_t index) const
-		{
-			return 5 * m_stroke * (index == 0);
-		}
-		uint32_t Arrow::ibo_size(uint32_t index) const
-		{
-			return 8 * m_stroke * (index == 1);
-		}
-
-		//draw
+		//data
 		void Arrow::ibo_stroke_data(uint32_t** ibo_data) const
 		{
 			//data
@@ -121,6 +111,13 @@ namespace canvas
 			{
 				(vbo_ptr + i)->m_color = m_color_stroke;
 			}
+		}
+
+		//buffers
+		void Arrow::buffers_size(void)
+		{
+			m_vbo_size[0] = 5 * m_stroke;
+			m_ibo_size[1] = 8 * m_stroke;
 		}
 		void Arrow::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{

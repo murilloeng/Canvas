@@ -50,15 +50,15 @@ namespace canvas
 			uint32_t height(void) const;
 			uint32_t length(void) const;
 
-			//buffers
-			uint32_t vbo_size(uint32_t) const override;
-			uint32_t ibo_size(uint32_t) const override;
+			//setup
+			void setup(uint32_t[], uint32_t[]) override;
 
-			//draw
+			//data
 			void ibo_fill_data(uint32_t**) const;
 			void vbo_fill_data(vertices::Vertex**) const;
 
-			void setup(uint32_t[], uint32_t[]) override;
+			//buffers
+			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data

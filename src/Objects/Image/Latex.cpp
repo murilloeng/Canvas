@@ -66,17 +66,18 @@ namespace canvas
 			return m_directions[index] = direction;
 		}
 
-		//buffers
-		uint32_t Latex::vbo_size(uint32_t index) const
+		//setup
+		void Latex::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
 		{
-			return 4 * m_fill * (index == 2);
-		}
-		uint32_t Latex::ibo_size(uint32_t index) const
-		{
-			return 6 * m_fill * (index == 5);
+			if(m_index >= m_scene->latex().size())
+			{
+				fprintf(stderr, "Error: Latex has out of range index!\n");
+				exit(EXIT_FAILURE);
+			}
+			Object::setup(vbo_counter, ibo_counter);
 		}
 
-		//draw
+		//data
 		void Latex::ibo_fill_data(uint32_t** ibo_data) const
 		{
 			ibo_data[5][m_ibo_index[5] + 3 * 0 + 0] = m_vbo_index[2] + 0;
@@ -110,14 +111,11 @@ namespace canvas
 			}
 		}
 
-		void Latex::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		//buffers
+		void Latex::buffers_size(void)
 		{
-			if(m_index >= m_scene->latex().size())
-			{
-				fprintf(stderr, "Error: Latex has out of range index!\n");
-				exit(EXIT_FAILURE);
-			}
-			Object::setup(vbo_counter, ibo_counter);
+			m_vbo_size[2] = 4 * m_fill;
+			m_ibo_size[5] = 6 * m_fill;
 		}
 		void Latex::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
