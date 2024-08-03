@@ -46,7 +46,7 @@ namespace canvas
 
 		protected:
 			//setup
-			virtual void setup(uint32_t[], uint32_t[]);
+			virtual void setup(void);
 
 			//buffers
 			virtual void buffers_size(void) = 0;

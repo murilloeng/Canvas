@@ -78,18 +78,13 @@ namespace canvas
 		}
 
 		//setup
-		void Group::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		void Group::setup(void)
 		{
-			//data
-			uint32_t vbo_group_counter[3], ibo_group_counter[6];
-			memcpy(vbo_group_counter, vbo_counter, 3 * sizeof(uint32_t));
-			memcpy(ibo_group_counter, ibo_counter, 6 * sizeof(uint32_t));
-			//indexes
 			for(Geometry* geometry : m_geometries)
 			{
-				geometry->setup(vbo_group_counter, ibo_group_counter);
+				geometry->setup();
 			}
-			Object::setup(vbo_counter, ibo_counter);
+			Object::setup();
 		}
 
 		//model

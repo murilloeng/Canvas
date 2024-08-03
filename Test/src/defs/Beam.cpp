@@ -43,7 +43,7 @@ namespace examples
 	}
 
 	//setup
-	void Beam::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+	void Beam::setup(void)
 	{
 		//data
 		const float L = m_length;
@@ -60,7 +60,7 @@ namespace examples
 			m_vertices[i + m_na] = {L + H / 2 * sinf(t), -H / 2 * cosf(t)};
 		}
 		//polygon
-		Polygon::setup(vbo_counter, ibo_counter);
+		Polygon::setup();
 	}
 
 	//static

@@ -49,7 +49,7 @@ namespace canvas
 
 		protected:
 			//setup
-			void setup(uint32_t[], uint32_t[]) override;
+			void setup(void) override;
 
 			//data
 			virtual void ibo_stroke_data(uint32_t**) const;

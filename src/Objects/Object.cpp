@@ -4,6 +4,7 @@
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
 #include "Canvas/inc/Math/quat.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Objects/Object.hpp"
 
 namespace canvas
@@ -99,18 +100,18 @@ namespace canvas
 		}
 
 		//buffers
-		void Object::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		void Object::setup(void)
 		{
 			buffers_size();
 			for(uint32_t i = 0; i < 6; i++)
 			{
-				m_vbo_index[i] = vbo_counter[i];
-				vbo_counter[i] += m_vbo_size[i];
+				m_vbo_index[i] = m_scene->m_vbo_size[i];
+				m_scene->m_vbo_size[i] += m_vbo_size[i];
 			}
 			for(uint32_t i = 0; i < 12; i++)
 			{
-				m_ibo_index[i] = ibo_counter[i];
-				ibo_counter[i] += m_ibo_size[i];
+				m_ibo_index[i] = m_scene->m_ibo_size[i];
+				m_scene->m_ibo_size[i] += m_ibo_size[i];
 			}
 		}
 	}

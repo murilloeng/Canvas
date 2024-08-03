@@ -23,7 +23,7 @@ namespace examples
 
 	protected:
 		//setup
-		void setup(uint32_t[], uint32_t[]) override;
+		void setup(void) override;
 
 		//data
 		float m_length;

@@ -478,14 +478,9 @@ namespace canvas
 	}
 	void Scene::setup_objects(void)
 	{
-		//data
 		memset(m_vbo_size, 0, sizeof(m_vbo_size));
 		memset(m_ibo_size, 0, sizeof(m_ibo_size));
-		//objects
-		for(objects::Object* object : m_objects)
-		{
-			object->setup(m_vbo_size, m_ibo_size);
-		}
+		for(objects::Object* object : m_objects) object->setup();
 		setup_vbo();
 		setup_ibo();
 	}

@@ -67,14 +67,14 @@ namespace canvas
 		}
 
 		//setup
-		void Image::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		void Image::setup(void)
 		{
 			if(m_index >= m_scene->images().size())
 			{
 				fprintf(stderr, "Error: Image has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
-			Object::setup(vbo_counter, ibo_counter);
+			Object::setup();
 		}
 
 		//data

@@ -51,7 +51,7 @@ namespace canvas
 			uint32_t length(void) const;
 
 			//setup
-			void setup(uint32_t[], uint32_t[]) override;
+			void setup(void) override;
 
 			//data
 			void ibo_fill_data(uint32_t**) const;

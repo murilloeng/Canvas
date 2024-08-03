@@ -133,7 +133,7 @@ namespace canvas
 		}
 
 		//setup
-		void Text::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		void Text::setup(void)
 		{
 			//check
 			uint32_t a = 0, b = 0;
@@ -158,7 +158,7 @@ namespace canvas
 			}
 			m_lines.push_back(a), m_lines.push_back(b);
 			//indexes
-			Object::setup(vbo_counter, ibo_counter);
+			Object::setup();
 		}
 
 		//data

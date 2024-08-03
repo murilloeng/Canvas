@@ -30,7 +30,7 @@ namespace canvas
 
 		protected:
 			//setup
-			void setup(uint32_t[], uint32_t[]) override;
+			void setup(void) override;
 
 			//model
 			void vbo_model_matrix(vertices::Vertex**) const;

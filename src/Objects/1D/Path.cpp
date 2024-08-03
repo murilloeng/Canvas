@@ -123,7 +123,7 @@ namespace canvas
 		}
 
 		//setup
-		void Path::setup(uint32_t vbo_counter[], uint32_t ibo_counter[])
+		void Path::setup(void)
 		{
 			for(Geometry* geometry : m_geometries)
 			{
@@ -135,7 +135,7 @@ namespace canvas
 					((Arrow*) geometry)->m_directions[1] = path_binormal(s);
 				}
 			}
-			Group::setup(vbo_counter, ibo_counter);
+			Group::setup();
 		}
 
 		//data
