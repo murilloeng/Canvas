@@ -22,12 +22,20 @@ namespace examples
 			{
 				for(uint32_t j = 0; j < 4; j++)
 				{
-					scene->add_object(new canvas::objects::Line);
-					((canvas::objects::Line*) scene->object(4 * i + j))->add_arrow(0.50f, true);
-					((canvas::objects::Line*) scene->object(4 * i + j))->arrow(0)->width(s / 10);
-					((canvas::objects::Line*) scene->object(4 * i + j))->arrow(0)->height(s / 10);
-					((canvas::objects::Line*) scene->object(4 * i + j))->point(0, {s * x1[(j + 0) % 4], s * x2[(j + 0) % 4], 0});
-					((canvas::objects::Line*) scene->object(4 * i + j))->point(1, {s * x1[(j + 1) % 4], s * x2[(j + 1) % 4], 0});
+					//objects
+					canvas::objects::Line* line = new canvas::objects::Line;
+					canvas::objects::Arrow* arrow = new canvas::objects::Arrow;
+					//scene
+					scene->add_object(line);
+					scene->add_object(arrow);
+					//line
+					line->point(0, {s * x1[(j + 0) % 4], s * x2[(j + 0) % 4], 0});
+					line->point(1, {s * x1[(j + 1) % 4], s * x2[(j + 1) % 4], 0});
+					//arrow
+					arrow->path(line);
+					arrow->width(s / 10);
+					arrow->height(s / 10);
+					arrow->parameter(0.50f);
 				}
 				s /= 2;
 			}

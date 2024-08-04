@@ -32,64 +32,6 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		//arrows
-		void Path::add_arrow(float s, bool sense)
-		{
-			//data
-			Arrow* arrow = new Arrow;
-			//arrow
-			arrow->parameter(s);
-			arrow->sense(sense);
-			m_geometries.push_back(arrow);
-		}
-		void Path::remove_arrow(uint32_t index)
-		{
-			uint32_t counter = 0;
-			for(uint32_t i = 0; i < m_geometries.size(); i++)
-			{
-				if(dynamic_cast<const Arrow*>(m_geometries[i]))
-				{
-					if(counter == index)
-					{
-						delete m_geometries[i];
-						m_geometries.erase(m_geometries.begin() + i);
-					}
-					counter++;
-				}
-			}
-		}
-		uint32_t Path::arrows(void) const
-		{
-			uint32_t counter = 0;
-			for(const Object* object : m_geometries)
-			{
-				if(dynamic_cast<const Arrow*>(object))
-				{
-					counter++;
-				}
-			}
-			return counter;
-		}
-		Arrow* Path::arrow(uint32_t index) const
-		{
-			uint32_t counter = 0;
-			for(Geometry* geometry : m_geometries)
-			{
-				if(dynamic_cast<Arrow*>(geometry))
-				{
-					if(counter != index)
-					{
-						counter++;
-					}
-					else
-					{
-						return (Arrow*) geometry;
-					}
-				}
-			}
-			return nullptr;
-		}
-
 		//path
 		float Path::path_max(void) const
 		{
@@ -122,22 +64,6 @@ namespace canvas
 			return path_tangent(s).cross(path_normal(s));
 		}
 
-		//setup
-		void Path::setup(void)
-		{
-			for(Geometry* geometry : m_geometries)
-			{
-				if(dynamic_cast<Arrow*>(geometry))
-				{
-					float s = ((Arrow*) geometry)->m_parameter;
-					((Arrow*) geometry)->m_point = path_position(s);
-					((Arrow*) geometry)->m_directions[0] = path_normal(s);
-					((Arrow*) geometry)->m_directions[1] = path_binormal(s);
-				}
-			}
-			Group::setup();
-		}
-
 		//data
 		void Path::ibo_stroke_data(uint32_t** ibo_data) const
 		{
@@ -168,15 +94,13 @@ namespace canvas
 		//buffers
 		void Path::buffers_size(void)
 		{
-			Group::buffers_size();
-			m_ibo_size[1] += 2 * m_mesh * m_stroke;
-			m_vbo_size[0] += (m_mesh + 1) * m_stroke;
+			m_ibo_size[1] = 2 * m_mesh * m_stroke;
+			m_vbo_size[0] = (m_mesh + 1) * m_stroke;
 		}
 		void Path::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
-			Group::buffers_data(vbo_data, ibo_data);
 		}
 	}
 }

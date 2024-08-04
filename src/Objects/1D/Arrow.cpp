@@ -2,18 +2,16 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model3D.hpp"
-
+#include "Canvas/inc/Objects/1D/Path.hpp"
 #include "Canvas/inc/Objects/1D/Arrow.hpp"
+#include "Canvas/inc/Vertices/Model3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Arrow::Arrow(void) :
-			m_sense(true), m_point{0.0f, 0.0f, 0.0f},
-			m_width(0.1f), m_height(0.1f), m_directions{{0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}
+		Arrow::Arrow(void) : m_sense(true), m_width(0.1f), m_height(0.1f)
 		{
 			return;
 		}
@@ -25,6 +23,15 @@ namespace canvas
 		}
 
 		//data
+		Path* Arrow::path(void) const
+		{
+			return m_path;
+		}
+		Path* Arrow::path(Path* path)
+		{
+			return m_path = path;
+		}
+
 		bool Arrow::sense(void) const
 		{
 			return m_sense;
@@ -32,15 +39,6 @@ namespace canvas
 		bool Arrow::sense(bool sense)
 		{
 			return m_sense = sense;
-		}
-
-		vec3 Arrow::point(void) const
-		{
-			return m_point;
-		}
-		vec3 Arrow::point(const vec3& point)
-		{
-			return m_point = point;
 		}
 
 		float Arrow::width(void) const
@@ -70,15 +68,6 @@ namespace canvas
 			return m_parameter = parameter;
 		}
 
-		vec3 Arrow::direction(uint32_t index) const
-		{
-			return m_directions[index];
-		}
-		vec3 Arrow::direction(uint32_t index, const vec3& direction)
-		{
-			return m_directions[index] = direction;
-		}
-
 		//data
 		void Arrow::ibo_stroke_data(uint32_t** ibo_data) const
 		{
@@ -97,23 +86,30 @@ namespace canvas
 		void Arrow::vbo_stroke_data(vertices::Vertex** vbo_data) const
 		{
 			//data
-			const vec3 t2 = m_directions[0];
-			const vec3 t3 = m_directions[1];
+			const vec3 t2 = m_path->path_normal(m_parameter);
+			const vec3 t3 = m_path->path_binormal(m_parameter);
+			const vec3 xp = m_path->path_position(m_parameter);
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
 			//vbo data
 			const vec3 t1 = t2.cross(t3);
-			(vbo_ptr + 0)->m_position = m_point;
-			(vbo_ptr + 1)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 - m_height * t2;
-			(vbo_ptr + 2)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 + m_height * t2;
-			(vbo_ptr + 3)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 - m_height * t3;
-			(vbo_ptr + 4)->m_position = m_point + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
+			(vbo_ptr + 0)->m_position = xp;
+			(vbo_ptr + 1)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t2;
+			(vbo_ptr + 2)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t2;
+			(vbo_ptr + 3)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t3;
+			(vbo_ptr + 4)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
 			for(uint32_t i = 0; i < 5; i++)
 			{
-				(vbo_ptr + i)->m_color = m_color_stroke;
+				(vbo_ptr + i)->m_color = m_path->m_color_stroke;
 			}
 		}
 
 		//buffers
+		void Arrow::setup(void)
+		{
+			Object::setup();
+			m_model_matrix = m_path->m_model_matrix;
+			m_has_model_matrix = m_path->m_has_model_matrix;
+		}
 		void Arrow::buffers_size(void)
 		{
 			m_vbo_size[0] = 5 * m_stroke;

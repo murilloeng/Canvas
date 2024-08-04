@@ -8,7 +8,7 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Curve;
+		class Path;
 	}
 }
 
@@ -18,20 +18,19 @@ namespace canvas
 	{
 		class Arrow : public Geometry
 		{
-		protected:
+		public:
 			//constructors
 			Arrow(void);
 
 			//destructor
 			~Arrow(void);
 
-		public:
 			//data
+			Path* path(Path*);
+			Path* path(void) const;
+
 			bool sense(bool);
 			bool sense(void) const;
-
-			vec3 point(void) const;
-			vec3 point(const vec3&);
 
 			float width(float);
 			float width(void) const;
@@ -42,27 +41,22 @@ namespace canvas
 			float parameter(float);
 			float parameter(void) const;
 
-			vec3 direction(uint32_t) const;
-			vec3 direction(uint32_t, const vec3&);
-
 		protected:
 			//data
 			void ibo_stroke_data(uint32_t**) const;
 			void vbo_stroke_data(vertices::Vertex**) const;
 
 			//buffers
+			void setup(void) override;
 			void buffers_size(void) override;
 			void buffers_data(vertices::Vertex**, uint32_t**) const override;
 
 			//data
+			Path* m_path;
 			bool m_sense;
-			vec3 m_point;
 			float m_width;
 			float m_height;
 			float m_parameter;
-			vec3 m_directions[2];
-			//friends
-			friend class Path;
 		};
 	}
 }

@@ -34,6 +34,12 @@ public:
 	static void callback_wheel(int, int, int, int);
 	static void callback_keyboard(uint8_t, int, int);
 
+	//data
+	static uint32_t key_up;
+	static uint32_t key_down;
+	static uint32_t key_left;
+	static uint32_t key_right;
+
 protected:
 	//data
 	canvas::Scene* m_scene;

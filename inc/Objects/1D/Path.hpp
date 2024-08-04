@@ -5,7 +5,7 @@
 
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
-#include "Canvas/inc/Objects/Group.hpp"
+#include "Canvas/inc/Objects/Geometry.hpp"
 
 namespace canvas
 {
@@ -19,7 +19,7 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Path : public Group
+		class Path : public Geometry
 		{
 		public:
 			//constructors
@@ -32,12 +32,6 @@ namespace canvas
 			uint32_t mesh(uint32_t);
 			uint32_t mesh(void) const;
 
-			//arrows
-			void add_arrow(float, bool);
-			void remove_arrow(uint32_t);
-			uint32_t arrows(void) const;
-			Arrow* arrow(uint32_t) const;
-
 			//path
 			vec3 path_normal(float) const;
 			vec3 path_tangent(float) const;
@@ -48,9 +42,6 @@ namespace canvas
 			virtual vec3 path_gradient(float) const = 0;
 
 		protected:
-			//setup
-			void setup(void) override;
-
 			//data
 			virtual void ibo_stroke_data(uint32_t**) const;
 			virtual void vbo_stroke_data(vertices::Vertex**) const;
@@ -61,6 +52,9 @@ namespace canvas
 
 			//data
 			uint32_t m_mesh;
+
+			//friends
+			friend class Arrow;
 		};
 	}
 }

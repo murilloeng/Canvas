@@ -131,12 +131,12 @@ static void guides(canvas::Scene* scene)
 	//arrows
 	for(uint32_t i = 0; i < 5; i++)
 	{
-		guides[i]->add_arrow(1, true);
-		guides[i]->add_arrow(0, false);
-		guides[i]->arrow(0)->height(tc);
-		guides[i]->arrow(1)->height(tc);
-		guides[i]->arrow(0)->width(0.0f);
-		guides[i]->arrow(1)->width(0.0f);
+		// guides[i]->add_arrow(1, true);
+		// guides[i]->add_arrow(0, false);
+		// guides[i]->arrow(0)->height(tc);
+		// guides[i]->arrow(1)->height(tc);
+		// guides[i]->arrow(0)->width(0.0f);
+		// guides[i]->arrow(1)->width(0.0f);
 		guides[i]->point(0, x[2 * i + 0]);
 		guides[i]->point(1, x[2 * i + 1]);
 		guides[i]->color_stroke({1, 0, 0});

@@ -153,10 +153,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\defs\Beam.cpp" />
-    <ClCompile Include="src\defs\Support_1.cpp" />
-    <ClCompile Include="src\defs\Support_2.cpp" />
-    <ClCompile Include="src\defs\Support_3.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\Glut.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
@@ -168,7 +164,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\objects\1D\splines.cpp" />
     <ClCompile Include="src\objects\2D\circles.cpp" />
     <ClCompile Include="src\objects\2D\grid_2D.cpp" />
-    <ClCompile Include="src\objects\2D\grid_3D.cpp" />
     <ClCompile Include="src\objects\2D\polygons.cpp" />
     <ClCompile Include="src\objects\2D\quads.cpp" />
     <ClCompile Include="src\objects\2D\surfaces.cpp" />
@@ -179,7 +174,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\objects\Images\images.cpp" />
     <ClCompile Include="src\objects\Images\latex.cpp" />
     <ClCompile Include="src\objects\Images\text.cpp" />
-    <ClCompile Include="src\scenes\beam_1.cpp" />
     <ClCompile Include="src\scenes\tensegrity_chair.cpp" />
     <ClCompile Include="src\tessellation\convex_cw_3.cpp" />
     <ClCompile Include="src\tessellation\convex_ccw_3.cpp" />
@@ -189,10 +183,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\tessellation\convex_loop_cw_12.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\defs\Beam.hpp" />
-    <ClInclude Include="inc\defs\Support_1.hpp" />
-    <ClInclude Include="inc\defs\Support_2.hpp" />
-    <ClInclude Include="inc\defs\Support_3.hpp" />
     <ClInclude Include="inc\examples.hpp" />
     <ClCompile Include="inc\managers\Glut.hpp" />
     <ClInclude Include="inc\tessellation.hpp" />

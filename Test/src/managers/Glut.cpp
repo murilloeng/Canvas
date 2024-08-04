@@ -203,3 +203,9 @@ void Glut::callback_keyboard(uint8_t key, int x1, int x2)
 		glutPostRedisplay();
 	}
 }
+
+//data
+uint32_t Glut::key_up = GLUT_KEY_UP;
+uint32_t Glut::key_down = GLUT_KEY_DOWN;
+uint32_t Glut::key_left = GLUT_KEY_LEFT;
+uint32_t Glut::key_right = GLUT_KEY_RIGHT;

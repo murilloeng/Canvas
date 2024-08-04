@@ -6,16 +6,50 @@
 #include "Canvas/Test/inc/examples.hpp"
 #include "Canvas/Test/inc/managers/Glut.hpp"
 
+static canvas::Scene* scene;
+static uint32_t example_index = 0;
+static void callback_special(int key, int, int)
+{
+	//data
+	using namespace examples::objects;
+	void (*examples[])(canvas::Scene*) = { 
+		points, 
+		arcs, lines, arrows, curves, polylines, splines, 
+		circles, grid_2D, quads, polygons, triangles, 
+		cubes, cylinders, spheres, surfaces, 
+		images, text
+	};
+	const uint32_t ne = sizeof(examples) / sizeof(void(*)(canvas::Scene*));
+	//scene
+	if(key == Glut::key_left || key == Glut::key_right)
+	{
+		//index
+		if(key == Glut::key_right) example_index = (example_index + 1) % ne;
+		if(key == Glut::key_left) example_index = (example_index ? example_index : ne) - 1;
+		//scene
+		scene->clear_objects(true);
+		examples[example_index](scene);
+		//update
+		scene->update(true);
+		scene->camera().bound();
+		scene->camera().apply();
+		scene->camera().update();
+	}
+}
+
 int main(int argc, char** argv)
 {
 	//data
 	Glut app(argc, argv, "shd/");
+	app.callback_special(callback_special);
 	//scene
-	examples::objects::cubes(app.scene());
-	app.scene()->update(true);
-	app.scene()->camera().bound();
-	app.scene()->camera().apply();
-	app.scene()->camera().update();
+	scene = app.scene();
+	examples::objects::points(scene);
+	//update
+	scene->update(true);
+	scene->camera().bound();
+	scene->camera().apply();
+	scene->camera().update();
 	//start
 	app.start();
 	//return

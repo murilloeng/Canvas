@@ -67,15 +67,13 @@ namespace canvas
 		//buffers
 		void Line::buffers_size(void)
 		{
-			Group::buffers_size();
-			m_vbo_size[0] += 2 * m_stroke;
-			m_ibo_size[1] += 2 * m_stroke;
+			m_vbo_size[0] = 2 * m_stroke;
+			m_ibo_size[1] = 2 * m_stroke;
 		}
 		void Line::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
-			Group::buffers_data(vbo_data, ibo_data);
 		}
 	}
 }

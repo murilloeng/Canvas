@@ -85,15 +85,13 @@ namespace canvas
 		//buffers
 		void Polyline::buffers_size(void)
 		{
-			Group::buffers_size();
-			m_vbo_size[0] += (uint32_t) m_points.size() * m_stroke;
-			m_ibo_size[1] += 2 * uint32_t(m_points.size() - 1) * m_stroke;
+			m_vbo_size[0] = (uint32_t) m_points.size() * m_stroke;
+			m_ibo_size[1] = 2 * uint32_t(m_points.size() - 1) * m_stroke;
 		}
 		void Polyline::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
 		{
 			if(m_stroke) vbo_stroke_data(vbo_data);
 			if(m_stroke) ibo_stroke_data(ibo_data);
-			Group::buffers_data(vbo_data, ibo_data);
 		}
 	}
 }

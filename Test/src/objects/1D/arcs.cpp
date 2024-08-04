@@ -23,16 +23,23 @@ namespace examples
 			{
 				for(uint32_t j = 0; j < n; j++)
 				{
-					scene->add_object(new canvas::objects::Arc);
-					((canvas::objects::Arc*) scene->object(n * i + j))->radius(r);
-					((canvas::objects::Arc*) scene->object(n * i + j))->angle(0, 0);
-					((canvas::objects::Arc*) scene->object(n * i + j))->add_arrow(0.5, true);
-					((canvas::objects::Arc*) scene->object(n * i + j))->color_fill({0, 0, 1});
-					((canvas::objects::Arc*) scene->object(n * i + j))->color_stroke({1, 1, 1});
-					((canvas::objects::Arc*) scene->object(n * i + j))->arrow(0)->width(r / 5);
-					((canvas::objects::Arc*) scene->object(n * i + j))->arrow(0)->height(r / 5);
-					((canvas::objects::Arc*) scene->object(n * i + j))->angle(1, 2 * float(M_PI) * (n * i + j) / n / n);
-					((canvas::objects::Arc*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
+					//objects
+					canvas::objects::Arc* arc = new canvas::objects::Arc;
+					canvas::objects::Arrow* arrow = new canvas::objects::Arrow;
+					//arc
+					arc->radius(r);
+					arc->angle(0, 0);
+					arc->color_stroke({1, 1, 1});
+					arc->angle(1, 2 * float(M_PI) * (n * i + j) / n / n);
+					arc->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
+					//arrow
+					arrow->path(arc);
+					arrow->width(r / 5);
+					arrow->height(r / 5);
+					arrow->parameter(0.5f);
+					//scene
+					scene->add_object(arc);
+					scene->add_object(arrow);
 				}
 			}
 		}

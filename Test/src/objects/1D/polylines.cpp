@@ -35,9 +35,12 @@ namespace examples
 			//arrows
 			for(uint32_t i = 0; i < 12; i++)
 			{
-				polyline->add_arrow(i + 0.5f, true);
-				polyline->arrow(i)->width(2.50e-03f);
-				polyline->arrow(i)->height(2.50e-03f);
+				canvas::objects::Arrow* arrow = new canvas::objects::Arrow;
+				arrow->path(polyline);
+				arrow->width(2.50e-03f);
+				arrow->height(2.50e-03f);
+				arrow->parameter(i + 0.5f);
+				scene->add_object(arrow);
 			}
 			//scene
 			scene->add_object(polyline);

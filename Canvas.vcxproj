@@ -29,7 +29,6 @@
     <ClInclude Include="inc\Objects\1D\Spline.hpp" />
     <ClInclude Include="inc\Objects\2D\Circle.hpp" />
     <ClInclude Include="inc\Objects\2D\Grid_2D.hpp" />
-    <ClInclude Include="inc\Objects\2D\Grid_3D.hpp" />
     <ClInclude Include="inc\Objects\2D\Polygon.hpp" />
     <ClInclude Include="inc\Objects\2D\Quad.hpp" />
     <ClInclude Include="inc\Objects\2D\Surface.hpp" />
@@ -39,7 +38,6 @@
     <ClInclude Include="inc\Objects\3D\Sphere.hpp" />
     <ClInclude Include="inc\Objects\Anchor.hpp" />
     <ClInclude Include="inc\Objects\Geometry.hpp" />
-    <ClInclude Include="inc\Objects\Group.hpp" />
     <ClInclude Include="inc\Objects\Image\Image.hpp" />
     <ClInclude Include="inc\Objects\Image\Latex.hpp" />
     <ClInclude Include="inc\Objects\Image\Palette.hpp" />
@@ -86,7 +84,6 @@
     <ClCompile Include="src\Objects\1D\Spline.cpp" />
     <ClCompile Include="src\Objects\2D\Circle.cpp" />
     <ClCompile Include="src\Objects\2D\Grid_2D.cpp" />
-    <ClCompile Include="src\Objects\2D\Grid_3D.cpp" />
     <ClCompile Include="src\Objects\2D\Polygon.cpp" />
     <ClCompile Include="src\Objects\2D\Quad.cpp" />
     <ClCompile Include="src\Objects\2D\Surface.cpp" />
@@ -96,7 +93,6 @@
     <ClCompile Include="src\Objects\3D\Sphere.cpp" />
     <ClCompile Include="src\Objects\Anchor.cpp" />
     <ClCompile Include="src\Objects\Geometry.cpp" />
-    <ClCompile Include="src\Objects\Group.cpp" />
     <ClCompile Include="src\Objects\Image\Image.cpp" />
     <ClCompile Include="src\Objects\Image\Latex.cpp" />
     <ClCompile Include="src\Objects\Image\Palette.cpp" />

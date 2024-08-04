@@ -21,7 +21,6 @@ namespace examples
 		void spheres(canvas::Scene*);
 		void splines(canvas::Scene*);
 		void grid_2D(canvas::Scene*);
-		void grid_3D(canvas::Scene*);
 		void polygons(canvas::Scene*);
 		void surfaces(canvas::Scene*);
 		void polylines(canvas::Scene*);
@@ -30,7 +29,6 @@ namespace examples
 	}
 	namespace scenes
 	{
-		void beam_1(canvas::Scene*);
 		void tensegrity_chair(canvas::Scene*);
 	}
 }
