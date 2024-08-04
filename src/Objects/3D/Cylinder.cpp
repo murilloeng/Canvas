@@ -2,8 +2,8 @@
 #include <cmath>
 
 //canvas
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
-
 #include "Canvas/inc/Objects/3D/Cylinder.hpp"
 
 namespace canvas
@@ -60,10 +60,10 @@ namespace canvas
 		}
 
 		//data
-		void Cylinder::ibo_stroke_data(uint32_t** ibo_data) const
+		void Cylinder::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
 			//face -x3
 			for(uint32_t i = 0; i < m_mesh; i++)
 			{
@@ -83,10 +83,10 @@ namespace canvas
 				ibo_ptr[4 * m_mesh + 2 * i + 1] = m_vbo_index[0] + i + m_mesh;
 			}
 		}
-		void Cylinder::ibo_fill_data(uint32_t** ibo_data) const
+		void Cylinder::ibo_fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
 			const uint32_t vbo_index = m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//face -x3
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -113,12 +113,12 @@ namespace canvas
 				ibo_ptr[6 * m_mesh + 6 * i + 5] = vbo_index + 1 * (m_mesh + 1) + (i + 0) % m_mesh + 1;
 			}
 		}
-		void Cylinder::vbo_stroke_data(vertices::Vertex** vbo_data) const
+		void Cylinder::vbo_stroke_data(void) const
 		{
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
 			//vbo data
 			for(uint32_t i = 0; i < m_mesh; i++)
 			{
@@ -129,12 +129,12 @@ namespace canvas
 				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
 			}
 		}
-		void Cylinder::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Cylinder::vbo_fill_data(void) const
 		{
 			//data
 			const float r = m_radius;
 			const float h = m_height;
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + 2 * m_mesh * m_stroke;
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + 2 * m_mesh * m_stroke;
 			//vbo data
 			for(uint32_t i = 0; i < m_mesh; i++)
 			{
@@ -157,12 +157,12 @@ namespace canvas
 			m_ibo_size[1] = 6 * m_mesh * m_stroke;
 			m_vbo_size[0] = 2 * m_mesh * m_stroke + 2 * (m_mesh + 1) * m_fill;
 		}
-		void Cylinder::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Cylinder::buffers_data(void) const
 		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
+			if(m_fill) vbo_fill_data();
+			if(m_fill) ibo_fill_data();
+			if(m_stroke) vbo_stroke_data();
+			if(m_stroke) ibo_stroke_data();
 		}
 
 		//static

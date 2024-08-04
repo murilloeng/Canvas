@@ -617,7 +617,7 @@ namespace canvas
 	{
 		for(const objects::Object* object : m_objects)
 		{
-			object->buffers_data(m_vbo_data, m_ibo_data);
+			object->buffers_data();
 			for(uint32_t i = 0; i < 3; i++)
 			{
 				const uint32_t is = object->m_vbo_size[i];

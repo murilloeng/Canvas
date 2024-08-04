@@ -50,7 +50,7 @@ namespace canvas
 
 			//buffers
 			virtual void buffers_size(void) = 0;
-			virtual void buffers_data(vertices::Vertex**, uint32_t**) const = 0;
+			virtual void buffers_data(void) const = 0;
 
 			//data
 			Scene* m_scene;

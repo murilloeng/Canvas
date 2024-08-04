@@ -24,7 +24,7 @@ namespace canvas
 		protected:
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			vec3 m_position;

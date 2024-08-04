@@ -3,8 +3,8 @@
 #include <cstdio>
 
 //canvas
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
-
 #include "Canvas/inc/Objects/3D/Sphere.hpp"
 
 //static data
@@ -142,10 +142,10 @@ namespace canvas
 		}
 
 		//draw
-		void Sphere::ibo_stroke_data(uint32_t** ibo_data) const
+		void Sphere::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
 			//edges
 			for(uint32_t i = 0; i < 30; i++)
 			{
@@ -174,10 +174,10 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::ibo_fill_data(uint32_t** ibo_data) const
+		void Sphere::ibo_fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
 			const uint32_t vbo_index = m_vbo_index[0] + (2 + 10 * m_mesh * m_mesh) * m_stroke;
 			//triangles
 			for(uint32_t i = 0; i < 20; i++)
@@ -201,11 +201,11 @@ namespace canvas
 				}
 			}
 		}
-		void Sphere::vbo_stroke_data(vertices::Vertex** vbo_data) const
+		void Sphere::vbo_stroke_data(void) const
 		{
 			//data
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
 			//color
 			for(uint32_t i = 0; i < nv; i++)
 			{
@@ -216,11 +216,11 @@ namespace canvas
 			vbo_faces_data(vbo_ptr);
 			vbo_vertices_data(vbo_ptr);
 		}
-		void Sphere::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Sphere::vbo_fill_data(void) const
 		{
 			//data
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + nv * m_stroke;
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + nv * m_stroke;
 			//color
 			for(uint32_t i = 0; i < nv; i++)
 			{
@@ -300,12 +300,12 @@ namespace canvas
 			m_ibo_size[1] = 60 * m_mesh * m_mesh * m_stroke;
 			m_vbo_size[0] = (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill);
 		}
-		void Sphere::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Sphere::buffers_data(void) const
 		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
+			if(m_fill) vbo_fill_data();
+			if(m_fill) ibo_fill_data();
+			if(m_stroke) vbo_stroke_data();
+			if(m_stroke) ibo_stroke_data();
 		}
 
 		//static

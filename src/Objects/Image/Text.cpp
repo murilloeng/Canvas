@@ -161,21 +161,13 @@ namespace canvas
 			Object::setup();
 		}
 
-		//data
-		void Text::ibo_fill_data(uint32_t **ibo_data) const
+		//buffers
+		void Text::buffers_size(void)
 		{
-			const uint32_t s = length();
-			for(uint32_t i = 0; i < s; i++)
-			{
-				ibo_data[4][m_ibo_index[4] + 6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
-				ibo_data[4][m_ibo_index[4] + 6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
-				ibo_data[4][m_ibo_index[4] + 6 * i + 2] = m_vbo_index[2] + 4 * i + 2;
-				ibo_data[4][m_ibo_index[4] + 6 * i + 3] = m_vbo_index[2] + 4 * i + 0;
-				ibo_data[4][m_ibo_index[4] + 6 * i + 4] = m_vbo_index[2] + 4 * i + 2;
-				ibo_data[4][m_ibo_index[4] + 6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
-			}
+			m_vbo_size[2] = 4 * m_fill * length();
+			m_ibo_size[4] = 6 * m_fill * length();
 		}
-		void Text::vbo_fill_data(vertices::Vertex **vbo_data) const
+		void Text::buffers_data(void) const
 		{
 			//data
 			uint32_t line = 0;
@@ -186,7 +178,8 @@ namespace canvas
 			const vec3 &t2 = m_directions[1];
 			const Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
-			vertices::Text3D *vbo_ptr = (vertices::Text3D *)vbo_data[2] + m_vbo_index[2];
+			uint32_t* ibo_ptr = m_scene->ibo_data(4) + m_ibo_index[4];
+			vertices::Text3D* vbo_ptr = m_scene->vbo_data_text_3D() + m_vbo_index[2];
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;
@@ -211,9 +204,9 @@ namespace canvas
 					//vertices
 					for(uint32_t j = 0; j < 4; j++)
 					{
-						(vbo_ptr + j)->m_color = m_color_fill;
-						(vbo_ptr + j)->m_texture_coordinates = tc + 2 * j;
-						(vbo_ptr + j)->m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
+						vbo_ptr[j].m_color = m_color_fill;
+						vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+						vbo_ptr[j].m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
 					}
 					vbo_ptr += 4;
 					xs[0] += ps * r;
@@ -232,18 +225,17 @@ namespace canvas
 					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
 				}
 			}
-		}
-
-		//buffers
-		void Text::buffers_size(void)
-		{
-			m_vbo_size[2] = 4 * m_fill * length();
-			m_ibo_size[4] = 6 * m_fill * length();
-		}
-		void Text::buffers_data(vertices::Vertex **vbo_data, uint32_t **ibo_data) const
-		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
+			//ibo data
+			const uint32_t s = length();
+			for(uint32_t i = 0; i < s; i++)
+			{
+				ibo_ptr[6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
+				ibo_ptr[6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
+				ibo_ptr[6 * i + 2] = m_vbo_index[2] + 4 * i + 2;
+				ibo_ptr[6 * i + 3] = m_vbo_index[2] + 4 * i + 0;
+				ibo_ptr[6 * i + 4] = m_vbo_index[2] + 4 * i + 2;
+				ibo_ptr[6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
+			}
 		}
 	}
 }

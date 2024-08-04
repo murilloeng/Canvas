@@ -1,4 +1,5 @@
 //canvas
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/inc/Objects/2D/Surface.hpp"
 
@@ -47,12 +48,12 @@ namespace canvas
 		}
 
 		//data
-		void Surface::ibo_fill_data(uint32_t** ibo_data) const
+		void Surface::ibo_fill_data(void) const
 		{
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			uint32_t* ibo_ptr = ibo_data[2] + m_ibo_index[2];
+			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
 			uint32_t vbo_index = m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
 			//ibo data
 			for(uint32_t i = 0; i < n2; i++)
@@ -69,13 +70,36 @@ namespace canvas
 				}
 			}
 		}
-		void Surface::ibo_stroke_data(uint32_t** ibo_data) const
+		void Surface::vbo_fill_data(void) const
+		{
+			//data
+			const float a1 = m_domain[0];
+			const float b1 = m_domain[1];
+			const float a2 = m_domain[2];
+			const float b2 = m_domain[3];
+			const uint32_t n1 = m_mesh[0];
+			const uint32_t n2 = m_mesh[1];
+			const unsigned ns = (n1 + 1) * (n2 + 1) * m_stroke;
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + ns;
+			//vbo data
+			for(uint32_t i = 0; i <= n2; i++)
+			{
+				for(uint32_t j = 0; j <= n1; j++)
+				{
+					const float s1 = a1 + (b1 - a1) * j / n1;
+					const float s2 = a2 + (b2 - a2) * i / n2;
+					(vbo_ptr + (n1 + 1) * i + j)->m_color = m_color_fill;
+					(vbo_ptr + (n1 + 1) * i + j)->m_position = m_position(s1, s2);
+				}
+			}
+		}
+		void Surface::ibo_stroke_data(void) const
 		{
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
 			uint32_t vbo_index = m_vbo_index[0];
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
+			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
 			//ibo data
 			for(uint32_t i = 0; i <= n2; i++)
 			{
@@ -96,7 +120,7 @@ namespace canvas
 				}
 			}
 		}
-		void Surface::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Surface::vbo_stroke_data(void) const
 		{
 			//data
 			const float a1 = m_domain[0];
@@ -105,29 +129,7 @@ namespace canvas
 			const float b2 = m_domain[3];
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
-			//vbo data
-			for(uint32_t i = 0; i <= n2; i++)
-			{
-				for(uint32_t j = 0; j <= n1; j++)
-				{
-					const float s1 = a1 + (b1 - a1) * j / n1;
-					const float s2 = a2 + (b2 - a2) * i / n2;
-					(vbo_ptr + (n1 + 1) * i + j)->m_color = m_color_fill;
-					(vbo_ptr + (n1 + 1) * i + j)->m_position = m_position(s1, s2);
-				}
-			}
-		}
-		void Surface::vbo_stroke_data(vertices::Vertex** vbo_data) const
-		{
-			//data
-			const float a1 = m_domain[0];
-			const float b1 = m_domain[1];
-			const float a2 = m_domain[2];
-			const float b2 = m_domain[3];
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
 			//vbo data
 			for(uint32_t i = 0; i <= n2; i++)
 			{
@@ -150,12 +152,12 @@ namespace canvas
 			m_ibo_size[1] = 2 * (n1 + n2 + 2 * n1 * n2) * m_stroke;
 			m_vbo_size[0] = (n1 + 1) * (n2 + 1) * (m_stroke + m_fill);
 		}
-		void Surface::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Surface::buffers_data(void) const
 		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
+			if(m_fill) vbo_fill_data();
+			if(m_fill) ibo_fill_data();
+			if(m_stroke) vbo_stroke_data();
+			if(m_stroke) ibo_stroke_data();
 		}
 	}
 }

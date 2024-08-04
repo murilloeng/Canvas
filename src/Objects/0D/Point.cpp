@@ -1,6 +1,7 @@
 //canvas
-#include "Canvas/inc/Objects/0D/Point.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/inc/Objects/0D/Point.hpp"
 
 namespace canvas
 {
@@ -34,15 +35,17 @@ namespace canvas
 			m_vbo_size[0] = m_dot;
 			m_ibo_size[0] = m_dot;
 		}
-		void Point::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Point::buffers_data(void) const
 		{
-			//check
+			//data
 			if(!m_dot) return;
+			uint32_t* ibo_ptr = m_scene->ibo_data(0) + m_ibo_index[0];
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
 			//ibo data
-			ibo_data[0][m_ibo_index[0]] = m_vbo_index[0];
+			ibo_ptr[0] = m_vbo_index[0];
 			//vbo data
-			((vertices::Model3D*) vbo_data[0] + m_vbo_index[0])->m_color = m_color_dot;
-			((vertices::Model3D*) vbo_data[0] + m_vbo_index[0])->m_position = m_position;
+			vbo_ptr->m_color = m_color_dot;
+			vbo_ptr->m_position = m_position;
 		}
 	}
 }

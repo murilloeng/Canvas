@@ -19,19 +19,19 @@ namespace examples
 			canvas::objects::Polyline* polyline;
 			//spline
 			polyline = new canvas::objects::Polyline;
-			polyline->points().push_back({-w / 2, -h / 2 - t, 0});
-			polyline->points().push_back({+w / 2, -h / 2 - t, 0});
-			polyline->points().push_back({+w / 2, -h / 2, 0});
-			polyline->points().push_back({+t / 2, -h / 2, 0});
-			polyline->points().push_back({+t / 2, +h / 2, 0});
-			polyline->points().push_back({+w / 2, +h / 2, 0});
-			polyline->points().push_back({+w / 2, +h / 2 + t, 0});
-			polyline->points().push_back({-w / 2, +h / 2 + t, 0});
-			polyline->points().push_back({-w / 2, +h / 2, 0});
-			polyline->points().push_back({-t / 2, +h / 2, 0});
-			polyline->points().push_back({-t / 2, -h / 2, 0});
-			polyline->points().push_back({-w / 2, -h / 2, 0});
-			polyline->points().push_back({-w / 2, -h / 2 - t, 0});
+			polyline->vertices().push_back({-w / 2, -h / 2 - t, 0});
+			polyline->vertices().push_back({+w / 2, -h / 2 - t, 0});
+			polyline->vertices().push_back({+w / 2, -h / 2, 0});
+			polyline->vertices().push_back({+t / 2, -h / 2, 0});
+			polyline->vertices().push_back({+t / 2, +h / 2, 0});
+			polyline->vertices().push_back({+w / 2, +h / 2, 0});
+			polyline->vertices().push_back({+w / 2, +h / 2 + t, 0});
+			polyline->vertices().push_back({-w / 2, +h / 2 + t, 0});
+			polyline->vertices().push_back({-w / 2, +h / 2, 0});
+			polyline->vertices().push_back({-t / 2, +h / 2, 0});
+			polyline->vertices().push_back({-t / 2, -h / 2, 0});
+			polyline->vertices().push_back({-w / 2, -h / 2, 0});
+			polyline->vertices().push_back({-w / 2, -h / 2 - t, 0});
 			//arrows
 			for(uint32_t i = 0; i < 12; i++)
 			{

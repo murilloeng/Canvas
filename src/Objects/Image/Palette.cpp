@@ -105,11 +105,11 @@ namespace canvas
 		}
 
 		//data
-		void Palette::ibo_fill_data(uint32_t** ibo_data) const
+		void Palette::ibo_fill_data(void) const
 		{
 			//data
 			const uint32_t nc = m_palette.size();
-			uint32_t* ibo_ptr = ibo_data[8] + m_ibo_index[8];
+			uint32_t* ibo_ptr = m_scene->ibo_data(8) + m_ibo_index[8];
 			//ibo data
 			for(uint32_t i = 0; i + 1 < nc; i++)
 			{
@@ -121,35 +121,41 @@ namespace canvas
 				ibo_ptr[6 * i + 5] = m_vbo_index[3] + 2 * m_marks + 0 * nc + i + 1;
 			}
 		}
-		void Palette::ibo_text_data(uint32_t** ibo_data) const
+		void Palette::ibo_text_data(void) const
 		{
+			//data
+			uint32_t* ibo_ptr = m_scene->ibo_data(10) + m_ibo_index[10];
+			//ibo data
 			for(uint32_t i = 0; i < 9 * m_marks; i++)
 			{
-				ibo_data[10][m_ibo_index[10] + 6 * i + 0] = m_vbo_index[5] + 4 * i + 0;
-				ibo_data[10][m_ibo_index[10] + 6 * i + 1] = m_vbo_index[5] + 4 * i + 1;
-				ibo_data[10][m_ibo_index[10] + 6 * i + 2] = m_vbo_index[5] + 4 * i + 2;
-				ibo_data[10][m_ibo_index[10] + 6 * i + 3] = m_vbo_index[5] + 4 * i + 0;
-				ibo_data[10][m_ibo_index[10] + 6 * i + 4] = m_vbo_index[5] + 4 * i + 2;
-				ibo_data[10][m_ibo_index[10] + 6 * i + 5] = m_vbo_index[5] + 4 * i + 3;
+				ibo_ptr[6 * i + 0] = m_vbo_index[5] + 4 * i + 0;
+				ibo_ptr[6 * i + 1] = m_vbo_index[5] + 4 * i + 1;
+				ibo_ptr[6 * i + 2] = m_vbo_index[5] + 4 * i + 2;
+				ibo_ptr[6 * i + 3] = m_vbo_index[5] + 4 * i + 0;
+				ibo_ptr[6 * i + 4] = m_vbo_index[5] + 4 * i + 2;
+				ibo_ptr[6 * i + 5] = m_vbo_index[5] + 4 * i + 3;
 			}
 		}
-		void Palette::ibo_stroke_data(uint32_t** ibo_data) const
+		void Palette::ibo_stroke_data(void) const
 		{
+			//data
+			uint32_t* ibo_ptr = m_scene->ibo_data(7) + m_ibo_index[7];
+			//ibo data
 			for(uint32_t i = 0; i < m_marks; i++)
 			{
-				ibo_data[7][m_ibo_index[7] + 2 * i + 0] = m_vbo_index[3] + 0 * m_marks + i;
-				ibo_data[7][m_ibo_index[7] + 2 * i + 1] = m_vbo_index[3] + 1 * m_marks + i;
+				ibo_ptr[2 * i + 0] = m_vbo_index[3] + 0 * m_marks + i;
+				ibo_ptr[2 * i + 1] = m_vbo_index[3] + 1 * m_marks + i;
 			}
-			ibo_data[7][m_ibo_index[7] + 2 * m_marks + 0] = m_vbo_index[3] + 0 * m_marks + 0;
-			ibo_data[7][m_ibo_index[7] + 2 * m_marks + 2] = m_vbo_index[3] + 1 * m_marks + 0;
-			ibo_data[7][m_ibo_index[7] + 2 * m_marks + 1] = m_vbo_index[3] + 0 * m_marks + m_marks - 1;
-			ibo_data[7][m_ibo_index[7] + 2 * m_marks + 3] = m_vbo_index[3] + 1 * m_marks + m_marks - 1;
+			ibo_ptr[2 * m_marks + 0] = m_vbo_index[3] + 0 * m_marks + 0;
+			ibo_ptr[2 * m_marks + 2] = m_vbo_index[3] + 1 * m_marks + 0;
+			ibo_ptr[2 * m_marks + 1] = m_vbo_index[3] + 0 * m_marks + m_marks - 1;
+			ibo_ptr[2 * m_marks + 3] = m_vbo_index[3] + 1 * m_marks + m_marks - 1;
 		}
-		void Palette::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Palette::vbo_fill_data(void) const
 		{
 			//data
 			const uint32_t nc = m_palette.size();
-			vertices::Model2D* vbo_ptr = (vertices::Model2D*) vbo_data[3] + m_vbo_index[3] + 2 * m_marks;
+			vertices::Model2D* vbo_ptr = m_scene->vbo_data_model_2D() + m_vbo_index[3] + 2 * m_marks;
 			//vbo data
 			for(uint32_t i = 0; i < nc; i++)
 			{
@@ -161,7 +167,7 @@ namespace canvas
 				vbo_ptr[i + 1 * nc].m_color = m_palette.color(float(i) / (nc - 1), 0, 1);
 			}
 		}
-		void Palette::vbo_text_data(vertices::Vertex** vbo_data) const
+		void Palette::vbo_text_data(void) const
 		{
 			//data
 			char string[10];
@@ -170,7 +176,7 @@ namespace canvas
 			const float ps = m_size / font->pixels_size();
 			const float ws = (float) m_scene->camera().width();
 			const float hs = (float) m_scene->camera().height();
-			vertices::Text2D* vbo_ptr = (vertices::Text2D*) vbo_data[5] + m_vbo_index[5];
+			vertices::Text2D* vbo_ptr = m_scene->vbo_data_text_2D() + m_vbo_index[5];
 			//vbo data
 			const float ms = fminf(ws, hs);
 			for(uint32_t i = 0; i < m_marks; i++)
@@ -207,10 +213,10 @@ namespace canvas
 				}
 			}
 		}
-		void Palette::vbo_stroke_data(vertices::Vertex** vbo_data) const
+		void Palette::vbo_stroke_data(void) const
 		{
 			//data
-			vertices::Model2D* vbo_ptr = (vertices::Model2D*) vbo_data[3] + m_vbo_index[3];
+			vertices::Model2D* vbo_ptr = m_scene->vbo_data_model_2D() + m_vbo_index[3];
 			//vbo data
 			vbo_ptr[0].m_position = {+0.90f, -0.95f};
 			vbo_ptr[1].m_position = {+0.95f, -0.95f};
@@ -234,14 +240,14 @@ namespace canvas
 			m_ibo_size[ 8] = 2 * (m_palette.size() - 1);
 			m_vbo_size[ 3] = 2 * (m_marks + m_palette.size());
 		}
-		void Palette::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Palette::buffers_data(void) const
 		{
-			vbo_fill_data(vbo_data);
-			ibo_fill_data(ibo_data);
-			vbo_text_data(vbo_data);
-			ibo_text_data(ibo_data);
-			vbo_stroke_data(vbo_data);
-			ibo_stroke_data(ibo_data);
+			vbo_fill_data();
+			ibo_fill_data();
+			vbo_text_data();
+			ibo_text_data();
+			vbo_stroke_data();
+			ibo_stroke_data();
 		}
 	}
 }

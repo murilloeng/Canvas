@@ -31,15 +31,11 @@ namespace canvas
 			static uint32_t mesh(uint32_t);
 
 		protected:
-			//data
-			void ibo_fill_data(uint32_t**) const;
-			void ibo_stroke_data(uint32_t**) const;
-			void vbo_fill_data(vertices::Vertex**) const;
-			void vbo_stroke_data(vertices::Vertex**) const;
-
 			//buffers
+			void fill_data(void) const;
+			void stroke_data(void) const;
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			vec3 m_center;

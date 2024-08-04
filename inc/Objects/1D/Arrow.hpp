@@ -42,14 +42,10 @@ namespace canvas
 			float parameter(void) const;
 
 		protected:
-			//data
-			void ibo_stroke_data(uint32_t**) const;
-			void vbo_stroke_data(vertices::Vertex**) const;
-
 			//buffers
 			void setup(void) override;
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			Path* m_path;

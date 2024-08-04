@@ -53,13 +53,9 @@ namespace canvas
 			//setup
 			void setup(void) override;
 
-			//data
-			void ibo_fill_data(uint32_t**) const;
-			void vbo_fill_data(vertices::Vertex**) const;
-
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			float m_size;

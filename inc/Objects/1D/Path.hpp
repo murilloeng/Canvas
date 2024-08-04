@@ -42,13 +42,9 @@ namespace canvas
 			virtual vec3 path_gradient(float) const = 0;
 
 		protected:
-			//data
-			virtual void ibo_stroke_data(uint32_t**) const;
-			virtual void vbo_stroke_data(vertices::Vertex**) const;
-
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			uint32_t m_mesh;

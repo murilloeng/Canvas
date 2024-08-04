@@ -27,20 +27,16 @@ namespace canvas
 			vec3 path_gradient(float) const override;
 
 			//data
-			std::vector<vec3>& points(void);
-			const std::vector<vec3>& points(void) const;
+			std::vector<vec3>& vertices(void);
+			const std::vector<vec3>& vertices(void) const;
 
 		protected:
-			//data
-			void ibo_stroke_data(uint32_t**) const override;
-			void vbo_stroke_data(vertices::Vertex**) const override;
-
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
-			std::vector<vec3> m_points;
+			std::vector<vec3> m_vertices;
 		};
 	}
 }

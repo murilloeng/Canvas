@@ -27,13 +27,9 @@ namespace canvas
 			vec3 path_gradient(float) const override;
 
 		protected:
-			//data
-			void ibo_stroke_data(uint32_t**) const override;
-			void vbo_stroke_data(vertices::Vertex**) const override;
-
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			vec3 m_points[2];

@@ -2,6 +2,7 @@
 #include <cmath>
 
 //canvas
+#include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Objects/1D/Path.hpp"
 #include "Canvas/inc/Objects/1D/Arrow.hpp"
 #include "Canvas/inc/Vertices/Model3D.hpp"
@@ -68,41 +69,6 @@ namespace canvas
 			return m_parameter = parameter;
 		}
 
-		//data
-		void Arrow::ibo_stroke_data(uint32_t** ibo_data) const
-		{
-			//data
-			uint32_t* ibo_ptr = ibo_data[1] + m_ibo_index[1];
-			//ibo data
-			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
-			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 1;
-			ibo_ptr[2 * 1 + 0] = m_vbo_index[0] + 0;
-			ibo_ptr[2 * 1 + 1] = m_vbo_index[0] + 2;
-			ibo_ptr[2 * 2 + 0] = m_vbo_index[0] + 0;
-			ibo_ptr[2 * 2 + 1] = m_vbo_index[0] + 3;
-			ibo_ptr[2 * 3 + 0] = m_vbo_index[0] + 0;
-			ibo_ptr[2 * 3 + 1] = m_vbo_index[0] + 4;
-		}
-		void Arrow::vbo_stroke_data(vertices::Vertex** vbo_data) const
-		{
-			//data
-			const vec3 t2 = m_path->path_normal(m_parameter);
-			const vec3 t3 = m_path->path_binormal(m_parameter);
-			const vec3 xp = m_path->path_position(m_parameter);
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data[0] + m_vbo_index[0];
-			//vbo data
-			const vec3 t1 = t2.cross(t3);
-			(vbo_ptr + 0)->m_position = xp;
-			(vbo_ptr + 1)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t2;
-			(vbo_ptr + 2)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t2;
-			(vbo_ptr + 3)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t3;
-			(vbo_ptr + 4)->m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
-			for(uint32_t i = 0; i < 5; i++)
-			{
-				(vbo_ptr + i)->m_color = m_path->m_color_stroke;
-			}
-		}
-
 		//buffers
 		void Arrow::setup(void)
 		{
@@ -115,10 +81,35 @@ namespace canvas
 			m_vbo_size[0] = 5 * m_stroke;
 			m_ibo_size[1] = 8 * m_stroke;
 		}
-		void Arrow::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
+		void Arrow::buffers_data(void) const
 		{
-			if(m_stroke) vbo_stroke_data(vbo_data);
-			if(m_stroke) ibo_stroke_data(ibo_data);
+			//data
+			if(!m_stroke) return;
+			const vec3 t2 = m_path->path_normal(m_parameter);
+			const vec3 t3 = m_path->path_binormal(m_parameter);
+			const vec3 xp = m_path->path_position(m_parameter);
+			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			//ibo data
+			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 1;
+			ibo_ptr[2 * 1 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 1 + 1] = m_vbo_index[0] + 2;
+			ibo_ptr[2 * 2 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 2 + 1] = m_vbo_index[0] + 3;
+			ibo_ptr[2 * 3 + 0] = m_vbo_index[0] + 0;
+			ibo_ptr[2 * 3 + 1] = m_vbo_index[0] + 4;
+			//vbo data
+			const vec3 t1 = t2.cross(t3);
+			vbo_ptr[0].m_position = xp;
+			vbo_ptr[1].m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t2;
+			vbo_ptr[2].m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t2;
+			vbo_ptr[3].m_position = xp + (m_sense ? -1 : +1) * m_width * t1 - m_height * t3;
+			vbo_ptr[4].m_position = xp + (m_sense ? -1 : +1) * m_width * t1 + m_height * t3;
+			for(uint32_t i = 0; i < 5; i++)
+			{
+				vbo_ptr[i].m_color = m_path->m_color_stroke;
+			}
 		}
 	}
 }

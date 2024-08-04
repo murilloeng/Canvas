@@ -42,16 +42,16 @@ namespace canvas
 			uint32_t text_height(const char*) const;
 
 			//data
-			void ibo_fill_data(uint32_t**) const;
-			void ibo_text_data(uint32_t**) const;
-			void ibo_stroke_data(uint32_t**) const;
-			void vbo_fill_data(vertices::Vertex**) const;
-			void vbo_text_data(vertices::Vertex**) const;
-			void vbo_stroke_data(vertices::Vertex**) const;
+			void ibo_fill_data(void) const;
+			void vbo_fill_data(void) const;
+			void ibo_text_data(void) const;
+			void vbo_text_data(void) const;
+			void ibo_stroke_data(void) const;
+			void vbo_stroke_data(void) const;
 
 			//buffers
 			void buffers_size(void) override;
-			void buffers_data(vertices::Vertex**, uint32_t**) const override;
+			void buffers_data(void) const override;
 
 			//data
 			float m_min;

@@ -77,17 +77,13 @@ namespace canvas
 			Object::setup();
 		}
 
-		//data
-		void Latex::ibo_fill_data(uint32_t** ibo_data) const
+		//buffers
+		void Latex::buffers_size(void)
 		{
-			ibo_data[5][m_ibo_index[5] + 3 * 0 + 0] = m_vbo_index[2] + 0;
-			ibo_data[5][m_ibo_index[5] + 3 * 0 + 1] = m_vbo_index[2] + 1;
-			ibo_data[5][m_ibo_index[5] + 3 * 0 + 2] = m_vbo_index[2] + 2;
-			ibo_data[5][m_ibo_index[5] + 3 * 1 + 0] = m_vbo_index[2] + 0;
-			ibo_data[5][m_ibo_index[5] + 3 * 1 + 1] = m_vbo_index[2] + 2;
-			ibo_data[5][m_ibo_index[5] + 3 * 1 + 2] = m_vbo_index[2] + 3;
+			m_vbo_size[2] = 4 * m_fill;
+			m_ibo_size[5] = 6 * m_fill;
 		}
-		void Latex::vbo_fill_data(vertices::Vertex** vbo_data) const
+		void Latex::buffers_data(void) const
 		{
 			//data
 			float tc[4];
@@ -96,7 +92,9 @@ namespace canvas
 			m_scene->latex(m_index)->coordinates(tc);
 			const uint32_t wi = m_scene->latex(m_index)->width();
 			const uint32_t hi = m_scene->latex(m_index)->height();
-			//vertices
+			uint32_t* ibo_ptr = m_scene->ibo_data(5) + m_ibo_index[5];
+			vertices::Text3D* vbo_ptr = m_scene->vbo_data_text_3D() + m_vbo_index[2];
+			//vbo data
 			const float h = m_size;
 			const float w = m_size * wi / hi;
 			const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
@@ -105,22 +103,17 @@ namespace canvas
 			{
 				const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
 				const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
-				((vertices::Text3D*) vbo_data[2] + m_vbo_index[2] + i)->m_color = m_color_fill;
-				((vertices::Text3D*) vbo_data[2] + m_vbo_index[2] + i)->m_texture_coordinates = t[i];
-				((vertices::Text3D*) vbo_data[2] + m_vbo_index[2] + i)->m_position = m_position + x1 * t1 + x2 * t2;
+				vbo_ptr[i].m_color = m_color_fill;
+				vbo_ptr[i].m_texture_coordinates = t[i];
+				vbo_ptr[i].m_position = m_position + x1 * t1 + x2 * t2;
 			}
-		}
-
-		//buffers
-		void Latex::buffers_size(void)
-		{
-			m_vbo_size[2] = 4 * m_fill;
-			m_ibo_size[5] = 6 * m_fill;
-		}
-		void Latex::buffers_data(vertices::Vertex** vbo_data, uint32_t** ibo_data) const
-		{
-			if(m_fill) vbo_fill_data(vbo_data);
-			if(m_fill) ibo_fill_data(ibo_data);
+			//ibo data
+			ibo_ptr[3 * 0 + 0] = m_vbo_index[2] + 0;
+			ibo_ptr[3 * 0 + 1] = m_vbo_index[2] + 1;
+			ibo_ptr[3 * 0 + 2] = m_vbo_index[2] + 2;
+			ibo_ptr[3 * 1 + 0] = m_vbo_index[2] + 0;
+			ibo_ptr[3 * 1 + 1] = m_vbo_index[2] + 2;
+			ibo_ptr[3 * 1 + 2] = m_vbo_index[2] + 3;
 		}
 	}
 }
