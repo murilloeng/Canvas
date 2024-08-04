@@ -40,6 +40,15 @@ namespace canvas
 			const uint32_t* ibo_index(void) const;
 			const uint32_t* vbo_index(void) const;
 
+			//buffers
+			uint32_t* ibo_data(uint32_t) const;
+			vertices::Text2D* vbo_data_text_2D(void) const;
+			vertices::Text3D* vbo_data_text_3D(void) const;
+			vertices::Model2D* vbo_data_model_2D(void) const;
+			vertices::Model3D* vbo_data_model_3D(void) const;
+			vertices::Image2D* vbo_data_image_2D(void) const;
+			vertices::Image3D* vbo_data_image_3D(void) const;
+
 			//affine
 			void scale(float);
 			void scale(const vec3&, bool = true);
@@ -56,15 +65,6 @@ namespace canvas
 			//buffers
 			virtual void buffers_size(void) = 0;
 			virtual void buffers_data(void) const = 0;
-
-			//buffers
-			uint32_t* ibo_data(uint32_t) const;
-			vertices::Text2D* vbo_data_text_2D(void) const;
-			vertices::Text3D* vbo_data_text_3D(void) const;
-			vertices::Model2D* vbo_data_model_2D(void) const;
-			vertices::Model3D* vbo_data_model_3D(void) const;
-			vertices::Image2D* vbo_data_image_2D(void) const;
-			vertices::Image3D* vbo_data_image_3D(void) const;
 
 			//data
 			Scene* m_scene;

@@ -62,6 +62,36 @@ namespace canvas
 			return m_vbo_index;
 		}
 
+		//buffers
+		uint32_t* Object::ibo_data(uint32_t index) const
+		{
+			return m_scene->ibo_data(index) + m_ibo_index[index];
+		}
+		vertices::Text2D* Object::vbo_data_text_2D(void) const
+		{
+			return m_scene->vbo_data_text_2D() + m_vbo_index[5];
+		}
+		vertices::Text3D* Object::vbo_data_text_3D(void) const
+		{
+			return m_scene->vbo_data_text_3D() + m_vbo_index[2];
+		}
+		vertices::Model2D* Object::vbo_data_model_2D(void) const
+		{
+			return m_scene->vbo_data_model_2D() + m_vbo_index[3];
+		}
+		vertices::Model3D* Object::vbo_data_model_3D(void) const
+		{
+			return m_scene->vbo_data_model_3D() + m_vbo_index[0];
+		}
+		vertices::Image2D* Object::vbo_data_image_2D(void) const
+		{
+			return m_scene->vbo_data_image_2D() + m_vbo_index[4];
+		}
+		vertices::Image3D* Object::vbo_data_image_3D(void) const
+		{
+			return m_scene->vbo_data_image_3D() + m_vbo_index[1];
+		}
+
 		//affine
 		void Object::scale(float s)
 		{
@@ -119,36 +149,6 @@ namespace canvas
 				m_ibo_index[i] = m_scene->m_ibo_size[i];
 				m_scene->m_ibo_size[i] += m_ibo_size[i];
 			}
-		}
-
-		//buffers
-		uint32_t* Object::ibo_data(uint32_t index) const
-		{
-			return m_scene->ibo_data(index) + m_ibo_index[index];
-		}
-		vertices::Text2D* Object::vbo_data_text_2D(void) const
-		{
-			return m_scene->vbo_data_text_2D() + m_vbo_index[5];
-		}
-		vertices::Text3D* Object::vbo_data_text_3D(void) const
-		{
-			return m_scene->vbo_data_text_3D() + m_vbo_index[2];
-		}
-		vertices::Model2D* Object::vbo_data_model_2D(void) const
-		{
-			return m_scene->vbo_data_model_2D() + m_vbo_index[3];
-		}
-		vertices::Model3D* Object::vbo_data_model_3D(void) const
-		{
-			return m_scene->vbo_data_model_3D() + m_vbo_index[0];
-		}
-		vertices::Image2D* Object::vbo_data_image_2D(void) const
-		{
-			return m_scene->vbo_data_image_2D() + m_vbo_index[4];
-		}
-		vertices::Image3D* Object::vbo_data_image_3D(void) const
-		{
-			return m_scene->vbo_data_image_3D() + m_vbo_index[1];
 		}
 	}
 }
