@@ -25,6 +25,12 @@ namespace canvas
 	namespace vertices
 	{
 		class Vertex;
+		class Text2D;
+		class Text3D;
+		class Model2D;
+		class Model3D;
+		class Image2D;
+		class Image3D;
 	}
 }
 
@@ -72,7 +78,13 @@ namespace canvas
 		//buffers
 		uint32_t vbo_size(uint32_t) const;
 		uint32_t ibo_size(uint32_t) const;
-		vertices::Vertex* vertex(uint32_t, uint32_t) const;
+		uint32_t* ibo_data(uint32_t) const;
+		vertices::Text2D* vbo_data_text_2D(void) const;
+		vertices::Text3D* vbo_data_text_3D(void) const;
+		vertices::Model2D* vbo_data_model_2D(void) const;
+		vertices::Model3D* vbo_data_model_3D(void) const;
+		vertices::Image2D* vbo_data_image_2D(void) const;
+		vertices::Image3D* vbo_data_image_3D(void) const;
 
 		//update
 		void draw(void);

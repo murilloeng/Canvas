@@ -196,15 +196,33 @@ namespace canvas
 	{
 		return m_ibo_size[index];
 	}
-	vertices::Vertex* Scene::vertex(uint32_t type, uint32_t index) const
+	uint32_t* Scene::ibo_data(uint32_t index) const
 	{
-		if(type == 5) return (vertices::Text2D*) m_vbo_data[5] + index;
-		if(type == 2) return (vertices::Text3D*) m_vbo_data[2] + index;
-		if(type == 3) return (vertices::Model2D*) m_vbo_data[3] + index;
-		if(type == 0) return (vertices::Model3D*) m_vbo_data[0] + index;
-		if(type == 4) return (vertices::Image2D*) m_vbo_data[4] + index;
-		if(type == 1) return (vertices::Image3D*) m_vbo_data[1] + index;
-		return nullptr;
+		return m_ibo_data[index];
+	}
+	vertices::Text2D* Scene::vbo_data_text_2D(void) const
+	{
+		return (vertices::Text2D*) m_vbo_data[5];
+	}
+	vertices::Text3D* Scene::vbo_data_text_3D(void) const
+	{
+		return (vertices::Text3D*) m_vbo_data[2];
+	}
+	vertices::Model2D* Scene::vbo_data_model_2D(void) const
+	{
+		return (vertices::Model2D*) m_vbo_data[3];
+	}
+	vertices::Model3D* Scene::vbo_data_model_3D(void) const
+	{
+		return (vertices::Model3D*) m_vbo_data[0];
+	}
+	vertices::Image2D* Scene::vbo_data_image_2D(void) const
+	{
+		return (vertices::Image2D*) m_vbo_data[4];
+	}
+	vertices::Image3D* Scene::vbo_data_image_3D(void) const
+	{
+		return (vertices::Image3D*) m_vbo_data[1];
 	}
 
 	//draw
