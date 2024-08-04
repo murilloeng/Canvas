@@ -53,7 +53,7 @@ namespace canvas
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
+			uint32_t* ibo_ptr = ibo_data(2);
 			uint32_t vbo_index = m_vbo_index[0] + (n1 + 1) * (n2 + 1) * m_stroke;
 			//ibo data
 			for(uint32_t i = 0; i < n2; i++)
@@ -80,7 +80,7 @@ namespace canvas
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
 			const unsigned ns = (n1 + 1) * (n2 + 1) * m_stroke;
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + ns;
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + ns;
 			//vbo data
 			for(uint32_t i = 0; i <= n2; i++)
 			{
@@ -98,15 +98,14 @@ namespace canvas
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			uint32_t vbo_index = m_vbo_index[0];
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			//ibo data
 			for(uint32_t i = 0; i <= n2; i++)
 			{
 				for(uint32_t j = 0; j < n1; j++)
 				{
-					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
-					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 0) + j + 1;
+					ibo_ptr[0] = m_vbo_index[0] + (n1 + 1) * (i + 0) + j + 0;
+					ibo_ptr[1] = m_vbo_index[0] + (n1 + 1) * (i + 0) + j + 1;
 					ibo_ptr += 2;
 				}
 			}
@@ -114,8 +113,8 @@ namespace canvas
 			{
 				for(uint32_t j = 0; j <= n1; j++)
 				{
-					ibo_ptr[0] = vbo_index + (n1 + 1) * (i + 0) + j + 0;
-					ibo_ptr[1] = vbo_index + (n1 + 1) * (i + 1) + j + 0;
+					ibo_ptr[0] = m_vbo_index[0] + (n1 + 1) * (i + 0) + j + 0;
+					ibo_ptr[1] = m_vbo_index[0] + (n1 + 1) * (i + 1) + j + 0;
 					ibo_ptr += 2;
 				}
 			}
@@ -129,7 +128,7 @@ namespace canvas
 			const float b2 = m_domain[3];
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i <= n2; i++)
 			{

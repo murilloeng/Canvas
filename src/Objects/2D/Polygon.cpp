@@ -47,10 +47,10 @@ namespace canvas
 		void Polygon::ibo_fill_data(void) const
 		{
 			//data
+			uint32_t* ibo_ptr = ibo_data(2);
 			const uint32_t nl = (uint32_t) m_loops.size();
 			const uint32_t nv = (uint32_t) m_vertices.size();
 			uint32_t vbo_index = m_vbo_index[0] + nv * m_stroke;
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
 			uint32_t* triangles = (uint32_t*) alloca(3 * (nv + 2 * nl - 6) * sizeof(uint32_t));
 			//tessellation
 			Tessellator(m_vertices.data(), m_loops.data(), nl - 1, triangles).tessellate();
@@ -67,7 +67,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t nv = (uint32_t) m_vertices.size();
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			vbo_ptr += nv * m_stroke;
 			for(uint32_t i = 0; i < nv; i++)
@@ -79,7 +79,7 @@ namespace canvas
 		void Polygon::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			//ibo data
 			for(uint32_t i = 0; i + 1 < m_loops.size(); i++)
 			{
@@ -96,7 +96,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t nv = (uint32_t) m_vertices.size();
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < nv; i++)
 			{

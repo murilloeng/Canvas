@@ -33,7 +33,7 @@ namespace canvas
 		void Quad::ibo_fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
+			uint32_t* ibo_ptr = ibo_data(2);
 			//ibo data
 			ibo_ptr[0] = m_vbo_index[0] + 4 * m_stroke + 0;
 			ibo_ptr[1] = m_vbo_index[0] + 4 * m_stroke + 2;
@@ -45,7 +45,7 @@ namespace canvas
 		void Quad::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			//ibo data
 			ibo_ptr[0] = ibo_ptr[7] = m_vbo_index[0] + 0;
 			ibo_ptr[1] = ibo_ptr[2] = m_vbo_index[0] + 1;
@@ -56,7 +56,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t ns = 4 * m_stroke;
-			vertices::Model3D* vbo_fill_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + ns;
+			vertices::Model3D* vbo_fill_ptr = vbo_data_model_3D() + ns;
 			//vbo data
 			for(uint32_t i = 0; i < 4; i++)
 			{
@@ -67,7 +67,7 @@ namespace canvas
 		void Quad::vbo_stroke_data(void) const
 		{
 			//data
-			vertices::Model3D* vbo_stroke_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_stroke_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < 4; i++)
 			{

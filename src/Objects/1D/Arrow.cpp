@@ -85,11 +85,11 @@ namespace canvas
 		{
 			//data
 			if(!m_stroke) return;
+			uint32_t* ibo_ptr = ibo_data(1);
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			const vec3 t2 = m_path->path_normal(m_parameter);
 			const vec3 t3 = m_path->path_binormal(m_parameter);
 			const vec3 xp = m_path->path_position(m_parameter);
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
 			//ibo data
 			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
 			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 1;

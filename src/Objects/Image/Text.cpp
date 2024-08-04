@@ -171,15 +171,16 @@ namespace canvas
 		{
 			//data
 			uint32_t line = 0;
+			if(!m_fill) return;
 			const uint32_t wt = width();
 			const uint32_t ht = height();
+			uint32_t* ibo_ptr = ibo_data(4);
 			float xa[2], xs[2], xc[8], tc[8];
 			const vec3 &t1 = m_directions[0];
 			const vec3 &t2 = m_directions[1];
 			const Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
-			uint32_t* ibo_ptr = m_scene->ibo_data(4) + m_ibo_index[4];
-			vertices::Text3D* vbo_ptr = m_scene->vbo_data_text_3D() + m_vbo_index[2];
+			vertices::Text3D* vbo_ptr = vbo_data_text_3D();
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;

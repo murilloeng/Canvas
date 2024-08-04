@@ -39,8 +39,8 @@ namespace canvas
 		{
 			//data
 			if(!m_dot) return;
-			uint32_t* ibo_ptr = m_scene->ibo_data(0) + m_ibo_index[0];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			uint32_t* ibo_ptr = ibo_data(0);
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//ibo data
 			ibo_ptr[0] = m_vbo_index[0];
 			//vbo data

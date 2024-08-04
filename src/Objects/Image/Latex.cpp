@@ -87,13 +87,13 @@ namespace canvas
 		{
 			//data
 			float tc[4];
+			uint32_t* ibo_ptr = ibo_data(5);
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
 			m_scene->latex(m_index)->coordinates(tc);
+			vertices::Text3D* vbo_ptr = vbo_data_text_3D();
 			const uint32_t wi = m_scene->latex(m_index)->width();
 			const uint32_t hi = m_scene->latex(m_index)->height();
-			uint32_t* ibo_ptr = m_scene->ibo_data(5) + m_ibo_index[5];
-			vertices::Text3D* vbo_ptr = m_scene->vbo_data_text_3D() + m_vbo_index[2];
 			//vbo data
 			const float h = m_size;
 			const float w = m_size * wi / hi;

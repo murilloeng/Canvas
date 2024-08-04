@@ -145,7 +145,7 @@ namespace canvas
 		void Sphere::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			//edges
 			for(uint32_t i = 0; i < 30; i++)
 			{
@@ -177,7 +177,7 @@ namespace canvas
 		void Sphere::ibo_fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
+			uint32_t* ibo_ptr = ibo_data(2);
 			const uint32_t vbo_index = m_vbo_index[0] + (2 + 10 * m_mesh * m_mesh) * m_stroke;
 			//triangles
 			for(uint32_t i = 0; i < 20; i++)
@@ -205,7 +205,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//color
 			for(uint32_t i = 0; i < nv; i++)
 			{
@@ -220,7 +220,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + nv * m_stroke;
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + nv * m_stroke;
 			//color
 			for(uint32_t i = 0; i < nv; i++)
 			{

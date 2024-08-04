@@ -64,9 +64,9 @@ namespace canvas
 		{
 			//data
 			vec3 vertex_position, t1, t2;
+			uint32_t*  ibo_ptr = ibo_data(2);
 			const uint32_t ns = m_mesh * m_stroke;
-			uint32_t*  ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + ns;
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + ns;
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -88,8 +88,8 @@ namespace canvas
 		{
 			//data
 			vec3 vertex_position, t1, t2;
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			uint32_t* ibo_ptr = ibo_data(1);
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			m_normal.triad(t1, t2);
 			for(uint32_t i = 0; i < m_mesh; i++)

@@ -32,8 +32,8 @@ namespace canvas
 		void Triangle::fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			uint32_t* ibo_ptr = ibo_data(2);
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//buffers
 			for(uint32_t i = 0; i < 3; i++)
 			{
@@ -48,8 +48,8 @@ namespace canvas
 		void Triangle::stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			uint32_t* ibo_ptr = ibo_data(1);
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < 3; i++)
 			{

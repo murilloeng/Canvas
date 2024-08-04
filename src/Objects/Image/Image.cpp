@@ -87,13 +87,14 @@ namespace canvas
 		{
 			//data
 			float tc[4];
+			if(!m_fill) return;
+			uint32_t* ibo_ptr = ibo_data(3);
 			const vec3& t1 = m_directions[0];
 			const vec3& t2 = m_directions[1];
 			m_scene->image(m_index)->coordinates(tc);
+			vertices::Image3D* vbo_ptr = vbo_data_image_3D();
 			const uint32_t wi = m_scene->image(m_index)->width();
 			const uint32_t hi = m_scene->image(m_index)->height();
-			uint32_t* ibo_ptr = m_scene->ibo_data(3) + m_ibo_index[3];
-			vertices::Image3D* vbo_ptr = m_scene->vbo_data_image_3D() + m_vbo_index[1];
 			//vbo data
 			const float w = m_size;
 			const float h = m_size * hi / wi;

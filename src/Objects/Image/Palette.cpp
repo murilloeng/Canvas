@@ -108,8 +108,8 @@ namespace canvas
 		void Palette::ibo_fill_data(void) const
 		{
 			//data
+			uint32_t* ibo_ptr = ibo_data(8);
 			const uint32_t nc = m_palette.size();
-			uint32_t* ibo_ptr = m_scene->ibo_data(8) + m_ibo_index[8];
 			//ibo data
 			for(uint32_t i = 0; i + 1 < nc; i++)
 			{
@@ -124,7 +124,7 @@ namespace canvas
 		void Palette::ibo_text_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(10) + m_ibo_index[10];
+			uint32_t* ibo_ptr = ibo_data(10);
 			//ibo data
 			for(uint32_t i = 0; i < 9 * m_marks; i++)
 			{
@@ -139,7 +139,7 @@ namespace canvas
 		void Palette::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(7) + m_ibo_index[7];
+			uint32_t* ibo_ptr = ibo_data(7);
 			//ibo data
 			for(uint32_t i = 0; i < m_marks; i++)
 			{
@@ -155,7 +155,7 @@ namespace canvas
 		{
 			//data
 			const uint32_t nc = m_palette.size();
-			vertices::Model2D* vbo_ptr = m_scene->vbo_data_model_2D() + m_vbo_index[3] + 2 * m_marks;
+			vertices::Model2D* vbo_ptr = vbo_data_model_2D() + 2 * m_marks;
 			//vbo data
 			for(uint32_t i = 0; i < nc; i++)
 			{
@@ -174,9 +174,9 @@ namespace canvas
 			float xs[2], xc[8], tc[8];
 			const Font* font = m_scene->font(m_font);
 			const float ps = m_size / font->pixels_size();
+			vertices::Text2D* vbo_ptr = vbo_data_text_2D();
 			const float ws = (float) m_scene->camera().width();
 			const float hs = (float) m_scene->camera().height();
-			vertices::Text2D* vbo_ptr = m_scene->vbo_data_text_2D() + m_vbo_index[5];
 			//vbo data
 			const float ms = fminf(ws, hs);
 			for(uint32_t i = 0; i < m_marks; i++)
@@ -216,7 +216,7 @@ namespace canvas
 		void Palette::vbo_stroke_data(void) const
 		{
 			//data
-			vertices::Model2D* vbo_ptr = m_scene->vbo_data_model_2D() + m_vbo_index[3];
+			vertices::Model2D* vbo_ptr = vbo_data_model_2D();
 			//vbo data
 			vbo_ptr[0].m_position = {+0.90f, -0.95f};
 			vbo_ptr[1].m_position = {+0.95f, -0.95f};

@@ -38,8 +38,8 @@ namespace canvas
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			uint32_t vbo_index = m_vbo_index[0];
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
 			//outer
 			for(uint32_t i = 0; i < 4; i++)
 			{
@@ -66,7 +66,7 @@ namespace canvas
 			//data
 			const uint32_t n1 = m_mesh[0];
 			const uint32_t n2 = m_mesh[1];
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
+			uint32_t* ibo_ptr = ibo_data(2);
 			const uint32_t vbo_index = m_vbo_index[0] + 2 * (n1 + n2) * m_stroke;
 			//ibo data
 			ibo_ptr[3 * 0 + 0] = vbo_index + 0;
@@ -83,7 +83,7 @@ namespace canvas
 			const uint32_t n2 = m_mesh[1];
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < 4; i++)
 			{
@@ -115,7 +115,7 @@ namespace canvas
 			const uint32_t ns = 2 * (n1 + n2) * m_stroke;
 			const float x1[] = {-1.0f, +1.0f, +1.0f, -1.0f};
 			const float x2[] = {-1.0f, -1.0f, +1.0f, +1.0f};
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + ns;
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + ns;
 			//vbo data
 			for(uint32_t i = 0; i < 4; i++)
 			{

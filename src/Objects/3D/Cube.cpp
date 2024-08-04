@@ -54,7 +54,7 @@ namespace canvas
 		void Cube::ibo_stroke_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(1) + m_ibo_index[1];
+			uint32_t* ibo_ptr = ibo_data(1);
 			//edges
 			ibo_ptr[2 * 0 + 0] = m_vbo_index[0] + 0;
 			ibo_ptr[2 * 0 + 1] = m_vbo_index[0] + 4;
@@ -78,7 +78,7 @@ namespace canvas
 		void Cube::ibo_fill_data(void) const
 		{
 			//data
-			uint32_t* ibo_ptr = m_scene->ibo_data(2) + m_ibo_index[2];
+			uint32_t* ibo_ptr = ibo_data(2);
 			//face -x3
 			ibo_ptr[3 * 0 + 2] = m_vbo_index[0] + 8 * m_stroke + 1;
 			ibo_ptr[3 * 1 + 1] = m_vbo_index[0] + 8 * m_stroke + 3;
@@ -114,7 +114,7 @@ namespace canvas
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes / 2);
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < 8; i++)
 			{
@@ -126,7 +126,7 @@ namespace canvas
 		{
 			//data
 			const mat4 A = mat4::scaling(m_sizes / 2);
-			vertices::Model3D* vbo_ptr = m_scene->vbo_data_model_3D() + m_vbo_index[0] + 8 * m_stroke;
+			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + 8 * m_stroke;
 			//vbo data
 			for(uint32_t i = 0; i < 8; i++)
 			{
