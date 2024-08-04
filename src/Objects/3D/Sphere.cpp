@@ -245,7 +245,7 @@ namespace canvas
 				for(uint32_t j = 1; j < m_mesh; j++)
 				{
 					const float s = float(j) / m_mesh;
-					(vbo_ptr + j - 1)->m_position = m_center + m_radius * (x1 + s * (x2 - x1)).unit();
+					vbo_ptr[j - 1].m_position = m_center + m_radius * (x1 + s * (x2 - x1)).unit();
 				}
 				//offset
 				vbo_ptr += m_mesh - 1;
@@ -254,7 +254,6 @@ namespace canvas
 		void Sphere::vbo_faces_data(vertices::Model3D* vbo_data) const
 		{
 			//data
-			uint32_t counter = 0;
 			const float l = 2 * a / m_mesh;
 			const float h = sqrtf(3) / 2 * l;
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) vbo_data + 12 + 30 * (m_mesh - 1);
@@ -276,8 +275,8 @@ namespace canvas
 					{
 						const float c2 = (j + 1) * h;
 						const float c1 = (k + 1) * l + (j + 1) * l / 2;
-						(vbo_ptr + counter)->m_position = m_center + m_radius * (x1 + c1 * s1 + c2 * s2).unit();
-						counter++;
+						vbo_ptr->m_position = m_center + m_radius * (x1 + c1 * s1 + c2 * s2).unit();
+						vbo_ptr++;
 					}
 				}
 			}
