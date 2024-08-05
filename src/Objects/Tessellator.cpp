@@ -100,8 +100,8 @@ namespace canvas
 			for(uint32_t i = 0; i < nv - 2; i++)
 			{
 				const vec3& v0 = m_vertices_3D[i + 0];
-				const vec3& v1 = m_vertices_3D[i + 0];
-				const vec3& v2 = m_vertices_3D[i + 0];
+				const vec3& v1 = m_vertices_3D[i + 1];
+				const vec3& v2 = m_vertices_3D[i + 2];
 				normal = (v1 - v0).cross(v2 - v0);
 				const float s1 = (v1 - v0).norm();
 				const float s2 = (v2 - v0).norm();
