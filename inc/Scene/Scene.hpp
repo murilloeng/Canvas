@@ -90,6 +90,10 @@ namespace canvas
 		void draw(void);
 		void update(bool);
 
+		//buffers
+		void ibo_transfer(uint32_t) const;
+		void vbo_transfer(uint32_t) const;
+
 	protected:
 		//draw
 		void draw_text_2D(void);

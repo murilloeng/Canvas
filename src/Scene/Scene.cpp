@@ -259,6 +259,24 @@ namespace canvas
 		buffers_transfer();
 	}
 
+	//buffers
+	void Scene::ibo_transfer(uint32_t index) const
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[index]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ibo_size[index] * sizeof(uint32_t), m_ibo_data[index], GL_DYNAMIC_DRAW);
+	}
+	void Scene::vbo_transfer(uint32_t index) const
+	{
+		//data
+		const uint32_t vs[] = {
+			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D),
+			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
+		};
+		//vbo data
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[index]);
+		glBufferData(GL_ARRAY_BUFFER, m_vbo_size[index] * vs[index], m_vbo_data[index], GL_DYNAMIC_DRAW);
+	}
+
 	//draw
 	void Scene::draw_text_2D(void)
 	{
