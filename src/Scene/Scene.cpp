@@ -4,6 +4,7 @@
 #endif
 
 //std
+#include <omp.h>
 #include <cmath>
 #include <cfloat>
 
@@ -633,22 +634,23 @@ namespace canvas
 	//buffers
 	void Scene::buffers_data(void)
 	{
-		for(const objects::Object* object : m_objects)
+		#pragma omp parallel for
+		for(int32_t i = 0; i < m_objects.size(); i++)
 		{
-			object->buffers_data();
-			for(uint32_t i = 0; i < 3; i++)
+			m_objects[i]->buffers_data();
+			for(uint32_t j = 0; j < 3; j++)
 			{
-				const uint32_t is = object->m_vbo_size[i];
-				const uint32_t ib = object->m_vbo_index[i];
+				const uint32_t is = m_objects[i]->m_vbo_size[j];
+				const uint32_t ib = m_objects[i]->m_vbo_index[j];
 				for(uint32_t iv = ib; iv < ib + is; iv++)
 				{
 					vertices::Vertex3D* vertex;
-					if(i == 2) vertex = (vertices::Text3D*) m_vbo_data[i] + iv;
-					if(i == 0) vertex = (vertices::Model3D*) m_vbo_data[i] + iv;
-					if(i == 1) vertex = (vertices::Image3D*) m_vbo_data[i] + iv;
-					if(object->m_has_model_matrix)
+					if(j == 2) vertex = (vertices::Text3D*) m_vbo_data[j] + iv;
+					if(j == 0) vertex = (vertices::Model3D*) m_vbo_data[j] + iv;
+					if(j == 1) vertex = (vertices::Image3D*) m_vbo_data[j] + iv;
+					if(m_objects[i]->m_has_model_matrix)
 					{
-						vertex->m_position = object->m_model_matrix * vertex->m_position;
+						vertex->m_position = m_objects[i]->m_model_matrix * vertex->m_position;
 					}
 				}
 			}
