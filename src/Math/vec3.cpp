@@ -5,6 +5,7 @@
 #include <cstring>
 
 //canvas
+#include "Canvas/inc/Math/vec2.hpp"
 #include "Canvas/inc/Math/vec3.hpp"
 #include "Canvas/inc/Math/quat.hpp"
 #include "Canvas/inc/Math/mat4.hpp"
@@ -184,6 +185,13 @@ namespace canvas
 		return *this = A * *this;
 	}
 
+	vec3& vec3::operator=(const vec2& v)
+	{
+		m_data[2] = 0;
+		m_data[0] = v.m_data[0];
+		m_data[1] = v.m_data[1];
+		return *this;
+	}
 	vec3& vec3::operator=(const vec3& v)
 	{
 		memcpy(m_data, v.m_data, 3 * sizeof(float));

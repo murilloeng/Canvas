@@ -5,6 +5,11 @@
 
 namespace canvas
 {
+	class vec3;
+}
+
+namespace canvas
+{
 	class vec2
 	{
 	public:
@@ -57,5 +62,8 @@ namespace canvas
 	private:
 		//data
 		float m_data[2];
+
+		//friends
+		friend class vec3;
 	};
 }
