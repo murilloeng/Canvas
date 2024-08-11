@@ -17,7 +17,7 @@ static void callback_special(int key, int, int)
 		arcs, lines, arrows, curves, polylines, splines, 
 		circles, grid_2D, quads, polygons, triangles, 
 		cubes, cylinders, spheres, surfaces, 
-		images, text
+		images, text, palettes
 	};
 	const uint32_t ne = sizeof(examples) / sizeof(void(*)(canvas::Scene*));
 	//scene

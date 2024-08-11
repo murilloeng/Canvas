@@ -234,10 +234,10 @@ namespace canvas
 		//buffers
 		void Palette::buffers_size(void)
 		{
-			m_ibo_size[ 7] = m_marks + 2;
 			m_vbo_size[ 5] = 36 * m_marks;
-			m_ibo_size[10] = 18 * m_marks;
-			m_ibo_size[ 8] = 2 * (m_palette.size() - 1);
+			m_ibo_size[10] = 54 * m_marks;
+			m_ibo_size[ 7] = 2 * (m_marks + 2);
+			m_ibo_size[ 8] = 6 * (m_palette.size() - 1);
 			m_vbo_size[ 3] = 2 * (m_marks + m_palette.size());
 		}
 		void Palette::buffers_data(void) const
