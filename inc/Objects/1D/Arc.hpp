@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
 #include "Canvas/inc/Objects/1D/Path.hpp"

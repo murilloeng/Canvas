@@ -2,6 +2,7 @@
 
 //std
 #include <vector>
+#include <cstdint>
 
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"

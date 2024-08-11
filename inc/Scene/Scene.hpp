@@ -3,6 +3,7 @@
 //std
 #include <string>
 #include <vector>
+#include <cstdint>
 
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"

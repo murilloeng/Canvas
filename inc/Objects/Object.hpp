@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 //canvas
 #include "Canvas/inc/Math/mat4.hpp"
 

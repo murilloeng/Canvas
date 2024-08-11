@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 namespace canvas
 {
 	namespace palettes

@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 //canvas
 #include "Canvas/inc/Colors/Color.hpp"
 #include "Canvas/inc/Palettes/Types.hpp"

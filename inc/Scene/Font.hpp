@@ -2,6 +2,7 @@
 
 //std
 #include <string>
+#include <cstdint>
 
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
