@@ -21,11 +21,11 @@ static void callback_special(int key, int, int)
 	};
 	const uint32_t ne = sizeof(examples) / sizeof(void(*)(canvas::Scene*));
 	//scene
-	if(key == Glut::key_left || key == Glut::key_right)
+	if(key == (int32_t) Glut::key_left || key == (int32_t) Glut::key_right)
 	{
 		//index
-		if(key == Glut::key_right) example_index = (example_index + 1) % ne;
-		if(key == Glut::key_left) example_index = (example_index ? example_index : ne) - 1;
+		if(key == (int32_t) Glut::key_right) example_index = (example_index + 1) % ne;
+		if(key == (int32_t) Glut::key_left) example_index = (example_index ? example_index : ne) - 1;
 		//scene
 		scene->clear_objects(true);
 		examples[example_index](scene);

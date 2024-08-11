@@ -2,6 +2,7 @@
 
 //std
 #include <string>
+#include <cstdint>
 
 namespace canvas
 {

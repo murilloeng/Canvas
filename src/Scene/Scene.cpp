@@ -635,7 +635,7 @@ namespace canvas
 	void Scene::buffers_data(void)
 	{
 		#pragma omp parallel for
-		for(int32_t i = 0; i < m_objects.size(); i++)
+		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
 		{
 			m_objects[i]->buffers_data();
 			for(uint32_t j = 0; j < 3; j++)

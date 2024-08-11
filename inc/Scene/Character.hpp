@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
 
