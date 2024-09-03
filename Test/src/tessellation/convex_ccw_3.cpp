@@ -1,6 +1,7 @@
 //std
 #include <cstdio>
 #include <cstdint>
+#include <algorithm>
 
 //canvas
 #include "Canvas/inc/Math/vec2.hpp"
