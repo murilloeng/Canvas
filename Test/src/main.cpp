@@ -4,6 +4,7 @@
 
 //test
 #include "Canvas/Test/inc/examples.hpp"
+#include "Canvas/Test/inc/Interpreter.hpp"
 #include "Canvas/Test/inc/managers/Glut.hpp"
 
 static canvas::Scene* scene;
