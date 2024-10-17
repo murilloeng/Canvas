@@ -8,7 +8,7 @@
 #include "Canvas/inc/Objects/Tessellator.hpp"
 
 //test
-#include "Canvas/Test/inc/tessellation.hpp"
+#include "Canvas/Test/inc/examples.hpp"
 
 void examples::tessellation::convex_loop_ccw_8(void)
 {

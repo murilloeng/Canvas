@@ -1,14 +1,30 @@
 //std
 #include <cmath>
+#include <chrono>
 #include <cstdlib>
 
 //test
+#include "Canvas/inc/Objects/1D/Line.hpp"
+
 #include "Canvas/Test/inc/examples.hpp"
 #include "Canvas/Test/inc/Interpreter.hpp"
 #include "Canvas/Test/inc/managers/Glut.hpp"
 
 static canvas::Scene* scene;
 static uint32_t example_index = 0;
+static std::chrono::high_resolution_clock::time_point t0;
+
+static void callback_idle(void)
+{
+	//data
+	using namespace std::chrono;
+	const high_resolution_clock::time_point tn = high_resolution_clock::now();
+	//state
+	const double q = duration_cast<microseconds>(tn - t0).count() / 1e6;
+	//scene
+	((canvas::objects::Line*) scene->object(0))->point(0, canvas::vec3());
+
+}
 static void callback_special(int key, int, int)
 {
 	//data
@@ -40,19 +56,21 @@ static void callback_special(int key, int, int)
 
 int main(int argc, char** argv)
 {
-	//data
-	Glut app(argc, argv, "shd/");
-	app.callback_special(callback_special);
-	//scene
-	scene = app.scene();
-	examples::objects::points(scene);
-	//update
-	scene->update(true);
-	scene->camera().bound();
-	scene->camera().apply();
-	scene->camera().update();
-	//start
-	app.start();
+	// //data
+	// Glut app(argc, argv, "shd/");
+	// app.callback_special(callback_special);
+	// //scene
+	// scene = app.scene();
+	// examples::objects::points(scene);
+	// //update
+	// scene->update(true);
+	// scene->camera().bound();
+	// scene->camera().apply();
+	// scene->camera().update();
+	// t0 = std::chrono::high_resolution_clock::now();
+	// //start
+	// app.start();
+	examples::scenes::von_mises_joint(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }

@@ -20,7 +20,7 @@ static std::chrono::high_resolution_clock::time_point t1, t2;
 
 //constructors
 Glut::Glut(int argc, char** argv, const char* shaders_dir) :
-	m_callback_special(nullptr), m_callback_keyboard(nullptr)
+	m_callback_idle(nullptr), m_callback_special(nullptr), m_callback_keyboard(nullptr)
 {
 	//glut
 	master = this;
@@ -62,6 +62,10 @@ canvas::Scene* Glut::scene(void) const
 {
 	return m_scene;
 }
+void Glut::callback_idle(std::function<void(void)> callback_idle)
+{
+	m_callback_idle = callback_idle;
+}
 void Glut::callback_special(std::function<void(int, int, int)> callback_special)
 {
 	m_callback_special = callback_special;
@@ -81,6 +85,7 @@ void Glut::start(void)
 //callbacks
 void Glut::callback_idle(void)
 {
+	if(master->m_callback_idle) master->m_callback_idle();
 	master->m_scene->draw();
 	glutPostRedisplay();
 	t2 = std::chrono::high_resolution_clock::now();

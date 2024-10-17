@@ -144,17 +144,11 @@ static void guides(canvas::Scene* scene)
 	}
 }
 
-namespace examples
+void examples::scenes::tensegrity_chair(canvas::Scene* scene)
 {
-	namespace scenes
-	{
-		void tensegrity_chair(canvas::Scene* scene)
-		{
-			rigid(scene);
-			cables(scene);
-			labels(scene);
-			guides(scene);
-			scene->camera().rotation({float(M_PI_2), 0, 0});
-		}
-	}
+	rigid(scene);
+	cables(scene);
+	labels(scene);
+	guides(scene);
+	scene->camera().rotation({float(M_PI_2), 0, 0});
 }
