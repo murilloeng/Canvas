@@ -72,6 +72,7 @@ void examples::scenes::von_mises_joint(int argc, char** argv)
 {
 	//data
 	GLFW app(argc, argv, "shd/");
+	app.show_fps(false);
 	app.callback_idle(scene_update);
 	//scene
 	scene = app.scene();

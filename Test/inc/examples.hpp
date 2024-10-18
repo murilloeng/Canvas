@@ -30,8 +30,8 @@ namespace examples
 	}
 	namespace scenes
 	{
-		void von_mises_joint(int, char**);
-		void tensegrity_chair(canvas::Scene*);
+		void von_mises_joint(int32_t, char**);
+		void tensegrity_chair(int32_t, char**);
 	}
 	namespace tessellation
 	{

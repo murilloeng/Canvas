@@ -10,6 +10,7 @@
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
+#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //data
 static const uint32_t nc = 3;
@@ -144,11 +145,27 @@ static void guides(canvas::Scene* scene)
 	}
 }
 
-void examples::scenes::tensegrity_chair(canvas::Scene* scene)
+void scene_setup(canvas::Scene* scene)
 {
 	rigid(scene);
 	cables(scene);
 	labels(scene);
 	guides(scene);
 	scene->camera().rotation({float(M_PI_2), 0, 0});
+}
+
+void examples::scenes::tensegrity_chair(int32_t argc, char** argv)
+{
+	//data
+	GLFW app(argc, argv, "shd/");
+	//scene
+	scene_setup(app.scene());
+	canvas::Scene* scene = app.scene();
+	//update
+	scene->update(true);
+	scene->camera().bound();
+	scene->camera().apply();
+	scene->camera().update();
+	//start
+	app.start();
 }

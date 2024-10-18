@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 	// t0 = std::chrono::high_resolution_clock::now();
 	// //start
 	// app.start();
-	examples::scenes::von_mises_joint(argc, argv);
+	examples::scenes::tensegrity_chair(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }
