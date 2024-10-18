@@ -32,17 +32,12 @@ public:
 	void start(void);
 
 	//callbacks
-	static void callback_idle(void);
-	static void callback_display(void);
 	static void callback_motion(int, int);
-	static void callback_reshape(int, int);
 	static void callback_special(int, int, int);
 	static void callback_mouse(int, int, int, int);
 	static void callback_wheel(int, int, int, int);
-	static void callback_keyboard(uint8_t, int, int);
-
-	//data
-	static uint32_t key_up, key_down, key_left, key_right;
+	static void callback_size(GLFWwindow*, int32_t, int32_t);
+	static void callback_key(GLFWwindow*, int32_t, int32_t, int32_t, int32_t);
 
 protected:
 	//data

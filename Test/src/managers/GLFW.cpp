@@ -45,12 +45,12 @@ GLFW::GLFW(int argc, char** argv, const char* shaders_dir) : m_show_fps(true),
 		exit(EXIT_FAILURE);
 	}
 	m_scene = new canvas::Scene(shaders_dir);
-	// //callbacks
+	//callbacks
+	glfwSetKeyCallback(m_window, callback_key);
+	glfwSetWindowSizeCallback(m_window, callback_size);
 	// glutIdleFunc(callback_idle);
 	// glutMouseFunc(callback_mouse);
 	// glutMotionFunc(callback_motion);
-	// glutDisplayFunc(callback_display);
-	// glutReshapeFunc(callback_reshape);
 	// glutSpecialFunc(callback_special);
 	// glutMouseWheelFunc(callback_wheel);
 	// glutKeyboardFunc(callback_keyboard);
@@ -121,43 +121,16 @@ void GLFW::start(void)
 }
 
 //callbacks
-void GLFW::callback_idle(void)
-{
-	// if(master->m_callback_idle)
-	// {
-	// 	master->m_callback_idle();
-	// }
-	// if(master->m_callback_idle || master->m_show_fps)
-	// {
-	// 	master->m_scene->draw();
-	// 	glutPostRedisplay();
-	// }
-	// if(master->m_show_fps)
-	// {
-	// 	using namespace std::chrono;
-	// 	t2 = high_resolution_clock::now();
-	// 	const uint64_t td = duration_cast<microseconds>(t2 - t1).count();
-	// 	printf("FPS: %d\n", uint32_t(1e6 / td));
-	// 	t1 = t2;
-	// }
-}
-void GLFW::callback_display(void)
-{
-	// //draw
-	// master->m_scene->draw();
-	// //swap
-	// glutSwapBuffers();
-}
 void GLFW::callback_motion(int x1, int x2)
 {
 	// master->m_scene->camera().callback_motion(x1, x2);
 	// glutPostRedisplay();
 }
-void GLFW::callback_reshape(int width, int height)
+void GLFW::callback_size(GLFWwindow* window, int width, int height)
 {
-	// master->m_scene->camera().callback_reshape(width, height);
-	// master->m_scene->update(true);
-	// glutPostRedisplay();
+	master->m_scene->camera().callback_reshape(width, height);
+	master->m_scene->update(true);
+	glfwSwapBuffers(window);
 }
 void GLFW::callback_special(int key, int x1, int x2)
 {
@@ -207,55 +180,51 @@ void GLFW::callback_wheel(int, int direction, int x1, int x2)
 	// master->m_scene->camera().callback_wheel(direction, x1, x2);
 	// glutPostRedisplay();
 }
-void GLFW::callback_keyboard(uint8_t key, int x1, int x2)
+void GLFW::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 {
-	// //master
-	// if(master->m_callback_keyboard) master->m_callback_keyboard(key, x1, x2);
-	// //Canvas
-	// if(key == 27)
-	// {
-	// 	glutDestroyWindow(glutGetWindow());
-	// }
-	// else if(key == 't')
-	// {
-	// 	for(canvas::objects::Object* object : master->m_scene->objects())
-	// 	{
-	// 		canvas::objects::Geometry* geometry = dynamic_cast<canvas::objects::Geometry*>(object);
-	// 		if(geometry)
-	// 		{
-	// 			geometry->fill(!geometry->fill());
-	// 		}
-	// 	}
-	// 	master->scene()->update(true);
-	// 	glutPostRedisplay();
-	// }
-	// else if(key == 'l')
-	// {
-	// 	for(canvas::objects::Object* object : master->m_scene->objects())
-	// 	{
-	// 		canvas::objects::Geometry* geometry = dynamic_cast<canvas::objects::Geometry*>(object);
-	// 		if(geometry)
-	// 		{
-	// 			geometry->stroke(!geometry->stroke());
-	// 		}
-	// 	}
-	// 	master->scene()->update(true);
-	// 	glutPostRedisplay();
-	// }
-	// else if(key == 'a' || key == 'd' || key == 's')
-	// {
-	// 	master->m_scene->light().callback_keyboard(key, x1, x2);
-	// 	glutPostRedisplay();
-	// }
-	// else
-	// {
-	// 	master->m_scene->camera().callback_keyboard(key);
-	// 	glutPostRedisplay();
-	// }
+	//master
+	double x1, x2;
+	glfwGetCursorPos(master->m_window, &x1, &x2);
+	if(master->m_callback_keyboard) master->m_callback_keyboard(key, int32_t(x1), int32_t(x2));
+	//Canvas
+	if(key == GLFW_KEY_ESCAPE)
+	{
+		glfwSetWindowShouldClose(master->m_window, true);
+	}
+	else if(key == GLFW_KEY_T)
+	{
+		for(canvas::objects::Object* object : master->m_scene->objects())
+		{
+			canvas::objects::Geometry* geometry = dynamic_cast<canvas::objects::Geometry*>(object);
+			if(geometry)
+			{
+				geometry->fill(!geometry->fill());
+			}
+		}
+		master->scene()->update(true);
+		glfwSwapBuffers(master->m_window);
+	}
+	else if(key == GLFW_KEY_L)
+	{
+		for(canvas::objects::Object* object : master->m_scene->objects())
+		{
+			canvas::objects::Geometry* geometry = dynamic_cast<canvas::objects::Geometry*>(object);
+			if(geometry)
+			{
+				geometry->stroke(!geometry->stroke());
+			}
+		}
+		master->scene()->update(true);
+		glfwSwapBuffers(master->m_window);
+	}
+	else if(key == GLFW_KEY_A || key == GLFW_KEY_D || key == GLFW_KEY_S)
+	{
+		master->m_scene->light().callback_keyboard(key, uint32_t(x1), uint32_t(x2));
+		glfwSwapBuffers(master->m_window);
+	}
+	else
+	{
+		master->m_scene->camera().callback_keyboard(key);
+		glfwSwapBuffers(master->m_window);
+	}
 }
-
-//data
-uint32_t GLFW::key_up = 0;//GLUT_KEY_UP;
-uint32_t GLFW::key_down = 0;//GLUT_KEY_DOWN;
-uint32_t GLFW::key_left = 0;//GLUT_KEY_LEFT;
-uint32_t GLFW::key_right = 0;//GLUT_KEY_RIGHT;
