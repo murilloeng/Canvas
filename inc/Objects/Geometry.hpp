@@ -7,10 +7,6 @@
 namespace canvas
 {
 	class Scene;
-	namespace objects
-	{
-		class Group;
-	}
 }
 
 namespace canvas
@@ -54,9 +50,6 @@ namespace canvas
 			Color m_color_dot;
 			Color m_color_fill;
 			Color m_color_stroke;
-
-			//friends
-			friend class Group;
 		};
 	}
 }
