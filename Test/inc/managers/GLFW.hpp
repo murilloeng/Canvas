@@ -25,16 +25,16 @@ public:
 	bool show_fps(void) const;
 	canvas::Scene* scene(void) const;
 	void callback_idle(std::function<void(void)>);
-	void callback_keyboard(std::function<void(uint8_t, int, int)>);
+	void callback_key(std::function<void(int32_t, int32_t, int32_t)>);
 
 	//loop
 	void start(void);
 
 	//callbacks
-	static void callback_mouse(GLFWwindow*, int, int, int);
 	static void callback_wheel(GLFWwindow*, double, double);
 	static void callback_motion(GLFWwindow*, double, double);
 	static void callback_size(GLFWwindow*, int32_t, int32_t);
+	static void callback_mouse(GLFWwindow*, int32_t, int32_t, int32_t);
 	static void callback_key(GLFWwindow*, int32_t, int32_t, int32_t, int32_t);
 	static void callback_special(GLFWwindow*, int32_t, int32_t, int32_t, int32_t);
 
@@ -48,5 +48,5 @@ protected:
 	GLFWwindow* m_window;
 	canvas::Scene* m_scene;
 	std::function<void(void)> m_callback_idle;
-	std::function<void(uint8_t, int, int)> m_callback_keyboard;
+	std::function<void(int32_t, int32_t, int32_t)> m_callback_keyboard;
 };

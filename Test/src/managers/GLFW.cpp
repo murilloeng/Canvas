@@ -82,7 +82,7 @@ void GLFW::callback_idle(std::function<void(void)> callback_idle)
 {
 	m_callback_idle = callback_idle;
 }
-void GLFW::callback_keyboard(std::function<void(uint8_t, int, int)> callback_keyboard)
+void GLFW::callback_key(std::function<void(int32_t, int32_t, int32_t)> callback_keyboard)
 {
 	m_callback_keyboard = callback_keyboard;
 }
