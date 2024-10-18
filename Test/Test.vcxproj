@@ -120,10 +120,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
+      <Command>copy ..\..\external\cpp\dll\$(platform)\glfw3.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
 copy ..\..\external\cpp\dll\$(platform)\freeglut.dll dist\$(platform)\$(configuration) &gt; nul
 copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configuration) &gt; nul</Command>
     </PostBuildEvent>
@@ -146,10 +147,11 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
+      <Command>copy ..\..\external\cpp\dll\$(platform)\glfw3.dll dist\$(platform)\$(configuration) &gt; nul
+copy ..\..\external\cpp\dll\$(platform)\glew32.dll dist\$(platform)\$(configuration) &gt; nul
 copy ..\..\external\cpp\dll\$(platform)\freeglut.dll dist\$(platform)\$(configuration) &gt; nul
 copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configuration) &gt; nul</Command>
     </PostBuildEvent>
@@ -158,6 +160,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Interpreter.cpp" />
     <ClCompile Include="src\managers\Glut.cpp" />
+    <ClCompile Include="src\managers\GLFW.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
     <ClCompile Include="src\objects\1D\arcs.cpp" />
     <ClCompile Include="src\objects\1D\arrows.cpp" />
@@ -192,6 +195,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClInclude Include="inc\Interpreter.hpp" />
     <ClInclude Include="inc\tessellation.hpp" />
     <ClCompile Include="inc\managers\Glut.hpp" />
+    <ClCompile Include="inc\managers\GLFW.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

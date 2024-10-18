@@ -8,6 +8,7 @@
 //test
 #include "Canvas/Test/inc/examples.hpp"
 #include "Canvas/Test/inc/managers/Glut.hpp"
+#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //static data
 static canvas::Scene* scene;
@@ -53,7 +54,7 @@ static void scene_update(void)
 	canvas::objects::Line* bar_1 = (canvas::objects::Line*) scene->object(1);
 	canvas::objects::Line* bar_2 = (canvas::objects::Line*) scene->object(2);
 	//state
-	const float q = duration_cast<microseconds>(tn - t0).count() / 0.5e6f;
+	const float q = duration_cast<microseconds>(tn - t0).count() / 2e5f;
 	const float p2 = R * sinf(q);
 	const float p1 = B + R - R * cosf(q);
 	const float u1 = p2 * sqrtf(L * L - p1 * p1 - p2 * p2) / sqrtf(p1 * p1 + p2 * p2);
@@ -70,7 +71,7 @@ static void scene_update(void)
 void examples::scenes::von_mises_joint(int argc, char** argv)
 {
 	//data
-	Glut app(argc, argv, "shd/");
+	GLFW app(argc, argv, "shd/");
 	app.callback_idle(scene_update);
 	//scene
 	scene = app.scene();

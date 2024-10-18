@@ -19,7 +19,7 @@ static Glut* master;
 static std::chrono::high_resolution_clock::time_point t1, t2;
 
 //constructors
-Glut::Glut(int argc, char** argv, const char* shaders_dir) :
+Glut::Glut(int argc, char** argv, const char* shaders_dir) : m_show_fps(true), 
 	m_callback_idle(nullptr), m_callback_special(nullptr), m_callback_keyboard(nullptr)
 {
 	//glut
@@ -58,6 +58,14 @@ Glut::~Glut(void)
 }
 
 //data
+bool Glut::show_fps(void) const
+{
+	return m_show_fps;
+}
+bool Glut::show_fps(bool show_fps)
+{
+	return m_show_fps = show_fps;
+}
 canvas::Scene* Glut::scene(void) const
 {
 	return m_scene;
@@ -85,13 +93,23 @@ void Glut::start(void)
 //callbacks
 void Glut::callback_idle(void)
 {
-	if(master->m_callback_idle) master->m_callback_idle();
-	master->m_scene->draw();
-	glutPostRedisplay();
-	t2 = std::chrono::high_resolution_clock::now();
-	const uint64_t td = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-	printf("FPS\n: %d", uint32_t(1e6 / td));
-	t1 = t2;
+	if(master->m_callback_idle)
+	{
+		master->m_callback_idle();
+	}
+	if(master->m_callback_idle || master->m_show_fps)
+	{
+		master->m_scene->draw();
+		glutPostRedisplay();
+	}
+	if(master->m_show_fps)
+	{
+		using namespace std::chrono;
+		t2 = high_resolution_clock::now();
+		const uint64_t td = duration_cast<microseconds>(t2 - t1).count();
+		printf("FPS: %d\n", uint32_t(1e6 / td));
+		t1 = t2;
+	}
 }
 void Glut::callback_display(void)
 {

@@ -4,17 +4,21 @@
 #include <cstdint>
 #include <functional>
 
+//external
+#include "external/cpp/inc/GL/glew.h"
+#include "external/cpp/inc/GLFW/glfw3.h"
+
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 
-class Glut
+class GLFW
 {
 public:
 	//constructors
-	Glut(int, char**, const char*);
+	GLFW(int, char**, const char*);
 
 	//destructor
-	~Glut(void);
+	~GLFW(void);
 
 	//data
 	bool show_fps(bool);
@@ -43,6 +47,7 @@ public:
 protected:
 	//data
 	bool m_show_fps;
+	GLFWwindow* m_window;
 	canvas::Scene* m_scene;
 	std::function<void(void)> m_callback_idle;
 	std::function<void(int, int, int)> m_callback_special;
