@@ -7,6 +7,7 @@
 
 //test
 #include "Canvas/Test/inc/examples.hpp"
+#include "Canvas/test/inc/scenes/Beam.hpp"
 #include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //static data

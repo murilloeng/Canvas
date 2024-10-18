@@ -158,7 +158,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Interpreter.cpp" />
     <ClCompile Include="src\managers\Glut.cpp" />
     <ClCompile Include="src\managers\GLFW.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
@@ -181,6 +180,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\objects\Images\latex.cpp" />
     <ClCompile Include="src\objects\Images\text.cpp" />
     <ClCompile Include="src\objects\Images\palettes.cpp" />
+    <ClCompile Include="src\scenes\Beam.cpp" />
     <ClCompile Include="src\scenes\examples.cpp" />
     <ClCompile Include="src\scenes\von_mises_joint.cpp" />
     <ClCompile Include="src\scenes\tensegrity_chair.cpp" />
@@ -193,7 +193,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\examples.hpp" />
-    <ClInclude Include="inc\Interpreter.hpp" />
+    <ClInclude Include="inc\scenes\Beam.hpp" />
     <ClInclude Include="inc\tessellation.hpp" />
     <ClCompile Include="inc\managers\Glut.hpp" />
     <ClCompile Include="inc\managers\GLFW.hpp" />
