@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
 	//scene
-	examples::scenes::examples(argc, argv);
+	examples::scenes::von_mises_joint(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }
