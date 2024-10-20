@@ -112,8 +112,8 @@ void Beam::ibo_fill_data(void) const
 	for(uint32_t i = 0; i < 2 * m_nc; i++)
 	{
 		ibo_ptr[0 * m_nc + 3 * i + 0] = vbo_index + 0 * nv + triangles[3 * i + 0];
-		ibo_ptr[0 * m_nc + 3 * i + 1] = vbo_index + 0 * nv + triangles[3 * i + 1];
-		ibo_ptr[0 * m_nc + 3 * i + 2] = vbo_index + 0 * nv + triangles[3 * i + 2];
+		ibo_ptr[0 * m_nc + 3 * i + 1] = vbo_index + 0 * nv + triangles[3 * i + 2];
+		ibo_ptr[0 * m_nc + 3 * i + 2] = vbo_index + 0 * nv + triangles[3 * i + 1];
 		ibo_ptr[6 * m_nc + 3 * i + 0] = vbo_index + 1 * nv + triangles[3 * i + 0];
 		ibo_ptr[6 * m_nc + 3 * i + 1] = vbo_index + 1 * nv + triangles[3 * i + 1];
 		ibo_ptr[6 * m_nc + 3 * i + 2] = vbo_index + 1 * nv + triangles[3 * i + 2];
@@ -121,8 +121,8 @@ void Beam::ibo_fill_data(void) const
 	for(uint32_t i = 0; i < nv; i++)
 	{
 		ibo_ptr[12 * m_nc + 6 * i + 0] = vbo_index + 0 * nv + (i + 0) % nv;
-		ibo_ptr[12 * m_nc + 6 * i + 1] = vbo_index + 1 * nv + (i + 0) % nv;
-		ibo_ptr[12 * m_nc + 6 * i + 2] = vbo_index + 0 * nv + (i + 1) % nv;
+		ibo_ptr[12 * m_nc + 6 * i + 1] = vbo_index + 0 * nv + (i + 1) % nv;
+		ibo_ptr[12 * m_nc + 6 * i + 2] = vbo_index + 1 * nv + (i + 0) % nv;
 		ibo_ptr[12 * m_nc + 6 * i + 3] = vbo_index + 1 * nv + (i + 0) % nv;
 		ibo_ptr[12 * m_nc + 6 * i + 4] = vbo_index + 0 * nv + (i + 1) % nv;
 		ibo_ptr[12 * m_nc + 6 * i + 5] = vbo_index + 1 * nv + (i + 1) % nv;

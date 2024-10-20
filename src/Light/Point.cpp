@@ -18,13 +18,13 @@ namespace canvas
 		}
 
 		//data
-		vec3 Point::point(void) const
+		vec3 Point::position(void) const
 		{
-			return m_point;
+			return m_position;
 		}
-		vec3 Point::point(vec3 point)
+		vec3 Point::position(vec3 point)
 		{
-			return m_point = point;
+			return m_position = point;
 		}
 
 		Color Point::color(void) const

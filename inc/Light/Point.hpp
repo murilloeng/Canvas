@@ -18,15 +18,15 @@ namespace canvas
 			~Point(void);
 
 			//data
-			vec3 point(vec3);
-			vec3 point(void) const;
+			vec3 position(vec3);
+			vec3 position(void) const;
 
 			Color color(Color);
 			Color color(void) const;
 
 		private:
 			//data
-			vec3 m_point;
+			vec3 m_position;
 			Color m_color;
 		};
 	}

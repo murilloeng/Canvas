@@ -6,51 +6,67 @@ in vec4 geometry_color;
 in vec3 geometry_normal;
 in vec3 geometry_position;
 
-uniform float light_alpha;
-uniform bool light_ambient;
-uniform bool light_diffuse;
-uniform bool light_specular;
-uniform vec3 light_position;
-uniform vec3 camera_position;
-uniform vec4 light_color_ambient;
-uniform vec4 light_color_diffuse;
-uniform vec4 light_color_specular;
+struct Point
+{
+	vec3 m_color;
+	vec3 m_position;
+};
+struct Ambient
+{
+	vec3 m_color;
+};
+struct Direction
+{
+	vec3 m_color;
+	vec3 m_direction;
+};
 
-void apply_light_ambient(void)
-{
-	fragment_color.r += geometry_color.r * light_color_ambient.r;
-	fragment_color.g += geometry_color.g * light_color_ambient.g;
-	fragment_color.b += geometry_color.b * light_color_ambient.b;
-}
-void apply_diffuse_color(vec3 vl)
-{
-	fragment_color.r += dot(geometry_normal, vl) * geometry_color.r * light_color_diffuse.r;
-	fragment_color.g += dot(geometry_normal, vl) * geometry_color.g * light_color_diffuse.g;
-	fragment_color.b += dot(geometry_normal, vl) * geometry_color.b * light_color_diffuse.b;
-}
-void apply_specular_color(vec3 vc, vec3 vr)
-{
-	fragment_color.r += pow(dot(vc, vr), light_alpha) * geometry_color.r * light_color_specular.r;
-	fragment_color.g += pow(dot(vc, vr), light_alpha) * geometry_color.g * light_color_specular.g;
-	fragment_color.b += pow(dot(vc, vr), light_alpha) * geometry_color.b * light_color_specular.b;
-}
+const int n_max = 200;
+uniform uint n_points = 0;
+uniform uint n_directions = 0;
+uniform vec3 camera_position;
+
+uniform Point points[n_max];
+uniform Direction directions[n_max];
+uniform Ambient ambient = Ambient(vec3(0, 0, 0));
 
 void main(void)
 {
-	if(!light_ambient && !light_diffuse && !light_specular)
+	//data
+	const vec3 vc = normalize(camera_position - geometry_position);
+	//check
+	if(n_points == 0 && n_directions == 0 && length(ambient.m_color) == 0)
 	{
 		fragment_color = geometry_color;
+		return;
 	}
-	else
+	//alpha
+	fragment_color.a = geometry_color.a;
+	//ambient
+	fragment_color.r = geometry_color.r * ambient.m_color.r;
+	fragment_color.g = geometry_color.g * ambient.m_color.g;
+	fragment_color.b = geometry_color.b * ambient.m_color.b;
+	//direction
+	for(uint i = 0; i < n_directions; i++)
 	{
-		//data
-		vec3 vl = normalize(light_position - geometry_position);
-		vec3 vc = normalize(camera_position - geometry_position);
-		vec3 vr = -reflect(vl, geometry_normal);
-		//color
-		fragment_color = vec4(0, 0, 0, 1);
-		if(light_ambient) apply_light_ambient();
-		if(light_diffuse && dot(geometry_normal, vl) > 0) apply_diffuse_color(vl);
-		if(light_specular && dot(geometry_normal, vl) > 0 && dot(vc, vr) > 0) apply_specular_color(vc, vr);
+		const float dd = dot(geometry_normal, directions[i].m_direction);
+		if(dd > 0)
+		{
+			fragment_color.r += dd * geometry_color.r * directions[i].m_color.r;
+			fragment_color.g += dd * geometry_color.g * directions[i].m_color.g;
+			fragment_color.b += dd * geometry_color.b * directions[i].m_color.b;
+		}
+	}
+	//point
+	for(uint i = 0; i < n_points; i++)
+	{
+		const float rp = length(points[i].m_position - geometry_position);
+		const float dp = dot(geometry_normal, normalize(points[i].m_position - geometry_position));
+		if(dp > 0)
+		{
+			fragment_color.r += dp * geometry_color.r * points[i].m_color.r / rp / rp;
+			fragment_color.g += dp * geometry_color.g * points[i].m_color.g / rp / rp;
+			fragment_color.b += dp * geometry_color.b * points[i].m_color.b / rp / rp;
+		}
 	}
 }

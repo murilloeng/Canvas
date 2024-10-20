@@ -40,6 +40,12 @@ namespace canvas
 			const std::vector<Point*> points(void) const;
 			const std::vector<Direction*> directions(void) const;
 
+			//lists
+			void add_point(void);
+			void add_direction(void);
+			void remove_point(uint32_t);
+			void remove_direction(uint32_t);
+
 			//shaders
 			void update_shaders(void) const;
 
@@ -48,7 +54,7 @@ namespace canvas
 			Program* m_program;
 			Ambient* m_ambient;
 			std::vector<Point*> m_points;
-			std::vector<Direction*> m_diredtions;
+			std::vector<Direction*> m_directions;
 
 			//friends
 			friend class Scene;
