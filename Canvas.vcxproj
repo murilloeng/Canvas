@@ -52,9 +52,12 @@
     <ClInclude Include="inc\Scene\Font.hpp" />
     <ClInclude Include="inc\Scene\Image.hpp" />
     <ClInclude Include="inc\Scene\Latex.hpp" />
-    <ClInclude Include="inc\Scene\Light.hpp" />
     <ClInclude Include="inc\Scene\Scene.hpp" />
     <ClInclude Include="inc\Scene\Texture.hpp" />
+    <ClInclude Include="inc\Light\Light.hpp" />
+    <ClInclude Include="inc\Light\Point.hpp" />
+    <ClInclude Include="inc\Light\Ambient.hpp" />
+    <ClInclude Include="inc\Light\Direction.hpp" />
     <ClInclude Include="inc\Vertices\Image2D.hpp" />
     <ClInclude Include="inc\Vertices\Image3D.hpp" />
     <ClInclude Include="inc\Vertices\Model2D.hpp" />
@@ -113,9 +116,12 @@
     <ClCompile Include="src\Scene\Font.cpp" />
     <ClCompile Include="src\Scene\Image.cpp" />
     <ClCompile Include="src\Scene\Latex.cpp" />
-    <ClCompile Include="src\Scene\Light.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Scene\Texture.cpp" />
+    <ClCompile Include="src\Light\Light.cpp" />
+    <ClCompile Include="src\Light\Point.cpp" />
+    <ClCompile Include="src\Light\Ambient.cpp" />
+    <ClCompile Include="src\Light\Direction.cpp" />
     <ClCompile Include="src\Vertices\Image2D.cpp" />
     <ClCompile Include="src\Vertices\Image3D.cpp" />
     <ClCompile Include="src\Vertices\Model2D.cpp" />

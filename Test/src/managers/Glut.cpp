@@ -212,11 +212,6 @@ void Glut::callback_keyboard(uint8_t key, int x1, int x2)
 		master->scene()->update(true);
 		glutPostRedisplay();
 	}
-	else if(key == 'a' || key == 'd' || key == 's')
-	{
-		master->m_scene->light().callback_keyboard(key, x1, x2);
-		glutPostRedisplay();
-	}
 	else
 	{
 		master->m_scene->camera().callback_keyboard(key);

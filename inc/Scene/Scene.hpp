@@ -7,7 +7,7 @@
 
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"
-#include "Canvas/inc/Scene/Light.hpp"
+#include "Canvas/inc/Light/Light.hpp"
 #include "Canvas/inc/Scene/Camera.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
 
@@ -50,8 +50,8 @@ namespace canvas
 		Color background(Color);
 		Color background(void) const;
 
-		Light& light(void);
-		const Light& light(void) const;
+		lights::Light& light(void);
+		const lights::Light& light(void) const;
 
 		camera::Camera& camera(void);
 		const camera::Camera& camera(void) const;
@@ -126,7 +126,7 @@ namespace canvas
 		void buffers_transfer(void);
 
 		//data
-		Light m_light;
+		lights::Light m_light;
 		camera::Camera m_camera;
 
 		uint32_t m_vao_id[6];

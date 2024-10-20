@@ -91,11 +91,11 @@ namespace canvas
 		return m_background = background;
 	}
 
-	Light& Scene::light(void)
+	lights::Light& Scene::light(void)
 	{
 		return m_light;
 	}
-	const Light& Scene::light(void) const
+	const lights::Light& Scene::light(void) const
 	{
 		return m_light;
 	}
