@@ -49,7 +49,7 @@ void main(void)
 	//direction
 	for(uint i = 0; i < n_directions; i++)
 	{
-		const float dd = dot(geometry_normal, directions[i].m_direction);
+		const float dd = dot(geometry_normal, normalize(directions[i].m_direction));
 		if(dd > 0)
 		{
 			fragment_color.r += dd * geometry_color.r * directions[i].m_color.r;

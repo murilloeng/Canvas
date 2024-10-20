@@ -3,8 +3,6 @@
 
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/inc/Light/Direction.hpp"
 #include "Canvas/inc/Objects/1D/Line.hpp"
 
 //test
@@ -46,12 +44,6 @@ static void scene_setup(void)
 	scene->add_object(&link);
 	scene->add_object(&bar_1);
 	scene->add_object(&bar_2);
-	//light
-	scene->light().add_direction();
-	scene->light().ambient()->color({0.1f, 0.1f, 0.1f});
-	scene->light().direction(0)->color({1.0f, 1.0f, 1.0f});
-	scene->light().direction(0)->direction({0.0f, 0.0f, 1.0f});
-	scene->light().update_shaders();
 }
 static void scene_update(void)
 {
