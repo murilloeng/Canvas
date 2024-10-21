@@ -3,6 +3,8 @@
 
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Light/Ambient.hpp"
+#include "Canvas/inc/Light/Direction.hpp"
 #include "Canvas/inc/Objects/1D/Line.hpp"
 
 //test
@@ -37,13 +39,20 @@ static void scene_setup(void)
 	bar_1.node(0, canvas::vec3(-B - R, 0, +w));
 	bar_2.node(0, canvas::vec3(+B + R, 0, -w));
 	//colors
-	link.color_fill(canvas::Color(0, 1, 0));
+	scene->background("white");
+	link.color_fill(canvas::Color(1, 0, 0));
 	bar_1.color_fill(canvas::Color(0, 0, 1));
 	bar_2.color_fill(canvas::Color(0, 0, 1));
 	//scene
 	scene->add_object(&link);
 	scene->add_object(&bar_1);
 	scene->add_object(&bar_2);
+	//light
+	scene->light().add_direction();
+	scene->light().ambient()->color({0.1f, 0.1f, 0.1f});
+	scene->light().direction(0)->color({0.9f, 0.9f, 0.9f});
+	scene->light().direction(0)->direction({0.0f, 0.0f, 1.0f});
+	scene->light().update_shaders();
 }
 static void scene_update(void)
 {
