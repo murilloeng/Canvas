@@ -47,6 +47,7 @@
     <ClInclude Include="inc\Palettes\Palette.hpp" />
     <ClInclude Include="inc\Palettes\Types.hpp" />
     <ClInclude Include="inc\Scene\Camera.hpp" />
+    <ClInclude Include="inc\Scene\Command.hpp" />
     <ClInclude Include="inc\Scene\Character.hpp" />
     <ClInclude Include="inc\Scene\Click.hpp" />
     <ClInclude Include="inc\Scene\Font.hpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="src\Palettes\Viridis.cpp" />
     <ClCompile Include="src\Palettes\Whylrd.cpp" />
     <ClCompile Include="src\Scene\Camera.cpp" />
+    <ClCompile Include="src\Scene\Command.cpp" />
     <ClCompile Include="src\Scene\Character.cpp" />
     <ClCompile Include="src\Scene\Click.cpp" />
     <ClCompile Include="src\Scene\Font.cpp" />

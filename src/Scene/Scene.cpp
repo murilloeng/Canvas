@@ -56,6 +56,7 @@ namespace canvas
 		setup_shaders();
 		setup_textures();
 		setup_freetype();
+		setup_commands();
 		m_camera.m_scene = this;
 		m_camera.m_programs = m_programs;
 		m_light.m_program = &m_programs[1];
@@ -571,6 +572,29 @@ namespace canvas
 			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
 			exit(EXIT_FAILURE);
 		}
+	}
+	void Scene::setup_commands(void)
+	{
+		//model 3D
+		m_commands.push_back(Command(GL_POINTS, 0, 0, UINT32_MAX, 0));
+		m_commands.push_back(Command(GL_LINES, 0, 1, UINT32_MAX, 0));
+		m_commands.push_back(Command(GL_TRIANGLES, 0, 2, UINT32_MAX, 1));
+		//image 3D
+		m_commands.push_back(Command(GL_TRIANGLES, 1, 3, 0, 2));
+		//text 3D
+		m_commands.push_back(Command(GL_TRIANGLES, 2, 4, 1, 3));
+		//latex 3D
+		m_commands.push_back(Command(GL_TRIANGLES, 2, 5, 2, 3));
+		//model 2D
+		m_commands.push_back(Command(GL_POINTS, 3, 6, UINT32_MAX, 4));
+		m_commands.push_back(Command(GL_LINES, 3, 7, UINT32_MAX, 4));
+		m_commands.push_back(Command(GL_TRIANGLES, 3, 8, UINT32_MAX, 4));
+		//image 2D
+		m_commands.push_back(Command(GL_TRIANGLES, 4, 9, 0, 5));
+		//text 2D
+		m_commands.push_back(Command(GL_TRIANGLES, 5, 10, 1, 6));
+		//latex 2D
+		m_commands.push_back(Command(GL_TRIANGLES, 5, 11, 2, 6));
 	}
 	void Scene::setup_buffers_2D(void)
 	{

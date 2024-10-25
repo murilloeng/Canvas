@@ -8,8 +8,9 @@
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Light/Light.hpp"
-#include "Canvas/inc/Scene/Camera.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
+#include "Canvas/inc/Scene/Camera.hpp"
+#include "Canvas/inc/Scene/Command.hpp"
 
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
@@ -118,6 +119,7 @@ namespace canvas
 		void setup_shaders(void);
 		void setup_textures(void);
 		void setup_freetype(void);
+		void setup_commands(void);
 		void setup_buffers_2D(void);
 		void setup_buffers_3D(void);
 
@@ -146,6 +148,7 @@ namespace canvas
 		std::vector<Font*> m_fonts;
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
+		std::vector<Command> m_commands;
 		std::vector<objects::Object*> m_objects;
 
 		//friends
