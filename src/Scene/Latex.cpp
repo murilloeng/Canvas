@@ -18,7 +18,7 @@ static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document
 namespace canvas
 {
 	//constructors
-	Latex::Latex(const char* source) : m_status(false), m_source(source), m_data(nullptr)
+	Latex::Latex(const char* source) : m_status(false), m_data(nullptr), m_source(source)
 	{
 		return;
 	}

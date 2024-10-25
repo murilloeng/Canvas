@@ -35,11 +35,11 @@ namespace canvas
 	protected:
 		//data
 		bool m_status;
+		uint8_t* m_data;
 		uint32_t m_width;
 		uint32_t m_height;
 		uint32_t m_offset;
 		std::string m_path;
-		uint8_t* m_data;
 		static uint32_t m_total_width;
 		static uint32_t m_total_height;
 

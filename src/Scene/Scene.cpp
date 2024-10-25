@@ -41,7 +41,7 @@
 // ( 6) points 2D, ( 7) lines 2D, ( 8) triangles 2D, ( 9) images 2D, (10) text 2D, (11) latex 2D
 
 // programs
-// ( 0) model, (1) light, (2) images, (3) text
+// ( 0) model 3D, (1) light 3D, (2) images 3D, (3) text 3D ( 4) model 2D, (5) images 2D, (6) text 2D
 
 namespace canvas
 {

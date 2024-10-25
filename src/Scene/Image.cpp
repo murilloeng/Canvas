@@ -10,7 +10,7 @@
 namespace canvas
 {
 	//constructors
-	Image::Image(const char* path) : m_status(false), m_path(path), m_data(nullptr)
+	Image::Image(const char* path) : m_status(false), m_data(nullptr), m_path(path)
 	{
 		return;
 	}
