@@ -7,8 +7,8 @@
 
 //canvas
 #include "Canvas/inc/Math/vec3.hpp"
-#include "Canvas/inc/Objects/Anchor.hpp"
 #include "Canvas/inc/Objects/Geometry.hpp"
+#include "Canvas/inc/Objects/Image/Anchor.hpp"
 
 namespace canvas
 {
