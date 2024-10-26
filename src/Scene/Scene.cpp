@@ -110,6 +110,15 @@ namespace canvas
 		return m_camera;
 	}
 
+	std::vector<Command>& Scene::commands(void)
+	{
+		return m_commands;
+	}
+	const std::vector<Command>& Scene::commands(void) const
+	{
+		return m_commands;
+	}
+
 	void Scene::clear_fonts(void)
 	{
 		for(const Font* font : m_fonts) delete font;
@@ -235,16 +244,17 @@ namespace canvas
 		//clear
 		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//draw 3D
-		draw_text_3D();
-		draw_model_3D();
-		draw_image_3D();
-		draw_latex_3D();
-		//draw 2D
-		draw_text_2D();
-		draw_model_2D();
-		draw_image_2D();
-		draw_latex_2D();
+		//draw
+		for(const Command& command : m_commands)
+		{
+			if(!m_ibo_size[command.m_ibo_index]) continue;
+			m_programs[command.m_program_index].bind();
+			glBindVertexArray(m_vao_id[command.m_vbo_index]);
+			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[command.m_vbo_index]);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[command.m_ibo_index]);
+			if(command.has_texture()) glBindTexture(GL_TEXTURE_2D, m_texture_id[command.m_texture_index]);
+			glDrawElements(command.m_draw_mode, m_ibo_size[command.m_ibo_index], GL_UNSIGNED_INT, nullptr);
+		}
 	}
 	void Scene::update(bool setup)
 	{
@@ -277,107 +287,6 @@ namespace canvas
 		//vbo data
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[index]);
 		glBufferData(GL_ARRAY_BUFFER, m_vbo_size[index] * vs[index], m_vbo_data[index], GL_DYNAMIC_DRAW);
-	}
-
-	//draw
-	void Scene::draw_text_2D(void)
-	{
-		//model
-		m_programs[6].bind();
-		glBindVertexArray(m_vao_id[5]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[10]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[10], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_text_3D(void)
-	{
-		//model
-		m_programs[3].bind();
-		glBindVertexArray(m_vao_id[2]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[4]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[4], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_model_2D(void)
-	{
-		//model
-		m_programs[4].bind();
-		glBindVertexArray(m_vao_id[3]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[3]);
-		//draw points
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[6]);
-		glDrawElements(GL_POINTS, m_ibo_size[6], GL_UNSIGNED_INT, nullptr);
-		//draw lines
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[7]);
-		glDrawElements(GL_LINES, m_ibo_size[7], GL_UNSIGNED_INT, nullptr);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[8]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[8], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_model_3D(void)
-	{
-		//model
-		m_programs[0].bind();
-		glBindVertexArray(m_vao_id[0]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[0]);
-		//draw points
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[0]);
-		glDrawElements(GL_POINTS, m_ibo_size[0], GL_UNSIGNED_INT, nullptr);
-		//draw lines
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[1]);
-		glDrawElements(GL_LINES, m_ibo_size[1], GL_UNSIGNED_INT, nullptr);
-		//draw triangles
-		m_programs[1].bind();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[2]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[2], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_image_2D(void)
-	{
-		//model
-		m_programs[5].bind();
-		glBindVertexArray(m_vao_id[4]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[4]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[9]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[9], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_image_3D(void)
-	{
-		//model
-		m_programs[2].bind();
-		glBindVertexArray(m_vao_id[1]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[1]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[3]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[3], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_latex_2D(void)
-	{
-		//model
-		m_programs[6].bind();
-		glBindVertexArray(m_vao_id[5]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[5]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[11]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[11], GL_UNSIGNED_INT, nullptr);
-	}
-	void Scene::draw_latex_3D(void)
-	{
-		//model
-		m_programs[3].bind();
-		glBindVertexArray(m_vao_id[2]);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[2]);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
-		//draw triangles
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[5]);
-		glDrawElements(GL_TRIANGLES, m_ibo_size[5], GL_UNSIGNED_INT, nullptr);
 	}
 
 	//setup

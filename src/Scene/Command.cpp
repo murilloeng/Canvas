@@ -56,4 +56,10 @@ namespace canvas
 	{
 		return m_program_index = program_index;
 	}
+
+	//texture
+	bool Command::has_texture(void) const
+	{
+		return m_texture_index != UINT32_MAX;
+	}
 }

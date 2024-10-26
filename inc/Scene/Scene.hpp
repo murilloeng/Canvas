@@ -57,6 +57,9 @@ namespace canvas
 		camera::Camera& camera(void);
 		const camera::Camera& camera(void) const;
 
+		std::vector<Command>& commands(void);
+		const std::vector<Command>& commands(void) const;
+
 		void clear_fonts(void);
 		void add_font(const char*);
 		Font* font(uint32_t) const;
@@ -97,16 +100,6 @@ namespace canvas
 		void vbo_transfer(uint32_t) const;
 
 	protected:
-		//draw
-		void draw_text_2D(void);
-		void draw_text_3D(void);
-		void draw_model_2D(void);
-		void draw_model_3D(void);
-		void draw_image_2D(void);
-		void draw_image_3D(void);
-		void draw_latex_2D(void);
-		void draw_latex_3D(void);
-
 		//setup
 		void setup_gl(void);
 		void setup_vbo(void);

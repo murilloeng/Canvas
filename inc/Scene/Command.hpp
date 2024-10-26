@@ -5,6 +5,11 @@
 
 namespace canvas
 {
+	class Scene;
+}
+
+namespace canvas
+{
 	class Command
 	{
 	public:
@@ -27,6 +32,9 @@ namespace canvas
 		uint32_t program_index(uint32_t);
 		uint32_t program_index(void) const;
 
+		//texture
+		bool has_texture(void) const;
+
 private:
 		//data
 		uint32_t m_draw_mode;
@@ -34,5 +42,8 @@ private:
 		uint32_t m_ibo_index;
 		uint32_t m_texture_index;
 		uint32_t m_program_index;
+
+		//friends
+		friend class Scene;
 	};
 }
