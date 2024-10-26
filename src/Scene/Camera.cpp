@@ -3,19 +3,14 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #endif
 
-//os
-#ifdef _WIN32
-#include <Windows.h>
-#endif
-
 //std
 #include <cmath>
 #include <cfloat>
 #include <filesystem>
 
 //ext
-#include "external/cpp/inc/GL/glew.h"
 #include "stb_image_write.h"
+#include "external/cpp/inc/GL/glew.h"
 
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"

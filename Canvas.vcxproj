@@ -15,9 +15,12 @@
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
     <ClInclude Include="inc\Math\vec3.hpp" />
+    <ClInclude Include="inc\GPU\VBO.hpp" />
+    <ClInclude Include="inc\GPU\IBO.hpp" />
     <ClInclude Include="inc\GPU\Buffer.hpp" />
     <ClInclude Include="inc\GPU\Shader.hpp" />
     <ClInclude Include="inc\GPU\Program.hpp" />
+    <ClInclude Include="inc\GPU\Attribute.hpp" />
     <ClInclude Include="inc\Colors\Color.hpp" />
     <ClInclude Include="inc\Objects\0D\Point.hpp" />
     <ClInclude Include="inc\Objects\1D\Arc.hpp" />
@@ -74,9 +77,12 @@
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />
     <ClCompile Include="src\Math\vec3.cpp" />
+    <ClCompile Include="src\GPU\VBO.cpp" />
+    <ClCompile Include="src\GPU\IBO.cpp" />
     <ClCompile Include="src\GPU\Shader.cpp" />
     <ClCompile Include="src\GPU\Buffer.cpp" />
     <ClCompile Include="src\GPU\Program.cpp" />
+    <ClCompile Include="src\GPU\Attribute.cpp" />
     <ClCompile Include="src\Colors\Color.cpp" />
     <ClCompile Include="src\Objects\0D\Point.cpp" />
     <ClCompile Include="src\Objects\1D\Arc.cpp" />

@@ -5,12 +5,12 @@
 #include "Canvas/inc/Scene/Latex.hpp"
 
 //defines
-#ifndef _WIN32
-#define pdf_delete system("rm temp.*")
-#define pdf_convert system("convert -density 2000 temp.pdf temp.png")
-#else
+#ifdef _WIN32
 #define pdf_delete system("del temp.*")
 #define pdf_convert system("magick -density 2000 temp.pdf temp.png")
+#else
+#define pdf_delete system("rm temp.*")
+#define pdf_convert system("convert -density 2000 temp.pdf temp.png")
 #endif
 
 static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
