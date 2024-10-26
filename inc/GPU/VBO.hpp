@@ -34,8 +34,6 @@ namespace canvas
 		const std::vector<Attribute>& attributes(void) const;
 
 		//GPU
-		void setup(void);
-
 		void bind(void) const;
 		static void unbind(void);
 

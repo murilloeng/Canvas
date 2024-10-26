@@ -9,7 +9,8 @@ namespace canvas
 	//constructor
 	VBO::VBO(void) : m_data(nullptr), m_size(0)
 	{
-		return;
+		glCreateBuffers(1, &m_id);
+		glCreateVertexArrays(1, &m_vao_id);
 	}
 
 	//destructor
@@ -73,16 +74,6 @@ namespace canvas
 	}
 
 	//GPU
-	void VBO::setup(void)
-	{
-		//cleanup
-		if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
-		if(glIsVertexArray(m_vao_id)) glDeleteVertexArrays(1, &m_vao_id);
-		//setup
-		glCreateBuffers(1, &m_id);
-		glCreateVertexArrays(1, &m_vao_id);
-	}
-
 	void VBO::bind(void) const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);

@@ -25,8 +25,6 @@ namespace canvas
 		const uint32_t* data(void) const;
 
 		//GPU
-		void setup(void);
-
 		void bind(void) const;
 		static void unbind(void);
 

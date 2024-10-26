@@ -12,7 +12,7 @@ namespace canvas
 	//constructor
 	IBO::IBO(void) : m_data(nullptr), m_size(0)
 	{
-		return;
+		glCreateBuffers(1, &m_id);
 	}
 
 	//destructor
@@ -57,14 +57,6 @@ namespace canvas
 	}
 
 	//GPU
-	void IBO::setup(void)
-	{
-		//cleanup
-		if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
-		//setup
-		glCreateBuffers(1, &m_id);
-	}
-
 	void IBO::bind(void) const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
