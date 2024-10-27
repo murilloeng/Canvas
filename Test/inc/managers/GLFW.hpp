@@ -47,6 +47,8 @@ protected:
 	bool m_show_fps;
 	GLFWwindow* m_window;
 	canvas::Scene* m_scene;
+	static const uint32_t m_width = 700;
+	static const uint32_t m_height = 700;
 	std::function<void(void)> m_callback_idle;
 	std::function<void(int32_t, int32_t, int32_t)> m_callback_keyboard;
 };

@@ -28,7 +28,7 @@ GLFW::GLFW(int argc, char** argv, const char* shaders_dir) :
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 	//window
-	m_window = glfwCreateWindow(700, 700, "Canvas", nullptr, nullptr);
+	m_window = glfwCreateWindow(m_width, m_height, "Canvas", nullptr, nullptr);
 	if(!m_window)
 	{
 		glfwTerminate();
@@ -45,7 +45,7 @@ GLFW::GLFW(int argc, char** argv, const char* shaders_dir) :
 		exit(EXIT_FAILURE);
 	}
 	m_scene = new canvas::Scene(shaders_dir);
-	master->m_scene->camera().callback_reshape(700, 700);
+	master->m_scene->camera().callback_reshape(m_width, m_height);
 	//callbacks
 	glfwSetKeyCallback(m_window, callback_key);
 	glfwSetScrollCallback(m_window, callback_wheel);
@@ -187,7 +187,7 @@ void GLFW::callback_special(GLFWwindow* window, int32_t key, int32_t scancode, i
 	}
 	for(uint32_t i = 0; i < 4; i++)
 	{
-		if(key == glfw_keys[i])
+		if(uint32_t(key) == glfw_keys[i])
 		{
 			double x1, x2;
 			glfwGetCursorPos(window, &x1, &x2);

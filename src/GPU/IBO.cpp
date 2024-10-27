@@ -10,7 +10,7 @@
 namespace canvas
 {
 	//constructor
-	IBO::IBO(void) : m_data(nullptr), m_size(0)
+	IBO::IBO(void) : m_size(0), m_data(nullptr)
 	{
 		glCreateBuffers(1, &m_id);
 	}

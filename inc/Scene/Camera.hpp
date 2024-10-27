@@ -56,7 +56,10 @@ namespace canvas
 			quat rotation(const vec3&);
 			quat rotation(const quat&);
 
+			uint32_t width(uint32_t);
 			uint32_t width(void) const;
+
+			uint32_t height(uint32_t);
 			uint32_t height(void) const;
 
 			float plane(uint32_t) const;

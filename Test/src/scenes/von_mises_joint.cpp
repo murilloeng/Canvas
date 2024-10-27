@@ -1,4 +1,5 @@
 //std
+#include <cmath>
 #include <chrono>
 
 //canvas
@@ -9,7 +10,7 @@
 
 //test
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/test/inc/scenes/Beam.hpp"
+#include "Canvas/Test/inc/scenes/Beam.hpp"
 #include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //static data
@@ -20,7 +21,7 @@ static const float R = 0.10f;
 static const float h = 0.10f;
 static const float w = 0.02f;
 static Beam link, bar_1, bar_2;
-static std::chrono::steady_clock::time_point t0;
+static std::chrono::high_resolution_clock::time_point t0;
 
 //scene
 static void scene_setup(void)
@@ -59,7 +60,7 @@ static void scene_update(void)
 	//data
 	using namespace std::chrono;
 	const float L = sqrtf(B * B + H * H);
-	const steady_clock::time_point tn = steady_clock::now();
+	const high_resolution_clock::time_point tn = high_resolution_clock::now();
 	const float q = duration_cast<microseconds>(tn - t0).count() / 2e5f;
 	//state
 	const float p2 = R * sinf(q);

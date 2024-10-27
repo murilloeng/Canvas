@@ -57,7 +57,7 @@ namespace canvas
 			std::vector<Direction*> m_directions;
 
 			//friends
-			friend class Scene;
+			friend class canvas::Scene;
 		};
 	}
 }

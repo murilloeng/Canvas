@@ -7,7 +7,7 @@
 namespace canvas
 {
 	//constructor
-	VBO::VBO(void) : m_data(nullptr), m_size(0)
+	VBO::VBO(void) : m_size(0), m_data(nullptr)
 	{
 		glCreateBuffers(1, &m_id);
 		glCreateVertexArrays(1, &m_vao_id);

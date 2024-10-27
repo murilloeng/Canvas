@@ -126,9 +126,18 @@ namespace canvas
 		{
 			return m_width;
 		}
+		uint32_t Camera::width(uint32_t width)
+		{
+			return m_width = width;
+		}
+
 		uint32_t Camera::height(void) const
 		{
 			return m_height;
+		}
+		uint32_t Camera::height(uint32_t height)
+		{
+			return m_height = height;
 		}
 
 		float Camera::plane(uint32_t index) const

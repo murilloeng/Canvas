@@ -1,3 +1,6 @@
+//std
+#include <cstdio>
+
 //ext
 #include "external/cpp/inc/GL/glew.h"
 

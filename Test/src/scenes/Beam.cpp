@@ -6,10 +6,10 @@
 #include "Canvas/inc/Objects/Tessellator.hpp"
 
 //test
-#include "Canvas/test/inc/scenes/Beam.hpp"
+#include "Canvas/Test/inc/scenes/Beam.hpp"
 
 //constructor
-Beam::Beam(void) : m_height(0), m_thickness(0), m_major_axis{0, 0, 1}, m_nodes{{0, 0, 0}, {0, 0, 0}}
+Beam::Beam(void) : m_height(0), m_thickness(0), m_nodes{{0, 0, 0}, {0, 0, 0}}, m_major_axis{0, 0, 1}
 {
 	return;
 }

@@ -51,7 +51,7 @@ $(out_lib) : $(obj_lib)
 
 $(out_exe) : $(obj_exe)
 	@mkdir -p $(dir $@)
-	@g++ -fopenmp -o $(out_exe) $(obj_exe) dist/$(mode)/libcanvas.so -l GLEW -l glut -l freetype
+	@g++ -fopenmp -o $(out_exe) $(obj_exe) dist/$(mode)/libcanvas.so -l GLEW -l glut -l glfw -l freetype
 	@echo 'executable - $(mode): $@'
 
 build/$(mode)/%.o : src/%.cpp build/$(mode)/%.d
