@@ -216,8 +216,8 @@ namespace canvas
 				m_programs[i].set_uniform_matrix("view", m_view_matrix.data(), 4);
 				m_programs[i].set_uniform_matrix("projection", m_projection_matrix.data(), 4);
 			}
-			m_programs[1].bind();
-			m_programs[1].set_uniform("camera_position", m_position[0], m_position[1], -m_position[2]);
+			// m_programs[1].bind();
+			// m_programs[1].set_uniform("camera_position", m_position[0], m_position[1], -m_position[2]);
 		}
 
 		//callbacks
