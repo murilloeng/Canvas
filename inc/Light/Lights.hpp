@@ -23,14 +23,14 @@ namespace canvas
 {
 	namespace lights
 	{
-		class Light
+		class Lights
 		{
 		public:
 			//constructors
-			Light(void);
+			Lights(void);
 
 			//destructor
-			~Light(void);
+			~Lights(void);
 
 			//data
 			Point* point(uint32_t) const;

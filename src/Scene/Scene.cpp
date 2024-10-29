@@ -54,7 +54,7 @@ namespace canvas
 		setup_commands();
 		m_camera.m_scene = this;
 		m_camera.m_programs = m_programs;
-		m_light.m_program = &m_programs[1];
+		m_lights.m_program = &m_programs[1];
 	}
 
 	//destructor
@@ -87,13 +87,13 @@ namespace canvas
 		return m_background = background;
 	}
 
-	lights::Light& Scene::light(void)
+	lights::Lights& Scene::light(void)
 	{
-		return m_light;
+		return m_lights;
 	}
-	const lights::Light& Scene::light(void) const
+	const lights::Lights& Scene::light(void) const
 	{
-		return m_light;
+		return m_lights;
 	}
 
 	camera::Camera& Scene::camera(void)

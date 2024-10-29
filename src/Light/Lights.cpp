@@ -6,8 +6,8 @@
 
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"
-#include "Canvas/inc/Light/Light.hpp"
 #include "Canvas/inc/Light/Point.hpp"
+#include "Canvas/inc/Light/Lights.hpp"
 #include "Canvas/inc/Light/Ambient.hpp"
 #include "Canvas/inc/Light/Direction.hpp"
 
@@ -16,13 +16,13 @@ namespace canvas
 	namespace lights
 	{
 		//constructor
-		Light::Light(void) : m_ambient(new Ambient)
+		Lights::Lights(void) : m_ambient(new Ambient)
 		{
 			return;
 		}
 
 		//destructor
-		Light::~Light(void)
+		Lights::~Lights(void)
 		{
 			delete m_ambient;
 			for(Point* point : m_points) delete point;
@@ -30,50 +30,50 @@ namespace canvas
 		}
 		
 		//data
-		Ambient* Light::ambient(void) const
+		Ambient* Lights::ambient(void) const
 		{
 			return m_ambient;
 		}
-		Point* Light::point(uint32_t index) const
+		Point* Lights::point(uint32_t index) const
 		{
 			return m_points[index];
 		}
-		Direction* Light::direction(uint32_t index) const
+		Direction* Lights::direction(uint32_t index) const
 		{
 			return m_directions[index];
 		}
 
-		const std::vector<Point*> Light::points(void) const
+		const std::vector<Point*> Lights::points(void) const
 		{
 			return m_points;
 		}
-		const std::vector<Direction*> Light::directions(void) const
+		const std::vector<Direction*> Lights::directions(void) const
 		{
 			return m_directions;
 		}
 
 		//lists
-		void Light::add_point(void)
+		void Lights::add_point(void)
 		{
 			m_points.push_back(new Point);
 		}
-		void Light::add_direction(void)
+		void Lights::add_direction(void)
 		{
 			m_directions.push_back(new Direction);
 		}
-		void Light::remove_point(uint32_t index)
+		void Lights::remove_point(uint32_t index)
 		{
 			delete m_points[index];
 			m_points.erase(m_points.begin() + index);
 		}
-		void Light::remove_direction(uint32_t index)
+		void Lights::remove_direction(uint32_t index)
 		{
 			delete m_directions[index];
 			m_directions.erase(m_directions.begin() + index);
 		}
 
 		//shaders
-		void Light::update_shaders(void) const
+		void Lights::update_shaders(void) const
 		{
 			//bind
 			m_program->bind();

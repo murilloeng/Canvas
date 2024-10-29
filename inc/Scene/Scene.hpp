@@ -51,8 +51,8 @@ namespace canvas
 		Color background(Color);
 		Color background(void) const;
 
-		lights::Light& light(void);
-		const lights::Light& light(void) const;
+		lights::Lights& light(void);
+		const lights::Lights& light(void) const;
 
 		camera::Camera& camera(void);
 		const camera::Camera& camera(void) const;
@@ -121,7 +121,7 @@ namespace canvas
 		void buffers_transfer(void);
 
 		//data
-		lights::Light m_light;
+		lights::Lights m_lights;
 		camera::Camera m_camera;
 
 		uint32_t m_vao_id[6];
