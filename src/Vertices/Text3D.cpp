@@ -1,4 +1,8 @@
+//ext
+#include "external/cpp/inc/GL/glew.h"
+
 //canvas
+#include "Canvas/inc/GPU/Attribute.hpp"
 #include "Canvas/inc/Vertices/Text3D.hpp"
 
 namespace canvas
@@ -15,6 +19,14 @@ namespace canvas
 		Text3D::~Text3D(void)
 		{
 			return;
+		}
+
+		//attributes
+		void Text3D::attributes(std::vector<Attribute>& attributes)
+		{
+			Vertex3D::attributes(attributes);
+			attributes.push_back(Attribute(GL_FLOAT, 4));
+			attributes.push_back(Attribute(GL_FLOAT, 2));
 		}
 	}
 }

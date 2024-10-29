@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~Text3D(void);
 
+			//attributes
+			static void attributes(std::vector<Attribute>&);
+
 			//data
 			Color m_color;
 			vec2 m_texture_coordinates;

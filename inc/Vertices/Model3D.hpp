@@ -17,6 +17,9 @@ namespace canvas
 			//destructor
 			~Model3D(void);
 
+			//attributes
+			static void attributes(std::vector<Attribute>&);
+
 			//data
 			Color m_color;
 		};

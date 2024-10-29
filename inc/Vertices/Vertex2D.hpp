@@ -17,6 +17,9 @@ namespace canvas
 			//destructor
 			~Vertex2D(void);
 
+			//attributes
+			static void attributes(std::vector<Attribute>&);
+
 			//data
 			vec2 m_position;
 		};

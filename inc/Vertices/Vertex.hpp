@@ -1,5 +1,13 @@
 #pragma once
 
+//std
+#include <vector>
+
+namespace canvas
+{
+	struct Attribute;
+}
+
 namespace canvas
 {
 	namespace vertices
@@ -12,6 +20,9 @@ namespace canvas
 
 			//destructor
 			~Vertex(void);
+
+			//attributes
+			static void attributes(std::vector<Attribute>&);
 		};
 	}
 }

@@ -1,4 +1,8 @@
+//ext
+#include "external/cpp/inc/GL/glew.h"
+
 //canvas
+#include "Canvas/inc/GPU/Attribute.hpp"
 #include "Canvas/inc/Vertices/Image3D.hpp"
 
 namespace canvas
@@ -15,6 +19,13 @@ namespace canvas
 		Image3D::~Image3D(void)
 		{
 			return;
+		}
+
+		//attributes
+		void Image3D::attributes(std::vector<Attribute>& attributes)
+		{
+			Vertex3D::attributes(attributes);
+			attributes.push_back(Attribute(GL_FLOAT, 2));
 		}
 	}
 }

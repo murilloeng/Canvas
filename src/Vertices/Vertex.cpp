@@ -16,5 +16,11 @@ namespace canvas
 		{
 			return;
 		}
+
+		//attributes
+		void Vertex::attributes(std::vector<Attribute>&)
+		{
+			return;
+		}
 	}
 }
