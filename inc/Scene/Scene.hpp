@@ -7,7 +7,7 @@
 
 //canvas
 #include "Canvas/inc/GPU/Program.hpp"
-#include "Canvas/inc/Light/Light.hpp"
+#include "Canvas/inc/Light/Lights.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
 #include "Canvas/inc/Scene/Camera.hpp"
 #include "Canvas/inc/Scene/Command.hpp"
