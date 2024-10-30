@@ -5,6 +5,15 @@
 
 namespace canvas
 {
+	class Scene;
+	namespace objects
+	{
+		class Object;
+	}
+}
+
+namespace canvas
+{
 	class IBO
 	{
 	public:

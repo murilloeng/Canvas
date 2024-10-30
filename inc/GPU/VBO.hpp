@@ -10,6 +10,15 @@
 
 namespace canvas
 {
+	class Scene;
+	namespace objects
+	{
+		class Object;
+	}
+}
+
+namespace canvas
+{
 	class VBO
 	{
 	public:
@@ -47,5 +56,9 @@ namespace canvas
 		uint32_t m_size;
 		uint32_t m_vao_id;
 		std::vector<Attribute> m_attributes;
+
+		//friends
+		friend class Scene;
+		friend class objects::Object;
 	};
 }
