@@ -139,13 +139,16 @@ namespace canvas
 		void Object::setup(void)
 		{
 			buffers_size();
+			for(uint32_t i = 0; i < 6; i++)
+			{
+				m_vbo_index[i] = m_scene->m_vbo[i].m_size;
+				m_scene->m_vbo[i].m_size += m_vbo_size[i];
+			}
 			for(uint32_t i = 0; i < 12; i++)
 			{
 				m_ibo_index[i] = m_scene->m_ibo[i].m_size;
 				m_scene->m_ibo[i].m_size += m_ibo_size[i];
 			}
-			memcpy(m_vbo_index, m_scene->m_vbo_size, sizeof(m_vbo_index));
-			for(uint32_t i = 0; i <  6; i++) m_scene->m_vbo_size[i] += m_vbo_size[i];
 		}
 	}
 }

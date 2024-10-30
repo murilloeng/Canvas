@@ -6,6 +6,7 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/inc/GPU/VBO.hpp"
 #include "Canvas/inc/GPU/IBO.hpp"
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Light/Lights.hpp"
@@ -82,8 +83,8 @@ namespace canvas
 		const std::vector<objects::Object*>& objects(void) const;
 
 		//buffers
+		VBO& vbo(uint32_t);
 		IBO& ibo(uint32_t);
-		uint32_t vbo_size(uint32_t) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;
@@ -94,9 +95,6 @@ namespace canvas
 		//update
 		void draw(void);
 		void update(bool);
-
-		//buffers
-		void vbo_transfer(uint32_t) const;
 
 	protected:
 		//setup
@@ -112,26 +110,19 @@ namespace canvas
 		void setup_textures(void);
 		void setup_freetype(void);
 		void setup_commands(void);
-		void setup_buffers_2D(void);
-		void setup_buffers_3D(void);
 
 		//buffers
 		void buffers_data(void);
-		void buffers_transfer(void);
 
 		//data
+		VBO m_vbo[6];
 		IBO m_ibo[12];
+		Color m_background;
+		Program m_programs[7];
 		lights::Lights m_lights;
 		camera::Camera m_camera;
 
-		uint32_t m_vao_id[6];
-		uint32_t m_vbo_id[6];
-		uint32_t m_vbo_size[6];
 		uint32_t m_texture_id[3];
-		vertices::Vertex* m_vbo_data[6];
-
-		Color m_background;
-		Program m_programs[7];
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;
