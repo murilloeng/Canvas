@@ -27,8 +27,8 @@ namespace canvas
 		uint32_t vao_id(void) const;
 		uint32_t stride(void) const;
 
-		vertices::Vertex* data(void);
-		const vertices::Vertex* data(void) const;
+		void* data(void);
+		const void* data(void) const;
 
 		std::vector<Attribute>& attributes(void);
 		const std::vector<Attribute>& attributes(void) const;
@@ -42,10 +42,10 @@ namespace canvas
 
 	private:
 		//data
+		void* m_data;
 		uint32_t m_id;
 		uint32_t m_size;
 		uint32_t m_vao_id;
-		vertices::Vertex* m_data;
 		std::vector<Attribute> m_attributes;
 	};
 }
