@@ -6,6 +6,7 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/inc/GPU/IBO.hpp"
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Light/Lights.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
@@ -81,9 +82,8 @@ namespace canvas
 		const std::vector<objects::Object*>& objects(void) const;
 
 		//buffers
+		IBO& ibo(uint32_t);
 		uint32_t vbo_size(uint32_t) const;
-		uint32_t ibo_size(uint32_t) const;
-		uint32_t* ibo_data(uint32_t) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;
@@ -96,7 +96,6 @@ namespace canvas
 		void update(bool);
 
 		//buffers
-		void ibo_transfer(uint32_t) const;
 		void vbo_transfer(uint32_t) const;
 
 	protected:
@@ -121,15 +120,13 @@ namespace canvas
 		void buffers_transfer(void);
 
 		//data
+		IBO m_ibo[12];
 		lights::Lights m_lights;
 		camera::Camera m_camera;
 
 		uint32_t m_vao_id[6];
 		uint32_t m_vbo_id[6];
-		uint32_t m_ibo_id[12];
 		uint32_t m_vbo_size[6];
-		uint32_t m_ibo_size[12];
-		uint32_t* m_ibo_data[12];
 		uint32_t m_texture_id[3];
 		vertices::Vertex* m_vbo_data[6];
 

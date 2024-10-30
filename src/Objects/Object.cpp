@@ -65,7 +65,7 @@ namespace canvas
 		//buffers
 		uint32_t* Object::ibo_data(uint32_t index) const
 		{
-			return m_scene->ibo_data(index) + m_ibo_index[index];
+			return m_scene->ibo(index).data() + m_ibo_index[index];
 		}
 		vertices::Text2D* Object::vbo_data_text_2D(void) const
 		{
@@ -139,10 +139,13 @@ namespace canvas
 		void Object::setup(void)
 		{
 			buffers_size();
+			for(uint32_t i = 0; i < 12; i++)
+			{
+				m_ibo_index[i] = m_scene->m_ibo[i].m_size;
+				m_scene->m_ibo[i].m_size += m_ibo_size[i];
+			}
 			memcpy(m_vbo_index, m_scene->m_vbo_size, sizeof(m_vbo_index));
-			memcpy(m_ibo_index, m_scene->m_ibo_size, sizeof(m_ibo_index));
 			for(uint32_t i = 0; i <  6; i++) m_scene->m_vbo_size[i] += m_vbo_size[i];
-			for(uint32_t i = 0; i < 12; i++) m_scene->m_ibo_size[i] += m_ibo_size[i];
 		}
 	}
 }

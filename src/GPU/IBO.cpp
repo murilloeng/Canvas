@@ -34,12 +34,6 @@ namespace canvas
 	}
 	uint32_t IBO::size(uint32_t size)
 	{
-		//data
-		delete[] m_data;
-		m_data = new uint32_t[size];
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
-		//return
 		return m_size = size;
 	}
 	
@@ -57,15 +51,17 @@ namespace canvas
 	}
 
 	//GPU
+	void IBO::allocate(void)
+	{
+		delete[] m_data;
+		m_data = new uint32_t[m_size];
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+	}
 	void IBO::bind(void) const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 	}
-	void IBO::unbind(void)
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-
 	void IBO::transfer(void) const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);

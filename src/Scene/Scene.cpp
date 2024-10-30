@@ -42,8 +42,7 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) :
-		m_vbo_size{0, 0, 0, 0, 0, 0}, m_ibo_size{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		m_ibo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr},
+		m_vbo_size{0, 0, 0, 0, 0, 0}, 
 		m_vbo_data{nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}, m_background(0, 0, 0, 1), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
@@ -65,12 +64,10 @@ namespace canvas
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
 		for(uint32_t i = 0; i < 6; i++) delete[] m_vbo_data[i];
-		for(uint32_t i = 0; i < 12; i++) delete[] m_ibo_data[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
 		glUseProgram(0);
 		glDeleteBuffers(6, m_vbo_id);
-		glDeleteBuffers(12, m_ibo_id);
 		glDeleteTextures(3, m_texture_id);
 		glDeleteVertexArrays(6, m_vao_id);
 		//freetype
@@ -194,17 +191,13 @@ namespace canvas
 	}
 
 	//buffers
+	IBO& Scene::ibo(uint32_t index)
+	{
+		return m_ibo[index];
+	}
 	uint32_t Scene::vbo_size(uint32_t index) const
 	{
 		return m_vbo_size[index];
-	}
-	uint32_t Scene::ibo_size(uint32_t index) const
-	{
-		return m_ibo_size[index];
-	}
-	uint32_t* Scene::ibo_data(uint32_t index) const
-	{
-		return m_ibo_data[index];
 	}
 	vertices::Text2D* Scene::vbo_data_text_2D(void) const
 	{
@@ -242,13 +235,16 @@ namespace canvas
 		//draw
 		for(const Command& command : m_commands)
 		{
-			if(!m_ibo_size[command.m_ibo_index]) continue;
+			//data
+			IBO& ibo = m_ibo[command.m_ibo_index];
+			//draw
+			if(!ibo.m_size) continue;
 			m_programs[command.m_program_index].bind();
 			glBindVertexArray(m_vao_id[command.m_vbo_index]);
 			glBindBuffer(GL_ARRAY_BUFFER, m_vbo_id[command.m_vbo_index]);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[command.m_ibo_index]);
+			ibo.bind();
 			if(command.has_texture()) glBindTexture(GL_TEXTURE_2D, m_texture_id[command.m_texture_index]);
-			glDrawElements(command.m_draw_mode, m_ibo_size[command.m_ibo_index], GL_UNSIGNED_INT, nullptr);
+			glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
 		}
 	}
 	void Scene::update(bool setup)
@@ -267,11 +263,6 @@ namespace canvas
 	}
 
 	//buffers
-	void Scene::ibo_transfer(uint32_t index) const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[index]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ibo_size[index] * sizeof(uint32_t), m_ibo_data[index], GL_DYNAMIC_DRAW);
-	}
 	void Scene::vbo_transfer(uint32_t index) const
 	{
 		//data
@@ -311,11 +302,7 @@ namespace canvas
 	}
 	void Scene::setup_ibo(void)
 	{
-		for(uint32_t i = 0; i < 12; i++)
-		{
-			delete[] m_ibo_data[i];
-			m_ibo_data[i] = new uint32_t[m_ibo_size[i]];
-		}
+		for(IBO& ibo : m_ibo) ibo.allocate();
 	}
 	void Scene::setup_fonts(void)
 	{
@@ -420,8 +407,8 @@ namespace canvas
 	}
 	void Scene::setup_objects(void)
 	{
+		for(IBO& ibo : m_ibo) ibo.m_size = 0;
 		memset(m_vbo_size, 0, sizeof(m_vbo_size));
-		memset(m_ibo_size, 0, sizeof(m_ibo_size));
 		for(objects::Object* object : m_objects) object->setup();
 		setup_vbo();
 		setup_ibo();
@@ -430,7 +417,6 @@ namespace canvas
 	{
 		//generate
 		glGenBuffers(6, m_vbo_id);
-		glGenBuffers(12, m_ibo_id);
 		glGenVertexArrays(6, m_vao_id);
 		//buffers
 		setup_buffers_2D();
@@ -598,10 +584,6 @@ namespace canvas
 			glBufferData(GL_ARRAY_BUFFER, m_vbo_size[i] * vs[i], m_vbo_data[i], GL_DYNAMIC_DRAW);
 		}
 		//ibo data
-		for(uint32_t i = 0; i < 12; i++)
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo_id[i]);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_ibo_size[i] * sizeof(uint32_t), m_ibo_data[i], GL_DYNAMIC_DRAW);
-		}
+		for(const IBO& ibo : m_ibo) ibo.transfer();
 	}
 }
