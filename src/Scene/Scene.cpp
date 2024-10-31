@@ -63,7 +63,6 @@ namespace canvas
 		for(const Image* image : m_images) delete image;
 		for(const objects::Object* object : m_objects) delete object;
 		//opengl
-		glUseProgram(0);
 		glDeleteTextures(3, m_texture_id);
 		//freetype
 		FT_Done_FreeType(m_ft_library);
@@ -233,13 +232,19 @@ namespace canvas
 			//data
 			VBO& vbo = m_vbo[command.m_vbo_index];
 			IBO& ibo = m_ibo[command.m_ibo_index];
+			Program& program = m_programs[command.m_program_index];
 			//draw
-			if(!ibo.m_size) continue;
-			m_programs[command.m_program_index].bind();
-			vbo.bind();
-			ibo.bind();
-			if(command.has_texture()) glBindTexture(GL_TEXTURE_2D, m_texture_id[command.m_texture_index]);
-			glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
+			if(ibo.m_size)
+			{
+				vbo.bind();
+				ibo.bind();
+				program.bind();
+				if(command.has_texture())
+				{
+					glBindTexture(GL_TEXTURE_2D, m_texture_id[command.m_texture_index]);
+				}
+				glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
+			}
 		}
 	}
 	void Scene::update(bool setup)
@@ -269,14 +274,6 @@ namespace canvas
 		glPointSize(7);
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-	void Scene::setup_vbo(void)
-	{
-		for(VBO& vbo : m_vbo) vbo.allocate();
-	}
-	void Scene::setup_ibo(void)
-	{
-		for(IBO& ibo : m_ibo) ibo.allocate();
 	}
 	void Scene::setup_fonts(void)
 	{
@@ -384,8 +381,8 @@ namespace canvas
 		for(VBO& vbo : m_vbo) vbo.m_size = 0;
 		for(IBO& ibo : m_ibo) ibo.m_size = 0;
 		for(objects::Object* object : m_objects) object->setup();
-		setup_vbo();
-		setup_ibo();
+		for(VBO& vbo : m_vbo) vbo.allocate();
+		for(IBO& ibo : m_ibo) ibo.allocate();
 	}
 	void Scene::setup_buffers(void)
 	{
@@ -397,12 +394,7 @@ namespace canvas
 		vertices::Model2D::attributes(m_vbo[3].m_attributes);
 		vertices::Image2D::attributes(m_vbo[4].m_attributes);
 		//enable
-		m_vbo[0].enable();
-		m_vbo[1].enable();
-		m_vbo[2].enable();
-		m_vbo[3].enable();
-		m_vbo[4].enable();
-		m_vbo[5].enable();
+		for(VBO& vbo : m_vbo) vbo.enable();
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -423,7 +415,7 @@ namespace canvas
 		m_programs[5].fragment_shader()->path(m_shaders_dir + "image2D.frag");
 		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
-		for(uint32_t i = 0; i < 7; i++) m_programs[i].setup();
+		for(Program& program : m_programs) program.setup();
 	}
 	void Scene::setup_textures(void)
 	{
