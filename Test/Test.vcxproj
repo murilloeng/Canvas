@@ -115,7 +115,7 @@
       <AdditionalIncludeDirectories>../..;../../external/cpp/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

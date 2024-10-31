@@ -191,7 +191,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>
