@@ -18,6 +18,7 @@
     <ClInclude Include="inc\GPU\VBO.hpp" />
     <ClInclude Include="inc\GPU\IBO.hpp" />
     <ClInclude Include="inc\GPU\Shader.hpp" />
+    <ClInclude Include="inc\GPU\Texture.hpp" />
     <ClInclude Include="inc\GPU\Program.hpp" />
     <ClInclude Include="inc\GPU\Attribute.hpp" />
     <ClInclude Include="inc\Colors\Color.hpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="src\GPU\VBO.cpp" />
     <ClCompile Include="src\GPU\IBO.cpp" />
     <ClCompile Include="src\GPU\Shader.cpp" />
+    <ClCompile Include="src\GPU\Texture.cpp" />
     <ClCompile Include="src\GPU\Program.cpp" />
     <ClCompile Include="src\GPU\Attribute.cpp" />
     <ClCompile Include="src\Colors\Color.cpp" />
