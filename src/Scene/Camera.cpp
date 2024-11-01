@@ -421,12 +421,12 @@ namespace canvas
 			m_x_max = {-a, -a, -a};
 			for(uint32_t i = 0; i < 3; i++)
 			{
-				for(uint32_t j = 0; j < m_scene->m_vbo[i].size(); j++)
+				for(uint32_t j = 0; j < m_scene->m_vbos[i].size(); j++)
 				{
 					//position
-					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo[i].data() + j)->m_position;
-					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbo[i].data() + j)->m_position;
-					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbo[i].data() + j)->m_position;
+					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i].data() + j)->m_position;
+					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i].data() + j)->m_position;
+					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i].data() + j)->m_position;
 					//bound
 					m_x_min[0] = fminf(m_x_min[0], xp->inner(t1));
 					m_x_min[1] = fminf(m_x_min[1], xp->inner(t2));
@@ -441,7 +441,7 @@ namespace canvas
 		{
 			//data
 			const bool test_size = 
-				!m_scene->m_vbo[0].size() && !m_scene->m_vbo[1].size() && !m_scene->m_vbo[2].size();
+				!m_scene->m_vbos[0].size() && !m_scene->m_vbos[1].size() && !m_scene->m_vbos[2].size();
 			const bool test_point =
 				m_x_min[0] == m_x_max[0] && m_x_min[1] == m_x_max[1] && m_x_min[2] == m_x_max[2];
 			//size
@@ -471,12 +471,12 @@ namespace canvas
 			m_bounds.clear();
 			for(uint32_t i = 0; i < 3; i++)
 			{
-				for(uint32_t j = 0; j < m_scene->m_vbo[i].size(); j++)
+				for(uint32_t j = 0; j < m_scene->m_vbos[i].size(); j++)
 				{
 					//position
-					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbo[i].data() + j)->m_position;
-					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbo[i].data() + j)->m_position;
-					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbo[i].data() + j)->m_position;
+					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i].data() + j)->m_position;
+					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i].data() + j)->m_position;
+					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i].data() + j)->m_position;
 					//update
 					const vec3 xs(xp->inner(t1), xp->inner(t2), xp->inner(t3));
 					const bool c1 = fabs(xs[0] - x1[0]) < 1e-5 * s || fabs(xs[0] - x2[0]) < 1e-5 * s;

@@ -113,14 +113,13 @@ namespace canvas
 		void buffers_data(void);
 
 		//data
-		VBO m_vbo[6];
-		IBO m_ibo[12];
 		Color m_background;
-		Texture m_textures[3];
-		Program m_programs[7];
-		lights::Lights m_lights;
 		camera::Camera m_camera;
-
+		lights::Lights m_lights;
+		std::vector<VBO> m_vbos;
+		std::vector<IBO> m_ibos;
+		std::vector<Texture> m_textures;
+		std::vector<Program> m_programs;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;

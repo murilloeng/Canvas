@@ -41,7 +41,9 @@
 namespace canvas
 {
 	//constructors
-	Scene::Scene(std::string shaders_dir) : m_background(0, 0, 0, 1), m_shaders_dir(shaders_dir)
+	Scene::Scene(std::string shaders_dir) : 
+		m_vbos(6), m_ibos(12), m_textures(3), m_programs(7), 
+		m_background(0, 0, 0, 1), m_shaders_dir(shaders_dir)
 	{
 		setup_gl();
 		setup_buffers();
@@ -49,8 +51,8 @@ namespace canvas
 		setup_freetype();
 		setup_commands();
 		m_camera.m_scene = this;
-		m_camera.m_programs = m_programs;
 		m_lights.m_program = &m_programs[1];
+		m_camera.m_programs = m_programs.data();
 	}
 
 	//destructor
@@ -184,35 +186,35 @@ namespace canvas
 	//buffers
 	VBO& Scene::vbo(uint32_t index)
 	{
-		return m_vbo[index];
+		return m_vbos[index];
 	}
 	IBO& Scene::ibo(uint32_t index)
 	{
-		return m_ibo[index];
+		return m_ibos[index];
 	}
 	vertices::Text2D* Scene::vbo_data_text_2D(void) const
 	{
-		return (vertices::Text2D*) m_vbo[5].data();
+		return (vertices::Text2D*) m_vbos[5].data();
 	}
 	vertices::Text3D* Scene::vbo_data_text_3D(void) const
 	{
-		return (vertices::Text3D*) m_vbo[2].data();
+		return (vertices::Text3D*) m_vbos[2].data();
 	}
 	vertices::Model2D* Scene::vbo_data_model_2D(void) const
 	{
-		return (vertices::Model2D*) m_vbo[3].data();
+		return (vertices::Model2D*) m_vbos[3].data();
 	}
 	vertices::Model3D* Scene::vbo_data_model_3D(void) const
 	{
-		return (vertices::Model3D*) m_vbo[0].data();
+		return (vertices::Model3D*) m_vbos[0].data();
 	}
 	vertices::Image2D* Scene::vbo_data_image_2D(void) const
 	{
-		return (vertices::Image2D*) m_vbo[4].data();
+		return (vertices::Image2D*) m_vbos[4].data();
 	}
 	vertices::Image3D* Scene::vbo_data_image_3D(void) const
 	{
-		return (vertices::Image3D*) m_vbo[1].data();
+		return (vertices::Image3D*) m_vbos[1].data();
 	}
 
 	//draw
@@ -227,8 +229,8 @@ namespace canvas
 		for(const Command& command : m_commands)
 		{
 			//data
-			VBO& vbo = m_vbo[command.m_vbo_index];
-			IBO& ibo = m_ibo[command.m_ibo_index];
+			VBO& vbo = m_vbos[command.m_vbo_index];
+			IBO& ibo = m_ibos[command.m_ibo_index];
 			Texture& texture = m_textures[command.m_texture_index];
 			Program& program = m_programs[command.m_program_index];
 			//draw
@@ -254,8 +256,8 @@ namespace canvas
 		}
 		//buffers
 		buffers_data();
-		for(const VBO& vbo : m_vbo) vbo.transfer();
-		for(const IBO& ibo : m_ibo) ibo.transfer();
+		for(const VBO& vbo : m_vbos) vbo.transfer();
+		for(const IBO& ibo : m_ibos) ibo.transfer();
 	}
 
 	//setup
@@ -370,23 +372,23 @@ namespace canvas
 	}
 	void Scene::setup_objects(void)
 	{
-		for(VBO& vbo : m_vbo) vbo.m_size = 0;
-		for(IBO& ibo : m_ibo) ibo.m_size = 0;
+		for(VBO& vbo : m_vbos) vbo.m_size = 0;
+		for(IBO& ibo : m_ibos) ibo.m_size = 0;
 		for(objects::Object* object : m_objects) object->setup();
-		for(VBO& vbo : m_vbo) vbo.allocate();
-		for(IBO& ibo : m_ibo) ibo.allocate();
+		for(VBO& vbo : m_vbos) vbo.allocate();
+		for(IBO& ibo : m_ibos) ibo.allocate();
 	}
 	void Scene::setup_buffers(void)
 	{
 		//attributes
-		vertices::Text3D::attributes(m_vbo[2].m_attributes);
-		vertices::Text2D::attributes(m_vbo[5].m_attributes);
-		vertices::Model3D::attributes(m_vbo[0].m_attributes);
-		vertices::Image3D::attributes(m_vbo[1].m_attributes);
-		vertices::Model2D::attributes(m_vbo[3].m_attributes);
-		vertices::Image2D::attributes(m_vbo[4].m_attributes);
+		vertices::Text3D::attributes(m_vbos[2].m_attributes);
+		vertices::Text2D::attributes(m_vbos[5].m_attributes);
+		vertices::Model3D::attributes(m_vbos[0].m_attributes);
+		vertices::Image3D::attributes(m_vbos[1].m_attributes);
+		vertices::Model2D::attributes(m_vbos[3].m_attributes);
+		vertices::Image2D::attributes(m_vbos[4].m_attributes);
 		//enable
-		for(VBO& vbo : m_vbo) vbo.enable();
+		for(VBO& vbo : m_vbos) vbo.enable();
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -455,9 +457,9 @@ namespace canvas
 				for(uint32_t iv = ib; iv < ib + is; iv++)
 				{
 					vertices::Vertex3D* vertex;
-					if(j == 2) vertex = (vertices::Text3D*) m_vbo[j].m_data + iv;
-					if(j == 0) vertex = (vertices::Model3D*) m_vbo[j].m_data + iv;
-					if(j == 1) vertex = (vertices::Image3D*) m_vbo[j].m_data + iv;
+					if(j == 2) vertex = (vertices::Text3D*) m_vbos[j].m_data + iv;
+					if(j == 0) vertex = (vertices::Model3D*) m_vbos[j].m_data + iv;
+					if(j == 1) vertex = (vertices::Image3D*) m_vbos[j].m_data + iv;
 					if(m_objects[i]->m_has_model_matrix)
 					{
 						vertex->m_position = m_objects[i]->m_model_matrix * vertex->m_position;
