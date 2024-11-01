@@ -86,6 +86,12 @@ namespace canvas
 		//buffers
 		VBO& vbo(uint32_t);
 		IBO& ibo(uint32_t);
+		std::vector<VBO>& vbos(void);
+		std::vector<IBO>& ibos(void);
+		const VBO& vbo(uint32_t) const;
+		const IBO& ibo(uint32_t) const;
+		const std::vector<VBO>& vbos(void) const;
+		const std::vector<IBO>& ibos(void) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;

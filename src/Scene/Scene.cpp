@@ -192,6 +192,30 @@ namespace canvas
 	{
 		return m_ibos[index];
 	}
+	std::vector<VBO>& Scene::vbos(void)
+	{
+		return m_vbos;
+	}
+	std::vector<IBO>& Scene::ibos(void)
+	{
+		return m_ibos;
+	}
+	const VBO& Scene::vbo(uint32_t index) const
+	{
+		return m_vbos[index];
+	}
+	const IBO& Scene::ibo(uint32_t index) const
+	{
+		return m_ibos[index];
+	}
+	const std::vector<VBO>& Scene::vbos(void) const
+	{
+		return m_vbos;
+	}
+	const std::vector<IBO>& Scene::ibos(void) const
+	{
+		return m_ibos;
+	}
 	vertices::Text2D* Scene::vbo_data_text_2D(void) const
 	{
 		return (vertices::Text2D*) m_vbos[5].data();
