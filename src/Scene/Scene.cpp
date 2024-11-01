@@ -241,6 +241,42 @@ namespace canvas
 		return (vertices::Image3D*) m_vbos[1].data();
 	}
 
+	//programs
+	Texture& Scene::texture(uint32_t index)
+	{
+		return m_textures[index];
+	}
+	std::vector<Texture>& Scene::textures(void)
+	{
+		return m_textures;
+	}
+	const Texture& Scene::texture(uint32_t index) const
+	{
+		return m_textures[index];
+	}
+	const std::vector<Texture>& Scene::textures(void) const
+	{
+		return m_textures;
+	}
+
+	//programs
+	Program& Scene::program(uint32_t index)
+	{
+		return m_programs[index];
+	}
+	std::vector<Program>& Scene::programs(void)
+	{
+		return m_programs;
+	}
+	const Program& Scene::program(uint32_t index) const
+	{
+		return m_programs[index];
+	}
+	const std::vector<Program>& Scene::programs(void) const
+	{
+		return m_programs;
+	}
+
 	//draw
 	void Scene::draw(void)
 	{

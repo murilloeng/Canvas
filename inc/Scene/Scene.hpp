@@ -99,6 +99,18 @@ namespace canvas
 		vertices::Image2D* vbo_data_image_2D(void) const;
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
+		//programs
+		Texture& texture(uint32_t);
+		std::vector<Texture>& textures(void);
+		const Texture& texture(uint32_t) const;
+		const std::vector<Texture>& textures(void) const;
+
+		//programs
+		Program& program(uint32_t);
+		std::vector<Program>& programs(void);
+		const Program& program(uint32_t) const;
+		const std::vector<Program>& programs(void) const;
+
 		//update
 		void draw(void);
 		void update(bool);
