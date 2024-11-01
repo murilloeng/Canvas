@@ -8,6 +8,7 @@
 //canvas
 #include "Canvas/inc/GPU/VBO.hpp"
 #include "Canvas/inc/GPU/IBO.hpp"
+#include "Canvas/inc/GPU/Texture.hpp"
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Light/Lights.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
@@ -105,7 +106,6 @@ namespace canvas
 		void setup_objects(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
-		void setup_textures(void);
 		void setup_freetype(void);
 		void setup_commands(void);
 
@@ -116,11 +116,11 @@ namespace canvas
 		VBO m_vbo[6];
 		IBO m_ibo[12];
 		Color m_background;
+		Texture m_textures[3];
 		Program m_programs[7];
 		lights::Lights m_lights;
 		camera::Camera m_camera;
 
-		uint32_t m_texture_id[3];
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;

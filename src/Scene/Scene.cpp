@@ -46,7 +46,6 @@ namespace canvas
 		setup_gl();
 		setup_buffers();
 		setup_shaders();
-		setup_textures();
 		setup_freetype();
 		setup_commands();
 		m_camera.m_scene = this;
@@ -62,8 +61,6 @@ namespace canvas
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
 		for(const objects::Object* object : m_objects) delete object;
-		//opengl
-		glDeleteTextures(3, m_texture_id);
 		//freetype
 		FT_Done_FreeType(m_ft_library);
 	}
@@ -232,6 +229,7 @@ namespace canvas
 			//data
 			VBO& vbo = m_vbo[command.m_vbo_index];
 			IBO& ibo = m_ibo[command.m_ibo_index];
+			Texture& texture = m_textures[command.m_texture_index];
 			Program& program = m_programs[command.m_program_index];
 			//draw
 			if(ibo.m_size)
@@ -239,10 +237,7 @@ namespace canvas
 				vbo.bind();
 				ibo.bind();
 				program.bind();
-				if(command.has_texture())
-				{
-					glBindTexture(GL_TEXTURE_2D, m_texture_id[command.m_texture_index]);
-				}
+				if(command.has_texture()) texture.bind();
 				glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
 			}
 		}
@@ -292,12 +287,11 @@ namespace canvas
 		//texture
 		Font::m_width = w;
 		Font::m_height = h;
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[1]);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+		m_textures[1].width(w);
+		m_textures[1].height(h);
+		m_textures[1].format(GL_RED);
 		//texture data
+		m_textures[1].allocate();
 		for(Font* font : m_fonts)
 		{
 			font->setup_texture();
@@ -322,21 +316,20 @@ namespace canvas
 		}
 		//texture
 		if(!update) return;
+		m_textures[2].width(w);
+		m_textures[2].height(h);
 		Latex::m_total_width = w;
 		Latex::m_total_height = h;
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[2]);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+		m_textures[2].format(GL_RED);
 		//texture data
+		m_textures[2].allocate();
 		for(Latex* latex : m_latex)
 		{
 			const uint32_t w = latex->m_width;
 			const uint32_t h = latex->m_height;
 			const uint32_t x = latex->m_offset;
 			const uint8_t* data = latex->m_data;
-			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
+			m_textures[2].transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -358,21 +351,20 @@ namespace canvas
 		}
 		//texture
 		if(!update) return;
+		m_textures[0].width(w);
+		m_textures[0].height(h);
 		Image::m_total_width = w;
 		Image::m_total_height = h;
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id[0]);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		m_textures[0].format(GL_RGBA);
 		//texture data
+		m_textures[0].allocate();
 		for(Image* image : m_images)
 		{
 			const uint32_t w = image->m_width;
 			const uint32_t h = image->m_height;
 			const uint32_t x = image->m_offset;
 			const uint8_t* data = image->m_data;
-			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			m_textures[0].transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -416,18 +408,6 @@ namespace canvas
 		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
 		for(Program& program : m_programs) program.setup();
-	}
-	void Scene::setup_textures(void)
-	{
-		glGenTextures(3, m_texture_id);
-		for(uint32_t i = 0; i < 3; i++)
-		{
-			glBindTexture(GL_TEXTURE_2D, m_texture_id[i]);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		}
 	}
 	void Scene::setup_freetype(void)
 	{
