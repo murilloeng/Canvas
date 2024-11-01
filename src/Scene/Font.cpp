@@ -76,7 +76,7 @@ namespace canvas
 			const uint32_t h = m_chars[i].m_height;
 			const uint32_t x = m_chars[i].m_offset;
 			const uint8_t* data = m_chars[i].m_data;
-			glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
+			m_scene->m_textures[1].transfer(x, 0, w, h, data);
 		}
 	}
 	void Font::setup(uint32_t& w, uint32_t& h)
