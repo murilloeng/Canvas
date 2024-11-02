@@ -18,12 +18,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_has_model_matrix(false)
+		Object::Object(void) : m_has_model_matrix(false), 
+			m_vbo_size(6, 0), m_ibo_size(12, 0), m_vbo_index(6, 0), m_ibo_index(12, 0)
 		{
-			memset(m_vbo_size, 0, sizeof(m_vbo_size));
-			memset(m_ibo_size, 0, sizeof(m_ibo_size));
-			memset(m_vbo_index, 0, sizeof(m_vbo_index));
-			memset(m_ibo_index, 0, sizeof(m_ibo_index));
+			return;
 		}
 
 		//destructor
@@ -55,11 +53,11 @@ namespace canvas
 
 		const uint32_t* Object::ibo_index(void) const
 		{
-			return m_ibo_index;
+			return m_ibo_index.data();
 		}
 		const uint32_t* Object::vbo_index(void) const
 		{
-			return m_vbo_index;
+			return m_vbo_index.data();
 		}
 
 		//buffers

@@ -1,6 +1,7 @@
 #pragma once
 
 //std
+#include <vector>
 #include <cstdint>
 
 //canvas
@@ -75,11 +76,10 @@ namespace canvas
 			mat4 m_model_matrix;
 			bool m_has_model_matrix;
 
-			uint32_t m_vbo_size[6];
-			uint32_t m_vbo_index[6];
-
-			uint32_t m_ibo_size[12];
-			uint32_t m_ibo_index[12];
+			std::vector<uint32_t> m_vbo_size;
+			std::vector<uint32_t> m_ibo_size;
+			std::vector<uint32_t> m_vbo_index;
+			std::vector<uint32_t> m_ibo_index;
 
 			//friends
 			friend class canvas::Scene;
