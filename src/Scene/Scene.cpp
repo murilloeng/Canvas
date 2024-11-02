@@ -332,6 +332,30 @@ namespace canvas
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+	void Scene::setup_data(void)
+	{
+		//data
+		const uint32_t nv = (uint32_t) m_vbos.size();
+		const uint32_t ni = (uint32_t) m_ibos.size();
+		//vbos
+		for(uint32_t i = 6; i < nv; i++)
+		{
+			for(objects::Object* object : m_objects)
+			{
+				object->m_vbo_size.push_back(0);
+				object->m_vbo_index.push_back(0);
+			}
+		}
+		//ibos
+		for(uint32_t i = 12; i < ni; i++)
+		{
+			for(objects::Object* object : m_objects)
+			{
+				object->m_ibo_size.push_back(0);
+				object->m_ibo_index.push_back(0);
+			}
+		}
+	}
 	void Scene::setup_fonts(void)
 	{
 		//data

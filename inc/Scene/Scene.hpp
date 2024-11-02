@@ -118,6 +118,7 @@ namespace canvas
 	protected:
 		//setup
 		void setup_gl(void);
+		void setup_data(void);
 		void setup_fonts(void);
 		void setup_latex(void);
 		void setup_images(void);
