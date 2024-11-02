@@ -27,7 +27,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Lights(void);
+			Lights(Scene*);
 
 			//destructor
 			~Lights(void);
@@ -51,10 +51,10 @@ namespace canvas
 
 		private:
 			//data
-			Program* m_program;
 			Ambient* m_ambient;
 			std::vector<Point*> m_points;
 			std::vector<Direction*> m_directions;
+			const std::vector<Program>& m_programs;
 
 			//friends
 			friend class canvas::Scene;

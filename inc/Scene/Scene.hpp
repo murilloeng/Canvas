@@ -151,6 +151,7 @@ namespace canvas
 		//friends
 		friend class Font;
 		friend class camera::Camera;
+		friend class lights::Lights;
 		friend class objects::Object;
 	};
 }
