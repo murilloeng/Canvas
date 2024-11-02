@@ -291,8 +291,8 @@ namespace canvas
 			//data
 			VBO& vbo = m_vbos[command.m_vbo_index];
 			IBO& ibo = m_ibos[command.m_ibo_index];
-			Texture& texture = m_textures[command.m_texture_index];
 			Program& program = m_programs[command.m_program_index];
+			Texture& texture = m_textures[command.has_texture() ? command.m_texture_index : 0];
 			//draw
 			if(ibo.m_size)
 			{
