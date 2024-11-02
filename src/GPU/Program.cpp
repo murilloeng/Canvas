@@ -105,208 +105,289 @@ namespace canvas
 	}
 
 	//uniforms
-	GLint Program::uniform_location(const char* uniform)
+	GLint Program::uniform_location(const char* name) const
 	{
 		//uniform
-		GLint location = glGetUniformLocation(m_id, uniform);
+		GLint location = glGetUniformLocation(m_id, name);
 		//check
-		GLenum last_error = glGetError();
-		if(location == -1 || last_error != GL_NO_ERROR)
+		if(glGetError() != GL_NO_ERROR)
 		{
-			printf("Error getting uniform %s location!\n", uniform);
+			printf("Error getting uniform %s location!\n", name);
 			exit(EXIT_FAILURE);
 		}
 		//return
 		return location;
 	}
 
-	void Program::set_uniform(const char* name, float v0)
+	void Program::set_uniform(const char* name, float v0) const
 	{
-		//uniform
-		glUniform1f(uniform_location(name), v0);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform1f(location, v0);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1)
+	void Program::set_uniform(const char* name, float v0, float v1) const
 	{
-		//uniform
-		glUniform2f(uniform_location(name), v0, v1);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform2f(location, v0, v1);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1, float v2)
+	void Program::set_uniform(const char* name, float v0, float v1, float v2) const
 	{
-		//uniform
-		glUniform3f(uniform_location(name), v0, v1, v2);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform3f(location, v0, v1, v2);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1, float v2, float v3)
+	void Program::set_uniform(const char* name, float v0, float v1, float v2, float v3) const
 	{
-		//uniform
-		glUniform4f(uniform_location(name), v0, v1, v2, v3);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-
-	void Program::set_uniform(const char* name, int32_t v0)
-	{
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
 		//uniform
-		glUniform1i(uniform_location(name), v0);
+		glUniform4f(location, v0, v1, v2, v3);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1)
-	{
-		//uniform
-		glUniform2i(uniform_location(name), v0, v1);
-		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2)
-	{
-		//uniform
-		glUniform3i(uniform_location(name), v0, v1, v2);
-		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2, int32_t v3)
-	{
-		//uniform
-		glUniform4i(uniform_location(name), v0, v1, v2, v3);
-		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
 
-	void Program::set_uniform(const char* name, uint32_t v0)
+	void Program::set_uniform(const char* name, int32_t v0) const
 	{
-		//uniform
-		glUniform1ui(uniform_location(name), v0);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform1i(location, v0);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1)
+	void Program::set_uniform(const char* name, int32_t v0, int32_t v1) const
 	{
-		//uniform
-		glUniform2ui(uniform_location(name), v0, v1);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform2i(location, v0, v1);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2)
+	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2) const
 	{
-		//uniform
-		glUniform3ui(uniform_location(name), v0, v1, v2);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform3i(location, v0, v1, v2);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2, uint32_t v3)
+	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2, int32_t v3) const
 	{
-		//uniform
-		glUniform4ui(uniform_location(name), v0, v1, v2, v3);
+		//data
+		int32_t location = uniform_location(name);
 		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform4i(location, v0, v1, v2, v3);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
 	}
 
-	void Program::set_uniform(const char* name, const float* data, uint32_t size)
+	void Program::set_uniform(const char* name, uint32_t v0) const
 	{
-		//uniform
-		if(size == 1) glUniform1fv(uniform_location(name), 1, data);
-		if(size == 2) glUniform2fv(uniform_location(name), 1, data);
-		if(size == 3) glUniform3fv(uniform_location(name), 1, data);
-		if(size == 4) glUniform4fv(uniform_location(name), 1, data);
+		//data
+		int32_t location = uniform_location(name);
 		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform1ui(location, v0);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform2ui(location, v0, v1);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform3ui(location, v0, v1, v2);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2, uint32_t v3) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform4ui(location, v0, v1, v2, v3);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+
+	void Program::set_uniform(const char* name, const float* data, uint32_t size) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		if(size == 1) glUniform1fv(location, 1, data);
+		if(size == 2) glUniform2fv(location, 1, data);
+		if(size == 3) glUniform3fv(location, 1, data);
+		if(size == 4) glUniform4fv(location, 1, data);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, const int32_t* data, uint32_t size) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		if(size == 1) glUniform1iv(location, 1, data);
+		if(size == 2) glUniform2iv(location, 1, data);
+		if(size == 3) glUniform3iv(location, 1, data);
+		if(size == 4) glUniform4iv(location, 1, data);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, const uint32_t* data, uint32_t size) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		if(size == 1) glUniform1uiv(location, 1, data);
+		if(size == 2) glUniform2uiv(location, 1, data);
+		if(size == 3) glUniform3uiv(location, 1, data);
+		if(size == 4) glUniform4uiv(location, 1, data);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform_matrix(const char* name, const float* data, uint32_t size) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		if(size == 2) glUniformMatrix2fv(location, 1, GL_FALSE, data);
+		if(size == 3) glUniformMatrix3fv(location, 1, GL_FALSE, data);
+		if(size == 4) glUniformMatrix4fv(location, 1, GL_FALSE, data);
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+
+	//check
+	void Program::check_uniform(const char* name) const
+	{
 		if(glGetError() != GL_NO_ERROR)
 		{
 			printf("Error setting uniform %s!\n", name);
 			exit(EXIT_FAILURE);
 		}
 	}
-	void Program::set_uniform(const char* name, const int32_t* data, uint32_t size)
+	void Program::check_uniform_location(const char* name, int32_t location) const
 	{
-		//uniform
-		if(size == 1) glUniform1iv(uniform_location(name), 1, data);
-		if(size == 2) glUniform2iv(uniform_location(name), 1, data);
-		if(size == 3) glUniform3iv(uniform_location(name), 1, data);
-		if(size == 4) glUniform4iv(uniform_location(name), 1, data);
-		//check
-		if(glGetError() != GL_NO_ERROR)
+		if(location == -1)
 		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Program::set_uniform(const char* name, const uint32_t* data, uint32_t size)
-	{
-		//uniform
-		if(size == 1) glUniform1uiv(uniform_location(name), 1, data);
-		if(size == 2) glUniform2uiv(uniform_location(name), 1, data);
-		if(size == 3) glUniform3uiv(uniform_location(name), 1, data);
-		if(size == 4) glUniform4uiv(uniform_location(name), 1, data);
-		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
-		}
-	}
-	void Program::set_uniform_matrix(const char* name, const float* data, uint32_t size)
-	{
-		//uniform
-		if(size == 2) glUniformMatrix2fv(uniform_location(name), 1, GL_FALSE, data);
-		if(size == 3) glUniformMatrix3fv(uniform_location(name), 1, GL_FALSE, data);
-		if(size == 4) glUniformMatrix4fv(uniform_location(name), 1, GL_FALSE, data);
-		//check
-		if(glGetError() != GL_NO_ERROR)
-		{
-			printf("Error setting uniform %s!\n", name);
+			printf("Error getting uniform %s location!\n", name);
 			exit(EXIT_FAILURE);
 		}
 	}

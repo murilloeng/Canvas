@@ -42,6 +42,7 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
+		m_camera(this),
 		m_vbos(6), m_ibos(12), m_textures(3), m_programs(7), 
 		m_background(0, 0, 0, 1), m_shaders_dir(shaders_dir)
 	{
@@ -52,7 +53,6 @@ namespace canvas
 		setup_commands();
 		m_camera.m_scene = this;
 		m_lights.m_program = &m_programs[1];
-		m_camera.m_programs = m_programs.data();
 	}
 
 	//destructor

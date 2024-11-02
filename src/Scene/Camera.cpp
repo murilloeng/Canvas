@@ -26,7 +26,8 @@ namespace canvas
 	{
 
 		//constructors
-		Camera::Camera(void) :
+		Camera::Camera(Scene* scene) :
+			m_scene(scene), m_programs(scene->m_programs), 
 			m_type(camera::type::orthographic), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
 		{
 			return;
@@ -210,14 +211,25 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(uint32_t i = 0; i < 4; i++)
+			for(const Program& program : m_programs)
 			{
-				m_programs[i].bind();
-				m_programs[i].set_uniform_matrix("view", m_view_matrix.data(), 4);
-				m_programs[i].set_uniform_matrix("projection", m_projection_matrix.data(), 4);
+				program.bind();
+				if(program.uniform_location("view") != -1)
+				{
+					program.set_uniform_matrix("view", m_view_matrix.data(), 4);
+				}
+				if(program.uniform_location("projection") != -1)
+				{
+					program.set_uniform_matrix("projection", m_projection_matrix.data(), 4);
+				}
+				if(program.uniform_location("camera_position") != -1)
+				{
+					const float x1 = m_position[0];
+					const float x2 = m_position[1];
+					const float x3 = m_position[2];
+					program.set_uniform("camera_position", x1, x2, -x3);
+				}
 			}
-			// m_programs[1].bind();
-			// m_programs[1].set_uniform("camera_position", m_position[0], m_position[1], -m_position[2]);
 		}
 
 		//callbacks
