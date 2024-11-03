@@ -128,7 +128,7 @@ namespace canvas
 			float m_scale;
 			float m_planes[2];
 			std::vector<vec3> m_bounds;
-			const std::vector<Program>& m_programs;
+			const std::vector<Program*>& m_programs;
 
 			//friends
 			friend class canvas::Scene;

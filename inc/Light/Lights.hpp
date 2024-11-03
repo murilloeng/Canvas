@@ -54,7 +54,7 @@ namespace canvas
 			Ambient* m_ambient;
 			std::vector<Point*> m_points;
 			std::vector<Direction*> m_directions;
-			const std::vector<Program>& m_programs;
+			const std::vector<Program*>& m_programs;
 
 			//friends
 			friend class canvas::Scene;

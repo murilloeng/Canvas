@@ -211,23 +211,40 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(const Program& program : m_programs)
+			for(const Program* program : m_programs)
 			{
-				program.bind();
-				if(program.uniform_location("view") != -1)
+				if(glGetError() != GL_NO_ERROR)
 				{
-					program.set_uniform_matrix("view", m_view_matrix.data(), 4);
+					printf("Error just before program bind() was called!\n");
 				}
-				if(program.uniform_location("projection") != -1)
+				program->bind();
+				GLenum error = glGetError();
+				if(error != GL_NO_ERROR)
 				{
-					program.set_uniform_matrix("projection", m_projection_matrix.data(), 4);
+					printf("Error just after program bind() was called!\n");
 				}
-				if(program.uniform_location("camera_position") != -1)
+				if(error == GL_INVALID_VALUE)
+				{
+					printf("Invalid value!\n");
+				}
+				if(error == GL_INVALID_OPERATION)
+				{
+					printf("Invalid operation!\n");
+				}
+				if(program->uniform_location("view") != -1)
+				{
+					program->set_uniform_matrix("view", m_view_matrix.data(), 4);
+				}
+				if(program->uniform_location("projection") != -1)
+				{
+					program->set_uniform_matrix("projection", m_projection_matrix.data(), 4);
+				}
+				if(program->uniform_location("camera_position") != -1)
 				{
 					const float x1 = m_position[0];
 					const float x2 = m_position[1];
 					const float x3 = m_position[2];
-					program.set_uniform("camera_position", x1, x2, -x3);
+					program->set_uniform("camera_position", x1, x2, -x3);
 				}
 			}
 		}

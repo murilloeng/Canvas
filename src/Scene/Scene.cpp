@@ -61,6 +61,7 @@ namespace canvas
 		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
+		for(uint32_t i = 0; i < 7; i++) delete m_programs[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
@@ -259,19 +260,19 @@ namespace canvas
 	}
 
 	//programs
-	Program& Scene::program(uint32_t index)
+	Program* Scene::program(uint32_t index)
 	{
 		return m_programs[index];
 	}
-	std::vector<Program>& Scene::programs(void)
+	std::vector<Program*>& Scene::programs(void)
 	{
 		return m_programs;
 	}
-	const Program& Scene::program(uint32_t index) const
+	const Program* Scene::program(uint32_t index) const
 	{
 		return m_programs[index];
 	}
-	const std::vector<Program>& Scene::programs(void) const
+	const std::vector<Program*>& Scene::programs(void) const
 	{
 		return m_programs;
 	}
@@ -290,14 +291,14 @@ namespace canvas
 			//data
 			VBO& vbo = m_vbos[command.m_vbo_index];
 			IBO& ibo = m_ibos[command.m_ibo_index];
-			Program& program = m_programs[command.m_program_index];
+			Program* program = m_programs[command.m_program_index];
 			Texture& texture = m_textures[command.has_texture() ? command.m_texture_index : 0];
 			//draw
 			if(ibo.m_size)
 			{
 				vbo.bind();
 				ibo.bind();
-				program.bind();
+				program->bind();
 				if(command.has_texture()) texture.bind();
 				glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
 			}
@@ -475,24 +476,26 @@ namespace canvas
 	}
 	void Scene::setup_shaders(void)
 	{
+		//data
+		for(Program*& program : m_programs) program = new Program;
 		//path
-		m_programs[1].vertex_shader()->path(m_shaders_dir + "light.vert");
-		m_programs[6].vertex_shader()->path(m_shaders_dir + "text2D.vert");
-		m_programs[3].vertex_shader()->path(m_shaders_dir + "text3D.vert");
-		m_programs[4].vertex_shader()->path(m_shaders_dir + "model2D.vert");
-		m_programs[0].vertex_shader()->path(m_shaders_dir + "model3D.vert");
-		m_programs[5].vertex_shader()->path(m_shaders_dir + "image2D.vert");
-		m_programs[2].vertex_shader()->path(m_shaders_dir + "image3D.vert");
-		m_programs[1].geometry_shader()->path(m_shaders_dir + "light.geom");
-		m_programs[1].fragment_shader()->path(m_shaders_dir + "light.frag");
-		m_programs[6].fragment_shader()->path(m_shaders_dir + "text2D.frag");
-		m_programs[3].fragment_shader()->path(m_shaders_dir + "text3D.frag");
-		m_programs[4].fragment_shader()->path(m_shaders_dir + "model2D.frag");
-		m_programs[0].fragment_shader()->path(m_shaders_dir + "model3D.frag");
-		m_programs[5].fragment_shader()->path(m_shaders_dir + "image2D.frag");
-		m_programs[2].fragment_shader()->path(m_shaders_dir + "image3D.frag");
+		m_programs[1]->vertex_shader()->path(m_shaders_dir + "light.vert");
+		m_programs[6]->vertex_shader()->path(m_shaders_dir + "text2D.vert");
+		m_programs[3]->vertex_shader()->path(m_shaders_dir + "text3D.vert");
+		m_programs[4]->vertex_shader()->path(m_shaders_dir + "model2D.vert");
+		m_programs[0]->vertex_shader()->path(m_shaders_dir + "model3D.vert");
+		m_programs[5]->vertex_shader()->path(m_shaders_dir + "image2D.vert");
+		m_programs[2]->vertex_shader()->path(m_shaders_dir + "image3D.vert");
+		m_programs[1]->geometry_shader()->path(m_shaders_dir + "light.geom");
+		m_programs[1]->fragment_shader()->path(m_shaders_dir + "light.frag");
+		m_programs[6]->fragment_shader()->path(m_shaders_dir + "text2D.frag");
+		m_programs[3]->fragment_shader()->path(m_shaders_dir + "text3D.frag");
+		m_programs[4]->fragment_shader()->path(m_shaders_dir + "model2D.frag");
+		m_programs[0]->fragment_shader()->path(m_shaders_dir + "model3D.frag");
+		m_programs[5]->fragment_shader()->path(m_shaders_dir + "image2D.frag");
+		m_programs[2]->fragment_shader()->path(m_shaders_dir + "image3D.frag");
 		//setup
-		for(Program& program : m_programs) program.setup();
+		for(Program* program : m_programs) program->setup();
 	}
 	void Scene::setup_freetype(void)
 	{

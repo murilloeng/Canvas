@@ -106,10 +106,10 @@ namespace canvas
 		const std::vector<Texture>& textures(void) const;
 
 		//programs
-		Program& program(uint32_t);
-		std::vector<Program>& programs(void);
-		const Program& program(uint32_t) const;
-		const std::vector<Program>& programs(void) const;
+		Program* program(uint32_t);
+		std::vector<Program*>& programs(void);
+		const Program* program(uint32_t) const;
+		const std::vector<Program*>& programs(void) const;
 
 		//update
 		void draw(void);
@@ -138,7 +138,7 @@ namespace canvas
 		std::vector<VBO> m_vbos;
 		std::vector<IBO> m_ibos;
 		std::vector<Texture> m_textures;
-		std::vector<Program> m_programs;
+		std::vector<Program*> m_programs;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;
