@@ -42,10 +42,6 @@ public:
 		vbo_ptr[1].m_position = {+1, -1};
 		vbo_ptr[2].m_position = {+1, +1};
 		vbo_ptr[3].m_position = {-1, +1};
-		vbo_ptr[0].m_color = {1, 1, 1, 1};
-		vbo_ptr[1].m_color = {1, 1, 1, 1};
-		vbo_ptr[2].m_color = {1, 1, 1, 1};
-		vbo_ptr[3].m_color = {1, 1, 1, 1};
 		//ibo ptr
 		ibo_ptr[3 * 0 + 0] = m_vbo_index[3] + 0;
 		ibo_ptr[3 * 0 + 1] = m_vbo_index[3] + 1;
@@ -86,7 +82,18 @@ static void scene_setup(void)
 }
 static void scene_update(void)
 {
-	return;
+	//data
+	const float wp_min = 1.40f;
+	const float wp_max = 3.00f;
+	using namespace std::chrono;
+	const high_resolution_clock::time_point tn = high_resolution_clock::now();
+	const float q = duration_cast<microseconds>(tn - t0).count() / 1.00e6f;
+	const float wp = wp_min + fmodf(q, wp_max - wp_min);
+	//program
+	program.set_uniform("wp", wp);
+	program.set_uniform("full", 1U);
+	program.set_uniform("wp_min", wp_min);
+	program.set_uniform("wp_max", wp_max);
 }
 static void scene_cleanup(void)
 {

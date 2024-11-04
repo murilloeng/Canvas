@@ -220,7 +220,7 @@ namespace canvas
 				}
 				if(program->uniform_location("height") != -1)
 				{
-					program->set_uniform("height", m_width);
+					program->set_uniform("height", m_height);
 				}
 				if(program->uniform_location("view") != -1)
 				{
@@ -494,8 +494,8 @@ namespace canvas
 				{
 					//position
 					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
 					//update
 					const vec3 xs(xp->inner(t1), xp->inner(t2), xp->inner(t3));
 					const bool c1 = fabs(xs[0] - x1[0]) < 1e-5 * s || fabs(xs[0] - x2[0]) < 1e-5 * s;
