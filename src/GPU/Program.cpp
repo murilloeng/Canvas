@@ -99,10 +99,6 @@ namespace canvas
 	{
 		glUseProgram(m_id);
 	}
-	void Program::unbind(void)
-	{
-		glUseProgram(0);
-	}
 
 	//uniforms
 	GLint Program::uniform_location(const char* name) const
@@ -302,6 +298,36 @@ namespace canvas
 		#endif
 	}
 
+	void Program::set_uniform(const char* name, vec3 value) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniform3fv(location, 1, value.data());
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
+	void Program::set_uniform(const char* name, mat4 value) const
+	{
+		//data
+		int32_t location = uniform_location(name);
+		//check
+		#ifdef _DEBUG
+		check_uniform_location(name, location);
+		#endif
+		//uniform
+		glUniformMatrix4fv(location, 1, GL_FALSE, value.data());
+		//check
+		#ifdef _DEBUG
+		check_uniform(name);
+		#endif
+	}
 	void Program::set_uniform(const char* name, const float* data, uint32_t size) const
 	{
 		//data

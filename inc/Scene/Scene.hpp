@@ -84,14 +84,16 @@ namespace canvas
 		const std::vector<objects::Object*>& objects(void) const;
 
 		//buffers
-		VBO& vbo(uint32_t);
-		IBO& ibo(uint32_t);
-		std::vector<VBO>& vbos(void);
-		std::vector<IBO>& ibos(void);
-		const VBO& vbo(uint32_t) const;
-		const IBO& ibo(uint32_t) const;
-		const std::vector<VBO>& vbos(void) const;
-		const std::vector<IBO>& ibos(void) const;
+		VBO* vbo(uint32_t);
+		IBO* ibo(uint32_t);
+		void add_vbo(VBO*);
+		void add_ibo(IBO*);
+		std::vector<VBO*>& vbos(void);
+		std::vector<IBO*>& ibos(void);
+		const VBO* vbo(uint32_t) const;
+		const IBO* ibo(uint32_t) const;
+		const std::vector<VBO*>& vbos(void) const;
+		const std::vector<IBO*>& ibos(void) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;
@@ -135,8 +137,8 @@ namespace canvas
 		Color m_background;
 		camera::Camera m_camera;
 		lights::Lights m_lights;
-		std::vector<VBO> m_vbos;
-		std::vector<IBO> m_ibos;
+		std::vector<VBO*> m_vbos;
+		std::vector<IBO*> m_ibos;
 		std::vector<Texture> m_textures;
 		std::vector<Program*> m_programs;
 

@@ -6,6 +6,10 @@
 //ext
 #include "external/cpp/inc/GL/glew.h"
 
+//canvas
+#include "Canvas/inc/Math/vec3.hpp"
+#include "Canvas/inc/Math/mat4.hpp"
+
 namespace canvas
 {
 	class Shader;
@@ -31,10 +35,9 @@ namespace canvas
 		Shader* tess_control_shader(void) const;
 		Shader* tess_evaluation_shader(void) const;
 
-		//setup
+		//GPU
 		void setup(void);
 		void bind(void) const;
-		static void unbind(void);
 
 		//uniforms
 		GLint uniform_location(const char*) const;
@@ -54,6 +57,8 @@ namespace canvas
 		void set_uniform(const char*, uint32_t, uint32_t, uint32_t) const;
 		void set_uniform(const char*, uint32_t, uint32_t, uint32_t, uint32_t) const;
 
+		void set_uniform(const char*, vec3) const;
+		void set_uniform(const char*, mat4) const;
 		void set_uniform(const char*, const float*, uint32_t) const;
 		void set_uniform(const char*, const int32_t*, uint32_t) const;
 		void set_uniform(const char*, const uint32_t*, uint32_t) const;

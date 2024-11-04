@@ -61,7 +61,9 @@ namespace canvas
 		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
-		for(uint32_t i = 0; i < 7; i++) delete m_programs[i];
+		for(uint32_t i = 0; i <  6; i++) delete m_vbos[i];
+		for(uint32_t i = 0; i < 12; i++) delete m_ibos[i];
+		for(uint32_t i = 0; i <  7; i++) delete m_programs[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
@@ -184,61 +186,79 @@ namespace canvas
 	}
 
 	//buffers
-	VBO& Scene::vbo(uint32_t index)
+	VBO* Scene::vbo(uint32_t index)
 	{
 		return m_vbos[index];
 	}
-	IBO& Scene::ibo(uint32_t index)
+	IBO* Scene::ibo(uint32_t index)
 	{
 		return m_ibos[index];
 	}
-	std::vector<VBO>& Scene::vbos(void)
+	void Scene::add_vbo(VBO* vbo)
+	{
+		for(objects::Object* object : m_objects)
+		{
+			object->m_vbo_size.push_back(0);
+			object->m_vbo_index.push_back(0);
+		}
+		return m_vbos.push_back(vbo);
+	}
+	void Scene::add_ibo(IBO* ibo)
+	{
+		for(objects::Object* object : m_objects)
+		{
+			object->m_ibo_size.push_back(0);
+			object->m_ibo_index.push_back(0);
+		}
+		return m_ibos.push_back(ibo);
+	}
+	std::vector<VBO*>& Scene::vbos(void)
 	{
 		return m_vbos;
 	}
-	std::vector<IBO>& Scene::ibos(void)
+	std::vector<IBO*>& Scene::ibos(void)
 	{
 		return m_ibos;
 	}
-	const VBO& Scene::vbo(uint32_t index) const
+	const VBO* Scene::vbo(uint32_t index) const
 	{
 		return m_vbos[index];
 	}
-	const IBO& Scene::ibo(uint32_t index) const
+	const IBO* Scene::ibo(uint32_t index) const
 	{
 		return m_ibos[index];
 	}
-	const std::vector<VBO>& Scene::vbos(void) const
+	const std::vector<VBO*>& Scene::vbos(void) const
 	{
 		return m_vbos;
 	}
-	const std::vector<IBO>& Scene::ibos(void) const
+	const std::vector<IBO*>& Scene::ibos(void) const
 	{
 		return m_ibos;
 	}
 	vertices::Text2D* Scene::vbo_data_text_2D(void) const
 	{
-		return (vertices::Text2D*) m_vbos[5].data();
+		return (vertices::Text2D*) m_vbos[5]->data();
 	}
 	vertices::Text3D* Scene::vbo_data_text_3D(void) const
 	{
-		return (vertices::Text3D*) m_vbos[2].data();
+		return (vertices::Text3D*) m_vbos[2]->data();
 	}
 	vertices::Model2D* Scene::vbo_data_model_2D(void) const
 	{
-		return (vertices::Model2D*) m_vbos[3].data();
+		return (vertices::Model2D*) m_vbos[3]->data();
 	}
 	vertices::Model3D* Scene::vbo_data_model_3D(void) const
 	{
-		return (vertices::Model3D*) m_vbos[0].data();
+		return (vertices::Model3D*) m_vbos[0]->data();
 	}
 	vertices::Image2D* Scene::vbo_data_image_2D(void) const
 	{
-		return (vertices::Image2D*) m_vbos[4].data();
+		return (vertices::Image2D*) m_vbos[4]->data();
 	}
 	vertices::Image3D* Scene::vbo_data_image_3D(void) const
 	{
-		return (vertices::Image3D*) m_vbos[1].data();
+		return (vertices::Image3D*) m_vbos[1]->data();
 	}
 
 	//programs
@@ -289,18 +309,18 @@ namespace canvas
 		for(const Command& command : m_commands)
 		{
 			//data
-			VBO& vbo = m_vbos[command.m_vbo_index];
-			IBO& ibo = m_ibos[command.m_ibo_index];
+			VBO* vbo = m_vbos[command.m_vbo_index];
+			IBO* ibo = m_ibos[command.m_ibo_index];
 			Program* program = m_programs[command.m_program_index];
 			Texture& texture = m_textures[command.has_texture() ? command.m_texture_index : 0];
 			//draw
-			if(ibo.m_size)
+			if(ibo->m_size)
 			{
-				vbo.bind();
-				ibo.bind();
+				vbo->bind();
+				ibo->bind();
 				program->bind();
 				if(command.has_texture()) texture.bind();
-				glDrawElements(command.m_draw_mode, ibo.m_size, GL_UNSIGNED_INT, nullptr);
+				glDrawElements(command.m_draw_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
 			}
 		}
 	}
@@ -316,8 +336,8 @@ namespace canvas
 		}
 		//buffers
 		buffers_data();
-		for(const VBO& vbo : m_vbos) vbo.transfer();
-		for(const IBO& ibo : m_ibos) ibo.transfer();
+		for(const VBO* vbo : m_vbos) vbo->transfer();
+		for(const IBO* ibo : m_ibos) ibo->transfer();
 	}
 
 	//setup
@@ -456,23 +476,26 @@ namespace canvas
 	}
 	void Scene::setup_objects(void)
 	{
-		for(VBO& vbo : m_vbos) vbo.m_size = 0;
-		for(IBO& ibo : m_ibos) ibo.m_size = 0;
+		for(VBO* vbo : m_vbos) vbo->m_size = 0;
+		for(IBO* ibo : m_ibos) ibo->m_size = 0;
 		for(objects::Object* object : m_objects) object->setup();
-		for(VBO& vbo : m_vbos) vbo.allocate();
-		for(IBO& ibo : m_ibos) ibo.allocate();
+		for(VBO* vbo : m_vbos) vbo->allocate();
+		for(IBO* ibo : m_ibos) ibo->allocate();
 	}
 	void Scene::setup_buffers(void)
 	{
+		//setup
+		for(VBO*& vbo : m_vbos) vbo = new VBO;
+		for(IBO*& ibo : m_ibos) ibo = new IBO;
 		//attributes
-		vertices::Text3D::attributes(m_vbos[2].m_attributes);
-		vertices::Text2D::attributes(m_vbos[5].m_attributes);
-		vertices::Model3D::attributes(m_vbos[0].m_attributes);
-		vertices::Image3D::attributes(m_vbos[1].m_attributes);
-		vertices::Model2D::attributes(m_vbos[3].m_attributes);
-		vertices::Image2D::attributes(m_vbos[4].m_attributes);
+		vertices::Text3D::attributes(m_vbos[2]->m_attributes);
+		vertices::Text2D::attributes(m_vbos[5]->m_attributes);
+		vertices::Model3D::attributes(m_vbos[0]->m_attributes);
+		vertices::Image3D::attributes(m_vbos[1]->m_attributes);
+		vertices::Model2D::attributes(m_vbos[3]->m_attributes);
+		vertices::Image2D::attributes(m_vbos[4]->m_attributes);
 		//enable
-		for(VBO& vbo : m_vbos) vbo.enable();
+		for(VBO* vbo : m_vbos) vbo->enable();
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -543,9 +566,9 @@ namespace canvas
 				for(uint32_t iv = ib; iv < ib + is; iv++)
 				{
 					vertices::Vertex3D* vertex;
-					if(j == 2) vertex = (vertices::Text3D*) m_vbos[j].m_data + iv;
-					if(j == 0) vertex = (vertices::Model3D*) m_vbos[j].m_data + iv;
-					if(j == 1) vertex = (vertices::Image3D*) m_vbos[j].m_data + iv;
+					if(j == 2) vertex = (vertices::Text3D*) m_vbos[j]->m_data + iv;
+					if(j == 0) vertex = (vertices::Model3D*) m_vbos[j]->m_data + iv;
+					if(j == 1) vertex = (vertices::Image3D*) m_vbos[j]->m_data + iv;
 					if(m_objects[i]->m_has_model_matrix)
 					{
 						vertex->m_position = m_objects[i]->m_model_matrix * vertex->m_position;
