@@ -12,17 +12,17 @@
 #include "Canvas/inc/Objects/Geometry.hpp"
 
 //test
-#include "Canvas/Test/inc/managers/Glut.hpp"
+#include "Canvas/Test/inc/managers/GLUT.hpp"
 
 //static data
-static Glut* master;
+static GLUT* master;
 static std::chrono::high_resolution_clock::time_point t1, t2;
 
 //constructors
-Glut::Glut(int argc, char** argv, const char* shaders_dir) : m_show_fps(true), 
+GLUT::GLUT(int argc, char** argv, const char* shaders_dir) : m_show_fps(true), 
 	m_callback_idle(nullptr), m_callback_special(nullptr), m_callback_keyboard(nullptr)
 {
-	//glut
+	//GLUT
 	master = this;
 	glutInit(&argc, argv);
 	glutInitWindowSize(700, 700);
@@ -52,46 +52,46 @@ Glut::Glut(int argc, char** argv, const char* shaders_dir) : m_show_fps(true),
 }
 
 //destructor
-Glut::~Glut(void)
+GLUT::~GLUT(void)
 {
 	delete m_scene;
 }
 
 //data
-bool Glut::show_fps(void) const
+bool GLUT::show_fps(void) const
 {
 	return m_show_fps;
 }
-bool Glut::show_fps(bool show_fps)
+bool GLUT::show_fps(bool show_fps)
 {
 	return m_show_fps = show_fps;
 }
-canvas::Scene* Glut::scene(void) const
+canvas::Scene* GLUT::scene(void) const
 {
 	return m_scene;
 }
-void Glut::callback_idle(std::function<void(void)> callback_idle)
+void GLUT::callback_idle(std::function<void(void)> callback_idle)
 {
 	m_callback_idle = callback_idle;
 }
-void Glut::callback_special(std::function<void(int, int, int)> callback_special)
+void GLUT::callback_special(std::function<void(int, int, int)> callback_special)
 {
 	m_callback_special = callback_special;
 }
-void Glut::callback_keyboard(std::function<void(uint8_t, int, int)> callback_keyboard)
+void GLUT::callback_keyboard(std::function<void(uint8_t, int, int)> callback_keyboard)
 {
 	m_callback_keyboard = callback_keyboard;
 }
 
 //loop
-void Glut::start(void)
+void GLUT::start(void)
 {
 	t1 = std::chrono::high_resolution_clock::now();
 	glutMainLoop();
 }
 
 //callbacks
-void Glut::callback_idle(void)
+void GLUT::callback_idle(void)
 {
 	if(master->m_callback_idle)
 	{
@@ -111,25 +111,25 @@ void Glut::callback_idle(void)
 		t1 = t2;
 	}
 }
-void Glut::callback_display(void)
+void GLUT::callback_display(void)
 {
 	//draw
 	master->m_scene->draw();
 	//swap
 	glutSwapBuffers();
 }
-void Glut::callback_motion(int x1, int x2)
+void GLUT::callback_motion(int x1, int x2)
 {
 	master->m_scene->camera().callback_motion(x1, x2);
 	glutPostRedisplay();
 }
-void Glut::callback_reshape(int width, int height)
+void GLUT::callback_reshape(int width, int height)
 {
 	master->m_scene->camera().callback_reshape(width, height);
 	master->m_scene->update(true);
 	glutPostRedisplay();
 }
-void Glut::callback_special(int key, int x1, int x2)
+void GLUT::callback_special(int key, int x1, int x2)
 {
 	//data
 	uint32_t canvas_mod = 0;
@@ -157,7 +157,7 @@ void Glut::callback_special(int key, int x1, int x2)
 	}
 	glutPostRedisplay();
 }
-void Glut::callback_mouse(int button, int state, int x1, int x2)
+void GLUT::callback_mouse(int button, int state, int x1, int x2)
 {
 	//data
 	uint32_t glut_buttons[] = {GLUT_LEFT_BUTTON, GLUT_RIGHT_BUTTON, GLUT_MIDDLE_BUTTON};
@@ -172,12 +172,12 @@ void Glut::callback_mouse(int button, int state, int x1, int x2)
 	}
 	glutPostRedisplay();
 }
-void Glut::callback_wheel(int, int direction, int x1, int x2)
+void GLUT::callback_wheel(int, int direction, int x1, int x2)
 {
 	master->m_scene->camera().callback_wheel(direction, x1, x2);
 	glutPostRedisplay();
 }
-void Glut::callback_keyboard(uint8_t key, int x1, int x2)
+void GLUT::callback_keyboard(uint8_t key, int x1, int x2)
 {
 	//master
 	if(master->m_callback_keyboard) master->m_callback_keyboard(key, x1, x2);
@@ -220,7 +220,7 @@ void Glut::callback_keyboard(uint8_t key, int x1, int x2)
 }
 
 //data
-uint32_t Glut::key_up = GLUT_KEY_UP;
-uint32_t Glut::key_down = GLUT_KEY_DOWN;
-uint32_t Glut::key_left = GLUT_KEY_LEFT;
-uint32_t Glut::key_right = GLUT_KEY_RIGHT;
+uint32_t GLUT::key_up = GLUT_KEY_UP;
+uint32_t GLUT::key_down = GLUT_KEY_DOWN;
+uint32_t GLUT::key_left = GLUT_KEY_LEFT;
+uint32_t GLUT::key_right = GLUT_KEY_RIGHT;

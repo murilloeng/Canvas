@@ -7,14 +7,14 @@
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 
-class Glut
+class GLUT
 {
 public:
 	//constructors
-	Glut(int, char**, const char*);
+	GLUT(int, char**, const char*);
 
 	//destructor
-	~Glut(void);
+	~GLUT(void);
 
 	//data
 	bool show_fps(bool);
