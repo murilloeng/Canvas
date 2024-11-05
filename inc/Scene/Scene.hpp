@@ -6,6 +6,9 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/inc/GPU/VBO.hpp"
+#include "Canvas/inc/GPU/IBO.hpp"
+#include "Canvas/inc/GPU/Texture.hpp"
 #include "Canvas/inc/GPU/Program.hpp"
 #include "Canvas/inc/Light/Lights.hpp"
 #include "Canvas/inc/Colors/Color.hpp"
@@ -81,9 +84,16 @@ namespace canvas
 		const std::vector<objects::Object*>& objects(void) const;
 
 		//buffers
-		uint32_t vbo_size(uint32_t) const;
-		uint32_t ibo_size(uint32_t) const;
-		uint32_t* ibo_data(uint32_t) const;
+		VBO* vbo(uint32_t);
+		IBO* ibo(uint32_t);
+		void add_vbo(VBO*);
+		void add_ibo(IBO*);
+		std::vector<VBO*>& vbos(void);
+		std::vector<IBO*>& ibos(void);
+		const VBO* vbo(uint32_t) const;
+		const IBO* ibo(uint32_t) const;
+		const std::vector<VBO*>& vbos(void) const;
+		const std::vector<IBO*>& ibos(void) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;
@@ -91,50 +101,46 @@ namespace canvas
 		vertices::Image2D* vbo_data_image_2D(void) const;
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
+		//programs
+		Texture& texture(uint32_t);
+		std::vector<Texture>& textures(void);
+		const Texture& texture(uint32_t) const;
+		const std::vector<Texture>& textures(void) const;
+
+		//programs
+		Program* program(uint32_t);
+		std::vector<Program*>& programs(void);
+		const Program* program(uint32_t) const;
+		const std::vector<Program*>& programs(void) const;
+
 		//update
 		void draw(void);
 		void update(bool);
 
-		//buffers
-		void ibo_transfer(uint32_t) const;
-		void vbo_transfer(uint32_t) const;
-
 	protected:
 		//setup
 		void setup_gl(void);
-		void setup_vbo(void);
-		void setup_ibo(void);
+		void setup_data(void);
 		void setup_fonts(void);
 		void setup_latex(void);
 		void setup_images(void);
 		void setup_objects(void);
 		void setup_buffers(void);
 		void setup_shaders(void);
-		void setup_textures(void);
 		void setup_freetype(void);
 		void setup_commands(void);
-		void setup_buffers_2D(void);
-		void setup_buffers_3D(void);
 
 		//buffers
 		void buffers_data(void);
-		void buffers_transfer(void);
 
 		//data
-		lights::Lights m_lights;
-		camera::Camera m_camera;
-
-		uint32_t m_vao_id[6];
-		uint32_t m_vbo_id[6];
-		uint32_t m_ibo_id[12];
-		uint32_t m_vbo_size[6];
-		uint32_t m_ibo_size[12];
-		uint32_t* m_ibo_data[12];
-		uint32_t m_texture_id[3];
-		vertices::Vertex* m_vbo_data[6];
-
 		Color m_background;
-		Program m_programs[7];
+		camera::Camera m_camera;
+		lights::Lights m_lights;
+		std::vector<VBO*> m_vbos;
+		std::vector<IBO*> m_ibos;
+		std::vector<Texture> m_textures;
+		std::vector<Program*> m_programs;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;
@@ -147,6 +153,7 @@ namespace canvas
 		//friends
 		friend class Font;
 		friend class camera::Camera;
+		friend class lights::Lights;
 		friend class objects::Object;
 	};
 }

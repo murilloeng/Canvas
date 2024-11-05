@@ -10,6 +10,15 @@
 
 namespace canvas
 {
+	class Scene;
+	namespace objects
+	{
+		class Object;
+	}
+}
+
+namespace canvas
+{
 	class VBO
 	{
 	public:
@@ -34,9 +43,8 @@ namespace canvas
 		const std::vector<Attribute>& attributes(void) const;
 
 		//GPU
+		void allocate(void);
 		void bind(void) const;
-		static void unbind(void);
-
 		void enable(void) const;
 		void transfer(void) const;
 
@@ -47,5 +55,9 @@ namespace canvas
 		uint32_t m_size;
 		uint32_t m_vao_id;
 		std::vector<Attribute> m_attributes;
+
+		//friends
+		friend class Scene;
+		friend class objects::Object;
 	};
 }

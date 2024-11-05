@@ -30,7 +30,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Camera(void);
+			Camera(Scene*);
 
 			//destructor
 			~Camera(void);
@@ -110,7 +110,6 @@ namespace canvas
 			//data
 			Click m_click;
 			Scene* m_scene;
-			Program* m_programs;
 			camera::type m_type;
 
 			vec3 m_position;
@@ -118,6 +117,7 @@ namespace canvas
 
 			uint32_t m_width;
 			uint32_t m_height;
+			std::string m_output;
 
 			vec3 m_x_min;
 			vec3 m_x_max;
@@ -128,8 +128,7 @@ namespace canvas
 			float m_scale;
 			float m_planes[2];
 			std::vector<vec3> m_bounds;
-
-			std::string m_output;
+			const std::vector<Program*>& m_programs;
 
 			//friends
 			friend class canvas::Scene;

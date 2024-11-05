@@ -31,6 +31,7 @@ namespace examples
 	namespace scenes
 	{
 		void examples(int32_t, char**);
+		void rigid_map(int32_t, char**);
 		void von_mises_joint(int32_t, char**);
 		void tensegrity_chair(int32_t, char**);
 	}

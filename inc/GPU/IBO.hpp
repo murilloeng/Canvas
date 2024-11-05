@@ -5,6 +5,15 @@
 
 namespace canvas
 {
+	class Scene;
+	namespace objects
+	{
+		class Object;
+	}
+}
+
+namespace canvas
+{
 	class IBO
 	{
 	public:
@@ -25,9 +34,8 @@ namespace canvas
 		const uint32_t* data(void) const;
 
 		//GPU
+		void allocate(void);
 		void bind(void) const;
-		static void unbind(void);
-
 		void transfer(void) const;
 
 	private:
@@ -35,5 +43,9 @@ namespace canvas
 		uint32_t m_id;
 		uint32_t m_size;
 		uint32_t* m_data;
+
+		//friends
+		friend class Scene;
+		friend class objects::Object;
 	};
 }

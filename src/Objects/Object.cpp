@@ -18,12 +18,10 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void) : m_has_model_matrix(false)
+		Object::Object(void) : m_has_model_matrix(false), 
+			m_vbo_size(6, 0), m_ibo_size(12, 0), m_vbo_index(6, 0), m_ibo_index(12, 0)
 		{
-			memset(m_vbo_size, 0, sizeof(m_vbo_size));
-			memset(m_ibo_size, 0, sizeof(m_ibo_size));
-			memset(m_vbo_index, 0, sizeof(m_vbo_index));
-			memset(m_ibo_index, 0, sizeof(m_ibo_index));
+			return;
 		}
 
 		//destructor
@@ -55,17 +53,17 @@ namespace canvas
 
 		const uint32_t* Object::ibo_index(void) const
 		{
-			return m_ibo_index;
+			return m_ibo_index.data();
 		}
 		const uint32_t* Object::vbo_index(void) const
 		{
-			return m_vbo_index;
+			return m_vbo_index.data();
 		}
 
 		//buffers
 		uint32_t* Object::ibo_data(uint32_t index) const
 		{
-			return m_scene->ibo_data(index) + m_ibo_index[index];
+			return m_scene->ibo(index)->data() + m_ibo_index[index];
 		}
 		vertices::Text2D* Object::vbo_data_text_2D(void) const
 		{
@@ -139,10 +137,16 @@ namespace canvas
 		void Object::setup(void)
 		{
 			buffers_size();
-			memcpy(m_vbo_index, m_scene->m_vbo_size, sizeof(m_vbo_index));
-			memcpy(m_ibo_index, m_scene->m_ibo_size, sizeof(m_ibo_index));
-			for(uint32_t i = 0; i <  6; i++) m_scene->m_vbo_size[i] += m_vbo_size[i];
-			for(uint32_t i = 0; i < 12; i++) m_scene->m_ibo_size[i] += m_ibo_size[i];
+			for(uint32_t i = 0; i < m_vbo_index.size(); i++)
+			{
+				m_vbo_index[i] = m_scene->m_vbos[i]->m_size;
+				m_scene->m_vbos[i]->m_size += m_vbo_size[i];
+			}
+			for(uint32_t i = 0; i < m_ibo_size.size(); i++)
+			{
+				m_ibo_index[i] = m_scene->m_ibos[i]->m_size;
+				m_scene->m_ibos[i]->m_size += m_ibo_size[i];
+			}
 		}
 	}
 }

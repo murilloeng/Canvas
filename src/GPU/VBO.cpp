@@ -28,12 +28,6 @@ namespace canvas
 	}
 	uint32_t VBO::size(uint32_t size)
 	{
-		//data
-		delete[] m_data;
-		glBindBuffer(GL_ARRAY_BUFFER, m_id);
-		m_data = new int8_t[size * stride()];
-		glBufferData(GL_ARRAY_BUFFER, size * stride(), nullptr, GL_DYNAMIC_DRAW);
-		//return
 		return m_size = size;
 	}
 
@@ -74,17 +68,18 @@ namespace canvas
 	}
 
 	//GPU
+	void VBO::allocate(void)
+	{
+		delete[] m_data;
+		glBindBuffer(GL_ARRAY_BUFFER, m_id);
+		m_data = new int8_t[m_size * stride()];
+		glBufferData(GL_ARRAY_BUFFER, m_size * stride(), nullptr, GL_DYNAMIC_DRAW);
+	}
 	void VBO::bind(void) const
 	{
 		glBindVertexArray(m_vao_id);
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
 	}
-	void VBO::unbind(void)
-	{
-		glBindVertexArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
 	void VBO::enable(void) const
 	{
 		//bind

@@ -177,6 +177,7 @@ namespace canvas
 			vertices::Text2D* vbo_ptr = vbo_data_text_2D();
 			const float ws = (float) m_scene->camera().width();
 			const float hs = (float) m_scene->camera().height();
+			const Color color = m_scene->background().inverse();
 			//vbo data
 			const float ms = fminf(ws, hs);
 			for(uint32_t i = 0; i < m_marks; i++)
@@ -204,6 +205,7 @@ namespace canvas
 					//vertices
 					for(uint32_t k = 0; k < 4; k++)
 					{
+						(vbo_ptr + k)->m_color = color;
 						(vbo_ptr + k)->m_texture_coordinates = tc + 2 * k;
 						(vbo_ptr + k)->m_position[0] = xc[2 * k + 0] + 0.90f;
 						(vbo_ptr + k)->m_position[1] = xc[2 * k + 1] + 1.90f * i / (m_marks - 1) - 0.95f;
@@ -217,6 +219,7 @@ namespace canvas
 		{
 			//data
 			vertices::Model2D* vbo_ptr = vbo_data_model_2D();
+			const Color color = m_scene->background().inverse();
 			//vbo data
 			vbo_ptr[0].m_position = {+0.90f, -0.95f};
 			vbo_ptr[1].m_position = {+0.95f, -0.95f};
@@ -224,6 +227,8 @@ namespace canvas
 			vbo_ptr[3].m_position = {+0.90f, +0.95f};
 			for(uint32_t i = 0; i < m_marks; i++)
 			{
+				vbo_ptr[i + 0 * m_marks].m_color = color;
+				vbo_ptr[i + 1 * m_marks].m_color = color;
 				vbo_ptr[i + 0 * m_marks].m_position[0] = +0.90f;
 				vbo_ptr[i + 1 * m_marks].m_position[0] = +0.95f;
 				vbo_ptr[i + 0 * m_marks].m_position[1] = 1.90f * i / (m_marks - 1) - 0.95f;

@@ -115,7 +115,7 @@
       <AdditionalIncludeDirectories>../..;../../external/cpp/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -182,6 +182,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\objects\Images\palettes.cpp" />
     <ClCompile Include="src\scenes\Beam.cpp" />
     <ClCompile Include="src\scenes\examples.cpp" />
+    <ClCompile Include="src\scenes\rigid_map.cpp" />
     <ClCompile Include="src\scenes\von_mises_joint.cpp" />
     <ClCompile Include="src\scenes\tensegrity_chair.cpp" />
     <ClCompile Include="src\tessellation\convex_cw_3.cpp" />
