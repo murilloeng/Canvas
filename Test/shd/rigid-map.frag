@@ -166,7 +166,7 @@ Union vertical_condition_2(float g1, float g2)
 		else
 		{
 			u.m_ni = 1;
-			u.m_intervals[0] = s2 < 0 ? Interval(0, 0) : Interval(s1 > 0 ? sqrt(s1) : 0, sqrt(s2));
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? sqrt(s2) : 0, sqrt(s1));
 		}
 	}
 	//return
@@ -211,7 +211,7 @@ Union vertical_condition_3(float g1, float g2)
 		else
 		{
 			u.m_ni = 1;
-			u.m_intervals[0] = s2 < 0 ? Interval(0, 0) : Interval(s1 > 0 ? sqrt(s1) : 0, sqrt(s2));
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? sqrt(s2) : 0, sqrt(s1));
 		}
 	}
 	//return

@@ -163,7 +163,7 @@ Union vertical_condition_2(float g1, float g2)
 		else
 		{
 			u.m_ni = 1;
-			u.m_intervals[0] = s2 < 0 ? Interval(0, 0) : Interval(s1 > 0 ? sqrt(s1) : 0, sqrt(s2));
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? sqrt(s2) : 0, sqrt(s1));
 		}
 	}
 	//return
@@ -208,7 +208,7 @@ Union vertical_condition_3(float g1, float g2)
 		else
 		{
 			u.m_ni = 1;
-			u.m_intervals[0] = s2 < 0 ? Interval(0, 0) : Interval(s1 > 0 ? sqrt(s1) : 0, sqrt(s2));
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? sqrt(s2) : 0, sqrt(s1));
 		}
 	}
 	//return
@@ -231,8 +231,8 @@ Union stability_map(float g1, float g2)
 int main(int argc, char** argv)
 {
 	//scene
-	Union uf = stability_map(0.5f, 0.9f);
-	// examples::scenes::rigid_map(argc, argv);
+	// Union uf = stability_map(0.75f, 1.25f);
+	examples::scenes::rigid_map(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }
