@@ -91,9 +91,8 @@ static void scene_update(void)
 	const float wp = wp_min + fmodf(q, wp_max - wp_min);
 	//program
 	program.set_uniform("wp", wp);
+	program.set_uniform("mode", 0U);
 	program.set_uniform("full", 1U);
-	program.set_uniform("wp_min", wp_min);
-	program.set_uniform("wp_max", wp_max);
 }
 static void scene_cleanup(void)
 {
