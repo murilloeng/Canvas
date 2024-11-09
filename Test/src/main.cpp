@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
 	//scene
-	examples::scenes::tensegrity_chair(argc, argv);
+	examples::scenes::spherical_pantograph(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }
