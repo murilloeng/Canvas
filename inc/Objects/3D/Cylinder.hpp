@@ -24,11 +24,11 @@ namespace canvas
 			vec3 center(void) const;
 			vec3 center(const vec3&);
 
-			float radius(float);
-			float radius(void) const;
-
 			float height(float);
 			float height(void) const;
+
+			float radius(uint32_t) const;
+			float radius(uint32_t, float);
 
 			static uint32_t mesh(void);
 			static uint32_t mesh(uint32_t);
@@ -46,8 +46,8 @@ namespace canvas
 
 			//data
 			vec3 m_center;
-			float m_radius;
 			float m_height;
+			float m_radius[2];
 			static uint32_t m_mesh;
 		};
 	}

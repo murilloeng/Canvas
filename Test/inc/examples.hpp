@@ -34,6 +34,7 @@ namespace examples
 		void rigid_map(int32_t, char**);
 		void von_mises_joint(int32_t, char**);
 		void tensegrity_chair(int32_t, char**);
+		void spherical_pantograph(int32_t, char**);
 	}
 	namespace tessellation
 	{

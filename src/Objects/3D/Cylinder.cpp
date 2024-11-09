@@ -11,7 +11,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Cylinder::Cylinder(void) : m_center{0.0f, 0.0f, 0.0f}, m_radius(1.0f), m_height(1.0f)
+		Cylinder::Cylinder(void) : m_center{0.0f, 0.0f, 0.0f}, m_radius{1.0f, 1.0f}, m_height(1.0f)
 		{
 			return;
 		}
@@ -32,15 +32,6 @@ namespace canvas
 			return m_center = center;
 		}
 
-		float Cylinder::radius(void) const
-		{
-			return m_radius;
-		}
-		float Cylinder::radius(float radius)
-		{
-			return m_radius = radius;
-		}
-
 		float Cylinder::height(void) const
 		{
 			return m_height;
@@ -48,6 +39,15 @@ namespace canvas
 		float Cylinder::height(float height)
 		{
 			return m_height = height;
+		}
+
+		float Cylinder::radius(uint32_t index) const
+		{
+			return m_radius[index];
+		}
+		float Cylinder::radius(uint32_t index, float radius)
+		{
+			return m_radius[index] = radius;
 		}
 
 		uint32_t Cylinder::mesh(void)
@@ -116,8 +116,9 @@ namespace canvas
 		void Cylinder::vbo_stroke_data(void) const
 		{
 			//data
-			const float r = m_radius;
 			const float h = m_height;
+			const float r1 = m_radius[0];
+			const float r2 = m_radius[1];
 			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
 			//vbo data
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -125,15 +126,16 @@ namespace canvas
 				const float t = 2 * float(M_PI) * i / m_mesh;
 				(vbo_ptr + 0 * m_mesh + i)->m_color = m_color_stroke;
 				(vbo_ptr + 1 * m_mesh + i)->m_color = m_color_stroke;
-				(vbo_ptr + 0 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
-				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
+				(vbo_ptr + 0 * m_mesh + i)->m_position = m_center + vec3(r1 * cosf(t), r1 * sinf(t), -h / 2);
+				(vbo_ptr + 1 * m_mesh + i)->m_position = m_center + vec3(r2 * cosf(t), r2 * sinf(t), +h / 2);
 			}
 		}
 		void Cylinder::vbo_fill_data(void) const
 		{
 			//data
-			const float r = m_radius;
 			const float h = m_height;
+			const float r1 = m_radius[0];
+			const float r2 = m_radius[1];
 			vertices::Model3D* vbo_ptr = vbo_data_model_3D() + 2 * m_mesh * m_stroke;
 			//vbo data
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -141,8 +143,8 @@ namespace canvas
 				const float t = 2 * float(M_PI) * i / m_mesh;
 				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_color = m_color_fill;
 				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_color = m_color_fill;
-				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_position = m_center + vec3(r * cosf(t), r * sinf(t), -h / 2);
-				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_position = m_center + vec3(r * cosf(t), r * sinf(t), +h / 2);
+				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_position = m_center + vec3(r1 * cosf(t), r1 * sinf(t), -h / 2);
+				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_position = m_center + vec3(r2 * cosf(t), r2 * sinf(t), +h / 2);
 			}
 			vbo_ptr[0 * (m_mesh + 1)].m_color = m_color_fill;
 			vbo_ptr[1 * (m_mesh + 1)].m_color = m_color_fill;

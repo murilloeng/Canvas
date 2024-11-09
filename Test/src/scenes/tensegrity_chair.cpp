@@ -36,8 +36,9 @@ static void rigid(canvas::Scene* scene)
 	//bases
 	for(uint32_t i = 0; i < 2; i++)
 	{
-		bases[i]->radius(Rr);
 		bases[i]->height(tr);
+		bases[i]->radius(0, Rr);
+		bases[i]->radius(1, Rr);
 		bases[i]->color_fill({0, 0, 1});
 		bases[i]->shift({0, 0, tr / 2});
 		scene->add_object(bases[i]);
@@ -145,7 +146,7 @@ static void guides(canvas::Scene* scene)
 	}
 }
 
-void scene_setup(canvas::Scene* scene)
+static void scene_setup(canvas::Scene* scene)
 {
 	rigid(scene);
 	cables(scene);
