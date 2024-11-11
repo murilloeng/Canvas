@@ -85,14 +85,18 @@ static void scene_update(void)
 	//data
 	const float wp_min = 1.40f;
 	const float wp_max = 3.00f;
+	const float bt_min = 1.00f;
+	const float bt_max = 89.0f;
 	using namespace std::chrono;
 	const high_resolution_clock::time_point tn = high_resolution_clock::now();
 	const float q = duration_cast<microseconds>(tn - t0).count() / 1.00e6f;
 	const float wp = wp_min + fmodf(q, wp_max - wp_min);
+	const float bt = bt_min + fmodf(10 * q, bt_max - bt_min);
 	//program
 	program.set_uniform("wp", wp);
-	program.set_uniform("mode", 0U);
+	program.set_uniform("mode", 1U);
 	program.set_uniform("full", 1U);
+	program.set_uniform("bt", bt * float(M_PI) / 180);
 }
 static void scene_cleanup(void)
 {
