@@ -23,9 +23,9 @@ struct Union
 
 const float inf = 1.00e15;
 
-bool is_empty(Interval i)
+bool is_empty(Interval interval)
 {
-	return i.m_min >= i.m_max;
+	return interval.m_min >= interval.m_max || interval.m_max - interval.m_min < 1e-5 * max(abs(interval.m_min), abs(interval.m_max));
 }
 Interval fusion(Interval i1, Interval i2)
 {
@@ -362,6 +362,131 @@ vec4 tilted_1_full(float g1, float g2)
 	return vec4(1, 0, 1, 1);
 }
 
+Union tilted_2_condition_1(float g1, float g2)
+{
+	//data
+	Union ur;
+	ur.m_ni = 1;
+	const float a = 2 - g1 * (1 + g2 - g1) / g2;
+	const float b = (1 - 2 * g2 - g1 * (1 + g2 - g1)) / g2 / g1 / (1 - g1);
+	//union
+	if(a < 0)
+	{
+		ur.m_intervals[0] = Interval(0, b < 0 ? 0 : pow(-b / a, 0.25));
+	}
+	else
+	{
+		ur.m_intervals[0] = Interval(b > 0 ? 0 : pow(-b / a, 0.25), inf);
+	}
+	//return
+	return ur;
+}
+Union tilted_2_condition_2(float g1, float g2)
+{
+	//data
+	Union u;
+	const float c = (g2 - g1) * (1 - g1) / g2;
+	const float d = (g2 - g1) * (2 * g1 - 3) / g2 / g1 / (1 - g1);
+	const float e = 3 * (g2 - g1) / g2 / g1 / (1 - g1) / (1 - g1);
+	//union
+	if(d * d - 4 * c * e < 0)
+	{
+		if(c > 0)
+		{
+			u.m_ni = 1;
+			u.m_intervals[0] = Interval(0, inf);
+		}
+		else
+		{
+			u.m_ni = 0;
+		}
+	}
+	else
+	{
+		const float s1 = -d / 2 / c - sqrt(d * d - 4 * c * e) / 2 / c;
+		const float s2 = -d / 2 / c + sqrt(d * d - 4 * c * e) / 2 / c;
+		if(c > 0)
+		{
+			u.m_ni = 2;
+			u.m_intervals[0] = Interval(0, s1 > 0 ? pow(s1, 0.25) : 0);
+			u.m_intervals[1] = Interval(s2 > 0 ? pow(s2, 0.25) : 0, inf);
+		}
+		else
+		{
+			u.m_ni = 1;
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? pow(s2, 0.25) : 0, pow(s1, 0.25));
+		}
+	}
+	//return
+	return u;
+}
+Union tilted_2_condition_3(float g1, float g2)
+{
+	//data
+	Union u;
+	const float c = (g2 - g1) * (1 - g1) / g2;
+	const float a = 2 - g1 * (1 + g2 - g1) / g2;
+	const float d = (g2 - g1) * (2 * g1 - 3) / g2 / g1 / (1 - g1);
+	const float e = 3 * (g2 - g1) / g2 / g1 / (1 - g1) / (1 - g1);
+	const float b = (1 - 2 * g2 - g1 * (1 + g2 - g1)) / g2 / g1 / (1 - g1);
+	//data
+	const float am = a * a - 4 * c;
+	const float cm = b * b - 4 * e;
+	const float bm = 2 * a * b - 4 * d;
+	//union
+	if(bm * bm - 4 * am * cm < 0)
+	{
+		if(am > 0)
+		{
+			u.m_ni = 1;
+			u.m_intervals[0] = Interval(0, inf);
+		}
+		else
+		{
+			u.m_ni = 0;
+		}
+	}
+	else
+	{
+		const float s1 = -bm / 2 / am - sqrt(bm * bm - 4 * am * cm) / 2 / am;
+		const float s2 = -bm / 2 / am + sqrt(bm * bm - 4 * am * cm) / 2 / am;
+		if(am > 0)
+		{
+			u.m_ni = 2;
+			u.m_intervals[0] = Interval(0, s1 > 0 ? pow(s1, 0.25) : 0);
+			u.m_intervals[1] = Interval(s2 > 0 ? pow(s2, 0.25) : 0, inf);
+		}
+		else
+		{
+			u.m_ni = 1;
+			u.m_intervals[0] = s1 < 0 ? Interval(0, 0) : Interval(s2 > 0 ? pow(s2, 0.25) : 0, pow(s1, 0.25));
+		}
+	}
+	//return
+	return u;
+}
+
+vec4 tilted_2_full(float g1, float g2)
+{
+	//data
+	Union u1 = tilted_2_condition_1(g1, g2);
+	Union u2 = tilted_2_condition_2(g1, g2);
+	Union u3 = tilted_2_condition_3(g1, g2);
+	//union
+	Union uf = u1;
+	uf = intersection(uf, u2);
+	uf = intersection(uf, u3);
+	uf = intersection(uf, Interval(1 / sqrt(1 - g1), inf));
+	//trim
+	union_trim_empty(uf);
+	union_trim_fusion(uf);
+	//data
+	if(uf.m_ni == 0) return vec4(1, 0, 0, 1);
+	if(uf.m_ni == 1 && uf.m_intervals[0].m_max == inf) return vec4(0, 0, 1, 1);
+	if(uf.m_ni == 1 && uf.m_intervals[0].m_max != inf) return vec4(1, 0.5, 0, 1);
+	return vec4(1, 0, 1, 1);
+}
+
 bool region(float g1, float g2)
 {
 	return abs(g1 - g2) < 1 && g1 + g2 > 1;
@@ -422,7 +547,8 @@ vec4 stability(float g1, float g2)
 	{
 		return 
 			mode == 0 ? vertical_full(g1, g2) : 
-			mode == 1 ? tilted_1_full(g1, g2) : color_impossible;
+			mode == 1 ? tilted_1_full(g1, g2) : 
+			mode == 2 ? tilted_2_full(g1, g2) : color_impossible;
 	}
 	else
 	{

@@ -94,7 +94,7 @@ static void scene_update(void)
 	const float bt = bt_min + fmodf(10 * q, bt_max - bt_min);
 	//program
 	program.set_uniform("wp", wp);
-	program.set_uniform("mode", 1U);
+	program.set_uniform("mode", 0U);
 	program.set_uniform("full", 1U);
 	program.set_uniform("bt", bt * float(M_PI) / 180);
 }
