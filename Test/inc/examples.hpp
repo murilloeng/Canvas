@@ -9,6 +9,7 @@ namespace examples
 	{
 		void arcs(canvas::Scene*);
 		void text(canvas::Scene*);
+		void group(canvas::Scene*);
 		void cubes(canvas::Scene*);
 		void lines(canvas::Scene*);
 		void quads(canvas::Scene*);

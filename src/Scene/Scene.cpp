@@ -559,22 +559,7 @@ namespace canvas
 		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
 		{
 			m_objects[i]->buffers_data();
-			for(uint32_t j = 0; j < 3; j++)
-			{
-				const uint32_t is = m_objects[i]->m_vbo_size[j];
-				const uint32_t ib = m_objects[i]->m_vbo_index[j];
-				for(uint32_t iv = ib; iv < ib + is; iv++)
-				{
-					vertices::Vertex3D* vertex;
-					if(j == 2) vertex = (vertices::Text3D*) m_vbos[j]->m_data + iv;
-					if(j == 0) vertex = (vertices::Model3D*) m_vbos[j]->m_data + iv;
-					if(j == 1) vertex = (vertices::Image3D*) m_vbos[j]->m_data + iv;
-					if(m_objects[i]->m_has_model_matrix)
-					{
-						vertex->m_position = m_objects[i]->m_model_matrix * vertex->m_position;
-					}
-				}
-			}
+			m_objects[i]->apply_model_matrix();
 		}
 	}
 }

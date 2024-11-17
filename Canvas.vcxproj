@@ -39,6 +39,7 @@
     <ClInclude Include="inc\Objects\3D\Cube.hpp" />
     <ClInclude Include="inc\Objects\3D\Cylinder.hpp" />
     <ClInclude Include="inc\Objects\3D\Sphere.hpp" />
+    <ClInclude Include="inc\Objects\Group.hpp" />
     <ClInclude Include="inc\Objects\Geometry.hpp" />
     <ClInclude Include="inc\Objects\Image\Text.hpp" />
     <ClInclude Include="inc\Objects\Image\Image.hpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="src\Objects\3D\Cube.cpp" />
     <ClCompile Include="src\Objects\3D\Cylinder.cpp" />
     <ClCompile Include="src\Objects\3D\Sphere.cpp" />
+    <ClCompile Include="src\Objects\Group.cpp" />
     <ClCompile Include="src\Objects\Geometry.cpp" />
     <ClCompile Include="src\Objects\Image\Text.cpp" />
     <ClCompile Include="src\Objects\Image\Image.cpp" />

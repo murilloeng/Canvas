@@ -8,7 +8,7 @@
 int main(int argc, char** argv)
 {
 	//scene
-	examples::scenes::rigid_map(argc, argv);
+	examples::scenes::examples(argc, argv);
 	//return
 	return EXIT_SUCCESS;
 }

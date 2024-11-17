@@ -10,6 +10,10 @@
 namespace canvas
 {
 	class Scene;
+	namespace objects
+	{
+		class Group;
+	}
 	namespace vertices
 	{
 		class Text2D;
@@ -70,6 +74,9 @@ namespace canvas
 			virtual void buffers_size(void) = 0;
 			virtual void buffers_data(void) const = 0;
 
+			//model matrix
+			virtual void apply_model_matrix(void) const;
+
 			//data
 			Scene* m_scene;
 
@@ -83,6 +90,7 @@ namespace canvas
 
 			//friends
 			friend class canvas::Scene;
+			friend class objects::Group;
 		};
 	}
 }

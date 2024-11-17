@@ -160,6 +160,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll dist\$(platform)\$(configur
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\managers\Glut.cpp" />
     <ClCompile Include="src\managers\GLFW.cpp" />
+    <ClCompile Include="src\objects\group.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
     <ClCompile Include="src\objects\1D\arcs.cpp" />
     <ClCompile Include="src\objects\1D\arrows.cpp" />
