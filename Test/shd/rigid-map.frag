@@ -232,6 +232,7 @@ vec4 vertical_full(float g1, float g2)
 	union_trim_fusion(uf);
 	//data
 	if(uf.m_ni == 0) return vec4(1, 0, 0, 1);
+	if(abs(g1 - g2) < 1e-5) return vec4(0, 0, 1, 1);
 	if(uf.m_ni == 1 && uf.m_intervals[0].m_max == inf) return vec4(0, 0, 1, 1);
 	if(uf.m_ni == 1 && uf.m_intervals[0].m_max != inf) return vec4(1, 0.5, 0, 1);
 	return vec4(1, 0, 1, 1);
