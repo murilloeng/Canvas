@@ -3,6 +3,7 @@
 #include "Canvas/inc/Light/Ambient.hpp"
 #include "Canvas/inc/Light/Direction.hpp"
 #include "Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/inc/Objects/1D/Arrow.hpp"
 #include "Canvas/inc/Objects/3D/Cylinder.hpp"
 
 //test
@@ -12,6 +13,7 @@ static const float a = 1.00;
 static const float b = 0.50;
 static const uint32_t nc = 40;
 static canvas::objects::Line* axes[3];
+static canvas::objects::Arrow* arrow[3];
 static canvas::objects::Cylinder chunk[nc];
 
 void examples::objects::group(canvas::Scene* scene)
@@ -20,6 +22,9 @@ void examples::objects::group(canvas::Scene* scene)
 	axes[0] = new canvas::objects::Line;
 	axes[1] = new canvas::objects::Line;
 	axes[2] = new canvas::objects::Line;
+	arrow[0] = new canvas::objects::Arrow;
+	arrow[1] = new canvas::objects::Arrow;
+	arrow[2] = new canvas::objects::Arrow;
 	canvas::objects::Group* group = new canvas::objects::Group;
 	//chunks
 	for(uint32_t i = 0; i < nc; i++)
@@ -42,12 +47,28 @@ void examples::objects::group(canvas::Scene* scene)
 	axes[0]->point(0, {0, 0, 0});
 	axes[1]->point(0, {0, 0, 0});
 	axes[2]->point(0, {0, 0, 0});
-	axes[0]->point(1, {1.5, 0, 0});
-	axes[1]->point(1, {0, 1.5, 0});
-	axes[2]->point(1, {0, 0, 1.5});
-	axes[0]->color_stroke({1, 0, 0});
-	axes[1]->color_stroke({0, 1, 0});
-	axes[2]->color_stroke({0, 0, 1});
+	axes[0]->point(1, {1, 0, 0});
+	axes[1]->point(1, {0, 1, 0});
+	axes[2]->point(1, {0, 0, 1});
+	axes[0]->color_stroke({0, 0, 0.0f});
+	axes[1]->color_stroke({0, 0, 0.0f});
+	axes[2]->color_stroke({0, 0, 0.0f});
+	//arrows
+	arrow[0]->width(0.05f);
+	arrow[1]->width(0.05f);
+	arrow[2]->width(0.05f);
+	arrow[0]->height(0.05f);
+	arrow[1]->height(0.05f);
+	arrow[2]->height(0.05f);
+	arrow[0]->path(axes[0]);
+	arrow[1]->path(axes[1]);
+	arrow[2]->path(axes[2]);
+	arrow[0]->parameter(1.0f);
+	arrow[1]->parameter(1.0f);
+	arrow[2]->parameter(1.0f);
+	arrow[0]->color_stroke({0, 0, 0});
+	arrow[1]->color_stroke({0, 0, 0});
+	arrow[2]->color_stroke({0, 0, 0});
 	//group
 	for(uint32_t i = 0; i < nc; i++)
 	{
@@ -55,6 +76,7 @@ void examples::objects::group(canvas::Scene* scene)
 	}
 	group->rotate({float(M_PI) / 4, 0, 0});
 	//light
+	glLineWidth(2.0);
 	scene->background({1, 1, 1});
 	scene->light().add_direction();
 	scene->light().ambient()->color({0.3f, 0.3f, 0.3f});
@@ -66,4 +88,7 @@ void examples::objects::group(canvas::Scene* scene)
 	scene->add_object(axes[0]);
 	scene->add_object(axes[1]);
 	scene->add_object(axes[2]);
+	scene->add_object(arrow[0]);
+	scene->add_object(arrow[1]);
+	scene->add_object(arrow[2]);
 }
