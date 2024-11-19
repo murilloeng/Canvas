@@ -1,9 +1,11 @@
 //canvas
 #include "Canvas/inc/Scene/Scene.hpp"
 
+//managers
+#include "Canvas/Managers/inc/GLFW.hpp"
+
 //test
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //static data
 static canvas::Scene* scene;
@@ -19,7 +21,7 @@ static void callback_key(int32_t key, int32_t, int32_t)
 		arcs, lines, arrows, curves, polylines, splines, 
 		circles, grid_2D, quads, polygons, triangles, 
 		cubes, cylinders, spheres, surfaces, 
-		images, text, palettes, group
+		images, text, palettes
 	};
 	const uint32_t ne = sizeof(examples) / sizeof(void(*)(canvas::Scene*));
 	//scene
@@ -42,7 +44,8 @@ static void callback_key(int32_t key, int32_t, int32_t)
 void examples::scenes::examples(int argc, char** argv)
 {
 	//data
-	GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "shd/");
+	//callbacks
 	app.callback_key(callback_key);
 	//scene
 	scene = app.scene();

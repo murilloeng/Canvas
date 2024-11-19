@@ -12,9 +12,11 @@
 #include "Canvas/inc/Objects/Object.hpp"
 #include "Canvas/inc/Vertices/Model2D.hpp"
 
+//managers
+#include "Canvas/Managers/inc/GLFW.hpp"
+
 //test
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //class
 class Rigid_Map : public canvas::objects::Object
@@ -108,7 +110,8 @@ static void scene_cleanup(void)
 void examples::scenes::rigid_map(int argc, char** argv)
 {
 	//data
-	GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "shd/");
+	//callbacks
 	app.callback_idle(scene_update);
 	//scene
 	scene = app.scene();

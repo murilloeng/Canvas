@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8e5cf4c0-267c-4950-aa9c-74d886cf0a69}</ProjectGuid>
-    <RootNamespace>Canvas2Test</RootNamespace>
+    <ProjectGuid>{ce900aeb-857a-4588-9caa-6b8a1e5d3923}</ProjectGuid>
+    <RootNamespace>Managers</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,22 +71,25 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)dist\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)dist\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)dist\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)dist\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -96,11 +99,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -109,93 +115,50 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../..;../../external/cpp/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>../..;../../external/cpp/inc</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
-      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../dist/$(platform)/$(configuration)/Managers.lib</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\$(platform)\glfw3.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\glew32.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\freeglut.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(configuration) &gt; nul</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>../..;../../external/cpp/inc</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
-      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../dist/$(platform)/$(configuration)/Managers.lib</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy ..\..\external\cpp\dll\$(platform)\glfw3.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\glew32.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\freeglut.dll ..\dist\$(platform)\$(configuration) &gt; nul
-copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(configuration) &gt; nul</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\objects\group.cpp" />
-    <ClCompile Include="src\objects\0D\points.cpp" />
-    <ClCompile Include="src\objects\1D\arcs.cpp" />
-    <ClCompile Include="src\objects\1D\arrows.cpp" />
-    <ClCompile Include="src\objects\1D\curves.cpp" />
-    <ClCompile Include="src\objects\1D\lines.cpp" />
-    <ClCompile Include="src\objects\1D\polylines.cpp" />
-    <ClCompile Include="src\objects\1D\splines.cpp" />
-    <ClCompile Include="src\objects\2D\circles.cpp" />
-    <ClCompile Include="src\objects\2D\grid_2D.cpp" />
-    <ClCompile Include="src\objects\2D\polygons.cpp" />
-    <ClCompile Include="src\objects\2D\quads.cpp" />
-    <ClCompile Include="src\objects\2D\surfaces.cpp" />
-    <ClCompile Include="src\objects\2D\triangles.cpp" />
-    <ClCompile Include="src\objects\3D\cubes.cpp" />
-    <ClCompile Include="src\objects\3D\cylinders.cpp" />
-    <ClCompile Include="src\objects\3D\spheres.cpp" />
-    <ClCompile Include="src\objects\Images\images.cpp" />
-    <ClCompile Include="src\objects\Images\latex.cpp" />
-    <ClCompile Include="src\objects\Images\text.cpp" />
-    <ClCompile Include="src\objects\Images\palettes.cpp" />
-    <ClCompile Include="src\scenes\Beam.cpp" />
-    <ClCompile Include="src\scenes\examples.cpp" />
-    <ClCompile Include="src\scenes\rigid_map.cpp" />
-    <ClCompile Include="src\scenes\von_mises_joint.cpp" />
-    <ClCompile Include="src\scenes\tensegrity_chair.cpp" />
-    <ClCompile Include="src\tessellation\convex_cw_3.cpp" />
-    <ClCompile Include="src\tessellation\convex_ccw_3.cpp" />
-    <ClCompile Include="src\scenes\spherical_pantograph.cpp" />
-    <ClCompile Include="src\tessellation\non_convex_cw_7.cpp" />
-    <ClCompile Include="src\tessellation\non_convex_ccw_4.cpp" />
-    <ClCompile Include="src\tessellation\convex_loop_ccw_8.cpp" />
-    <ClCompile Include="src\tessellation\convex_loop_cw_12.cpp" />
+    <ClCompile Include="src\GLFW.cpp" />
+    <ClCompile Include="src\GLUT.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\examples.hpp" />
-    <ClInclude Include="inc\scenes\Beam.hpp" />
-    <ClInclude Include="inc\tessellation.hpp" />
+    <ClInclude Include="inc\GLFW.hpp" />
+    <ClInclude Include="inc\GLUT.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

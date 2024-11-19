@@ -8,10 +8,12 @@
 #include "Canvas/inc/Light/Direction.hpp"
 #include "Canvas/inc/Objects/1D/Line.hpp"
 
+//managers
+#include "Canvas/Managers/inc/GLFW.hpp"
+
 //test
 #include "Canvas/Test/inc/examples.hpp"
 #include "Canvas/Test/inc/scenes/Beam.hpp"
-#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //static data
 static canvas::Scene* scene;
@@ -79,7 +81,8 @@ static void scene_update(void)
 void examples::scenes::von_mises_joint(int argc, char** argv)
 {
 	//data
-	GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "shd/");
+	//callbacks
 	app.callback_idle(scene_update);
 	//scene
 	scene = app.scene();

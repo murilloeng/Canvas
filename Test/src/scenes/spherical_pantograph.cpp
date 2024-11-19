@@ -2,9 +2,11 @@
 #include "Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/inc/Objects/3D/Cylinder.hpp"
 
+//managers
+#include "Canvas/Managers/inc/GLFW.hpp"
+
 //test
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 static void scene_setup(canvas::Scene* scene)
 {
@@ -41,7 +43,7 @@ static void scene_setup(canvas::Scene* scene)
 void examples::scenes::spherical_pantograph(int32_t argc, char** argv)
 {
 	//data
-	GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "shd/");
 	//scene
 	scene_setup(app.scene());
 	canvas::Scene* scene = app.scene();

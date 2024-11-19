@@ -8,9 +8,11 @@
 #include "Canvas/inc/Objects/3D/Cylinder.hpp"
 #include "Canvas/inc/Objects/Image/Latex.hpp"
 
+//managers
+#include "Canvas/Managers/inc/GLFW.hpp"
+
 //examples
 #include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/Test/inc/managers/GLFW.hpp"
 
 //data
 static const uint32_t nc = 3;
@@ -158,7 +160,7 @@ static void scene_setup(canvas::Scene* scene)
 void examples::scenes::tensegrity_chair(int32_t argc, char** argv)
 {
 	//data
-	GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "shd/");
 	//scene
 	scene_setup(app.scene());
 	canvas::Scene* scene = app.scene();
