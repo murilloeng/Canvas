@@ -74,8 +74,8 @@ namespace canvas
 		const std::vector<Image*>& images(void) const;
 
 		void clear_latex(void);
-		void add_latex(const char*);
 		Latex* latex(uint32_t) const;
+		uint32_t add_latex(const char*);
 		const std::vector<Latex*>& latex(void) const;
 
 		void clear_objects(bool);

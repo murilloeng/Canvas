@@ -147,13 +147,14 @@ namespace canvas
 		for(const Latex* latex : m_latex) delete latex;
 		m_latex.clear();
 	}
-	void Scene::add_latex(const char* source)
-	{
-		m_latex.push_back(new Latex(source));
-	}
 	Latex* Scene::latex(uint32_t index) const
 	{
 		return m_latex[index];
+	}
+	uint32_t Scene::add_latex(const char* source)
+	{
+		m_latex.push_back(new Latex(source));
+		return (uint32_t) m_latex.size() - 1;
 	}
 	const std::vector<Latex*>& Scene::latex(void) const
 	{
