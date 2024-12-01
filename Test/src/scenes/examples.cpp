@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 //managers
 #include "Canvas/Managers/inc/GLFW.hpp"
@@ -44,7 +44,7 @@ static void callback_key(int32_t key, int32_t, int32_t)
 void examples::scenes::examples(int argc, char** argv)
 {
 	//data
-	canvas::managers::GLFW app(argc, argv, "shd/");
+	canvas::managers::GLFW app(argc, argv, "Canvas/shd/");
 	//callbacks
 	app.callback_key(callback_key);
 	//scene

@@ -3,10 +3,10 @@
 #include <chrono>
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/inc/Light/Direction.hpp"
-#include "Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Light/Ambient.hpp"
+#include "Canvas/Canvas/inc/Light/Direction.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 
 //managers
 #include "Canvas/Managers/inc/GLFW.hpp"

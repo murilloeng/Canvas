@@ -1,8 +1,8 @@
 #pragma once
 
 //canvas
-#include "Canvas/inc/Math/vec3.hpp"
-#include "Canvas/inc/Objects/Geometry.hpp"
+#include "Canvas/Canvas/inc/Math/vec3.hpp"
+#include "Canvas/Canvas/inc/Objects/Geometry.hpp"
 
 class Beam : public canvas::objects::Geometry
 {

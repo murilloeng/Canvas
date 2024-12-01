@@ -1,6 +1,6 @@
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Objects/Image/Image.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/Image/Image.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
@@ -18,7 +18,7 @@ namespace examples
 			//images
 			for(uint32_t i = 0; i < 12; i++)
 			{
-				sprintf(path, "data/images/wizard-%d.png", i % ni);
+				sprintf(path, "Test/data/images/wizard-%d.png", i % ni);
 				scene->add_image(path);
 			}
 			//objects

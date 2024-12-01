@@ -3,14 +3,14 @@
 #include <chrono>
 
 //canvas
-#include "Canvas/inc/GPU/VBO.hpp"
-#include "Canvas/inc/GPU/IBO.hpp"
-#include "Canvas/inc/GPU/Shader.hpp"
-#include "Canvas/inc/GPU/Program.hpp"
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Scene/Command.hpp"
-#include "Canvas/inc/Objects/Object.hpp"
-#include "Canvas/inc/Vertices/Model2D.hpp"
+#include "Canvas/Canvas/inc/GPU/VBO.hpp"
+#include "Canvas/Canvas/inc/GPU/IBO.hpp"
+#include "Canvas/Canvas/inc/GPU/Shader.hpp"
+#include "Canvas/Canvas/inc/GPU/Program.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Scene/Command.hpp"
+#include "Canvas/Canvas/inc/Objects/Object.hpp"
+#include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
 
 //managers
 #include "Canvas/Managers/inc/GLFW.hpp"

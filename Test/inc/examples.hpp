@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 namespace examples
 {

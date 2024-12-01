@@ -5,7 +5,7 @@
 #include <functional>
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 namespace canvas
 {

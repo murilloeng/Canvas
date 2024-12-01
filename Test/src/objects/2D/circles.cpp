@@ -1,6 +1,6 @@
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Objects/2D/Circle.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/2D/Circle.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"

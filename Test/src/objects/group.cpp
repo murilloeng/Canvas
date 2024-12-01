@@ -1,10 +1,10 @@
 //canvas
-#include "Canvas/inc/Objects/Group.hpp"
-#include "Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/inc/Light/Direction.hpp"
-#include "Canvas/inc/Objects/1D/Line.hpp"
-#include "Canvas/inc/Objects/1D/Arrow.hpp"
-#include "Canvas/inc/Objects/3D/Cylinder.hpp"
+#include "Canvas/Canvas/inc/Objects/Group.hpp"
+#include "Canvas/Canvas/inc/Light/Ambient.hpp"
+#include "Canvas/Canvas/inc/Light/Direction.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Arrow.hpp"
+#include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
 
 //test
 #include "Canvas/Test/inc/examples.hpp"

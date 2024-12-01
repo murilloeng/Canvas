@@ -2,8 +2,8 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Vertices/Model3D.hpp"
-#include "Canvas/inc/Objects/Tessellator.hpp"
+#include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Tessellator.hpp"
 
 //test
 #include "Canvas/Test/inc/scenes/Beam.hpp"

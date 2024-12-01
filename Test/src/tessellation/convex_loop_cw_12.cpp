@@ -4,8 +4,8 @@
 #include <algorithm>
 
 //canvas
-#include "Canvas/inc/Math/vec2.hpp"
-#include "Canvas/inc/Objects/Tessellator.hpp"
+#include "Canvas/Canvas/inc/Math/vec2.hpp"
+#include "Canvas/Canvas/inc/Objects/Tessellator.hpp"
 
 //test
 #include "Canvas/Test/inc/examples.hpp"

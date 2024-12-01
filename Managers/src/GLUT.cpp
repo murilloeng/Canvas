@@ -8,8 +8,8 @@
 #include "external/cpp/inc/GL/freeglut.h"
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Objects/Geometry.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/Geometry.hpp"
 
 //test
 #include "Canvas/Managers/inc/GLUT.hpp"

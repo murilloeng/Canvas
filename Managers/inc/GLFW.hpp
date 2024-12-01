@@ -9,7 +9,7 @@
 #include "external/cpp/inc/GLFW/glfw3.h"
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 namespace canvas
 {

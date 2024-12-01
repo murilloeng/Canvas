@@ -1,6 +1,6 @@
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Objects/3D/Cylinder.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
 
 //managers
 #include "Canvas/Managers/inc/GLFW.hpp"

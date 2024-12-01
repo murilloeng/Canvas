@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/inc/Objects/1D/Curve.hpp"
-#include "Canvas/inc/Objects/1D/Arrow.hpp"
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Curve.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Arrow.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
