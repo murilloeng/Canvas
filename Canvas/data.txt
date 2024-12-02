@@ -1,4 +1,4 @@
-VBO
+VBO:
 (0) model3D:
 	position (3f) 
 	color (4f)
@@ -20,7 +20,7 @@ VBO
 	color (4f)
 	texture (2f)
 
-IBO
+IBO:
 ( 0) points of vbo (0)
 ( 1) lines of vbo (0)
 ( 2) triangles of vbo (0)
@@ -33,6 +33,11 @@ IBO
 ( 9) triangles of vbo (4)
 (10) triangles of vbo (5)
 (11) triangles of vbo (5)
+
+Textures:
+(0) Images
+(1) Text
+(2) Latex
 
 Programs:
 (0) Model 3D:
