@@ -1,0 +1,56 @@
+VBO
+(0) model3D:
+	position (3f) 
+	color (4f)
+(1) image3D:
+	position (3f) 
+	texture (2f)
+(2) text3D:
+	position (3f)
+	color (4f)
+	texture (2f)
+(3) model2D:
+	position (2f)
+	color (4f)
+(4) image2D:
+	position (2f)
+	texture (2f)
+(5) text2D:
+	position (2f)
+	color (4f)
+	texture (2f)
+
+IBO
+( 0) points of vbo (0)
+( 1) lines of vbo (0)
+( 2) triangles of vbo (0)
+( 3) triangles of vbo (1)
+( 4) triangles of vbo (2)
+( 5) triangles of vbo (2)
+( 6) points of vbo (3)
+( 7) lines of vbo (3)
+( 8) triangles of vbo (3)
+( 9) triangles of vbo (4)
+(10) triangles of vbo (5)
+(11) triangles of vbo (5)
+
+Programs:
+(0) Model 3D:
+	VBO(0) IBO(0)
+	VBO(0) IBO(1)
+(1) Light 3D:
+	VBO(0) IBO(2)
+(2) Images 3D:
+	VBO(1) IBO(3)
+(3) Text 3D:
+	VBO(2) IBO(4)
+	VBO(2) IBO(5)
+(4) Model 2D:
+	VBO(3) IBO(6)
+	VBO(3) IBO(7)
+	VBO(3) IBO(8)
+(5) Images 2D:
+	VBO(4) IBO(9)
+(6) Text 2D:
+	VBO(5) IBO(10)
+	VBO(5) IBO(11)
