@@ -23,21 +23,6 @@
 #include "Canvas/Canvas/inc/Vertices/Image2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
-// vbo
-// (0) model3D:	position (3) color (4)
-// (1) image3D:	position (3) texture (2)
-// (2) text3D:	position (3) color (4) texture (2)
-// (3) model2D:	position (2) color (4)
-// (4) image2D:	position (2) texture (2)
-// (5) text2D:	position (2) color (4) texture (2)
-
-// ibo
-// ( 0) points 3D, ( 1) lines 3D, ( 2) triangles 3D, ( 3) images 3D, ( 4) text 3D, ( 5) latex 3D
-// ( 6) points 2D, ( 7) lines 2D, ( 8) triangles 2D, ( 9) images 2D, (10) text 2D, (11) latex 2D
-
-// programs
-// ( 0) model 3D, (1) light 3D, (2) images 3D, (3) text 3D ( 4) model 2D, (5) images 2D, (6) text 2D
-
 namespace canvas
 {
 	//constructors
