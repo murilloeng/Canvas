@@ -1,38 +1,30 @@
 VBO:
 (0) model3D:
-	position (3f) 
-	color (4f)
+	position (3f) color (4f)
 (1) image3D:
-	position (3f) 
-	texture (2f)
+	position (3f) texture (2f)
 (2) text3D:
-	position (3f)
-	color (4f)
-	texture (2f)
+	position (3f) color (4f) texture (2f)
 (3) model2D:
-	position (2f)
-	color (4f)
+	position (2f) color (4f)
 (4) image2D:
-	position (2f)
-	texture (2f)
+	position (2f) texture (2f)
 (5) text2D:
-	position (2f)
-	color (4f)
-	texture (2f)
+	position (2f) color (4f) texture (2f)
 
 IBO:
-( 0) points of vbo (0)
-( 1) lines of vbo (0)
-( 2) triangles of vbo (0)
-( 3) triangles of vbo (1)
-( 4) triangles of vbo (2)
-( 5) triangles of vbo (2)
-( 6) points of vbo (3)
-( 7) lines of vbo (3)
-( 8) triangles of vbo (3)
-( 9) triangles of vbo (4)
-(10) triangles of vbo (5)
-(11) triangles of vbo (5)
+( 0) Type(P) VBO(0)
+( 1) Type(L) VBO(0)
+( 2) Type(T) VBO(0)
+( 3) Type(T) VBO(1)
+( 4) Type(T) VBO(2)
+( 5) Type(T) VBO(2)
+( 6) Type(P) VBO(3)
+( 7) Type(L) VBO(3)
+( 8) Type(T) VBO(3)
+( 9) Type(T) VBO(4)
+(10) Type(T) VBO(5)
+(11) Type(T) VBO(5)
 
 Textures:
 (0) Images
@@ -59,3 +51,106 @@ Programs:
 (6) Text 2D:
 	VBO(5) IBO(10)
 	VBO(5) IBO(11)
+
+Commands:
+( 0) Type(P) VBO(0) IBO( 0) Texture(N) Program(0)
+( 1) Type(L) VBO(0) IBO( 1) Texture(N) Program(0)
+( 2) Type(T) VBO(0) IBO( 2) Texture(N) Program(1)
+( 3) Type(T) VBO(1) IBO( 3) Texture(0) Program(2)
+( 4) Type(T) VBO(2) IBO( 4) Texture(1) Program(3)
+( 5) Type(T) VBO(2) IBO( 5) Texture(2) Program(3)
+( 6) Type(P) VBO(3) IBO( 6) Texture(N) Program(4)
+( 7) Type(L) VBO(3) IBO( 7) Texture(N) Program(4)
+( 8) Type(T) VBO(3) IBO( 8) Texture(N) Program(4)
+( 9) Type(T) VBO(4) IBO( 9) Texture(0) Program(5)
+(10) Type(T) VBO(5) IBO(10) Texture(1) Program(6)
+(11) Type(T) VBO(5) IBO(11) Texture(2) Program(6)
+
+--------------------------------------------------NEW---------------------------------------------------
+VBO:
+(0) model3D:
+	Position(3f) Color(4f)
+(1) graph3D:
+	Position(3f) Color(4f) Size(1f) Type(1f)
+(2) image3D:
+	Position(3f) Texture(2f)
+(3) text3D:
+	Position(3f) Color(4f) Texture(2f)
+(4) model2D:
+	Position(2f) Color(4f)
+(5) graph2D:
+	Position(2f) Color(4f) Size(1f) Type(1f)
+(6) image2D:
+	Position(2f) Texture (2f)
+(7) text2D:
+	Position(2f) Color(4f) Texture (2f)
+
+IBO:
+( 0) Type(P) VBO(0)
+( 1) Type(L) VBO(0)
+( 2) Type(T) VBO(0)
+( 3) Type(P) VBO(1)
+( 4) Type(L) VBO(1)
+( 5) Type(T) VBO(2)
+( 6) Type(T) VBO(3)
+( 7) Type(T) VBO(3)
+( 8) Type(P) VBO(4)
+( 9) Type(L) VBO(4)
+(10) Type(T) VBO(4)
+(11) Type(P) VBO(5)
+(12) Type(L) VBO(5)
+(13) Type(T) VBO(6)
+(14) Type(T) VBO(7)
+(15) Type(T) VBO(7)
+
+Textures:
+(0) Images
+(1) Text
+(2) Latex
+
+Programs:
+( 0) Model 3D:
+	VBO(0) IBO( 0)
+	VBO(0) IBO( 1)
+( 1) Light 3D:
+	VBO(0) IBO( 2)
+( 2) Points 3D:
+	VBO(1) IBO( 3)
+( 3) Lines 3D:
+	VBO(1) IBO( 4)
+( 4) Images 3D:
+	VBO(2) IBO( 5)
+( 5) Text 3D:
+	VBO(3) IBO( 6)
+	VBO(3) IBO( 7)
+( 6) Model 2D:
+	VBO(4) IBO( 8)
+	VBO(4) IBO( 9)
+	VBO(4) IBO(10)
+( 7) Points 2D:
+	VBO(5) IBO(11)
+( 8) Lines 2D:
+	VBO(5) IBO(12)
+( 9) Images 2D:
+	VBO(6) IBO(13)
+(10) Text 2D:
+	VBO(7) IBO(14)
+	VBO(7) IBO(15)
+
+Commands:
+( 0) Type(P) VBO(0) IBO( 0) Texture(N) Program( 0)
+( 1) Type(L) VBO(0) IBO( 1) Texture(N) Program( 0)
+( 2) Type(T) VBO(0) IBO( 2) Texture(N) Program( 1)
+( 3) Type(P) VBO(1) IBO( 3) Texture(N) Program( 2)
+( 4) Type(L) VBO(1) IBO( 4) Texture(N) Program( 3)
+( 5) Type(T) VBO(2) IBO( 5) Texture(0) Program( 4)
+( 6) Type(T) VBO(3) IBO( 6) Texture(1) Program( 5)
+( 7) Type(T) VBO(3) IBO( 7) Texture(2) Program( 5)
+( 8) Type(P) VBO(4) IBO( 8) Texture(N) Program( 6)
+( 9) Type(L) VBO(4) IBO( 9) Texture(N) Program( 6)
+(10) Type(T) VBO(4) IBO(10) Texture(N) Program( 6)
+(11) Type(P) VBO(5) IBO(11) Texture(N) Program( 7)
+(12) Type(L) VBO(5) IBO(12) Texture(N) Program( 8)
+(13) Type(T) VBO(6) IBO(13) Texture(0) Program( 9)
+(14) Type(T) VBO(7) IBO(14) Texture(1) Program(10)
+(15) Type(T) VBO(7) IBO(15) Texture(2) Program(10)
