@@ -171,6 +171,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
     <ClCompile Include="src\objects\2D\polygons.cpp" />
     <ClCompile Include="src\objects\2D\quads.cpp" />
     <ClCompile Include="src\objects\2D\surfaces.cpp" />
+    <ClCompile Include="src\objects\2D\graph_2D.cpp" />
     <ClCompile Include="src\objects\2D\triangles.cpp" />
     <ClCompile Include="src\objects\3D\cubes.cpp" />
     <ClCompile Include="src\objects\3D\cylinders.cpp" />

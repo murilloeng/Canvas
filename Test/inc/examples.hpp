@@ -25,6 +25,7 @@ namespace examples
 		void polygons(canvas::Scene*);
 		void surfaces(canvas::Scene*);
 		void palettes(canvas::Scene*);
+		void graph_2D(canvas::Scene*);
 		void polylines(canvas::Scene*);
 		void triangles(canvas::Scene*);
 		void cylinders(canvas::Scene*);

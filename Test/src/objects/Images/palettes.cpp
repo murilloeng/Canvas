@@ -1,6 +1,5 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Objects/2D/Quad.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Palette.hpp"
 
 //examples
@@ -8,10 +7,6 @@
 
 void examples::objects::palettes(canvas::Scene* scene)
 {
-	//fonts
 	scene->add_font("times");
-	//objects
-	canvas::objects::Palette* palette = new canvas::objects::Palette;
-	//scene
-	scene->add_object(palette);
+	scene->add_object(new canvas::objects::Palette);
 }

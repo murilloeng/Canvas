@@ -30,6 +30,7 @@
     <ClInclude Include="inc\Objects\1D\Path.hpp" />
     <ClInclude Include="inc\Objects\1D\Polyline.hpp" />
     <ClInclude Include="inc\Objects\1D\Spline.hpp" />
+    <ClInclude Include="inc\Objects\2D\Graph_2D.hpp" />
     <ClInclude Include="inc\Objects\2D\Circle.hpp" />
     <ClInclude Include="inc\Objects\2D\Grid_2D.hpp" />
     <ClInclude Include="inc\Objects\2D\Polygon.hpp" />
@@ -93,6 +94,7 @@
     <ClCompile Include="src\Objects\1D\Path.cpp" />
     <ClCompile Include="src\Objects\1D\Polyline.cpp" />
     <ClCompile Include="src\Objects\1D\Spline.cpp" />
+    <ClCompile Include="src\Objects\2D\Graph_2D.cpp" />
     <ClCompile Include="src\Objects\2D\Circle.cpp" />
     <ClCompile Include="src\Objects\2D\Grid_2D.cpp" />
     <ClCompile Include="src\Objects\2D\Polygon.cpp" />

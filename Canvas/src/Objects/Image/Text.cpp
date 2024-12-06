@@ -192,11 +192,11 @@ namespace canvas
 				{
 					//character
 					font->character(m_text[i]).coordinates(tc);
-					const int w = font->character(m_text[i]).width();
-					const int h = font->character(m_text[i]).height();
-					const int r = font->character(m_text[i]).advance();
-					const int a = font->character(m_text[i]).bearing(0);
-					const int b = font->character(m_text[i]).bearing(1);
+					const int32_t w = font->character(m_text[i]).width();
+					const int32_t h = font->character(m_text[i]).height();
+					const int32_t r = font->character(m_text[i]).advance();
+					const int32_t a = font->character(m_text[i]).bearing(0);
+					const int32_t b = font->character(m_text[i]).bearing(1);
 					//position
 					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xa[0] + xs[0] + ps * a;
 					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xa[1] + xs[1] + ps * b;
