@@ -56,13 +56,22 @@ namespace canvas
 			//vbo data
 			void vbo_data_frame(void) const;
 			void vbo_data_tics_lines(void) const;
+			void vbo_data_label_text_1(void) const;
+			void vbo_data_label_text_2(void) const;
+			void vbo_data_label_latex_1(void) const;
+			void vbo_data_label_latex_2(void) const;
 			void vbo_data_tics_labels_1(void) const;
 			void vbo_data_tics_labels_2(void) const;
 
 			//ibo data
 			void ibo_data_frame(void) const;
 			void ibo_data_tics_lines(void) const;
-			void ibo_data_tics_labels(void) const;
+			void ibo_data_label_text_1(void) const;
+			void ibo_data_label_text_2(void) const;
+			void ibo_data_label_latex_1(void) const;
+			void ibo_data_label_latex_2(void) const;
+			void ibo_data_tics_labels_1(void) const;
+			void ibo_data_tics_labels_2(void) const;
 
 			//data
 			float m_range[4];
@@ -70,6 +79,7 @@ namespace canvas
 			
 			bool m_labels_latex[2];
 			float m_labels_size[2];
+			uint32_t m_labels_font[2];
 			uint32_t m_labels_index[2];
 			char m_labels_string[2][200];
 			
