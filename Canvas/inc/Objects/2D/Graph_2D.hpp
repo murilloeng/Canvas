@@ -56,6 +56,8 @@ namespace canvas
 			//vbo data
 			void vbo_data_frame(void) const;
 			void vbo_data_tics_lines(void) const;
+			void vbo_data_update_text(void) const;
+			void vbo_data_update_latex(void) const;
 			void vbo_data_label_text_1(void) const;
 			void vbo_data_label_text_2(void) const;
 			void vbo_data_label_latex_1(void) const;
@@ -85,6 +87,7 @@ namespace canvas
 			
 			uint32_t m_tics_font[2];
 			uint32_t m_tics_count[2];
+			uint32_t m_tics_chars[2];
 			char m_tics_format[2][20];
 			float m_tics_line_size[2];
 			float m_tics_label_size[2];
