@@ -27,6 +27,9 @@ namespace canvas
 			float size(float);
 			float size(void) const;
 
+			bool normal(bool);
+			bool normal(void) const;
+
 			uint32_t font(uint32_t);
 			uint32_t font(void) const;
 
@@ -54,12 +57,20 @@ namespace canvas
 			//setup
 			void setup(void) override;
 
+			//data
+			void vbo_fill_data(void) const;
+			void ibo_fill_data(void) const;
+
 			//buffers
 			void buffers_size(void) override;
 			void buffers_data(void) const override;
 
+			//update
+			void update_on_motion(void) const override;
+
 			//data
 			float m_size;
+			bool m_normal;
 			uint32_t m_font;
 			Anchor m_anchor;
 			vec3 m_position;

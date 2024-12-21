@@ -42,6 +42,8 @@ namespace examples
 			{
 				text[i + 0]->size(0.2f);
 				text[i + 5]->size(0.2f);
+				text[i + 0]->normal(true);
+				text[i + 5]->normal(true);
 				text[i + 0]->text(c[i + 0]);
 				text[i + 5]->text(c[i + 4]);
 				text[i + 0]->anchor(a[i + 0]);

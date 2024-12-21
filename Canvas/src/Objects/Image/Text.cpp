@@ -9,7 +9,9 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Text::Text(void) : m_size(1.0f), m_font(0), m_position{0, 0, 0}, m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
+		Text::Text(void) : 
+			m_size(1.0f), m_normal(false), m_font(0), m_position{0, 0, 0}, 
+			m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
 		{
 			return;
 		}
@@ -28,6 +30,15 @@ namespace canvas
 		float Text::size(float size)
 		{
 			return m_size = size;
+		}
+
+		bool Text::normal(bool normal)
+		{
+			return m_normal = normal;
+		}
+		bool Text::normal(void) const
+		{
+			return m_normal;
 		}
 
 		uint32_t Text::font(void) const
@@ -139,7 +150,7 @@ namespace canvas
 			uint32_t a = 0, b = 0;
 			if(m_font >= m_scene->fonts().size())
 			{
-				fprintf(stderr, "Error: Text's font has out of range index!\n");
+				fprintf(stderr, "Error: Text object font has out of range index!\n");
 				exit(EXIT_FAILURE);
 			}
 			//lines
@@ -161,26 +172,20 @@ namespace canvas
 			Object::setup();
 		}
 
-		//buffers
-		void Text::buffers_size(void)
-		{
-			m_vbo_size[2] = 4 * m_fill * length();
-			m_ibo_size[4] = 6 * m_fill * length();
-		}
-		void Text::buffers_data(void) const
+		//data
+		void Text::vbo_fill_data(void) const
 		{
 			//data
 			uint32_t line = 0;
-			if(!m_fill) return;
 			const uint32_t wt = width();
 			const uint32_t ht = height();
-			uint32_t* ibo_ptr = ibo_data(4);
 			float xa[2], xs[2], xc[8], tc[8];
-			const vec3 &t1 = m_directions[0];
-			const vec3 &t2 = m_directions[1];
 			const Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
+			const quat qc = m_scene->camera().rotation();
 			vertices::Text3D* vbo_ptr = vbo_data_text_3D();
+			const vec3 t1 = m_normal ? qc.rotate({1, 0, 0}) : m_directions[0];
+			const vec3 t2 = m_normal ? qc.rotate({0, 1, 0}) : m_directions[1];
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;
@@ -226,8 +231,11 @@ namespace canvas
 					xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
 				}
 			}
-			//ibo data
+		}
+		void Text::ibo_fill_data(void) const
+		{
 			const uint32_t s = length();
+			uint32_t* ibo_ptr = ibo_data(4);
 			for(uint32_t i = 0; i < s; i++)
 			{
 				ibo_ptr[6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
@@ -237,6 +245,24 @@ namespace canvas
 				ibo_ptr[6 * i + 4] = m_vbo_index[2] + 4 * i + 2;
 				ibo_ptr[6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
 			}
+		}
+
+		//buffers
+		void Text::buffers_size(void)
+		{
+			m_vbo_size[2] = 4 * m_fill * length();
+			m_ibo_size[4] = 6 * m_fill * length();
+		}
+		void Text::buffers_data(void) const
+		{
+			if(m_fill) vbo_fill_data();
+			if(m_fill) ibo_fill_data();
+		}
+
+		//update
+		void Text::update_on_motion(void) const
+		{
+			if(m_fill && m_normal) vbo_fill_data();
 		}
 	}
 }
