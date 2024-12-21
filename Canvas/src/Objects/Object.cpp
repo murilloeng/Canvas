@@ -149,6 +149,12 @@ namespace canvas
 			}
 		}
 
+		//update
+		void Object::update_on_motion(void) const
+		{
+			return;
+		}
+
 		//model matrix
 		void Object::apply_model_matrix(void) const
 		{

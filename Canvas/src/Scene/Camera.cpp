@@ -276,7 +276,7 @@ namespace canvas
 				m_rotation = qc * Click::arcball(v1, v2).conjugate();
 				m_position = xc + (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 			}
-			if(m_click.button() != button::none) apply(), update();
+			if(m_click.button() != button::none) apply(), update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_reshape(int width, int height)
 		{

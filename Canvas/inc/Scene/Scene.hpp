@@ -116,6 +116,7 @@ namespace canvas
 		//update
 		void draw(void);
 		void update(bool);
+		void update_on_motion(void);
 
 	protected:
 		//setup

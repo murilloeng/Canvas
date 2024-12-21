@@ -325,6 +325,14 @@ namespace canvas
 		for(const VBO* vbo : m_vbos) vbo->transfer();
 		for(const IBO* ibo : m_ibos) ibo->transfer();
 	}
+	void Scene::update_on_motion(void)
+	{
+		for(objects::Object* object : m_objects)
+		{
+			object->update_on_motion();
+		}
+		for(const VBO* vbo : m_vbos) vbo->transfer();
+	}
 
 	//setup
 	void Scene::setup_gl(void)

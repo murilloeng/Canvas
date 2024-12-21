@@ -74,6 +74,9 @@ namespace canvas
 			virtual void buffers_size(void) = 0;
 			virtual void buffers_data(void) const = 0;
 
+			//update
+			virtual void update_on_motion(void) const;
+
 			//model matrix
 			virtual void apply_model_matrix(void) const;
 
