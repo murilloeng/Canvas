@@ -245,7 +245,7 @@ namespace canvas
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
 			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), apply(), update();
 			else if(key == 'c') m_type = camera::type(!uint32_t(m_type)), bound(), apply(), update();
-			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update();
+			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_motion(int x1, int x2)
 		{
