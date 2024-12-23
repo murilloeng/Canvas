@@ -30,7 +30,6 @@
     <ClInclude Include="inc\Objects\1D\Path.hpp" />
     <ClInclude Include="inc\Objects\1D\Polyline.hpp" />
     <ClInclude Include="inc\Objects\1D\Spline.hpp" />
-    <ClInclude Include="inc\Objects\2D\Graph_2D.hpp" />
     <ClInclude Include="inc\Objects\2D\Circle.hpp" />
     <ClInclude Include="inc\Objects\2D\Grid_2D.hpp" />
     <ClInclude Include="inc\Objects\2D\Polygon.hpp" />
@@ -47,6 +46,8 @@
     <ClInclude Include="inc\Objects\Image\Latex.hpp" />
     <ClInclude Include="inc\Objects\Image\Anchor.hpp" />
     <ClInclude Include="inc\Objects\Image\Palette.hpp" />
+    <ClInclude Include="inc\Objects\Graph\Curve_2D.hpp" />
+    <ClInclude Include="inc\Objects\Graph\Graph_2D.hpp" />
     <ClInclude Include="inc\Objects\Object.hpp" />
     <ClInclude Include="inc\Objects\Tessellator.hpp" />
     <ClInclude Include="inc\Palettes\Palette.hpp" />
@@ -94,7 +95,6 @@
     <ClCompile Include="src\Objects\1D\Path.cpp" />
     <ClCompile Include="src\Objects\1D\Polyline.cpp" />
     <ClCompile Include="src\Objects\1D\Spline.cpp" />
-    <ClCompile Include="src\Objects\2D\Graph_2D.cpp" />
     <ClCompile Include="src\Objects\2D\Circle.cpp" />
     <ClCompile Include="src\Objects\2D\Grid_2D.cpp" />
     <ClCompile Include="src\Objects\2D\Polygon.cpp" />
@@ -111,6 +111,8 @@
     <ClCompile Include="src\Objects\Image\Latex.cpp" />
     <ClCompile Include="src\Objects\Image\Anchor.cpp" />
     <ClCompile Include="src\Objects\Image\Palette.cpp" />
+    <ClCompile Include="src\Objects\Graph\Curve_2D.cpp" />
+    <ClCompile Include="src\Objects\Graph\Graph_2D.cpp" />
     <ClCompile Include="src\Objects\Object.cpp" />
     <ClCompile Include="src\Objects\Tessellator.cpp" />
     <ClCompile Include="src\Palettes\Greys.cpp" />
