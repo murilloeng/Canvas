@@ -60,7 +60,6 @@
     <ClInclude Include="inc\Scene\Image.hpp" />
     <ClInclude Include="inc\Scene\Latex.hpp" />
     <ClInclude Include="inc\Scene\Scene.hpp" />
-    <ClInclude Include="inc\Scene\Texture.hpp" />
     <ClInclude Include="inc\Light\Lights.hpp" />
     <ClInclude Include="inc\Light\Point.hpp" />
     <ClInclude Include="inc\Light\Ambient.hpp" />
@@ -131,7 +130,6 @@
     <ClCompile Include="src\Scene\Image.cpp" />
     <ClCompile Include="src\Scene\Latex.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
-    <ClCompile Include="src\Scene\Texture.cpp" />
     <ClCompile Include="src\Light\Lights.cpp" />
     <ClCompile Include="src\Light\Point.cpp" />
     <ClCompile Include="src\Light\Ambient.cpp" />
