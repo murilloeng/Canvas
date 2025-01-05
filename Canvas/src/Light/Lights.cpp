@@ -17,7 +17,7 @@ namespace canvas
 	namespace lights
 	{
 		//constructor
-		Lights::Lights(Scene* scene) : m_programs(scene->m_programs), m_ambient(new Ambient)
+		Lights::Lights(Scene* scene) : m_ambient(new Ambient), m_programs(scene->m_programs)
 		{
 			return;
 		}

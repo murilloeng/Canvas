@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "Canvas/Canvas/inc/Objects/Group.hpp"
 #include "Canvas/Canvas/inc/Light/Ambient.hpp"
@@ -76,7 +79,7 @@ void examples::objects::group(canvas::Scene* scene)
 	}
 	group->rotate({float(M_PI) / 4, 0, 0});
 	//light
-	glLineWidth(2.0);
+	// glLineWidth(2.0);
 	scene->background({1, 1, 1});
 	scene->light().add_direction();
 	scene->light().ambient()->color({0.3f, 0.3f, 0.3f});

@@ -65,9 +65,7 @@ public:
 		float lc1[4], lc2[4];
 		uint32_t* ibo_ptr = ibo_data(11);
 		const uint32_t w1 = m_scene->latex(0)->width();
-		const uint32_t w2 = m_scene->latex(1)->width();
 		const uint32_t h1 = m_scene->latex(0)->height();
-		const uint32_t h2 = m_scene->latex(1)->height();
 		canvas::vertices::Text2D* vbo_ptr = vbo_data_text_2D();
 		//latex
 		m_scene->latex(0)->coordinates(lc1);

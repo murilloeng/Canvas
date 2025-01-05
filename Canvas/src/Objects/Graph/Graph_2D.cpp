@@ -1,5 +1,3 @@
-#pragma once
-
 //canvas
 #include "Canvas/Canvas/inc/Scene/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Latex.hpp"
@@ -528,7 +526,6 @@ namespace canvas
 				float xc[8], tc[8];
 				const float w = m_width;
 				const uint32_t nt = m_tics_count[0];
-				const uint32_t m1 = m_tics_chars[0];
 				const float z1 = m_range[2 * 0 + 0];
 				const float z2 = m_range[2 * 0 + 1];
 				const float sl = m_tics_label_size[0];

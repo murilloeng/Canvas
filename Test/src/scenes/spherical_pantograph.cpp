@@ -1,3 +1,6 @@
+//std
+#include <cmath>
+
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"

@@ -27,8 +27,8 @@ namespace canvas
 
 		//constructors
 		Camera::Camera(Scene* scene) :
-			m_scene(scene), m_programs(scene->m_programs), 
-			m_type(camera::type::orthographic), m_width(100), m_height(100), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_output("screen")
+			m_scene(scene), m_type(camera::type::orthographic), 
+			m_width(100), m_height(100), m_output("screen"), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_programs(scene->m_programs)
 		{
 			return;
 		}

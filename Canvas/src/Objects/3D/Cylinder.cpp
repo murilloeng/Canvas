@@ -11,7 +11,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Cylinder::Cylinder(void) : m_center{0.0f, 0.0f, 0.0f}, m_radius{1.0f, 1.0f}, m_height(1.0f)
+		Cylinder::Cylinder(void) : m_center{0.0f, 0.0f, 0.0f}, m_height(1.0f), m_radius{1.0f, 1.0f}
 		{
 			return;
 		}

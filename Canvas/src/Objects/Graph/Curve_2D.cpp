@@ -12,7 +12,7 @@ namespace canvas
 		{
 			//constructor
 			Curve_2D::Curve_2D(void) : 
-				m_samples(0), m_graph(nullptr), m_data{nullptr, nullptr}, 
+				m_data{nullptr, nullptr}, m_graph(nullptr), m_samples(0),
 				m_points(false), m_points_size(0.1f), m_points_type(0),
 				m_lines(false), m_lines_type(0), m_lines_thickness(0.1f),
 				m_range{0, 1}, m_function_1(nullptr), m_function_2(nullptr)
