@@ -16,7 +16,7 @@ namespace canvas
 	//destructor
 	VBO::~VBO(void)
 	{
-		delete[] m_data;
+		delete[] static_cast<int8_t*>(m_data);
 		if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
 		if(glIsVertexArray(m_vao_id)) glDeleteVertexArrays(1, &m_vao_id);
 	}
@@ -70,8 +70,8 @@ namespace canvas
 	//GPU
 	void VBO::allocate(void)
 	{
-		delete[] m_data;
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
+		delete[] static_cast<int8_t*>(m_data);
 		m_data = new int8_t[m_size * stride()];
 		glBufferData(GL_ARRAY_BUFFER, m_size * stride(), nullptr, GL_DYNAMIC_DRAW);
 	}

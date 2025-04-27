@@ -53,7 +53,7 @@ namespace canvas
 	//GPU
 	void IBO::allocate(void)
 	{
-		delete[] m_data;
+		delete[] static_cast<uint32_t*>(m_data);
 		m_data = new uint32_t[m_size];
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
