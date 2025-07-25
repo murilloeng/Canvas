@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //def
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -52,8 +55,7 @@ namespace canvas
 		//check
 		if(!m_data)
 		{
-			fprintf(stderr, "Error: Couldn't load image: %s!\n", m_path.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("STBI image loading of " + m_path + " failed!");
 		}
 		//setup
 		m_width = w;

@@ -2,6 +2,7 @@
 #include <omp.h>
 #include <cmath>
 #include <cfloat>
+#include <stdexcept>
 
 //ext
 #include "external/cpp/inc/GL/glew.h"
@@ -517,8 +518,7 @@ namespace canvas
 	{
 		if(FT_Init_FreeType(&m_ft_library))
 		{
-			fprintf(stderr, "Error: Unable to init FreeType Library!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("FreeType initialization failed!");
 		}
 	}
 	void Scene::setup_commands(void)

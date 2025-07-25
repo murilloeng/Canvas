@@ -87,14 +87,12 @@ namespace canvas
 		FT_Done_Face(m_face);
 		if(FT_New_Face(m_scene->m_ft_library, path.c_str(), 0, &m_face))
 		{
-			fprintf(stderr, "Error: Failed to load font %s!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("FreeType face loading failed!");
 		}
 		//size
 		if(FT_Set_Pixel_Sizes(m_face, 0, m_pixels_size))
 		{
-			fprintf(stderr, "Error: Failed to set font %s size!\n", m_name.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("FreeType font size setup failed!");
 		}
 		//characters
 		m_status = true;
@@ -103,8 +101,7 @@ namespace canvas
 			//load
 			if(FT_Load_Char(m_face, i, FT_LOAD_RENDER))
 			{
-				fprintf(stderr, "Error: Failed to load glyph %d from font %s!\n", i, m_name.c_str());
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("FreeType glyph loading failed!");
 			}
 			//setup
 			m_chars[i].m_offset = w;

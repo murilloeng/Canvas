@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Scene/Latex.hpp"
@@ -71,8 +74,7 @@ namespace canvas
 		{
 			if(m_index >= m_scene->latex().size())
 			{
-				fprintf(stderr, "Error: Latex has out of range index!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("Error: Latex has out of range index!");
 			}
 			Object::setup();
 		}

@@ -1,8 +1,7 @@
 //std
 #include <cmath>
 #include <cfloat>
-#include <cstdio>
-#include <cstdlib>
+#include <stdexcept>
 
 //canvas
 #include "Canvas/Canvas/inc/Objects/Tessellator.hpp"
@@ -66,8 +65,6 @@ namespace canvas
 			const uint32_t nl = m_loops_count;
 			uint32_t list_size = m_loops[nl] + 2 * (nl - 1);
 			uint32_t* list = (uint32_t*) alloca(list_size * sizeof(uint32_t));
-			//check
-			if(!check()) exit(EXIT_FAILURE);
 			//tessellate
 			setup_list(list);
 			while(list_size >= 3)
@@ -119,14 +116,16 @@ namespace canvas
 			m_vertices_2D = vertices_2D; tessellate_2D();
 		}
 
-		bool Tessellator::check(void) const
+		void Tessellator::check(void) const
 		{
 			const bool s0 = area_sign(0);
 			for(uint32_t loop_index = 1; loop_index < m_loops_count; loop_index++)
 			{
-				if(area_sign(loop_index) == s0) return false;
+				if(area_sign(loop_index) == s0)
+				{
+					throw std::runtime_error("Tesselator check failed!");
+				}
 			}
-			return true;
 		}
 		bool Tessellator::area_sign(uint32_t loop_index) const
 		{
@@ -148,6 +147,7 @@ namespace canvas
 			//data
 			uint32_t* links = (uint32_t*) alloca(2 * (m_loops_count - 1) * sizeof(uint32_t));
 			//list
+			check();
 			setup_links(links);
 			uint32_t list_size = m_loops[1];
 			for(uint32_t i = 0; i < m_loops[1]; i++)

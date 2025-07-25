@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //canvas
 #include "Canvas/Canvas/inc/GPU/Shader.hpp"
 
@@ -33,23 +36,19 @@ namespace canvas
 		{
 			if(m_type == GL_VERTEX_SHADER || m_type == GL_FRAGMENT_SHADER)
 			{
-				fprintf(stderr, "Error: %s missing!\n", name());
-				exit(EXIT_FAILURE);
+				throw std::runtime_error(name() + std::string(" missing!"));
 			}
 			return;
 		}
 		//source
 		if(!load_file())
 		{
-			fprintf(stderr, "Error loading shader source!\n");
-			fprintf(stderr, "\tType: %s\n\tPath: %s\n", name(), m_path.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error loading shader source!");
 		}
 		//create
 		if((m_id = glCreateShader(m_type)) == 0)
 		{
-			fprintf(stderr, "Error creating %s!\n", name());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Shader creation failed!");
 		}
 		//source
 		const GLchar* p = m_source.c_str();
@@ -61,9 +60,10 @@ namespace canvas
 		glGetShaderiv(m_id, GL_COMPILE_STATUS, &status);
 		if(status == 0)
 		{
+			char error[4096];
 			glGetShaderInfoLog(m_id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error compiling %s!\nError log: %s\n", name(), log);
-			exit(EXIT_FAILURE);
+			sprintf(error, "Shader compilation failed!\nSource: %s\n%s", m_path.c_str(), log);
+			throw std::runtime_error(error);
 		}
 		//attach
 		glAttachShader(program_id, m_id);

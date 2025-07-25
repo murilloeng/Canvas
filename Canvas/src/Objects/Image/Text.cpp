@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //canvas
 #include "Canvas/Canvas/inc/Scene/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
@@ -150,8 +153,7 @@ namespace canvas
 			uint32_t a = 0, b = 0;
 			if(m_font >= m_scene->fonts().size())
 			{
-				fprintf(stderr, "Error: Text object font has out of range index!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("Error: Text object font has out of range index!");
 			}
 			//lines
 			for(char c : m_text)

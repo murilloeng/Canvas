@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Scene/Image.hpp"
@@ -71,8 +74,7 @@ namespace canvas
 		{
 			if(m_index >= m_scene->images().size())
 			{
-				fprintf(stderr, "Error: Image has out of range index!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("Error: Image has out of range index!");
 			}
 			Object::setup();
 		}

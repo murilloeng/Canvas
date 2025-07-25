@@ -2,6 +2,7 @@
 #include <cmath>
 #include <chrono>
 #include <thread>
+#include <stdexcept>
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
@@ -26,8 +27,7 @@ namespace canvas
 			master = this;
 			if(!glfwInit())
 			{
-				fprintf(stderr, "Error: Unable to initialize GLFW!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("GLFW initialization failed!");
 			}
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -36,8 +36,7 @@ namespace canvas
 			if(!m_window)
 			{
 				glfwTerminate();
-				fprintf(stderr, "Error: Unable to create GLFW window!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("GLFW window initialization failed!");
 			}
 			glfwMakeContextCurrent(m_window);
 			glfwSetWindowPos(m_window, 200, 200);
@@ -45,8 +44,7 @@ namespace canvas
 			if(glewInit() != GLEW_OK)
 			{
 				glfwTerminate();
-				fprintf(stderr, "Error: can't setup glew!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("GLEW initialization failed!");
 			}
 			m_scene = new canvas::Scene(shaders_dir);
 			master->m_scene->camera().callback_reshape(m_width, m_height);

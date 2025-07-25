@@ -37,7 +37,7 @@ namespace canvas
 			void tessellate_2D(void);
 			void tessellate_3D(void);
 
-			bool check(void) const;
+			void check(void) const;
 			bool area_sign(uint32_t) const;
 			void setup_list(uint32_t*) const;
 			void setup_links(uint32_t*) const;

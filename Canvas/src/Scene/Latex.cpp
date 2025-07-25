@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //ext
 #include "external/cpp/inc/stb_image.h"
 
@@ -61,13 +64,11 @@ namespace canvas
 		//convert
 		if(system("pdflatex -halt-on-error temp.tex"))
 		{
-			fprintf(stderr, "Error: Latex compilation of %s failed!\n", m_source.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Latex compilation of " + m_source + " failed!");
 		}
 		if(pdf_convert)
 		{
-			fprintf(stderr, "Error: Could not convert %s from pdf to png!\n", m_source.c_str());
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Convertion of " + m_source + " from pdf to png failed!");
 		}
 		//load
 		if(m_data) stbi_image_free(m_data);
@@ -77,8 +78,7 @@ namespace canvas
 		//check
 		if(!m_data)
 		{
-			fprintf(stderr, "Error: Couldn't load image: temp.png!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("STBI image loading of temp.png failed!");
 		}
 		//setup
 		m_width = w;
@@ -87,8 +87,7 @@ namespace canvas
 		//cleanup
 		if(pdf_delete != 0)
 		{
-			fprintf(stderr, "Error: Couldn't delete pdf file!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Latex pdf file deletion failed!");
 		}
 	}
 

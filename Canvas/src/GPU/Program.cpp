@@ -1,3 +1,6 @@
+//std
+#include <stdexcept>
+
 //canvas
 #include "Canvas/Canvas/inc/GPU/Shader.hpp"
 #include "Canvas/Canvas/inc/GPU/Program.hpp"
@@ -64,8 +67,7 @@ namespace canvas
 		//create
 		if((m_id = glCreateProgram()) == 0)
 		{
-			fprintf(stderr, "Error creating shader program!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error creating shader program!");
 		}
 		//shaders
 		m_vertex_shader->setup(m_id);
@@ -82,8 +84,7 @@ namespace canvas
 		if(status == 0)
 		{
 			glGetProgramInfoLog(m_id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error linking shader program: %s\n", log);
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error linking shader program: " + std::string(log));
 		}
 		//validate
 		glValidateProgram(m_id);
@@ -91,8 +92,7 @@ namespace canvas
 		if(status == 0)
 		{
 			glGetProgramInfoLog(m_id, sizeof(log), nullptr, log);
-			fprintf(stderr, "Error validating shader program: %s\n", log);
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error validating shader program: " + std::string(log));
 		}
 	}
 	void Program::bind(void) const
@@ -108,8 +108,7 @@ namespace canvas
 		//check
 		if(glGetError() != GL_NO_ERROR)
 		{
-			printf("Error getting uniform %s location!\n", name);
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error getting uniform " + std::string(name) + " location");
 		}
 		//return
 		return location;
@@ -405,16 +404,14 @@ namespace canvas
 	{
 		if(glGetError() != GL_NO_ERROR)
 		{
-			printf("Error setting uniform %s!\n", name);
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error getting uniform " + std::string(name) + "!");
 		}
 	}
 	void Program::check_uniform_location(const char* name, int32_t location) const
 	{
 		if(location == -1)
 		{
-			printf("Error getting uniform %s location!\n", name);
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error getting uniform " + std::string(name) + "location!");
 		}
 	}
 }

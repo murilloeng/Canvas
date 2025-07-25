@@ -2,6 +2,7 @@
 
 //std
 #include <cstdint>
+#include <stdexcept>
 #include <functional>
 
 //canvas

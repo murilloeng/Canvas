@@ -40,8 +40,7 @@ namespace canvas
 			//glew
 			if(glewInit() != GLEW_OK)
 			{
-				fprintf(stderr, "Error: can't setup glew!\n");
-				exit(EXIT_FAILURE);
+				throw std::runtime_error("GLEW initialization failed!");
 			}
 			m_scene = new canvas::Scene(shaders_dir);
 			//callbacks

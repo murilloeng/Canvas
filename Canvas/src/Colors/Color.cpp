@@ -1,7 +1,6 @@
 //std
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
+#include <stdexcept>
 
 //canvas
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
@@ -86,8 +85,7 @@ namespace canvas
 		//check
 		if(strlen(color_string) < 7 || strlen(color_string) > 9)
 		{
-			fprintf(stderr, "Error: Invalid color's string!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error: Invalid color's string!");
 		}
 		//channels
 		m_channels[0] = string_channel(color_string, 0);
@@ -158,8 +156,7 @@ namespace canvas
 		}
 		if(!test)
 		{
-			fprintf(stderr, "Error: Invalid color's string!\n");
-			exit(EXIT_FAILURE);
+			throw std::runtime_error("Error: Invalid color's string!");
 		}
 	}
 	float Color::string_channel(const char* color_string, uint32_t index)
