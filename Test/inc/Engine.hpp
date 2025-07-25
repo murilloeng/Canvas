@@ -45,6 +45,7 @@ private:
 	static void callback_position(GLFWwindow*, double, double);
 
 	//data
+	bool m_show_fps;
 	GLFWwindow* m_window;
 	canvas::Scene* m_scene;
 	std::function<void(void)> m_callback_idle;

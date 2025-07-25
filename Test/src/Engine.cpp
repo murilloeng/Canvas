@@ -5,7 +5,7 @@
 #include "Canvas/Test/inc/Engine.hpp"
 
 //constructor
-Engine::Engine(void)
+Engine::Engine(void) : m_show_fps{true}
 {
 	setup_glfw();
 	setup_glew();
@@ -33,9 +33,12 @@ void Engine::start(void)
 		m_scene->draw();
 		glfwSwapBuffers(m_window);
 		//framerate
-		t2 = glfwGetTime();
-		printf("FPS: %d\n", uint32_t(1 / (t2 - t1)));
-		t1 = t2;
+		if(m_show_fps)
+		{
+			t2 = glfwGetTime();
+			printf("FPS: %d\n", uint32_t(1 / (t2 - t1)));
+			t1 = t2;
+		}
 	}
 }
 
