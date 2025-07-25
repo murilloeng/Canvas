@@ -223,12 +223,12 @@ static void scene_cleanup(void)
 	scene->clear_objects(false);
 }
 
-void examples::scenes::rigid_map(int argc, char** argv)
+void examples::scenes::rigid_map(void)
 {
 	//data
 	Engine engine;
 	//callbacks
-	// engine.callback_idle(scene_update);
+	engine.callback_idle(scene_update);
 	//scene
 	scene = engine.scene();
 	scene_setup();

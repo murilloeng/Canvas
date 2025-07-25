@@ -1,5 +1,4 @@
 //std
-#include <cmath>
 #include <cstdlib>
 
 //test
@@ -7,8 +6,14 @@
 
 int main(void)
 {
-	//scene
-	examples::scenes::examples();
+	try
+	{
+		examples::scenes::examples();
+	}
+	catch(const std::exception& e)
+	{
+		fprintf(stderr, "%s\n", e.what());
+	}
 	//return
 	return EXIT_SUCCESS;
 }

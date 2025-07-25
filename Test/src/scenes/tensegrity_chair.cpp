@@ -155,7 +155,7 @@ static void scene_setup(canvas::Scene* scene)
 	scene->camera().rotation({float(M_PI_2), 0, 0});
 }
 
-void examples::scenes::tensegrity_chair(int32_t argc, char** argv)
+void examples::scenes::tensegrity_chair(void)
 {
 	//data
 	Engine engine;

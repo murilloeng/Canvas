@@ -76,12 +76,12 @@ static void scene_update(void)
 	scene->update(false);
 }
 
-void examples::scenes::von_mises_joint(int argc, char** argv)
+void examples::scenes::von_mises_joint(void)
 {
 	//data
 	Engine engine;
 	//callbacks
-	// app.callback_idle(scene_update);
+	engine.callback_idle(scene_update);
 	//scene
 	scene = engine.scene();
 	scene_setup();

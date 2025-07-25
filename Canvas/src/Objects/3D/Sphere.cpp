@@ -1,6 +1,5 @@
 //std
 #include <cmath>
-#include <cstdio>
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"

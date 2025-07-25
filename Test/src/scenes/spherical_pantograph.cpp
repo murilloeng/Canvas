@@ -41,7 +41,7 @@ static void scene_setup(canvas::Scene* scene)
 	for(uint32_t i = 0; i < 6; i++) scene->add_object(cylinders[i]);
 }
 
-void examples::scenes::spherical_pantograph(int32_t argc, char** argv)
+void examples::scenes::spherical_pantograph(void)
 {
 	//data
 	Engine engine;
