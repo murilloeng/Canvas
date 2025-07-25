@@ -24,12 +24,19 @@ public:
 	//start
 	void start(void);
 
-	//scene
+	//data
+	bool show_fps(bool);
+	bool show_fps(void) const;
+
+	uint32_t width(void) const;
+	uint32_t height(void) const;
+
 	canvas::Scene* scene(void) const;
 
-	//callbacks
-	void callback_idle(std::function<void(void)>);
-	void callback_key(std::function<void(int32_t, int32_t, int32_t)>);
+	//user
+	void user_idle(std::function<void(void)>);
+	void user_key(std::function<void(int32_t, int32_t, int32_t)>);
+	void user_button(std::function<void(int32_t, int32_t, int32_t, double, double)>);
 
 private:
 	//setup
@@ -46,8 +53,11 @@ private:
 
 	//data
 	bool m_show_fps;
+	uint32_t m_width;
+	uint32_t m_height;
 	GLFWwindow* m_window;
 	canvas::Scene* m_scene;
-	std::function<void(void)> m_callback_idle;
-	std::function<void(int32_t, int32_t, int32_t)> m_callback_keyboard;
+	std::function<void(void)> m_user_idle;
+	std::function<void(int32_t, int32_t, int32_t)> m_user_key;
+	std::function<void(int32_t, int32_t, int32_t, double, double)> m_user_button;
 };

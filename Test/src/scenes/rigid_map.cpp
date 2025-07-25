@@ -228,7 +228,7 @@ void examples::scenes::rigid_map(void)
 	//data
 	Engine engine;
 	//callbacks
-	engine.callback_idle(scene_update);
+	engine.user_idle(scene_update);
 	//scene
 	scene = engine.scene();
 	scene_setup();

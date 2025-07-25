@@ -44,7 +44,7 @@ void examples::scenes::examples(void)
 	//data
 	Engine engine;
 	//callbacks
-	engine.callback_key(callback_key);
+	engine.user_key(callback_key);
 	//scene
 	scene = engine.scene();
 	examples::objects::points(scene);

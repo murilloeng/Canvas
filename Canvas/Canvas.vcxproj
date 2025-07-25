@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\Fonts\Font.hpp" />
     <ClInclude Include="inc\Fonts\Glyph.hpp" />
+    <ClInclude Include="inc\Fonts\Font.hpp" />
     <ClInclude Include="inc\Math\mat4.hpp" />
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
@@ -75,8 +75,8 @@
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Fonts\Font.cpp" />
     <ClCompile Include="src\Fonts\Glyph.cpp" />
+    <ClCompile Include="src\Fonts\Font.cpp" />
     <ClCompile Include="src\Math\mat4.cpp" />
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />

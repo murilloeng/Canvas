@@ -5,7 +5,7 @@
 #include "Canvas/Test/inc/Engine.hpp"
 
 //constructor
-Engine::Engine(void) : m_show_fps{true}
+Engine::Engine(void) : m_show_fps{true}, m_width{700}, m_height{700}
 {
 	setup_glfw();
 	setup_glew();
@@ -27,7 +27,7 @@ void Engine::start(void)
 	while(!glfwWindowShouldClose(m_window))
 	{
 		//idle
-		if(m_callback_idle) m_callback_idle();
+		if(m_user_idle) m_user_idle();
 		//draw
 		glfwPollEvents();
 		m_scene->draw();
@@ -42,20 +42,42 @@ void Engine::start(void)
 	}
 }
 
-//scene
+//data
+bool Engine::show_fps(void) const
+{
+	return m_show_fps;
+}
+bool Engine::show_fps(bool show_fps)
+{
+	return m_show_fps = show_fps;
+}
+
+uint32_t Engine::width(void) const
+{
+	return m_width;
+}
+uint32_t Engine::height(void) const
+{
+	return m_height;
+}
+
 canvas::Scene* Engine::scene(void) const
 {
 	return m_scene;
 }
 
-//callbacks
-void Engine::callback_idle(std::function<void(void)> callback_idle)
+//user
+void Engine::user_idle(std::function<void(void)> user_idle)
 {
-	m_callback_idle = callback_idle;
+	m_user_idle = user_idle;
 }
-void Engine::callback_key(std::function<void(int32_t, int32_t, int32_t)> callback_keyboard)
+void Engine::user_key(std::function<void(int32_t, int32_t, int32_t)> user_key)
 {
-	m_callback_keyboard = callback_keyboard;
+	m_user_key = user_key;
+}
+void Engine::user_button(std::function<void(int32_t, int32_t, int32_t, double, double)> user_button)
+{
+	m_user_button = user_button;
 }
 
 //setup
@@ -107,16 +129,24 @@ void Engine::callback_position(GLFWwindow* window, double x1, double x2)
 }
 void Engine::callback_size(GLFWwindow* window, int width, int height)
 {
+	//data
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
+	//engine
+	engine->m_width = width;
+	engine->m_height = height;
+	//scene
 	engine->m_scene->camera().callback_reshape(width, height);
 	engine->m_scene->update(true);
+	//update
 	glfwSwapBuffers(window);
 }
 void Engine::callback_button(GLFWwindow* window, int button, int action, int mods)
 {
 	//data
 	double x1, x2;
+	glfwGetCursorPos(window, &x1, &x2);
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
+	if(engine->m_user_button) engine->m_user_button(button, action, mods, x1, x2);
 	uint32_t glfw_buttons[] = {GLFW_MOUSE_BUTTON_LEFT, GLFW_MOUSE_BUTTON_RIGHT, GLFW_MOUSE_BUTTON_MIDDLE};
 	canvas::button canvas_buttons[] = {canvas::button::left, canvas::button::right, canvas::button::middle};
 	//callback
@@ -124,7 +154,6 @@ void Engine::callback_button(GLFWwindow* window, int button, int action, int mod
 	{
 		if(uint32_t(button) == glfw_buttons[i])
 		{
-			glfwGetCursorPos(window, &x1, &x2);
 			engine->m_scene->camera().callback_mouse(canvas_buttons[i], action == GLFW_PRESS, int32_t(x1), int32_t(x2));
 		}
 	}
@@ -145,7 +174,7 @@ void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int
 	if(action == GLFW_RELEASE) return;
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
 	glfwGetCursorPos(window, &x1, &x2);
-	if(engine->m_callback_keyboard) engine->m_callback_keyboard(key, int32_t(x1), int32_t(x2));
+	if(engine->m_user_key) engine->m_user_key(key, int32_t(x1), int32_t(x2));
 	//Canvas
 	if(key == GLFW_KEY_ESCAPE) glfwSetWindowShouldClose(window, true);
 	else
