@@ -20,7 +20,6 @@
 
 namespace canvas
 {
-	class Font;
 	class Image;
 	class Latex;
 	namespace objects
@@ -36,6 +35,10 @@ namespace canvas
 		class Model3D;
 		class Image2D;
 		class Image3D;
+	}
+	namespace fonts
+	{
+		class Font;
 	}
 }
 
@@ -65,8 +68,8 @@ namespace canvas
 
 		void clear_fonts(void);
 		void add_font(const char*);
-		Font* font(uint32_t) const;
-		const std::vector<Font*>& fonts(void) const;
+		fonts::Font* font(uint32_t) const;
+		const std::vector<fonts::Font*>& fonts(void) const;
 
 		void clear_images(void);
 		void add_image(const char*);
@@ -145,14 +148,14 @@ namespace canvas
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;
-		std::vector<Font*> m_fonts;
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
 		std::vector<Command> m_commands;
+		std::vector<fonts::Font*> m_fonts;
 		std::vector<objects::Object*> m_objects;
 
 		//friends
-		friend class Font;
+		friend class fonts::Font;
 		friend class camera::Camera;
 		friend class lights::Lights;
 		friend class objects::Object;

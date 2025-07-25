@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Fonts\Font.hpp" />
+    <ClInclude Include="inc\Fonts\Glyph.hpp" />
     <ClInclude Include="inc\Math\mat4.hpp" />
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
@@ -54,9 +56,7 @@
     <ClInclude Include="inc\Palettes\Types.hpp" />
     <ClInclude Include="inc\Scene\Camera.hpp" />
     <ClInclude Include="inc\Scene\Command.hpp" />
-    <ClInclude Include="inc\Scene\Character.hpp" />
     <ClInclude Include="inc\Scene\Click.hpp" />
-    <ClInclude Include="inc\Scene\Font.hpp" />
     <ClInclude Include="inc\Scene\Image.hpp" />
     <ClInclude Include="inc\Scene\Latex.hpp" />
     <ClInclude Include="inc\Scene\Scene.hpp" />
@@ -75,6 +75,8 @@
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Fonts\Font.cpp" />
+    <ClCompile Include="src\Fonts\Glyph.cpp" />
     <ClCompile Include="src\Math\mat4.cpp" />
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />
@@ -124,9 +126,7 @@
     <ClCompile Include="src\Palettes\Whylrd.cpp" />
     <ClCompile Include="src\Scene\Camera.cpp" />
     <ClCompile Include="src\Scene\Command.cpp" />
-    <ClCompile Include="src\Scene\Character.cpp" />
     <ClCompile Include="src\Scene\Click.cpp" />
-    <ClCompile Include="src\Scene\Font.cpp" />
     <ClCompile Include="src\Scene\Image.cpp" />
     <ClCompile Include="src\Scene\Latex.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />

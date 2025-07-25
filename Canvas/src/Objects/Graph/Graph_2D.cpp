@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/Canvas/inc/Scene/Font.hpp"
+#include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Latex.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
@@ -192,7 +192,7 @@ namespace canvas
 					m_tics_chars[1] += sprintf(label, m_tics_format[1], b1 + i * (b2 - b1) / (n2 + 1));
 					for(uint32_t j = 0; j < (uint32_t) strlen(label); j++)
 					{
-						width += m_scene->font(m_tics_font[1])->character(label[j]).advance();
+						width += m_scene->font(m_tics_font[1])->glyph(label[j]).advance();
 					}
 					m_tics_width = std::max(m_tics_width, width);
 				}
@@ -368,7 +368,7 @@ namespace canvas
 				const uint32_t m1 = m_tics_chars[0];
 				const uint32_t m2 = m_tics_chars[1];
 				const float ts = m_tics_label_size[0];
-				const Font* font = m_scene->font(m_labels_font[0]);
+				const fonts::Font* font = m_scene->font(m_labels_font[0]);
 				const uint32_t nc = (uint32_t) strlen(m_labels_string[0]);
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D() + 4 * (m1 + m2);
 				//vbo data
@@ -377,12 +377,12 @@ namespace canvas
 				for(uint32_t i = 0; i < nc; i++)
 				{
 					//character
-					font->character(m_labels_string[0][i]).coordinates(tc);
-					const int32_t w = font->character(m_labels_string[0][i]).width();
-					const int32_t h = font->character(m_labels_string[0][i]).height();
-					const int32_t r = font->character(m_labels_string[0][i]).advance();
-					const int32_t a = font->character(m_labels_string[0][i]).bearing(0);
-					const int32_t b = font->character(m_labels_string[0][i]).bearing(1);
+					font->glyph(m_labels_string[0][i]).coordinates(tc);
+					const int32_t w = font->glyph(m_labels_string[0][i]).width();
+					const int32_t h = font->glyph(m_labels_string[0][i]).height();
+					const int32_t r = font->glyph(m_labels_string[0][i]).advance();
+					const int32_t a = font->glyph(m_labels_string[0][i]).bearing(0);
+					const int32_t b = font->glyph(m_labels_string[0][i]).bearing(1);
 					//position
 					xc[2 * 3 + 0] = xc[2 * 0 + 0] = x1 + ls / font->height() * a;
 					xc[2 * 3 + 1] = xc[2 * 2 + 1] = x2 + ls / font->height() * b;
@@ -415,7 +415,7 @@ namespace canvas
 				const uint32_t m1 = m_tics_chars[0];
 				const uint32_t m2 = m_tics_chars[1];
 				const float ts = m_tics_label_size[1];
-				const Font* font = m_scene->font(m_labels_font[1]);
+				const fonts::Font* font = m_scene->font(m_labels_font[1]);
 				const uint32_t nc = (uint32_t) strlen(m_labels_string[1]);
 				const uint32_t p1 = l1 ? 1 : (uint32_t) strlen(m_labels_string[0]);
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D() + 4 * (m1 + m2 + p1);
@@ -428,12 +428,12 @@ namespace canvas
 				for(uint32_t i = 0; i < nc; i++)
 				{
 					//character
-					font->character(m_labels_string[1][i]).coordinates(tc);
-					const int32_t w = font->character(m_labels_string[1][i]).width();
-					const int32_t h = font->character(m_labels_string[1][i]).height();
-					const int32_t r = font->character(m_labels_string[1][i]).advance();
-					const int32_t a = font->character(m_labels_string[1][i]).bearing(0);
-					const int32_t b = font->character(m_labels_string[1][i]).bearing(1);
+					font->glyph(m_labels_string[1][i]).coordinates(tc);
+					const int32_t w = font->glyph(m_labels_string[1][i]).width();
+					const int32_t h = font->glyph(m_labels_string[1][i]).height();
+					const int32_t r = font->glyph(m_labels_string[1][i]).advance();
+					const int32_t a = font->glyph(m_labels_string[1][i]).bearing(0);
+					const int32_t b = font->glyph(m_labels_string[1][i]).bearing(1);
 					//position
 					xc[2 * 3 + 0] = xc[2 * 0 + 0] = x1 + ls / fh * a;
 					xc[2 * 3 + 1] = xc[2 * 2 + 1] = x2 + ls / fh * b;
@@ -498,7 +498,7 @@ namespace canvas
 				const uint32_t m1 = m_tics_chars[0];
 				const uint32_t m2 = m_tics_chars[1];
 				const float ts = m_tics_label_size[1];
-				const Font* font = m_scene->font(m_tics_font[1]);
+				const fonts::Font* font = m_scene->font(m_tics_font[1]);
 				const Latex* latex = m_scene->latex(m_labels_index[1]);
 				const float lw = latex->width() * ls / latex->height();
 				const uint32_t p1 = l1 ? 1 : (uint32_t) strlen(m_labels_string[0]);
@@ -530,7 +530,7 @@ namespace canvas
 				const float z2 = m_range[2 * 0 + 1];
 				const float sl = m_tics_label_size[0];
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D();
-				const Font* font = m_scene->font(m_tics_font[0]);
+				const fonts::Font* font = m_scene->font(m_tics_font[0]);
 				//vbo data
 				uint32_t counter = 0;
 				const uint32_t fh = font->height();
@@ -544,12 +544,12 @@ namespace canvas
 					for(uint32_t j = 0; j < nc; j++)
 					{
 						//character
-						font->character(label[j]).coordinates(tc);
-						const int32_t w = font->character(label[j]).width();
-						const int32_t h = font->character(label[j]).height();
-						const int32_t r = font->character(label[j]).advance();
-						const int32_t a = font->character(label[j]).bearing(0);
-						const int32_t b = font->character(label[j]).bearing(1);
+						font->glyph(label[j]).coordinates(tc);
+						const int32_t w = font->glyph(label[j]).width();
+						const int32_t h = font->glyph(label[j]).height();
+						const int32_t r = font->glyph(label[j]).advance();
+						const int32_t a = font->glyph(label[j]).bearing(0);
+						const int32_t b = font->glyph(label[j]).bearing(1);
 						//position
 						xc[2 * 3 + 0] = xc[2 * 0 + 0] = x1 + sl / fh * a;
 						xc[2 * 3 + 1] = xc[2 * 2 + 1] = x2 + sl / fh * b;
@@ -586,7 +586,7 @@ namespace canvas
 				const float z1 = m_range[2 * 1 + 0];
 				const float z2 = m_range[2 * 1 + 1];
 				const float sl = m_tics_label_size[1];
-				const Font* font = m_scene->font(m_tics_font[1]);
+				const fonts::Font* font = m_scene->font(m_tics_font[1]);
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D() + 4 * m1;
 				//vbo data
 				uint32_t counter = 0;
@@ -602,12 +602,12 @@ namespace canvas
 					for(uint32_t j = 0; j < nc; j++)
 					{
 						//character
-						font->character(label[j]).coordinates(tc);
-						const int32_t w = font->character(label[j]).width();
-						const int32_t h = font->character(label[j]).height();
-						const int32_t r = font->character(label[j]).advance();
-						const int32_t a = font->character(label[j]).bearing(0);
-						const int32_t b = font->character(label[j]).bearing(1);
+						font->glyph(label[j]).coordinates(tc);
+						const int32_t w = font->glyph(label[j]).width();
+						const int32_t h = font->glyph(label[j]).height();
+						const int32_t r = font->glyph(label[j]).advance();
+						const int32_t a = font->glyph(label[j]).bearing(0);
+						const int32_t b = font->glyph(label[j]).bearing(1);
 						//position
 						xc[2 * 3 + 0] = xc[2 * 0 + 0] = x1 + sl / fh * a;
 						xc[2 * 3 + 1] = xc[2 * 2 + 1] = x2 + sl / fh * b;

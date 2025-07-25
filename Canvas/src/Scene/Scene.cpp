@@ -10,7 +10,7 @@
 //canvas
 #include "Canvas/Canvas/inc/GPU/Shader.hpp"
 
-#include "Canvas/Canvas/inc/Scene/Font.hpp"
+#include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Image.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Scene/Latex.hpp"
@@ -43,11 +43,11 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
-		for(const Font* font : m_fonts) delete font;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
 		for(uint32_t i = 0; i <  6; i++) delete m_vbos[i];
 		for(uint32_t i = 0; i < 12; i++) delete m_ibos[i];
+		for(const fonts::Font* font : m_fonts) delete font;
 		for(uint32_t i = 0; i <  7; i++) delete m_programs[i];
 		for(const objects::Object* object : m_objects) delete object;
 		//freetype
@@ -93,18 +93,18 @@ namespace canvas
 
 	void Scene::clear_fonts(void)
 	{
-		for(const Font* font : m_fonts) delete font;
+		for(const fonts::Font* font : m_fonts) delete font;
 		m_fonts.clear();
 	}
-	Font* Scene::font(uint32_t index) const
+	fonts::Font* Scene::font(uint32_t index) const
 	{
 		return m_fonts[index];
 	}
 	void Scene::add_font(const char* name)
 	{
-		m_fonts.push_back(new Font(this, name));
+		m_fonts.push_back(new fonts::Font(this, name));
 	}
-	const std::vector<Font*>& Scene::fonts(void) const
+	const std::vector<fonts::Font*>& Scene::fonts(void) const
 	{
 		return m_fonts;
 	}
@@ -376,7 +376,7 @@ namespace canvas
 		bool update = false;
 		uint32_t w = 0, h = 0;
 		//fonts
-		for(Font* font : m_fonts)
+		for(fonts::Font* font : m_fonts)
 		{
 			if((update = update || !font->m_status))
 			{
@@ -385,14 +385,14 @@ namespace canvas
 		}
 		if(!update) return;
 		//texture
-		Font::m_width = w;
-		Font::m_height = h;
+		fonts::Font::m_width = w;
+		fonts::Font::m_height = h;
 		m_textures[1].width(w);
 		m_textures[1].height(h);
 		m_textures[1].format(GL_RED);
 		//texture data
 		m_textures[1].allocate();
-		for(Font* font : m_fonts)
+		for(fonts::Font* font : m_fonts)
 		{
 			font->setup_texture();
 		}

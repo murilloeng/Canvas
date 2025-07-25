@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Font.hpp"
+#include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Text.hpp"
@@ -111,7 +111,7 @@ namespace canvas
 				}
 				else
 				{
-					v += m_scene->font(m_font)->character(c).advance();
+					v += m_scene->font(m_font)->glyph(c).advance();
 				}
 			}
 			return std::max(w, v);
@@ -120,7 +120,7 @@ namespace canvas
 		{
 			//data
 			uint32_t h = 0, a = 0, b = 0;
-			Font *font = m_scene->font(m_font);
+			fonts::Font *font = m_scene->font(m_font);
 			//height
 			for(char c : m_text)
 			{
@@ -130,8 +130,8 @@ namespace canvas
 				}
 				else
 				{
-					a = std::max(a, font->character(c).bearing(1));
-					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
+					a = std::max(a, font->glyph(c).bearing(1));
+					b = std::max(b, font->glyph(c).height() - font->glyph(c).bearing(1));
 				}
 			}
 			return h + a + b;
@@ -164,9 +164,9 @@ namespace canvas
 				}
 				else
 				{
-					const Font *font = m_scene->font(m_font);
-					a = std::max(a, font->character(c).bearing(1));
-					b = std::max(b, font->character(c).height() - font->character(c).bearing(1));
+					const fonts::Font *font = m_scene->font(m_font);
+					a = std::max(a, font->glyph(c).bearing(1));
+					b = std::max(b, font->glyph(c).height() - font->glyph(c).bearing(1));
 				}
 			}
 			m_lines.push_back(a), m_lines.push_back(b);
@@ -182,7 +182,7 @@ namespace canvas
 			const uint32_t wt = width();
 			const uint32_t ht = height();
 			float xa[2], xs[2], xc[8], tc[8];
-			const Font *font = m_scene->font(m_font);
+			const fonts::Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
 			const quat qc = m_scene->camera().rotation();
 			vertices::Text3D* vbo_ptr = vbo_data_text_3D();
@@ -198,12 +198,12 @@ namespace canvas
 				if(m_text[i] >= 32)
 				{
 					//character
-					font->character(m_text[i]).coordinates(tc);
-					const int32_t w = font->character(m_text[i]).width();
-					const int32_t h = font->character(m_text[i]).height();
-					const int32_t r = font->character(m_text[i]).advance();
-					const int32_t a = font->character(m_text[i]).bearing(0);
-					const int32_t b = font->character(m_text[i]).bearing(1);
+					font->glyph(m_text[i]).coordinates(tc);
+					const int32_t w = font->glyph(m_text[i]).width();
+					const int32_t h = font->glyph(m_text[i]).height();
+					const int32_t r = font->glyph(m_text[i]).advance();
+					const int32_t a = font->glyph(m_text[i]).bearing(0);
+					const int32_t b = font->glyph(m_text[i]).bearing(1);
 					//position
 					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xa[0] + xs[0] + ps * a;
 					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xa[1] + xs[1] + ps * b;
@@ -221,7 +221,7 @@ namespace canvas
 				}
 				if(m_text[i] == '\t')
 				{
-					xs[0] += 4 * ps * font->character(' ').advance();
+					xs[0] += 4 * ps * font->glyph(' ').advance();
 				}
 				if(m_text[i] == '\n')
 				{

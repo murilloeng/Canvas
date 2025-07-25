@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Font.hpp"
+#include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Scene/Image.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
@@ -85,7 +85,7 @@ namespace canvas
 			uint32_t w = 0;
 			for(uint32_t i = 0; i < nc; i++)
 			{
-				w += m_scene->font(m_font)->character(string[i]).advance();
+				w += m_scene->font(m_font)->glyph(string[i]).advance();
 			}
 			return w;
 		}
@@ -93,13 +93,13 @@ namespace canvas
 		{
 			//data
 			uint32_t a = 0, b = 0;
-			const Font* font = m_scene->font(m_font);
+			const fonts::Font* font = m_scene->font(m_font);
 			const uint32_t nc = (uint32_t) strlen(string);
 			//height
 			for(uint32_t i = 0; i < nc; i++)
 			{
-				a = std::max(a, font->character(string[i]).bearing(1));
-				b = std::max(b, font->character(string[i]).height() - font->character(string[i]).bearing(1));
+				a = std::max(a, font->glyph(string[i]).bearing(1));
+				b = std::max(b, font->glyph(string[i]).height() - font->glyph(string[i]).bearing(1));
 			}
 			return a + b;
 		}
@@ -172,7 +172,7 @@ namespace canvas
 			//data
 			char string[10];
 			float xs[2], xc[8], tc[8];
-			const Font* font = m_scene->font(m_font);
+			const fonts::Font* font = m_scene->font(m_font);
 			const float ps = m_size / font->pixels_size();
 			vertices::Text2D* vbo_ptr = vbo_data_text_2D();
 			const float ws = (float) m_scene->camera().width();
@@ -191,12 +191,12 @@ namespace canvas
 				for(uint32_t j = 0; j < 9; j++)
 				{
 					//character
-					font->character(string[j]).coordinates(tc);
-					const int w = font->character(string[j]).width();
-					const int h = font->character(string[j]).height();
-					const int r = font->character(string[j]).advance();
-					const int a = font->character(string[j]).bearing(0);
-					const int b = font->character(string[j]).bearing(1);
+					font->glyph(string[j]).coordinates(tc);
+					const int w = font->glyph(string[j]).width();
+					const int h = font->glyph(string[j]).height();
+					const int r = font->glyph(string[j]).advance();
+					const int a = font->glyph(string[j]).bearing(0);
+					const int b = font->glyph(string[j]).bearing(1);
 					//position
 					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xs[0] - ms / ws * ps * wt + ms / ws * ps * a;
 					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xs[1] - ms / hs * ps * ht / 2 + ms / hs * ps * b;
