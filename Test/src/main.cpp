@@ -5,10 +5,10 @@
 //test
 #include "Canvas/Test/inc/examples.hpp"
 
-int main(int argc, char** argv)
+int main(void)
 {
 	//scene
-	examples::scenes::examples(argc, argv);
+	examples::scenes::examples();
 	//return
 	return EXIT_SUCCESS;
 }

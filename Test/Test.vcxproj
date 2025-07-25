@@ -147,7 +147,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib;../dist/$(platform)/$(configuration)/Canvas.lib;../dist/$(platform)/$(configuration)/Managers.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;../../external/cpp/lib/$(platform)/glfw3dll.lib;../../external/cpp/lib/$(platform)/glew32.lib;../../external/cpp/lib/$(platform)/freeglut.lib;../../external/cpp/lib/$(platform)/freetype.lib;../dist/$(platform)/$(configuration)/Canvas.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\..\external\cpp\dll\$(platform)\glfw3.dll ..\dist\$(platform)\$(configuration) &gt; nul
@@ -157,6 +157,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\objects\group.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
@@ -194,6 +195,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
     <ClCompile Include="src\tessellation\convex_loop_cw_12.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Engine.hpp" />
     <ClInclude Include="inc\examples.hpp" />
     <ClInclude Include="inc\scenes\Beam.hpp" />
     <ClInclude Include="inc\tessellation.hpp" />

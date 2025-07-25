@@ -8,10 +8,8 @@
 #include "Canvas/Canvas/inc/Light/Direction.hpp"
 #include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 
-//managers
-#include "Canvas/Managers/inc/GLFW.hpp"
-
 //test
+#include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 #include "Canvas/Test/inc/scenes/Beam.hpp"
 
@@ -81,11 +79,11 @@ static void scene_update(void)
 void examples::scenes::von_mises_joint(int argc, char** argv)
 {
 	//data
-	canvas::managers::GLFW app(argc, argv, "shd/");
+	Engine engine;
 	//callbacks
-	app.callback_idle(scene_update);
+	// app.callback_idle(scene_update);
 	//scene
-	scene = app.scene();
+	scene = engine.scene();
 	scene_setup();
 	//update
 	scene->update(true);
@@ -94,6 +92,6 @@ void examples::scenes::von_mises_joint(int argc, char** argv)
 	scene->camera().update();
 	t0 = std::chrono::high_resolution_clock::now();
 	//start
-	app.start();
+	engine.start();
 	scene->clear_objects(false);
 }

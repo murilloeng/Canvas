@@ -8,10 +8,8 @@
 #include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Latex.hpp"
 
-//managers
-#include "Canvas/Managers/inc/GLFW.hpp"
-
 //examples
+#include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 
 //data
@@ -160,15 +158,15 @@ static void scene_setup(canvas::Scene* scene)
 void examples::scenes::tensegrity_chair(int32_t argc, char** argv)
 {
 	//data
-	canvas::managers::GLFW app(argc, argv, "shd/");
+	Engine engine;
 	//scene
-	scene_setup(app.scene());
-	canvas::Scene* scene = app.scene();
+	scene_setup(engine.scene());
+	canvas::Scene* scene = engine.scene();
 	//update
 	scene->update(true);
 	scene->camera().bound();
 	scene->camera().apply();
 	scene->camera().update();
 	//start
-	app.start();
+	engine.start();
 }

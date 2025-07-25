@@ -15,10 +15,8 @@
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
 
-//managers
-#include "Canvas/Managers/inc/GLFW.hpp"
-
 //test
+#include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 
 //class
@@ -228,11 +226,11 @@ static void scene_cleanup(void)
 void examples::scenes::rigid_map(int argc, char** argv)
 {
 	//data
-	canvas::managers::GLFW app(argc, argv, "Canvas/shd/");
+	Engine engine;
 	//callbacks
-	app.callback_idle(scene_update);
+	// engine.callback_idle(scene_update);
 	//scene
-	scene = app.scene();
+	scene = engine.scene();
 	scene_setup();
 	//update
 	scene->update(true);
@@ -241,6 +239,6 @@ void examples::scenes::rigid_map(int argc, char** argv)
 	scene->camera().update();
 	t0 = std::chrono::high_resolution_clock::now();
 	//start
-	app.start();
+	engine.start();
 	scene_cleanup();
 }

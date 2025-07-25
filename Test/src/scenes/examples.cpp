@@ -1,10 +1,8 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
-//managers
-#include "Canvas/Managers/inc/GLFW.hpp"
-
 //test
+#include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 
 //static data
@@ -41,14 +39,14 @@ static void callback_key(int32_t key, int32_t, int32_t)
 	}
 }
 
-void examples::scenes::examples(int argc, char** argv)
+void examples::scenes::examples(void)
 {
 	//data
-	canvas::managers::GLFW app(argc, argv, "Canvas/shd/");
+	Engine engine;
 	//callbacks
-	app.callback_key(callback_key);
+	engine.callback_key(callback_key);
 	//scene
-	scene = app.scene();
+	scene = engine.scene();
 	examples::objects::points(scene);
 	//update
 	scene->update(true);
@@ -56,5 +54,5 @@ void examples::scenes::examples(int argc, char** argv)
 	scene->camera().apply();
 	scene->camera().update();
 	//start
-	app.start();
+	engine.start();
 }
