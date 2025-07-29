@@ -3,8 +3,10 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Objects/Group.hpp"
-#include "Canvas/Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/Canvas/inc/Light/Direction.hpp"
+
+#include "Canvas/Canvas/inc/Lights/Ambient.hpp"
+#include "Canvas/Canvas/inc/Lights/Direction.hpp"
+
 #include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 #include "Canvas/Canvas/inc/Objects/1D/Arrow.hpp"
 #include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"

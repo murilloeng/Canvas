@@ -4,8 +4,10 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/Canvas/inc/Light/Direction.hpp"
+
+#include "Canvas/Canvas/inc/Lights/Ambient.hpp"
+#include "Canvas/Canvas/inc/Lights/Direction.hpp"
+
 #include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 
 //test

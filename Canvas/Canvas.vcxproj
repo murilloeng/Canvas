@@ -11,8 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Cameras\Camera.hpp" />
+    <ClInclude Include="inc\Cameras\Click.hpp" />
     <ClInclude Include="inc\Fonts\Glyph.hpp" />
     <ClInclude Include="inc\Fonts\Font.hpp" />
+    <ClInclude Include="inc\Lights\Ambient.hpp" />
+    <ClInclude Include="inc\Lights\Direction.hpp" />
+    <ClInclude Include="inc\Lights\Lights.hpp" />
+    <ClInclude Include="inc\Lights\Point.hpp" />
     <ClInclude Include="inc\Math\mat4.hpp" />
     <ClInclude Include="inc\Math\quat.hpp" />
     <ClInclude Include="inc\Math\vec2.hpp" />
@@ -49,21 +55,15 @@
     <ClInclude Include="inc\Palettes\Palette.hpp" />
     <ClInclude Include="inc\Palettes\Types.hpp" />
     <ClInclude Include="inc\Renderer\Attribute.hpp" />
+    <ClInclude Include="inc\Renderer\Command.hpp" />
     <ClInclude Include="inc\Renderer\IBO.hpp" />
     <ClInclude Include="inc\Renderer\Program.hpp" />
     <ClInclude Include="inc\Renderer\Shader.hpp" />
     <ClInclude Include="inc\Renderer\Texture.hpp" />
     <ClInclude Include="inc\Renderer\VBO.hpp" />
-    <ClInclude Include="inc\Scene\Camera.hpp" />
-    <ClInclude Include="inc\Scene\Command.hpp" />
-    <ClInclude Include="inc\Scene\Click.hpp" />
-    <ClInclude Include="inc\Scene\Image.hpp" />
-    <ClInclude Include="inc\Scene\Latex.hpp" />
+    <ClInclude Include="inc\Images\Image.hpp" />
+    <ClInclude Include="inc\Images\Latex.hpp" />
     <ClInclude Include="inc\Scene\Scene.hpp" />
-    <ClInclude Include="inc\Light\Lights.hpp" />
-    <ClInclude Include="inc\Light\Point.hpp" />
-    <ClInclude Include="inc\Light\Ambient.hpp" />
-    <ClInclude Include="inc\Light\Direction.hpp" />
     <ClInclude Include="inc\Vertices\Image2D.hpp" />
     <ClInclude Include="inc\Vertices\Image3D.hpp" />
     <ClInclude Include="inc\Vertices\Model2D.hpp" />
@@ -75,8 +75,14 @@
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Cameras\Camera.cpp" />
+    <ClCompile Include="src\Cameras\Click.cpp" />
     <ClCompile Include="src\Fonts\Glyph.cpp" />
     <ClCompile Include="src\Fonts\Font.cpp" />
+    <ClCompile Include="src\Lights\Ambient.cpp" />
+    <ClCompile Include="src\Lights\Direction.cpp" />
+    <ClCompile Include="src\Lights\Lights.cpp" />
+    <ClCompile Include="src\Lights\Point.cpp" />
     <ClCompile Include="src\Math\mat4.cpp" />
     <ClCompile Include="src\Math\quat.cpp" />
     <ClCompile Include="src\Math\vec2.cpp" />
@@ -119,21 +125,15 @@
     <ClCompile Include="src\Palettes\Viridis.cpp" />
     <ClCompile Include="src\Palettes\Whylrd.cpp" />
     <ClCompile Include="src\Renderer\Attribute.cpp" />
+    <ClCompile Include="src\Renderer\Command.cpp" />
     <ClCompile Include="src\Renderer\IBO.cpp" />
     <ClCompile Include="src\Renderer\Program.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\Texture.cpp" />
     <ClCompile Include="src\Renderer\VBO.cpp" />
-    <ClCompile Include="src\Scene\Camera.cpp" />
-    <ClCompile Include="src\Scene\Command.cpp" />
-    <ClCompile Include="src\Scene\Click.cpp" />
-    <ClCompile Include="src\Scene\Image.cpp" />
-    <ClCompile Include="src\Scene\Latex.cpp" />
+    <ClCompile Include="src\Images\Image.cpp" />
+    <ClCompile Include="src\Images\Latex.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
-    <ClCompile Include="src\Light\Lights.cpp" />
-    <ClCompile Include="src\Light\Point.cpp" />
-    <ClCompile Include="src\Light\Ambient.cpp" />
-    <ClCompile Include="src\Light\Direction.cpp" />
     <ClCompile Include="src\Vertices\Image2D.cpp" />
     <ClCompile Include="src\Vertices\Image3D.cpp" />
     <ClCompile Include="src\Vertices\Model2D.cpp" />
@@ -198,6 +198,7 @@
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OpenMPSupport>false</OpenMPSupport>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -224,6 +225,7 @@
       <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <OpenMPSupport>true</OpenMPSupport>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <SubSystem>

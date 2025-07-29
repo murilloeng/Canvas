@@ -4,10 +4,10 @@
 //canvas
 #include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Light/Point.hpp"
-#include "Canvas/Canvas/inc/Light/Lights.hpp"
-#include "Canvas/Canvas/inc/Light/Ambient.hpp"
-#include "Canvas/Canvas/inc/Light/Direction.hpp"
+#include "Canvas/Canvas/inc/Lights/Point.hpp"
+#include "Canvas/Canvas/inc/Lights/Lights.hpp"
+#include "Canvas/Canvas/inc/Lights/Ambient.hpp"
+#include "Canvas/Canvas/inc/Lights/Direction.hpp"
 
 namespace canvas
 {

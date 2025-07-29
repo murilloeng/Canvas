@@ -3,8 +3,11 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Scene/Image.hpp"
+
+#include "Canvas/Canvas/inc/Images/Image.hpp"
+
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Image/Image.hpp"
 
 namespace canvas

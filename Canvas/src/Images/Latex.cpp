@@ -5,7 +5,7 @@
 #include "external/cpp/inc/stb_image.h"
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Latex.hpp"
+#include "Canvas/Canvas/inc/Images/Latex.hpp"
 
 //defines
 #ifdef _WIN32

@@ -8,7 +8,7 @@ int main(void)
 {
 	try
 	{
-		examples::scenes::user_interaction();
+		examples::scenes::examples();
 	}
 	catch(const std::exception& e)
 	{

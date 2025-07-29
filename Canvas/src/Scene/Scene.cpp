@@ -11,9 +11,11 @@
 #include "Canvas/Canvas/inc/Renderer/Shader.hpp"
 
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
-#include "Canvas/Canvas/inc/Scene/Image.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Scene/Latex.hpp"
+
+#include "Canvas/Canvas/inc/Images/Image.hpp"
+#include "Canvas/Canvas/inc/Images/Latex.hpp"
 
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 

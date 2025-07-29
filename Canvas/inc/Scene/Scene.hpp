@@ -6,14 +6,18 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/Canvas/inc/Colors/Color.hpp"
+
+#include "Canvas/Canvas/inc/Lights/Lights.hpp"
+
+#include "Canvas/Canvas/inc/Cameras/Camera.hpp"
+
 #include "Canvas/Canvas/inc/Renderer/VBO.hpp"
 #include "Canvas/Canvas/inc/Renderer/IBO.hpp"
 #include "Canvas/Canvas/inc/Renderer/Texture.hpp"
 #include "Canvas/Canvas/inc/Renderer/Program.hpp"
-#include "Canvas/Canvas/inc/Light/Lights.hpp"
-#include "Canvas/Canvas/inc/Colors/Color.hpp"
-#include "Canvas/Canvas/inc/Scene/Camera.hpp"
-#include "Canvas/Canvas/inc/Scene/Command.hpp"
+
+#include "Canvas/Canvas/inc/Renderer/Command.hpp"
 
 //ext
 #include "external/cpp/inc/freetype/freetype.h"

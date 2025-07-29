@@ -2,7 +2,7 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Click.hpp"
+#include "Canvas/Canvas/inc/Cameras/Click.hpp"
 
 namespace canvas
 {

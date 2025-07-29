@@ -13,12 +13,14 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Scene/Camera.hpp"
+
+#include "Canvas/Canvas/inc/Cameras/Camera.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
+
+#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 
 namespace canvas
 {

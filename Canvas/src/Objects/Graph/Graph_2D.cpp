@@ -1,6 +1,6 @@
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
-#include "Canvas/Canvas/inc/Scene/Latex.hpp"
+#include "Canvas/Canvas/inc/Images/Latex.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"

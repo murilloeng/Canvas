@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/Canvas/inc/Light/Direction.hpp"
+#include "Canvas/Canvas/inc/Lights/Direction.hpp"
 
 namespace canvas
 {
