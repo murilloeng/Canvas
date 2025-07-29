@@ -5,7 +5,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/IBO.hpp"
+#include "Canvas/Canvas/inc/Renderer/IBO.hpp"
 
 namespace canvas
 {

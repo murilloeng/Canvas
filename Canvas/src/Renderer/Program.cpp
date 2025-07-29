@@ -2,8 +2,8 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/Shader.hpp"
-#include "Canvas/Canvas/inc/GPU/Program.hpp"
+#include "Canvas/Canvas/inc/Renderer/Shader.hpp"
+#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 
 namespace canvas
 {

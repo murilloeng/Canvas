@@ -8,7 +8,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/Shader.hpp"
+#include "Canvas/Canvas/inc/Renderer/Shader.hpp"
 
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Image.hpp"

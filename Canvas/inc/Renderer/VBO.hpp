@@ -5,7 +5,7 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/Attribute.hpp"
+#include "Canvas/Canvas/inc/Renderer/Attribute.hpp"
 #include "Canvas/Canvas/inc/Vertices/Vertex.hpp"
 
 namespace canvas

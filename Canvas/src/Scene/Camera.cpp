@@ -13,7 +13,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/Program.hpp"
+#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Scene/Camera.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"

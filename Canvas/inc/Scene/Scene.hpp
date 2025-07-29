@@ -6,10 +6,10 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/VBO.hpp"
-#include "Canvas/Canvas/inc/GPU/IBO.hpp"
-#include "Canvas/Canvas/inc/GPU/Texture.hpp"
-#include "Canvas/Canvas/inc/GPU/Program.hpp"
+#include "Canvas/Canvas/inc/Renderer/VBO.hpp"
+#include "Canvas/Canvas/inc/Renderer/IBO.hpp"
+#include "Canvas/Canvas/inc/Renderer/Texture.hpp"
+#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Light/Lights.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Scene/Camera.hpp"

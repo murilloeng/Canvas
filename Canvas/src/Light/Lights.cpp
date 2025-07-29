@@ -2,7 +2,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/GPU/Program.hpp"
+#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Light/Point.hpp"
 #include "Canvas/Canvas/inc/Light/Lights.hpp"
