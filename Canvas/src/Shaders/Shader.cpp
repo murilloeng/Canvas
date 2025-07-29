@@ -8,77 +8,19 @@
 namespace canvas
 {
 	//constructors
-	Shader::Shader(void) : m_id(0),
-		m_vertex_shader(new Stage(GL_VERTEX_SHADER)),
-		m_compute_shader(new Stage(GL_COMPUTE_SHADER)),
-		m_geometry_shader(new Stage(GL_GEOMETRY_SHADER)),
-		m_fragment_shader(new Stage(GL_FRAGMENT_SHADER)),
-		m_tess_control_shader(new Stage(GL_TESS_CONTROL_SHADER)),
-		m_tess_evaluation_shader(new Stage(GL_TESS_EVALUATION_SHADER))
-	{
-		return;
-	}
-
-	//destructor
-	Shader::~Shader(void)
-	{
-		delete m_vertex_shader;
-		delete m_compute_shader;
-		delete m_geometry_shader;
-		delete m_fragment_shader;
-		delete m_tess_control_shader;
-		delete m_tess_evaluation_shader;
-		if(glIsProgram(m_id)) glDeleteProgram(m_id);
-	}
-
-	//data
-	GLuint Shader::id(void) const
-	{
-		return m_id;
-	}
-	Stage* Shader::vertex_shader(void) const
-	{
-		return m_vertex_shader;
-	}
-	Stage* Shader::compute_shader(void) const
-	{
-		return m_compute_shader;
-	}
-	Stage* Shader::geometry_shader(void) const
-	{
-		return m_geometry_shader;
-	}
-	Stage* Shader::fragment_shader(void) const
-	{
-		return m_fragment_shader;
-	}
-	Stage* Shader::tess_control_shader(void) const
-	{
-		return m_tess_control_shader;
-	}
-	Stage* Shader::tess_evaluation_shader(void) const
-	{
-		return m_tess_evaluation_shader;
-	}
-
-	//setup
-	void Shader::setup(void)
+	Shader::Shader(std::vector<Stage*> stages)
 	{
 		//create
-		if((m_id = glCreateProgram()) == 0)
+		m_id = glCreateProgram();
+		if(!glIsProgram(m_id))
 		{
 			throw std::runtime_error("Error creating shader program!");
 		}
 		//shaders
-		m_vertex_shader->setup(m_id);
-		m_compute_shader->setup(m_id);
-		m_geometry_shader->setup(m_id);
-		m_fragment_shader->setup(m_id);
-		m_tess_control_shader->setup(m_id);
-		m_tess_evaluation_shader->setup(m_id);
+		for(Stage* stage : stages) glAttachShader(m_id, stage->m_id);
 		//link
 		GLint status;
-		GLchar log[1024];
+		GLchar log[4096];
 		glLinkProgram(m_id);
 		glGetProgramiv(m_id, GL_LINK_STATUS, &status);
 		if(status == 0)
@@ -94,7 +36,23 @@ namespace canvas
 			glGetProgramInfoLog(m_id, sizeof(log), nullptr, log);
 			throw std::runtime_error("Error validating shader program: " + std::string(log));
 		}
+		//delete
+		for(Stage* stage : stages) delete stage;
 	}
+
+	//destructor
+	Shader::~Shader(void)
+	{
+		if(glIsProgram(m_id)) glDeleteProgram(m_id);
+	}
+
+	//data
+	GLuint Shader::id(void) const
+	{
+		return m_id;
+	}
+
+	//bind
 	void Shader::bind(void) const
 	{
 		glUseProgram(m_id);

@@ -9,6 +9,7 @@ Engine::Engine(void) : m_show_fps{true}, m_width{700}, m_height{700}
 {
 	setup_glfw();
 	setup_glew();
+	setup_scene();
 	setup_callbacks();
 }
 
@@ -108,6 +109,9 @@ void Engine::setup_glew(void)
 		glfwTerminate();
 		throw std::runtime_error("GLEW initialization failed!");
 	}
+}
+void Engine::setup_scene(void)
+{
 	m_scene = new canvas::Scene("Canvas/shd/");
 }
 void Engine::setup_callbacks(void)

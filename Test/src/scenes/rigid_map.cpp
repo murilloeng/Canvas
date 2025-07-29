@@ -174,7 +174,7 @@ static canvas::VBO* vbo;
 static canvas::IBO* ibo;
 static Rigid_Map rigid_map;
 static canvas::Scene* scene;
-static canvas::Shader shader;
+static canvas::Shader* shader;
 static std::chrono::high_resolution_clock::time_point t0;
 
 //scene
@@ -190,16 +190,17 @@ static void scene_setup(void)
 	scene->add_latex(rigid_map.m_labels[0]);
 	scene->add_latex(rigid_map.m_labels[1]);
 	//shaders
-	shader.vertex_shader()->path("Test/shd/rigid-map.vert");
-	shader.fragment_shader()->path("Test/shd/rigid-map.frag");
-	shader.setup();
+	shader = new canvas::Shader({
+		new canvas::Stage(GL_VERTEX_SHADER, "Test/shd/rigid-map.vert"),
+		new canvas::Stage(GL_FRAGMENT_SHADER, "Test/shd/rigid-map.frag")
+	});
 	//objects
 	scene->add_object(&rigid_map);
 	//scene
 	vbo->enable();
 	scene->add_vbo(vbo);
 	scene->add_ibo(ibo);
-	scene->shaders().push_back(&shader);
+	scene->shaders().push_back(shader);
 	scene->commands().push_back(canvas::Command(GL_TRIANGLES, 6, 12, UINT32_MAX, 7));
 }
 static void scene_update(void)
@@ -215,15 +216,16 @@ static void scene_update(void)
 	const float wp = wp_min + fmodf(q, wp_max - wp_min);
 	const float bt = bt_min + fmodf(10 * q, bt_max - bt_min);
 	//shader
-	shader.set_uniform("wp", wp);
-	shader.set_uniform("mode", 0U);
-	shader.set_uniform("full", 0U);
-	shader.set_uniform("bt", bt * float(M_PI) / 180);
+	shader->set_uniform("wp", wp);
+	shader->set_uniform("mode", 0U);
+	shader->set_uniform("full", 0U);
+	shader->set_uniform("bt", bt * float(M_PI) / 180);
 }
 static void scene_cleanup(void)
 {
 	delete vbo;
 	delete ibo;
+	delete shader;
 	scene->clear_objects(false);
 }
 

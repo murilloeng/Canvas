@@ -8,32 +8,29 @@
 
 namespace canvas
 {
+	class Shader;
+}
+
+namespace canvas
+{
 	class Stage
 	{
 	public:
 		//constructors
-		Stage(GLenum);
+		Stage(GLenum, std::string);
 
 		//constructors
 		~Stage(void);
 
-		//data
-		std::string path(void) const;
-		std::string path(std::string);
-
-		//setup
-		void setup(GLuint);
-		bool load_file(void);
-
-		//name
-		const char* name(void) const;
-		static const char* name(GLenum);
-
 	private:
+		//read
+		void read(std::string);
+
 		//data
 		GLuint m_id;
-		GLenum m_type;
-		std::string m_path;
-		std::string m_source;
+		char m_source[4096];
+
+		//friends
+		friend class Shader;
 	};
 }
