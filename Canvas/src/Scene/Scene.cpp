@@ -53,6 +53,7 @@ namespace canvas
 		for(uint32_t i = 0; i < 12; i++) delete m_ibos[i];
 		for(const fonts::Font* font : m_fonts) delete font;
 		for(uint32_t i = 0; i < 7; i++) delete m_shaders[i];
+		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
 		for(const objects::Object* object : m_objects) delete object;
 		//freetype
 		FT_Done_FreeType(m_ft_library);

@@ -213,30 +213,32 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(const shaders::Shader* shader : m_shaders)
-			{
-				shader->bind();
-				if(shader->uniform_location("width") != -1)
-				{
-					shader->set_uniform("width", m_width);
-				}
-				if(shader->uniform_location("height") != -1)
-				{
-					shader->set_uniform("height", m_height);
-				}
-				if(shader->uniform_location("view") != -1)
-				{
-					shader->set_uniform("view", m_view_matrix);
-				}
-				if(shader->uniform_location("projection") != -1)
-				{
-					shader->set_uniform("projection", m_projection_matrix);
-				}
-				if(shader->uniform_location("camera_position") != -1)
-				{
-					shader->set_uniform("camera_position", m_position);
-				}
-			}
+			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), m_view_matrix.data());
+			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), m_projection_matrix.data());
+			// for(const shaders::Shader* shader : m_shaders)
+			// {
+			// 	shader->bind();
+			// 	if(shader->uniform_location("width") != -1)
+			// 	{
+			// 		shader->set_uniform("width", m_width);
+			// 	}
+			// 	if(shader->uniform_location("height") != -1)
+			// 	{
+			// 		shader->set_uniform("height", m_height);
+			// 	}
+			// 	if(shader->uniform_location("view") != -1)
+			// 	{
+			// 		shader->set_uniform("view", m_view_matrix);
+			// 	}
+			// 	if(shader->uniform_location("projection") != -1)
+			// 	{
+			// 		shader->set_uniform("projection", m_projection_matrix);
+			// 	}
+			// 	if(shader->uniform_location("camera_position") != -1)
+			// 	{
+			// 		shader->set_uniform("camera_position", m_position);
+			// 	}
+			// }
 		}
 
 		//callbacks

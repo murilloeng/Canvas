@@ -2,15 +2,14 @@
 
 in vec4 vertex_color[];
 
-uniform mat4 view;
-uniform mat4 projection;
-
 out vec4 geometry_color;
 out vec3 geometry_normal;
 out vec3 geometry_position;
 
 layout (triangles) in;
 layout (triangle_strip, max_vertices = 3) out;
+
+layout (std140, binding = 0) uniform camera { mat4 view, projection; };
 
 void main(void)
 {

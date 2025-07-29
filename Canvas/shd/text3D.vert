@@ -1,14 +1,13 @@
 #version 460 core
 
-uniform mat4 view;
-uniform mat4 projection;
-
 out vec4 vertex_color;
 out vec2 vertex_texture_coordinates;
 
 layout (location = 1) in vec4 color;
 layout (location = 0) in vec3 position;
 layout (location = 2) in vec2 texture_coordinates;
+
+layout (std140, binding = 0) uniform camera { mat4 view, projection; };
 
 void main(void)
 {
