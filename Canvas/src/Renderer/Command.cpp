@@ -4,12 +4,12 @@
 namespace canvas
 {
 	//constructors
-	Command::Command(uint32_t draw_mode, uint32_t vbo_index, uint32_t ibo_index, uint32_t texture_index, uint32_t program_index) : 
+	Command::Command(uint32_t draw_mode, uint32_t vbo_index, uint32_t ibo_index, uint32_t texture_index, uint32_t shader_index) : 
 		m_mode(draw_mode), 
 		m_vbo_index(vbo_index), 
 		m_ibo_index(ibo_index), 
 		m_texture_index(texture_index),
-		m_program_index(program_index)
+		m_shader_index(shader_index)
 	{
 		return;
 	}
@@ -48,13 +48,13 @@ namespace canvas
 		return m_ibo_index = ibo_index;
 	}
 
-	uint32_t Command::program_index(void) const
+	uint32_t Command::shader_index(void) const
 	{
-		return m_program_index;
+		return m_shader_index;
 	}
-	uint32_t Command::program_index(uint32_t program_index)
+	uint32_t Command::shader_index(uint32_t shader_index)
 	{
-		return m_program_index = program_index;
+		return m_shader_index = shader_index;
 	}
 
 	//texture

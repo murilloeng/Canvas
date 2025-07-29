@@ -2,25 +2,25 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Shader.hpp"
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 namespace canvas
 {
 	//constructors
-	Program::Program(void) : m_id(0),
-		m_vertex_shader(new Shader(GL_VERTEX_SHADER)),
-		m_compute_shader(new Shader(GL_COMPUTE_SHADER)),
-		m_geometry_shader(new Shader(GL_GEOMETRY_SHADER)),
-		m_fragment_shader(new Shader(GL_FRAGMENT_SHADER)),
-		m_tess_control_shader(new Shader(GL_TESS_CONTROL_SHADER)),
-		m_tess_evaluation_shader(new Shader(GL_TESS_EVALUATION_SHADER))
+	Shader::Shader(void) : m_id(0),
+		m_vertex_shader(new Stage(GL_VERTEX_SHADER)),
+		m_compute_shader(new Stage(GL_COMPUTE_SHADER)),
+		m_geometry_shader(new Stage(GL_GEOMETRY_SHADER)),
+		m_fragment_shader(new Stage(GL_FRAGMENT_SHADER)),
+		m_tess_control_shader(new Stage(GL_TESS_CONTROL_SHADER)),
+		m_tess_evaluation_shader(new Stage(GL_TESS_EVALUATION_SHADER))
 	{
 		return;
 	}
 
 	//destructor
-	Program::~Program(void)
+	Shader::~Shader(void)
 	{
 		delete m_vertex_shader;
 		delete m_compute_shader;
@@ -32,37 +32,37 @@ namespace canvas
 	}
 
 	//data
-	GLuint Program::id(void) const
+	GLuint Shader::id(void) const
 	{
 		return m_id;
 	}
-	Shader* Program::vertex_shader(void) const
+	Stage* Shader::vertex_shader(void) const
 	{
 		return m_vertex_shader;
 	}
-	Shader* Program::compute_shader(void) const
+	Stage* Shader::compute_shader(void) const
 	{
 		return m_compute_shader;
 	}
-	Shader* Program::geometry_shader(void) const
+	Stage* Shader::geometry_shader(void) const
 	{
 		return m_geometry_shader;
 	}
-	Shader* Program::fragment_shader(void) const
+	Stage* Shader::fragment_shader(void) const
 	{
 		return m_fragment_shader;
 	}
-	Shader* Program::tess_control_shader(void) const
+	Stage* Shader::tess_control_shader(void) const
 	{
 		return m_tess_control_shader;
 	}
-	Shader* Program::tess_evaluation_shader(void) const
+	Stage* Shader::tess_evaluation_shader(void) const
 	{
 		return m_tess_evaluation_shader;
 	}
 
 	//setup
-	void Program::setup(void)
+	void Shader::setup(void)
 	{
 		//create
 		if((m_id = glCreateProgram()) == 0)
@@ -95,13 +95,13 @@ namespace canvas
 			throw std::runtime_error("Error validating shader program: " + std::string(log));
 		}
 	}
-	void Program::bind(void) const
+	void Shader::bind(void) const
 	{
 		glUseProgram(m_id);
 	}
 
 	//uniforms
-	GLint Program::uniform_location(const char* name) const
+	GLint Shader::uniform_location(const char* name) const
 	{
 		//uniform
 		GLint location = glGetUniformLocation(m_id, name);
@@ -114,7 +114,7 @@ namespace canvas
 		return location;
 	}
 
-	void Program::set_uniform(const char* name, float v0) const
+	void Shader::set_uniform(const char* name, float v0) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -129,7 +129,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1) const
+	void Shader::set_uniform(const char* name, float v0, float v1) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -144,7 +144,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1, float v2) const
+	void Shader::set_uniform(const char* name, float v0, float v1, float v2) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -159,7 +159,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, float v0, float v1, float v2, float v3) const
+	void Shader::set_uniform(const char* name, float v0, float v1, float v2, float v3) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -175,7 +175,7 @@ namespace canvas
 		#endif
 	}
 
-	void Program::set_uniform(const char* name, int32_t v0) const
+	void Shader::set_uniform(const char* name, int32_t v0) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -190,7 +190,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1) const
+	void Shader::set_uniform(const char* name, int32_t v0, int32_t v1) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -205,7 +205,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2) const
+	void Shader::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -220,7 +220,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2, int32_t v3) const
+	void Shader::set_uniform(const char* name, int32_t v0, int32_t v1, int32_t v2, int32_t v3) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -236,7 +236,7 @@ namespace canvas
 		#endif
 	}
 
-	void Program::set_uniform(const char* name, uint32_t v0) const
+	void Shader::set_uniform(const char* name, uint32_t v0) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -251,7 +251,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1) const
+	void Shader::set_uniform(const char* name, uint32_t v0, uint32_t v1) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -266,7 +266,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2) const
+	void Shader::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -281,7 +281,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2, uint32_t v3) const
+	void Shader::set_uniform(const char* name, uint32_t v0, uint32_t v1, uint32_t v2, uint32_t v3) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -297,7 +297,7 @@ namespace canvas
 		#endif
 	}
 
-	void Program::set_uniform(const char* name, vec3 value) const
+	void Shader::set_uniform(const char* name, vec3 value) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -312,7 +312,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, mat4 value) const
+	void Shader::set_uniform(const char* name, mat4 value) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -327,7 +327,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, const float* data, uint32_t size) const
+	void Shader::set_uniform(const char* name, const float* data, uint32_t size) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -345,7 +345,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, const int32_t* data, uint32_t size) const
+	void Shader::set_uniform(const char* name, const int32_t* data, uint32_t size) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -363,7 +363,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform(const char* name, const uint32_t* data, uint32_t size) const
+	void Shader::set_uniform(const char* name, const uint32_t* data, uint32_t size) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -381,7 +381,7 @@ namespace canvas
 		check_uniform(name);
 		#endif
 	}
-	void Program::set_uniform_matrix(const char* name, const float* data, uint32_t size) const
+	void Shader::set_uniform_matrix(const char* name, const float* data, uint32_t size) const
 	{
 		//data
 		int32_t location = uniform_location(name);
@@ -400,14 +400,14 @@ namespace canvas
 	}
 
 	//check
-	void Program::check_uniform(const char* name) const
+	void Shader::check_uniform(const char* name) const
 	{
 		if(glGetError() != GL_NO_ERROR)
 		{
 			throw std::runtime_error("Error getting uniform " + std::string(name) + "!");
 		}
 	}
-	void Program::check_uniform_location(const char* name, int32_t location) const
+	void Shader::check_uniform_location(const char* name, int32_t location) const
 	{
 		if(location == -1)
 		{

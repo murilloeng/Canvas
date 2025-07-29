@@ -12,28 +12,28 @@
 
 namespace canvas
 {
-	class Shader;
+	class Stage;
 }
 
 namespace canvas
 {
-	class Program
+	class Shader
 	{
 	public:
 		//constructors
-		Program(void);
+		Shader(void);
 
 		//destructor
-		~Program(void);
+		~Shader(void);
 
 		//data
 		GLuint id(void) const;
-		Shader* vertex_shader(void) const;
-		Shader* compute_shader(void) const;
-		Shader* geometry_shader(void) const;
-		Shader* fragment_shader(void) const;
-		Shader* tess_control_shader(void) const;
-		Shader* tess_evaluation_shader(void) const;
+		Stage* vertex_shader(void) const;
+		Stage* compute_shader(void) const;
+		Stage* geometry_shader(void) const;
+		Stage* fragment_shader(void) const;
+		Stage* tess_control_shader(void) const;
+		Stage* tess_evaluation_shader(void) const;
 
 		//GPU
 		void setup(void);
@@ -71,11 +71,11 @@ namespace canvas
 
 		//data
 		GLuint m_id;
-		Shader* m_vertex_shader;
-		Shader* m_compute_shader;
-		Shader* m_geometry_shader;
-		Shader* m_fragment_shader;
-		Shader* m_tess_control_shader;
-		Shader* m_tess_evaluation_shader;
+		Stage* m_vertex_shader;
+		Stage* m_compute_shader;
+		Stage* m_geometry_shader;
+		Stage* m_fragment_shader;
+		Stage* m_tess_control_shader;
+		Stage* m_tess_evaluation_shader;
 	};
 }

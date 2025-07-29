@@ -2,7 +2,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Lights/Point.hpp"
 #include "Canvas/Canvas/inc/Lights/Lights.hpp"
@@ -14,7 +14,7 @@ namespace canvas
 	namespace lights
 	{
 		//constructor
-		Lights::Lights(Scene* scene) : m_ambient(new Ambient), m_programs(scene->m_programs)
+		Lights::Lights(Scene* scene) : m_ambient(new Ambient), m_shaders(scene->m_shaders)
 		{
 			return;
 		}
@@ -73,14 +73,14 @@ namespace canvas
 		//shaders
 		void Lights::update_shaders(void) const
 		{
-			for(const Program* program : m_programs)
+			for(const Shader* shader : m_shaders)
 			{
 				//check
-				program->bind();
-				if(program->uniform_location("ambient.m_color") == -1) continue;
+				shader->bind();
+				if(shader->uniform_location("ambient.m_color") == -1) continue;
 				//ambient
 				const Color ca = m_ambient->color();
-				program->set_uniform("ambient.m_color", ca[0], ca[1], ca[2]);
+				shader->set_uniform("ambient.m_color", ca[0], ca[1], ca[2]);
 				//points
 				char format[200];
 				for(uint32_t i = 0; i < m_points.size(); i++)
@@ -88,22 +88,22 @@ namespace canvas
 					const Color cp = m_points[i]->color();
 					const vec3 xp = m_points[i]->position();
 					sprintf(format, "points[%d].m_color", i);
-					program->set_uniform(format, cp[0], cp[1], cp[2]);
+					shader->set_uniform(format, cp[0], cp[1], cp[2]);
 					sprintf(format, "points[%d].m_position", i);
-					program->set_uniform(format, xp[0], xp[1], xp[2]);
+					shader->set_uniform(format, xp[0], xp[1], xp[2]);
 				}
-				program->set_uniform("n_points", uint32_t(m_points.size()));
+				shader->set_uniform("n_points", uint32_t(m_points.size()));
 				//directions
 				for(uint32_t i = 0; i < m_directions.size(); i++)
 				{
 					const Color cd = m_directions[i]->color();
 					const vec3 vd = m_directions[i]->direction();
 					sprintf(format, "directions[%d].m_color", i);
-					program->set_uniform(format, cd[0], cd[1], cd[2]);
+					shader->set_uniform(format, cd[0], cd[1], cd[2]);
 					sprintf(format, "directions[%d].m_direction", i);
-					program->set_uniform(format, vd[0], vd[1], vd[2]);
+					shader->set_uniform(format, vd[0], vd[1], vd[2]);
 				}
-				program->set_uniform("n_directions", uint32_t(m_directions.size()));
+				shader->set_uniform("n_directions", uint32_t(m_directions.size()));
 			}
 		}
 	}

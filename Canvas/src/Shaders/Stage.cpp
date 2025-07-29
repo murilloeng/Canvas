@@ -2,34 +2,34 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Shader.hpp"
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 
 namespace canvas
 {
 	//constructors
-	Shader::Shader(GLenum type) : m_id(0), m_type(type)
+	Stage::Stage(GLenum type) : m_id(0), m_type(type)
 	{
 		return;
 	}
 
 	//destructor
-	Shader::~Shader(void)
+	Stage::~Stage(void)
 	{
 		if(glIsShader(m_id)) glDeleteShader(m_id);
 	}
 
 	//data
-	std::string Shader::path(void) const
+	std::string Stage::path(void) const
 	{
 		return m_path;
 	}
-	std::string Shader::path(std::string path)
+	std::string Stage::path(std::string path)
 	{
 		return m_path = path;
 	}
 
 	//setup
-	void Shader::setup(GLuint program_id)
+	void Stage::setup(GLuint shader_id)
 	{
 		//check
 		if(m_path.empty())
@@ -66,9 +66,9 @@ namespace canvas
 			throw std::runtime_error(error);
 		}
 		//attach
-		glAttachShader(program_id, m_id);
+		glAttachShader(shader_id, m_id);
 	}
-	bool Shader::load_file(void)
+	bool Stage::load_file(void)
 	{
 		//open
 		FILE* file = fopen(m_path.c_str(), "r");
@@ -85,11 +85,11 @@ namespace canvas
 	}
 
 	//name
-	const char* Shader::name(void) const
+	const char* Stage::name(void) const
 	{
 		return name(m_type);
 	}
-	const char* Shader::name(GLenum type)
+	const char* Stage::name(GLenum type)
 	{
 		if(type == GL_VERTEX_SHADER) return "Vertex Shader";
 		else if(type == GL_COMPUTE_SHADER) return "Compute Shader";

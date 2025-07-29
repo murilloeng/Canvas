@@ -8,14 +8,14 @@
 
 namespace canvas
 {
-	class Shader
+	class Stage
 	{
 	public:
 		//constructors
-		Shader(GLenum);
+		Stage(GLenum);
 
 		//constructors
-		~Shader(void);
+		~Stage(void);
 
 		//data
 		std::string path(void) const;

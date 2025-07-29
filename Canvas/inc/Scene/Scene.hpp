@@ -15,7 +15,8 @@
 #include "Canvas/Canvas/inc/Renderer/VBO.hpp"
 #include "Canvas/Canvas/inc/Renderer/IBO.hpp"
 #include "Canvas/Canvas/inc/Renderer/Texture.hpp"
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
+
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 #include "Canvas/Canvas/inc/Renderer/Command.hpp"
 
@@ -108,17 +109,17 @@ namespace canvas
 		vertices::Image2D* vbo_data_image_2D(void) const;
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
-		//programs
+		//textures
 		Texture& texture(uint32_t);
 		std::vector<Texture>& textures(void);
 		const Texture& texture(uint32_t) const;
 		const std::vector<Texture>& textures(void) const;
 
-		//programs
-		Program* program(uint32_t);
-		std::vector<Program*>& programs(void);
-		const Program* program(uint32_t) const;
-		const std::vector<Program*>& programs(void) const;
+		//shaders
+		Shader* shader(uint32_t);
+		std::vector<Shader*>& shaders(void);
+		const Shader* shader(uint32_t) const;
+		const std::vector<Shader*>& shaders(void) const;
 
 		//update
 		void draw(void);
@@ -147,8 +148,8 @@ namespace canvas
 		lights::Lights m_lights;
 		std::vector<VBO*> m_vbos;
 		std::vector<IBO*> m_ibos;
+		std::vector<Shader*> m_shaders;
 		std::vector<Texture> m_textures;
-		std::vector<Program*> m_programs;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;

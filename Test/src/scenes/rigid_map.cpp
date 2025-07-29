@@ -14,9 +14,10 @@
 
 #include "Canvas/Canvas/inc/Renderer/VBO.hpp"
 #include "Canvas/Canvas/inc/Renderer/IBO.hpp"
-#include "Canvas/Canvas/inc/Renderer/Shader.hpp"
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
 #include "Canvas/Canvas/inc/Renderer/Command.hpp"
+
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 //test
 #include "Canvas/Test/inc/Engine.hpp"
@@ -173,7 +174,7 @@ static canvas::VBO* vbo;
 static canvas::IBO* ibo;
 static Rigid_Map rigid_map;
 static canvas::Scene* scene;
-static canvas::Program program;
+static canvas::Shader shader;
 static std::chrono::high_resolution_clock::time_point t0;
 
 //scene
@@ -189,16 +190,16 @@ static void scene_setup(void)
 	scene->add_latex(rigid_map.m_labels[0]);
 	scene->add_latex(rigid_map.m_labels[1]);
 	//shaders
-	program.vertex_shader()->path("Test/shd/rigid-map.vert");
-	program.fragment_shader()->path("Test/shd/rigid-map.frag");
-	program.setup();
+	shader.vertex_shader()->path("Test/shd/rigid-map.vert");
+	shader.fragment_shader()->path("Test/shd/rigid-map.frag");
+	shader.setup();
 	//objects
 	scene->add_object(&rigid_map);
 	//scene
 	vbo->enable();
 	scene->add_vbo(vbo);
 	scene->add_ibo(ibo);
-	scene->programs().push_back(&program);
+	scene->shaders().push_back(&shader);
 	scene->commands().push_back(canvas::Command(GL_TRIANGLES, 6, 12, UINT32_MAX, 7));
 }
 static void scene_update(void)
@@ -213,11 +214,11 @@ static void scene_update(void)
 	const float q = duration_cast<microseconds>(tn - t0).count() / 1.00e6f;
 	const float wp = wp_min + fmodf(q, wp_max - wp_min);
 	const float bt = bt_min + fmodf(10 * q, bt_max - bt_min);
-	//program
-	program.set_uniform("wp", wp);
-	program.set_uniform("mode", 0U);
-	program.set_uniform("full", 0U);
-	program.set_uniform("bt", bt * float(M_PI) / 180);
+	//shader
+	shader.set_uniform("wp", wp);
+	shader.set_uniform("mode", 0U);
+	shader.set_uniform("full", 0U);
+	shader.set_uniform("bt", bt * float(M_PI) / 180);
 }
 static void scene_cleanup(void)
 {

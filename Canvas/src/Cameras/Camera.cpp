@@ -20,7 +20,7 @@
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
-#include "Canvas/Canvas/inc/Renderer/Program.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 namespace canvas
 {
@@ -30,7 +30,7 @@ namespace canvas
 		//constructors
 		Camera::Camera(Scene* scene) :
 			m_scene(scene), m_type(camera::type::orthographic), 
-			m_width(100), m_height(100), m_output("screen"), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_programs(scene->m_programs)
+			m_width(100), m_height(100), m_output("screen"), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_shaders(scene->m_shaders)
 		{
 			return;
 		}
@@ -213,28 +213,28 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(const Program* program : m_programs)
+			for(const Shader* shader : m_shaders)
 			{
-				program->bind();
-				if(program->uniform_location("width") != -1)
+				shader->bind();
+				if(shader->uniform_location("width") != -1)
 				{
-					program->set_uniform("width", m_width);
+					shader->set_uniform("width", m_width);
 				}
-				if(program->uniform_location("height") != -1)
+				if(shader->uniform_location("height") != -1)
 				{
-					program->set_uniform("height", m_height);
+					shader->set_uniform("height", m_height);
 				}
-				if(program->uniform_location("view") != -1)
+				if(shader->uniform_location("view") != -1)
 				{
-					program->set_uniform("view", m_view_matrix);
+					shader->set_uniform("view", m_view_matrix);
 				}
-				if(program->uniform_location("projection") != -1)
+				if(shader->uniform_location("projection") != -1)
 				{
-					program->set_uniform("projection", m_projection_matrix);
+					shader->set_uniform("projection", m_projection_matrix);
 				}
-				if(program->uniform_location("camera_position") != -1)
+				if(shader->uniform_location("camera_position") != -1)
 				{
-					program->set_uniform("camera_position", m_position);
+					shader->set_uniform("camera_position", m_position);
 				}
 			}
 		}
