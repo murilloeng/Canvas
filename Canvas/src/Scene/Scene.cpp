@@ -250,24 +250,6 @@ namespace canvas
 		return (vertices::Image3D*) m_vbos[1]->data();
 	}
 
-	//textures
-	Texture& Scene::texture(uint32_t index)
-	{
-		return m_textures[index];
-	}
-	std::vector<Texture>& Scene::textures(void)
-	{
-		return m_textures;
-	}
-	const Texture& Scene::texture(uint32_t index) const
-	{
-		return m_textures[index];
-	}
-	const std::vector<Texture>& Scene::textures(void) const
-	{
-		return m_textures;
-	}
-
 	//shaders
 	Shader* Scene::shader(uint32_t index)
 	{
@@ -284,6 +266,24 @@ namespace canvas
 	const std::vector<Shader*>& Scene::shaders(void) const
 	{
 		return m_shaders;
+	}
+
+	//textures
+	Texture& Scene::texture(uint32_t index)
+	{
+		return m_textures[index];
+	}
+	std::vector<Texture>& Scene::textures(void)
+	{
+		return m_textures;
+	}
+	const Texture& Scene::texture(uint32_t index) const
+	{
+		return m_textures[index];
+	}
+	const std::vector<Texture>& Scene::textures(void) const
+	{
+		return m_textures;
 	}
 
 	//draw

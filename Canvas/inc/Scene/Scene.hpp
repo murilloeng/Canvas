@@ -109,17 +109,17 @@ namespace canvas
 		vertices::Image2D* vbo_data_image_2D(void) const;
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
-		//textures
-		Texture& texture(uint32_t);
-		std::vector<Texture>& textures(void);
-		const Texture& texture(uint32_t) const;
-		const std::vector<Texture>& textures(void) const;
-
 		//shaders
 		Shader* shader(uint32_t);
 		std::vector<Shader*>& shaders(void);
 		const Shader* shader(uint32_t) const;
 		const std::vector<Shader*>& shaders(void) const;
+
+		//textures
+		Texture& texture(uint32_t);
+		std::vector<Texture>& textures(void);
+		const Texture& texture(uint32_t) const;
+		const std::vector<Texture>& textures(void) const;
 
 		//update
 		void draw(void);
