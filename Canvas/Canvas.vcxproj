@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Buffers\Buffer.hpp" />
     <ClInclude Include="inc\Cameras\Camera.hpp" />
     <ClInclude Include="inc\Cameras\Click.hpp" />
     <ClInclude Include="inc\Fonts\Glyph.hpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Buffers\Buffer.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Click.cpp" />
     <ClCompile Include="src\Fonts\Glyph.cpp" />
