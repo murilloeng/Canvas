@@ -26,6 +26,16 @@ namespace canvas
 			if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
 		}
 
+		//bind
+		void Buffer::bind(GLenum target) const
+		{
+			glBindBuffer(target, m_id);
+		}
+		void Buffer::bind_base(GLenum target, GLuint index) const
+		{
+			glBindBufferBase(target, index, m_id);
+		}
+
 		//data
 		void Buffer::transfer(void) const
 		{

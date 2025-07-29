@@ -19,6 +19,10 @@ namespace canvas
 			//destructor
 			~Buffer(void);
 
+			//bind
+			void bind(GLenum) const;
+			void bind_base(GLenum, GLuint) const;
+
 			//data
 			void transfer(void) const;
 			void transfer(uint32_t, uint32_t) const;
