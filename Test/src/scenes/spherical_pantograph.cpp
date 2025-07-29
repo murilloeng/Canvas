@@ -51,7 +51,6 @@ void examples::scenes::spherical_pantograph(void)
 	//update
 	scene->update(true);
 	scene->camera().bound();
-	scene->camera().apply();
 	scene->camera().update();
 	//start
 	engine.start();

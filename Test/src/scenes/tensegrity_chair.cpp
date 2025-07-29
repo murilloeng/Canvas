@@ -165,7 +165,6 @@ void examples::scenes::tensegrity_chair(void)
 	//update
 	scene->update(true);
 	scene->camera().bound();
-	scene->camera().apply();
 	scene->camera().update();
 	//start
 	engine.start();

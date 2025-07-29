@@ -242,7 +242,6 @@ void examples::scenes::rigid_map(void)
 	//update
 	scene->update(true);
 	scene->camera().bound();
-	scene->camera().apply();
 	scene->camera().update();
 	t0 = std::chrono::high_resolution_clock::now();
 	//start

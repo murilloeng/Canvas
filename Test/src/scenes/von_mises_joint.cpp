@@ -90,7 +90,6 @@ void examples::scenes::von_mises_joint(void)
 	//update
 	scene->update(true);
 	scene->camera().bound();
-	scene->camera().apply();
 	scene->camera().update();
 	t0 = std::chrono::high_resolution_clock::now();
 	//start

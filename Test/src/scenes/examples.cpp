@@ -34,7 +34,6 @@ static void callback_key(int32_t key, int32_t, int32_t)
 		//update
 		scene->update(true);
 		scene->camera().bound();
-		scene->camera().apply();
 		scene->camera().update();
 	}
 }
@@ -51,7 +50,6 @@ void examples::scenes::examples(void)
 	//update
 	scene->update(true);
 	scene->camera().bound();
-	scene->camera().apply();
 	scene->camera().update();
 	//start
 	engine.start();

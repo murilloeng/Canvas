@@ -161,15 +161,6 @@ namespace canvas
 			return m_type = type;
 		}
 
-		const mat4& Camera::view_matrix(void) const
-		{
-			return m_view_matrix;
-		}
-		const mat4& Camera::projection_matrix(void) const
-		{
-			return m_projection_matrix;
-		}
-
 		//screen
 		void Camera::screen_print(void) const
 		{
@@ -199,11 +190,6 @@ namespace canvas
 		}
 
 		//update
-		void Camera::apply(void)
-		{
-			apply_view();
-			m_type == camera::type::orthographic ? apply_orthographic() : apply_perspective();
-		}
 		void Camera::bound(void)
 		{
 			bound_box();
@@ -213,32 +199,14 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), m_view_matrix.data());
-			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), m_projection_matrix.data());
-			// for(const shaders::Shader* shader : m_shaders)
-			// {
-			// 	shader->bind();
-			// 	if(shader->uniform_location("width") != -1)
-			// 	{
-			// 		shader->set_uniform("width", m_width);
-			// 	}
-			// 	if(shader->uniform_location("height") != -1)
-			// 	{
-			// 		shader->set_uniform("height", m_height);
-			// 	}
-			// 	if(shader->uniform_location("view") != -1)
-			// 	{
-			// 		shader->set_uniform("view", m_view_matrix);
-			// 	}
-			// 	if(shader->uniform_location("projection") != -1)
-			// 	{
-			// 		shader->set_uniform("projection", m_projection_matrix);
-			// 	}
-			// 	if(shader->uniform_location("camera_position") != -1)
-			// 	{
-			// 		shader->set_uniform("camera_position", m_position);
-			// 	}
-			// }
+			//data
+			float V[16], P[16];
+			//compute
+			compute_view(V);
+			m_type == type::perspective ? compute_perspective(P) : compute_orthographic(P);
+			//transfer
+			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), V);
+			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), P);
 		}
 
 		//callbacks
@@ -247,9 +215,9 @@ namespace canvas
 			if(key == 'p') screen_print();
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
-			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), apply(), update();
-			else if(key == 'c') m_type = camera::type(!uint32_t(m_type)), bound(), apply(), update();
-			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), apply(), update(), m_scene->update_on_motion();
+			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), update();
+			else if(key == 'c') m_type = camera::type(!uint32_t(m_type)), bound(), update();
+			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_motion(int x1, int x2)
 		{
@@ -280,7 +248,7 @@ namespace canvas
 				m_rotation = qc * Click::arcball(v1, v2).conjugate();
 				m_position = xc + (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
 			}
-			if(m_click.button() != button::none) apply(), update(), m_scene->update_on_motion();
+			if(m_click.button() != button::none) update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_reshape(int width, int height)
 		{
@@ -289,7 +257,6 @@ namespace canvas
 			m_height = height;
 			//update
 			bound();
-			apply();
 			update();
 			glViewport(0, 0, width, height);
 		}
@@ -331,7 +298,6 @@ namespace canvas
 				m_position += m_rotation.rotate({ws * sn * s1, hs * sn * s2, 0});
 			}
 			//apply
-			apply();
 			update();
 		}
 		void Camera::callback_special(canvas::key key, uint32_t modifiers, int x1, int x2)
@@ -367,7 +333,6 @@ namespace canvas
 						m_rotation = m_rotation * rotation[i].quaternion().conjugate();
 						m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
 					}
-					apply();
 					update();
 				}
 			}
@@ -389,11 +354,12 @@ namespace canvas
 		}
 
 		//apply
-		void Camera::apply_view(void)
+		void Camera::compute_view(float* V) const
 		{
-			m_view_matrix = m_rotation.conjugate().rotation() * (-m_position).shift();
+			mat4 Vm = m_rotation.conjugate().rotation() * (-m_position).shift();
+			memcpy(V, Vm.data(), 16 * sizeof(float));
 		}
-		void Camera::apply_perspective(void)
+		void Camera::compute_perspective(float* P) const
 		{
 			//data
 			const float z1 = m_planes[0];
@@ -402,16 +368,16 @@ namespace canvas
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
 			const float ms = ws < hs ? ws : hs;
+			memset(P, 0, 16 * sizeof(float));
 			//projection
-			m_projection_matrix.clear();
-			m_projection_matrix(3, 3) = +0.0f;
-			m_projection_matrix(3, 2) = -1.0f;
-			m_projection_matrix(0, 0) = ms / ws / ts;
-			m_projection_matrix(1, 1) = ms / hs / ts;
-			m_projection_matrix(2, 2) = -(z1 + z2) / (z2 - z1);
-			m_projection_matrix(2, 3) = -2 * z1 * z2 / (z2 - z1);
+			P[3 + 4 * 3] = +0.0f;
+			P[3 + 4 * 2] = -1.0f;
+			P[0 + 4 * 0] = ms / ws / ts;
+			P[1 + 4 * 1] = ms / hs / ts;
+			P[2 + 4 * 2] = -(z1 + z2) / (z2 - z1);
+			P[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
 		}
-		void Camera::apply_orthographic(void)
+		void Camera::compute_orthographic(float* P) const
 		{
 			//data
 			const float s = m_scale;
@@ -420,12 +386,13 @@ namespace canvas
 			const float ws = (float) m_width;
 			const float hs = (float) m_height;
 			const float ms = ws < hs ? ws : hs;
+			memset(P, 0, 16 * sizeof(float));
 			//projection
-			m_projection_matrix.clear();
-			m_projection_matrix(0, 0) = ms / ws / s;
-			m_projection_matrix(1, 1) = ms / hs / s;
-			m_projection_matrix(2, 2) = -2 / (z2 - z1);
-			m_projection_matrix(2, 3) = -(z1 + z2) / (z2 - z1);
+			P[3 + 4 * 3] = 1;
+			P[0 + 4 * 0] = ms / ws / s;
+			P[1 + 4 * 1] = ms / hs / s;
+			P[2 + 4 * 2] = -2 / (z2 - z1);
+			P[2 + 4 * 3] = -(z1 + z2) / (z2 - z1);
 		}
 
 		//bound

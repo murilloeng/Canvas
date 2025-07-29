@@ -70,15 +70,11 @@ namespace canvas
 			camera::type type(void) const;
 			camera::type type(camera::type);
 
-			const mat4& view_matrix(void) const;
-			const mat4& projection_matrix(void) const;
-
 			//screen
 			void screen_print(void) const;
 			void screen_record(void) const;
 
 			//shaders
-			void apply(void);
 			void bound(void);
 			void update(void);
 
@@ -91,10 +87,10 @@ namespace canvas
 			void callback_special(key, uint32_t, int, int);
 
 		protected:
-			//apply
-			void apply_view(void);
-			void apply_perspective(void);
-			void apply_orthographic(void);
+			//compute
+			void compute_view(float*) const;
+			void compute_perspective(float*) const;
+			void compute_orthographic(float*) const;
 
 			//bound
 			void bound_box(void);
@@ -123,8 +119,6 @@ namespace canvas
 
 			vec3 m_x_min;
 			vec3 m_x_max;
-			mat4 m_view_matrix;
-			mat4 m_projection_matrix;
 
 			float m_fov;
 			float m_scale;
