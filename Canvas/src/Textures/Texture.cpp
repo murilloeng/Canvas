@@ -2,7 +2,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Texture.hpp"
+#include "Canvas/Canvas/inc/Textures/Texture.hpp"
 
 namespace canvas
 {

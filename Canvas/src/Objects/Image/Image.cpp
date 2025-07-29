@@ -4,7 +4,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
-#include "Canvas/Canvas/inc/Images/Image.hpp"
+#include "Canvas/Canvas/inc/Textures/Image.hpp"
 
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 

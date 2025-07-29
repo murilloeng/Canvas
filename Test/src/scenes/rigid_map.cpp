@@ -5,19 +5,20 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
-#include "Canvas/Canvas/inc/Images/Latex.hpp"
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+
+#include "Canvas/Canvas/inc/Textures/Latex.hpp"
+
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
 
-#include "Canvas/Canvas/inc/Renderer/VBO.hpp"
-#include "Canvas/Canvas/inc/Renderer/IBO.hpp"
-#include "Canvas/Canvas/inc/Renderer/Command.hpp"
-
-#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+#include "Canvas/Canvas/inc/Commands/Command.hpp"
 
 //test
 #include "Canvas/Test/inc/Engine.hpp"

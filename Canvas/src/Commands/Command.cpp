@@ -1,5 +1,5 @@
 //canvas
-#include "Canvas/Canvas/inc/Renderer/Command.hpp"
+#include "Canvas/Canvas/inc/Commands/Command.hpp"
 
 namespace canvas
 {

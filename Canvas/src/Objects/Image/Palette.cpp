@@ -6,7 +6,7 @@
 
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
-#include "Canvas/Canvas/inc/Images/Image.hpp"
+#include "Canvas/Canvas/inc/Textures/Image.hpp"
 
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model2D.hpp"

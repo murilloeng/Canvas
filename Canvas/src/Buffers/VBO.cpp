@@ -2,7 +2,7 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 
 namespace canvas
 {

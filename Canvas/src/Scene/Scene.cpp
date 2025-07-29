@@ -12,8 +12,8 @@
 
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
-#include "Canvas/Canvas/inc/Images/Image.hpp"
-#include "Canvas/Canvas/inc/Images/Latex.hpp"
+#include "Canvas/Canvas/inc/Textures/Image.hpp"
+#include "Canvas/Canvas/inc/Textures/Latex.hpp"
 
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"

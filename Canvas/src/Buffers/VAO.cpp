@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/Renderer/VAO.hpp"
+#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 
 namespace canvas
 {
