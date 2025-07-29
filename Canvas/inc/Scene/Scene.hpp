@@ -110,10 +110,10 @@ namespace canvas
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
 		//shaders
-		Shader* shader(uint32_t);
-		std::vector<Shader*>& shaders(void);
-		const Shader* shader(uint32_t) const;
-		const std::vector<Shader*>& shaders(void) const;
+		shaders::Shader* shader(uint32_t);
+		std::vector<shaders::Shader*>& shaders(void);
+		const shaders::Shader* shader(uint32_t) const;
+		const std::vector<shaders::Shader*>& shaders(void) const;
 
 		//textures
 		Texture& texture(uint32_t);
@@ -148,8 +148,8 @@ namespace canvas
 		lights::Lights m_lights;
 		std::vector<VBO*> m_vbos;
 		std::vector<IBO*> m_ibos;
-		std::vector<Shader*> m_shaders;
 		std::vector<Texture> m_textures;
+		std::vector<shaders::Shader*> m_shaders;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;

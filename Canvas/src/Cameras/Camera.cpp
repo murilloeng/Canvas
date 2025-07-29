@@ -213,7 +213,7 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			for(const Shader* shader : m_shaders)
+			for(const shaders::Shader* shader : m_shaders)
 			{
 				shader->bind();
 				if(shader->uniform_location("width") != -1)

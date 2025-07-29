@@ -12,10 +12,11 @@
 
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
 
+#include "Canvas/Canvas/inc/shaders/Shader.hpp"
+
 namespace canvas
 {
 	class Scene;
-	class Shader;
 }
 
 namespace canvas
@@ -129,7 +130,7 @@ namespace canvas
 			float m_scale;
 			float m_planes[2];
 			std::vector<vec3> m_bounds;
-			const std::vector<Shader*>& m_shaders;
+			const std::vector<shaders::Shader*>& m_shaders;
 
 			//friends
 			friend class canvas::Scene;

@@ -73,7 +73,7 @@ namespace canvas
 		//shaders
 		void Lights::update_shaders(void) const
 		{
-			for(const Shader* shader : m_shaders)
+			for(const shaders::Shader* shader : m_shaders)
 			{
 				//check
 				shader->bind();

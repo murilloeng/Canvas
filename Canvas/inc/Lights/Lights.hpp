@@ -5,12 +5,14 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
+
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
+
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 namespace canvas
 {
 	class Scene;
-	class Shader;
 	namespace lights
 	{
 		class Point;
@@ -54,7 +56,7 @@ namespace canvas
 			Ambient* m_ambient;
 			std::vector<Point*> m_points;
 			std::vector<Direction*> m_directions;
-			const std::vector<Shader*>& m_shaders;
+			const std::vector<shaders::Shader*>& m_shaders;
 
 			//friends
 			friend class canvas::Scene;

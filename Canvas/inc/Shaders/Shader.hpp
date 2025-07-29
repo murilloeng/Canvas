@@ -13,57 +13,63 @@
 
 namespace canvas
 {
-	class Stage;
+	namespace shaders
+	{
+		class Stage;
+	}
 }
 
 namespace canvas
 {
-	class Shader
+	namespace shaders
 	{
-	public:
-		//constructors
-		Shader(std::vector<Stage*>);
-
-		//destructor
-		~Shader(void);
-
-		//data
-		GLuint id(void) const;
-
-		//bind
-		void bind(void) const;
-
-		//uniforms
-		GLint uniform_location(const char*) const;
-
-		void set_uniform(const char*, float) const;
-		void set_uniform(const char*, float, float) const;
-		void set_uniform(const char*, float, float, float) const;
-		void set_uniform(const char*, float, float, float, float) const;
-
-		void set_uniform(const char*, int32_t) const;
-		void set_uniform(const char*, int32_t, int32_t) const;
-		void set_uniform(const char*, int32_t, int32_t, int32_t) const;
-		void set_uniform(const char*, int32_t, int32_t, int32_t, int32_t) const;
-
-		void set_uniform(const char*, uint32_t) const;
-		void set_uniform(const char*, uint32_t, uint32_t) const;
-		void set_uniform(const char*, uint32_t, uint32_t, uint32_t) const;
-		void set_uniform(const char*, uint32_t, uint32_t, uint32_t, uint32_t) const;
-
-		void set_uniform(const char*, vec3) const;
-		void set_uniform(const char*, mat4) const;
-		void set_uniform(const char*, const float*, uint32_t) const;
-		void set_uniform(const char*, const int32_t*, uint32_t) const;
-		void set_uniform(const char*, const uint32_t*, uint32_t) const;
-		void set_uniform_matrix(const char*, const float*, uint32_t) const;
-
-	private:
-		//check
-		void check_uniform(const char*) const;
-		void check_uniform_location(const char*, int32_t) const;
-
-		//data
-		GLuint m_id;
-	};
+		class Shader
+		{
+		public:
+			//constructors
+			Shader(std::vector<Stage*>);
+	
+			//destructor
+			~Shader(void);
+	
+			//data
+			GLuint id(void) const;
+	
+			//bind
+			void bind(void) const;
+	
+			//uniforms
+			GLint uniform_location(const char*) const;
+	
+			void set_uniform(const char*, float) const;
+			void set_uniform(const char*, float, float) const;
+			void set_uniform(const char*, float, float, float) const;
+			void set_uniform(const char*, float, float, float, float) const;
+	
+			void set_uniform(const char*, int32_t) const;
+			void set_uniform(const char*, int32_t, int32_t) const;
+			void set_uniform(const char*, int32_t, int32_t, int32_t) const;
+			void set_uniform(const char*, int32_t, int32_t, int32_t, int32_t) const;
+	
+			void set_uniform(const char*, uint32_t) const;
+			void set_uniform(const char*, uint32_t, uint32_t) const;
+			void set_uniform(const char*, uint32_t, uint32_t, uint32_t) const;
+			void set_uniform(const char*, uint32_t, uint32_t, uint32_t, uint32_t) const;
+	
+			void set_uniform(const char*, vec3) const;
+			void set_uniform(const char*, mat4) const;
+			void set_uniform(const char*, const float*, uint32_t) const;
+			void set_uniform(const char*, const int32_t*, uint32_t) const;
+			void set_uniform(const char*, const uint32_t*, uint32_t) const;
+			void set_uniform_matrix(const char*, const float*, uint32_t) const;
+	
+		private:
+			//check
+			void check_uniform(const char*) const;
+			void check_uniform_location(const char*, int32_t) const;
+	
+			//data
+			GLuint m_id;
+		};
+	}
 }

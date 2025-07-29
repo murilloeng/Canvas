@@ -8,29 +8,35 @@
 
 namespace canvas
 {
-	class Shader;
+	namespace shaders
+	{
+		class Shader;
+	}
 }
 
 namespace canvas
 {
-	class Stage
+	namespace shaders
 	{
-	public:
-		//constructors
-		Stage(GLenum, std::string);
-
-		//constructors
-		~Stage(void);
-
-	private:
-		//read
-		void read(std::string);
-
-		//data
-		GLuint m_id;
-		char m_source[4096];
-
-		//friends
-		friend class Shader;
-	};
+		class Stage
+		{
+		public:
+			//constructors
+			Stage(GLenum, std::string);
+	
+			//constructors
+			~Stage(void);
+	
+		private:
+			//read
+			void read(std::string);
+	
+			//data
+			GLuint m_id;
+			char m_source[4096];
+	
+			//friends
+			friend class Shader;
+		};
+	}
 }

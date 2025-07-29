@@ -174,7 +174,7 @@ static canvas::VBO* vbo;
 static canvas::IBO* ibo;
 static Rigid_Map rigid_map;
 static canvas::Scene* scene;
-static canvas::Shader* shader;
+static canvas::shaders::Shader* shader;
 static std::chrono::high_resolution_clock::time_point t0;
 
 //scene
@@ -190,9 +190,9 @@ static void scene_setup(void)
 	scene->add_latex(rigid_map.m_labels[0]);
 	scene->add_latex(rigid_map.m_labels[1]);
 	//shaders
-	shader = new canvas::Shader({
-		new canvas::Stage(GL_VERTEX_SHADER, "Test/shd/rigid-map.vert"),
-		new canvas::Stage(GL_FRAGMENT_SHADER, "Test/shd/rigid-map.frag")
+	shader = new canvas::shaders::Shader({
+		new canvas::shaders::Stage(GL_VERTEX_SHADER, "Test/shd/rigid-map.vert"),
+		new canvas::shaders::Stage(GL_FRAGMENT_SHADER, "Test/shd/rigid-map.frag")
 	});
 	//objects
 	scene->add_object(&rigid_map);
