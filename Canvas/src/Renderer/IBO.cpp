@@ -36,7 +36,7 @@ namespace canvas
 	{
 		return m_size = size;
 	}
-	
+
 	uint32_t* IBO::data(void)
 	{
 		return m_data;

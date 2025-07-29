@@ -44,7 +44,7 @@ namespace canvas
 			void vbo_fill_data(void) const;
 			void ibo_stroke_data(void) const;
 			void vbo_stroke_data(void) const;
-			
+		
 			void vbo_edges_data(vertices::Model3D*) const;
 			void vbo_faces_data(vertices::Model3D*) const;
 			void vbo_vertices_data(vertices::Model3D*) const;

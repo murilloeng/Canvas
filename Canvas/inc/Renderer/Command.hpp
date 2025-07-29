@@ -3,6 +3,9 @@
 //std
 #include <cstdint>
 
+//glew
+#include "external/cpp/inc/GL/glew.h"
+
 namespace canvas
 {
 	class Scene;
@@ -20,8 +23,8 @@ namespace canvas
 		~Command(void);
 
 		//data
-		uint32_t draw_mode(uint32_t);
-		uint32_t draw_mode(void) const;
+		GLenum mode(GLenum);
+		GLenum mode(void) const;
 
 		uint32_t vbo_index(uint32_t);
 		uint32_t vbo_index(void) const;
@@ -35,9 +38,13 @@ namespace canvas
 		//texture
 		bool has_texture(void) const;
 
-private:
+	private:
+		//draw
+		void draw(void) const;
+
 		//data
-		uint32_t m_draw_mode;
+		GLenum m_mode;
+		uint32_t m_vao_index;
 		uint32_t m_vbo_index;
 		uint32_t m_ibo_index;
 		uint32_t m_texture_index;

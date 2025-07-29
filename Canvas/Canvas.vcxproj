@@ -60,6 +60,7 @@
     <ClInclude Include="inc\Renderer\Program.hpp" />
     <ClInclude Include="inc\Renderer\Shader.hpp" />
     <ClInclude Include="inc\Renderer\Texture.hpp" />
+    <ClInclude Include="inc\Renderer\VAO.hpp" />
     <ClInclude Include="inc\Renderer\VBO.hpp" />
     <ClInclude Include="inc\Images\Image.hpp" />
     <ClInclude Include="inc\Images\Latex.hpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="src\Renderer\Program.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Renderer\VAO.cpp" />
     <ClCompile Include="src\Renderer\VBO.cpp" />
     <ClCompile Include="src\Images\Image.cpp" />
     <ClCompile Include="src\Images\Latex.cpp" />

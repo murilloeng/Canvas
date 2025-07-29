@@ -23,10 +23,10 @@ namespace canvas
 		public:
 			//constructors
 			Glyph(void);
-	
+
 			//destructor
 			~Glyph(void);
-	
+
 			//data
 			uint32_t width(void) const;
 			uint32_t height(void) const;
@@ -34,13 +34,13 @@ namespace canvas
 			uint32_t advance(void) const;
 			uint32_t bearing(uint32_t) const;
 			const uint8_t* data(void) const;
-	
+
 			//draw
 			void coordinates(float*) const;
-	
+
 			//setup
 			void setup(FT_Face, char);
-	
+
 		protected:
 			//data
 			char m_code;
@@ -50,7 +50,7 @@ namespace canvas
 			uint32_t m_offset;
 			uint32_t m_advance;
 			uint32_t m_bearings[2];
-	
+
 			//friends
 			friend class fonts::Font;
 		};

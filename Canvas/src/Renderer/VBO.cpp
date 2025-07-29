@@ -48,7 +48,7 @@ namespace canvas
 		}
 		return stride;
 	}
-	
+
 	void* VBO::data(void)
 	{
 		return m_data;

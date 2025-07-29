@@ -11,7 +11,7 @@ namespace canvas
 	{
 		return;
 	}
-	
+
 	//destructor
 	Shader::~Shader(void)
 	{

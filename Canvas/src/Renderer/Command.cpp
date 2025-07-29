@@ -5,7 +5,7 @@ namespace canvas
 {
 	//constructors
 	Command::Command(uint32_t draw_mode, uint32_t vbo_index, uint32_t ibo_index, uint32_t texture_index, uint32_t program_index) : 
-		m_draw_mode(draw_mode), 
+		m_mode(draw_mode), 
 		m_vbo_index(vbo_index), 
 		m_ibo_index(ibo_index), 
 		m_texture_index(texture_index),
@@ -21,13 +21,13 @@ namespace canvas
 	}
 
 	//data
-	uint32_t Command::draw_mode(void) const
+	GLenum Command::mode(void) const
 	{
-		return m_draw_mode;
+		return m_mode;
 	}
-	uint32_t Command::draw_mode(uint32_t draw_mode)
+	GLenum Command::mode(GLenum mode)
 	{
-		return m_draw_mode = draw_mode;
+		return m_mode = mode;
 	}
 
 	uint32_t Command::vbo_index(void) const

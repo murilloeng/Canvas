@@ -17,7 +17,7 @@ namespace canvas
 	{
 		return;
 	}
-	
+
 	//destructor
 	Image::~Image(void)
 	{

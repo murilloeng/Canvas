@@ -25,7 +25,7 @@ namespace canvas
 	{
 		return;
 	}
-	
+
 	//destructor
 	Latex::~Latex(void)
 	{

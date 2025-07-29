@@ -25,13 +25,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Font::~Font(void)
 		{
 			FT_Done_Face(m_face);
 		}
-	
+
 		//data
 		uint32_t Font::width(void)
 		{
@@ -41,7 +41,7 @@ namespace canvas
 		{
 			return m_height;
 		}
-	
+
 		std::string Font::name(void) const
 		{
 			return m_name;
@@ -51,7 +51,7 @@ namespace canvas
 			m_status = false;
 			return m_name = name;
 		}
-	
+
 		uint32_t Font::pixels_size(void)
 		{
 			return m_pixels_size;
@@ -60,7 +60,7 @@ namespace canvas
 		{
 			return m_pixels_size = pixels_size;
 		}
-	
+
 		Glyph& Font::glyph(uint32_t index)
 		{
 			return m_glyphs[index];
@@ -69,7 +69,7 @@ namespace canvas
 		{
 			return m_glyphs[index];
 		}
-	
+
 		//setup
 		void Font::setup_texture(void)
 		{
@@ -114,7 +114,7 @@ namespace canvas
 				h = std::max(h, m_glyphs[i].m_height);
 			}
 		}
-	
+
 		//static
 		uint32_t Font::m_width;
 		uint32_t Font::m_height;

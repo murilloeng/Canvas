@@ -3,10 +3,14 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Scene/Image.hpp"
+
+#include "Canvas/Canvas/inc/Images/Image.hpp"
+
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Image/Palette.hpp"
 
 namespace canvas

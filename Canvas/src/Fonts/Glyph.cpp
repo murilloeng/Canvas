@@ -14,13 +14,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Glyph::~Glyph(void)
 		{
 			delete[] m_data;
 		}
-	
+
 		//data
 		uint32_t Glyph::width(void) const
 		{
@@ -46,7 +46,7 @@ namespace canvas
 		{
 			return m_data;
 		}
-	
+
 		//draw
 		void Glyph::coordinates(float* coordinates) const
 		{
@@ -59,7 +59,7 @@ namespace canvas
 			coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
 			coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
 		}
-	
+
 		//setup
 		void Glyph::setup(FT_Face face, char code)
 		{

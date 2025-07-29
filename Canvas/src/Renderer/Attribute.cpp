@@ -11,7 +11,7 @@ namespace canvas
 	{
 		return;
 	}
-	
+
 	//destructor
 	Attribute::~Attribute(void)
 	{

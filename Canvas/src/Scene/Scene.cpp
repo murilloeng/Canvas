@@ -33,7 +33,7 @@ namespace canvas
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
 		m_vbos(6), m_ibos(12), m_textures(3), m_programs(7), m_shaders_dir(shaders_dir)
 	{
-		setup_gl();
+		setup_OpenGL();
 		setup_buffers();
 		setup_shaders();
 		setup_freetype();
@@ -308,7 +308,7 @@ namespace canvas
 				ibo->bind();
 				program->bind();
 				if(command.has_texture()) texture.bind();
-				glDrawElements(command.m_draw_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
+				glDrawElements(command.m_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
 			}
 		}
 	}
@@ -337,17 +337,6 @@ namespace canvas
 	}
 
 	//setup
-	void Scene::setup_gl(void)
-	{
-		//enable
-		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_POLYGON_OFFSET_FILL);
-		//values
-		glPointSize(7);
-		glPolygonOffset(1.0f, 1.0f);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
 	void Scene::setup_data(void)
 	{
 		//data
@@ -434,6 +423,17 @@ namespace canvas
 			m_textures[2].transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	void Scene::setup_OpenGL(void)
+	{
+		//enable
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		//values
+		glPointSize(7);
+		glPolygonOffset(1.0f, 1.0f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	void Scene::setup_images(void)
 	{
