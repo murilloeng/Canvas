@@ -32,8 +32,9 @@ namespace canvas
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
-		m_vbos(6), m_ibos(12), m_textures(3), m_shaders(7), m_shaders_dir(shaders_dir)
+		m_vbos(6), m_ibos(12), m_textures(3), m_ubos(1), m_shaders(7), m_shaders_dir(shaders_dir)
 	{
+		setup_ubos();
 		setup_OpenGL();
 		setup_buffers();
 		setup_shaders();
@@ -338,6 +339,12 @@ namespace canvas
 	}
 
 	//setup
+	void Scene::setup_ubos(void)
+	{
+		m_ubos[0] = new buffers::Buffer;
+		m_ubos[0]->bind_base(GL_UNIFORM_BUFFER, 0);
+		m_ubos[0]->transfer(32 * sizeof(float), nullptr);
+	}
 	void Scene::setup_data(void)
 	{
 		//data

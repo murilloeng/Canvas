@@ -14,6 +14,7 @@ namespace canvas
 		{
 			//create
 			m_id = glCreateProgram();
+			//check
 			if(!glIsProgram(m_id))
 			{
 				throw std::runtime_error("Error creating shader program!");

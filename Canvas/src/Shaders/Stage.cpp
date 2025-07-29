@@ -13,6 +13,7 @@ namespace canvas
 		{
 			//create
 			m_id = glCreateShader(type);
+			//check
 			if(!glIsShader(m_id))
 			{
 				throw std::runtime_error("Shader creation failed!");

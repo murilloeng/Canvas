@@ -8,6 +8,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
 
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 
@@ -129,6 +130,7 @@ namespace canvas
 
 	protected:
 		//setup
+		void setup_ubos(void);
 		void setup_data(void);
 		void setup_fonts(void);
 		void setup_latex(void);
@@ -150,6 +152,7 @@ namespace canvas
 		std::vector<VBO*> m_vbos;
 		std::vector<IBO*> m_ibos;
 		std::vector<Texture> m_textures;
+		std::vector<buffers::Buffer*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
 
 		FT_Library m_ft_library;
