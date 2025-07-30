@@ -129,6 +129,8 @@ namespace canvas
 	protected:
 		//setup
 		void setup_vaos(void);
+		void setup_vbos(void);
+		void setup_ibos(void);
 		void setup_ubos(void);
 		void setup_data(void);
 		void setup_fonts(void);
@@ -136,7 +138,6 @@ namespace canvas
 		void setup_OpenGL(void);
 		void setup_images(void);
 		void setup_objects(void);
-		void setup_buffers(void);
 		void setup_shaders(void);
 		void setup_freetype(void);
 		void setup_commands(void);

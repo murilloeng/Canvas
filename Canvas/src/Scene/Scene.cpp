@@ -35,10 +35,11 @@ namespace canvas
 		m_vbos(6), m_ibos(12), m_textures(3), m_vaos(12), m_ubos(1), m_shaders(7), 
 		m_shaders_dir(shaders_dir)
 	{
+		setup_vbos();
+		setup_ibos();
 		setup_ubos();
 		// setup_vaos();
 		setup_OpenGL();
-		setup_buffers();
 		setup_shaders();
 		setup_freetype();
 		setup_commands();
@@ -343,6 +344,24 @@ namespace canvas
 		setup_vao_model_2D_triangles();
 		setup_vao_model_3D_triangles();
 	}
+	void Scene::setup_vbos(void)
+	{
+		//setup
+		for(VBO*& vbo : m_vbos) vbo = new VBO;
+		//attributes
+		vertices::Text3D::attributes(m_vbos[2]->m_attributes);
+		vertices::Text2D::attributes(m_vbos[5]->m_attributes);
+		vertices::Model3D::attributes(m_vbos[0]->m_attributes);
+		vertices::Image3D::attributes(m_vbos[1]->m_attributes);
+		vertices::Model2D::attributes(m_vbos[3]->m_attributes);
+		vertices::Image2D::attributes(m_vbos[4]->m_attributes);
+		//enable
+		for(VBO* vbo : m_vbos) vbo->enable();
+	}
+	void Scene::setup_ibos(void)
+	{
+		for(IBO*& ibo : m_ibos) ibo = new IBO;
+	}
 	void Scene::setup_ubos(void)
 	{
 		m_ubos[0] = new buffers::Buffer;
@@ -489,21 +508,6 @@ namespace canvas
 		for(objects::Object* object : m_objects) object->setup();
 		for(VBO* vbo : m_vbos) vbo->allocate();
 		for(IBO* ibo : m_ibos) ibo->allocate();
-	}
-	void Scene::setup_buffers(void)
-	{
-		//setup
-		for(VBO*& vbo : m_vbos) vbo = new VBO;
-		for(IBO*& ibo : m_ibos) ibo = new IBO;
-		//attributes
-		vertices::Text3D::attributes(m_vbos[2]->m_attributes);
-		vertices::Text2D::attributes(m_vbos[5]->m_attributes);
-		vertices::Model3D::attributes(m_vbos[0]->m_attributes);
-		vertices::Image3D::attributes(m_vbos[1]->m_attributes);
-		vertices::Model2D::attributes(m_vbos[3]->m_attributes);
-		vertices::Image2D::attributes(m_vbos[4]->m_attributes);
-		//enable
-		for(VBO* vbo : m_vbos) vbo->enable();
 	}
 	void Scene::setup_shaders(void)
 	{
