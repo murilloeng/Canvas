@@ -32,9 +32,11 @@ namespace canvas
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
-		m_vbos(6), m_ibos(12), m_textures(3), m_ubos(1), m_shaders(7), m_shaders_dir(shaders_dir)
+		m_vbos(6), m_ibos(12), m_textures(3), m_vaos(10), m_ubos(1), m_shaders(7), 
+		m_shaders_dir(shaders_dir)
 	{
 		setup_ubos();
+		setup_vaos();
 		setup_OpenGL();
 		setup_buffers();
 		setup_shaders();
@@ -174,6 +176,16 @@ namespace canvas
 	const std::vector<objects::Object*>& Scene::objects(void) const
 	{
 		return m_objects;
+	}
+
+	//vaos
+	void Scene::add_vao(buffers::VAO* vao)
+	{
+		m_vaos.push_back(vao);
+	}
+	buffers::VAO* Scene::vao(uint32_t index) const
+	{
+		return m_vaos[index];
 	}
 
 	//buffers
@@ -340,6 +352,25 @@ namespace canvas
 	}
 
 	//setup
+	void Scene::setup_vaos(void)
+	{
+		//create
+		for(buffers::VAO*& vao : m_vaos)
+		{
+			vao = new buffers::VAO;
+		}
+		//setup
+		setup_vao_text_2D();
+		setup_vao_text_3D();
+		setup_vao_image_2D();
+		setup_vao_image_3D();
+		setup_vao_model_2D_lines();
+		setup_vao_model_3D_lines();
+		setup_vao_model_2D_points();
+		setup_vao_model_3D_points();
+		setup_vao_model_2D_triangles();
+		setup_vao_model_3D_triangles();
+	}
 	void Scene::setup_ubos(void)
 	{
 		m_ubos[0] = new buffers::Buffer;
@@ -563,6 +594,124 @@ namespace canvas
 		m_commands.push_back(Command(GL_TRIANGLES, 5, 10, 1, 6));
 		//latex 2D
 		m_commands.push_back(Command(GL_TRIANGLES, 5, 11, 2, 6));
+	}
+
+	//setup vaos
+	void Scene::setup_vao_text_2D(void)
+	{
+		m_vaos[9]->attribute_enable(0);
+		m_vaos[9]->attribute_enable(1);
+		m_vaos[9]->attribute_enable(2);
+		m_vaos[9]->attribute_binding(0, 0);
+		m_vaos[9]->attribute_binding(1, 0);
+		m_vaos[9]->attribute_binding(2, 0);
+		m_vaos[9]->element_buffer(m_ibos[9]->m_id);
+		m_vaos[9]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[9]->attribute_format(1, 2, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[9]->attribute_format(2, 4, GL_FLOAT, 4 * sizeof(float));
+		m_vaos[9]->vertex_buffer(0, m_vbos[5]->m_id, 0, 8 * sizeof(float));
+	}
+	void Scene::setup_vao_text_3D(void)
+	{
+		m_vaos[4]->attribute_enable(0);
+		m_vaos[4]->attribute_enable(1);
+		m_vaos[4]->attribute_enable(2);
+		m_vaos[4]->attribute_binding(0, 0);
+		m_vaos[4]->attribute_binding(1, 0);
+		m_vaos[4]->attribute_binding(2, 0);
+		m_vaos[4]->element_buffer(m_ibos[4]->m_id);
+		m_vaos[4]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[4]->attribute_format(1, 2, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[4]->attribute_format(2, 4, GL_FLOAT, 5 * sizeof(float));
+		m_vaos[4]->vertex_buffer(0, m_vbos[1]->m_id, 0, 9 * sizeof(float));
+	}
+	void Scene::setup_vao_image_2D(void)
+	{
+		m_vaos[8]->attribute_enable(0);
+		m_vaos[8]->attribute_enable(1);
+		m_vaos[8]->attribute_binding(0, 0);
+		m_vaos[8]->attribute_binding(1, 0);
+		m_vaos[8]->element_buffer(m_ibos[8]->m_id);
+		m_vaos[8]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[8]->attribute_format(1, 2, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[8]->vertex_buffer(0, m_vbos[4]->m_id, 0, 4 * sizeof(float));
+	}
+	void Scene::setup_vao_image_3D(void)
+	{
+		m_vaos[3]->attribute_enable(0);
+		m_vaos[3]->attribute_enable(1);
+		m_vaos[3]->attribute_binding(0, 0);
+		m_vaos[3]->attribute_binding(1, 0);
+		m_vaos[3]->element_buffer(m_ibos[3]->m_id);
+		m_vaos[3]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[3]->attribute_format(1, 2, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[3]->vertex_buffer(0, m_vbos[1]->m_id, 0, 5 * sizeof(float));
+	}
+	void Scene::setup_vao_model_2D_lines(void)
+	{
+		m_vaos[6]->attribute_enable(0);
+		m_vaos[6]->attribute_enable(1);
+		m_vaos[6]->attribute_binding(0, 0);
+		m_vaos[6]->attribute_binding(1, 0);
+		m_vaos[6]->element_buffer(m_ibos[6]->m_id);
+		m_vaos[6]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[6]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[6]->vertex_buffer(0, m_vbos[3]->m_id, 0, 6 * sizeof(float));
+	}
+	void Scene::setup_vao_model_3D_lines(void)
+	{
+		m_vaos[1]->attribute_enable(0);
+		m_vaos[1]->attribute_enable(1);
+		m_vaos[1]->attribute_binding(0, 0);
+		m_vaos[1]->attribute_binding(1, 0);
+		m_vaos[1]->element_buffer(m_ibos[1]->m_id);
+		m_vaos[1]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[1]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[1]->vertex_buffer(0, m_vbos[0]->m_id, 0, 7 * sizeof(float));
+	}
+	void Scene::setup_vao_model_2D_points(void)
+	{
+		m_vaos[5]->attribute_enable(0);
+		m_vaos[5]->attribute_enable(1);
+		m_vaos[5]->attribute_binding(0, 0);
+		m_vaos[5]->attribute_binding(1, 0);
+		m_vaos[5]->element_buffer(m_ibos[5]->m_id);
+		m_vaos[5]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[5]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[5]->vertex_buffer(0, m_vbos[3]->m_id, 0, 6 * sizeof(float));
+	}
+	void Scene::setup_vao_model_3D_points(void)
+	{
+		m_vaos[0]->attribute_enable(0);
+		m_vaos[0]->attribute_enable(1);
+		m_vaos[0]->attribute_binding(0, 0);
+		m_vaos[0]->attribute_binding(1, 0);
+		m_vaos[0]->element_buffer(m_ibos[1]->m_id);
+		m_vaos[0]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[0]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[0]->vertex_buffer(0, m_vbos[0]->m_id, 0, 7 * sizeof(float));
+	}
+	void Scene::setup_vao_model_2D_triangles(void)
+	{
+		m_vaos[7]->attribute_enable(0);
+		m_vaos[7]->attribute_enable(1);
+		m_vaos[7]->attribute_binding(0, 0);
+		m_vaos[7]->attribute_binding(1, 0);
+		m_vaos[7]->element_buffer(m_ibos[7]->m_id);
+		m_vaos[7]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[7]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[7]->vertex_buffer(0, m_vbos[3]->m_id, 0, 6 * sizeof(float));
+	}
+	void Scene::setup_vao_model_3D_triangles(void)
+	{
+		m_vaos[2]->attribute_enable(0);
+		m_vaos[2]->attribute_enable(1);
+		m_vaos[2]->attribute_binding(0, 0);
+		m_vaos[2]->attribute_binding(1, 0);
+		m_vaos[2]->element_buffer(m_ibos[2]->m_id);
+		m_vaos[2]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+		m_vaos[2]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[2]->vertex_buffer(0, m_vbos[0]->m_id, 0, 7 * sizeof(float));
 	}
 
 	//buffers

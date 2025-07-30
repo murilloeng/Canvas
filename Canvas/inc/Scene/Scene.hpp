@@ -6,6 +6,7 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Buffers/IBO.hpp"
 #include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
@@ -93,6 +94,10 @@ namespace canvas
 		objects::Object* object(uint32_t) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
+		//vaos
+		void add_vao(buffers::VAO*);
+		buffers::VAO* vao(uint32_t) const;
+
 		//buffers
 		VBO* vbo(uint32_t);
 		IBO* ibo(uint32_t);
@@ -130,6 +135,7 @@ namespace canvas
 
 	protected:
 		//setup
+		void setup_vaos(void);
 		void setup_ubos(void);
 		void setup_data(void);
 		void setup_fonts(void);
@@ -142,6 +148,18 @@ namespace canvas
 		void setup_freetype(void);
 		void setup_commands(void);
 
+		//setup vaos
+		void setup_vao_text_2D(void);
+		void setup_vao_text_3D(void);
+		void setup_vao_image_2D(void);
+		void setup_vao_image_3D(void);
+		void setup_vao_model_2D_lines(void);
+		void setup_vao_model_3D_lines(void);
+		void setup_vao_model_2D_points(void);
+		void setup_vao_model_3D_points(void);
+		void setup_vao_model_2D_triangles(void);
+		void setup_vao_model_3D_triangles(void);
+
 		//buffers
 		void buffers_data(void);
 
@@ -152,6 +170,7 @@ namespace canvas
 		std::vector<VBO*> m_vbos;
 		std::vector<IBO*> m_ibos;
 		std::vector<Texture> m_textures;
+		std::vector<buffers::VAO*> m_vaos;
 		std::vector<buffers::Buffer*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
 
