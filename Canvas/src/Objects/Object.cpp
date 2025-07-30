@@ -158,10 +158,12 @@ namespace canvas
 		//model matrix
 		void Object::apply_model_matrix(void) const
 		{
+			//data
 			if(!m_has_model_matrix) return;
 			vertices::Text3D* text_3D_ptr = vbo_data_text_3D();
 			vertices::Model3D* model_3D_ptr = vbo_data_model_3D();
 			vertices::Image3D* image_3D_ptr = vbo_data_image_3D();
+			//apply
 			for(uint32_t i = 0; i < m_vbo_size[0]; i++)
 			{
 				model_3D_ptr[i].m_position = m_model_matrix * model_3D_ptr[i].m_position;
