@@ -356,8 +356,7 @@ namespace canvas
 		//apply
 		void Camera::compute_view(float* V) const
 		{
-			const mat4 Vm = m_rotation.conjugate().rotation() * (-m_position).shift();
-			memcpy(V, Vm.data(), 16 * sizeof(float));
+			mat4(V + 0) = m_rotation.conjugate().rotation() * (-m_position).shift();
 		}
 		void Camera::compute_perspective(float* P) const
 		{

@@ -16,6 +16,9 @@ namespace canvas
 	public:
 		//constructors
 		mat4(void);
+		mat4(float*);
+		mat4(const mat4&);
+		mat4(const float*);
 
 		//destructor
 		~mat4(void);
@@ -40,6 +43,8 @@ namespace canvas
 		const float& operator[](uint32_t) const;
 		const float& operator()(uint32_t, uint32_t) const;
 
+		mat4& operator=(const mat4&);
+
 		mat4 operator+(void) const;
 		mat4 operator-(void) const;
 		vec3 operator*(const vec3&) const;
@@ -61,6 +66,9 @@ namespace canvas
 
 	private:
 		//data
-		float m_data[16];
+		float m_data_mem[16];
+
+		float* m_data_ptr;
+		const float* m_data_ref;
 	};
 }

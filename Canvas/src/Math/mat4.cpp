@@ -11,11 +11,23 @@
 namespace canvas
 {
 	//constructors
-	mat4::mat4(void) : m_data{
+	mat4::mat4(void) : m_data_mem{
 			1.0f, 0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f, 0.0f,
 			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f}
+			0.0f, 0.0f, 0.0f, 1.0f}, m_data_ptr{m_data_mem}, m_data_ref{m_data_mem}
+	{
+		return;
+	}
+	mat4::mat4(float* data_ptr) : m_data_ptr{data_ptr}, m_data_ref{data_ptr}
+	{
+		return;
+	}
+	mat4::mat4(const mat4& M) : m_data_ptr{m_data_mem}, m_data_ref{m_data_mem}
+	{
+		memcpy(m_data_ptr, M.m_data_ref, 16 * sizeof(float));
+	}
+	mat4::mat4(const float* data_ref) : m_data_ptr{nullptr}, m_data_ref{data_ref}
 	{
 		return;
 	}
@@ -29,11 +41,11 @@ namespace canvas
 	//data
 	float* mat4::data(void)
 	{
-		return m_data;
+		return m_data_ptr;
 	}
 	const float* mat4::data(void) const
 	{
-		return m_data;
+		return m_data_ref;
 	}
 
 	//linear
@@ -43,7 +55,7 @@ namespace canvas
 		{
 			for(uint32_t j = 0; j < 4; j++)
 			{
-				m_data[4 * i + j] = i == j;
+				m_data_ptr[4 * i + j] = i == j;
 			}
 		}
 	}
@@ -52,7 +64,7 @@ namespace canvas
 		float v = 0;
 		for(uint32_t i = 0; i < 16; i++)
 		{
-			v += m_data[i] * m_data[i];
+			v += m_data_ref[i] * m_data_ref[i];
 		}
 		return sqrtf(v);
 	}
@@ -68,7 +80,7 @@ namespace canvas
 		{
 			for(uint32_t j = 0; j < 4; j++)
 			{
-				printf("%+.2e ", m_data[i + 4 * j]);
+				printf("%+.2e ", m_data_ref[i + 4 * j]);
 			}
 			printf("\n");
 		}
@@ -77,27 +89,33 @@ namespace canvas
 	//operators
 	float& mat4::operator()(uint32_t i)
 	{
-		return m_data[i];
+		return m_data_ptr[i];
 	}
 	float& mat4::operator[](uint32_t i)
 	{
-		return m_data[i];
+		return m_data_ptr[i];
 	}
 	float& mat4::operator()(uint32_t i, uint32_t j)
 	{
-		return m_data[i + 4 * j];
+		return m_data_ptr[i + 4 * j];
 	}
 	const float& mat4::operator()(uint32_t i) const
 	{
-		return m_data[i];
+		return m_data_ref[i];
 	}
 	const float& mat4::operator[](uint32_t i) const
 	{
-		return m_data[i];
+		return m_data_ref[i];
 	}
 	const float& mat4::operator()(uint32_t i, uint32_t j) const
 	{
-		return m_data[i + 4 * j];
+		return m_data_ref[i + 4 * j];
+	}
+
+	mat4& mat4::operator=(const mat4& M)
+	{
+		memcpy(m_data_ptr, M.m_data_ref, 16 * sizeof(float));
+		return *this;
 	}
 
 	mat4 mat4::operator+(void) const
@@ -113,10 +131,10 @@ namespace canvas
 		vec3 r;
 		for(uint32_t i = 0; i < 3; i++)
 		{
-			r[i] = m_data[i + 4 * 3];
+			r[i] = m_data_ref[i + 4 * 3];
 			for(uint32_t j = 0; j < 3; j++)
 			{
-				r[i] += m_data[i + 4 * j] * v[j];
+				r[i] += m_data_ref[i + 4 * j] * v[j];
 			}
 		}
 		return r;
@@ -128,10 +146,10 @@ namespace canvas
 		{
 			for(uint32_t j = 0; j < 4; j++)
 			{
-				r.m_data[i + 4 * j] = 0;
+				r.m_data_ptr[i + 4 * j] = 0;
 				for(uint32_t k = 0; k < 4; k++)
 				{
-					r.m_data[i + 4 * j] += m_data[i + 4 * k] * M.m_data[k + 4 * j];
+					r.m_data_ptr[i + 4 * j] += m_data_ref[i + 4 * k] * M.m_data_ref[k + 4 * j];
 				}
 			}
 		}
@@ -142,7 +160,7 @@ namespace canvas
 		mat4 A;
 		for(uint32_t i = 0; i < 16; i++)
 		{
-			A.m_data[i] = m_data[i] + M.m_data[i];
+			A.m_data_ptr[i] = m_data_ref[i] + M.m_data_ref[i];
 		}
 		return A;
 	}
@@ -151,7 +169,7 @@ namespace canvas
 		mat4 A;
 		for(uint32_t i = 0; i < 16; i++)
 		{
-			A.m_data[i] = m_data[i] - M.m_data[i];
+			A.m_data_ptr[i] = m_data_ref[i] - M.m_data_ref[i];
 		}
 		return A;
 	}
@@ -160,7 +178,7 @@ namespace canvas
 	{
 		for(uint32_t i = 0; i < 16; i++)
 		{
-			m_data[i] *= s;
+			m_data_ptr[i] *= s;
 		}
 		return *this;
 	}
@@ -177,9 +195,9 @@ namespace canvas
 	mat4 mat4::scaling(const vec3& s)
 	{
 		mat4 A;
-		A.m_data[0 + 4 * 0] = s[0];
-		A.m_data[1 + 4 * 1] = s[1];
-		A.m_data[2 + 4 * 2] = s[2];
+		A.m_data_ptr[0 + 4 * 0] = s[0];
+		A.m_data_ptr[1 + 4 * 1] = s[1];
+		A.m_data_ptr[2 + 4 * 2] = s[2];
 		return A;
 	}
 	mat4 mat4::rotation(const vec3& v)
@@ -189,23 +207,23 @@ namespace canvas
 	mat4 mat4::rotation(const quat& q)
 	{
 		mat4 A;
-		A.m_data[1 + 4 * 2] = 2 * (q[2] * q[3] - q[0] * q[1]);
-		A.m_data[2 + 4 * 1] = 2 * (q[2] * q[3] + q[0] * q[1]);
-		A.m_data[2 + 4 * 0] = 2 * (q[1] * q[3] - q[0] * q[2]);
-		A.m_data[0 + 4 * 2] = 2 * (q[1] * q[3] + q[0] * q[2]);
-		A.m_data[0 + 4 * 1] = 2 * (q[1] * q[2] - q[0] * q[3]);
-		A.m_data[1 + 4 * 0] = 2 * (q[1] * q[2] + q[0] * q[3]);
-		A.m_data[0 + 4 * 0] = q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3];
-		A.m_data[1 + 4 * 1] = q[0] * q[0] - q[1] * q[1] + q[2] * q[2] - q[3] * q[3];
-		A.m_data[2 + 4 * 2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
+		A.m_data_ptr[1 + 4 * 2] = 2 * (q[2] * q[3] - q[0] * q[1]);
+		A.m_data_ptr[2 + 4 * 1] = 2 * (q[2] * q[3] + q[0] * q[1]);
+		A.m_data_ptr[2 + 4 * 0] = 2 * (q[1] * q[3] - q[0] * q[2]);
+		A.m_data_ptr[0 + 4 * 2] = 2 * (q[1] * q[3] + q[0] * q[2]);
+		A.m_data_ptr[0 + 4 * 1] = 2 * (q[1] * q[2] - q[0] * q[3]);
+		A.m_data_ptr[1 + 4 * 0] = 2 * (q[1] * q[2] + q[0] * q[3]);
+		A.m_data_ptr[0 + 4 * 0] = q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3];
+		A.m_data_ptr[1 + 4 * 1] = q[0] * q[0] - q[1] * q[1] + q[2] * q[2] - q[3] * q[3];
+		A.m_data_ptr[2 + 4 * 2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
 		return A;
 	}
 	mat4 mat4::shifting(const vec3& v)
 	{
 		mat4 A;
-		A.m_data[0 + 4 * 3] = v[0];
-		A.m_data[1 + 4 * 3] = v[1];
-		A.m_data[2 + 4 * 3] = v[2];
+		A.m_data_ptr[0 + 4 * 3] = v[0];
+		A.m_data_ptr[1 + 4 * 3] = v[1];
+		A.m_data_ptr[2 + 4 * 3] = v[2];
 		return A;
 	}
 
