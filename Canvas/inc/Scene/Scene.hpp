@@ -96,16 +96,10 @@ namespace canvas
 		buffers::VAO* vao(uint32_t) const;
 
 		//buffers
-		VBO* vbo(uint32_t);
-		IBO* ibo(uint32_t);
 		void add_vbo(VBO*);
 		void add_ibo(IBO*);
-		std::vector<VBO*>& vbos(void);
-		std::vector<IBO*>& ibos(void);
-		const VBO* vbo(uint32_t) const;
-		const IBO* ibo(uint32_t) const;
-		const std::vector<VBO*>& vbos(void) const;
-		const std::vector<IBO*>& ibos(void) const;
+		VBO* vbo(uint32_t) const;
+		IBO* ibo(uint32_t) const;
 		vertices::Text2D* vbo_data_text_2D(void) const;
 		vertices::Text3D* vbo_data_text_3D(void) const;
 		vertices::Model2D* vbo_data_model_2D(void) const;
@@ -114,10 +108,8 @@ namespace canvas
 		vertices::Image3D* vbo_data_image_3D(void) const;
 
 		//shaders
-		shaders::Shader* shader(uint32_t);
-		std::vector<shaders::Shader*>& shaders(void);
-		const shaders::Shader* shader(uint32_t) const;
-		const std::vector<shaders::Shader*>& shaders(void) const;
+		void add_shader(shaders::Shader*);
+		shaders::Shader* shader(uint32_t) const;
 
 		//textures
 		Texture& texture(uint32_t);

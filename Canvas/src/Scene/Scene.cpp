@@ -181,14 +181,6 @@ namespace canvas
 	}
 
 	//buffers
-	VBO* Scene::vbo(uint32_t index)
-	{
-		return m_vbos[index];
-	}
-	IBO* Scene::ibo(uint32_t index)
-	{
-		return m_ibos[index];
-	}
 	void Scene::add_vbo(VBO* vbo)
 	{
 		for(objects::Object* object : m_objects)
@@ -207,29 +199,13 @@ namespace canvas
 		}
 		return m_ibos.push_back(ibo);
 	}
-	std::vector<VBO*>& Scene::vbos(void)
-	{
-		return m_vbos;
-	}
-	std::vector<IBO*>& Scene::ibos(void)
-	{
-		return m_ibos;
-	}
-	const VBO* Scene::vbo(uint32_t index) const
+	VBO* Scene::vbo(uint32_t index) const
 	{
 		return m_vbos[index];
 	}
-	const IBO* Scene::ibo(uint32_t index) const
+	IBO* Scene::ibo(uint32_t index) const
 	{
 		return m_ibos[index];
-	}
-	const std::vector<VBO*>& Scene::vbos(void) const
-	{
-		return m_vbos;
-	}
-	const std::vector<IBO*>& Scene::ibos(void) const
-	{
-		return m_ibos;
 	}
 	vertices::Text2D* Scene::vbo_data_text_2D(void) const
 	{
@@ -257,21 +233,13 @@ namespace canvas
 	}
 
 	//shaders
-	shaders::Shader* Scene::shader(uint32_t index)
+	void Scene::add_shader(shaders::Shader* shader)
+	{
+		m_shaders.push_back(shader);
+	}
+	shaders::Shader* Scene::shader(uint32_t index) const
 	{
 		return m_shaders[index];
-	}
-	std::vector<shaders::Shader*>& Scene::shaders(void)
-	{
-		return m_shaders;
-	}
-	const shaders::Shader* Scene::shader(uint32_t index) const
-	{
-		return m_shaders[index];
-	}
-	const std::vector<shaders::Shader*>& Scene::shaders(void) const
-	{
-		return m_shaders;
 	}
 
 	//textures
