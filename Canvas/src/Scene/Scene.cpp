@@ -47,13 +47,13 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
+		for(const VBO* vbo : m_vbos) delete vbo;
+		for(const IBO* ibo : m_ibos) delete ibo;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
-		for(uint32_t i = 0; i <  6; i++) delete m_vbos[i];
-		for(uint32_t i = 0; i < 12; i++) delete m_ibos[i];
 		for(const fonts::Font* font : m_fonts) delete font;
-		for(uint32_t i = 0; i < 7; i++) delete m_shaders[i];
 		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
+		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
