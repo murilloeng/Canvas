@@ -34,7 +34,6 @@ namespace examples
 	namespace scenes
 	{
 		void examples(void);
-		void rigid_map(void);
 		void von_mises_joint(void);
 		void tensegrity_chair(void);
 		void user_interaction(void);

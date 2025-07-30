@@ -57,6 +57,7 @@ namespace canvas
 		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
 		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
+		for(const commands::Command* command : m_commands) delete command;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
 	}
