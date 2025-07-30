@@ -89,15 +89,6 @@ namespace canvas
 		return m_camera;
 	}
 
-	std::vector<Command>& Scene::commands(void)
-	{
-		return m_commands;
-	}
-	const std::vector<Command>& Scene::commands(void) const
-	{
-		return m_commands;
-	}
-
 	void Scene::clear_fonts(void)
 	{
 		for(const fonts::Font* font : m_fonts) delete font;
@@ -300,6 +291,16 @@ namespace canvas
 		return m_textures;
 	}
 
+	//commands
+	void Scene::add_command(commands::Command* command)
+	{
+		return m_commands.push_back(command);
+	}
+	commands::Command* Scene::command(uint32_t index) const
+	{
+		return m_commands[index];
+	}
+
 	//draw
 	void Scene::draw(void)
 	{
@@ -309,21 +310,21 @@ namespace canvas
 		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//draw
-		for(const Command& command : m_commands)
+		for(const commands::Command* command : m_commands)
 		{
 			//data
-			VBO* vbo = m_vbos[command.m_vbo_index];
-			IBO* ibo = m_ibos[command.m_ibo_index];
-			shaders::Shader* shader = m_shaders[command.m_shader_index];
-			Texture& texture = m_textures[command.has_texture() ? command.m_texture_index : 0];
+			VBO* vbo = m_vbos[command->m_vbo_index];
+			IBO* ibo = m_ibos[command->m_ibo_index];
+			shaders::Shader* shader = m_shaders[command->m_shader_index];
+			Texture& texture = m_textures[command->has_texture() ? command->m_texture_index : 0];
 			//draw
 			if(ibo->m_size)
 			{
 				vbo->bind();
 				ibo->bind();
 				shader->bind();
-				if(command.has_texture()) texture.bind();
-				glDrawElements(command.m_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
+				if(command->has_texture()) texture.bind();
+				glDrawElements(command->m_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
 			}
 		}
 	}
@@ -577,25 +578,25 @@ namespace canvas
 	void Scene::setup_commands(void)
 	{
 		//model 3D
-		m_commands.push_back(Command(GL_POINTS, 0, 0, UINT32_MAX, 0));
-		m_commands.push_back(Command(GL_LINES, 0, 1, UINT32_MAX, 0));
-		m_commands.push_back(Command(GL_TRIANGLES, 0, 2, UINT32_MAX, 1));
+		m_commands.push_back(new commands::Command(GL_POINTS, 0, 0, UINT32_MAX, 0));
+		m_commands.push_back(new commands::Command(GL_LINES, 0, 1, UINT32_MAX, 0));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 0, 2, UINT32_MAX, 1));
 		//image 3D
-		m_commands.push_back(Command(GL_TRIANGLES, 1, 3, 0, 2));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 1, 3, 0, 2));
 		//text 3D
-		m_commands.push_back(Command(GL_TRIANGLES, 2, 4, 1, 3));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 2, 4, 1, 3));
 		//latex 3D
-		m_commands.push_back(Command(GL_TRIANGLES, 2, 5, 2, 3));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 2, 5, 2, 3));
 		//model 2D
-		m_commands.push_back(Command(GL_POINTS, 3, 6, UINT32_MAX, 4));
-		m_commands.push_back(Command(GL_LINES, 3, 7, UINT32_MAX, 4));
-		m_commands.push_back(Command(GL_TRIANGLES, 3, 8, UINT32_MAX, 4));
+		m_commands.push_back(new commands::Command(GL_POINTS, 3, 6, UINT32_MAX, 4));
+		m_commands.push_back(new commands::Command(GL_LINES, 3, 7, UINT32_MAX, 4));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 3, 8, UINT32_MAX, 4));
 		//image 2D
-		m_commands.push_back(Command(GL_TRIANGLES, 4, 9, 0, 5));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 4, 9, 0, 5));
 		//text 2D
-		m_commands.push_back(Command(GL_TRIANGLES, 5, 10, 1, 6));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 5, 10, 1, 6));
 		//latex 2D
-		m_commands.push_back(Command(GL_TRIANGLES, 5, 11, 2, 6));
+		m_commands.push_back(new commands::Command(GL_TRIANGLES, 5, 11, 2, 6));
 	}
 
 	//setup vaos

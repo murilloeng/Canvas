@@ -19,9 +19,9 @@
 
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
-#include "Canvas/Canvas/inc/Commands/Command.hpp"
-
 #include "Canvas/Canvas/inc/Textures/Texture.hpp"
+
+#include "Canvas/Canvas/inc/Commands/Command.hpp"
 
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
@@ -70,9 +70,6 @@ namespace canvas
 
 		camera::Camera& camera(void);
 		const camera::Camera& camera(void) const;
-
-		std::vector<Command>& commands(void);
-		const std::vector<Command>& commands(void) const;
 
 		void clear_fonts(void);
 		void add_font(const char*);
@@ -128,6 +125,10 @@ namespace canvas
 		const Texture& texture(uint32_t) const;
 		const std::vector<Texture>& textures(void) const;
 
+		//commands
+		void add_command(commands::Command*);
+		commands::Command* command(uint32_t) const;
+
 		//update
 		void draw(void);
 		void update(bool);
@@ -175,12 +176,12 @@ namespace canvas
 		std::vector<buffers::VAO*> m_vaos;
 		std::vector<buffers::Buffer*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
+		std::vector<commands::Command*> m_commands;
 
 		FT_Library m_ft_library;
 		std::string m_shaders_dir;
 		std::vector<Latex*> m_latex;
 		std::vector<Image*> m_images;
-		std::vector<Command> m_commands;
 		std::vector<fonts::Font*> m_fonts;
 		std::vector<objects::Object*> m_objects;
 
