@@ -151,6 +151,8 @@ namespace canvas
 		//setup vaos
 		void setup_vao_text_2D(void);
 		void setup_vao_text_3D(void);
+		void setup_vao_latex_2D(void);
+		void setup_vao_latex_3D(void);
 		void setup_vao_image_2D(void);
 		void setup_vao_image_3D(void);
 		void setup_vao_model_2D_lines(void);
