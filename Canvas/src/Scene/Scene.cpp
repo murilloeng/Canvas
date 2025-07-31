@@ -302,8 +302,8 @@ namespace canvas
 	void Scene::setup_vbos(void)
 	{
 		const uint32_t vertex_sizes[] = {
-			7 * sizeof(float), 5 * sizeof(float), 9 * sizeof(float), 
-			6 * sizeof(float), 4 * sizeof(float), 8 * sizeof(float)
+			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D), 
+			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
 		};
 		for(uint32_t i = 0; i < m_vbos.size(); i++)
 		{
