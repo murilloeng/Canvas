@@ -205,8 +205,6 @@ namespace canvas
 			compute_view(V);
 			m_type == type::perspective ? compute_perspective(P) : compute_orthographic(P);
 			//transfer
-			mat4(V + 0).clear();
-			mat4(P + 0).clear();
 			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), V);
 			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), P);
 		}
@@ -399,83 +397,83 @@ namespace canvas
 		//bound
 		void Camera::bound_box(void)
 		{
-			// //data
-			// const float a = FLT_MAX;
-			// const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
-			// const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
-			// const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
-			// //bound
-			// const vec3* xp;
-			// m_x_min = {+a, +a, +a};
-			// m_x_max = {-a, -a, -a};
-			// for(uint32_t i = 0; i < 3; i++)
-			// {
-			// 	for(uint32_t j = 0; j < m_scene->m_vbos[i]->size(); j++)
-			// 	{
-			// 		//position
-			// 		if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		//bound
-			// 		m_x_min[0] = fminf(m_x_min[0], xp->inner(t1));
-			// 		m_x_min[1] = fminf(m_x_min[1], xp->inner(t2));
-			// 		m_x_min[2] = fminf(m_x_min[2], xp->inner(t3));
-			// 		m_x_max[0] = fmaxf(m_x_max[0], xp->inner(t1));
-			// 		m_x_max[1] = fmaxf(m_x_max[1], xp->inner(t2));
-			// 		m_x_max[2] = fmaxf(m_x_max[2], xp->inner(t3));
-			// 	}
-			// }
+			//data
+			const float a = FLT_MAX;
+			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
+			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
+			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
+			//bound
+			const vec3* xp;
+			m_x_min = {+a, +a, +a};
+			m_x_max = {-a, -a, -a};
+			for(uint32_t i = 0; i < 3; i++)
+			{
+				for(uint32_t j = 0; j < m_scene->m_vbos[i]->vertex_count(); j++)
+				{
+					//position
+					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					else if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					else if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					//bound
+					m_x_min[0] = fminf(m_x_min[0], xp->inner(t1));
+					m_x_min[1] = fminf(m_x_min[1], xp->inner(t2));
+					m_x_min[2] = fminf(m_x_min[2], xp->inner(t3));
+					m_x_max[0] = fmaxf(m_x_max[0], xp->inner(t1));
+					m_x_max[1] = fmaxf(m_x_max[1], xp->inner(t2));
+					m_x_max[2] = fmaxf(m_x_max[2], xp->inner(t3));
+				}
+			}
 		}
 		void Camera::bound_check(void)
 		{
-			// //data
-			// const bool test_size = 
-			// 	!m_scene->m_vbos[0]->size() && 
-			// 	!m_scene->m_vbos[1]->size() && 
-			// 	!m_scene->m_vbos[2]->size();
-			// const bool test_point =
-			// 	m_x_min[0] == m_x_max[0] && m_x_min[1] == m_x_max[1] && m_x_min[2] == m_x_max[2];
-			// //size
-			// if(test_size)
-			// {
-			// 	m_x_min = {-1.0f, -1.0f, -1.0f};
-			// 	m_x_max = {+1.0f, +1.0f, +1.0f};
-			// }
-			// //point
-			// if(test_point)
-			// {
-			// 	m_x_min[0] -= 1; m_x_min[1] -= 1; m_x_min[2] -= 1;
-			// 	m_x_max[0] += 1; m_x_max[1] += 1; m_x_max[2] += 1;
-			// }
+			//data
+			const bool test_size = 
+				!m_scene->m_vbos[0]->vertex_count() && 
+				!m_scene->m_vbos[1]->vertex_count() && 
+				!m_scene->m_vbos[2]->vertex_count();
+			const bool test_point =
+				m_x_min[0] == m_x_max[0] && m_x_min[1] == m_x_max[1] && m_x_min[2] == m_x_max[2];
+			//size
+			if(test_size)
+			{
+				m_x_min = {-1.0f, -1.0f, -1.0f};
+				m_x_max = {+1.0f, +1.0f, +1.0f};
+			}
+			//point
+			if(test_point)
+			{
+				m_x_min[0] -= 1; m_x_min[1] -= 1; m_x_min[2] -= 1;
+				m_x_max[0] += 1; m_x_max[1] += 1; m_x_max[2] += 1;
+			}
 		}
 		void Camera::bound_limits(void)
 		{
-			// //data
-			// const vec3* xp;
-			// const float* x1 = m_x_min.data();
-			// const float* x2 = m_x_max.data();
-			// const float s = (m_x_max - m_x_min).norm();
-			// const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
-			// const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
-			// const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
-			// //bounds
-			// m_bounds.clear();
-			// for(uint32_t i = 0; i < 3; i++)
-			// {
-			// 	for(uint32_t j = 0; j < m_scene->m_vbos[i]->size(); j++)
-			// 	{
-			// 		//position
-			// 		if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
-			// 		//update
-			// 		const vec3 xs(xp->inner(t1), xp->inner(t2), xp->inner(t3));
-			// 		const bool c1 = fabs(xs[0] - x1[0]) < 1e-5 * s || fabs(xs[0] - x2[0]) < 1e-5 * s;
-			// 		const bool c2 = fabs(xs[1] - x1[1]) < 1e-5 * s || fabs(xs[1] - x2[1]) < 1e-5 * s;
-			// 		const bool c3 = fabs(xs[2] - x1[2]) < 1e-5 * s || fabs(xs[2] - x2[2]) < 1e-5 * s;
-			// 		if(c1 || c2 || c3) m_bounds.push_back(xs);
-			// 	}
-			// }
+			//data
+			const vec3* xp;
+			const float* x1 = m_x_min.data();
+			const float* x2 = m_x_max.data();
+			const float s = (m_x_max - m_x_min).norm();
+			const vec3 t1 = m_rotation.rotate({1.0f, 0.0f, 0.0f});
+			const vec3 t2 = m_rotation.rotate({0.0f, 1.0f, 0.0f});
+			const vec3 t3 = m_rotation.rotate({0.0f, 0.0f, 1.0f});
+			//bounds
+			m_bounds.clear();
+			for(uint32_t i = 0; i < 3; i++)
+			{
+				for(uint32_t j = 0; j < m_scene->m_vbos[i]->vertex_count(); j++)
+				{
+					//position
+					if(i == 2) xp = &((vertices::Text3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					if(i == 0) xp = &((vertices::Model3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					if(i == 1) xp = &((vertices::Image3D*) m_scene->m_vbos[i]->data() + j)->m_position;
+					//update
+					const vec3 xs(xp->inner(t1), xp->inner(t2), xp->inner(t3));
+					const bool c1 = fabs(xs[0] - x1[0]) < 1e-5 * s || fabs(xs[0] - x2[0]) < 1e-5 * s;
+					const bool c2 = fabs(xs[1] - x1[1]) < 1e-5 * s || fabs(xs[1] - x2[1]) < 1e-5 * s;
+					const bool c3 = fabs(xs[2] - x1[2]) < 1e-5 * s || fabs(xs[2] - x2[2]) < 1e-5 * s;
+					if(c1 || c2 || c3) m_bounds.push_back(xs);
+				}
+			}
 		}
 		void Camera::bound_search_1(void)
 		{
