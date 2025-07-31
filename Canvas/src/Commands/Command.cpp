@@ -59,10 +59,10 @@ namespace canvas
 		void Command::draw(const Scene* scene) const
 		{
 			//setup
-			GLint64 size;
+			GLint size;
 			scene->vao(m_vao_index)->bind();
 			scene->shader(m_shader_index)->bind();
-			glGetBufferParameteri64v(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
+			glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
 			//draw
 			glDrawElements(m_mode, size / sizeof(GLuint), GL_UNSIGNED_INT, nullptr);
 		}

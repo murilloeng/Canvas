@@ -295,25 +295,15 @@ namespace canvas
 	void Scene::setup_data(void)
 	{
 		//data
-		const uint32_t nv = (uint32_t) m_vbos.size();
-		const uint32_t ni = (uint32_t) m_ibos.size();
-		//vbos
-		for(uint32_t i = 6; i < nv; i++)
+		const size_t nv = m_vbos.size();
+		const size_t ni = m_ibos.size();
+		//objects
+		for(objects::Object* object : m_objects)
 		{
-			for(objects::Object* object : m_objects)
-			{
-				object->m_vbo_size.push_back(0);
-				object->m_vbo_index.push_back(0);
-			}
-		}
-		//ibos
-		for(uint32_t i = 12; i < ni; i++)
-		{
-			for(objects::Object* object : m_objects)
-			{
-				object->m_ibo_size.push_back(0);
-				object->m_ibo_index.push_back(0);
-			}
+			object->m_vbo_size.resize(nv);
+			object->m_ibo_size.resize(nv);
+			object->m_vbo_index.resize(nv);
+			object->m_ibo_index.resize(nv);
 		}
 	}
 	void Scene::setup_fonts(void)
@@ -491,8 +481,8 @@ namespace canvas
 		m_vaos[10]->attribute_binding(2, 0);
 		m_vaos[10]->element_buffer(m_ibos[10]->m_id);
 		m_vaos[10]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
-		m_vaos[10]->attribute_format(1, 2, GL_FLOAT, 2 * sizeof(float));
-		m_vaos[10]->attribute_format(2, 4, GL_FLOAT, 4 * sizeof(float));
+		m_vaos[10]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[10]->attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
 		m_vaos[10]->vertex_buffer(0, m_vbos[5]->m_id, 0, 8 * sizeof(float));
 	}
 	void Scene::setup_vao_text_3D(void)
@@ -505,8 +495,8 @@ namespace canvas
 		m_vaos[4]->attribute_binding(2, 0);
 		m_vaos[4]->element_buffer(m_ibos[4]->m_id);
 		m_vaos[4]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
-		m_vaos[4]->attribute_format(1, 2, GL_FLOAT, 3 * sizeof(float));
-		m_vaos[4]->attribute_format(2, 4, GL_FLOAT, 5 * sizeof(float));
+		m_vaos[4]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[4]->attribute_format(2, 2, GL_FLOAT, 7 * sizeof(float));
 		m_vaos[4]->vertex_buffer(0, m_vbos[2]->m_id, 0, 9 * sizeof(float));
 	}
 	void Scene::setup_vao_latex_2D(void)

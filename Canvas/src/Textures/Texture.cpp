@@ -19,10 +19,15 @@ namespace canvas
 				throw std::runtime_error("OpenGL texture creation failed!");
 			}
 			//setup
-			glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			// glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			// glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			// glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			// glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glBindTexture(GL_TEXTURE_2D, m_id);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		}
 	
 		//destructor
@@ -81,7 +86,9 @@ namespace canvas
 		}
 		void Texture::transfer(uint32_t x1, uint32_t x2, uint32_t w, uint32_t h, const void* data)
 		{
-			glTextureSubImage2D(m_id, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
+			glBindTexture(GL_TEXTURE_2D, m_id);
+			glTexSubImage2D(GL_TEXTURE_2D, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
+			// glTextureSubImage2D(m_id, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
 		}
 	}
 }
