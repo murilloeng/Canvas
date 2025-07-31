@@ -509,8 +509,8 @@ namespace canvas
 		m_vaos[11]->attribute_binding(2, 0);
 		m_vaos[11]->element_buffer(m_ibos[11]->m_id);
 		m_vaos[11]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
-		m_vaos[11]->attribute_format(1, 2, GL_FLOAT, 2 * sizeof(float));
-		m_vaos[11]->attribute_format(2, 4, GL_FLOAT, 4 * sizeof(float));
+		m_vaos[11]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+		m_vaos[11]->attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
 		m_vaos[11]->vertex_buffer(0, m_vbos[5]->m_id, 0, 8 * sizeof(float));
 	}
 	void Scene::setup_vao_latex_3D(void)
@@ -523,8 +523,8 @@ namespace canvas
 		m_vaos[5]->attribute_binding(2, 0);
 		m_vaos[5]->element_buffer(m_ibos[5]->m_id);
 		m_vaos[5]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
-		m_vaos[5]->attribute_format(1, 2, GL_FLOAT, 3 * sizeof(float));
-		m_vaos[5]->attribute_format(2, 4, GL_FLOAT, 5 * sizeof(float));
+		m_vaos[5]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+		m_vaos[5]->attribute_format(2, 2, GL_FLOAT, 7 * sizeof(float));
 		m_vaos[5]->vertex_buffer(0, m_vbos[2]->m_id, 0, 9 * sizeof(float));
 	}
 	void Scene::setup_vao_image_2D(void)
