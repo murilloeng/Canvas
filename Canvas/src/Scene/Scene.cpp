@@ -93,31 +93,6 @@ namespace canvas
 		return m_camera;
 	}
 
-	void Scene::clear_objects(bool free)
-	{
-		if(free)
-		{
-			for(const objects::Object* object : m_objects)
-			{
-				delete object;
-			}
-		}
-		m_objects.clear();
-	}
-	void Scene::add_object(objects::Object* object)
-	{
-		object->m_scene = this;
-		m_objects.push_back(object);
-	}
-	objects::Object* Scene::object(uint32_t index) const
-	{
-		return m_objects[index];
-	}
-	const std::vector<objects::Object*>& Scene::objects(void) const
-	{
-		return m_objects;
-	}
-
 	//vaos
 	void Scene::add_vao(buffers::VAO* vao)
 	{
@@ -207,6 +182,32 @@ namespace canvas
 	textures::Image* Scene::image(uint32_t index) const
 	{
 		return m_images[index];
+	}
+
+	//objects
+	void Scene::clear_objects(bool free)
+	{
+		if(free)
+		{
+			for(const objects::Object* object : m_objects)
+			{
+				delete object;
+			}
+		}
+		m_objects.clear();
+	}
+	void Scene::add_object(objects::Object* object)
+	{
+		object->m_scene = this;
+		m_objects.push_back(object);
+	}
+	objects::Object* Scene::object(uint32_t index) const
+	{
+		return m_objects[index];
+	}
+	const std::vector<objects::Object*>& Scene::objects(void) const
+	{
+		return m_objects;
 	}
 
 	//draw

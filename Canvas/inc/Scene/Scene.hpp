@@ -71,11 +71,6 @@ namespace canvas
 		cameras::Camera& camera(void);
 		const cameras::Camera& camera(void) const;
 
-		void clear_objects(bool);
-		void add_object(objects::Object*);
-		objects::Object* object(uint32_t) const;
-		const std::vector<objects::Object*>& objects(void) const;
-
 		//vaos
 		void add_vao(buffers::VAO*);
 		buffers::VAO* vao(uint32_t) const;
@@ -115,6 +110,12 @@ namespace canvas
 		//images
 		void add_image(const char*);
 		textures::Image* image(uint32_t) const;
+
+		//objects
+		void clear_objects(bool);
+		void add_object(objects::Object*);
+		objects::Object* object(uint32_t) const;
+		const std::vector<objects::Object*>& objects(void) const;
 
 		//update
 		void draw(void);
