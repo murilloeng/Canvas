@@ -76,4 +76,76 @@ Latex can be added to the scene via the class `canvas::objects::Latex`. Latex su
 
 Images can be added to the scene via the class `canvas::objects::Image`. Image support is made available via the [stb library](https://github.com/nothings/stb). Screenshots can also be converted to images via the `canvas::Scene` class.
 
-## Examples
+## Internal structure
+
+VBO:
+(0) model 3D:
+	Position(3f) Color(4f)
+(1) image 3D:
+	Position(3f) Texture(2f)
+(2) text 3D:
+	Position(3f) Color(4f) Texture(2f)
+(3) model 2D:
+	Position(2f) Color(4f)
+(4) image 2D:
+	Position(2f) Texture (2f)
+(5) text 2D:
+	Position(2f) Color(4f) Texture (2f)
+
+IBO:
+( 0) Type(P) VBO(0) Model 3D
+( 1) Type(L) VBO(0) Model 3D
+( 2) Type(T) VBO(0) Model 3D
+( 3) Type(T) VBO(1) Image 3D
+( 4) Type(T) VBO(2) Text 3D
+( 5) Type(T) VBO(2) Latex 3D
+( 6) Type(P) VBO(3) model 2D
+( 7) Type(L) VBO(3) model 2D
+( 8) Type(T) VBO(3) model 2D
+( 9) Type(T) VBO(4) image 2D
+(10) Type(T) VBO(5) text 2D
+(11) Type(T) VBO(5) latex 2D
+
+VAO:
+( 0) VBO(0) IBO( 0)
+( 1) VBO(0) IBO( 1)
+( 2) VBO(0) IBO( 2)
+( 3) VBO(1) IBO( 3)
+( 4) VBO(2) IBO( 4)
+( 5) VBO(2) IBO( 5)
+( 6) VBO(3) IBO( 6)
+( 7) VBO(3) IBO( 7)
+( 8) VBO(3) IBO( 8)
+( 9) VBO(4) IBO( 9)
+(10) VBO(5) IBO(10)
+(11) VBO(5) IBO(11)
+
+Textures:
+(0) Images
+(1) Text
+(2) Latex
+
+Programs:
+( 0) Model 3D
+( 1) Light 3D
+( 2) Image 3D
+( 3) Text 3D
+( 4) Latex 3D
+( 5) Model 2D
+( 6) Image 2D
+( 7) Text 2D
+( 8) Latex 2D
+
+Commands:
+( 0) Type(P) VAO( 0) Program( 0)
+( 1) Type(L) VAO( 1) Program( 0)
+( 2) Type(T) VAO( 2) Program( 1)
+( 3) Type(T) VAO( 3) Program( 2)
+( 4) Type(T) VAO( 4) Program( 3)
+( 5) Type(T) VAO( 5) Program( 4)
+( 6) Type(P) VAO( 6) Program( 5)
+( 7) Type(L) VAO( 7) Program( 5)
+( 8) Type(T) VAO( 8) Program( 5)
+( 9) Type(T) VAO( 9) Program( 6)
+(10) Type(T) VAO(10) Program( 7)
+(11) Type(T) VAO(11) Program( 8)
