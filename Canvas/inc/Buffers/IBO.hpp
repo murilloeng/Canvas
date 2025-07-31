@@ -3,6 +3,9 @@
 //std
 #include <cstdint>
 
+//canvas
+#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
+
 namespace canvas
 {
 	class Scene;
@@ -14,38 +17,37 @@ namespace canvas
 
 namespace canvas
 {
-	class IBO
+	namespace buffers
 	{
-	public:
-		//constructor
-		IBO(void);
+		class IBO : public Buffer
+		{
+		public:
+			//constructor
+			IBO(void);
+	
+			//destructor
+			~IBO(void);
+	
+			//data
+			uint32_t* data(void);
+			const uint32_t* data(void) const;
 
-		//destructor
-		~IBO(void);
+			uint32_t vertex_count(uint32_t);
+			uint32_t vertex_count(void) const;
+	
+			//data
+			void allocate(void);
+			void transfer(void) const;
+			void transfer(uint32_t, uint32_t) const;
 
-		//data
-		uint32_t id(void) const;
-
-		uint32_t size(uint32_t);
-		uint32_t size(void) const;
-
-		uint32_t* data(void);
-		uint32_t* data(const uint32_t*);
-		const uint32_t* data(void) const;
-
-		//GPU
-		void allocate(void);
-		void bind(void) const;
-		void transfer(void) const;
-
-	private:
-		//data
-		uint32_t m_id;
-		uint32_t m_size;
-		uint32_t* m_data;
-
-		//friends
-		friend class Scene;
-		friend class objects::Object;
-	};
+		private:
+			//data
+			uint32_t* m_data;
+			uint32_t m_vertex_count;
+	
+			//friends
+			friend class Scene;
+			friend class objects::Object;
+		};
+	}
 }

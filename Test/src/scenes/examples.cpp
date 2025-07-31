@@ -49,7 +49,7 @@ void examples::scenes::examples(void)
 	examples::objects::points(scene);
 	//update
 	scene->update(true);
-	scene->camera().bound();
+	// scene->camera().bound();
 	scene->camera().update();
 	//start
 	engine.start();

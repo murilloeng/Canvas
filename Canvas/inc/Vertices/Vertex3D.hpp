@@ -17,9 +17,6 @@ namespace canvas
 			//destructor
 			~Vertex3D(void);
 
-			//attributes
-			static void attributes(std::vector<Attribute>&);
-
 			//data
 			vec3 m_position;
 		};

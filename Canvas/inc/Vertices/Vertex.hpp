@@ -20,9 +20,6 @@ namespace canvas
 
 			//destructor
 			~Vertex(void);
-
-			//attributes
-			static void attributes(std::vector<Attribute>&);
 		};
 	}
 }

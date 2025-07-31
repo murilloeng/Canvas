@@ -5,9 +5,7 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Vertices/Vertex.hpp"
-
-#include "Canvas/Canvas/inc/Buffers/Attribute.hpp"
+#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
 
 namespace canvas
 {
@@ -20,45 +18,41 @@ namespace canvas
 
 namespace canvas
 {
-	class VBO
+	namespace buffers
 	{
-	public:
-		//constructor
-		VBO(void);
+		class VBO : public Buffer
+		{
+		public:
+			//constructor
+			VBO(void);
+	
+			//destructor
+			~VBO(void);
+	
+			//data
+			char* data(void);
+			const char* data(void) const;
 
-		//destructor
-		~VBO(void);
-
-		//data
-		uint32_t size(uint32_t);
-		uint32_t size(void) const;
-
-		uint32_t id(void) const;
-		uint32_t vao_id(void) const;
-		uint32_t stride(void) const;
-
-		void* data(void);
-		const void* data(void) const;
-
-		std::vector<Attribute>& attributes(void);
-		const std::vector<Attribute>& attributes(void) const;
-
-		//GPU
-		void allocate(void);
-		void bind(void) const;
-		void enable(void) const;
-		void transfer(void) const;
-
-	private:
-		//data
-		void* m_data;
-		uint32_t m_id;
-		uint32_t m_size;
-		uint32_t m_vao_id;
-		std::vector<Attribute> m_attributes;
-
-		//friends
-		friend class Scene;
-		friend class objects::Object;
-	};
+			uint32_t vertex_size(uint32_t);
+			uint32_t vertex_size(void) const;
+	
+			uint32_t vertex_count(uint32_t);
+			uint32_t vertex_count(void) const;
+	
+			//data
+			void allocate(void);
+			void transfer(void) const;
+			void transfer(uint32_t, uint32_t) const;
+	
+		private:
+			//data
+			char* m_data;
+			uint32_t m_vertex_size;
+			uint32_t m_vertex_count;
+	
+			//friends
+			friend class Scene;
+			friend class objects::Object;
+		};
+	}
 }

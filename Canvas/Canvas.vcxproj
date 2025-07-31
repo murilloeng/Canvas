@@ -55,7 +55,6 @@
     <ClInclude Include="inc\Objects\Tessellator.hpp" />
     <ClInclude Include="inc\Palettes\Palette.hpp" />
     <ClInclude Include="inc\Palettes\Types.hpp" />
-    <ClInclude Include="inc\Buffers\Attribute.hpp" />
     <ClInclude Include="inc\Commands\Command.hpp" />
     <ClInclude Include="inc\Buffers\IBO.hpp" />
     <ClInclude Include="inc\Textures\Texture.hpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="src\Palettes\Spectral.cpp" />
     <ClCompile Include="src\Palettes\Viridis.cpp" />
     <ClCompile Include="src\Palettes\Whylrd.cpp" />
-    <ClCompile Include="src\Buffers\Attribute.cpp" />
     <ClCompile Include="src\Commands\Command.cpp" />
     <ClCompile Include="src\Buffers\IBO.cpp" />
     <ClCompile Include="src\Textures\Texture.cpp" />

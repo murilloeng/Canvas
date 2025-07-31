@@ -1,10 +1,5 @@
-//ext
-#include "external/cpp/inc/GL/glew.h"
-
 //canvas
 #include "Canvas/Canvas/inc/Vertices/Vertex3D.hpp"
-
-#include "Canvas/Canvas/inc/Buffers/Attribute.hpp"
 
 namespace canvas
 {
@@ -20,12 +15,6 @@ namespace canvas
 		Vertex3D::~Vertex3D(void)
 		{
 			return;
-		}
-
-		//attributes
-		void Vertex3D::attributes(std::vector<Attribute>& attributes)
-		{
-			attributes.push_back(Attribute(GL_FLOAT, 3));
 		}
 	}
 }

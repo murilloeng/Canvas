@@ -1,7 +1,6 @@
 #pragma once
 
 //canvas
-#include "Canvas/Canvas/inc/Math/vec2.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Vertices/Vertex2D.hpp"
 
@@ -17,9 +16,6 @@ namespace canvas
 
 			//destructor
 			~Text2D(void);
-
-			//attributes
-			static void attributes(std::vector<Attribute>&);
 
 			//data
 			Color m_color;

@@ -17,25 +17,22 @@ namespace canvas
 			Buffer(void);
 
 			//destructor
-			~Buffer(void);
+			virtual ~Buffer(void);
+
+			//data
+			GLuint id(void) const;
 
 			//bind
 			void bind(GLenum) const;
 			void bind_base(GLenum, GLuint) const;
 
-			//data
-			void transfer(void) const;
-			void transfer(uint32_t, uint32_t) const;
-
-			//data
+			//transfer
 			void transfer(uint32_t, const void*);
 			void transfer(uint32_t, uint32_t, const void*);
 
-		private:
+		protected:
 			//data
 			GLuint m_id;
-			uint8_t* m_data;
-			uint32_t m_size;
 		};
 	}
 }

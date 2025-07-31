@@ -1,70 +1,56 @@
-//std
-#include <cstring>
-
-//ext
-#include "external/cpp/inc/GL/glew.h"
-
 //canvas
 #include "Canvas/Canvas/inc/Buffers/IBO.hpp"
 
 namespace canvas
 {
-	//constructor
-	IBO::IBO(void) : m_size(0), m_data(nullptr)
+	namespace buffers
 	{
-		glCreateBuffers(1, &m_id);
-	}
+		//constructor
+		IBO::IBO(void) : m_data{nullptr}, m_vertex_count{0}
+		{
+			return;
+		}
+	
+		//destructor
+		IBO::~IBO(void)
+		{
+			delete[] m_data;
+		}
+	
+		//data
+		uint32_t* IBO::data(void)
+		{
+			return m_data;
+		}
+		const uint32_t* IBO::data(void) const
+		{
+			return m_data;
+		}
 
-	//destructor
-	IBO::~IBO(void)
-	{
-		delete[] m_data;
-		if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
-	}
-
-	//data
-	uint32_t IBO::id(void) const
-	{
-		return m_id;
-	}
-
-	uint32_t IBO::size(void) const
-	{
-		return m_size;
-	}
-	uint32_t IBO::size(uint32_t size)
-	{
-		return m_size = size;
-	}
-
-	uint32_t* IBO::data(void)
-	{
-		return m_data;
-	}
-	const uint32_t* IBO::data(void) const
-	{
-		return m_data;
-	}
-	uint32_t* IBO::data(const uint32_t* data)
-	{
-		return (uint32_t*) memcpy(m_data, data, m_size * sizeof(uint32_t));
-	}
-
-	//GPU
-	void IBO::allocate(void)
-	{
-		delete[] static_cast<uint32_t*>(m_data);
-		m_data = new uint32_t[m_size];
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
-	}
-	void IBO::bind(void) const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-	}
-	void IBO::transfer(void) const
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_size * sizeof(uint32_t), m_data, GL_DYNAMIC_DRAW);
+		uint32_t IBO::vertex_count(void) const
+		{
+			return m_vertex_count;
+		}
+		uint32_t IBO::vertex_count(uint32_t vertex_count)
+		{
+			return m_vertex_count = vertex_count;
+		}
+	
+		//GPU
+		void IBO::allocate(void)
+		{
+			delete[] m_data;
+			m_data = new uint32_t[m_vertex_count];
+			glNamedBufferData(m_id, m_vertex_count * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+		}
+		void IBO::transfer(void) const
+		{
+			glNamedBufferData(m_id, m_vertex_count * sizeof(uint32_t), m_data, GL_DYNAMIC_DRAW);
+		}
+		void IBO::transfer(uint32_t offset, uint32_t size) const
+		{
+			const uint32_t* data = m_data + offset;
+			glNamedBufferSubData(m_id, offset * sizeof(uint32_t), size * sizeof(uint32_t), data);
+		}
 	}
 }

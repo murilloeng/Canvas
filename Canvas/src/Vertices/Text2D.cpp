@@ -1,10 +1,5 @@
-//ext
-#include "external/cpp/inc/GL/glew.h"
-
 //canvas
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
-
-#include "Canvas/Canvas/inc/Buffers/Attribute.hpp"
 
 namespace canvas
 {
@@ -20,14 +15,6 @@ namespace canvas
 		Text2D::~Text2D(void)
 		{
 			return;
-		}
-
-		//attributes
-		void Text2D::attributes(std::vector<Attribute>& attributes)
-		{
-			Vertex2D::attributes(attributes);
-			attributes.push_back(Attribute(GL_FLOAT, 4));
-			attributes.push_back(Attribute(GL_FLOAT, 2));
 		}
 	}
 }

@@ -33,12 +33,12 @@ namespace canvas
 	Scene::Scene(std::string shaders_dir) : 
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
 		m_vbos(6), m_ibos(12), m_textures(3), m_vaos(12), m_ubos(1), m_shaders(7), 
-		m_shaders_dir(shaders_dir)
+		m_commands(12), m_shaders_dir(shaders_dir)
 	{
 		setup_vbos();
 		setup_ibos();
 		setup_ubos();
-		// setup_vaos();
+		setup_vaos();
 		setup_OpenGL();
 		setup_shaders();
 		setup_freetype();
@@ -50,11 +50,11 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
-		for(const VBO* vbo : m_vbos) delete vbo;
-		for(const IBO* ibo : m_ibos) delete ibo;
 		for(const Latex* latex : m_latex) delete latex;
 		for(const Image* image : m_images) delete image;
 		for(const fonts::Font* font : m_fonts) delete font;
+		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
+		for(const buffers::Buffer* ibo : m_ibos) delete ibo;
 		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
 		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
@@ -181,56 +181,24 @@ namespace canvas
 		return m_vaos[index];
 	}
 
-	//buffers
-	void Scene::add_vbo(VBO* vbo)
+	//vbos
+	void Scene::add_vbo(buffers::VBO* vbo)
 	{
-		for(objects::Object* object : m_objects)
-		{
-			object->m_vbo_size.push_back(0);
-			object->m_vbo_index.push_back(0);
-		}
 		return m_vbos.push_back(vbo);
 	}
-	void Scene::add_ibo(IBO* ibo)
-	{
-		for(objects::Object* object : m_objects)
-		{
-			object->m_ibo_size.push_back(0);
-			object->m_ibo_index.push_back(0);
-		}
-		return m_ibos.push_back(ibo);
-	}
-	VBO* Scene::vbo(uint32_t index) const
+	buffers::VBO* Scene::vbo(uint32_t index) const
 	{
 		return m_vbos[index];
 	}
-	IBO* Scene::ibo(uint32_t index) const
+
+	//ibos
+	void Scene::add_ibo(buffers::IBO* ibo)
+	{
+		return m_ibos.push_back(ibo);
+	}
+	buffers::IBO* Scene::ibo(uint32_t index) const
 	{
 		return m_ibos[index];
-	}
-	vertices::Text2D* Scene::vbo_data_text_2D(void) const
-	{
-		return (vertices::Text2D*) m_vbos[5]->data();
-	}
-	vertices::Text3D* Scene::vbo_data_text_3D(void) const
-	{
-		return (vertices::Text3D*) m_vbos[2]->data();
-	}
-	vertices::Model2D* Scene::vbo_data_model_2D(void) const
-	{
-		return (vertices::Model2D*) m_vbos[3]->data();
-	}
-	vertices::Model3D* Scene::vbo_data_model_3D(void) const
-	{
-		return (vertices::Model3D*) m_vbos[0]->data();
-	}
-	vertices::Image2D* Scene::vbo_data_image_2D(void) const
-	{
-		return (vertices::Image2D*) m_vbos[4]->data();
-	}
-	vertices::Image3D* Scene::vbo_data_image_3D(void) const
-	{
-		return (vertices::Image3D*) m_vbos[1]->data();
 	}
 
 	//shaders
@@ -282,20 +250,7 @@ namespace canvas
 		//draw
 		for(const commands::Command* command : m_commands)
 		{
-			//data
-			VBO* vbo = m_vbos[command->m_vbo_index];
-			IBO* ibo = m_ibos[command->m_ibo_index];
-			shaders::Shader* shader = m_shaders[command->m_shader_index];
-			Texture& texture = m_textures[command->has_texture() ? command->m_texture_index : 0];
-			//draw
-			if(ibo->m_size)
-			{
-				vbo->bind();
-				ibo->bind();
-				shader->bind();
-				if(command->has_texture()) texture.bind();
-				glDrawElements(command->m_mode, ibo->m_size, GL_UNSIGNED_INT, nullptr);
-			}
+			command->draw(this);
 		}
 	}
 	void Scene::update(bool setup)
@@ -310,8 +265,8 @@ namespace canvas
 		}
 		//buffers
 		buffers_data();
-		for(const VBO* vbo : m_vbos) vbo->transfer();
-		for(const IBO* ibo : m_ibos) ibo->transfer();
+		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
+		for(const buffers::IBO* ibo : m_ibos) ibo->transfer();
 	}
 	void Scene::update_on_motion(void)
 	{
@@ -319,7 +274,7 @@ namespace canvas
 		{
 			object->update_on_motion();
 		}
-		for(const VBO* vbo : m_vbos) vbo->transfer();
+		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
 	}
 
 	//setup
@@ -346,21 +301,19 @@ namespace canvas
 	}
 	void Scene::setup_vbos(void)
 	{
-		//setup
-		for(VBO*& vbo : m_vbos) vbo = new VBO;
-		//attributes
-		vertices::Text3D::attributes(m_vbos[2]->m_attributes);
-		vertices::Text2D::attributes(m_vbos[5]->m_attributes);
-		vertices::Model3D::attributes(m_vbos[0]->m_attributes);
-		vertices::Image3D::attributes(m_vbos[1]->m_attributes);
-		vertices::Model2D::attributes(m_vbos[3]->m_attributes);
-		vertices::Image2D::attributes(m_vbos[4]->m_attributes);
-		//enable
-		for(VBO* vbo : m_vbos) vbo->enable();
+		const uint32_t vertex_sizes[] = {
+			7 * sizeof(float), 5 * sizeof(float), 9 * sizeof(float), 
+			6 * sizeof(float), 4 * sizeof(float), 8 * sizeof(float)
+		};
+		for(uint32_t i = 0; i < m_vbos.size(); i++)
+		{
+			m_vbos[i] = new buffers::VBO;
+			m_vbos[i]->vertex_size(vertex_sizes[i]);
+		}
 	}
 	void Scene::setup_ibos(void)
 	{
-		for(IBO*& ibo : m_ibos) ibo = new IBO;
+		for(buffers::IBO*& ibo : m_ibos) ibo = new buffers::IBO;
 	}
 	void Scene::setup_ubos(void)
 	{
@@ -503,11 +456,11 @@ namespace canvas
 	}
 	void Scene::setup_objects(void)
 	{
-		for(VBO* vbo : m_vbos) vbo->m_size = 0;
-		for(IBO* ibo : m_ibos) ibo->m_size = 0;
+		for(buffers::VBO* vbo : m_vbos) vbo->m_vertex_count = 0;
+		for(buffers::IBO* ibo : m_ibos) ibo->m_vertex_count = 0;
 		for(objects::Object* object : m_objects) object->setup();
-		for(VBO* vbo : m_vbos) vbo->allocate();
-		for(IBO* ibo : m_ibos) ibo->allocate();
+		for(buffers::VBO* vbo : m_vbos) vbo->allocate();
+		for(buffers::IBO* ibo : m_ibos) ibo->allocate();
 	}
 	void Scene::setup_shaders(void)
 	{
@@ -550,26 +503,21 @@ namespace canvas
 	}
 	void Scene::setup_commands(void)
 	{
-		//model 3D
-		m_commands.push_back(new commands::Command(GL_POINTS, 0, 0, UINT32_MAX, 0));
-		m_commands.push_back(new commands::Command(GL_LINES, 0, 1, UINT32_MAX, 0));
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 0, 2, UINT32_MAX, 1));
-		//image 3D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 1, 3, 0, 2));
-		//text 3D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 2, 4, 1, 3));
-		//latex 3D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 2, 5, 2, 3));
-		//model 2D
-		m_commands.push_back(new commands::Command(GL_POINTS, 3, 6, UINT32_MAX, 4));
-		m_commands.push_back(new commands::Command(GL_LINES, 3, 7, UINT32_MAX, 4));
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 3, 8, UINT32_MAX, 4));
-		//image 2D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 4, 9, 0, 5));
-		//text 2D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 5, 10, 1, 6));
-		//latex 2D
-		m_commands.push_back(new commands::Command(GL_TRIANGLES, 5, 11, 2, 6));
+		//create
+		for(commands::Command*& command : m_commands) command = new commands::Command;
+		//setup
+		m_commands[ 1]->setup(GL_LINES, 1, 0);
+		m_commands[ 7]->setup(GL_LINES, 7, 4);
+		m_commands[ 0]->setup(GL_POINTS, 0, 0);
+		m_commands[ 6]->setup(GL_POINTS, 6, 4);
+		m_commands[ 2]->setup(GL_TRIANGLES,  2, 1);
+		m_commands[ 8]->setup(GL_TRIANGLES,  8, 4);
+		m_commands[ 3]->setup(GL_TRIANGLES,  3, 2, 0);
+		m_commands[ 4]->setup(GL_TRIANGLES,  4, 3, 1);
+		m_commands[ 5]->setup(GL_TRIANGLES,  5, 3, 2);
+		m_commands[ 9]->setup(GL_TRIANGLES,  9, 5, 0);
+		m_commands[10]->setup(GL_TRIANGLES, 10, 6, 1);
+		m_commands[11]->setup(GL_TRIANGLES, 11, 6, 2);
 	}
 
 	//setup vaos

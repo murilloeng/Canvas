@@ -19,7 +19,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			Command(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+			Command(void);
 	
 			//destructor
 			~Command(void);
@@ -28,27 +28,21 @@ namespace canvas
 			GLenum mode(GLenum);
 			GLenum mode(void) const;
 	
-			uint32_t vbo_index(uint32_t);
-			uint32_t vbo_index(void) const;
-	
-			uint32_t ibo_index(uint32_t);
-			uint32_t ibo_index(void) const;
+			uint32_t vao_index(uint32_t);
+			uint32_t vao_index(void) const;
 	
 			uint32_t shader_index(uint32_t);
 			uint32_t shader_index(void) const;
-	
-			//texture
-			bool has_texture(void) const;
+
+			void setup(GLenum, uint32_t, uint32_t, uint32_t = UINT32_MAX);
 	
 		private:
 			//draw
-			void draw(void) const;
+			void draw(const Scene*) const;
 	
 			//data
 			GLenum m_mode;
 			uint32_t m_vao_index;
-			uint32_t m_vbo_index;
-			uint32_t m_ibo_index;
 			uint32_t m_shader_index;
 			uint32_t m_texture_index;
 	

@@ -63,31 +63,31 @@ namespace canvas
 		//buffers
 		uint32_t* Object::ibo_data(uint32_t index) const
 		{
-			return m_scene->ibo(index)->data() + m_ibo_index[index];
+			return m_scene->m_ibos[index]->m_data + m_ibo_index[index];
 		}
 		vertices::Text2D* Object::vbo_data_text_2D(void) const
 		{
-			return m_scene->vbo_data_text_2D() + m_vbo_index[5];
+			return (vertices::Text2D*) m_scene->m_vbos[5]->m_data + m_vbo_index[5];
 		}
 		vertices::Text3D* Object::vbo_data_text_3D(void) const
 		{
-			return m_scene->vbo_data_text_3D() + m_vbo_index[2];
+			return (vertices::Text3D*) m_scene->m_vbos[2]->m_data + m_vbo_index[2];
 		}
 		vertices::Model2D* Object::vbo_data_model_2D(void) const
 		{
-			return m_scene->vbo_data_model_2D() + m_vbo_index[3];
+			return (vertices::Model2D*) m_scene->m_vbos[3]->m_data + m_vbo_index[3];
 		}
 		vertices::Model3D* Object::vbo_data_model_3D(void) const
 		{
-			return m_scene->vbo_data_model_3D() + m_vbo_index[0];
+			return (vertices::Model3D*) m_scene->m_vbos[0]->m_data + m_vbo_index[0];
 		}
 		vertices::Image2D* Object::vbo_data_image_2D(void) const
 		{
-			return m_scene->vbo_data_image_2D() + m_vbo_index[4];
+			return (vertices::Image2D*) m_scene->m_vbos[4]->m_data + m_vbo_index[4];
 		}
 		vertices::Image3D* Object::vbo_data_image_3D(void) const
 		{
-			return m_scene->vbo_data_image_3D() + m_vbo_index[1];
+			return (vertices::Image3D*) m_scene->m_vbos[1]->m_data + m_vbo_index[1];
 		}
 
 		//affine
@@ -139,13 +139,13 @@ namespace canvas
 			buffers_size();
 			for(uint32_t i = 0; i < m_vbo_index.size(); i++)
 			{
-				m_vbo_index[i] = m_scene->m_vbos[i]->m_size;
-				m_scene->m_vbos[i]->m_size += m_vbo_size[i];
+				m_vbo_index[i] = m_scene->m_vbos[i]->m_vertex_count;
+				m_scene->m_vbos[i]->m_vertex_count += m_vbo_size[i];
 			}
 			for(uint32_t i = 0; i < m_ibo_size.size(); i++)
 			{
-				m_ibo_index[i] = m_scene->m_ibos[i]->m_size;
-				m_scene->m_ibos[i]->m_size += m_ibo_size[i];
+				m_ibo_index[i] = m_scene->m_ibos[i]->m_vertex_count;
+				m_scene->m_ibos[i]->m_vertex_count += m_ibo_size[i];
 			}
 		}
 

@@ -1,105 +1,65 @@
-//std
-#include "external/cpp/inc/GL/glew.h"
-
 //canvas
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 
 namespace canvas
 {
-	//constructor
-	VBO::VBO(void) : m_data(nullptr), m_size(0)
+	namespace buffers
 	{
-		glCreateBuffers(1, &m_id);
-		glCreateVertexArrays(1, &m_vao_id);
-	}
-
-	//destructor
-	VBO::~VBO(void)
-	{
-		delete[] static_cast<int8_t*>(m_data);
-		if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
-		if(glIsVertexArray(m_vao_id)) glDeleteVertexArrays(1, &m_vao_id);
-	}
-
-	//data
-	uint32_t VBO::size(void) const
-	{
-		return m_size;
-	}
-	uint32_t VBO::size(uint32_t size)
-	{
-		return m_size = size;
-	}
-
-	uint32_t VBO::id(void) const
-	{
-		return m_id;
-	}
-	uint32_t VBO::vao_id(void) const
-	{
-		return m_vao_id;
-	}
-	uint32_t VBO::stride(void) const
-	{
-		uint32_t stride = 0;
-		for(const Attribute& attribute : m_attributes)
+		//constructor
+		VBO::VBO(void) : m_data{nullptr}, m_vertex_size{0}, m_vertex_count{0}
 		{
-			stride += attribute.bitsize();
+			return;
 		}
-		return stride;
-	}
-
-	void* VBO::data(void)
-	{
-		return m_data;
-	}
-	const void* VBO::data(void) const
-	{
-		return m_data;
-	}
-
-	std::vector<Attribute>& VBO::attributes(void)
-	{
-		return m_attributes;
-	}
-	const std::vector<Attribute>& VBO::attributes(void) const
-	{
-		return m_attributes;
-	}
-
-	//GPU
-	void VBO::allocate(void)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_id);
-		delete[] static_cast<int8_t*>(m_data);
-		m_data = new int8_t[m_size * stride()];
-		glBufferData(GL_ARRAY_BUFFER, m_size * stride(), nullptr, GL_DYNAMIC_DRAW);
-	}
-	void VBO::bind(void) const
-	{
-		glBindVertexArray(m_vao_id);
-		glBindBuffer(GL_ARRAY_BUFFER, m_id);
-	}
-	void VBO::enable(void) const
-	{
-		//bind
-		glBindVertexArray(m_vao_id);
-		glBindBuffer(GL_ARRAY_BUFFER, m_id);
-		//enable
-		uint64_t offset = 0;
-		const uint32_t stride = this->stride();
-		for(uint32_t i = 0; i < m_attributes.size(); i++)
+	
+		//destructor
+		VBO::~VBO(void)
 		{
-			glEnableVertexAttribArray(i);
-			const uint32_t size = m_attributes[i].m_size;
-			const uint32_t type = m_attributes[i].m_type;
-			glVertexAttribPointer(i, size, type, GL_FALSE, stride, (uint32_t*) offset);
-			offset += m_attributes[i].bitsize();
+			delete[] m_data;
 		}
-	}
-	void VBO::transfer(void) const
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_id);
-		glBufferData(GL_ARRAY_BUFFER, m_size * stride(), m_data, GL_DYNAMIC_DRAW);
+	
+		//data
+		char* VBO::data(void)
+		{
+			return m_data;
+		}
+		const char* VBO::data(void) const
+		{
+			return m_data;
+		}
+
+		uint32_t VBO::vertex_size(void) const
+		{
+			return m_vertex_size;
+		}
+		uint32_t VBO::vertex_size(uint32_t vertex_size)
+		{
+			return m_vertex_size = vertex_size;
+		}
+
+		uint32_t VBO::vertex_count(void) const
+		{
+			return m_vertex_count;
+		}
+		uint32_t VBO::vertex_count(uint32_t vertex_count)
+		{
+			return m_vertex_count = vertex_count;
+		}
+
+		//GPU
+		void VBO::allocate(void)
+		{
+			delete[] m_data;
+			m_data = new char[m_vertex_size * m_vertex_count];
+			glNamedBufferData(m_id, m_vertex_size * m_vertex_count, nullptr, GL_DYNAMIC_DRAW);
+		}
+		void VBO::transfer(void) const
+		{
+			glNamedBufferData(m_id, m_vertex_size * m_vertex_count, m_data, GL_DYNAMIC_DRAW);
+		}
+		void VBO::transfer(uint32_t offset, uint32_t size) const
+		{
+			const char* data = m_data + offset * m_vertex_size;
+			glNamedBufferSubData(m_id, offset * m_vertex_size, size * m_vertex_size, data);
+		}
 	}
 }
