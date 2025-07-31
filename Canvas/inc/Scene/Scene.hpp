@@ -152,6 +152,17 @@ namespace canvas
 		void setup_vao_model_2D_triangles(void);
 		void setup_vao_model_3D_triangles(void);
 
+		//setup shaders
+		void setup_shader_light(void);
+		void setup_shader_text_2D(void);
+		void setup_shader_text_3D(void);
+		void setup_shader_model_2D(void);
+		void setup_shader_model_3D(void);
+		void setup_shader_image_2D(void);
+		void setup_shader_image_3D(void);
+		void setup_shader_latex_2D(void);
+		void setup_shader_latex_3D(void);
+
 		//buffers
 		void buffers_data(void);
 

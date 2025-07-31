@@ -32,7 +32,7 @@ namespace canvas
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
-		m_vbos(6), m_ibos(12), m_vaos(12), m_ubos(1), m_shaders(7), 
+		m_vbos(6), m_ibos(12), m_vaos(12), m_ubos(1), m_shaders(9), 
 		m_commands(12), m_textures(3), m_shaders_dir(shaders_dir)
 	{
 		setup_vbos();
@@ -434,35 +434,15 @@ namespace canvas
 	}
 	void Scene::setup_shaders(void)
 	{
-		m_shaders[0] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model3D.frag")
-		}));
-		m_shaders[1] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "light.vert"),
-			new shaders::Stage(GL_GEOMETRY_SHADER, m_shaders_dir + "light.geom"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "light.frag")
-		}));
-		m_shaders[2] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image3D.frag")
-		}));
-		m_shaders[3] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text3D.frag")
-		}));
-		m_shaders[4] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model2D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model2D.frag")
-		}));
-		m_shaders[5] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image2D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image2D.frag")
-		}));
-		m_shaders[6] = (new shaders::Shader({
-			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text2D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text2D.frag")
-		}));
+		setup_shader_light();
+		setup_shader_text_2D();
+		setup_shader_text_3D();
+		setup_shader_model_2D();
+		setup_shader_model_3D();
+		setup_shader_image_2D();
+		setup_shader_image_3D();
+		setup_shader_latex_2D();
+		setup_shader_latex_3D();
 	}
 	void Scene::setup_freetype(void)
 	{
@@ -477,17 +457,17 @@ namespace canvas
 		for(commands::Command*& command : m_commands) command = new commands::Command;
 		//setup
 		m_commands[ 1]->setup(GL_LINES, 1, 0);
-		m_commands[ 7]->setup(GL_LINES, 7, 4);
+		m_commands[ 7]->setup(GL_LINES, 7, 5);
 		m_commands[ 0]->setup(GL_POINTS, 0, 0);
-		m_commands[ 6]->setup(GL_POINTS, 6, 4);
+		m_commands[ 6]->setup(GL_POINTS, 6, 5);
 		m_commands[ 2]->setup(GL_TRIANGLES,  2, 1);
 		m_commands[ 3]->setup(GL_TRIANGLES,  3, 2);
 		m_commands[ 4]->setup(GL_TRIANGLES,  4, 3);
-		m_commands[ 5]->setup(GL_TRIANGLES,  5, 3);
-		m_commands[ 8]->setup(GL_TRIANGLES,  8, 4);
-		m_commands[ 9]->setup(GL_TRIANGLES,  9, 5);
-		m_commands[10]->setup(GL_TRIANGLES, 10, 6);
-		m_commands[11]->setup(GL_TRIANGLES, 11, 6);
+		m_commands[ 5]->setup(GL_TRIANGLES,  5, 4);
+		m_commands[ 8]->setup(GL_TRIANGLES,  8, 5);
+		m_commands[ 9]->setup(GL_TRIANGLES,  9, 6);
+		m_commands[10]->setup(GL_TRIANGLES, 10, 7);
+		m_commands[11]->setup(GL_TRIANGLES, 11, 8);
 	}
 	void Scene::setup_textures(void)
 	{
@@ -643,6 +623,72 @@ namespace canvas
 		m_vaos[2]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[2]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
 		m_vaos[2]->vertex_buffer(0, m_vbos[0]->m_id, 0, 7 * sizeof(float));
+	}
+
+	//setup shaders
+	void Scene::setup_shader_light(void)
+	{
+		m_shaders[1] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "light.vert"),
+			new shaders::Stage(GL_GEOMETRY_SHADER, m_shaders_dir + "light.geom"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "light.frag")
+		}));
+	}
+	void Scene::setup_shader_text_2D(void)
+	{
+		m_shaders[7] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text2D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text2D.frag")
+		}));
+	}
+	void Scene::setup_shader_text_3D(void)
+	{
+		m_shaders[3] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text3D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text3D.frag")
+		}));
+	}
+	void Scene::setup_shader_model_2D(void)
+	{
+		m_shaders[5] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model2D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model2D.frag")
+		}));
+	}
+	void Scene::setup_shader_model_3D(void)
+	{
+		m_shaders[0] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model3D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model3D.frag")
+		}));
+	}
+	void Scene::setup_shader_image_2D(void)
+	{
+		m_shaders[6] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image2D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image2D.frag")
+		}));
+	}
+	void Scene::setup_shader_image_3D(void)
+	{
+		m_shaders[2] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image3D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image3D.frag")
+		}));
+	}
+	void Scene::setup_shader_latex_2D(void)
+	{
+		m_shaders[8] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "latex2D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "latex2D.frag")
+		}));
+	}
+	void Scene::setup_shader_latex_3D(void)
+	{
+		m_shaders[4] = (new shaders::Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "latex3D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "latex3D.frag")
+		}));
 	}
 
 	//buffers
