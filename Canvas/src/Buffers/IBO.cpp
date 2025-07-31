@@ -36,7 +36,7 @@ namespace canvas
 			return m_vertex_count = vertex_count;
 		}
 	
-		//GPU
+		//data
 		void IBO::allocate(void)
 		{
 			delete[] m_data;

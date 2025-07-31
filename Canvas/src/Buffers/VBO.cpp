@@ -45,7 +45,7 @@ namespace canvas
 			return m_vertex_count = vertex_count;
 		}
 
-		//GPU
+		//data
 		void VBO::allocate(void)
 		{
 			delete[] m_data;

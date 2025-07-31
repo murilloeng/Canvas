@@ -34,7 +34,7 @@ namespace canvas
 			uint32_t shader_index(uint32_t);
 			uint32_t shader_index(void) const;
 
-			void setup(GLenum, uint32_t, uint32_t, uint32_t = UINT32_MAX);
+			void setup(GLenum, uint32_t, uint32_t);
 	
 		private:
 			//draw
@@ -44,7 +44,6 @@ namespace canvas
 			GLenum m_mode;
 			uint32_t m_vao_index;
 			uint32_t m_shader_index;
-			uint32_t m_texture_index;
 	
 			//friends
 			friend class Scene;

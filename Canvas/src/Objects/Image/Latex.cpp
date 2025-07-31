@@ -75,10 +75,10 @@ namespace canvas
 		//setup
 		void Latex::setup(void)
 		{
-			if(m_index >= m_scene->latex().size())
-			{
-				throw std::runtime_error("Error: Latex has out of range index!");
-			}
+			// if(m_index >= m_scene->latex()->size())
+			// {
+			// 	throw std::runtime_error("Error: Latex has out of range index!");
+			// }
 			Object::setup();
 		}
 

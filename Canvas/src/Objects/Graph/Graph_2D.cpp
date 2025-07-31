@@ -473,7 +473,7 @@ namespace canvas
 				const uint32_t m1 = m_tics_chars[0];
 				const uint32_t m2 = m_tics_chars[1];
 				const float ts = m_tics_label_size[0];
-				const Latex* latex = m_scene->latex(m_labels_index[0]);
+				const textures::Latex* latex = m_scene->latex(m_labels_index[0]);
 				const float lw = latex->width() * ls / latex->height();
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D() + 4 * (m1 + m2);
 				//vbo data
@@ -503,7 +503,7 @@ namespace canvas
 				const uint32_t m2 = m_tics_chars[1];
 				const float ts = m_tics_label_size[1];
 				const fonts::Font* font = m_scene->font(m_tics_font[1]);
-				const Latex* latex = m_scene->latex(m_labels_index[1]);
+				const textures::Latex* latex = m_scene->latex(m_labels_index[1]);
 				const float lw = latex->width() * ls / latex->height();
 				const uint32_t p1 = l1 ? 1 : (uint32_t) strlen(m_labels_string[0]);
 				vertices::Text3D* vbo_ptr = vbo_data_text_3D() + 4 * (m1 + m2 + p1);

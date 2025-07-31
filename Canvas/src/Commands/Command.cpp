@@ -9,7 +9,7 @@ namespace canvas
 	{
 		//constructors
 		Command::Command(void) : 
-			m_mode{GL_POINTS}, m_vao_index{0}, m_shader_index{0}, m_texture_index{UINT32_MAX}
+			m_mode{GL_POINTS}, m_vao_index{0}, m_shader_index{0}
 		{
 			return;
 		}
@@ -48,12 +48,11 @@ namespace canvas
 			return m_shader_index = shader_index;
 		}
 
-		void Command::setup(GLenum mode, uint32_t vao_index, uint32_t shader_index, uint32_t texture_index)
+		void Command::setup(GLenum mode, uint32_t vao_index, uint32_t shader_index)
 		{
 			m_mode = mode;
 			m_vao_index = vao_index;
 			m_shader_index = shader_index;
-			m_texture_index = texture_index;
 		}
 
 		//draw
@@ -63,7 +62,6 @@ namespace canvas
 			GLint64 size;
 			scene->vao(m_vao_index)->bind();
 			scene->shader(m_shader_index)->bind();
-			if(m_texture_index != UINT32_MAX) scene->texture(m_texture_index).bind();
 			glGetBufferParameteri64v(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
 			//draw
 			glDrawElements(m_mode, size / sizeof(GLuint), GL_UNSIGNED_INT, nullptr);

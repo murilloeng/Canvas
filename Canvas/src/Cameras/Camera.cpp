@@ -24,12 +24,12 @@
 
 namespace canvas
 {
-	namespace camera
+	namespace cameras
 	{
 
 		//constructors
 		Camera::Camera(Scene* scene) :
-			m_scene(scene), m_type(camera::type::orthographic), 
+			m_scene(scene), m_type(cameras::type::orthographic), 
 			m_width(100), m_height(100), m_output("screen"), m_fov(float(M_PI) / 3), m_scale(1.0f), m_planes{1.0f, 2.0f}, m_shaders(scene->m_shaders)
 		{
 			return;
@@ -152,11 +152,11 @@ namespace canvas
 			return m_planes[index] = plane;
 		}
 
-		camera::type Camera::type(void) const
+		cameras::type Camera::type(void) const
 		{
 			return m_type;
 		}
-		camera::type Camera::type(camera::type type)
+		cameras::type Camera::type(cameras::type type)
 		{
 			return m_type = type;
 		}
@@ -195,7 +195,7 @@ namespace canvas
 			bound_box();
 			bound_check();
 			bound_limits();
-			m_type == camera::type::orthographic ? bound_orthographic() : bound_perspective();
+			m_type == cameras::type::orthographic ? bound_orthographic() : bound_perspective();
 		}
 		void Camera::update(void)
 		{
@@ -216,7 +216,7 @@ namespace canvas
 			else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
 			else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
 			else if(key == 'f') m_fov = float(M_PI) / 3, bound(), update();
-			else if(key == 'c') m_type = camera::type(!uint32_t(m_type)), bound(), update();
+			else if(key == 'c') m_type = cameras::type(!uint32_t(m_type)), bound(), update();
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_motion(int x1, int x2)

@@ -79,7 +79,7 @@ namespace canvas
 				const uint32_t h = m_glyphs[i].m_height;
 				const uint32_t x = m_glyphs[i].m_offset;
 				const uint8_t* data = m_glyphs[i].m_data;
-				m_scene->m_textures[1].transfer(x, 0, w, h, data);
+				m_scene->m_textures[1]->transfer(x, 0, w, h, data);
 			}
 		}
 		void Font::setup(uint32_t& w, uint32_t& h)

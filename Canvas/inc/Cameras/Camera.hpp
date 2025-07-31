@@ -20,7 +20,7 @@ namespace canvas
 
 namespace canvas
 {
-	namespace camera
+	namespace cameras
 	{
 		enum class type : uint32_t
 		{
@@ -66,8 +66,8 @@ namespace canvas
 			float plane(uint32_t) const;
 			float plane(uint32_t, float);
 
-			camera::type type(void) const;
-			camera::type type(camera::type);
+			cameras::type type(void) const;
+			cameras::type type(cameras::type);
 
 			//screen
 			void screen_print(void) const;
@@ -107,7 +107,7 @@ namespace canvas
 			//data
 			Click m_click;
 			Scene* m_scene;
-			camera::type m_type;
+			cameras::type m_type;
 
 			vec3 m_position;
 			quat m_rotation;

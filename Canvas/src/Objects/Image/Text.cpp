@@ -151,10 +151,10 @@ namespace canvas
 		{
 			//check
 			uint32_t a = 0, b = 0;
-			if(m_font >= m_scene->fonts().size())
-			{
-				throw std::runtime_error("Error: Text object font has out of range index!");
-			}
+			// if(m_font >= m_scene->fonts().size())
+			// {
+			// 	throw std::runtime_error("Error: Text object font has out of range index!");
+			// }
 			//lines
 			for(char c : m_text)
 			{

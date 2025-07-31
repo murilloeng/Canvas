@@ -5,7 +5,7 @@ out vec4 fragment_color;
 in vec4 vertex_color;
 in vec2 vertex_texture_coordinates;
 
-uniform sampler2D fragment_sampler;
+layout(binding = 1) uniform sampler2D fragment_sampler;
 
 void main(void)
 {

@@ -32,8 +32,8 @@ namespace canvas
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
 		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
-		m_vbos(6), m_ibos(12), m_textures(3), m_vaos(12), m_ubos(1), m_shaders(7), 
-		m_commands(12), m_shaders_dir(shaders_dir)
+		m_vbos(6), m_ibos(12), m_vaos(12), m_ubos(1), m_shaders(7), 
+		m_commands(12), m_textures(3), m_shaders_dir(shaders_dir)
 	{
 		setup_vbos();
 		setup_ibos();
@@ -43,6 +43,7 @@ namespace canvas
 		setup_shaders();
 		setup_freetype();
 		setup_commands();
+		setup_textures();
 		m_camera.m_scene = this;
 	}
 
@@ -50,15 +51,16 @@ namespace canvas
 	Scene::~Scene(void)
 	{
 		//delete
-		for(const Latex* latex : m_latex) delete latex;
-		for(const Image* image : m_images) delete image;
 		for(const fonts::Font* font : m_fonts) delete font;
 		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
 		for(const buffers::Buffer* ibo : m_ibos) delete ibo;
 		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
+		for(const textures::Latex* latex : m_latex) delete latex;
+		for(const textures::Image* image : m_images) delete image;
 		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
 		for(const commands::Command* command : m_commands) delete command;
+		for(const textures::Texture* texture : m_textures) delete texture;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
 	}
@@ -82,68 +84,13 @@ namespace canvas
 		return m_lights;
 	}
 
-	camera::Camera& Scene::camera(void)
+	cameras::Camera& Scene::camera(void)
 	{
 		return m_camera;
 	}
-	const camera::Camera& Scene::camera(void) const
+	const cameras::Camera& Scene::camera(void) const
 	{
 		return m_camera;
-	}
-
-	void Scene::clear_fonts(void)
-	{
-		for(const fonts::Font* font : m_fonts) delete font;
-		m_fonts.clear();
-	}
-	fonts::Font* Scene::font(uint32_t index) const
-	{
-		return m_fonts[index];
-	}
-	void Scene::add_font(const char* name)
-	{
-		m_fonts.push_back(new fonts::Font(this, name));
-	}
-	const std::vector<fonts::Font*>& Scene::fonts(void) const
-	{
-		return m_fonts;
-	}
-
-	void Scene::clear_images(void)
-	{
-		for(const Image* image : m_images) delete image;
-		m_images.clear();
-	}
-	void Scene::add_image(const char* path)
-	{
-		m_images.push_back(new Image(path));
-	}
-	Image* Scene::image(uint32_t index) const
-	{
-		return m_images[index];
-	}
-	const std::vector<Image*>& Scene::images(void) const
-	{
-		return m_images;
-	}
-
-	void Scene::clear_latex(void)
-	{
-		for(const Latex* latex : m_latex) delete latex;
-		m_latex.clear();
-	}
-	Latex* Scene::latex(uint32_t index) const
-	{
-		return m_latex[index];
-	}
-	uint32_t Scene::add_latex(const char* source)
-	{
-		m_latex.push_back(new Latex(source));
-		return (uint32_t) m_latex.size() - 1;
-	}
-	const std::vector<Latex*>& Scene::latex(void) const
-	{
-		return m_latex;
 	}
 
 	void Scene::clear_objects(bool free)
@@ -211,24 +158,6 @@ namespace canvas
 		return m_shaders[index];
 	}
 
-	//textures
-	Texture& Scene::texture(uint32_t index)
-	{
-		return m_textures[index];
-	}
-	std::vector<Texture>& Scene::textures(void)
-	{
-		return m_textures;
-	}
-	const Texture& Scene::texture(uint32_t index) const
-	{
-		return m_textures[index];
-	}
-	const std::vector<Texture>& Scene::textures(void) const
-	{
-		return m_textures;
-	}
-
 	//commands
 	void Scene::add_command(commands::Command* command)
 	{
@@ -237,6 +166,47 @@ namespace canvas
 	commands::Command* Scene::command(uint32_t index) const
 	{
 		return m_commands[index];
+	}
+
+	//textures
+	void Scene::add_texture(textures::Texture* texture)
+	{
+		m_textures.push_back(texture);
+	}
+	textures::Texture* Scene::texture(uint32_t index) const
+	{
+		return m_textures[index];
+	}
+
+	//fonts
+	void Scene::add_font(const char* name)
+	{
+		m_fonts.push_back(new fonts::Font(this, name));
+	}
+	fonts::Font* Scene::font(uint32_t index) const
+	{
+		return m_fonts[index];
+	}
+
+	//latex
+	uint32_t Scene::add_latex(const char* source)
+	{
+		m_latex.push_back(new textures::Latex(source));
+		return (uint32_t) m_latex.size() - 1;
+	}
+	textures::Latex* Scene::latex(uint32_t index) const
+	{
+		return m_latex[index];
+	}
+
+	//images
+	void Scene::add_image(const char* path)
+	{
+		m_images.push_back(new textures::Image(path));
+	}
+	textures::Image* Scene::image(uint32_t index) const
+	{
+		return m_images[index];
 	}
 
 	//draw
@@ -362,11 +332,11 @@ namespace canvas
 		//texture
 		fonts::Font::m_width = w;
 		fonts::Font::m_height = h;
-		m_textures[1].width(w);
-		m_textures[1].height(h);
-		m_textures[1].format(GL_RED);
+		m_textures[1]->width(w);
+		m_textures[1]->height(h);
+		m_textures[1]->format(GL_RED);
 		//texture data
-		m_textures[1].allocate();
+		m_textures[1]->allocate();
 		for(fonts::Font* font : m_fonts)
 		{
 			font->setup_texture();
@@ -379,7 +349,7 @@ namespace canvas
 		bool update = false;
 		uint32_t w = 0, h = 0;
 		//images
-		for(Latex* latex : m_latex)
+		for(textures::Latex* latex : m_latex)
 		{
 			if((update = update || !latex->m_status))
 			{
@@ -391,20 +361,20 @@ namespace canvas
 		}
 		//texture
 		if(!update) return;
-		m_textures[2].width(w);
-		m_textures[2].height(h);
-		Latex::m_total_width = w;
-		Latex::m_total_height = h;
-		m_textures[2].format(GL_RED);
+		m_textures[2]->width(w);
+		m_textures[2]->height(h);
+		m_textures[2]->format(GL_RED);
+		textures::Latex::m_total_width = w;
+		textures::Latex::m_total_height = h;
 		//texture data
-		m_textures[2].allocate();
-		for(Latex* latex : m_latex)
+		m_textures[2]->allocate();
+		for(textures::Latex* latex : m_latex)
 		{
 			const uint32_t w = latex->m_width;
 			const uint32_t h = latex->m_height;
 			const uint32_t x = latex->m_offset;
 			const uint8_t* data = latex->m_data;
-			m_textures[2].transfer(x, 0, w, h, data);
+			m_textures[2]->transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -425,7 +395,7 @@ namespace canvas
 		bool update = false;
 		uint32_t w = 0, h = 0;
 		//images
-		for(Image* image : m_images)
+		for(textures::Image* image : m_images)
 		{
 			if((update = update || !image->m_status))
 			{
@@ -437,20 +407,20 @@ namespace canvas
 		}
 		//texture
 		if(!update) return;
-		m_textures[0].width(w);
-		m_textures[0].height(h);
-		Image::m_total_width = w;
-		Image::m_total_height = h;
-		m_textures[0].format(GL_RGBA);
+		m_textures[0]->width(w);
+		m_textures[0]->height(h);
+		m_textures[0]->format(GL_RGBA);
+		textures::Image::m_total_width = w;
+		textures::Image::m_total_height = h;
 		//texture data
-		m_textures[0].allocate();
-		for(Image* image : m_images)
+		m_textures[0]->allocate();
+		for(textures::Image* image : m_images)
 		{
 			const uint32_t w = image->m_width;
 			const uint32_t h = image->m_height;
 			const uint32_t x = image->m_offset;
 			const uint8_t* data = image->m_data;
-			m_textures[0].transfer(x, 0, w, h, data);
+			m_textures[0]->transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
@@ -511,13 +481,22 @@ namespace canvas
 		m_commands[ 0]->setup(GL_POINTS, 0, 0);
 		m_commands[ 6]->setup(GL_POINTS, 6, 4);
 		m_commands[ 2]->setup(GL_TRIANGLES,  2, 1);
+		m_commands[ 3]->setup(GL_TRIANGLES,  3, 2);
+		m_commands[ 4]->setup(GL_TRIANGLES,  4, 3);
+		m_commands[ 5]->setup(GL_TRIANGLES,  5, 3);
 		m_commands[ 8]->setup(GL_TRIANGLES,  8, 4);
-		m_commands[ 3]->setup(GL_TRIANGLES,  3, 2, 0);
-		m_commands[ 4]->setup(GL_TRIANGLES,  4, 3, 1);
-		m_commands[ 5]->setup(GL_TRIANGLES,  5, 3, 2);
-		m_commands[ 9]->setup(GL_TRIANGLES,  9, 5, 0);
-		m_commands[10]->setup(GL_TRIANGLES, 10, 6, 1);
-		m_commands[11]->setup(GL_TRIANGLES, 11, 6, 2);
+		m_commands[ 9]->setup(GL_TRIANGLES,  9, 5);
+		m_commands[10]->setup(GL_TRIANGLES, 10, 6);
+		m_commands[11]->setup(GL_TRIANGLES, 11, 6);
+	}
+	void Scene::setup_textures(void)
+	{
+		const GLuint texture_units[] = {0, 1, 2};
+		for(uint32_t i = 0; i < m_textures.size(); i++)
+		{
+			m_textures[i] = new textures::Texture;
+			m_textures[i]->bind_unit(texture_units[i]);
+		}
 	}
 
 	//setup vaos

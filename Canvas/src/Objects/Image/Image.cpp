@@ -75,10 +75,10 @@ namespace canvas
 		//setup
 		void Image::setup(void)
 		{
-			if(m_index >= m_scene->images().size())
-			{
-				throw std::runtime_error("Error: Image has out of range index!");
-			}
+			// if(m_index >= m_scene->images().size())
+			// {
+			// 	throw std::runtime_error("Error: Image has out of range index!");
+			// }
 			Object::setup();
 		}
 

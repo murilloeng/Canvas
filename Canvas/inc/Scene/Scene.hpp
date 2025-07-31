@@ -19,17 +19,17 @@
 
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
-#include "Canvas/Canvas/inc/Textures/Texture.hpp"
-
 #include "Canvas/Canvas/inc/Commands/Command.hpp"
+
+#include "Canvas/Canvas/inc/Textures/Latex.hpp"
+#include "Canvas/Canvas/inc/Textures/Image.hpp"
+#include "Canvas/Canvas/inc/Textures/Texture.hpp"
 
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
 
 namespace canvas
 {
-	class Image;
-	class Latex;
 	namespace objects
 	{
 		class Object;
@@ -61,30 +61,15 @@ namespace canvas
 		//destructor
 		~Scene(void);
 
-		//data
+		//background
 		Color background(Color);
 		Color background(void) const;
 
 		lights::Lights& light(void);
 		const lights::Lights& light(void) const;
 
-		camera::Camera& camera(void);
-		const camera::Camera& camera(void) const;
-
-		void clear_fonts(void);
-		void add_font(const char*);
-		fonts::Font* font(uint32_t) const;
-		const std::vector<fonts::Font*>& fonts(void) const;
-
-		void clear_images(void);
-		void add_image(const char*);
-		Image* image(uint32_t) const;
-		const std::vector<Image*>& images(void) const;
-
-		void clear_latex(void);
-		Latex* latex(uint32_t) const;
-		uint32_t add_latex(const char*);
-		const std::vector<Latex*>& latex(void) const;
+		cameras::Camera& camera(void);
+		const cameras::Camera& camera(void) const;
 
 		void clear_objects(bool);
 		void add_object(objects::Object*);
@@ -110,16 +95,26 @@ namespace canvas
 		//shaders
 		void add_shader(shaders::Shader*);
 		shaders::Shader* shader(uint32_t) const;
-
-		//textures
-		Texture& texture(uint32_t);
-		std::vector<Texture>& textures(void);
-		const Texture& texture(uint32_t) const;
-		const std::vector<Texture>& textures(void) const;
-
+		
 		//commands
 		void add_command(commands::Command*);
 		commands::Command* command(uint32_t) const;
+
+		//textures
+		void add_texture(textures::Texture*);
+		textures::Texture* texture(uint32_t) const;
+
+		//fonts
+		void add_font(const char*);
+		fonts::Font* font(uint32_t) const;
+
+		//latex
+		uint32_t add_latex(const char*);
+		textures::Latex* latex(uint32_t) const;
+
+		//images
+		void add_image(const char*);
+		textures::Image* image(uint32_t) const;
 
 		//update
 		void draw(void);
@@ -141,6 +136,7 @@ namespace canvas
 		void setup_shaders(void);
 		void setup_freetype(void);
 		void setup_commands(void);
+		void setup_textures(void);
 
 		//setup vaos
 		void setup_vao_text_2D(void);
@@ -161,26 +157,26 @@ namespace canvas
 
 		//data
 		Color m_background;
-		camera::Camera m_camera;
-		lights::Lights m_lights;
-		std::vector<Texture> m_textures;
 		std::vector<buffers::VAO*> m_vaos;
 		std::vector<buffers::VBO*> m_vbos;
 		std::vector<buffers::IBO*> m_ibos;
 		std::vector<buffers::Buffer*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
 		std::vector<commands::Command*> m_commands;
+		std::vector<textures::Texture*> m_textures;
 
 		FT_Library m_ft_library;
+		lights::Lights m_lights;
+		cameras::Camera m_camera;
 		std::string m_shaders_dir;
-		std::vector<Latex*> m_latex;
-		std::vector<Image*> m_images;
 		std::vector<fonts::Font*> m_fonts;
+		std::vector<textures::Latex*> m_latex;
+		std::vector<textures::Image*> m_images;
 		std::vector<objects::Object*> m_objects;
 
 		//friends
 		friend class fonts::Font;
-		friend class camera::Camera;
+		friend class cameras::Camera;
 		friend class lights::Lights;
 		friend class objects::Object;
 	};
