@@ -150,46 +150,24 @@ namespace canvas
 			{
 				callback_rotation(key), bound(), m_scene->update_on_motion();
 			}
-			// else if(key == '-') callback_wheel(-1, m_width / 2, m_height / 2);
-			// else if(key == '+') callback_wheel(+1, m_width / 2, m_height / 2);
-			// else if(key == 'f') m_fov = float(M_PI) / 3, bound(), update();
-			// else if(key == 'c') m_type = cameras::type(!uint32_t(m_type)), bound(), update();
-			// else if(key == 'x' || key == 'y' || key == 'z' || key == 'i') rotation(key), bound(), update(), m_scene->update_on_motion();
+		}
+		void Camera::callback_wheel(bool direction)
+		{
+			callback_zoom(direction);
 		}
 		void Camera::callback_motion(int32_t x1, int32_t x2)
 		{
 			if(m_click.m_button == button::middle)
 			{
-				callback_rotation(x1, x2);
+				if(m_click.m_modifiers & uint32_t(modifier::shift))
+				{
+					callback_translation(x1, x2);
+				}
+				else
+				{
+					callback_rotation(x1, x2);
+				}
 			}
-			// //data
-			// const float s = m_scale;
-			// const float z1 = m_planes[0];
-			// const float z2 = m_planes[1];
-			// const float w = (float) m_width;
-			// const float h = (float) m_height;
-			// const int a1 = m_click.screen(0);
-			// const int a2 = m_click.screen(1);
-			// const vec3 xc = m_click.position();
-			// const quat qc = m_click.rotation();
-			// //data
-			// const float m = fminf(w, h);
-			// const vec3 v1 = Click::arcball((2 * a1 - w) / m, (h - 2 * a2) / m);
-			// const vec3 v2 = Click::arcball((2 * x1 - w) / m, (h - 2 * x2) / m);
-			// //shift
-			// if(m_click.button() == button::middle)
-			// {
-			// 	const float b1 = 2 * s / m * (a1 - x1);
-			// 	const float b2 = 2 * s / m * (x2 - a2);
-			// 	m_position = xc + m_rotation.rotate({b1, b2, 0});
-			// }
-			// //rotation
-			// if(m_click.button() == button::left)
-			// {
-			// 	m_rotation = qc * Click::arcball(v1, v2).conjugate();
-			// 	m_position = xc + (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qc.rotate({0, 0, 1}));
-			// }
-			// if(m_click.button() != button::none) update(), m_scene->update_on_motion();
 		}
 		void Camera::callback_reshape(int32_t width, int32_t height)
 		{
@@ -201,48 +179,7 @@ namespace canvas
 			update();
 			glViewport(0, 0, width, height);
 		}
-		void Camera::callback_wheel(int32_t direction, int32_t x1, int32_t x2)
-		{
-			callback_zoom(direction < 0);
-		}
-		void Camera::callback_special(canvas::key key, uint32_t modifiers, int32_t x1, int32_t x2)
-		{
-			// //data
-			// const float ds = 0.05f;
-			// const quat qn = m_rotation;
-			// const float z1 = m_planes[0];
-			// const float z2 = m_planes[1];
-			// const float ws = (float) m_width;
-			// const float hs = (float) m_height;
-			// const float dt = (float) M_PI / 12;
-			// const vec3 shift[] = {{-ds, 0, 0}, {+ds, 0, 0}, {0, -ds, 0}, {0, +ds, 0}};
-			// const vec3 rotation[] = {{0, -dt, 0}, {0, +dt, 0}, {+dt, 0, 0}, {-dt, 0, 0}};
-			// const canvas::key keys[] = {canvas::key::left, canvas::key::right, canvas::key::down, canvas::key::up};
-			// //affine
-			// for(uint32_t i = 0; i < 4; i++)
-			// {
-			// 	if(key == keys[i])
-			// 	{
-			// 		if(modifiers & 1 << uint32_t(modifier::alt))
-			// 		{
-			// 			const float ms = fminf(ws, hs);
-			// 			m_position -= m_rotation.rotate(m_scale * mat4::scaling({ws / ms, hs / ms, 1}) * shift[i]);
-			// 		}
-			// 		else if(modifiers & 1 << uint32_t(modifier::ctrl))
-			// 		{
-			// 			m_rotation = rotation[i].quaternion().conjugate() * m_rotation;
-			// 			m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
-			// 		}
-			// 		else if(modifiers & 1 << uint32_t(modifier::shift))
-			// 		{
-			// 			m_rotation = m_rotation * rotation[i].quaternion().conjugate();
-			// 			m_position += (z1 + z2) / 2 * (m_rotation.rotate({0, 0, 1}) - qn.rotate({0, 0, 1}));
-			// 		}
-			// 		update();
-			// 	}
-			// }
-		}
-		void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2)
+		void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2, uint32_t modifiers)
 		{
 			if(pressed)
 			{
@@ -252,6 +189,7 @@ namespace canvas
 				m_click.m_button = button;
 				m_click.m_target = m_target;
 				m_click.m_position = m_position;
+				m_click.m_modifiers = modifiers;
 			}
 			else
 			{
@@ -449,6 +387,27 @@ namespace canvas
 			//camera
 			m_up = (-t * ut).quaternion().rotate(m_click.m_up);
 			m_position = m_click.m_target - d * (-t * ut).quaternion().rotate(uf);
+			//update
+			update();
+		}
+		void Camera::callback_translation(int32_t x1, int32_t x2)
+		{
+			//data
+			const float d = (m_target - m_position).norm();
+			//data
+			const float w = float(m_width);
+			const float h = float(m_height);
+			const float s1 = float(x1 - m_click.m_screen[0]);
+			const float s2 = float(x2 - m_click.m_screen[1]);
+			//click
+			const vec3 uf = (m_target - m_position).unit();
+			const vec3 ur = uf.cross(m_click.m_up);
+			//screen
+			const vec2 us = vec2(s1, s2).unit();
+			const float t = d * vec2(s1, s2).norm() / fminf(w, h);
+			//camera
+			m_target = m_click.m_target + t * (us[1] * m_click.m_up - us[0] * ur);
+			m_position = m_click.m_position + t * (us[1] * m_click.m_up - us[0] * ur);
 			//update
 			update();
 		}

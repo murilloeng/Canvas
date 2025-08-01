@@ -55,11 +55,10 @@ namespace canvas
 
 			//callbacks
 			void callback_key(char);
+			void callback_wheel(bool);
 			void callback_motion(int32_t, int32_t);
 			void callback_reshape(int32_t, int32_t);
-			void callback_wheel(int32_t, int32_t, int32_t);
-			void callback_mouse(button, bool, int32_t, int32_t);
-			void callback_special(key, uint32_t, int32_t, int32_t);
+			void callback_mouse(button, bool, int32_t, int32_t, uint32_t);
 
 		protected:
 			//bound
@@ -77,6 +76,7 @@ namespace canvas
 			void callback_zoom(bool);
 			void callback_rotation(char);
 			void callback_rotation(int32_t, int32_t);
+			void callback_translation(int32_t, int32_t);
 
 			//data
 			Click m_click;

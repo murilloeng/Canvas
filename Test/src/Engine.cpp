@@ -144,35 +144,26 @@ void Engine::callback_size(GLFWwindow* window, int width, int height)
 	//update
 	glfwSwapBuffers(window);
 }
-void Engine::callback_button(GLFWwindow* window, int button, int action, int mods)
+void Engine::callback_button(GLFWwindow* window, int button, int action, int modifiers)
 {
 	//data
 	double x1, x2;
 	glfwGetCursorPos(window, &x1, &x2);
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
-	if(engine->m_user_button) engine->m_user_button(button, action, mods, x1, x2);
-	uint32_t glfw_buttons[] = {
-		GLFW_MOUSE_BUTTON_LEFT, GLFW_MOUSE_BUTTON_RIGHT, GLFW_MOUSE_BUTTON_MIDDLE
-	};
-	canvas::button canvas_buttons[] = {
-		canvas::button::left, canvas::button::right, canvas::button::middle
-	};
+	//user
+	if(engine->m_user_button) engine->m_user_button(button, action, modifiers, x1, x2);
 	//callback
-	for(uint32_t i = 0; i < 3; i++)
-	{
-		if(uint32_t(button) == glfw_buttons[i])
-		{
-			engine->m_scene->camera().callback_mouse(canvas_buttons[i], action == GLFW_PRESS, int32_t(x1), int32_t(x2));
-		}
-	}
+	engine->m_scene->camera().callback_mouse(canvas_button(button), action == GLFW_PRESS, int32_t(x1), int32_t(x2), canvas_modifiers(modifiers));
+	//update
 	glfwSwapBuffers(window);
 }
 void Engine::callback_wheel(GLFWwindow* window, double dx1, double dx2)
 {
-	double x1, x2;
-	glfwGetCursorPos(window, &x1, &x2);
+	//data
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
-	engine->m_scene->camera().callback_wheel(int32_t(dx2), int32_t(x1), int32_t(x2));
+	//camera
+	engine->m_scene->camera().callback_wheel(dx2 < 0);
+	//update
 	glfwSwapBuffers(window);
 }
 void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mods)
@@ -191,4 +182,47 @@ void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int
 		if(name) engine->m_scene->camera().callback_key(*name);
 		glfwSwapBuffers(window);
 	}
+}
+
+//canvas
+uint32_t Engine::canvas_modifiers(int32_t glfw_modifiers)
+{
+	//data
+	int32_t glfw_list[] = {
+		GLFW_MOD_ALT, GLFW_MOD_SHIFT, GLFW_MOD_CONTROL
+	};
+	canvas::modifier canvas_list[] = {
+		canvas::modifier::alt, canvas::modifier::shift, canvas::modifier::control
+	};
+	//modifiers
+	uint32_t canvas_modifiers = 0;
+	for(uint32_t i = 0; i < 3; i++)
+	{
+		if(glfw_modifiers & glfw_list[i])
+		{
+			canvas_modifiers |= uint32_t(canvas_list[i]);
+		}
+	}
+	//return
+	return canvas_modifiers;
+}
+canvas::button Engine::canvas_button(int32_t glfw_button)
+{
+	//data
+	int32_t glfw_list[] = {
+		GLFW_MOUSE_BUTTON_LEFT, GLFW_MOUSE_BUTTON_RIGHT, GLFW_MOUSE_BUTTON_MIDDLE
+	};
+	canvas::button canvas_list[] = {
+		canvas::button::left, canvas::button::right, canvas::button::middle
+	};
+	//modifiers
+	for(uint32_t i = 0; i < 3; i++)
+	{
+		if(glfw_button == glfw_list[i])
+		{
+			return canvas_list[i];
+		}
+	}
+	//return
+	return canvas::button::none;
 }

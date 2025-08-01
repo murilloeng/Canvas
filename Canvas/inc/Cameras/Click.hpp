@@ -23,7 +23,7 @@ namespace canvas
 	};
 	enum class modifier : uint32_t
 	{
-		alt, ctrl, shift
+		alt = 1 << 0, shift = 1 << 1, control = 1 << 2
 	};
 }
 
@@ -33,19 +33,19 @@ namespace canvas
 	{
 		class Click
 		{
-		public:
+		private:
 			//constructors
 			Click(void);
 	
 			//destructor
 			~Click(void);
 	
-		protected:
 			//data
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
 			int32_t m_screen[2];
+			uint32_t m_modifiers;
 			canvas::button m_button;
 	
 			//friends

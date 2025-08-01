@@ -52,6 +52,10 @@ private:
 	static void callback_key(GLFWwindow*, int, int, int, int);
 	static void callback_position(GLFWwindow*, double, double);
 
+	//canvas
+	static uint32_t canvas_modifiers(int32_t);
+	static canvas::button canvas_button(int32_t);
+
 	//data
 	bool m_show_fps;
 	uint32_t m_width;
