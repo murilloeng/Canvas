@@ -46,7 +46,7 @@ namespace canvas
 			static uint32_t m_total_height;
 	
 			//friends
-			friend class Scene;
+			friend class canvas::Scene;
 		};
 	}
 }

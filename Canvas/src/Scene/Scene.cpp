@@ -31,9 +31,8 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(std::string shaders_dir) : 
-		m_background(0, 0, 0, 1), m_camera(this), m_lights(this), 
-		m_vbos(6), m_ibos(12), m_vaos(12), m_ubos(1), m_shaders(9), 
-		m_commands(12), m_textures(3), m_shaders_dir(shaders_dir)
+		m_background(0, 0, 0, 1), m_vaos(12), m_vbos(6), m_ibos(12), m_ubos(1), m_shaders(9), 
+		m_commands(12), m_textures(3), m_lights(this), m_camera(this),m_shaders_dir(shaders_dir)
 	{
 		setup_vbos();
 		setup_ibos();
@@ -301,9 +300,9 @@ namespace canvas
 		for(objects::Object* object : m_objects)
 		{
 			object->m_vbo_size.resize(nv);
-			object->m_ibo_size.resize(nv);
+			object->m_ibo_size.resize(ni);
 			object->m_vbo_index.resize(nv);
-			object->m_ibo_index.resize(nv);
+			object->m_ibo_index.resize(ni);
 		}
 	}
 	void Scene::setup_fonts(void)

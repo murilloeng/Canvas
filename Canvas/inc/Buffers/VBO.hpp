@@ -55,9 +55,9 @@ namespace canvas
 			uint32_t m_vertex_count;
 	
 			//friends
-			friend class Scene;
-			friend class objects::Object;
-			friend class cameras::Camera;
+			friend class canvas::Scene;
+			friend class canvas::objects::Object;
+			friend class canvas::cameras::Camera;
 		};
 	}
 }

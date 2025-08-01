@@ -58,7 +58,7 @@ namespace canvas
 			static uint32_t m_pixels_size;
 
 			//friends
-			friend class Scene;
+			friend class canvas::Scene;
 		};
 	}
 }

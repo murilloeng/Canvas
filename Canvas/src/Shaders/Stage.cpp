@@ -29,7 +29,7 @@ namespace canvas
 			glGetShaderiv(m_id, GL_COMPILE_STATUS, &status);
 			if(status == 0)
 			{
-				char error[4096];
+				char error[8192];
 				glGetShaderInfoLog(m_id, sizeof(log), nullptr, log);
 				sprintf(error, "Shader compilation failed!\nSource: %s\n%s", path.c_str(), log);
 				throw std::runtime_error(error);

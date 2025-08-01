@@ -46,7 +46,7 @@ namespace canvas
 			uint32_t m_shader_index;
 	
 			//friends
-			friend class Scene;
+			friend class canvas::Scene;
 		};
 	}
 }
