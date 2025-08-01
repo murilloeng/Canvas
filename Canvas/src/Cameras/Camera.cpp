@@ -81,10 +81,18 @@ namespace canvas
 			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), P);
 		}
 
-		//rotation
-		quat Camera::rotation(void) const
+		//directions
+		vec3 Camera::up(void) const
 		{
-			return quat();
+			return m_up;
+		}
+		vec3 Camera::front(void) const
+		{
+			return (m_target - m_position).unit();
+		}
+		vec3 Camera::right(void) const
+		{
+			return (m_target - m_position).unit().cross(m_up);
 		}
 
 		//screen
@@ -389,6 +397,7 @@ namespace canvas
 			m_position = m_click.m_target - d * (-t * ut).quaternion().rotate(uf);
 			//update
 			update();
+			m_scene->update_on_motion();
 		}
 		void Camera::callback_translation(int32_t x1, int32_t x2)
 		{
@@ -410,6 +419,7 @@ namespace canvas
 			m_position = m_click.m_position + t * (us[1] * m_click.m_up - us[0] * ur);
 			//update
 			update();
+			m_scene->update_on_motion();
 		}
 	}
 }

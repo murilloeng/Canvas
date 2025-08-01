@@ -38,8 +38,10 @@ namespace canvas
 			void bound(void);
 			void update(void);
 
-			//rotation
-			quat rotation(void) const;
+			//directions
+			vec3 up(void) const;
+			vec3 front(void) const;
+			vec3 right(void) const;
 
 			//screen
 			uint32_t width(void) const;

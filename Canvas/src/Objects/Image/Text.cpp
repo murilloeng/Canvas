@@ -182,12 +182,13 @@ namespace canvas
 			const uint32_t wt = width();
 			const uint32_t ht = height();
 			float xa[2], xs[2], xc[8], tc[8];
+			const vec3 up = m_scene->camera().up();
+			const vec3 ur = m_scene->camera().right();
 			const fonts::Font *font = m_scene->font(m_font);
 			const float ps = m_size / font->height();
-			const quat qc = m_scene->camera().rotation();
 			vertices::Text3D* vbo_ptr = vbo_data_text_3D();
-			const vec3 t1 = m_normal ? qc.rotate({1, 0, 0}) : m_directions[0];
-			const vec3 t2 = m_normal ? qc.rotate({0, 1, 0}) : m_directions[1];
+			const vec3 t1 = m_normal ? ur : m_directions[0];
+			const vec3 t2 = m_normal ? up : m_directions[1];
 			//anchor
 			xs[0] = xs[1] = 0;
 			xa[0] = -ps * wt * m_anchor.horizontal() / 2;
