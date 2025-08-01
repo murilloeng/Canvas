@@ -4,8 +4,14 @@
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Math/quat.hpp"
+
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
+
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model2D.hpp"

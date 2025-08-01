@@ -6,7 +6,10 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+
+#include "Canvas/Canvas/inc/Textures/Texture.hpp"
 
 //defines
 #ifdef _WIN32

@@ -1,4 +1,6 @@
 //canvas
+#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 #include "Canvas/Canvas/inc/Commands/Command.hpp"

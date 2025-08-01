@@ -5,6 +5,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
+
 #include "Canvas/Canvas/inc/Palettes/Types.hpp"
 
 namespace canvas

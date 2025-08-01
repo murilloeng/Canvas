@@ -5,7 +5,9 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
+
 #include "Canvas/Canvas/inc/Palettes/Palette.hpp"
 
 namespace canvas

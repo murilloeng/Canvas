@@ -10,6 +10,10 @@
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
 
+#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 #include "Canvas/Canvas/inc/Textures/Image.hpp"
@@ -17,6 +21,10 @@
 
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+
+#include "Canvas/Canvas/inc/Textures/Texture.hpp"
+
+#include "Canvas/Canvas/inc/Commands/Command.hpp"
 
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 

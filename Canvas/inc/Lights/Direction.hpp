@@ -2,6 +2,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
+
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 
 namespace canvas

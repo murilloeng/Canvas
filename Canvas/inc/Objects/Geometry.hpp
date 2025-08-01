@@ -2,6 +2,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 
 namespace canvas

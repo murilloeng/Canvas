@@ -6,6 +6,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
+
 #include "Canvas/Canvas/inc/Objects/Geometry.hpp"
 
 namespace canvas

@@ -6,30 +6,38 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
-
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 
 #include "Canvas/Canvas/inc/Lights/Lights.hpp"
 
 #include "Canvas/Canvas/inc/Cameras/Camera.hpp"
 
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
-
-#include "Canvas/Canvas/inc/Commands/Command.hpp"
-
-#include "Canvas/Canvas/inc/Textures/Latex.hpp"
-#include "Canvas/Canvas/inc/Textures/Image.hpp"
-#include "Canvas/Canvas/inc/Textures/Texture.hpp"
-
 //ext
 #include "external/cpp/inc/freetype/freetype.h"
 
 namespace canvas
 {
+	namespace buffers
+	{
+		class VAO;
+		class VBO;
+		class IBO;
+		class Buffer;
+	}
+	namespace shaders
+	{
+		class Shader;
+	}
+	namespace textures
+	{
+		class Image;
+		class Latex;
+		class Texture;
+	}
+	namespace commands
+	{
+		class Command;
+	}
 	namespace objects
 	{
 		class Object;

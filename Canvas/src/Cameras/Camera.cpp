@@ -15,7 +15,11 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
+
 #include "Canvas/Canvas/inc/Cameras/Camera.hpp"
+
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
