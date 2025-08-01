@@ -101,6 +101,8 @@ void Engine::setup_glfw(void)
 	}
 	//context
 	glfwMakeContextCurrent(m_window);
+	//v-sync
+	glfwSwapInterval(0);
 }
 void Engine::setup_glew(void)
 {
