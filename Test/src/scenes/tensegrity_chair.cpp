@@ -152,7 +152,7 @@ static void scene_setup(canvas::Scene* scene)
 	cables(scene);
 	labels(scene);
 	guides(scene);
-	scene->camera().rotation({float(M_PI_2), 0, 0});
+	// scene->camera().rotation({float(M_PI_2), 0, 0});
 }
 
 void examples::scenes::tensegrity_chair(void)

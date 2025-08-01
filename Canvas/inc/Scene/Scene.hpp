@@ -133,6 +133,7 @@ namespace canvas
 		void setup_latex(void);
 		void setup_OpenGL(void);
 		void setup_images(void);
+		void setup_cameras(void);
 		void setup_objects(void);
 		void setup_shaders(void);
 		void setup_freetype(void);

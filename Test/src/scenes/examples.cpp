@@ -46,7 +46,7 @@ void examples::scenes::examples(void)
 	engine.user_key(callback_key);
 	//scene
 	scene = engine.scene();
-	examples::objects::text(scene);
+	examples::objects::points(scene);
 	//update
 	scene->update(true);
 	scene->camera().bound();

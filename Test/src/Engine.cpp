@@ -151,8 +151,12 @@ void Engine::callback_button(GLFWwindow* window, int button, int action, int mod
 	glfwGetCursorPos(window, &x1, &x2);
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
 	if(engine->m_user_button) engine->m_user_button(button, action, mods, x1, x2);
-	uint32_t glfw_buttons[] = {GLFW_MOUSE_BUTTON_LEFT, GLFW_MOUSE_BUTTON_RIGHT, GLFW_MOUSE_BUTTON_MIDDLE};
-	canvas::button canvas_buttons[] = {canvas::button::left, canvas::button::right, canvas::button::middle};
+	uint32_t glfw_buttons[] = {
+		GLFW_MOUSE_BUTTON_LEFT, GLFW_MOUSE_BUTTON_RIGHT, GLFW_MOUSE_BUTTON_MIDDLE
+	};
+	canvas::button canvas_buttons[] = {
+		canvas::button::left, canvas::button::right, canvas::button::middle
+	};
 	//callback
 	for(uint32_t i = 0; i < 3; i++)
 	{
@@ -184,7 +188,7 @@ void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int
 	else
 	{
 		const char* name = glfwGetKeyName(key, 0);
-		if(name) engine->m_scene->camera().callback_keyboard(*name);
+		if(name) engine->m_scene->camera().callback_key(*name);
 		glfwSwapBuffers(window);
 	}
 }

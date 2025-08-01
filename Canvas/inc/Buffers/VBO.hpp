@@ -10,6 +10,10 @@
 namespace canvas
 {
 	class Scene;
+	namespace cameras
+	{
+		class Camera;
+	}
 	namespace objects
 	{
 		class Object;
@@ -53,6 +57,7 @@ namespace canvas
 			//friends
 			friend class Scene;
 			friend class objects::Object;
+			friend class cameras::Camera;
 		};
 	}
 }

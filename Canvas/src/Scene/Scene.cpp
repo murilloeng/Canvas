@@ -41,10 +41,10 @@ namespace canvas
 		setup_vaos();
 		setup_OpenGL();
 		setup_shaders();
+		setup_cameras();
 		setup_freetype();
 		setup_commands();
 		setup_textures();
-		m_camera.m_scene = this;
 	}
 
 	//destructor
@@ -414,6 +414,10 @@ namespace canvas
 			m_textures[0]->transfer(x, 0, w, h, data);
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	void Scene::setup_cameras(void)
+	{
+		m_camera.m_scene = this;
 	}
 	void Scene::setup_objects(void)
 	{

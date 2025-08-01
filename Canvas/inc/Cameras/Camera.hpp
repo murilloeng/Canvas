@@ -11,8 +11,6 @@
 
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
 
-#include "Canvas/Canvas/inc/shaders/Shader.hpp"
-
 namespace canvas
 {
 	class Scene;
@@ -36,94 +34,66 @@ namespace canvas
 			//destructor
 			~Camera(void);
 
-			//data
-			float fov(float);
-			float fov(void) const;
+			//update
+			void bound(void);
+			void update(void);
 
-			vec3 x_min(vec3);
-			vec3 x_min(void) const;
-
-			vec3 x_max(vec3);
-			vec3 x_max(void) const;
-
-			float scale(float);
-			float scale(void) const;
-
-			vec3 position(void) const;
-			vec3 position(const vec3&);
-
-			quat rotation(char);
+			//rotation
 			quat rotation(void) const;
-			quat rotation(const vec3&);
-			quat rotation(const quat&);
 
-			uint32_t width(uint32_t);
+			//screen
 			uint32_t width(void) const;
-
-			uint32_t height(uint32_t);
 			uint32_t height(void) const;
-
-			float plane(uint32_t) const;
-			float plane(uint32_t, float);
-
-			cameras::type type(void) const;
-			cameras::type type(cameras::type);
 
 			//screen
 			void screen_print(void) const;
 			void screen_record(void) const;
 
-			//shaders
-			void bound(void);
-			void update(void);
+			//type
+			cameras::type type(void) const;
+			cameras::type type(cameras::type);
 
 			//callbacks
-			void callback_keyboard(char);
-			void callback_motion(int, int);
-			void callback_reshape(int, int);
-			void callback_wheel(int, int, int);
-			void callback_mouse(button, bool, int, int);
-			void callback_special(key, uint32_t, int, int);
+			void callback_key(char);
+			void callback_motion(int32_t, int32_t);
+			void callback_reshape(int32_t, int32_t);
+			void callback_wheel(int32_t, int32_t, int32_t);
+			void callback_mouse(button, bool, int32_t, int32_t);
+			void callback_special(key, uint32_t, int32_t, int32_t);
 
 		protected:
+			//bound
+			void bound_text_3D(vec3&, vec3&, bool&) const;
+			void bound_model_3D(vec3&, vec3&, bool&) const;
+			void bound_image_3D(vec3&, vec3&, bool&) const;
+			void bound_checkup_3D(vec3&, vec3&, bool&) const;
+
 			//compute
 			void compute_view(float*) const;
 			void compute_perspective(float*) const;
 			void compute_orthographic(float*) const;
 
-			//bound
-			void bound_box(void);
-			void bound_check(void);
-			void bound_limits(void);
-			void bound_search_1(void);
-			void bound_search_2(void);
-			void bound_bisection_1(void);
-			void bound_bisection_2(void);
-			void bound_perspective(void);
-			void bound_orthographic(void);
-			float bound_bisection_1(float);
-			float bound_bisection_2(float);
+			//callbacks
+			void callback_zoom(bool);
+			void callback_rotation(char);
+			void callback_rotation(int32_t, int32_t);
 
 			//data
 			Click m_click;
 			Scene* m_scene;
-			cameras::type m_type;
-
+			
+			vec3 m_up;
+			vec3 m_target;
 			vec3 m_position;
-			quat m_rotation;
 
+			float m_fov;
+			float m_planes_far;
+			float m_planes_near;
+			
 			uint32_t m_width;
 			uint32_t m_height;
 			std::string m_output;
-
-			vec3 m_x_min;
-			vec3 m_x_max;
-
-			float m_fov;
-			float m_scale;
-			float m_planes[2];
-			std::vector<vec3> m_bounds;
-			const std::vector<shaders::Shader*>& m_shaders;
+			cameras::type m_type;
 
 			//friends
 			friend class canvas::Scene;
