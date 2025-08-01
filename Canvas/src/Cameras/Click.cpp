@@ -10,7 +10,8 @@ namespace canvas
 	namespace cameras
 	{
 		//constructors
-		Click::Click(void)
+		Click::Click(void) : 
+			m_modifiers{0}, m_button{button::none}
 		{
 			return;
 		}
