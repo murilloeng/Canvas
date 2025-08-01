@@ -34,7 +34,7 @@ namespace canvas
 		//constructors
 		Camera::Camera(Scene* scene) : m_scene(scene), 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
-			m_fov{float(M_PI_2)}, m_planes_far{1.00e+02f}, m_planes_near{1.00e-02f},
+			m_fov{float(M_PI_4)}, m_planes_far{1.00e+02f}, m_planes_near{1.00e-02f},
 			m_width(700), m_height(700), m_output("screen"), m_type(cameras::type::orthographic)
 		{
 			return;
@@ -70,6 +70,9 @@ namespace canvas
 			//position
 			m_target = center;
 			m_position = center - fmaxf(d_1, d_2) * uf;
+			//planes
+			m_planes_far = fmaxf(d_1, d_2) + radius;
+			m_planes_near = fmaxf(d_1, d_2) - radius;
 			//update
 			update();
 		}
