@@ -27,13 +27,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Latex::~Latex(void)
 		{
 			if(m_data) stbi_image_free(m_data);
 		}
-	
+
 		//data
 		uint32_t Latex::width(void) const
 		{
@@ -52,7 +52,7 @@ namespace canvas
 			m_status = false;
 			return m_source = source;
 		}
-	
+
 		//load
 		void Latex::load(void)
 		{
@@ -92,7 +92,7 @@ namespace canvas
 				throw std::runtime_error("Latex pdf file deletion failed!");
 			}
 		}
-	
+
 		//coordinates
 		void Latex::coordinates(float* coordinates) const
 		{
@@ -101,7 +101,7 @@ namespace canvas
 			coordinates[3] = float(m_height) / m_total_height;
 			coordinates[1] = float(m_offset + m_width) / m_total_width;
 		}
-	
+
 		//static
 		uint32_t Latex::m_total_width = 0;
 		uint32_t Latex::m_total_height = 0;

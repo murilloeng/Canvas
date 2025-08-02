@@ -19,7 +19,7 @@ namespace canvas
 				throw std::runtime_error("OpenGL buffer creation failed!");
 			}
 		}
-		
+	
 		//destructor
 		Buffer::~Buffer(void)
 		{

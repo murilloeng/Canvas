@@ -10,13 +10,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		VBO::~VBO(void)
 		{
 			delete[] m_data;
 		}
-	
+
 		//data
 		char* VBO::data(void)
 		{

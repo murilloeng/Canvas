@@ -29,13 +29,13 @@ namespace canvas
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		}
-	
+
 		//destructor
 		Texture::~Texture(void)
 		{
 			if(glIsTexture(m_id)) glDeleteTextures(1, &m_id);
 		}
-	
+
 		//data
 		uint32_t Texture::width(void) const
 		{
@@ -45,7 +45,7 @@ namespace canvas
 		{
 			return m_width = width;
 		}
-	
+
 		uint32_t Texture::height(void) const
 		{
 			return m_height;
@@ -54,7 +54,7 @@ namespace canvas
 		{
 			return m_height = height;
 		}
-	
+
 		uint32_t Texture::format(void) const
 		{
 			return m_format;
@@ -63,7 +63,7 @@ namespace canvas
 		{
 			return m_format = format;
 		}
-	
+
 		//bind
 		void Texture::bind(void) const
 		{

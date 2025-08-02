@@ -15,13 +15,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Command::~Command(void)
 		{
 			return;
 		}
-	
+
 		//data
 		GLenum Command::mode(void) const
 		{
@@ -31,7 +31,7 @@ namespace canvas
 		{
 			return m_mode = mode;
 		}
-	
+
 		uint32_t Command::vao_index(void) const
 		{
 			return m_vao_index;
@@ -40,7 +40,7 @@ namespace canvas
 		{
 			return m_vao_index = vbo_index;
 		}
-	
+
 		uint32_t Command::shader_index(void) const
 		{
 			return m_shader_index;

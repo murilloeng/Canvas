@@ -19,13 +19,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Image::~Image(void)
 		{
 			if(m_data) stbi_image_free(m_data);
 		}
-	
+
 		//data
 		uint32_t Image::width(void) const
 		{
@@ -44,7 +44,7 @@ namespace canvas
 			m_status = false;
 			return m_path = path;
 		}
-	
+
 		//load
 		void Image::load(void)
 		{
@@ -64,7 +64,7 @@ namespace canvas
 			m_height = h;
 			m_status = true;
 		}
-	
+
 		//coordinates
 		void Image::coordinates(float* coordinates) const
 		{
@@ -73,7 +73,7 @@ namespace canvas
 			coordinates[3] = float(m_height) / m_total_height;
 			coordinates[1] = float(m_offset + m_width) / m_total_width;
 		}
-	
+
 		//static
 		uint32_t Image::m_total_width = 0;
 		uint32_t Image::m_total_height = 0;

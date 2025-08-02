@@ -42,25 +42,25 @@ namespace canvas
 			//delete
 			for(Stage* stage : stages) delete stage;
 		}
-	
+
 		//destructor
 		Shader::~Shader(void)
 		{
 			if(glIsProgram(m_id)) glDeleteProgram(m_id);
 		}
-	
+
 		//data
 		GLuint Shader::id(void) const
 		{
 			return m_id;
 		}
-	
+
 		//bind
 		void Shader::bind(void) const
 		{
 			glUseProgram(m_id);
 		}
-	
+
 		//uniforms
 		GLint Shader::uniform_location(const char* name) const
 		{
@@ -74,7 +74,7 @@ namespace canvas
 			//return
 			return location;
 		}
-	
+
 		void Shader::set_uniform(const char* name, float v0) const
 		{
 			//data
@@ -135,7 +135,7 @@ namespace canvas
 			check_uniform(name);
 			#endif
 		}
-	
+
 		void Shader::set_uniform(const char* name, int32_t v0) const
 		{
 			//data
@@ -196,7 +196,7 @@ namespace canvas
 			check_uniform(name);
 			#endif
 		}
-	
+
 		void Shader::set_uniform(const char* name, uint32_t v0) const
 		{
 			//data
@@ -257,7 +257,7 @@ namespace canvas
 			check_uniform(name);
 			#endif
 		}
-	
+
 		void Shader::set_uniform(const char* name, vec3 value) const
 		{
 			//data
@@ -359,7 +359,7 @@ namespace canvas
 			check_uniform(name);
 			#endif
 		}
-	
+
 		//check
 		void Shader::check_uniform(const char* name) const
 		{

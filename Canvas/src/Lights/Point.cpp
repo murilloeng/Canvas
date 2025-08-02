@@ -10,7 +10,7 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Point::~Point(void)
 		{

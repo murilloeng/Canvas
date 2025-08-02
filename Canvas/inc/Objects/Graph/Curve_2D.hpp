@@ -40,19 +40,19 @@ namespace canvas
 
 				float points_size(float);
 				float points_size(void) const;
-			
+		
 				Color points_color(Color);
 				Color points_color(void) const;
-			
+		
 				uint32_t points_type(uint32_t);
 				uint32_t points_type(void) const;
 
 				bool lines(bool);
 				bool lines(void) const;
-			
+		
 				Color lines_color(Color);
 				Color lines_color(void) const;
-			
+		
 				uint32_t lines_type(uint32_t);
 				uint32_t lines_type(void) const;
 

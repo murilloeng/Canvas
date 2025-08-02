@@ -15,7 +15,7 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Click::~Click(void)
 		{

@@ -47,13 +47,16 @@ namespace canvas
 			uint32_t width(void) const;
 			uint32_t height(void) const;
 
-			//screen
+			//serialization
 			void screen_print(void) const;
 			void screen_record(void) const;
-
+		
 			//type
 			cameras::type type(void) const;
 			cameras::type type(cameras::type);
+		
+			//convertion
+			void world_to_screen(vec3, uint32_t&, uint32_t&) const;
 
 			//callbacks
 			void callback_key(char);
@@ -83,7 +86,7 @@ namespace canvas
 			//data
 			Click m_click;
 			Scene* m_scene;
-			
+		
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
@@ -91,7 +94,7 @@ namespace canvas
 			float m_fov;
 			float m_planes_far;
 			float m_planes_near;
-			
+		
 			uint32_t m_width;
 			uint32_t m_height;
 			std::string m_output;

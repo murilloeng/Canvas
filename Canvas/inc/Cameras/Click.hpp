@@ -36,10 +36,10 @@ namespace canvas
 		private:
 			//constructors
 			Click(void);
-	
+
 			//destructor
 			~Click(void);
-	
+
 			//data
 			vec3 m_up;
 			vec3 m_target;
@@ -47,7 +47,7 @@ namespace canvas
 			int32_t m_screen[2];
 			uint32_t m_modifiers;
 			canvas::button m_button;
-	
+
 			//friends
 			friend class Camera;
 		};

@@ -35,13 +35,13 @@ namespace canvas
 				throw std::runtime_error(error);
 			}
 		}
-	
+
 		//destructor
 		Stage::~Stage(void)
 		{
 			if(glIsShader(m_id)) glDeleteShader(m_id);
 		}
-	
+
 		//read
 		void Stage::read(std::string path)
 		{

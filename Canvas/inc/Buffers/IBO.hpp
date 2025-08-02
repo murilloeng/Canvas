@@ -24,17 +24,17 @@ namespace canvas
 		public:
 			//constructor
 			IBO(void);
-	
+
 			//destructor
 			~IBO(void);
-	
+
 			//data
 			uint32_t* data(void);
 			const uint32_t* data(void) const;
 
 			uint32_t vertex_count(uint32_t);
 			uint32_t vertex_count(void) const;
-	
+
 			//data
 			void allocate(void);
 			void transfer(void) const;
@@ -44,7 +44,7 @@ namespace canvas
 			//data
 			uint32_t* m_data;
 			uint32_t m_vertex_count;
-	
+
 			//friends
 			friend class canvas::Scene;
 			friend class canvas::objects::Object;

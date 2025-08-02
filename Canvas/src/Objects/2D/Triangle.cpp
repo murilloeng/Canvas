@@ -43,7 +43,7 @@ namespace canvas
 			ibo_ptr[0] = m_vbo_index[0] + 3 * m_stroke + 0;
 			ibo_ptr[1] = m_vbo_index[0] + 3 * m_stroke + 2;
 			ibo_ptr[2] = m_vbo_index[0] + 3 * m_stroke + 1;
-		
+	
 		}
 		void Triangle::stroke_data(void) const
 		{

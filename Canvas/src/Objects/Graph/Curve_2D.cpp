@@ -104,7 +104,7 @@ namespace canvas
 			{
 				return m_lines_color = lines_color;
 			}
-		
+	
 			uint32_t Curve_2D::lines_type(void) const
 			{
 				return m_lines_type;

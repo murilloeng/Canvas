@@ -19,19 +19,19 @@ namespace canvas
 				throw std::runtime_error("OpenGL vertex array creation failed!");
 			}
 		}
-	
+
 		//destructor
 		VAO::~VAO(void)
 		{
 			return;
 		}
-	
+
 		//bind
 		void VAO::bind(void) const
 		{
 			glBindVertexArray(m_id);
 		}
-	
+
 		//buffers
 		void VAO::element_buffer(GLuint buffer) const
 		{
@@ -41,7 +41,7 @@ namespace canvas
 		{
 			glVertexArrayVertexBuffer(m_id, binding, buffer, offset, stride);
 		}
-	
+
 		//attributes
 		void VAO::attribute_enable(GLuint attribute) const
 		{

@@ -10,13 +10,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		IBO::~IBO(void)
 		{
 			delete[] m_data;
 		}
-	
+
 		//data
 		uint32_t* IBO::data(void)
 		{
@@ -35,7 +35,7 @@ namespace canvas
 		{
 			return m_vertex_count = vertex_count;
 		}
-	
+
 		//data
 		void IBO::allocate(void)
 		{

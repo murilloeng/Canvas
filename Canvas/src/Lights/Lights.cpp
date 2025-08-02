@@ -26,7 +26,7 @@ namespace canvas
 			for(Point* point : m_points) delete point;
 			for(Direction* direction : m_directions) delete direction;
 		}
-	
+
 		//data
 		Ambient* Lights::ambient(void) const
 		{
