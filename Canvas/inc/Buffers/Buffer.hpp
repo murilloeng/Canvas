@@ -24,7 +24,6 @@ namespace canvas
 
 			//bind
 			void bind(GLenum) const;
-			void bind_base(GLenum, GLuint) const;
 
 			//transfer
 			void transfer(uint32_t, const void*);

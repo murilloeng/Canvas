@@ -13,6 +13,7 @@
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/UBO.hpp"
 
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
@@ -72,6 +73,16 @@ namespace canvas
 		FT_Done_FreeType(m_ft_library);
 	}
 
+	//time
+	float Scene::time(void) const
+	{
+		return m_time;
+	}
+	float Scene::time(float time)
+	{
+		return m_time = time;
+	}
+
 	//data
 	Color Scene::background(void) const
 	{
@@ -128,6 +139,16 @@ namespace canvas
 	buffers::IBO* Scene::ibo(uint32_t index) const
 	{
 		return m_ibos[index];
+	}
+
+	//ubos
+	void Scene::add_ubo(buffers::UBO* ubo)
+	{
+		return m_ubos.push_back(ubo);
+	}
+	buffers::UBO* Scene::ubo(uint32_t index) const
+	{
+		return m_ubos[index];
 	}
 
 	//shaders
@@ -262,7 +283,7 @@ namespace canvas
 	}
 	void Scene::update_animations(void)
 	{
-		return;
+		m_camera.animation_update();
 	}
 
 	//setup
@@ -305,7 +326,7 @@ namespace canvas
 	}
 	void Scene::setup_ubos(void)
 	{
-		m_ubos[0] = new buffers::Buffer;
+		m_ubos[0] = new buffers::UBO;
 		m_ubos[0]->bind_base(GL_UNIFORM_BUFFER, 0);
 		m_ubos[0]->transfer(32 * sizeof(float), nullptr);
 	}

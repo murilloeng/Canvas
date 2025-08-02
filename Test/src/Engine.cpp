@@ -27,10 +27,11 @@ void Engine::start(void)
 	double t1 = 0, t2;
 	while(!glfwWindowShouldClose(m_window))
 	{
-		//idle
+		//animations
+		glfwPollEvents();
+		m_scene->update_animations();
 		if(m_user_idle) m_user_idle();
 		//draw
-		glfwPollEvents();
 		m_scene->draw();
 		glfwSwapBuffers(m_window);
 		//framerate

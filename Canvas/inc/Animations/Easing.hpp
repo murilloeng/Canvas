@@ -12,10 +12,10 @@ namespace canvas
 		public:
 			//constructor
 			Easing(void);
-	
+
 			//destructor
 			~Easing(void);
-	
+
 			//types
 			enum class type : uint32_t
 			{
@@ -25,10 +25,10 @@ namespace canvas
 			{
 				in, out, in_out
 			};
-	
+
 			//value
 			float value(float) const;
-	
+
 			//data
 			type m_type;
 			subtype m_subtype;

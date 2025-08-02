@@ -77,13 +77,13 @@ namespace canvas
 		{
 			return;
 		}
-	
+
 		//destructor
 		Easing::~Easing(void)
 		{
 			return;
 		}
-	
+
 		//value
 		float Easing::value(float t) const
 		{

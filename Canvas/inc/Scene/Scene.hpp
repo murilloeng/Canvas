@@ -22,7 +22,7 @@ namespace canvas
 		class VAO;
 		class VBO;
 		class IBO;
-		class Buffer;
+		class UBO;
 	}
 	namespace shaders
 	{
@@ -69,6 +69,10 @@ namespace canvas
 		//destructor
 		~Scene(void);
 
+		//time
+		float time(float);
+		float time(void) const;
+
 		//background
 		Color background(Color);
 		Color background(void) const;
@@ -92,8 +96,8 @@ namespace canvas
 		buffers::IBO* ibo(uint32_t) const;
 
 		//ubos
-		void add_ubo(buffers::Buffer*);
-		buffers::Buffer* ubo(uint32_t) const;
+		void add_ubo(buffers::UBO*);
+		buffers::UBO* ubo(uint32_t) const;
 
 		//shaders
 		void add_shader(shaders::Shader*);
@@ -175,11 +179,12 @@ namespace canvas
 		void setup_shader_latex_3D(void);
 
 		//data
+		float m_time;
 		Color m_background;
 		std::vector<buffers::VAO*> m_vaos;
 		std::vector<buffers::VBO*> m_vbos;
 		std::vector<buffers::IBO*> m_ibos;
-		std::vector<buffers::Buffer*> m_ubos;
+		std::vector<buffers::UBO*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
 		std::vector<commands::Command*> m_commands;
 		std::vector<textures::Texture*> m_textures;
@@ -195,8 +200,8 @@ namespace canvas
 
 		//friends
 		friend class fonts::Font;
-		friend class cameras::Camera;
 		friend class lights::Lights;
+		friend class cameras::Camera;
 		friend class objects::Object;
 	};
 }

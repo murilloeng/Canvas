@@ -8,8 +8,10 @@
 #include <cfloat>
 #include <filesystem>
 
-//ext
+//stbi
 #include "stb_image_write.h"
+
+//glew
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
@@ -18,7 +20,7 @@
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
+#include "Canvas/Canvas/inc/Buffers/UBO.hpp"
 
 #include "Canvas/Canvas/inc/Cameras/Camera.hpp"
 
@@ -26,18 +28,18 @@
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+#include "Canvas/Canvas/inc/Animations/Animation.hpp"
 
 namespace canvas
 {
 	namespace cameras
 	{
-
 		//constructors
-		Camera::Camera(Scene* scene) : m_scene(scene), 
+		Camera::Camera(Scene* scene) : m_scene{scene}, 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
 			m_fov{float(M_PI_4)}, m_planes_far{1.00e+02f}, m_planes_near{1.00e-02f},
-			m_width(700), m_height(700), m_output("screen"), m_type(cameras::type::orthographic)
+			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic},
+			m_animation{new animations::Animation}
 		{
 			return;
 		}
@@ -45,7 +47,7 @@ namespace canvas
 		//destructor
 		Camera::~Camera(void)
 		{
-			return;
+			delete m_animation;
 		}
 
 		//update
@@ -215,6 +217,16 @@ namespace canvas
 			{
 				m_click.m_button = canvas::button::none;
 			}
+		}
+
+		//animations
+		void Camera::animation_start(void)
+		{
+			
+		}
+		void Camera::animation_update(void)
+		{
+
 		}
 
 		//compute

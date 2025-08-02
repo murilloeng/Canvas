@@ -37,10 +37,6 @@ namespace canvas
 		{
 			glBindBuffer(target, m_id);
 		}
-		void Buffer::bind_base(GLenum target, GLuint index) const
-		{
-			glBindBufferBase(target, index, m_id);
-		}
 
 		//data
 		void Buffer::transfer(uint32_t size, const void* data)

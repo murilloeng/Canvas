@@ -7,7 +7,6 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
-#include "Canvas/Canvas/inc/Math/quat.hpp"
 #include "Canvas/Canvas/inc/Math/mat4.hpp"
 
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
@@ -15,6 +14,10 @@
 namespace canvas
 {
 	class Scene;
+	namespace animations
+	{
+		class Animation;
+	}
 }
 
 namespace canvas
@@ -68,11 +71,15 @@ namespace canvas
 			void callback_mouse(button, bool, int32_t, int32_t, uint32_t);
 
 		protected:
+			//animations
+			void animation_start(void);
+			void animation_update(void);
+
 			//compute
 			void compute_view(void);
 			void compute_perspective(void);
 			void compute_orthographic(void);
-			
+		
 			//callbacks
 			void callback_zoom(bool);
 			void callback_rotation(char);
@@ -86,9 +93,8 @@ namespace canvas
 			void bound_checkup_3D(vec3&, vec3&, bool&) const;
 
 			//data
-			Click m_click;
 			Scene* m_scene;
-		
+	
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
@@ -99,11 +105,13 @@ namespace canvas
 			float m_fov;
 			float m_planes_far;
 			float m_planes_near;
-		
+	
+			Click m_click;
 			uint32_t m_width;
 			uint32_t m_height;
 			std::string m_output;
 			cameras::type m_type;
+			animations::Animation* m_animation;
 
 			//friends
 			friend class canvas::Scene;

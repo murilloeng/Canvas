@@ -6,15 +6,21 @@ namespace canvas
 	namespace animations
 	{
 		//constructor
-		Animation::Animation(void)
+		Animation::Animation(void) : m_data{nullptr}, m_time_start{0}, m_time_duration{0}
 		{
 			return;
 		}
-		
+	
 		//constructor
 		Animation::~Animation(void)
 		{
-			return;
+			delete[] m_data;
+		}
+
+		//status
+		bool Animation::status(float time) const
+		{
+			return time > m_time_start && time < m_time_start + m_time_duration;
 		}
 	}
 }
