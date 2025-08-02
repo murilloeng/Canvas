@@ -86,7 +86,7 @@ namespace canvas
 		//vbos
 		void add_vbo(buffers::VBO*);
 		buffers::VBO* vbo(uint32_t) const;
-	
+
 		//ibos
 		void add_ibo(buffers::IBO*);
 		buffers::IBO* ibo(uint32_t) const;
@@ -98,7 +98,7 @@ namespace canvas
 		//shaders
 		void add_shader(shaders::Shader*);
 		shaders::Shader* shader(uint32_t) const;
-	
+
 		//commands
 		void add_command(commands::Command*);
 		commands::Command* command(uint32_t) const;
