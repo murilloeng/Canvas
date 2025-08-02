@@ -72,9 +72,6 @@ namespace canvas
 			//position
 			m_target = center;
 			m_position = center - fmaxf(d_1, d_2) * uf;
-			//planes
-			m_planes_far = fmaxf(d_1, d_2) + radius;
-			m_planes_near = fmaxf(d_1, d_2) - radius;
 			//update
 			update();
 		}
