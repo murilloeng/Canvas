@@ -86,9 +86,7 @@ namespace canvas
 		}
 		void Texture::transfer(uint32_t x1, uint32_t x2, uint32_t w, uint32_t h, const void* data)
 		{
-			glBindTexture(GL_TEXTURE_2D, m_id);
-			glTexSubImage2D(GL_TEXTURE_2D, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
-			// glTextureSubImage2D(m_id, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
+			glTextureSubImage2D(m_id, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
 		}
 	}
 }

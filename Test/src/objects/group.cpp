@@ -55,9 +55,9 @@ void examples::objects::group(canvas::Scene* scene)
 	axes[0]->point(1, {1, 0, 0});
 	axes[1]->point(1, {0, 1, 0});
 	axes[2]->point(1, {0, 0, 1});
-	axes[0]->color_stroke({0, 0, 0.0f});
-	axes[1]->color_stroke({0, 0, 0.0f});
-	axes[2]->color_stroke({0, 0, 0.0f});
+	axes[0]->color_stroke({1.0f, 1.0f, 1.0f});
+	axes[1]->color_stroke({1.0f, 1.0f, 1.0f});
+	axes[2]->color_stroke({1.0f, 1.0f, 1.0f});
 	//arrows
 	arrow[0]->width(0.05f);
 	arrow[1]->width(0.05f);
@@ -81,8 +81,6 @@ void examples::objects::group(canvas::Scene* scene)
 	}
 	group->rotate({float(M_PI) / 4, 0, 0});
 	//light
-	// glLineWidth(2.0);
-	scene->background({1, 1, 1});
 	scene->light().add_direction();
 	scene->light().ambient()->color({0.3f, 0.3f, 0.3f});
 	scene->light().direction(0)->color({0.7f, 0.7f, 0.7f});
