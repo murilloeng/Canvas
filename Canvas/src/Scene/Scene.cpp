@@ -241,8 +241,14 @@ namespace canvas
 			setup_images();
 			setup_objects();
 		}
+		//update
+		#pragma omp parallel for
+		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
+		{
+			m_objects[i]->buffers_data();
+			m_objects[i]->apply_model_matrix();
+		}
 		//buffers
-		buffers_data();
 		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
 		for(const buffers::IBO* ibo : m_ibos) ibo->transfer();
 	}
@@ -691,16 +697,5 @@ namespace canvas
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "latex3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "latex3D.frag")
 		}));
-	}
-
-	//buffers
-	void Scene::buffers_data(void)
-	{
-		#pragma omp parallel for
-		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
-		{
-			m_objects[i]->buffers_data();
-			m_objects[i]->apply_model_matrix();
-		}
 	}
 }

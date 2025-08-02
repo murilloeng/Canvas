@@ -173,9 +173,6 @@ namespace canvas
 		void setup_shader_latex_2D(void);
 		void setup_shader_latex_3D(void);
 
-		//buffers
-		void buffers_data(void);
-
 		//data
 		Color m_background;
 		std::vector<buffers::VAO*> m_vaos;
