@@ -142,6 +142,12 @@ namespace canvas
 			return;
 		}
 
+		//convertion
+		vec3 Camera::world_to_screen(vec3 v) const
+		{
+			return (m_projection * m_view * vec4(v, 1)).reduce();
+		}
+
 		//type
 		cameras::type Camera::type(void) const
 		{
@@ -150,16 +156,6 @@ namespace canvas
 		cameras::type Camera::type(cameras::type type)
 		{
 			return m_type = type;
-		}
-
-		//convertion
-		void Camera::world_to_screen(vec3 v, uint32_t& x1, uint32_t& x2) const
-		{
-			//coordinates
-			const vec3 xn = (m_projection * m_view * vec4(v, 1)).reduce();
-			//screen
-			x1 = m_width * uint32_t(1 + xn[0]) / 2;
-			x2 = m_height * uint32_t(1 - xn[1]) / 2;
 		}
 
 		//callbacks

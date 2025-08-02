@@ -52,13 +52,13 @@ namespace canvas
 			//serialization
 			void screen_print(void) const;
 			void screen_record(void) const;
-		
+
+			//world
+			vec3 world_to_screen(vec3) const;
+
 			//type
 			cameras::type type(void) const;
 			cameras::type type(cameras::type);
-		
-			//convertion
-			void world_to_screen(vec3, uint32_t&, uint32_t&) const;
 
 			//callbacks
 			void callback_key(char);
