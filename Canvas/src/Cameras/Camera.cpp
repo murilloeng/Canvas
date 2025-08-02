@@ -107,7 +107,7 @@ namespace canvas
 			const float d = (m_target - m_position).norm();
 			//update
 			m_up = q.rotate({0, 1, 0});
-			m_position = m_target + d * q.rotate({1, 0, 0});
+			m_position = m_target + d * q.rotate({0, 0, 1});
 		}
 
 		//screen
@@ -312,8 +312,9 @@ namespace canvas
 			if(key == 'i')
 			{
 				static uint32_t index = 0;
-				const quat q = quat::view_iso(index++).conjugate();
+				const quat q = quat::view_iso(index).conjugate();
 				m_scene->add_animation(new animations::camera::Rotation(this, q));
+				index = (index + 1) % 3;
 			}
 		}
 		void Camera::callback_rotation(int32_t x1, int32_t x2)
