@@ -14,7 +14,7 @@ namespace canvas
 		//destructor
 		Group::~Group(void)
 		{
-			return;
+			for(Object* object : m_objects) delete object;
 		}
 
 		//data
