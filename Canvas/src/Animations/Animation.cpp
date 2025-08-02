@@ -6,11 +6,11 @@ namespace canvas
 	namespace animations
 	{
 		//constructor
-		Animation::Animation(void) : m_status{false}, m_time_start{0.0f}, m_time_duration{1.0f}
+		Animation::Animation(void) : m_status{false}, m_time_start{0.0f}, m_time_duration{5.0f}
 		{
 			return;
 		}
-	
+
 		//constructor
 		Animation::~Animation(void)
 		{

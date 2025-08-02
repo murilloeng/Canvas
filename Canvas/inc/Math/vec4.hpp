@@ -30,7 +30,7 @@ namespace canvas
 		//data
 		float* data(void);
 		const float* data(void) const;
-	
+
 		//linear
 		float norm(void) const;
 		float inner(const vec4&) const;

@@ -28,7 +28,7 @@
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
-#include "Canvas/Canvas/inc/Animations/Animation.hpp"
+#include "Canvas/Canvas/inc/Animations/Camera/Rotation.hpp"
 
 namespace canvas
 {
@@ -100,6 +100,14 @@ namespace canvas
 		vec3 Camera::right(void) const
 		{
 			return (m_target - m_position).unit().cross(m_up);
+		}
+		void Camera::direction(const quat& q)
+		{
+			//data
+			const float d = (m_target - m_position).norm();
+			//update
+			m_up = q.rotate({0, 1, 0});
+			m_position = m_target + d * q.rotate({1, 0, 0});
 		}
 
 		//screen
@@ -288,28 +296,24 @@ namespace canvas
 		{
 			if(key == 'x')
 			{
-				m_up = {0, 0, 1};
-				m_position = m_target + vec3(1, 0, 0);
+				const quat q({0, 1, 0}, {0, 0, 1}, {1, 0, 0});
+				m_scene->add_animation(new animations::camera::Rotation(this, q));
 			}
 			if(key == 'y')
 			{
-				m_up = {1, 0, 0};
-				m_position = m_target + vec3(0, 1, 0);
+				const quat q({0, 0, 1}, {1, 0, 0}, {0, 1, 0});
+				m_scene->add_animation(new animations::camera::Rotation(this, q));
 			}
 			if(key == 'z')
 			{
-				m_up = {0, 1, 0};
-				m_position = m_target + vec3(0, 0, 1);
+				const quat q({1, 0, 0}, {0, 1, 0}, {0, 0, 1});
+				m_scene->add_animation(new animations::camera::Rotation(this, q));
 			}
 			if(key == 'i')
 			{
-				//data
 				static uint32_t index = 0;
-				const quat q = quat::view_iso(index).conjugate();
-				//update
-				index = (index + 1) % 3;
-				m_up = q.rotate({0, 1, 0});
-				m_position = m_target + q.rotate({0, 0, 1});
+				const quat q = quat::view_iso(index++).conjugate();
+				m_scene->add_animation(new animations::camera::Rotation(this, q));
 			}
 		}
 		void Camera::callback_rotation(int32_t x1, int32_t x2)

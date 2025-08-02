@@ -38,7 +38,7 @@ namespace canvas
 			virtual void cleanup(void);
 			virtual void animate(float);
 
-		private:
+		protected:
 			//data
 			bool m_status;
 			Easing m_easing;

@@ -308,7 +308,7 @@ namespace canvas
 			const float t0 = (*iterator)->m_time_start;
 			const float dt = (*iterator)->m_time_duration;
 			//update
-			if(t0 < m_time && m_time < t0 + dt)
+			if(t0 <= m_time && m_time <= t0 + dt)
 			{
 				(*iterator)->animate(m_time);
 				iterator++;

@@ -43,6 +43,7 @@ namespace canvas
 			vec3 up(void) const;
 			vec3 front(void) const;
 			vec3 right(void) const;
+			void direction(const quat&);
 
 			//screen
 			uint32_t width(void) const;
@@ -71,7 +72,7 @@ namespace canvas
 			void compute_view(void);
 			void compute_perspective(void);
 			void compute_orthographic(void);
-		
+
 			//callbacks
 			void callback_zoom(bool);
 			void callback_rotation(char);
@@ -86,7 +87,7 @@ namespace canvas
 
 			//data
 			Scene* m_scene;
-	
+
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
@@ -97,7 +98,7 @@ namespace canvas
 			float m_fov;
 			float m_planes_far;
 			float m_planes_near;
-	
+
 			Click m_click;
 			uint32_t m_width;
 			uint32_t m_height;
