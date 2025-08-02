@@ -29,6 +29,7 @@ namespace canvas
 
 		//linear
 		void clear(void);
+		void zeros(void);
 		float norm(void) const;
 
 		//print

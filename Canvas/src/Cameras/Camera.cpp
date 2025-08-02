@@ -78,14 +78,14 @@ namespace canvas
 		}
 		void Camera::update(void)
 		{
-			//data
-			float V[16], P[16];
-			//compute
-			compute_view(V);
-			m_type == type::perspective ? compute_perspective(P) : compute_orthographic(P);
-			//transfer
-			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), V);
-			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), P);
+			compute();
+			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), m_view.data());
+			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), m_projection.data());
+		}
+		void Camera::compute(void)
+		{
+			compute_view();
+			m_type == type::perspective ? compute_perspective() : compute_orthographic();
 		}
 
 		//directions
@@ -212,6 +212,60 @@ namespace canvas
 			}
 		}
 
+		//compute
+		void Camera::compute_view(void)
+		{
+			//data
+			const vec3 up = m_up;
+			const vec3 uf = (m_target - m_position).unit();
+			const vec3 ur = uf.cross(m_up);
+			//view
+			m_view[3 + 4 * 3] = 1;
+			m_view[0 + 4 * 0] = +ur[0];
+			m_view[0 + 4 * 1] = +ur[1];
+			m_view[0 + 4 * 2] = +ur[2];
+			m_view[1 + 4 * 0] = +up[0];
+			m_view[1 + 4 * 1] = +up[1];
+			m_view[1 + 4 * 2] = +up[2];
+			m_view[2 + 4 * 0] = -uf[0];
+			m_view[2 + 4 * 1] = -uf[1];
+			m_view[2 + 4 * 2] = -uf[2];
+			m_view[0 + 4 * 3] = -ur.inner(m_position);
+			m_view[1 + 4 * 3] = -up.inner(m_position);
+			m_view[2 + 4 * 3] = +uf.inner(m_position);
+			m_view[3 + 4 * 0] = m_view[3 + 4 * 1] = m_view[3 + 4 * 2] = 0;
+		}
+		void Camera::compute_perspective(void)
+		{
+			//data
+			const float z2 = m_planes_far;
+			const float z1 = m_planes_near;
+			const float tf = tanf(m_fov / 2);
+			const float ar = (float) m_width / m_height;
+			//projection
+			m_projection.zeros();
+			m_projection[3 + 4 * 2] = -1;
+			m_projection[1 + 4 * 1] = 1 / tf;
+			m_projection[0 + 4 * 0] = 1 / tf / ar;
+			m_projection[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
+			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
+		}
+		void Camera::compute_orthographic(void)
+		{
+			//data
+			const float z2 = m_planes_far;
+			const float z1 = m_planes_near;
+			const float tf = tanf(m_fov / 2);
+			const float ar = (float) m_width / m_height;
+			//projection
+			m_projection.zeros();
+			m_projection[3 + 4 * 2] = -1;
+			m_projection[1 + 4 * 1] = 1 / tf;
+			m_projection[0 + 4 * 0] = 1 / tf / ar;
+			m_projection[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
+			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
+		}
+
 		//bound
 		void Camera::bound_text_3D(vec3& x_min, vec3& x_max, bool& status) const
 		{
@@ -285,62 +339,6 @@ namespace canvas
 				x_min -= vec3(1, 1, 1);
 				x_max += vec3(1, 1, 1);
 			}
-		}
-
-		//compute
-		void Camera::compute_view(float* V) const
-		{
-			//data
-			const vec3 up = m_up;
-			const vec3 uf = (m_target - m_position).unit();
-			const vec3 ur = uf.cross(m_up);
-			//view
-			V[3 + 4 * 3] = 1;
-			V[0 + 4 * 0] = +ur[0];
-			V[0 + 4 * 1] = +ur[1];
-			V[0 + 4 * 2] = +ur[2];
-			V[1 + 4 * 0] = +up[0];
-			V[1 + 4 * 1] = +up[1];
-			V[1 + 4 * 2] = +up[2];
-			V[2 + 4 * 0] = -uf[0];
-			V[2 + 4 * 1] = -uf[1];
-			V[2 + 4 * 2] = -uf[2];
-			V[0 + 4 * 3] = -ur.inner(m_position);
-			V[1 + 4 * 3] = -up.inner(m_position);
-			V[2 + 4 * 3] = +uf.inner(m_position);
-			V[3 + 4 * 0] = V[3 + 4 * 1] = V[3 + 4 * 2] = 0;
-		}
-		void Camera::compute_perspective(float* P) const
-		{
-			//data
-			const float z2 = m_planes_far;
-			const float z1 = m_planes_near;
-			const float tf = tanf(m_fov / 2);
-			const float ar = (float) m_width / m_height;
-			//setup
-			memset(P, 0, 16 * sizeof(float));
-			//projection
-			P[3 + 4 * 2] = -1;
-			P[1 + 4 * 1] = 1 / tf;
-			P[0 + 4 * 0] = 1 / tf / ar;
-			P[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
-			P[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
-		}
-		void Camera::compute_orthographic(float* P) const
-		{
-			//data
-			const float z2 = m_planes_far;
-			const float z1 = m_planes_near;
-			const float tf = tanf(m_fov / 2);
-			const float ar = (float) m_width / m_height;
-			//setup
-			memset(P, 0, 16 * sizeof(float));
-			//projection
-			P[3 + 4 * 2] = -1;
-			P[1 + 4 * 1] = 1 / tf;
-			P[0 + 4 * 0] = 1 / tf / ar;
-			P[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
-			P[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
 		}
 
 		//callbacks

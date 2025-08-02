@@ -8,6 +8,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Math/quat.hpp"
+#include "Canvas/Canvas/inc/Math/mat4.hpp"
 
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
 
@@ -37,6 +38,7 @@ namespace canvas
 			//update
 			void bound(void);
 			void update(void);
+			void compute(void);
 
 			//directions
 			vec3 up(void) const;
@@ -66,16 +68,16 @@ namespace canvas
 			void callback_mouse(button, bool, int32_t, int32_t, uint32_t);
 
 		protected:
+			//compute
+			void compute_view(void);
+			void compute_perspective(void);
+			void compute_orthographic(void);
+
 			//bound
 			void bound_text_3D(vec3&, vec3&, bool&) const;
 			void bound_model_3D(vec3&, vec3&, bool&) const;
 			void bound_image_3D(vec3&, vec3&, bool&) const;
 			void bound_checkup_3D(vec3&, vec3&, bool&) const;
-
-			//compute
-			void compute_view(float*) const;
-			void compute_perspective(float*) const;
-			void compute_orthographic(float*) const;
 
 			//callbacks
 			void callback_zoom(bool);
@@ -90,6 +92,9 @@ namespace canvas
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
+
+			mat4 m_view;
+			mat4 m_projection;
 
 			float m_fov;
 			float m_planes_far;

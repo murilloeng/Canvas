@@ -59,6 +59,10 @@ namespace canvas
 			}
 		}
 	}
+	void mat4::zeros(void)
+	{
+		memset(m_data_ptr, 0, 16 * sizeof(float));
+	}
 	float mat4::norm(void) const
 	{
 		float v = 0;
