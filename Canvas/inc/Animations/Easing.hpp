@@ -5,30 +5,33 @@
 
 namespace canvas
 {
-	class Easing
+	namespace animations
 	{
-	public:
-		//constructor
-		Easing(void);
-
-		//destructor
-		~Easing(void);
-
-		//types
-		enum class type : uint32_t
+		class Easing
 		{
-			linear, sin, back, elastic
+		public:
+			//constructor
+			Easing(void);
+	
+			//destructor
+			~Easing(void);
+	
+			//types
+			enum class type : uint32_t
+			{
+				linear, sin, back, elastic
+			};
+			enum class subtype : uint32_t
+			{
+				in, out, in_out
+			};
+	
+			//value
+			float value(float) const;
+	
+			//data
+			type m_type;
+			subtype m_subtype;
 		};
-		enum class subtype : uint32_t
-		{
-			in, out, in_out
-		};
-
-		//value
-		float value(float) const;
-
-		//data
-		type m_type;
-		subtype m_subtype;
-	};
+	}
 }

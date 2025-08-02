@@ -129,6 +129,7 @@ namespace canvas
 		void draw(void);
 		void update(bool);
 		void update_on_motion(void);
+		void update_animations(void);
 
 	protected:
 		//setup

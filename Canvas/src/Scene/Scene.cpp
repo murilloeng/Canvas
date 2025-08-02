@@ -260,6 +260,10 @@ namespace canvas
 		}
 		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
 	}
+	void Scene::update_animations(void)
+	{
+		return;
+	}
 
 	//setup
 	void Scene::setup_vaos(void)

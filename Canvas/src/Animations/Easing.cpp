@@ -1,7 +1,7 @@
 //std
 #include <cmath>
 
-//sanim
+//canvas
 #include "Canvas/Canvas/inc/Animations/Easing.hpp"
 
 static float value_linear(float t)
@@ -70,37 +70,40 @@ static float value_elastic_in_out(float t)
 
 namespace canvas
 {
-	//constructor
-	Easing::Easing(void) : m_type{type::linear}, m_subtype{subtype::in_out}
+	namespace animations
 	{
-		return;
-	}
-
-	//destructor
-	Easing::~Easing(void)
-	{
-		return;
-	}
-
-	//value
-	float Easing::value(float t) const
-	{
-		//data
-		const float s = fmaxf(fminf(t, 1), 0);
-		float(*fun[])(float) = {
-			value_linear, value_linear, value_linear, 
-			value_sin_in, value_sin_out, value_sin_in_out,
-			value_back_in, value_back_out, value_back_in_out,
-			value_elastic_in, value_elastic_out, value_elastic_in_out
-		};
-		//return
-		for(uint32_t i = 0; i < 4; i++)
+		//constructor
+		Easing::Easing(void) : m_type{type::linear}, m_subtype{subtype::in_out}
 		{
-			if(m_type == type(i))
-			{
-				return fun[3 * i + uint32_t(m_subtype)](s);
-			}
+			return;
 		}
-		return 0;
+	
+		//destructor
+		Easing::~Easing(void)
+		{
+			return;
+		}
+	
+		//value
+		float Easing::value(float t) const
+		{
+			//data
+			const float s = fmaxf(fminf(t, 1), 0);
+			float(*fun[])(float) = {
+				value_linear, value_linear, value_linear, 
+				value_sin_in, value_sin_out, value_sin_in_out,
+				value_back_in, value_back_out, value_back_in_out,
+				value_elastic_in, value_elastic_out, value_elastic_in_out
+			};
+			//return
+			for(uint32_t i = 0; i < 4; i++)
+			{
+				if(m_type == type(i))
+				{
+					return fun[3 * i + uint32_t(m_subtype)](s);
+				}
+			}
+			return 0;
+		}
 	}
 }
