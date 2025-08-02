@@ -14,10 +14,6 @@
 namespace canvas
 {
 	class Scene;
-	namespace animations
-	{
-		class Animation;
-	}
 }
 
 namespace canvas
@@ -71,10 +67,6 @@ namespace canvas
 			void callback_mouse(button, bool, int32_t, int32_t, uint32_t);
 
 		protected:
-			//animations
-			void animation_start(void);
-			void animation_update(void);
-
 			//compute
 			void compute_view(void);
 			void compute_perspective(void);
@@ -111,7 +103,6 @@ namespace canvas
 			uint32_t m_height;
 			std::string m_output;
 			cameras::type m_type;
-			animations::Animation* m_animation;
 
 			//friends
 			friend class canvas::Scene;

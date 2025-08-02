@@ -38,6 +38,7 @@ void Engine::start(void)
 		if(m_show_fps)
 		{
 			t2 = glfwGetTime();
+			m_scene->time(float(t2));
 			printf("FPS: %d\n", uint32_t(1 / (t2 - t1)));
 			t1 = t2;
 		}

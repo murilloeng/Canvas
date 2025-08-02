@@ -6,7 +6,8 @@ namespace canvas
 	namespace animations
 	{
 		//constructor
-		Animation::Animation(void) : m_data{nullptr}, m_time_start{0}, m_time_duration{0}
+		Animation::Animation(void) : 
+			m_data{nullptr}, m_time_start{0.0f}, m_time_duration{1.0f}
 		{
 			return;
 		}

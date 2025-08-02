@@ -36,6 +36,8 @@
 #include "Canvas/Canvas/inc/Vertices/Image2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
+#include "Canvas/Canvas/inc/Animations/Animation.hpp"
+
 namespace canvas
 {
 	//constructors
@@ -283,7 +285,7 @@ namespace canvas
 	}
 	void Scene::update_animations(void)
 	{
-		m_camera.animation_update();
+		return;
 	}
 
 	//setup
