@@ -170,6 +170,10 @@ namespace canvas
 			vertices::Model3D* model_3D_ptr = vbo_data_model_3D();
 			vertices::Image3D* image_3D_ptr = vbo_data_image_3D();
 			//apply
+			for(uint32_t i = 0; i < m_vbo_size[2]; i++)
+			{
+				text_3D_ptr[i].m_position = m_model_matrix * text_3D_ptr[i].m_position;
+			}
 			for(uint32_t i = 0; i < m_vbo_size[0]; i++)
 			{
 				model_3D_ptr[i].m_position = m_model_matrix * model_3D_ptr[i].m_position;
@@ -177,10 +181,6 @@ namespace canvas
 			for(uint32_t i = 0; i < m_vbo_size[1]; i++)
 			{
 				image_3D_ptr[i].m_position = m_model_matrix * image_3D_ptr[i].m_position;
-			}
-			for(uint32_t i = 0; i < m_vbo_size[2]; i++)
-			{
-				text_3D_ptr[i].m_position = m_model_matrix * model_3D_ptr[i].m_position;
 			}
 		}
 	}
