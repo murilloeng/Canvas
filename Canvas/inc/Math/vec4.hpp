@@ -18,22 +18,25 @@ namespace canvas
 		vec4(void);
 		vec4(float);
 		vec4(const float*);
-		vec4(const vec3&, float);
+		vec4(const vec3&, float = 1);
 		vec4(float, float, float, float);
 
 		//destructor
 		~vec4(void);
 
+		//reduction
+		vec3 reduce(void) const;
+
 		//data
 		float* data(void);
 		const float* data(void) const;
-
-		//print
-		void print(const char* = "") const;
-
+		
 		//linear
 		float norm(void) const;
 		float inner(const vec4&) const;
+
+		//print
+		void print(const char* = "") const;
 
 		//operators
 		vec4& operator*=(float);

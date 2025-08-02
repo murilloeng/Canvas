@@ -13,6 +13,8 @@
 #include "external/cpp/inc/GL/glew.h"
 
 //canvas
+#include "Canvas/Canvas/inc/Math/vec4.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
@@ -150,6 +152,16 @@ namespace canvas
 			return m_type = type;
 		}
 
+		//convertion
+		void Camera::world_to_screen(vec3 v, uint32_t& x1, uint32_t& x2) const
+		{
+			//coordinates
+			const vec3 xn = (m_projection * m_view * vec4(v, 1)).reduce();
+			//screen
+			x1 = m_width * uint32_t(1 + xn[0]) / 2;
+			x2 = m_height * uint32_t(1 - xn[1]) / 2;
+		}
+
 		//callbacks
 		void Camera::callback_key(char key)
 		{
@@ -266,81 +278,6 @@ namespace canvas
 			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
 		}
 
-		//bound
-		void Camera::bound_text_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Text3D* data = (vertices::Text3D*) m_scene->m_vbos[2]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[2]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[2]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_model_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Model3D* data = (vertices::Model3D*) m_scene->m_vbos[0]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[0]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[0]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_image_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Image3D* data = (vertices::Image3D*) m_scene->m_vbos[1]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[1]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[1]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_checkup_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			if(!status)
-			{
-				x_min = {-1, -1, -1};
-				x_max = {+1, +1, +1};
-			}
-			if((x_max - x_min).norm() < 1e-5)
-			{
-				x_min -= vec3(1, 1, 1);
-				x_max += vec3(1, 1, 1);
-			}
-		}
-
 		//callbacks
 		void Camera::callback_zoom(bool direction)
 		{
@@ -425,6 +362,81 @@ namespace canvas
 			//update
 			update();
 			m_scene->update_on_motion();
+		}
+
+		//bound
+		void Camera::bound_text_3D(vec3& x_min, vec3& x_max, bool& status) const
+		{
+			//data
+			vertices::Text3D* data = (vertices::Text3D*) m_scene->m_vbos[2]->m_data;
+			//setup
+			if(!status && m_scene->m_vbos[2]->m_vertex_count)
+			{
+				status = true;
+				x_min = x_max = data[0].m_position;
+			}
+			//bound
+			for(uint32_t i = 0; i < m_scene->m_vbos[2]->m_vertex_count; i++)
+			{
+				for(uint32_t j = 0; j < 3; j++)
+				{
+					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
+					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
+				}
+			}
+		}
+		void Camera::bound_model_3D(vec3& x_min, vec3& x_max, bool& status) const
+		{
+			//data
+			vertices::Model3D* data = (vertices::Model3D*) m_scene->m_vbos[0]->m_data;
+			//setup
+			if(!status && m_scene->m_vbos[0]->m_vertex_count)
+			{
+				status = true;
+				x_min = x_max = data[0].m_position;
+			}
+			//bound
+			for(uint32_t i = 0; i < m_scene->m_vbos[0]->m_vertex_count; i++)
+			{
+				for(uint32_t j = 0; j < 3; j++)
+				{
+					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
+					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
+				}
+			}
+		}
+		void Camera::bound_image_3D(vec3& x_min, vec3& x_max, bool& status) const
+		{
+			//data
+			vertices::Image3D* data = (vertices::Image3D*) m_scene->m_vbos[1]->m_data;
+			//setup
+			if(!status && m_scene->m_vbos[1]->m_vertex_count)
+			{
+				status = true;
+				x_min = x_max = data[0].m_position;
+			}
+			//bound
+			for(uint32_t i = 0; i < m_scene->m_vbos[1]->m_vertex_count; i++)
+			{
+				for(uint32_t j = 0; j < 3; j++)
+				{
+					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
+					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
+				}
+			}
+		}
+		void Camera::bound_checkup_3D(vec3& x_min, vec3& x_max, bool& status) const
+		{
+			if(!status)
+			{
+				x_min = {-1, -1, -1};
+				x_max = {+1, +1, +1};
+			}
+			if((x_max - x_min).norm() < 1e-5)
+			{
+				x_min -= vec3(1, 1, 1);
+				x_max += vec3(1, 1, 1);
+			}
 		}
 	}
 }

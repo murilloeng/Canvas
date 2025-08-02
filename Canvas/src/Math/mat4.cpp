@@ -5,6 +5,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
+#include "Canvas/Canvas/inc/Math/vec4.hpp"
 #include "Canvas/Canvas/inc/Math/quat.hpp"
 #include "Canvas/Canvas/inc/Math/mat4.hpp"
 
@@ -137,6 +138,19 @@ namespace canvas
 		{
 			r[i] = m_data_ref[i + 4 * 3];
 			for(uint32_t j = 0; j < 3; j++)
+			{
+				r[i] += m_data_ref[i + 4 * j] * v[j];
+			}
+		}
+		return r;
+	}
+	vec4 mat4::operator*(const vec4& v) const
+	{
+		vec4 r;
+		for(uint32_t i = 0; i < 4; i++)
+		{
+			r[i] = 0;
+			for(uint32_t j = 0; j < 4; j++)
 			{
 				r[i] += m_data_ref[i + 4 * j] * v[j];
 			}

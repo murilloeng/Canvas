@@ -24,6 +24,10 @@ namespace canvas
 	{
 		return;
 	}
+	vec4::vec4(const vec3& v, float s) : m_data{v[0], v[1], v[2], 1}
+	{
+		return;
+	}
 	vec4::vec4(float x1, float x2, float x3, float x4) : m_data{x1, x2, x3, x4}
 	{
 		return;
@@ -33,6 +37,16 @@ namespace canvas
 	vec4::~vec4(void)
 	{
 		return;
+	}
+
+	//reduction
+	vec3 vec4::reduce(void) const
+	{
+		return vec3(
+			m_data[0] / m_data[3],
+			m_data[1] / m_data[3],
+			m_data[2] / m_data[3]
+		);
 	}
 
 	//data
@@ -129,7 +143,7 @@ namespace canvas
 	}
 	vec4& vec4::operator=(const float* data)
 	{
-		memcpy(m_data, data, 3 * sizeof(float));
+		memcpy(m_data, data, 4 * sizeof(float));
 		return *this;
 	}
 

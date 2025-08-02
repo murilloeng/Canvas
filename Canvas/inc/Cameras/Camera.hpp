@@ -72,18 +72,18 @@ namespace canvas
 			void compute_view(void);
 			void compute_perspective(void);
 			void compute_orthographic(void);
+			
+			//callbacks
+			void callback_zoom(bool);
+			void callback_rotation(char);
+			void callback_rotation(int32_t, int32_t);
+			void callback_translation(int32_t, int32_t);
 
 			//bound
 			void bound_text_3D(vec3&, vec3&, bool&) const;
 			void bound_model_3D(vec3&, vec3&, bool&) const;
 			void bound_image_3D(vec3&, vec3&, bool&) const;
 			void bound_checkup_3D(vec3&, vec3&, bool&) const;
-
-			//callbacks
-			void callback_zoom(bool);
-			void callback_rotation(char);
-			void callback_rotation(int32_t, int32_t);
-			void callback_translation(int32_t, int32_t);
 
 			//data
 			Click m_click;
