@@ -5,21 +5,7 @@
 
 namespace canvas
 {
-	namespace cameras
-	{
-		class Camera;
-	}
-	namespace objects
-	{
-		class Object;
-	}
-	namespace animations
-	{
-		enum class type : uint32_t
-		{
-			shift, rotate
-		};
-	}
+	class Scene;
 }
 
 namespace canvas
@@ -33,21 +19,34 @@ namespace canvas
 			Animation(void);
 
 			//destructor
-			~Animation(void);
+			virtual ~Animation(void);
 
-			//status
-			bool status(float) const;
+			//data
+			bool status(void) const;
+
+			float time_start(float);
+			float time_start(void) const;
+
+			float time_durantion(float);
+			float time_durantion(void) const;
+
+			Easing& easing(void);
+			const Easing& easing(void) const;
+
+			//update
+			virtual void setup(void);
+			virtual void cleanup(void);
+			virtual void animate(float);
 
 		private:
 			//data
-			uint8_t* m_data;
+			bool m_status;
 			Easing m_easing;
 			float m_time_start;
 			float m_time_duration;
 
 			//friends
-			friend class cameras::Camera;
-			friend class objects::Object;
+			friend class canvas::Scene;
 		};
 	}
 }

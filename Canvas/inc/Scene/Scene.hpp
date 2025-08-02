@@ -56,6 +56,10 @@ namespace canvas
 	{
 		class Font;
 	}
+	namespace animations
+	{
+		class Animation;
+	}
 }
 
 namespace canvas
@@ -129,6 +133,10 @@ namespace canvas
 		objects::Object* object(uint32_t) const;
 		const std::vector<objects::Object*>& objects(void) const;
 
+		//animations
+		void add_animation(animations::Animation*);
+		animations::Animation* animation(uint32_t) const;
+
 		//update
 		void draw(void);
 		void update(bool);
@@ -197,6 +205,7 @@ namespace canvas
 		std::vector<textures::Latex*> m_latex;
 		std::vector<textures::Image*> m_images;
 		std::vector<objects::Object*> m_objects;
+		std::vector<animations::Animation*> m_animations;
 
 		//friends
 		friend class fonts::Font;

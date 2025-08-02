@@ -2,6 +2,7 @@
 #include <omp.h>
 #include <cmath>
 #include <cfloat>
+#include <algorithm>
 #include <stdexcept>
 
 //ext
@@ -71,6 +72,7 @@ namespace canvas
 		for(const objects::Object* object : m_objects) delete object;
 		for(const commands::Command* command : m_commands) delete command;
 		for(const textures::Texture* texture : m_textures) delete texture;
+		for(const animations::Animation* animation : m_animations) delete animation;
 		//freetype
 		FT_Done_FreeType(m_ft_library);
 	}
@@ -240,6 +242,20 @@ namespace canvas
 		return m_objects;
 	}
 
+	//animations
+	void Scene::add_animation(animations::Animation* animation)
+	{
+		if(animation->m_time_start == 0)
+		{
+			animation->m_time_start = m_time;
+		}
+		m_animations.push_back(animation);
+	}
+	animations::Animation* Scene::animation(uint32_t index) const
+	{
+		return m_animations[index];
+	}
+
 	//draw
 	void Scene::draw(void)
 	{
@@ -285,7 +301,25 @@ namespace canvas
 	}
 	void Scene::update_animations(void)
 	{
-		return;
+		std::vector<animations::Animation*>::iterator iterator;
+		for(iterator = m_animations.begin(); iterator != m_animations.end();)
+		{
+			//data
+			const float t0 = (*iterator)->m_time_start;
+			const float dt = (*iterator)->m_time_duration;
+			//update
+			if(t0 < m_time && m_time < t0 + dt)
+			{
+				(*iterator)->animate(m_time);
+				iterator++;
+			}
+			else if(m_time > t0 + dt)
+			{
+				(*iterator)->cleanup();
+				delete *iterator;
+				iterator = m_animations.erase(iterator);
+			}
+		}
 	}
 
 	//setup
