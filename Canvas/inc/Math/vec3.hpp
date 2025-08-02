@@ -5,9 +5,10 @@
 
 namespace canvas
 {
+	class vec2;
+	class vec4;
 	class quat;
 	class mat4;
-	class vec2;
 }
 
 namespace canvas
@@ -71,5 +72,8 @@ namespace canvas
 	private:
 		//data
 		float m_data[3];
+
+		//friends
+		friend class vec4;
 	};
 }

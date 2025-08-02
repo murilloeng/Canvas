@@ -6,6 +6,7 @@
 namespace canvas
 {
 	class vec3;
+	class vec4;
 }
 
 namespace canvas
@@ -65,5 +66,6 @@ namespace canvas
 
 		//friends
 		friend class vec3;
+		friend class vec4;
 	};
 }
