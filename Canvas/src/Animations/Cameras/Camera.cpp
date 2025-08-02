@@ -1,14 +1,14 @@
 //canvas
-#include "Canvas/Canvas/inc/Animations/Camera/Camera.hpp"
+#include "Canvas/Canvas/inc/Animations/Cameras/Camera.hpp"
 
 namespace canvas
 {
 	namespace animations
 	{
-		namespace camera
+		namespace cameras
 		{
 			//constructor
-			Camera::Camera(cameras::Camera* camera) : m_camera{camera}
+			Camera::Camera(canvas::cameras::Camera* camera) : m_camera{camera}
 			{
 				return;
 			}

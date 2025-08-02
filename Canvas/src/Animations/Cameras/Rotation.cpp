@@ -1,15 +1,16 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Animations/Camera/Rotation.hpp"
+
+#include "Canvas/Canvas/inc/Animations/Cameras/Rotation.hpp"
 
 namespace canvas
 {
 	namespace animations
 	{
-		namespace camera
+		namespace cameras
 		{
 			//constructor
-			Rotation::Rotation(cameras::Camera* camera, quat qt) : Camera(camera), m_qt{qt}
+			Rotation::Rotation(canvas::cameras::Camera* camera, quat qt) : Camera(camera), m_qt{qt}
 			{
 				return;
 			}

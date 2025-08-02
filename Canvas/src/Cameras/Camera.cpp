@@ -28,7 +28,7 @@
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 
-#include "Canvas/Canvas/inc/Animations/Camera/Rotation.hpp"
+#include "Canvas/Canvas/inc/Animations/Cameras/Rotation.hpp"
 
 namespace canvas
 {
@@ -297,23 +297,23 @@ namespace canvas
 			if(key == 'x')
 			{
 				const quat q({0, 1, 0}, {0, 0, 1}, {1, 0, 0});
-				m_scene->add_animation(new animations::camera::Rotation(this, q));
+				m_scene->add_animation(new animations::cameras::Rotation(this, q));
 			}
 			if(key == 'y')
 			{
 				const quat q({0, 0, 1}, {1, 0, 0}, {0, 1, 0});
-				m_scene->add_animation(new animations::camera::Rotation(this, q));
+				m_scene->add_animation(new animations::cameras::Rotation(this, q));
 			}
 			if(key == 'z')
 			{
 				const quat q({1, 0, 0}, {0, 1, 0}, {0, 0, 1});
-				m_scene->add_animation(new animations::camera::Rotation(this, q));
+				m_scene->add_animation(new animations::cameras::Rotation(this, q));
 			}
 			if(key == 'i')
 			{
 				static uint32_t index = 0;
 				const quat q = quat::view_iso(index).conjugate();
-				m_scene->add_animation(new animations::camera::Rotation(this, q));
+				m_scene->add_animation(new animations::cameras::Rotation(this, q));
 				index = (index + 1) % 3;
 			}
 		}

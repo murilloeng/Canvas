@@ -9,20 +9,20 @@ namespace canvas
 {
 	namespace animations
 	{
-		namespace camera
+		namespace cameras
 		{
 			class Camera : public Animation
 			{
 			public:
 				//constructor
-				Camera(cameras::Camera*);
+				Camera(canvas::cameras::Camera*);
 
 				//destructor
 				~Camera(void);
 
 			protected:
 				//data
-				cameras::Camera* m_camera;
+				canvas::cameras::Camera* m_camera;
 			};
 		}
 	}

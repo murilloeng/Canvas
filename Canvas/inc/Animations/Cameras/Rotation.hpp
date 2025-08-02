@@ -3,19 +3,19 @@
 //canvas
 #include "Canvas/Canvas/inc/Math/quat.hpp"
 
-#include "Canvas/Canvas/inc/Animations/Camera/Camera.hpp"
+#include "Canvas/Canvas/inc/Animations/Cameras/Camera.hpp"
 
 namespace canvas
 {
 	namespace animations
 	{
-		namespace camera
+		namespace cameras
 		{
 			class Rotation : public Camera
 			{
 			public:
 				//constructor
-				Rotation(cameras::Camera*, quat);
+				Rotation(canvas::cameras::Camera*, quat);
 
 				//destructor
 				~Rotation(void);
