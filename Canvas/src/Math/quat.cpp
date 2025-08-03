@@ -160,11 +160,15 @@ namespace canvas
 		return m_data[index];
 	}
 
-	//affine
+	//algebra
+	float quat::angle(void) const
+	{
+		return 2 * acosf(fmaxf(fminf(m_data[0], 1), -1));
+	}
 	vec3 quat::vector(void) const
 	{
 		//data
-		const float t = 2 * acosf(m_data[0]);
+		const float t = angle();
 		//vector
 		if(t == 0)
 		{
@@ -175,6 +179,8 @@ namespace canvas
 			return t / sinf(t / 2) * vec3(m_data[1], m_data[2], m_data[3]);
 		}
 	}
+
+	//group
 	mat4 quat::rotation(void) const
 	{
 		//data
@@ -214,5 +220,9 @@ namespace canvas
 	vec3 quat::conjugate(const vec3& v) const
 	{
 		return conjugate().rotate(v);
+	}
+	quat quat::conjugate(const quat& q) const
+	{
+		return conjugate() * q;
 	}
 }

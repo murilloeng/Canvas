@@ -47,12 +47,16 @@ namespace canvas
 		const float& operator()(uint32_t) const;
 		const float& operator[](uint32_t) const;
 
-		//affine
+		//algebra
+		float angle(void) const;
 		vec3 vector(void) const;
+
+		//group
 		mat4 rotation(void) const;
 		quat conjugate(void) const;
 		vec3 rotate(const vec3&) const;
 		vec3 conjugate(const vec3&) const;
+		quat conjugate(const quat&) const;
 
 	private:
 		//data

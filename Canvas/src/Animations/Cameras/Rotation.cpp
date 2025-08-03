@@ -31,7 +31,14 @@ namespace canvas
 				const vec3 uf = m_camera->front();
 				//setup
 				m_q0 = quat(ur, up, -uf);
-				m_qr = m_q0.conjugate() * m_qt;
+				m_qr = m_q0.conjugate(m_qt);
+				//inversion
+				if(m_qr.angle() < 1e-2f)
+				{
+					vec3 ur, up;
+					m_qt.rotate({0, 0, 1}).triad(ur, up);
+					m_qr = {0, ur[0], ur[1], ur[2]};
+				}
 			}
 			void Rotation::cleanup(void)
 			{

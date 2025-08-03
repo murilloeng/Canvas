@@ -24,11 +24,14 @@ Engine::~Engine(void)
 void Engine::start(void)
 {
 	glfwSetTime(0);
-	double t1 = 0, t2;
+	float t1 = 0, t2;
 	while(!glfwWindowShouldClose(m_window))
 	{
+		//time
+		t2 = (float) glfwGetTime();
 		//animations
 		glfwPollEvents();
+		m_scene->time(t2);
 		m_scene->update_animations();
 		if(m_user_idle) m_user_idle();
 		//draw
@@ -37,8 +40,6 @@ void Engine::start(void)
 		//framerate
 		if(m_show_fps)
 		{
-			t2 = glfwGetTime();
-			m_scene->time(float(t2));
 			printf("FPS: %d\n", uint32_t(1 / (t2 - t1)));
 			t1 = t2;
 		}
