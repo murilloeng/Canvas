@@ -448,6 +448,7 @@ namespace canvas
 		//enable
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		//values
 		glPointSize(7);

@@ -10,10 +10,6 @@
 namespace canvas
 {
 	class Scene;
-	namespace objects
-	{
-		class Group;
-	}
 	namespace vertices
 	{
 		class Text2D;
@@ -22,6 +18,11 @@ namespace canvas
 		class Model3D;
 		class Image2D;
 		class Image3D;
+	}
+	namespace objects
+	{
+		class Group;
+		class Container;
 	}
 }
 
@@ -94,6 +95,7 @@ namespace canvas
 			//friends
 			friend class canvas::Scene;
 			friend class objects::Group;
+			friend class objects::Container;
 		};
 	}
 }
