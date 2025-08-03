@@ -8,7 +8,7 @@ namespace examples
 	namespace objects
 	{
 		void arcs(canvas::Scene*);
-		void text(canvas::Scene*);
+		void text3D(canvas::Scene*);
 		void group(canvas::Scene*);
 		void cubes(canvas::Scene*);
 		void lines(canvas::Scene*);
@@ -26,7 +26,7 @@ namespace examples
 		void polygons(canvas::Scene*);
 		void surfaces(canvas::Scene*);
 		void palettes(canvas::Scene*);
-		void graph_2D(canvas::Scene*);
+		void graph2D(canvas::Scene*);
 		void polylines(canvas::Scene*);
 		void triangles(canvas::Scene*);
 		void cylinders(canvas::Scene*);

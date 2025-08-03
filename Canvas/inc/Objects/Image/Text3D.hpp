@@ -15,14 +15,14 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Text : public Geometry
+		class Text3D : public Geometry
 		{
 		public:
 			//constructors
-			Text(void);
+			Text3D(void);
 
 			//destructor
-			~Text(void);
+			~Text3D(void);
 
 			//data
 			float size(float);

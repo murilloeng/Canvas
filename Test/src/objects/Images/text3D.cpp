@@ -1,7 +1,8 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+
 #include "Canvas/Canvas/inc/Objects/2D/Quad.hpp"
-#include "Canvas/Canvas/inc/Objects/Image/Text.hpp"
+#include "Canvas/Canvas/inc/Objects/Image/Text3D.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
@@ -11,16 +12,16 @@ static const float x[] = {-1, -1, +1, -1, +1, +1, -1, +1};
 static const char* c[] = {"A", "B", "C", "D", "E", "F", "G", "H"};
 static const char* a[] = {"NE", "NW", "SW", "SE", "SW", "SE", "NE", "NW"};
 
-void examples::objects::text(canvas::Scene* scene)
+void examples::objects::text3D(canvas::Scene* scene)
 {
 	//fonts
 	scene->add_font("times");
 	//objects
 	canvas::objects::Quad* quad;
-	canvas::objects::Text* text[9];
+	canvas::objects::Text3D* text[9];
 	for(uint32_t i = 0; i < 9; i++)
 	{
-		scene->add_object(text[i] = new canvas::objects::Text);
+		scene->add_object(text[i] = new canvas::objects::Text3D);
 	}
 	scene->add_object(quad = new canvas::objects::Quad);
 	//quad

@@ -1,5 +1,4 @@
 //canvas
-#include "Canvas/Canvas/inc/Objects/1D/Polyline.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Text2D.hpp"
 
 //test
@@ -10,10 +9,9 @@ void examples::objects::text2D(canvas::Scene* scene)
 	//data
 	canvas::objects::Text2D* text[5];
 	const canvas::vec2 positions[] = {
-		{0.0f, 0.0f}, {-0.5f, -0.5f}, {+0.5f, -0.5f}, {+0.5f, +0.5f}, {-0.5f, +0.5f}
+		{0.0f, 0.0f}, {-1.0f, -1.0f}, {+1.0f, -1.0f}, {+1.0f, +1.0f}, {-1.0f, +1.0f}
 	};
-	canvas::objects::Polyline* line = new canvas::objects::Polyline;
-	const canvas::Anchor anchors[] = {"CC", "NE", "NW", "SW", "SW"};
+	const canvas::Anchor anchors[] = {"CC", "SW", "SE", "NE", "NW"};
 	const char* strings[] = {"little test\nwith a little text", "A", "B", "C", "D"};
 	//text
 	scene->add_font("times");
@@ -30,11 +28,4 @@ void examples::objects::text2D(canvas::Scene* scene)
 		//scene
 		scene->add_object(text[i]);
 	}
-	//line
-	scene->add_object(line);
-	line->vertices().push_back({positions[1][0], positions[1][1], 0});
-	line->vertices().push_back({positions[2][0], positions[2][1], 0});
-	line->vertices().push_back({positions[3][0], positions[3][1], 0});
-	line->vertices().push_back({positions[4][0], positions[4][1], 0});
-	line->vertices().push_back({positions[1][0], positions[1][1], 0});
 }

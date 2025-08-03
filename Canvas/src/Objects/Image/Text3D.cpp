@@ -3,16 +3,19 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
+
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
-#include "Canvas/Canvas/inc/Objects/Image/Text.hpp"
+
+#include "Canvas/Canvas/inc/Objects/Image/Text3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Text::Text(void) : 
+		Text3D::Text3D(void) : 
 			m_size(1.0f), m_normal(false), m_font(0), m_position{0, 0, 0}, 
 			m_directions{{1, 0, 0}, {0, 1, 0}}, m_line_spacing(0.2f)
 		{
@@ -20,86 +23,86 @@ namespace canvas
 		}
 
 		//destructor
-		Text::~Text(void)
+		Text3D::~Text3D(void)
 		{
 			return;
 		}
 
 		//data
-		float Text::size(void) const
+		float Text3D::size(void) const
 		{
 			return m_size;
 		}
-		float Text::size(float size)
+		float Text3D::size(float size)
 		{
 			return m_size = size;
 		}
 
-		bool Text::normal(void) const
+		bool Text3D::normal(void) const
 		{
 			return m_normal;
 		}
-		bool Text::normal(bool normal)
+		bool Text3D::normal(bool normal)
 		{
 			return m_normal = normal;
 		}
 
-		uint32_t Text::font(void) const
+		uint32_t Text3D::font(void) const
 		{
 			return m_font;
 		}
-		uint32_t Text::font(uint32_t font)
+		uint32_t Text3D::font(uint32_t font)
 		{
 			return m_font = font;
 		}
 
-		Anchor Text::anchor(void) const
+		Anchor Text3D::anchor(void) const
 		{
 			return m_anchor;
 		}
-		Anchor Text::anchor(Anchor anchor)
+		Anchor Text3D::anchor(Anchor anchor)
 		{
 			return m_anchor = anchor;
 		}
 
-		vec3 Text::position(void) const
+		vec3 Text3D::position(void) const
 		{
 			return m_position;
 		}
-		vec3 Text::position(const vec3& position)
+		vec3 Text3D::position(const vec3& position)
 		{
 			return m_position = position;
 		}
 
-		std::string Text::text(void) const
+		std::string Text3D::text(void) const
 		{
 			return m_text;
 		}
-		std::string Text::text(std::string text)
+		std::string Text3D::text(std::string text)
 		{
 			return m_text = text;
 		}
 
-		float Text::line_spacing(void) const
+		float Text3D::line_spacing(void) const
 		{
 			return m_line_spacing;
 		}
-		float Text::line_spacing(float line_spacing)
+		float Text3D::line_spacing(float line_spacing)
 		{
 			return m_line_spacing = m_line_spacing;
 		}
 
-		vec3 Text::direction(uint32_t index) const
+		vec3 Text3D::direction(uint32_t index) const
 		{
 			return m_directions[index];
 		}
-		vec3 Text::direction(uint32_t index, const vec3 &direction)
+		vec3 Text3D::direction(uint32_t index, const vec3 &direction)
 		{
 			return m_directions[index] = direction;
 		}
 
 		//text
-		uint32_t Text::width(void) const
+		uint32_t Text3D::width(void) const
 		{
 			uint32_t w = 0;
 			uint32_t v = 0;
@@ -116,7 +119,7 @@ namespace canvas
 			}
 			return std::max(w, v);
 		}
-		uint32_t Text::height(void) const
+		uint32_t Text3D::height(void) const
 		{
 			//data
 			uint32_t h = 0, a = 0, b = 0;
@@ -136,7 +139,7 @@ namespace canvas
 			}
 			return h + a + b;
 		}
-		uint32_t Text::length(void) const
+		uint32_t Text3D::length(void) const
 		{
 			uint32_t v = 0;
 			for(char c : m_text)
@@ -147,7 +150,7 @@ namespace canvas
 		}
 
 		//setup
-		void Text::setup(void)
+		void Text3D::setup(void)
 		{
 			//check
 			uint32_t a = 0, b = 0;
@@ -175,7 +178,7 @@ namespace canvas
 		}
 
 		//data
-		void Text::vbo_fill_data(void) const
+		void Text3D::vbo_fill_data(void) const
 		{
 			//data
 			uint32_t line = 0;
@@ -235,7 +238,7 @@ namespace canvas
 				}
 			}
 		}
-		void Text::ibo_fill_data(void) const
+		void Text3D::ibo_fill_data(void) const
 		{
 			const uint32_t s = length();
 			uint32_t* ibo_ptr = ibo_data(4);
@@ -251,19 +254,19 @@ namespace canvas
 		}
 
 		//buffers
-		void Text::buffers_size(void)
+		void Text3D::buffers_size(void)
 		{
 			m_vbo_size[2] = 4 * m_fill * length();
 			m_ibo_size[4] = 6 * m_fill * length();
 		}
-		void Text::buffers_data(void) const
+		void Text3D::buffers_data(void) const
 		{
 			if(m_fill) vbo_fill_data();
 			if(m_fill) ibo_fill_data();
 		}
 
 		//update
-		void Text::update_on_motion(void) const
+		void Text3D::update_on_motion(void) const
 		{
 			if(m_fill && m_normal) vbo_fill_data();
 		}

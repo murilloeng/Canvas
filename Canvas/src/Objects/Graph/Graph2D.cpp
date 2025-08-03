@@ -8,7 +8,7 @@
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 
-#include "Canvas/Canvas/inc/Objects/Graph/Graph_2D.hpp"
+#include "Canvas/Canvas/inc/Objects/Graph/Graph2D.hpp"
 
 namespace canvas
 {
@@ -17,7 +17,7 @@ namespace canvas
 		namespace graphs
 		{
 			//constructors
-			Graph_2D::Graph_2D(void) : 
+			Graph2D::Graph2D(void) : 
 				m_width(4), m_height(3), m_range{0, 1, 0, 1}, 
 				m_labels_latex{false, false}, m_labels_size{0.12f, 0.12f}, m_labels_font{0, 0}, 
 				m_labels_index{0, 0}, m_labels_string{"x1", "x2"},
@@ -28,151 +28,151 @@ namespace canvas
 			}
 
 			//destructor
-			Graph_2D::~Graph_2D(void)
+			Graph2D::~Graph2D(void)
 			{
-				for(const Curve_2D* curve : m_curves)
+				for(const Curve2D* curve : m_curves)
 				{
 					delete curve;
 				}
 			}
 
 			//data
-			float Graph_2D::width(void) const
+			float Graph2D::width(void) const
 			{
 				return m_width;
 			}
-			float Graph_2D::width(float width)
+			float Graph2D::width(float width)
 			{
 				return m_width = width;
 			}
 
-			float Graph_2D::height(void) const
+			float Graph2D::height(void) const
 			{
 				return m_height;
 			}
-			float Graph_2D::height(float height)
+			float Graph2D::height(float height)
 			{
 				return m_height = height;
 			}
 
-			float Graph_2D::range(uint32_t axis, uint32_t index) const
+			float Graph2D::range(uint32_t axis, uint32_t index) const
 			{
 				return m_range[2 * axis + index];
 			}
-			float Graph_2D::range(uint32_t axis, uint32_t index, float range)
+			float Graph2D::range(uint32_t axis, uint32_t index, float range)
 			{
 				return m_range[2 * axis + index] = range;
 			}
 
-			bool Graph_2D::labels_latex(uint32_t index) const
+			bool Graph2D::labels_latex(uint32_t index) const
 			{
 				return m_labels_latex[index];
 			}
-			bool Graph_2D::labels_latex(uint32_t index, bool latex)
+			bool Graph2D::labels_latex(uint32_t index, bool latex)
 			{
 				return m_labels_latex[index] = latex;
 			}
 
-			float Graph_2D::labels_size(float size)
+			float Graph2D::labels_size(float size)
 			{
 				return m_labels_size[0] = m_labels_size[1] = size;
 			}
-			float Graph_2D::labels_size(uint32_t index) const
+			float Graph2D::labels_size(uint32_t index) const
 			{
 				return m_labels_size[index];
 			}
-			float Graph_2D::labels_size(uint32_t index, float size)
+			float Graph2D::labels_size(uint32_t index, float size)
 			{
 				return m_labels_size[index] = size;
 			}
 
-			uint32_t Graph_2D::labels_index(uint32_t index) const
+			uint32_t Graph2D::labels_index(uint32_t index) const
 			{
 				return m_labels_index[index];
 			}
-			uint32_t Graph_2D::labels_index(uint32_t index, uint32_t latex_index)
+			uint32_t Graph2D::labels_index(uint32_t index, uint32_t latex_index)
 			{
 				return m_labels_index[index] = latex_index;
 			}
 
-			const char* Graph_2D::labels_string(uint32_t index) const
+			const char* Graph2D::labels_string(uint32_t index) const
 			{
 				return m_labels_string[index];
 			}
-			const char* Graph_2D::labels_string(uint32_t index, const char* string)
+			const char* Graph2D::labels_string(uint32_t index, const char* string)
 			{
 				return strcpy(m_labels_string[index], string);
 			}
 
-			float Graph_2D::tics_line_size(float size)
+			float Graph2D::tics_line_size(float size)
 			{
 				return m_tics_line_size[0] = m_tics_line_size[1] = size;
 			}
-			float Graph_2D::tics_line_size(uint32_t index) const
+			float Graph2D::tics_line_size(uint32_t index) const
 			{
 				return m_tics_line_size[index];
 			}
-			float Graph_2D::tics_line_size(uint32_t index, float size)
+			float Graph2D::tics_line_size(uint32_t index, float size)
 			{
 				return m_tics_line_size[index] = size;
 			}
 
-			float Graph_2D::tics_label_size(float size)
+			float Graph2D::tics_label_size(float size)
 			{
 				return m_tics_label_size[0] = m_tics_label_size[1] = size;
 			}
-			float Graph_2D::tics_label_size(uint32_t index) const
+			float Graph2D::tics_label_size(uint32_t index) const
 			{
 				return m_tics_label_size[index];
 			}
-			float Graph_2D::tics_label_size(uint32_t index, float size)
+			float Graph2D::tics_label_size(uint32_t index, float size)
 			{
 				return m_tics_label_size[index] = size;
 			}
 
-			uint32_t Graph_2D::tics_font(uint32_t index) const
+			uint32_t Graph2D::tics_font(uint32_t index) const
 			{
 				return m_tics_font[index];
 			}
-			uint32_t Graph_2D::tics_font(uint32_t index, uint32_t font)
+			uint32_t Graph2D::tics_font(uint32_t index, uint32_t font)
 			{
 				return m_tics_font[index] = font;
 			}
 
-			uint32_t Graph_2D::tics_count(uint32_t index) const
+			uint32_t Graph2D::tics_count(uint32_t index) const
 			{
 				return m_tics_count[index];
 			}
-			uint32_t Graph_2D::tics_count(uint32_t index, uint32_t tics)
+			uint32_t Graph2D::tics_count(uint32_t index, uint32_t tics)
 			{
 				return m_tics_count[index] = tics;
 			}
 
-			const char* Graph_2D::tics_format(const char* format)
+			const char* Graph2D::tics_format(const char* format)
 			{
 				return strcpy(m_tics_format[1], strcpy(m_tics_format[0], format));
 			}
-			const char* Graph_2D::tics_format(uint32_t index) const
+			const char* Graph2D::tics_format(uint32_t index) const
 			{
 				return m_tics_format[index];
 			}
-			const char* Graph_2D::tics_format(uint32_t index, const char* format)
+			const char* Graph2D::tics_format(uint32_t index, const char* format)
 			{
 				return strcpy(m_tics_format[index], format);
 			}
 
 			//curves
-			std::vector<Curve_2D*>& Graph_2D::curves(void)
+			std::vector<Curve2D*>& Graph2D::curves(void)
 			{
 				return m_curves;
 			}
-			const std::vector<Curve_2D*>& Graph_2D::curves(void) const
+			const std::vector<Curve2D*>& Graph2D::curves(void) const
 			{
 				return m_curves;
 			}
 
 			//setup
-			void Graph_2D::setup(void)
+			void Graph2D::setup(void)
 			{
 				//data
 				char label[20];
@@ -205,7 +205,7 @@ namespace canvas
 			}
 
 			//buffers
-			void Graph_2D::buffers_size(void)
+			void Graph2D::buffers_size(void)
 			{
 				//data
 				const uint32_t n1 = m_tics_count[0];
@@ -225,14 +225,14 @@ namespace canvas
 				m_ibo_size[4] += 6 * (m_labels_latex[0] ? 0 : p1);
 				m_ibo_size[4] += 6 * (m_labels_latex[1] ? 0 : p2);
 				m_ibo_size[5] = 6 * (m_labels_latex[0] + m_labels_latex[1]);
-				for(const Curve_2D* curve : m_curves)
+				for(const Curve2D* curve : m_curves)
 				{
 					m_ibo_size[0] += curve->m_samples * curve->m_points;
 					m_ibo_size[1] += 2 * (curve->m_samples - 1) * curve->m_lines;
 					m_vbo_size[0] += curve->m_samples * (curve->m_points + curve->m_lines);
 				}
 			}
-			void Graph_2D::buffers_data(void) const
+			void Graph2D::buffers_data(void) const
 			{
 				//vbo data
 				vbo_data_frame();
@@ -260,7 +260,7 @@ namespace canvas
 			}
 
 			//vbo data
-			void Graph_2D::vbo_data_frame(void) const
+			void Graph2D::vbo_data_frame(void) const
 			{
 				//data
 				const float w = m_width;
@@ -276,7 +276,7 @@ namespace canvas
 				vbo_ptr[2].m_color = m_frame_color;
 				vbo_ptr[3].m_color = m_frame_color;
 			}
-			void Graph_2D::vbo_data_curves(void) const
+			void Graph2D::vbo_data_curves(void) const
 			{
 				//data
 				float x1, x2;
@@ -290,7 +290,7 @@ namespace canvas
 				const uint32_t n2 = m_tics_count[1];
 				vertices::Model3D* vbo_ptr = vbo_data_model_3D() + 4 * (1 + n1 + n2);
 				//vbo data
-				for(const Curve_2D* curve : m_curves)
+				for(const Curve2D* curve : m_curves)
 				{
 					if(curve->m_points)
 					{
@@ -318,7 +318,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::vbo_data_tics_lines_1(void) const
+			void Graph2D::vbo_data_tics_lines_1(void) const
 			{
 				//data
 				const float w = m_width;
@@ -340,7 +340,7 @@ namespace canvas
 					vbo_ptr[4 * i + 3].m_position = {x1, h - s, 0};
 				}
 			}
-			void Graph_2D::vbo_data_tics_lines_2(void) const
+			void Graph2D::vbo_data_tics_lines_2(void) const
 			{
 				//data
 				const float w = m_width;
@@ -363,7 +363,7 @@ namespace canvas
 					vbo_ptr[4 * i + 3].m_position = {w - s, x2, 0};
 				}
 			}
-			void Graph_2D::vbo_data_label_text_1(void) const
+			void Graph2D::vbo_data_label_text_1(void) const
 			{
 				//data
 				float xc[8], tc[8];
@@ -409,7 +409,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::vbo_data_label_text_2(void) const
+			void Graph2D::vbo_data_label_text_2(void) const
 			{
 				//data
 				float xc[8], tc[8];
@@ -463,7 +463,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::vbo_data_label_latex_1(void) const
+			void Graph2D::vbo_data_label_latex_1(void) const
 			{
 				//data
 				float tc[4];
@@ -491,7 +491,7 @@ namespace canvas
 				vbo_ptr[2].m_position = {w / 2 + lw / 2, -1.5f * ts - 0.5f * ls};
 				vbo_ptr[3].m_position = {w / 2 - lw / 2, -1.5f * ts - 0.5f * ls};
 			}
-			void Graph_2D::vbo_data_label_latex_2(void) const
+			void Graph2D::vbo_data_label_latex_2(void) const
 			{
 				//data
 				float tc[4];
@@ -523,7 +523,7 @@ namespace canvas
 				vbo_ptr[2].m_texture_coordinates = {tc[1], tc[3]};
 				vbo_ptr[3].m_texture_coordinates = {tc[0], tc[3]};
 			}
-			void Graph_2D::vbo_data_tics_labels_1(void) const
+			void Graph2D::vbo_data_tics_labels_1(void) const
 			{
 				//data
 				char label[20];
@@ -579,7 +579,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::vbo_data_tics_labels_2(void) const
+			void Graph2D::vbo_data_tics_labels_2(void) const
 			{
 				//data
 				char label[20];
@@ -641,7 +641,7 @@ namespace canvas
 			}
 
 			//ibo data
-			void Graph_2D::ibo_data_frame(void) const
+			void Graph2D::ibo_data_frame(void) const
 			{
 				//data
 				uint32_t* ibo_ptr = ibo_data(1);
@@ -655,7 +655,7 @@ namespace canvas
 				ibo_ptr[2 * 3 + 0] = m_vbo_index[0] + 3;
 				ibo_ptr[2 * 3 + 1] = m_vbo_index[0] + 0;
 			}
-			void Graph_2D::ibo_data_tics_lines_1(void) const
+			void Graph2D::ibo_data_tics_lines_1(void) const
 			{
 				//data
 				uint32_t* ibo_ptr = ibo_data(1) + 8;
@@ -670,7 +670,7 @@ namespace canvas
 					ibo_ptr[4 * i + 3] = vbo_index + 4 * i + 3;
 				}
 			}
-			void Graph_2D::ibo_data_tics_lines_2(void) const
+			void Graph2D::ibo_data_tics_lines_2(void) const
 			{
 				//data
 				const uint32_t n1 = m_tics_count[0];
@@ -686,7 +686,7 @@ namespace canvas
 					ibo_ptr[4 * i + 3] = vbo_index + 4 * i + 3;
 				}
 			}
-			void Graph_2D::ibo_data_label_text_1(void) const
+			void Graph2D::ibo_data_label_text_1(void) const
 			{
 				//data
 				if(m_labels_latex[0]) return;
@@ -706,7 +706,7 @@ namespace canvas
 					ibo_ptr[6 * i + 3 * 1 + 2] = vbo_index + 4 * i + 3;
 				}
 			}
-			void Graph_2D::ibo_data_label_text_2(void) const
+			void Graph2D::ibo_data_label_text_2(void) const
 			{
 				//data
 				if(m_labels_latex[1]) return;
@@ -730,7 +730,7 @@ namespace canvas
 					ibo_ptr[6 * i + 3 * 1 + 2] = vbo_index + 4 * i + 3;
 				}
 			}
-			void Graph_2D::ibo_data_curves_lines(void) const
+			void Graph2D::ibo_data_curves_lines(void) const
 			{
 				//data
 				const uint32_t n1 = m_tics_count[0];
@@ -738,7 +738,7 @@ namespace canvas
 				uint32_t* ibo_ptr = ibo_data(1) + 4 * (2 + n1 + n2);
 				uint32_t vbo_index = m_vbo_index[0] + 4 * (1 + n1 + n2);
 				//ibo data
-				for(const Curve_2D* curve : m_curves)
+				for(const Curve2D* curve : m_curves)
 				{
 					if(curve->m_points) vbo_index += curve->m_samples;
 					if(curve->m_lines)
@@ -753,7 +753,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::ibo_data_curves_points(void) const
+			void Graph2D::ibo_data_curves_points(void) const
 			{
 				//data
 				uint32_t* ibo_ptr = ibo_data(0);
@@ -761,7 +761,7 @@ namespace canvas
 				const uint32_t n2 = m_tics_count[1];
 				uint32_t vbo_index = m_vbo_index[0] + 4 * (1 + n1 + n2);
 				//ibo data
-				for(const Curve_2D* curve : m_curves)
+				for(const Curve2D* curve : m_curves)
 				{
 					if(curve->m_points)
 					{
@@ -775,7 +775,7 @@ namespace canvas
 					if(curve->m_lines) vbo_index += curve->m_samples;
 				}
 			}
-			void Graph_2D::ibo_data_label_latex_1(void) const
+			void Graph2D::ibo_data_label_latex_1(void) const
 			{
 				//data
 				if(!m_labels_latex[0]) return;
@@ -791,7 +791,7 @@ namespace canvas
 				ibo_ptr[3 * 1 + 1] = vbo_index + 2;
 				ibo_ptr[3 * 1 + 2] = vbo_index + 3;
 			}
-			void Graph_2D::ibo_data_label_latex_2(void) const
+			void Graph2D::ibo_data_label_latex_2(void) const
 			{
 				//data
 				if(!m_labels_latex[1]) return;
@@ -810,7 +810,7 @@ namespace canvas
 				ibo_ptr[3 * 1 + 1] = vbo_index + 2;
 				ibo_ptr[3 * 1 + 2] = vbo_index + 3;
 			}
-			void Graph_2D::ibo_data_tics_labels_1(void) const
+			void Graph2D::ibo_data_tics_labels_1(void) const
 			{
 				//data
 				char label[20];
@@ -836,7 +836,7 @@ namespace canvas
 					}
 				}
 			}
-			void Graph_2D::ibo_data_tics_labels_2(void) const
+			void Graph2D::ibo_data_tics_labels_2(void) const
 			{
 				//data
 				char label[20];

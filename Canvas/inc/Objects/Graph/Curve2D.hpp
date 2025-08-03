@@ -9,7 +9,7 @@ namespace canvas
 	{
 		namespace graphs
 		{
-			class Graph_2D;
+			class Graph2D;
 		}
 	}
 }
@@ -20,14 +20,14 @@ namespace canvas
 	{
 		namespace graphs
 		{
-			class Curve_2D
+			class Curve2D
 			{
 			public:
 				//constructor
-				Curve_2D(void);
+				Curve2D(void);
 
 				//destructor
-				~Curve_2D(void);
+				~Curve2D(void);
 
 				//data
 				uint32_t samples(uint32_t);
@@ -71,7 +71,7 @@ namespace canvas
 			protected:
 				//data
 				float* m_data[2];
-				Graph_2D* m_graph;
+				Graph2D* m_graph;
 				uint32_t m_samples;
 
 				bool m_points;
@@ -89,7 +89,7 @@ namespace canvas
 				float (*m_function_2)(float);
 
 				//friends
-				friend class Graph_2D;
+				friend class Graph2D;
 			};
 		}
 	}

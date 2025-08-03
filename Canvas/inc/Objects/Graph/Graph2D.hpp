@@ -4,7 +4,7 @@
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
-#include "Canvas/Canvas/inc/Objects/Graph/Curve_2D.hpp"
+#include "Canvas/Canvas/inc/Objects/Graph/Curve2D.hpp"
 
 namespace canvas
 {
@@ -12,14 +12,14 @@ namespace canvas
 	{
 		namespace graphs
 		{
-			class Graph_2D :public Object
+			class Graph2D :public Object
 			{
 			public:
 				//constructor
-				Graph_2D(void);
+				Graph2D(void);
 
 				//destructor
-				~Graph_2D(void);
+				~Graph2D(void);
 
 				//data
 				float width(float);
@@ -63,8 +63,8 @@ namespace canvas
 				const char* tics_format(uint32_t, const char*);
 
 				//curves
-				std::vector<Curve_2D*>& curves(void);
-				const std::vector<Curve_2D*>& curves(void) const;
+				std::vector<Curve2D*>& curves(void);
+				const std::vector<Curve2D*>& curves(void) const;
 
 			private:
 				//setup
@@ -119,7 +119,7 @@ namespace canvas
 				float m_tics_line_size[2];
 				float m_tics_label_size[2];
 
-				std::vector<Curve_2D*> m_curves;
+				std::vector<Curve2D*> m_curves;
 			};
 		}
 	}

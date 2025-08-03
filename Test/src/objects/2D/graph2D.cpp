@@ -3,12 +3,12 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Objects/Graph/Graph_2D.hpp"
+#include "Canvas/Canvas/inc/Objects/Graph/Graph2D.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"
 
-void examples::objects::graph_2D(canvas::Scene* scene)
+void examples::objects::graph2D(canvas::Scene* scene)
 {
 	//data
 	const uint32_t np = 40;
@@ -16,9 +16,9 @@ void examples::objects::graph_2D(canvas::Scene* scene)
 	float* x12 = (float*) alloca(np * sizeof(float));
 	float* x21 = (float*) alloca(np * sizeof(float));
 	float* x22 = (float*) alloca(np * sizeof(float));
-	canvas::objects::graphs::Curve_2D* c1 = new canvas::objects::graphs::Curve_2D;
-	canvas::objects::graphs::Curve_2D* c2 = new canvas::objects::graphs::Curve_2D;
-	canvas::objects::graphs::Graph_2D* graph = new canvas::objects::graphs::Graph_2D;
+	canvas::objects::graphs::Curve2D* c1 = new canvas::objects::graphs::Curve2D;
+	canvas::objects::graphs::Curve2D* c2 = new canvas::objects::graphs::Curve2D;
+	canvas::objects::graphs::Graph2D* graph = new canvas::objects::graphs::Graph2D;
 	//curves
 	for(uint32_t i = 0; i < np; i++)
 	{
