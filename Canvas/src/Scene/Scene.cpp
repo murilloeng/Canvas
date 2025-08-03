@@ -257,6 +257,7 @@ namespace canvas
 	//animations
 	void Scene::add_animation(animations::Animation* animation)
 	{
+		animation->m_scene = this;
 		if(animation->m_time_start == 0)
 		{
 			animation->m_time_start = m_time;

@@ -56,6 +56,7 @@ namespace canvas
 				m_camera->direction(qt);
 				//update
 				m_camera->update();
+				m_scene->update_on_motion();
 			}
 		}
 	}

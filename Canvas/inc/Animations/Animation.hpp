@@ -41,6 +41,7 @@ namespace canvas
 		protected:
 			//data
 			bool m_status;
+			Scene* m_scene;
 			Easing m_easing;
 			float m_time_start;
 			float m_time_duration;
