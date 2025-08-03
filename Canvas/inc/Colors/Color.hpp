@@ -27,14 +27,17 @@ namespace canvas
 		const float* channels(const float*);
 		const float* channels(float, float, float);
 		const float* channels(float, float, float, float);
-
+		
 		//linear
 		Color inverse(void) const;
-
+		
 		//operators
 		float& operator[](uint32_t);
 		Color& operator=(const float*);
 		const float& operator[](uint32_t) const;
+
+		//print
+		void print(const char* = "", bool = false) const;
 
 	private:
 		//misc

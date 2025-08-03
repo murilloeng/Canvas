@@ -16,5 +16,11 @@ namespace canvas
 		{
 			return;
 		}
+
+		//print
+		void Vertex2D::print(void) const
+		{
+			m_position.print("position:", true);
+		}
 	}
 }

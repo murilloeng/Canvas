@@ -118,14 +118,17 @@ namespace canvas
 		//fonts
 		void add_font(const char*);
 		fonts::Font* font(uint32_t) const;
+		const std::vector<fonts::Font*>& fonts(void) const;
 
 		//latex
 		uint32_t add_latex(const char*);
 		textures::Latex* latex(uint32_t) const;
+		const std::vector<textures::Latex*>& latexes(void) const;
 
 		//images
 		void add_image(const char*);
 		textures::Image* image(uint32_t) const;
+		const std::vector<textures::Image*>& images(void) const;
 
 		//objects
 		void clear_objects(bool);

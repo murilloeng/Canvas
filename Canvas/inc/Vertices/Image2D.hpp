@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~Image2D(void);
 
+			//print
+			void print(void) const;
+
 			//data
 			vec2 m_texture_coordinates;
 		};

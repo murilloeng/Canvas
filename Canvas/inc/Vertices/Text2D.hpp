@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~Text2D(void);
 
+			//print
+			void print(void) const;
+
 			//data
 			Color m_color;
 			vec2 m_texture_coordinates;

@@ -39,19 +39,6 @@ namespace canvas
 		return m_data;
 	}
 
-	//print
-	void vec2::print(const char* label) const
-	{
-		if(strlen(label) != 0)
-		{
-			printf("%s\n", label);
-		}
-		for(uint32_t i = 0; i < 2; i++)
-		{
-			printf("%+.2e\n", m_data[i]);
-		}
-	}
-
 	//linear
 	vec2 vec2::unit(void) const
 	{
@@ -171,6 +158,23 @@ namespace canvas
 	const float& vec2::operator[](uint32_t index) const
 	{
 		return m_data[index];
+	}
+
+	//print
+	void vec2::print(const char* label, bool transpose) const
+	{
+		//data
+		const char* format = transpose ? "%+.2e " : "%+.2e\n";
+		//print
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(uint32_t i = 0; i < 2; i++)
+		{
+			printf(format, m_data[i]);
+		}
+		if(transpose) printf("\n");
 	}
 
 	//friends

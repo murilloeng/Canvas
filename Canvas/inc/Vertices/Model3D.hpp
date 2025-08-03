@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~Model3D(void);
 
+			//print
+			void print(void) const;
+
 			//data
 			Color m_color;
 		};

@@ -18,6 +18,7 @@ namespace examples
 		void curves(canvas::Scene*);
 		void points(canvas::Scene*);
 		void images(canvas::Scene*);
+		void text2D(canvas::Scene*);
 		void circles(canvas::Scene*);
 		void spheres(canvas::Scene*);
 		void splines(canvas::Scene*);

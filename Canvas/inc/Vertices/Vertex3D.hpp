@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~Vertex3D(void);
 
+			//print
+			void print(void) const;
+
 			//data
 			vec3 m_position;
 		};

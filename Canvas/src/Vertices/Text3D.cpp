@@ -16,5 +16,13 @@ namespace canvas
 		{
 			return;
 		}
+
+		//print
+		void Text3D::print(void) const
+		{
+			Vertex3D::print();
+			m_color.print("color", true);
+			m_texture_coordinates.print("texture", true);
+		}
 	}
 }

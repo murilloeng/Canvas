@@ -141,6 +141,23 @@ namespace canvas
 		return m_channels[index];
 	}
 
+	//print
+	void Color::print(const char* label, bool transpose) const
+	{
+		//data
+		const char* format = transpose ? "%+.2e " : "%+.2e\n";
+		//print
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(uint32_t i = 0; i < 4; i++)
+		{
+			printf(format, m_channels[i]);
+		}
+		if(transpose) printf("\n");
+	}
+
 	//misc
 	void Color::table_conversion(char* color_string, const char* string)
 	{

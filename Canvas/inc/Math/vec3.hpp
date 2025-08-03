@@ -29,9 +29,6 @@ namespace canvas
 		float* data(void);
 		const float* data(void) const;
 
-		//print
-		void print(const char* = "") const;
-
 		//linear
 		float norm(void) const;
 		float inner(const vec3&) const;
@@ -65,6 +62,9 @@ namespace canvas
 		float& operator[](uint32_t);
 		const float& operator()(uint32_t) const;
 		const float& operator[](uint32_t) const;
+
+		//print
+		void print(const char* = "", bool = false) const;
 
 		//friends
 		friend vec3 operator*(float, const vec3&);

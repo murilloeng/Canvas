@@ -194,6 +194,10 @@ namespace canvas
 	{
 		return m_fonts[index];
 	}
+	const std::vector<fonts::Font*>& Scene::fonts(void) const
+	{
+		return m_fonts;
+	}
 
 	//latex
 	uint32_t Scene::add_latex(const char* source)
@@ -205,6 +209,10 @@ namespace canvas
 	{
 		return m_latex[index];
 	}
+	const std::vector<textures::Latex*>& Scene::latexes(void) const
+	{
+		return m_latex;
+	}
 
 	//images
 	void Scene::add_image(const char* path)
@@ -214,6 +222,10 @@ namespace canvas
 	textures::Image* Scene::image(uint32_t index) const
 	{
 		return m_images[index];
+	}
+	const std::vector<textures::Image*>& Scene::images(void) const
+	{
+		return m_images;
 	}
 
 	//objects

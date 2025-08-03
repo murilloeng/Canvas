@@ -16,5 +16,12 @@ namespace canvas
 		{
 			return;
 		}
+
+		//print
+		void Image3D::print(void) const
+		{
+			Vertex3D::print();
+			m_texture_coordinates.print("texture", true);
+		}
 	}
 }

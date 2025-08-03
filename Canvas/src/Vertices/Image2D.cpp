@@ -16,5 +16,12 @@ namespace canvas
 		{
 			return;
 		}
+
+		//print
+		void Image2D::print(void) const
+		{
+			Vertex2D::print();
+			m_texture_coordinates.print("texture", true);
+		}
 	}
 }

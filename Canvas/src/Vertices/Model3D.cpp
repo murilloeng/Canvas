@@ -16,5 +16,12 @@ namespace canvas
 		{
 			return;
 		}
+
+		//print
+		void Model3D::print(void) const
+		{
+			Vertex3D::print();
+			m_color.print("color", true);
+		}
 	}
 }
