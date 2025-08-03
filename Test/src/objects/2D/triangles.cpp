@@ -5,29 +5,23 @@
 //examples
 #include "Canvas/Test/inc/examples.hpp"
 
-namespace examples
+void examples::objects::triangles(canvas::Scene* scene)
 {
-	namespace objects
+	//data
+	const uint32_t n = 10;
+	const float r = 1.0f / n;
+	//objects
+	for(uint32_t i = 0; i < n; i++)
 	{
-		void triangles(canvas::Scene* scene)
+		for(uint32_t j = 0; j < n; j++)
 		{
-			//data
-			const uint32_t n = 10;
-			const float r = 1.0f / n;
-			//objects
-			for(uint32_t i = 0; i < n; i++)
-			{
-				for(uint32_t j = 0; j < n; j++)
-				{
-					scene->add_object(new canvas::objects::Triangle);
-					((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
-					((canvas::objects::Triangle*) scene->object(n * i + j))->color_fill({0, 0, 1});
-					((canvas::objects::Triangle*) scene->object(n * i + j))->point(0, {-1, -1, 0});
-					((canvas::objects::Triangle*) scene->object(n * i + j))->point(1, {+1, -1, 0});
-					((canvas::objects::Triangle*) scene->object(n * i + j))->point(2, {+0, +1, 0});
-					((canvas::objects::Triangle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
-				}
-			}
+			scene->add_object(new canvas::objects::Triangle);
+			((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
+			((canvas::objects::Triangle*) scene->object(n * i + j))->color_fill({0, 0, 1});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->point(0, {-1, -1, 0});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->point(1, {+1, -1, 0});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->point(2, {+0, +1, 0});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }

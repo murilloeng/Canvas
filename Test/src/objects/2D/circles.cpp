@@ -5,27 +5,21 @@
 //examples
 #include "Canvas/Test/inc/examples.hpp"
 
-namespace examples
+void examples::objects::circles(canvas::Scene* scene)
 {
-	namespace objects
+	//data
+	const uint32_t n = 10;
+	const float r = 1.0f / n;
+	//objects
+	for(uint32_t i = 0; i < n; i++)
 	{
-		void circles(canvas::Scene* scene)
+		for(uint32_t j = 0; j < n; j++)
 		{
-			//data
-			const uint32_t n = 10;
-			const float r = 1.0f / n;
-			//objects
-			for(uint32_t i = 0; i < n; i++)
-			{
-				for(uint32_t j = 0; j < n; j++)
-				{
-					scene->add_object(new canvas::objects::Circle);
-					((canvas::objects::Circle*) scene->object(n * i + j))->radius(0.9f * r);
-					((canvas::objects::Circle*) scene->object(n * i + j))->color_fill({0, 0, 1});
-					((canvas::objects::Circle*) scene->object(n * i + j))->color_stroke({1, 1, 1});
-					((canvas::objects::Circle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
-				}
-			}
+			scene->add_object(new canvas::objects::Circle);
+			((canvas::objects::Circle*) scene->object(n * i + j))->radius(0.9f * r);
+			((canvas::objects::Circle*) scene->object(n * i + j))->color_fill({0, 0, 1});
+			((canvas::objects::Circle*) scene->object(n * i + j))->color_stroke({1, 1, 1});
+			((canvas::objects::Circle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}
 }
