@@ -1,7 +1,7 @@
 #pragma once
 
 //canvas
-#include "Canvas/Canvas/inc/Math/vec2.hpp"
+#include "Canvas/Canvas/inc/Math/vec3.hpp"
 
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 
@@ -30,19 +30,25 @@ namespace canvas
 			float radius(float);
 			float radius(void) const;
 
-			vec2 position(vec2);
-			vec2 position(void) const;
+			vec3 position(vec3);
+			vec3 position(void) const;
 
-			Color color_fill(Color);
-			Color color_fill(void) const;
-
-			Color color_stroke(Color);
-			Color color_stroke(void) const;
+			vec3 direction(uint32_t, vec3);
+			vec3 direction(uint32_t) const;
 
 			static uint32_t mesh(void);
 			static uint32_t mesh(uint32_t);
 
 		private:
+			//vbos
+			void vbo_fill_data(void) const;
+			void vbo_stroke_data(void) const;
+			void vbo_position_data(vertices::Model3D*) const;
+
+			//ibos
+			void ibo_fill_data(void) const;
+			void ibo_stroke_data(void) const;
+
 			//buffers
 			void buffers_size(void) override;
 			void buffers_data(void) const override;
@@ -51,9 +57,8 @@ namespace canvas
 			float m_width;
 			float m_height;
 			float m_radius;
-			vec2 m_position;
-			Color m_color_fill;
-			Color m_color_stroke;
+			vec3 m_position;
+			vec3 m_directions[2];
 			static uint32_t m_mesh;
 		};
 	}

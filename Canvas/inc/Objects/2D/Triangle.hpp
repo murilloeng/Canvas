@@ -26,9 +26,15 @@ namespace canvas
 			vec3 point(uint32_t, const vec3&);
 
 		protected:
+			//vbo
+			void vbo_fill_data(void) const;
+			void vbo_stroke_data(void) const;
+
+			//ibo
+			void ibo_fill_data(void) const;
+			void ibo_stroke_data(void) const;
+
 			//buffers
-			void fill_data(void) const;
-			void stroke_data(void) const;
 			void buffers_size(void) override;
 			void buffers_data(void) const override;
 
