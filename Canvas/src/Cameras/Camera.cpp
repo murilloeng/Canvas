@@ -101,6 +101,14 @@ namespace canvas
 		{
 			return (m_target - m_position).unit().cross(m_up);
 		}
+		vec3 Camera::target(void) const
+		{
+			return m_target;
+		}
+		vec3 Camera::position(void) const
+		{
+			return m_position;
+		}
 		void Camera::direction(const quat& q)
 		{
 			//data

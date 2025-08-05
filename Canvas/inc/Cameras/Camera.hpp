@@ -43,6 +43,8 @@ namespace canvas
 			vec3 up(void) const;
 			vec3 front(void) const;
 			vec3 right(void) const;
+			vec3 target(void) const;
+			vec3 position(void) const;
 			void direction(const quat&);
 
 			//screen
