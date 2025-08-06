@@ -35,9 +35,6 @@ namespace canvas
 		float norm(void) const;
 		float inner(const vec4&) const;
 
-		//print
-		void print(const char* = "") const;
-
 		//operators
 		vec4& operator*=(float);
 		vec4& operator/=(float);
@@ -60,8 +57,12 @@ namespace canvas
 		const float& operator()(uint32_t) const;
 		const float& operator[](uint32_t) const;
 
+		//print
+		void print(const char* = "", bool = false) const;
+
 		//friends
 		friend vec4 operator*(float, const vec4&);
+
 
 	private:
 		//data

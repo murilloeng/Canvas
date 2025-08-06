@@ -59,19 +59,6 @@ namespace canvas
 		return m_data;
 	}
 
-	//print
-	void vec4::print(const char* label) const
-	{
-		if(strlen(label) != 0)
-		{
-			printf("%s\n", label);
-		}
-		for(uint32_t i = 0; i < 4; i++)
-		{
-			printf("%+.2e\n", m_data[i]);
-		}
-	}
-
 	//linear
 	float vec4::norm(void) const
 	{
@@ -183,6 +170,23 @@ namespace canvas
 	const float& vec4::operator[](uint32_t index) const
 	{
 		return m_data[index];
+	}
+
+	//print
+	void vec4::print(const char* label, bool transpose) const
+	{
+		//data
+		const char* format = transpose ? "%+.2e " : "%+.2e\n";
+		//print
+		if(strlen(label) != 0)
+		{
+			printf("%s\n", label);
+		}
+		for(uint32_t i = 0; i < 4; i++)
+		{
+			printf(format, m_data[i]);
+		}
+		if(transpose) printf("\n");
 	}
 
 	//friends

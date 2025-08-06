@@ -61,6 +61,7 @@ namespace canvas
 			bound_image_3D(x_min, x_max, status);
 			bound_checkup_3D(x_min, x_max, status);
 			//bound
+			m_fov = float(M_PI_4);
 			if(m_type == type::perspective) bound_perspective(x_min, x_max);
 			if(m_type == type::orthographic) bound_orthographic(x_min, x_max);
 			//update
@@ -264,7 +265,7 @@ namespace canvas
 			m_projection[3 + 4 * 2] = -1;
 			m_projection[0 + 4 * 0] = 1 / t1;
 			m_projection[1 + 4 * 1] = 1 / t2;
-			m_projection[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
+			m_projection[2 + 4 * 2] = -(z1 + z2) / (z2 - z1);
 			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
 		}
 		void Camera::compute_orthographic(void)
@@ -277,10 +278,10 @@ namespace canvas
 			//projection
 			m_projection.zeros();
 			m_projection[3 + 4 * 3] = 1;
-			m_projection[0 + 4 * 0] = 1 / t1;
-			m_projection[1 + 4 * 1] = 1 / t2;
+			m_projection[0 + 4 * 0] = 1 / z1 / t1;
+			m_projection[1 + 4 * 1] = 1 / z1 / t2;
 			m_projection[2 + 4 * 2] = -2 / (z2 - z1);
-			m_projection[2 + 4 * 3] = -(z2 + z1) / (z2 - z1);
+			m_projection[2 + 4 * 3] = -(z1 + z2) / (z2 - z1);
 		}
 
 		//callbacks
@@ -365,6 +366,43 @@ namespace canvas
 		}
 
 		//bound
+		void Camera::bound_test(void) const
+		{
+			//data
+			vertices::Text3D* vbo_data_text = (vertices::Text3D*) m_scene->m_vbos[2]->m_data;
+			vertices::Model3D* vbo_data_model = (vertices::Model3D*) m_scene->m_vbos[0]->m_data;
+			vertices::Image3D* vbo_data_image = (vertices::Image3D*) m_scene->m_vbos[1]->m_data;
+			//test model 3D
+			for(uint32_t i = 0; i < m_scene->m_vbos[0]->m_vertex_count; i++)
+			{
+				if(!bound_test(vbo_data_model[i].m_position)) return;
+			}
+			//test image 3D
+			for(uint32_t i = 0; i < m_scene->m_vbos[1]->m_vertex_count; i++)
+			{
+				if(!bound_test(vbo_data_image[i].m_position)) return;
+			}
+			//test text 3D
+			for(uint32_t i = 0; i < m_scene->m_vbos[2]->m_vertex_count; i++)
+			{
+				if(!bound_test(vbo_data_text[i].m_position)) return;
+			}
+		}
+		bool Camera::bound_test(const vec3& xw) const
+		{
+			//data
+			const vec3 xn = (m_projection * m_view * vec4(xw)).reduce();
+			//test
+			if(fabsf(xn[0]) > 1 && fabsf(xn[1]) > 1 && fabsf(xn[2]) > 1)
+			{
+				xw.print("xw", true);
+				xn.print("xn", true);
+				printf("Camera bound test failed");
+				return false;
+			}
+			//return
+			return true;
+		}
 		void Camera::bound_text_3D(vec3& x_min, vec3& x_max, bool& status) const
 		{
 			//data
@@ -445,14 +483,16 @@ namespace canvas
 			const vec3 uf = (m_target - m_position).unit();
 			const float radius = (x_max - x_min).norm() / 2;
 			//fov
-			const float fov_2 = m_fov;
-			const float fov_1 = 2 * atanf(m_width * tanf(fov_2 / 2) / m_height);
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
 			//distance
-			const float d_2 = radius / tanf(fov_2 / 2);
-			const float d_1 = radius / tanf(fov_1 / 2);
+			const float d = (1 + 1 / fminf(t1, t2)) * radius;
+			//planes
+			m_planes[0] = d - radius;
+			m_planes[1] = d + radius;
 			//position
 			m_target = center;
-			m_position = center - fmaxf(d_1, d_2) * uf;
+			m_position = center - d * uf;
 		}
 		void Camera::bound_orthographic(const vec3& x_min, const vec3& x_max)
 		{
@@ -461,14 +501,14 @@ namespace canvas
 			const vec3 uf = (m_target - m_position).unit();
 			const float radius = (x_max - x_min).norm() / 2;
 			//fov
-			const float fov_2 = m_fov;
-			const float fov_1 = 2 * atanf(m_width * tanf(fov_2 / 2) / m_height);
-			//distance
-			const float d_2 = radius / tanf(fov_2 / 2);
-			const float d_1 = radius / tanf(fov_1 / 2);
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
+			//planes
+			m_planes[0] = radius / fminf(t1, t2);
+			m_planes[1] = m_planes[0] + 2 * radius;
 			//position
 			m_target = center;
-			m_position = center - fmaxf(d_1, d_2) * uf;
+			m_position = center - (m_planes[0] + radius) * uf;
 		}
 	}
 }

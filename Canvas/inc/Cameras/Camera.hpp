@@ -85,6 +85,8 @@ namespace canvas
 			void callback_translation(int32_t, int32_t);
 
 			//bound
+			void bound_test(void) const;
+			bool bound_test(const vec3&) const;
 			void bound_text_3D(vec3&, vec3&, bool&) const;
 			void bound_model_3D(vec3&, vec3&, bool&) const;
 			void bound_image_3D(vec3&, vec3&, bool&) const;
