@@ -288,10 +288,8 @@ namespace canvas
 		{
 			//data
 			const float a = 1.05f;
-			const vec3 uf = (m_target - m_position).unit();
-			const float d = (m_target - m_position).norm();
-			//position
-			m_position = m_target - (direction ? a * d : d / a) * uf;
+			const float s = direction ? a : 1 / a;
+			m_fov = 2 * atanf(s * tan(m_fov / 2));
 			//update
 			update();
 		}
