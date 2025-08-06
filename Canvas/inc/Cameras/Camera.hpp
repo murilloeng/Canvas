@@ -86,6 +86,8 @@ namespace canvas
 			void bound_model_3D(vec3&, vec3&, bool&) const;
 			void bound_image_3D(vec3&, vec3&, bool&) const;
 			void bound_checkup_3D(vec3&, vec3&, bool&) const;
+			void bound_perspective(const vec3&, const vec3&);
+			void bound_orthographic(const vec3&, const vec3&);
 
 			//data
 			Scene* m_scene;
@@ -94,12 +96,11 @@ namespace canvas
 			vec3 m_target;
 			vec3 m_position;
 
+			float m_fov;
+			float m_planes[2];
+
 			mat4 m_view;
 			mat4 m_projection;
-
-			float m_fov;
-			float m_planes_far;
-			float m_planes_near;
 
 			Click m_click;
 			uint32_t m_width;

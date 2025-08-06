@@ -37,7 +37,7 @@ namespace canvas
 		//constructors
 		Camera::Camera(Scene* scene) : m_scene{scene}, 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
-			m_fov{float(M_PI_4)}, m_planes_far{1.00e+02f}, m_planes_near{1.00e-02f},
+			m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
 			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
 		{
 			return;
@@ -55,24 +55,14 @@ namespace canvas
 			//data
 			vec3 x_min, x_max;
 			bool status = false;
-			//bound
+			//boundary
 			bound_text_3D(x_min, x_max, status);
 			bound_model_3D(x_min, x_max, status);
 			bound_image_3D(x_min, x_max, status);
 			bound_checkup_3D(x_min, x_max, status);
-			//sphere
-			const vec3 center = (x_max + x_min) / 2;
-			const vec3 uf = (m_target - m_position).unit();
-			const float radius = (x_max - x_min).norm() / 2;
-			//fov
-			const float fov_2 = m_fov;
-			const float fov_1 = 2 * atanf(m_width * tanf(fov_2 / 2) / m_height);
-			//distance
-			const float d_2 = radius / tanf(fov_2 / 2);
-			const float d_1 = radius / tanf(fov_1 / 2);
-			//position
-			m_target = center;
-			m_position = center - fmaxf(d_1, d_2) * uf;
+			//bound
+			if(m_type == type::perspective) bound_perspective(x_min, x_max);
+			if(m_type == type::orthographic) bound_orthographic(x_min, x_max);
 			//update
 			update();
 		}
@@ -260,8 +250,8 @@ namespace canvas
 		void Camera::compute_perspective(void)
 		{
 			//data
-			const float z2 = m_planes_far;
-			const float z1 = m_planes_near;
+			const float z1 = m_planes[0];
+			const float z2 = m_planes[1];
 			const float tf = tanf(m_fov / 2);
 			const float ar = (float) m_width / m_height;
 			//projection
@@ -275,8 +265,8 @@ namespace canvas
 		void Camera::compute_orthographic(void)
 		{
 			//data
-			const float z2 = m_planes_far;
-			const float z1 = m_planes_near;
+			const float z1 = m_planes[0];
+			const float z2 = m_planes[1];
 			const float tf = tanf(m_fov / 2);
 			const float ar = (float) m_width / m_height;
 			//projection
@@ -444,6 +434,38 @@ namespace canvas
 				x_min -= vec3(1, 1, 1);
 				x_max += vec3(1, 1, 1);
 			}
+		}
+		void Camera::bound_perspective(const vec3& x_min, const vec3& x_max)
+		{
+			//sphere
+			const vec3 center = (x_max + x_min) / 2;
+			const vec3 uf = (m_target - m_position).unit();
+			const float radius = (x_max - x_min).norm() / 2;
+			//fov
+			const float fov_2 = m_fov;
+			const float fov_1 = 2 * atanf(m_width * tanf(fov_2 / 2) / m_height);
+			//distance
+			const float d_2 = radius / tanf(fov_2 / 2);
+			const float d_1 = radius / tanf(fov_1 / 2);
+			//position
+			m_target = center;
+			m_position = center - fmaxf(d_1, d_2) * uf;
+		}
+		void Camera::bound_orthographic(const vec3& x_min, const vec3& x_max)
+		{
+			//sphere
+			const vec3 center = (x_max + x_min) / 2;
+			const vec3 uf = (m_target - m_position).unit();
+			const float radius = (x_max - x_min).norm() / 2;
+			//fov
+			const float fov_2 = m_fov;
+			const float fov_1 = 2 * atanf(m_width * tanf(fov_2 / 2) / m_height);
+			//distance
+			const float d_2 = radius / tanf(fov_2 / 2);
+			const float d_1 = radius / tanf(fov_1 / 2);
+			//position
+			m_target = center;
+			m_position = center - fmaxf(d_1, d_2) * uf;
 		}
 	}
 }
