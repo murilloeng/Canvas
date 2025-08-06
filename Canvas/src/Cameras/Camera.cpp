@@ -38,7 +38,7 @@ namespace canvas
 		Camera::Camera(Scene* scene) : m_scene{scene}, 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
 			m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
-			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
+			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::perspective}
 		{
 			return;
 		}
@@ -173,6 +173,11 @@ namespace canvas
 			{
 				bound(), m_scene->update_on_motion();
 			}
+			else if(key == 'c')
+			{
+				m_type = cameras::type(!uint32_t(m_type));
+				bound(), m_scene->update_on_motion();
+			}
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i')
 			{
 				callback_rotation(key), bound(), m_scene->update_on_motion();
@@ -252,13 +257,13 @@ namespace canvas
 			//data
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
-			const float tf = tanf(m_fov / 2);
-			const float ar = (float) m_width / m_height;
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
 			//projection
 			m_projection.zeros();
 			m_projection[3 + 4 * 2] = -1;
-			m_projection[1 + 4 * 1] = 1 / tf;
-			m_projection[0 + 4 * 0] = 1 / tf / ar;
+			m_projection[0 + 4 * 0] = 1 / t1;
+			m_projection[1 + 4 * 1] = 1 / t2;
 			m_projection[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
 			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
 		}
@@ -267,15 +272,15 @@ namespace canvas
 			//data
 			const float z1 = m_planes[0];
 			const float z2 = m_planes[1];
-			const float tf = tanf(m_fov / 2);
-			const float ar = (float) m_width / m_height;
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
 			//projection
 			m_projection.zeros();
-			m_projection[3 + 4 * 2] = -1;
-			m_projection[1 + 4 * 1] = 1 / tf;
-			m_projection[0 + 4 * 0] = 1 / tf / ar;
-			m_projection[2 + 4 * 2] = -(z2 + z1) / (z2 - z1);
-			m_projection[2 + 4 * 3] = -2 * z1 * z2 / (z2 - z1);
+			m_projection[3 + 4 * 3] = 1;
+			m_projection[0 + 4 * 0] = 1 / t1;
+			m_projection[1 + 4 * 1] = 1 / t2;
+			m_projection[2 + 4 * 2] = -2 / (z2 - z1);
+			m_projection[2 + 4 * 3] = -(z2 + z1) / (z2 - z1);
 		}
 
 		//callbacks

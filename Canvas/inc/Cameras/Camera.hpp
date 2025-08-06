@@ -14,10 +14,6 @@
 namespace canvas
 {
 	class Scene;
-}
-
-namespace canvas
-{
 	namespace cameras
 	{
 		enum class type : uint32_t
@@ -25,6 +21,13 @@ namespace canvas
 			perspective,
 			orthographic
 		};
+	}
+}
+
+namespace canvas
+{
+	namespace cameras
+	{
 		class Camera
 		{
 		public:
