@@ -43,7 +43,6 @@ void examples::scenes::examples(void)
 {
 	//data
 	Engine engine;
-	engine.show_fps(false);
 	//callbacks
 	engine.user_key(callback_key);
 	//scene
