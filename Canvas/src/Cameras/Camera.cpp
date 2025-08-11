@@ -181,7 +181,7 @@ namespace canvas
 			}
 			else if(key == 'x' || key == 'y' || key == 'z' || key == 'i')
 			{
-				callback_rotation(key), bound(), m_scene->update_on_motion();
+				callback_rotation(key), m_scene->update_on_motion();
 			}
 		}
 		void Camera::callback_wheel(bool direction)
