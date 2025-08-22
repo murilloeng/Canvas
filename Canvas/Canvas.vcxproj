@@ -11,7 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Animations\Animation.hpp" />
+    <ClInclude Include="inc\Animations\Cameras\Camera.hpp" />
+    <ClInclude Include="inc\Animations\Cameras\Rotation.hpp" />
+    <ClInclude Include="inc\Animations\Cameras\Translation.hpp" />
+    <ClInclude Include="inc\Animations\Easing.hpp" />
+    <ClInclude Include="inc\Animations\Objects\Object.hpp" />
     <ClInclude Include="inc\Buffers\Buffer.hpp" />
+    <ClInclude Include="inc\Buffers\UBO.hpp" />
     <ClInclude Include="inc\Cameras\Camera.hpp" />
     <ClInclude Include="inc\Cameras\Click.hpp" />
     <ClInclude Include="inc\Fonts\Glyph.hpp" />
@@ -25,6 +32,7 @@
     <ClInclude Include="inc\Math\vec2.hpp" />
     <ClInclude Include="inc\Math\vec3.hpp" />
     <ClInclude Include="inc\Colors\Color.hpp" />
+    <ClInclude Include="inc\Math\vec4.hpp" />
     <ClInclude Include="inc\Objects\0D\Point.hpp" />
     <ClInclude Include="inc\Objects\1D\Arc.hpp" />
     <ClInclude Include="inc\Objects\1D\Arrow.hpp" />
@@ -37,20 +45,23 @@
     <ClInclude Include="inc\Objects\2D\Grid_2D.hpp" />
     <ClInclude Include="inc\Objects\2D\Polygon.hpp" />
     <ClInclude Include="inc\Objects\2D\Quad.hpp" />
+    <ClInclude Include="inc\Objects\2D\Rectangle.hpp" />
     <ClInclude Include="inc\Objects\2D\Surface.hpp" />
     <ClInclude Include="inc\Objects\2D\Triangle.hpp" />
     <ClInclude Include="inc\Objects\3D\Cube.hpp" />
     <ClInclude Include="inc\Objects\3D\Cylinder.hpp" />
     <ClInclude Include="inc\Objects\3D\Sphere.hpp" />
+    <ClInclude Include="inc\Objects\Graph\Curve2D.hpp" />
+    <ClInclude Include="inc\Objects\Graph\Graph2D.hpp" />
     <ClInclude Include="inc\Objects\Group.hpp" />
     <ClInclude Include="inc\Objects\Geometry.hpp" />
-    <ClInclude Include="inc\Objects\Image\Text.hpp" />
+    <ClInclude Include="inc\Objects\Image\Container.hpp" />
     <ClInclude Include="inc\Objects\Image\Image.hpp" />
     <ClInclude Include="inc\Objects\Image\Latex.hpp" />
     <ClInclude Include="inc\Objects\Image\Anchor.hpp" />
     <ClInclude Include="inc\Objects\Image\Palette.hpp" />
-    <ClInclude Include="inc\Objects\Graph\Curve_2D.hpp" />
-    <ClInclude Include="inc\Objects\Graph\Graph_2D.hpp" />
+    <ClInclude Include="inc\Objects\Image\Text2D.hpp" />
+    <ClInclude Include="inc\Objects\Image\Text3D.hpp" />
     <ClInclude Include="inc\Objects\Object.hpp" />
     <ClInclude Include="inc\Objects\Tessellator.hpp" />
     <ClInclude Include="inc\Palettes\Palette.hpp" />
@@ -76,7 +87,14 @@
     <ClInclude Include="inc\Vertices\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animations\Animation.cpp" />
+    <ClCompile Include="src\Animations\Cameras\Camera.cpp" />
+    <ClCompile Include="src\Animations\Cameras\Rotation.cpp" />
+    <ClCompile Include="src\Animations\Cameras\Translation.cpp" />
+    <ClCompile Include="src\Animations\Easing.cpp" />
+    <ClCompile Include="src\Animations\Objects\Object.cpp" />
     <ClCompile Include="src\Buffers\Buffer.cpp" />
+    <ClCompile Include="src\Buffers\UBO.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Click.cpp" />
     <ClCompile Include="src\Fonts\Glyph.cpp" />
@@ -90,6 +108,7 @@
     <ClCompile Include="src\Math\vec2.cpp" />
     <ClCompile Include="src\Math\vec3.cpp" />
     <ClCompile Include="src\Colors\Color.cpp" />
+    <ClCompile Include="src\Math\vec4.cpp" />
     <ClCompile Include="src\Objects\0D\Point.cpp" />
     <ClCompile Include="src\Objects\1D\Arc.cpp" />
     <ClCompile Include="src\Objects\1D\Arrow.cpp" />
@@ -102,20 +121,23 @@
     <ClCompile Include="src\Objects\2D\Grid_2D.cpp" />
     <ClCompile Include="src\Objects\2D\Polygon.cpp" />
     <ClCompile Include="src\Objects\2D\Quad.cpp" />
+    <ClCompile Include="src\Objects\2D\Rectangle.cpp" />
     <ClCompile Include="src\Objects\2D\Surface.cpp" />
     <ClCompile Include="src\Objects\2D\Triangle.cpp" />
     <ClCompile Include="src\Objects\3D\Cube.cpp" />
     <ClCompile Include="src\Objects\3D\Cylinder.cpp" />
     <ClCompile Include="src\Objects\3D\Sphere.cpp" />
+    <ClCompile Include="src\Objects\Graph\Curve2D.cpp" />
+    <ClCompile Include="src\Objects\Graph\Graph2D.cpp" />
     <ClCompile Include="src\Objects\Group.cpp" />
     <ClCompile Include="src\Objects\Geometry.cpp" />
-    <ClCompile Include="src\Objects\Image\Text.cpp" />
+    <ClCompile Include="src\Objects\Image\Container.cpp" />
     <ClCompile Include="src\Objects\Image\Image.cpp" />
     <ClCompile Include="src\Objects\Image\Latex.cpp" />
     <ClCompile Include="src\Objects\Image\Anchor.cpp" />
     <ClCompile Include="src\Objects\Image\Palette.cpp" />
-    <ClCompile Include="src\Objects\Graph\Curve_2D.cpp" />
-    <ClCompile Include="src\Objects\Graph\Graph_2D.cpp" />
+    <ClCompile Include="src\Objects\Image\Text2D.cpp" />
+    <ClCompile Include="src\Objects\Image\Text3D.cpp" />
     <ClCompile Include="src\Objects\Object.cpp" />
     <ClCompile Include="src\Objects\Tessellator.cpp" />
     <ClCompile Include="src\Palettes\Greys.cpp" />
