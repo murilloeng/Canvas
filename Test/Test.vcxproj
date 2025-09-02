@@ -165,6 +165,7 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\objects\2D\rectangles.cpp" />
     <ClCompile Include="src\objects\group.cpp" />
     <ClCompile Include="src\objects\0D\points.cpp" />
     <ClCompile Include="src\objects\1D\arcs.cpp" />
@@ -178,14 +179,16 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
     <ClCompile Include="src\objects\2D\polygons.cpp" />
     <ClCompile Include="src\objects\2D\quads.cpp" />
     <ClCompile Include="src\objects\2D\surfaces.cpp" />
-    <ClCompile Include="src\objects\2D\graph_2D.cpp" />
+    <ClCompile Include="src\objects\2D\graph2D.cpp" />
     <ClCompile Include="src\objects\2D\triangles.cpp" />
     <ClCompile Include="src\objects\3D\cubes.cpp" />
     <ClCompile Include="src\objects\3D\cylinders.cpp" />
     <ClCompile Include="src\objects\3D\spheres.cpp" />
+    <ClCompile Include="src\objects\Images\container.cpp" />
     <ClCompile Include="src\objects\Images\images.cpp" />
     <ClCompile Include="src\objects\Images\latex.cpp" />
-    <ClCompile Include="src\objects\Images\text.cpp" />
+    <ClCompile Include="src\objects\Images\text2D.cpp" />
+    <ClCompile Include="src\objects\Images\text3D.cpp" />
     <ClCompile Include="src\objects\Images\palettes.cpp" />
     <ClCompile Include="src\scenes\Beam.cpp" />
     <ClCompile Include="src\scenes\examples.cpp" />
