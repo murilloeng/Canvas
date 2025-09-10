@@ -18,7 +18,6 @@ inline PFNGLNAMEDBUFFERSUBDATAPROC glNamedBufferSubData = nullptr;
 //vertex arrays
 inline PFNGLISVERTEXARRAYPROC glIsVertexArray = nullptr;
 inline PFNGLBINDVERTEXARRAYPROC glBindVertexArray = nullptr;
-
 inline PFNGLCREATEVERTEXARRAYSPROC glCreateVertexArrays = nullptr;
 inline PFNGLENABLEVERTEXARRAYATTRIBPROC glEnableVertexArrayAttrib = nullptr;
 inline PFNGLVERTEXARRAYVERTEXBUFFERPROC glVertexArrayVertexBuffer = nullptr;
