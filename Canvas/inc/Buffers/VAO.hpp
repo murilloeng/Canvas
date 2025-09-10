@@ -1,7 +1,7 @@
 #pragma once
 
-//glew
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 namespace canvas
 {

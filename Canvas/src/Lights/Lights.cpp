@@ -1,9 +1,11 @@
-//ext
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 //canvas
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+
 #include "Canvas/Canvas/inc/Lights/Point.hpp"
 #include "Canvas/Canvas/inc/Lights/Lights.hpp"
 #include "Canvas/Canvas/inc/Lights/Ambient.hpp"

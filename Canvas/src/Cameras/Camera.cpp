@@ -8,11 +8,11 @@
 #include <cfloat>
 #include <filesystem>
 
+//OpenGL
+#include <GL/gl.h>
+
 //stbi
 #include "stb_image_write.h"
-
-//glew
-#include "external/cpp/inc/GL/glew.h"
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec4.hpp"

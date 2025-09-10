@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <stdexcept>
 
-//ext
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 //canvas
+#include "Canvas/Canvas/inc/API/API.hpp"
+
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
 
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"

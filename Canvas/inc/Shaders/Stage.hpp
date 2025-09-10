@@ -3,8 +3,8 @@
 //std
 #include <string>
 
-//ext
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 namespace canvas
 {

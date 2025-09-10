@@ -1,9 +1,9 @@
-//canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
-
 //test
 #include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
+
+//canvas
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
 //static data
 static canvas::Scene* scene;

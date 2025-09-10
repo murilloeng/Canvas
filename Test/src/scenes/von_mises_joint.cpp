@@ -2,6 +2,11 @@
 #include <cmath>
 #include <chrono>
 
+//test
+#include "Canvas/Test/inc/Engine.hpp"
+#include "Canvas/Test/inc/examples.hpp"
+#include "Canvas/Test/inc/scenes/Beam.hpp"
+
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 
@@ -9,11 +14,6 @@
 #include "Canvas/Canvas/inc/Lights/Direction.hpp"
 
 #include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
-
-//test
-#include "Canvas/Test/inc/Engine.hpp"
-#include "Canvas/Test/inc/examples.hpp"
-#include "Canvas/Test/inc/scenes/Beam.hpp"
 
 //static data
 static canvas::Scene* scene;

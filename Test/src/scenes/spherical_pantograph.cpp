@@ -1,13 +1,13 @@
 //std
 #include <cmath>
 
-//canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
-
 //test
 #include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
+
+//canvas
+#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
 
 static void scene_setup(canvas::Scene* scene)
 {

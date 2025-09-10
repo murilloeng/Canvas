@@ -4,8 +4,8 @@
 #include <vector>
 #include <cstdint>
 
-//ext
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"

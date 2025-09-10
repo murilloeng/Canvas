@@ -1,8 +1,8 @@
 //std
 #include <filesystem>
 
-//ext
-#include "external/cpp/inc/GL/glew.h"
+//OpenGL
+#include <GL/gl.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"

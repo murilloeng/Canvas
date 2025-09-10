@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 //canvas
+#include "Canvas/Canvas/inc/API/API.hpp"
 #include "Canvas/Canvas/inc/Buffers/Buffer.hpp"
 
 namespace canvas

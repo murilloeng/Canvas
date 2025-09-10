@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 //canvas
+#include "Canvas/Canvas/inc/API/API.hpp"
 #include "Canvas/Canvas/inc/Textures/Texture.hpp"
 
 namespace canvas

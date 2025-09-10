@@ -2,13 +2,15 @@
 #include <stdexcept>
 
 //canvas
+#include "Canvas/Canvas/inc/API/Loader.hpp"
+
+//test
 #include "Canvas/Test/inc/Engine.hpp"
 
 //constructor
 Engine::Engine(void) : m_show_fps{true}, m_width{700}, m_height{700}
 {
 	setup_glfw();
-	setup_glew();
 	setup_scene();
 	setup_callbacks();
 }
@@ -107,14 +109,8 @@ void Engine::setup_glfw(void)
 	glfwMakeContextCurrent(m_window);
 	//v-sync
 	glfwSwapInterval(0);
-}
-void Engine::setup_glew(void)
-{
-	if(glewInit() != GLEW_OK)
-	{
-		glfwTerminate();
-		throw std::runtime_error("GLEW initialization failed!");
-	}
+	//functions
+	canvas::load_functions();
 }
 void Engine::setup_scene(void)
 {

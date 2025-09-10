@@ -3,9 +3,6 @@
 //std
 #include <functional>
 
-//glew
-#include "external/cpp/inc/GL/glew.h"
-
 //glfw
 #include "external/cpp/inc/GLFW/glfw3.h"
 
@@ -41,7 +38,6 @@ public:
 private:
 	//setup
 	void setup_glfw(void);
-	void setup_glew(void);
 	void setup_scene(void);
 	void setup_callbacks(void);
 
