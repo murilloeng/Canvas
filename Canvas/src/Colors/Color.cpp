@@ -122,6 +122,15 @@ namespace canvas
 		inverse.m_channels[2] = 1 - m_channels[2];
 		return inverse;
 	}
+	Color Color::interpolate(const Color& c, float s) const
+	{
+		return {
+			(1 - s) * m_channels[0] + s * c.m_channels[0],
+			(1 - s) * m_channels[1] + s * c.m_channels[1],
+			(1 - s) * m_channels[2] + s * c.m_channels[2],
+			(1 - s) * m_channels[3] + s * c.m_channels[3]
+		};
+	}
 
 	//operators
 	float& Color::operator[](uint32_t index)

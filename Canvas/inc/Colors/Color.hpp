@@ -30,6 +30,7 @@ namespace canvas
 		
 		//linear
 		Color inverse(void) const;
+		Color interpolate(const Color&, float) const;
 		
 		//operators
 		float& operator[](uint32_t);
