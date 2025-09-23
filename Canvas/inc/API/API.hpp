@@ -1,6 +1,11 @@
 #pragma once
 
 //OpenGL
+#ifdef _WIN32
+#include <Windows.h>
+#include <GL/gl.h>
+#include "external/cpp/inc/GL/glext.hpp"
+#endif
 #include <GL/gl.h>
 
 //get

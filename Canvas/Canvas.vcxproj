@@ -17,6 +17,8 @@
     <ClInclude Include="inc\Animations\Cameras\Translation.hpp" />
     <ClInclude Include="inc\Animations\Easing.hpp" />
     <ClInclude Include="inc\Animations\Objects\Object.hpp" />
+    <ClInclude Include="inc\API\API.hpp" />
+    <ClInclude Include="inc\API\Loader.hpp" />
     <ClInclude Include="inc\Buffers\Buffer.hpp" />
     <ClInclude Include="inc\Buffers\UBO.hpp" />
     <ClInclude Include="inc\Cameras\Camera.hpp" />
@@ -93,6 +95,7 @@
     <ClCompile Include="src\Animations\Cameras\Translation.cpp" />
     <ClCompile Include="src\Animations\Easing.cpp" />
     <ClCompile Include="src\Animations\Objects\Object.cpp" />
+    <ClCompile Include="src\API\Loader.cpp" />
     <ClCompile Include="src\Buffers\Buffer.cpp" />
     <ClCompile Include="src\Buffers\UBO.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />

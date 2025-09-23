@@ -5,9 +5,6 @@
 #include <algorithm>
 #include <stdexcept>
 
-//OpenGL
-#include <GL/gl.h>
-
 //canvas
 #include "Canvas/Canvas/inc/API/API.hpp"
 
