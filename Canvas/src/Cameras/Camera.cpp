@@ -41,7 +41,7 @@ namespace canvas
 		Camera::Camera(Scene* scene) : m_scene{scene}, 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
 			m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
-			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::perspective}
+			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
 		{
 			return;
 		}
