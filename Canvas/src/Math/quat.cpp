@@ -225,4 +225,8 @@ namespace canvas
 	{
 		return conjugate() * q;
 	}
+	quat quat::slerp(const quat& q, float t) const
+	{
+		return *this * (t * conjugate(q).vector()).quaternion();
+	}
 }

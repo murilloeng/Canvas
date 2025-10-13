@@ -57,6 +57,7 @@ namespace canvas
 		vec3 rotate(const vec3&) const;
 		vec3 conjugate(const vec3&) const;
 		quat conjugate(const quat&) const;
+		quat slerp(const quat&, float) const;
 
 	private:
 		//data
