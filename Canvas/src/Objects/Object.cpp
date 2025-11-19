@@ -97,6 +97,11 @@ namespace canvas
 		}
 
 		//affine
+		void Object::reset(void)
+		{
+			m_model_matrix.clear();
+			m_has_model_matrix = true;
+		}
 		void Object::scale(float s)
 		{
 			m_has_model_matrix = true;

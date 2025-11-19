@@ -59,6 +59,7 @@ namespace canvas
 			vertices::Image3D* vbo_data_image_3D(void) const;
 
 			//affine
+			void reset(void);
 			void scale(float);
 			void scale(const vec3&, bool = true);
 			void shift(const vec3&, bool = true);
