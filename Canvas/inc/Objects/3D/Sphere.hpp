@@ -24,12 +24,6 @@ namespace canvas
 			~Sphere(void);
 
 			//data
-			vec3 center(void) const;
-			vec3 center(const vec3&);
-
-			float radius(float);
-			float radius(void) const;
-
 			static uint32_t mesh(void);
 			static uint32_t mesh(uint32_t);
 
@@ -56,8 +50,6 @@ namespace canvas
 			void buffers_data(void) const override;
 
 			//data
-			vec3 m_center;
-			float m_radius;
 			static uint32_t m_mesh;
 		};
 	}
