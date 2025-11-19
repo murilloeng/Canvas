@@ -18,13 +18,6 @@ namespace canvas
 			//destructor
 			~Cube(void);
 
-			//data
-			vec3 sizes(void) const;
-			vec3 sizes(const vec3&);
-
-			vec3 center(void) const;
-			vec3 center(const vec3&);
-
 		protected:
 			//data
 			void ibo_fill_data(void) const;
@@ -35,10 +28,6 @@ namespace canvas
 			//buffers
 			void buffers_size(void) override;
 			void buffers_data(void) const override;
-
-			//data
-			vec3 m_sizes;
-			vec3 m_center;
 		};
 	}
 }

@@ -48,8 +48,8 @@ static void rigid(canvas::Scene* scene)
 	{
 		links[i + 0]->color_fill({0, 0, 1});
 		links[i + 2]->color_fill({0, 0, 1});
-		links[i + 0]->sizes(i == 0 ? s1 : s2);
-		links[i + 2]->sizes(i == 0 ? s1 : s2);
+		// links[i + 0]->sizes(i == 0 ? s1 : s2);
+		// links[i + 2]->sizes(i == 0 ? s1 : s2);
 		links[i + 0]->shift(i == 0 ? x1 : x2);
 		links[i + 2]->shift(i == 0 ? x1 : x2);
 		scene->add_object(links[i + 0]);
