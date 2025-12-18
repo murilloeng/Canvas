@@ -38,7 +38,6 @@ namespace canvas
 			//destructor
 			~Camera(void);
 
-			
 			//update
 			void bound(void);
 			void update(void);
