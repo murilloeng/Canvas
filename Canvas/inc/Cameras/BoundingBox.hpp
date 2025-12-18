@@ -18,6 +18,9 @@ namespace canvas
 			//destructor
 			~BoundingBox(void);
 
+			//print
+			void print(void) const;
+
 			//data
 			const float* min(void) const;
 			const float* max(void) const;

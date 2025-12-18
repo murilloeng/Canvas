@@ -26,6 +26,13 @@ namespace canvas
 			return;
 		}
 
+		//print
+		void BoundingBox::print(void) const
+		{
+			printf("Min: %+.2e %+.2e %+.2e\n", m_min[0], m_min[1], m_min[2]);
+			printf("Max: %+.2e %+.2e %+.2e\n", m_max[0], m_max[1], m_max[2]);
+		}
+
 		//data
 		const float* BoundingBox::min(void) const
 		{
