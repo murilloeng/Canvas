@@ -38,6 +38,7 @@ namespace canvas
 			//destructor
 			~Camera(void);
 
+			
 			//update
 			void bound(void);
 			void update(void);
@@ -50,6 +51,9 @@ namespace canvas
 			vec3 target(void) const;
 			vec3 position(void) const;
 			void direction(const quat&);
+
+			//bounding box
+			BoundingBox& bounding_box(void);
 
 			//screen
 			uint32_t width(void) const;
@@ -95,7 +99,7 @@ namespace canvas
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
-			BoundingBox m_box;
+			BoundingBox m_bounding_box;
 
 			float m_fov;
 			float m_planes[2];

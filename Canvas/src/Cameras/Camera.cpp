@@ -57,7 +57,7 @@ namespace canvas
 		{
 			//bound
 			m_fov = float(M_PI_4);
-			m_box.compute(m_scene, true, true);
+			m_bounding_box.compute(m_scene, true, true);
 			if(m_type == type::perspective) bound_perspective();
 			if(m_type == type::orthographic) bound_orthographic();
 			//update
@@ -103,6 +103,12 @@ namespace canvas
 			//update
 			m_up = q.rotate({0, 1, 0});
 			m_position = m_target + d * q.rotate({0, 0, 1});
+		}
+
+		//bounding box
+		BoundingBox& Camera::bounding_box(void)
+		{
+			return m_bounding_box;
 		}
 
 		//screen
@@ -230,8 +236,8 @@ namespace canvas
 		void Camera::bound_perspective(void)
 		{
 			//sphere
-			const vec3 x_min = m_box.min();
-			const vec3 x_max = m_box.max();
+			const vec3 x_min = m_bounding_box.min();
+			const vec3 x_max = m_bounding_box.max();
 			const vec3 center = (x_max + x_min) / 2;
 			const vec3 uf = (m_target - m_position).unit();
 			const float radius = (x_max - x_min).norm() / 2;
@@ -250,8 +256,8 @@ namespace canvas
 		void Camera::bound_orthographic(void)
 		{
 			//sphere
-			const vec3 x_min = m_box.min();
-			const vec3 x_max = m_box.max();
+			const vec3 x_min = m_bounding_box.min();
+			const vec3 x_max = m_bounding_box.max();
 			const vec3 center = (x_max + x_min) / 2;
 			const vec3 uf = (m_target - m_position).unit();
 			const float radius = (x_max - x_min).norm() / 2;
