@@ -40,7 +40,7 @@ namespace canvas
 		//constructors
 		Camera::Camera(Scene* scene) : m_scene{scene}, 
 			m_up{0, 1, 0}, m_target{0, 0, 0}, m_position{0, 0, 1},
-			m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
+			m_fixed_bounding_box{false}, m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
 			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
 		{
 			return;
@@ -57,7 +57,8 @@ namespace canvas
 		{
 			//bound
 			m_fov = float(M_PI_4);
-			m_bounding_box.compute(m_scene, true, true);
+			if(!m_fixed_bounding_box) m_bounding_box.compute(m_scene, true, true);
+			//projection
 			if(m_type == type::perspective) bound_perspective();
 			if(m_type == type::orthographic) bound_orthographic();
 			//update
@@ -106,9 +107,17 @@ namespace canvas
 		}
 
 		//bounding box
-		BoundingBox& Camera::bounding_box(void)
+		bool Camera::fixed_bounding_box(void) const
 		{
-			return m_bounding_box;
+			return m_fixed_bounding_box;
+		}
+		bool Camera::fixed_bounding_box(bool fixed_bounding_box)
+		{
+			return m_fixed_bounding_box = fixed_bounding_box;
+		}
+		void Camera::bounding_box(const BoundingBox& bounding_box)
+		{
+			m_bounding_box = bounding_box;
 		}
 
 		//screen

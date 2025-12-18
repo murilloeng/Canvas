@@ -52,7 +52,9 @@ namespace canvas
 			void direction(const quat&);
 
 			//bounding box
-			BoundingBox& bounding_box(void);
+			bool fixed_bounding_box(bool);
+			bool fixed_bounding_box(void) const;
+			void bounding_box(const BoundingBox&);
 
 			//screen
 			uint32_t width(void) const;
@@ -98,6 +100,8 @@ namespace canvas
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
+			
+			bool m_fixed_bounding_box;
 			BoundingBox m_bounding_box;
 
 			float m_fov;
