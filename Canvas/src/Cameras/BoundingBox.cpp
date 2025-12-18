@@ -13,7 +13,9 @@ namespace canvas
 	namespace cameras
 	{
 		//constructor
-		BoundingBox::BoundingBox(void) : m_min{-FLT_MAX, -FLT_MAX, -FLT_MAX}, m_max{+FLT_MAX, +FLT_MAX, +FLT_MAX}
+		BoundingBox::BoundingBox(void) : 
+			m_min{-FLT_MAX, -FLT_MAX, -FLT_MAX}, 
+			m_max{+FLT_MAX, +FLT_MAX, +FLT_MAX}
 		{
 			return;
 		}
@@ -24,18 +26,47 @@ namespace canvas
 			return;
 		}
 
+		//data
+		const float* BoundingBox::min(void) const
+		{
+			return m_min;
+		}
+		const float* BoundingBox::max(void) const
+		{
+			return m_max;
+		}
+
 		//status
 		bool BoundingBox::status(void) const
 		{
 			bool test = true;
-			for(const float& x : m_min) test = test && x == -FLT_MAX;
-			for(const float& x : m_max) test = test && x == +FLT_MAX;
+			for(const float& x : m_min) test = test && x != -FLT_MAX;
+			for(const float& x : m_max) test = test && x != +FLT_MAX;
 			return test;
 		}
 
 		//compute
-		void BoundingBox::compute(const Scene* scene)
+		void BoundingBox::reset(void)
 		{
+			for(float& x : m_min) x = -FLT_MAX;
+			for(float& x : m_max) x = +FLT_MAX;
+		}
+		void BoundingBox::repair(void)
+		{
+			if(!status())
+			{
+				for(float& x : m_min) x = -1;
+				for(float& x : m_max) x = +1;
+			}
+			if((vec3(m_max) - vec3(m_min)).norm() == 0)
+			{
+				for(float& x : m_min) x -= 1;
+				for(float& x : m_max) x += 1;
+			}
+		}
+		void BoundingBox::compute(const Scene* scene, bool reset, bool repair)
+		{
+			if(reset) this->reset();
 			for(const buffers::VBO* vbo : scene->vbos())
 			{
 				//data
@@ -51,6 +82,7 @@ namespace canvas
 					data += vs;
 				}
 			}
+			if(repair) this->repair();
 		}
 		void BoundingBox::insert_vertex(const float* vertex)
 		{

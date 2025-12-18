@@ -10,6 +10,7 @@
 #include "Canvas/Canvas/inc/Math/mat4.hpp"
 
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
+#include "Canvas/Canvas/inc/Cameras/BoundingBox.hpp"
 
 namespace canvas
 {
@@ -73,6 +74,10 @@ namespace canvas
 			void callback_mouse(button, bool, int32_t, int32_t, uint32_t);
 
 		protected:
+			//bound
+			void bound_perspective(void);
+			void bound_orthographic(void);
+
 			//compute
 			void compute_view(void);
 			void compute_perspective(void);
@@ -84,22 +89,13 @@ namespace canvas
 			void callback_rotation(int32_t, int32_t);
 			void callback_translation(int32_t, int32_t);
 
-			//bound
-			void bound_test(void) const;
-			bool bound_test(const vec3&) const;
-			void bound_text_3D(vec3&, vec3&, bool&) const;
-			void bound_model_3D(vec3&, vec3&, bool&) const;
-			void bound_image_3D(vec3&, vec3&, bool&) const;
-			void bound_checkup_3D(vec3&, vec3&, bool&) const;
-			void bound_perspective(const vec3&, const vec3&);
-			void bound_orthographic(const vec3&, const vec3&);
-
 			//data
 			Scene* m_scene;
 
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
+			BoundingBox m_box;
 
 			float m_fov;
 			float m_planes[2];

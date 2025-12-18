@@ -55,18 +55,11 @@ namespace canvas
 		//update
 		void Camera::bound(void)
 		{
-			//data
-			vec3 x_min, x_max;
-			bool status = false;
-			//boundary
-			bound_text_3D(x_min, x_max, status);
-			bound_model_3D(x_min, x_max, status);
-			bound_image_3D(x_min, x_max, status);
-			bound_checkup_3D(x_min, x_max, status);
 			//bound
 			m_fov = float(M_PI_4);
-			if(m_type == type::perspective) bound_perspective(x_min, x_max);
-			if(m_type == type::orthographic) bound_orthographic(x_min, x_max);
+			m_box.compute(m_scene, true, true);
+			if(m_type == type::perspective) bound_perspective();
+			if(m_type == type::orthographic) bound_orthographic();
 			//update
 			update();
 		}
@@ -233,6 +226,46 @@ namespace canvas
 			}
 		}
 
+		//bound
+		void Camera::bound_perspective(void)
+		{
+			//sphere
+			const vec3 x_min = m_box.min();
+			const vec3 x_max = m_box.max();
+			const vec3 center = (x_max + x_min) / 2;
+			const vec3 uf = (m_target - m_position).unit();
+			const float radius = (x_max - x_min).norm() / 2;
+			//fov
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
+			//distance
+			const float d = (1 + 1 / fminf(t1, t2)) * radius;
+			//planes
+			m_planes[0] = d - radius;
+			m_planes[1] = d + radius;
+			//position
+			m_target = center;
+			m_position = center - d * uf;
+		}
+		void Camera::bound_orthographic(void)
+		{
+			//sphere
+			const vec3 x_min = m_box.min();
+			const vec3 x_max = m_box.max();
+			const vec3 center = (x_max + x_min) / 2;
+			const vec3 uf = (m_target - m_position).unit();
+			const float radius = (x_max - x_min).norm() / 2;
+			//fov
+			const float t2 = tanf(m_fov / 2);
+			const float t1 = m_width * t2 / m_height;
+			//planes
+			m_planes[0] = radius / fminf(t1, t2);
+			m_planes[1] = m_planes[0] + 2 * radius;
+			//position
+			m_target = center;
+			m_position = center - (m_planes[0] + radius) * uf;
+		}
+
 		//compute
 		void Camera::compute_view(void)
 		{
@@ -366,152 +399,6 @@ namespace canvas
 			//update
 			update();
 			m_scene->update_on_motion();
-		}
-
-		//bound
-		void Camera::bound_test(void) const
-		{
-			//data
-			vertices::Text3D* vbo_data_text = (vertices::Text3D*) m_scene->m_vbos[2]->m_data;
-			vertices::Model3D* vbo_data_model = (vertices::Model3D*) m_scene->m_vbos[0]->m_data;
-			vertices::Image3D* vbo_data_image = (vertices::Image3D*) m_scene->m_vbos[1]->m_data;
-			//test model 3D
-			for(uint32_t i = 0; i < m_scene->m_vbos[0]->m_vertex_count; i++)
-			{
-				if(!bound_test(vbo_data_model[i].m_position)) return;
-			}
-			//test image 3D
-			for(uint32_t i = 0; i < m_scene->m_vbos[1]->m_vertex_count; i++)
-			{
-				if(!bound_test(vbo_data_image[i].m_position)) return;
-			}
-			//test text 3D
-			for(uint32_t i = 0; i < m_scene->m_vbos[2]->m_vertex_count; i++)
-			{
-				if(!bound_test(vbo_data_text[i].m_position)) return;
-			}
-		}
-		bool Camera::bound_test(const vec3& xw) const
-		{
-			//data
-			const vec3 xn = (m_projection * m_view * vec4(xw)).reduce();
-			//test
-			if(fabsf(xn[0]) > 1 && fabsf(xn[1]) > 1 && fabsf(xn[2]) > 1)
-			{
-				xw.print("xw", true);
-				xn.print("xn", true);
-				printf("Camera bound test failed");
-				return false;
-			}
-			//return
-			return true;
-		}
-		void Camera::bound_text_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Text3D* data = (vertices::Text3D*) m_scene->m_vbos[2]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[2]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[2]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_model_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Model3D* data = (vertices::Model3D*) m_scene->m_vbos[0]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[0]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[0]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_image_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			//data
-			vertices::Image3D* data = (vertices::Image3D*) m_scene->m_vbos[1]->m_data;
-			//setup
-			if(!status && m_scene->m_vbos[1]->m_vertex_count)
-			{
-				status = true;
-				x_min = x_max = data[0].m_position;
-			}
-			//bound
-			for(uint32_t i = 0; i < m_scene->m_vbos[1]->m_vertex_count; i++)
-			{
-				for(uint32_t j = 0; j < 3; j++)
-				{
-					x_min[j] = fminf(x_min[j], data[i].m_position[j]);
-					x_max[j] = fmaxf(x_max[j], data[i].m_position[j]);
-				}
-			}
-		}
-		void Camera::bound_checkup_3D(vec3& x_min, vec3& x_max, bool& status) const
-		{
-			if(!status)
-			{
-				x_min = {-1, -1, -1};
-				x_max = {+1, +1, +1};
-			}
-			if((x_max - x_min).norm() < 1e-5)
-			{
-				x_min -= vec3(1, 1, 1);
-				x_max += vec3(1, 1, 1);
-			}
-		}
-		void Camera::bound_perspective(const vec3& x_min, const vec3& x_max)
-		{
-			//sphere
-			const vec3 center = (x_max + x_min) / 2;
-			const vec3 uf = (m_target - m_position).unit();
-			const float radius = (x_max - x_min).norm() / 2;
-			//fov
-			const float t2 = tanf(m_fov / 2);
-			const float t1 = m_width * t2 / m_height;
-			//distance
-			const float d = (1 + 1 / fminf(t1, t2)) * radius;
-			//planes
-			m_planes[0] = d - radius;
-			m_planes[1] = d + radius;
-			//position
-			m_target = center;
-			m_position = center - d * uf;
-		}
-		void Camera::bound_orthographic(const vec3& x_min, const vec3& x_max)
-		{
-			//sphere
-			const vec3 center = (x_max + x_min) / 2;
-			const vec3 uf = (m_target - m_position).unit();
-			const float radius = (x_max - x_min).norm() / 2;
-			//fov
-			const float t2 = tanf(m_fov / 2);
-			const float t1 = m_width * t2 / m_height;
-			//planes
-			m_planes[0] = radius / fminf(t1, t2);
-			m_planes[1] = m_planes[0] + 2 * radius;
-			//position
-			m_target = center;
-			m_position = center - (m_planes[0] + radius) * uf;
 		}
 	}
 }

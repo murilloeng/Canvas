@@ -18,12 +18,18 @@ namespace canvas
 			//destructor
 			~BoundingBox(void);
 
+			//data
+			const float* min(void) const;
+			const float* max(void) const;
+
 			//status
 			bool status(void) const;
 
 			//compute
-			void compute(const Scene*);
+			void reset(void);
+			void repair(void);
 			void insert_vertex(const float*);
+			void compute(const Scene*, bool, bool);
 
 			//combine
 			void combine(const BoundingBox&);

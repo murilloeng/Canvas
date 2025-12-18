@@ -30,7 +30,6 @@ namespace examples
 		void polylines(canvas::Scene*);
 		void triangles(canvas::Scene*);
 		void cylinders(canvas::Scene*);
-		void container(canvas::Scene*);
 		void rectangles(canvas::Scene*);
 	}
 	namespace scenes
