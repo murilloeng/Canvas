@@ -94,6 +94,7 @@ namespace canvas
 		//vbos
 		void add_vbo(buffers::VBO*);
 		buffers::VBO* vbo(uint32_t) const;
+		const std::vector<buffers::VBO*>& vbos(void) const;
 
 		//ibos
 		void add_ibo(buffers::IBO*);

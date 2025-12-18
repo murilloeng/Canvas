@@ -133,6 +133,10 @@ namespace canvas
 	{
 		return m_vbos[index];
 	}
+	const std::vector<buffers::VBO*>& Scene::vbos(void) const
+	{
+		return m_vbos;
+	}
 
 	//ibos
 	void Scene::add_ibo(buffers::IBO* ibo)
@@ -364,7 +368,7 @@ namespace canvas
 		};
 		for(uint32_t i = 0; i < m_vbos.size(); i++)
 		{
-			m_vbos[i] = new buffers::VBO;
+			m_vbos[i] = new buffers::VBO(i < 3);
 			m_vbos[i]->vertex_size(vertex_sizes[i]);
 		}
 	}
