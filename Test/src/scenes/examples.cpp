@@ -9,7 +9,7 @@
 static canvas::Scene* scene;
 static uint32_t example_index = 0;
 
-//callabcks
+//callbacks
 static void callback_key(int32_t key, int32_t, int32_t)
 {
 	//data
