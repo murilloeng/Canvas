@@ -21,6 +21,7 @@
     <ClInclude Include="inc\API\Loader.hpp" />
     <ClInclude Include="inc\Buffers\Buffer.hpp" />
     <ClInclude Include="inc\Buffers\UBO.hpp" />
+    <ClInclude Include="inc\Cameras\BoundingBox.hpp" />
     <ClInclude Include="inc\Cameras\Camera.hpp" />
     <ClInclude Include="inc\Cameras\Click.hpp" />
     <ClInclude Include="inc\Fonts\Glyph.hpp" />
@@ -98,6 +99,7 @@
     <ClCompile Include="src\API\Loader.cpp" />
     <ClCompile Include="src\Buffers\Buffer.cpp" />
     <ClCompile Include="src\Buffers\UBO.cpp" />
+    <ClCompile Include="src\Cameras\BoundingBox.cpp" />
     <ClCompile Include="src\Cameras\Camera.cpp" />
     <ClCompile Include="src\Cameras\Click.cpp" />
     <ClCompile Include="src\Fonts\Glyph.cpp" />

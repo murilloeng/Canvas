@@ -182,7 +182,6 @@ copy ..\..\external\cpp\dll\$(platform)\freetype.dll ..\dist\$(platform)\$(confi
     <ClCompile Include="src\objects\3D\cubes.cpp" />
     <ClCompile Include="src\objects\3D\cylinders.cpp" />
     <ClCompile Include="src\objects\3D\spheres.cpp" />
-    <ClCompile Include="src\objects\Images\container.cpp" />
     <ClCompile Include="src\objects\Images\images.cpp" />
     <ClCompile Include="src\objects\Images\latex.cpp" />
     <ClCompile Include="src\objects\Images\text2D.cpp" />
