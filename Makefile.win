@@ -1,0 +1,88 @@
+#compiler
+WARS = -Wall
+DEFS = -D _USE_MATH_DEFINES
+LIBS = -L ../external/cpp/lib/x64
+INCS = -I .. -I ../external/cpp/inc
+CXX = C:\Qt\Tools\mingw1310_64\bin\g++.exe
+LINK = -Wl,--export-all-symbols -Wl,--out-implib,$(out_lib).a
+CXXFLAGS = -std=c++20 -fPIC -pipe -fopenmp -MT $@ -MMD -MP -MF $(subst .o,.d, $@) $(DEFS) $(INCS) $(WARS)
+
+#mode
+ifneq ($(m), r)
+	mode = debug
+	CXXFLAGS += -ggdb3
+else
+	mode = release
+	CXXFLAGS += -Ofast
+endif
+
+#ouput
+out_exe = Test/dist/$(mode)/test.exe
+out_lib = Canvas/dist/$(mode)/libcanvas.dll
+
+#sources
+src_exe := $(subst $(CURDIR)/,,$(subst \,/,$(shell dir /b /s Test\src\*.cpp)))
+src_lib := $(subst $(CURDIR)/,,$(subst \,/,$(shell dir /b /s Canvas\src\*.cpp)))
+
+#objects
+obj_exe := $(subst .cpp,.o,$(subst Test/src,Test/build/$(mode),$(src_exe)))
+obj_lib := $(subst .cpp,.o,$(subst Canvas/src,Canvas/build/$(mode),$(src_lib)))
+
+#dependencies
+dep_exe = $(subst .o,.d, $(obj_exe))
+dep_lib = $(subst .o,.d, $(obj_lib))
+
+#rules
+all : exe
+
+run : exe
+	./$(out_exe)
+
+debug : exe
+	gdb ./$(out_exe)
+
+lib : $(out_lib)
+	@echo library build - $(mode): complete!
+
+exe : lib $(out_exe)
+	@echo executable build - $(mode): complete!
+
+$(out_lib) : $(obj_lib)
+	@echo library - $(mode): $@
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@$(CXX) -fopenmp -shared $(LINK) -o $(out_lib) $(obj_lib) $(LIBS) -l OpenGL32 -l freetype
+
+$(out_exe) : $(obj_exe)
+	@echo executable - $(mode): $@
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@$(CXX) -fopenmp -o $(out_exe) $(obj_exe) -L Canvas/dist/$(mode) -l canvas $(LIBS) -l glfw3 -l gdi32
+
+Test/build/$(mode)/%.o : Test/src/%.cpp Test/build/$(mode)/%.d
+	@echo compiling - $(mode): $<
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+Canvas/build/$(mode)/%.o : Canvas/src/%.cpp Canvas/build/$(mode)/%.d
+	@echo compiling - $(mode): $<
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(dep_exe) : ;
+
+$(dep_lib) : ;
+
+-include $(dep_exe)
+
+-include $(dep_lib)
+
+clean :
+	@rm -rf Test/dist/$(mode)
+	@rm -rf Test/build/$(mode)
+	@rm -rf Canvas/dist/$(mode)
+	@rm -rf Canvas/build/$(mode)
+	@echo 'clean - $(mode): complete!'
+
+print-% :
+	@echo $* = $($*)
+
+.PHONY : all clean print-%
