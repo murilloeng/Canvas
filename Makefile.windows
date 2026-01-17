@@ -1,10 +1,9 @@
 #compiler
+CXX = g++
 WARS = -Wall
 DEFS = -D _USE_MATH_DEFINES
-LIBS = -L ../external/cpp/lib/x64
+LIBS = -L ../external/cpp/dll/mingw
 INCS = -I .. -I ../external/cpp/inc
-CXX = C:\Qt\Tools\mingw1310_64\bin\g++.exe
-LINK = -Wl,--export-all-symbols -Wl,--out-implib,$(out_lib).a
 CXXFLAGS = -std=c++20 -fPIC -pipe -fopenmp -MT $@ -MMD -MP -MF $(subst .o,.d, $@) $(DEFS) $(INCS) $(WARS)
 
 #mode
@@ -32,11 +31,19 @@ obj_lib := $(subst .cpp,.o,$(subst Canvas/src,Canvas/build/$(mode),$(src_lib)))
 dep_exe = $(subst .o,.d, $(obj_exe))
 dep_lib = $(subst .o,.d, $(obj_lib))
 
+#libraries
+dll_rep = \
+	../external/cpp/dll/mingw/glfw3.dll\
+	../external/cpp/dll/mingw/freetype.dll
+
+dll_exe = Test/dist/$(mode)/libcanvas.dll
+dll_exe += $(subst ../external/cpp/dll/mingw,Test/dist/$(mode),$(dll_rep))
+
 #rules
 all : exe
 
 run : exe
-	./$(out_exe)
+	$(out_exe)
 
 debug : exe
 	gdb ./$(out_exe)
@@ -44,13 +51,13 @@ debug : exe
 lib : $(out_lib)
 	@echo library build - $(mode): complete!
 
-exe : lib $(out_exe)
+exe : lib $(dll_exe) $(out_exe)
 	@echo executable build - $(mode): complete!
 
 $(out_lib) : $(obj_lib)
 	@echo library - $(mode): $@
 	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
-	@$(CXX) -fopenmp -shared $(LINK) -o $(out_lib) $(obj_lib) $(LIBS) -l OpenGL32 -l freetype
+	@$(CXX) -fopenmp -shared -o $(out_lib) $(obj_lib) $(LIBS) -l OpenGL32 -l freetype
 
 $(out_exe) : $(obj_exe)
 	@echo executable - $(mode): $@
@@ -67,6 +74,16 @@ Canvas/build/$(mode)/%.o : Canvas/src/%.cpp Canvas/build/$(mode)/%.d
 	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
+Test/dist/$(mode)/%.dll : ../external/cpp/dll/mingw/%.dll
+	@echo copying dll - $(mode): $@
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@copy /y $(subst /,\, $<) $(subst /,\, $@) > nul
+
+Test/dist/$(mode)/libcanvas.dll : $(out_lib)
+	@echo copying dll - $(mode): $@
+	@if not exist $(subst /,\,$(dir $@)) mkdir $(subst /,\,$(dir $@))
+	@copy /y $(subst /,\, $<) $(subst /,\, $@) > nul
+
 $(dep_exe) : ;
 
 $(dep_lib) : ;
@@ -76,11 +93,11 @@ $(dep_lib) : ;
 -include $(dep_lib)
 
 clean :
-	@rm -rf Test/dist/$(mode)
-	@rm -rf Test/build/$(mode)
-	@rm -rf Canvas/dist/$(mode)
-	@rm -rf Canvas/build/$(mode)
-	@echo 'clean - $(mode): complete!'
+	@echo clean - $(mode): complete!
+	@if exist Test\dist\$(mode) rmdir /s /q Test\dist\$(mode)
+	@if exist Test\build\$(mode) rmdir /s /q Test\build\$(mode)
+	@if exist Canvas\dist\$(mode) rmdir /s /q Canvas\dist\$(mode)
+	@if exist Canvas\build\$(mode) rmdir /s /q Canvas\build\$(mode)
 
 print-% :
 	@echo $* = $($*)
