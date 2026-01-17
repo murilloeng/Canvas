@@ -15,8 +15,9 @@
 				"_USE_MATH_DEFINES"
 			],
 			"cStandard": "c17",
-			"cppStandard": "c++20",
-			"intelliSenseMode": "windows-msvc-x64"
+			"cppStandard": "c++17",
+			"intelliSenseMode": "windows-gcc-x64",
+			"compilerPath": "C:/Qt/Tools/mingw1310_64/bin/g++.exe"
 		},
 		{
 			"name": "Linux",
