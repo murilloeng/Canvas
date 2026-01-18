@@ -5,15 +5,13 @@
 #include <vector>
 #include <cstdint>
 
+//freetype
+#include <freetype2/freetype/freetype.h>
+
 //canvas
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
-
 #include "Canvas/Canvas/inc/Lights/Lights.hpp"
-
 #include "Canvas/Canvas/inc/Cameras/Camera.hpp"
-
-//ext
-#include "external/cpp/inc/freetype/freetype.h"
 
 namespace canvas
 {

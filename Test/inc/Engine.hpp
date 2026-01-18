@@ -7,7 +7,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif
-#include "external/cpp/inc/GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"

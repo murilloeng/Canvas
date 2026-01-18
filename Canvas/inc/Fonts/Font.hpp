@@ -4,8 +4,8 @@
 #include <string>
 #include <cstdint>
 
-//ext
-#include "external/cpp/inc/freetype/freetype.h"
+//freetype
+#include <freetype2/freetype/freetype.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Glyph.hpp"

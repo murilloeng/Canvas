@@ -3,8 +3,8 @@
 //std
 #include <cstdint>
 
-//ext
-#include "external/cpp/inc/freetype/freetype.h"
+//freetype
+#include <freetype2/freetype/freetype.h>
 
 namespace canvas
 {

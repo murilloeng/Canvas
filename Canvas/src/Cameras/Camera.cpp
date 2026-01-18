@@ -15,7 +15,7 @@
 #include <GL/gl.h>
 
 //stbi
-#include "stb_image_write.h"
+#include <stb/stb_image_write.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec4.hpp"

@@ -23,8 +23,7 @@
 			"name": "Linux",
 			"includePath":
 			[
-				"${workspaceFolder}/..",
-				"${workspaceFolder}/../external/cpp/inc"
+				"${workspaceFolder}/.."
 			],
 			"intelliSenseMode": "linux-gcc-x64"
 		}

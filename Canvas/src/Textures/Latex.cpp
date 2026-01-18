@@ -1,8 +1,8 @@
 //std
 #include <stdexcept>
 
-//ext
-#include "external/cpp/inc/stb_image.h"
+//stb
+#include <stb/stb_image.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Textures/Latex.hpp"

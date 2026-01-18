@@ -4,7 +4,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #include <GL/gl.h>
-#include "external/cpp/inc/GL/glext.hpp"
+#include "GL/glext.hpp"
 #endif
 #include <GL/gl.h>
 

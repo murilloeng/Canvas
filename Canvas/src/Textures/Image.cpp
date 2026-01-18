@@ -4,8 +4,8 @@
 //def
 #define STB_IMAGE_IMPLEMENTATION
 
-//ext
-#include "stb_image.h"
+//stb
+#include <stb/stb_image.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Textures/Image.hpp"
