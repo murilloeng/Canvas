@@ -1,5 +1,8 @@
-//ext
-#include "freetype/freetype.h"
+//std
+#include <cstring>
+
+//freetype
+#include <freetype2/freetype/freetype.h>
 
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
