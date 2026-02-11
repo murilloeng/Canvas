@@ -16,8 +16,8 @@ static void callback_key(int32_t key, int32_t, int32_t)
 	using namespace examples::objects;
 	void (*examples[])(canvas::Scene*) = { 
 		points, 
-		arcs, lines, arrows, curves, polylines, splines, 
-		circles, grid_2D, quads, polygons, triangles, rectangles, 
+		arcs, lines, arrows, bezier, curves, polylines, splines, 
+		circles, grid2D, quads, polygons, triangles, rectangles, 
 		cubes, cylinders, spheres, surfaces, 
 		group, images, text3D, latex, graph2D, 
 		text2D, palettes

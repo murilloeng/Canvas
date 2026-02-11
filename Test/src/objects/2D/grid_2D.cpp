@@ -5,7 +5,7 @@
 //examples
 #include "Canvas/Test/inc/examples.hpp"
 
-void examples::objects::grid_2D(canvas::Scene* scene)
+void examples::objects::grid2D(canvas::Scene* scene)
 {
 	//data
 	const uint32_t n = 10;
