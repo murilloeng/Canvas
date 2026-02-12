@@ -72,7 +72,7 @@ namespace canvas
 		for(const commands::Command* command : m_commands) delete command;
 		for(const textures::Texture* texture : m_textures) delete texture;
 		for(const animations::Animation* animation : m_animations) delete animation;
-		//freetype
+		//FreeType
 		FT_Done_FreeType(m_ft_library);
 	}
 

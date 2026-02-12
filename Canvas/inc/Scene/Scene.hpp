@@ -5,7 +5,7 @@
 #include <vector>
 #include <cstdint>
 
-//freetype
+//FreeType
 #include <freetype2/freetype/freetype.h>
 
 //canvas
