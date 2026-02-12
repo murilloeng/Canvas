@@ -6,6 +6,9 @@
 //freetype
 #include <freetype2/freetype/freetype.h>
 
+//Canvas
+#include "Canvas/Canvas/inc/Fonts/Outline.hpp"
+
 namespace canvas
 {
 	namespace fonts
@@ -33,6 +36,7 @@ namespace canvas
 			uint32_t offset(void) const;
 			uint32_t advance(void) const;
 			uint32_t bearing(uint32_t) const;
+
 			const uint8_t* data(void) const;
 
 			//draw
@@ -50,6 +54,8 @@ namespace canvas
 			uint32_t m_offset;
 			uint32_t m_advance;
 			uint32_t m_bearings[2];
+
+			Outline m_outline;
 
 			//friends
 			friend class fonts::Font;

@@ -73,6 +73,8 @@ namespace canvas
 			m_advance = face->glyph->advance.x / 64;
 			m_bearings[1] = face->glyph->bitmap_top;
 			m_bearings[0] = face->glyph->bitmap_left;
+			//outline
+			m_outline.setup(face);
 			//buffer
 			if(m_data) delete[] m_data;
 			m_data = new uint8_t[m_width * m_height];
