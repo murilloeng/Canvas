@@ -38,6 +38,7 @@ namespace canvas
 			uint32_t bearing(uint32_t) const;
 
 			const uint8_t* data(void) const;
+			const Outline& outline(void) const;
 
 			//draw
 			void coordinates(float*) const;

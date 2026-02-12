@@ -8,6 +8,7 @@
 
 //Canvas
 #include "Canvas/Canvas/inc/Fonts/Contour.hpp"
+#include "Canvas/Canvas/inc/Fonts/BoundingBox.hpp"
 
 namespace canvas
 {
@@ -29,6 +30,7 @@ namespace canvas
 			void print(void) const;
 
 			//data
+			BoundingBox m_bounding_box;
 			std::vector<Contour*> m_contours;
 		};
 	}

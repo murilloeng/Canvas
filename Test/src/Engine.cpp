@@ -177,7 +177,14 @@ void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int
 	glfwGetCursorPos(window, &x1, &x2);
 	if(engine->m_user_key) engine->m_user_key(key, int32_t(x1), int32_t(x2));
 	//Canvas
-	if(key == GLFW_KEY_ESCAPE) glfwSetWindowShouldClose(window, true);
+	if(key == GLFW_KEY_ESCAPE)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
+	if(key == GLFW_KEY_F11)
+	{
+		
+	}
 	else
 	{
 		const char* name = glfwGetKeyName(key, 0);

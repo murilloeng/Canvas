@@ -19,11 +19,21 @@ namespace canvas
 			//destructor
 			~Line(void);
 
+			//type
+			Type type(void) const override;
+
 			//print
 			void print(void) const override;
 
+			//object
+			objects::Object* object(void) const override;
+
+			//intersection
+			uint32_t hit(const float*) const override;
+			float point(uint32_t, float) const override;
+
 			//data
-			uint64_t m_points[2][2];
+			int64_t m_points[2][2];
 		};
 	}
 }

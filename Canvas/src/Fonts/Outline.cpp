@@ -100,6 +100,7 @@ namespace canvas
 		void Outline::setup(FT_Face face)
 		{
 			//data
+			FT_BBox box;
 			FT_Outline_Funcs callbacks;
 			//setup
 			callbacks.delta = 0;
@@ -109,17 +110,22 @@ namespace canvas
 			callbacks.conic_to = callback_conic;
 			callbacks.cubic_to = callback_cubic;
 			//decompose
+			FT_Outline_Get_CBox(&face->glyph->outline, &box);
 			FT_Outline_Decompose(&face->glyph->outline, &callbacks, this);
+			//bounding box
+			m_bounding_box = BoundingBox(box);
 		}
 
 		//print
 		void Outline::print(void) const
 		{
-			for(uint32_t i = 0; i < m_contours.size(); i++)
+			uint32_t counter = 0;
+			for(const Contour* contour : m_contours)
 			{
-				printf("Contour %d:\n", i);
-				m_contours[i]->print();
+				printf("Contour: %d\n", counter++);
+				contour->print();
 			}
+			m_bounding_box.print();
 		}
 	}
 }

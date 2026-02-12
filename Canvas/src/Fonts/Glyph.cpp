@@ -42,9 +42,14 @@ namespace canvas
 		{
 			return m_bearings[index];
 		}
+
 		const uint8_t* Glyph::data(void) const
 		{
 			return m_data;
+		}
+		const Outline& Glyph::outline(void) const
+		{
+			return m_outline;
 		}
 
 		//draw
