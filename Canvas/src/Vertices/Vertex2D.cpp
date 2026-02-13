@@ -20,7 +20,7 @@ namespace canvas
 		//print
 		void Vertex2D::print(void) const
 		{
-			m_position.print("position:", true);
+			m_position.print("Position:", true);
 		}
 	}
 }

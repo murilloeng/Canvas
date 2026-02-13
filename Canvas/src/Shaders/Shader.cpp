@@ -1,4 +1,5 @@
 //std
+#include <cstring>
 #include <stdexcept>
 
 //canvas
@@ -11,9 +12,10 @@ namespace canvas
 	namespace shaders
 	{
 		//constructors
-		Shader::Shader(std::vector<Stage*> stages)
+		Shader::Shader(std::vector<Stage*> stages, const char* label)
 		{
 			//create
+			strcpy(m_label, label);
 			m_id = glCreateProgram();
 			//check
 			if(!glIsProgram(m_id))
@@ -54,6 +56,15 @@ namespace canvas
 		GLuint Shader::id(void) const
 		{
 			return m_id;
+		}
+
+		const char* Shader::label(void) const
+		{
+			return m_label;
+		}
+		const char* Shader::label(const char* label)
+		{
+			return strcpy(m_label, label);
 		}
 
 		//bind

@@ -21,7 +21,7 @@ namespace canvas
 		void Model3D::print(void) const
 		{
 			Vertex3D::print();
-			m_color.print("color", true);
+			m_color.print("Color", true);
 		}
 	}
 }

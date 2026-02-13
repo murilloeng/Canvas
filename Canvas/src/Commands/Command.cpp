@@ -9,10 +9,10 @@ namespace canvas
 	namespace commands
 	{
 		//constructors
-		Command::Command(void) : 
+		Command::Command(const char* label) : 
 			m_mode{GL_POINTS}, m_vao_index{0}, m_shader_index{0}
 		{
-			return;
+			strcpy(m_label, label);
 		}
 
 		//destructor
@@ -29,6 +29,15 @@ namespace canvas
 		GLenum Command::mode(GLenum mode)
 		{
 			return m_mode = mode;
+		}
+
+		const char* Command::label(void) const
+		{
+			return m_label;
+		}
+		const char* Command::label(const char* label)
+		{
+			return strcpy(m_label, label);
 		}
 
 		uint32_t Command::vao_index(void) const

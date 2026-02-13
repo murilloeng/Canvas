@@ -19,7 +19,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			Command(void);
+			Command(const char* = "");
 
 			//destructor
 			~Command(void);
@@ -27,6 +27,9 @@ namespace canvas
 			//data
 			GLenum mode(GLenum);
 			GLenum mode(void) const;
+
+			const char* label(void) const;
+			const char* label(const char*);
 
 			uint32_t vao_index(uint32_t);
 			uint32_t vao_index(void) const;
@@ -42,6 +45,7 @@ namespace canvas
 
 			//data
 			GLenum m_mode;
+			char m_label[64];
 			uint32_t m_vao_index;
 			uint32_t m_shader_index;
 

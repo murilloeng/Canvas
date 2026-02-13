@@ -123,6 +123,14 @@ namespace canvas
 	{
 		return m_vaos[index];
 	}
+	buffers::VAO* Scene::vao(const char* label) const
+	{
+		for(buffers::VAO* vao : m_vaos)
+		{
+			if(strcmp(label, vao->label()) == 0) return vao;
+		}
+		return nullptr;
+	}
 
 	//vbos
 	void Scene::add_vbo(buffers::VBO* vbo)
@@ -132,6 +140,14 @@ namespace canvas
 	buffers::VBO* Scene::vbo(uint32_t index) const
 	{
 		return m_vbos[index];
+	}
+	buffers::VBO* Scene::vbo(const char* label) const
+	{
+		for(buffers::VBO* vbo : m_vbos)
+		{
+			if(strcmp(label, vbo->label()) == 0) return vbo;
+		}
+		return nullptr;
 	}
 	const std::vector<buffers::VBO*>& Scene::vbos(void) const
 	{
@@ -147,6 +163,14 @@ namespace canvas
 	{
 		return m_ibos[index];
 	}
+	buffers::IBO* Scene::ibo(const char* label) const
+	{
+		for(buffers::IBO* ibo : m_ibos)
+		{
+			if(strcmp(label, ibo->label()) == 0) return ibo;
+		}
+		return nullptr;
+	}
 
 	//ubos
 	void Scene::add_ubo(buffers::UBO* ubo)
@@ -156,6 +180,14 @@ namespace canvas
 	buffers::UBO* Scene::ubo(uint32_t index) const
 	{
 		return m_ubos[index];
+	}
+	buffers::UBO* Scene::ubo(const char* label) const
+	{
+		for(buffers::UBO* ubo : m_ubos)
+		{
+			if(strcmp(label, ubo->label()) == 0) return ubo;
+		}
+		return nullptr;
 	}
 
 	//shaders
@@ -167,6 +199,14 @@ namespace canvas
 	{
 		return m_shaders[index];
 	}
+	shaders::Shader* Scene::shader(const char* label) const
+	{
+		for(shaders::Shader* shader : m_shaders)
+		{
+			if(strcmp(label, shader->label()) == 0) return shader;
+		}
+		return nullptr;
+	}
 
 	//commands
 	void Scene::add_command(commands::Command* command)
@@ -177,6 +217,14 @@ namespace canvas
 	{
 		return m_commands[index];
 	}
+	commands::Command* Scene::command(const char* label) const
+	{
+		for(commands::Command* command : m_commands)
+		{
+			if(strcmp(label, command->label()) == 0) return command;
+		}
+		return nullptr;
+	}
 
 	//textures
 	void Scene::add_texture(textures::Texture* texture)
@@ -186,6 +234,14 @@ namespace canvas
 	textures::Texture* Scene::texture(uint32_t index) const
 	{
 		return m_textures[index];
+	}
+	textures::Texture* Scene::texture(const char* label) const
+	{
+		for(textures::Texture* texture : m_textures)
+		{
+			if(strcmp(label, texture->label()) == 0) return texture;
+		}
+		return nullptr;
 	}
 
 	//fonts

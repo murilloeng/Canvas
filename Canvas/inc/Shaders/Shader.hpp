@@ -30,16 +30,19 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Shader(std::vector<Stage*>);
+			Shader(std::vector<Stage*>, const char* = "");
 
 			//destructor
 			~Shader(void);
 
+			//bind
+			void bind(void) const;
+
 			//data
 			GLuint id(void) const;
 
-			//bind
-			void bind(void) const;
+			const char* label(void) const;
+			const char* label(const char*);
 
 			//uniforms
 			GLint uniform_location(const char*) const;
@@ -73,6 +76,7 @@ namespace canvas
 
 			//data
 			GLuint m_id;
+			char m_label[64];
 		};
 	}
 }

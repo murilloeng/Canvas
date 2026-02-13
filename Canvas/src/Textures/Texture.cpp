@@ -1,4 +1,5 @@
 //std
+#include <cstring>
 #include <stdexcept>
 
 //canvas
@@ -10,9 +11,10 @@ namespace canvas
 	namespace textures
 	{
 		//constructor
-		Texture::Texture(void) : m_width(0), m_height(0), m_format(0)
+		Texture::Texture(const char* label) : m_width(0), m_height(0), m_format(0)
 		{
 			//create
+			strcpy(m_label, label);
 			glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
 			//check
 			if(!glIsTexture(m_id))
@@ -58,6 +60,15 @@ namespace canvas
 		uint32_t Texture::format(uint32_t format)
 		{
 			return m_format = format;
+		}
+
+		const char* Texture::label(void) const
+		{
+			return m_label;
+		}
+		const char* Texture::label(const char* label)
+		{
+			return strcpy(m_label, label);
 		}
 
 		//bind

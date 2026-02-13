@@ -7,13 +7,14 @@
 #include "Canvas/Test/inc/examples.hpp"
 
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
-#include "Canvas/Canvas/inc/Objects/2D/Circle.hpp"
-#include "Canvas/Canvas/inc/Objects/1D/Polyline.hpp"
 
 int main(void)
 {
 	try
 	{
+		// Engine engine;
+
+		// engine.start();
 		examples::scenes::examples();
 	}
 	catch(const std::exception& e)

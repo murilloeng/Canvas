@@ -1,4 +1,5 @@
 //std
+#include <cstring>
 #include <stdexcept>
 
 //canvas
@@ -10,9 +11,10 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		Buffer::Buffer(void)
+		Buffer::Buffer(const char* label)
 		{
 			//create
+			strcpy(m_label, label);
 			glCreateBuffers(1, &m_id);
 			//check
 			if(!glIsBuffer(m_id))
@@ -27,16 +29,25 @@ namespace canvas
 			if(glIsBuffer(m_id)) glDeleteBuffers(1, &m_id);
 		}
 
+		//bind
+		void Buffer::bind(GLenum target) const
+		{
+			glBindBuffer(target, m_id);
+		}
+
 		//data
 		GLuint Buffer::id(void) const
 		{
 			return m_id;
 		}
 
-		//bind
-		void Buffer::bind(GLenum target) const
+		const char* Buffer::label(void) const
 		{
-			glBindBuffer(target, m_id);
+			return m_label;
+		}
+		const char* Buffer::label(const char* label)
+		{
+			return strcpy(m_label, label);
 		}
 
 		//data

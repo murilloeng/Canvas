@@ -88,31 +88,38 @@ namespace canvas
 		//vaos
 		void add_vao(buffers::VAO*);
 		buffers::VAO* vao(uint32_t) const;
+		buffers::VAO* vao(const char*) const;
 
 		//vbos
 		void add_vbo(buffers::VBO*);
 		buffers::VBO* vbo(uint32_t) const;
+		buffers::VBO* vbo(const char*) const;
 		const std::vector<buffers::VBO*>& vbos(void) const;
 
 		//ibos
 		void add_ibo(buffers::IBO*);
 		buffers::IBO* ibo(uint32_t) const;
+		buffers::IBO* ibo(const char*) const;
 
 		//ubos
 		void add_ubo(buffers::UBO*);
 		buffers::UBO* ubo(uint32_t) const;
+		buffers::UBO* ubo(const char*) const;
 
 		//shaders
 		void add_shader(shaders::Shader*);
 		shaders::Shader* shader(uint32_t) const;
+		shaders::Shader* shader(const char*) const;
 
 		//commands
 		void add_command(commands::Command*);
 		commands::Command* command(uint32_t) const;
+		commands::Command* command(const char*) const;
 
 		//textures
 		void add_texture(textures::Texture*);
 		textures::Texture* texture(uint32_t) const;
+		textures::Texture* texture(const char*) const;
 
 		//fonts
 		void add_font(const char*);

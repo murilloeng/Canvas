@@ -11,13 +11,17 @@ namespace canvas
 		{
 		public:
 			//constructor
-			VAO(void);
+			VAO(const char* = "");
 
 			//destructor
 			~VAO(void);
 
 			//bind
 			void bind(void) const;
+
+			//data
+			const char* label(void) const;
+			const char* label(const char*);
 
 			//buffers
 			void element_buffer(GLuint) const;
@@ -31,6 +35,7 @@ namespace canvas
 		private:
 			//data
 			GLuint m_id;
+			char m_label[64];
 		};
 	}
 }
