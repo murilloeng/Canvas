@@ -7,7 +7,7 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		IBO::IBO(void) : m_data{nullptr}, m_vertex_count{0}
+		IBO::IBO(const char* label) : Buffer(label), m_data{nullptr}, m_vertex_count{0}
 		{
 			return;
 		}

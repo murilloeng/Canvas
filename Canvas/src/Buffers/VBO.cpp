@@ -7,7 +7,7 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		VBO::VBO(bool bounding_box) : 
+		VBO::VBO(bool bounding_box, const char* label) : Buffer(label), 
 			m_data{nullptr}, m_bounding_box{bounding_box}, m_vertex_size{0}, m_vertex_count{0}
 		{
 			return;

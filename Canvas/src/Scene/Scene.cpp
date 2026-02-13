@@ -442,23 +442,34 @@ namespace canvas
 	}
 	void Scene::setup_vbos(void)
 	{
+		const char* labels[] = {
+			"Model 3D", "Image 3D", "Text 3D",
+			"Model 2D", "Image 2D", "Text 2D"
+		};
 		const uint32_t vertex_sizes[] = {
 			sizeof(vertices::Model3D), sizeof(vertices::Image3D), sizeof(vertices::Text3D), 
 			sizeof(vertices::Model2D), sizeof(vertices::Image2D), sizeof(vertices::Text2D)
 		};
 		for(uint32_t i = 0; i < m_vbos.size(); i++)
 		{
-			m_vbos[i] = new buffers::VBO(i < 3);
+			m_vbos[i] = new buffers::VBO(i < 3, labels[i]);
 			m_vbos[i]->vertex_size(vertex_sizes[i]);
 		}
 	}
 	void Scene::setup_ibos(void)
 	{
-		for(buffers::IBO*& ibo : m_ibos) ibo = new buffers::IBO;
+		//data
+		const char* labels[] = {
+			"Model 3D Points", "Model 3D Lines", "Model 3D Triangles", "Image 3D", "Text 3D", "Latex 3D",
+			"Model 2D Points", "Model 2D Lines", "Model 2D Triangles", "Image 2D", "Text 2D", "Latex 2D"
+		};
+		//ibos
+		uint32_t counter = 0;
+		for(buffers::IBO*& ibo : m_ibos) ibo = new buffers::IBO(labels[counter++]);
 	}
 	void Scene::setup_ubos(void)
 	{
-		m_ubos[0] = new buffers::UBO;
+		m_ubos[0] = new buffers::UBO("Camera");
 		m_ubos[0]->bind_base(GL_UNIFORM_BUFFER, 0);
 		m_ubos[0]->transfer(32 * sizeof(float), nullptr);
 	}
@@ -619,8 +630,14 @@ namespace canvas
 	}
 	void Scene::setup_commands(void)
 	{
+		//data
+		const char* labels[] = {
+			"Model 3D Points", "Model 3D Lines", "Model 3D Triangles", "Image 3D", "Text 3D", "Latex 3D",
+			"Model 2D Points", "Model 2D Lines", "Model 2D Triangles", "Image 2D", "Text 2D", "Latex 2D"
+		};
 		//create
-		for(commands::Command*& command : m_commands) command = new commands::Command;
+		uint32_t counter = 0;
+		for(commands::Command*& command : m_commands) command = new commands::Command(labels[counter++]);
 		//setup
 		m_commands[ 1]->setup(GL_LINES, 1, 0);
 		m_commands[ 7]->setup(GL_LINES, 7, 5);
@@ -648,6 +665,7 @@ namespace canvas
 	//setup vaos
 	void Scene::setup_vao_text_2D(void)
 	{
+		m_vaos[10]->label("Text 2D");
 		m_vaos[10]->attribute_enable(0);
 		m_vaos[10]->attribute_enable(1);
 		m_vaos[10]->attribute_enable(2);
@@ -662,6 +680,7 @@ namespace canvas
 	}
 	void Scene::setup_vao_text_3D(void)
 	{
+		m_vaos[4]->label("Text 3D");
 		m_vaos[4]->attribute_enable(0);
 		m_vaos[4]->attribute_enable(1);
 		m_vaos[4]->attribute_enable(2);
@@ -676,6 +695,7 @@ namespace canvas
 	}
 	void Scene::setup_vao_latex_2D(void)
 	{
+		m_vaos[11]->label("Latex 2D");
 		m_vaos[11]->attribute_enable(0);
 		m_vaos[11]->attribute_enable(1);
 		m_vaos[11]->attribute_enable(2);
@@ -690,6 +710,7 @@ namespace canvas
 	}
 	void Scene::setup_vao_latex_3D(void)
 	{
+		m_vaos[5]->label("Latex 3D");
 		m_vaos[5]->attribute_enable(0);
 		m_vaos[5]->attribute_enable(1);
 		m_vaos[5]->attribute_enable(2);
@@ -704,6 +725,7 @@ namespace canvas
 	}
 	void Scene::setup_vao_image_2D(void)
 	{
+		m_vaos[9]->label("Image 2D");
 		m_vaos[9]->attribute_enable(0);
 		m_vaos[9]->attribute_enable(1);
 		m_vaos[9]->attribute_binding(0, 0);
@@ -715,6 +737,7 @@ namespace canvas
 	}
 	void Scene::setup_vao_image_3D(void)
 	{
+		m_vaos[3]->label("Image 3D");
 		m_vaos[3]->attribute_enable(0);
 		m_vaos[3]->attribute_enable(1);
 		m_vaos[3]->attribute_binding(0, 0);
@@ -730,6 +753,7 @@ namespace canvas
 		m_vaos[7]->attribute_enable(1);
 		m_vaos[7]->attribute_binding(0, 0);
 		m_vaos[7]->attribute_binding(1, 0);
+		m_vaos[7]->label("Modes 2D Lines");
 		m_vaos[7]->element_buffer(m_ibos[7]->m_id);
 		m_vaos[7]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[7]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
@@ -741,6 +765,7 @@ namespace canvas
 		m_vaos[1]->attribute_enable(1);
 		m_vaos[1]->attribute_binding(0, 0);
 		m_vaos[1]->attribute_binding(1, 0);
+		m_vaos[1]->label("Modes 3D Lines");
 		m_vaos[1]->element_buffer(m_ibos[1]->m_id);
 		m_vaos[1]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[1]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
@@ -752,6 +777,7 @@ namespace canvas
 		m_vaos[6]->attribute_enable(1);
 		m_vaos[6]->attribute_binding(0, 0);
 		m_vaos[6]->attribute_binding(1, 0);
+		m_vaos[6]->label("Modes 2D Points");
 		m_vaos[6]->element_buffer(m_ibos[6]->m_id);
 		m_vaos[6]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[6]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
@@ -763,6 +789,7 @@ namespace canvas
 		m_vaos[0]->attribute_enable(1);
 		m_vaos[0]->attribute_binding(0, 0);
 		m_vaos[0]->attribute_binding(1, 0);
+		m_vaos[0]->label("Modes 3D Points");
 		m_vaos[0]->element_buffer(m_ibos[0]->m_id);
 		m_vaos[0]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[0]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
@@ -774,6 +801,7 @@ namespace canvas
 		m_vaos[8]->attribute_enable(1);
 		m_vaos[8]->attribute_binding(0, 0);
 		m_vaos[8]->attribute_binding(1, 0);
+		m_vaos[8]->label("Modes 2D Triangles");
 		m_vaos[8]->element_buffer(m_ibos[8]->m_id);
 		m_vaos[8]->attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[8]->attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
@@ -785,6 +813,7 @@ namespace canvas
 		m_vaos[2]->attribute_enable(1);
 		m_vaos[2]->attribute_binding(0, 0);
 		m_vaos[2]->attribute_binding(1, 0);
+		m_vaos[2]->label("Modes 3D Triangles");
 		m_vaos[2]->element_buffer(m_ibos[2]->m_id);
 		m_vaos[2]->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
 		m_vaos[2]->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
@@ -798,62 +827,62 @@ namespace canvas
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "light.vert"),
 			new shaders::Stage(GL_GEOMETRY_SHADER, m_shaders_dir + "light.geom"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "light.frag")
-		});
+		}, "Light");
 	}
 	void Scene::setup_shader_text_2D(void)
 	{
 		m_shaders[7] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text2D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text2D.frag")
-		});
+		}, "Text 2D");
 	}
 	void Scene::setup_shader_text_3D(void)
 	{
 		m_shaders[3] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "text3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "text3D.frag")
-		});
+		}, "Text 3D");
 	}
 	void Scene::setup_shader_model_2D(void)
 	{
 		m_shaders[5] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model2D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model2D.frag")
-		});
+		}, "Model 2D");
 	}
 	void Scene::setup_shader_model_3D(void)
 	{
 		m_shaders[0] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "model3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "model3D.frag")
-		});
+		}, "Model 3D");
 	}
 	void Scene::setup_shader_image_2D(void)
 	{
 		m_shaders[6] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image2D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image2D.frag")
-		});
+		}, "Image 2D");
 	}
 	void Scene::setup_shader_image_3D(void)
 	{
 		m_shaders[2] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "image3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "image3D.frag")
-		});
+		}, "Image 3D");
 	}
 	void Scene::setup_shader_latex_2D(void)
 	{
 		m_shaders[8] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "latex2D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "latex2D.frag")
-		});
+		}, "Latex 2D");
 	}
 	void Scene::setup_shader_latex_3D(void)
 	{
 		m_shaders[4] = new shaders::Shader({
 			new shaders::Stage(GL_VERTEX_SHADER, m_shaders_dir + "latex3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, m_shaders_dir + "latex3D.frag")
-		});
+		}, "Latex 3D");
 	}
 }

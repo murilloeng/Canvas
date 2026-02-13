@@ -14,7 +14,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			UBO(void);
+			UBO(const char* = "");
 
 			//destructor
 			virtual ~UBO(void);

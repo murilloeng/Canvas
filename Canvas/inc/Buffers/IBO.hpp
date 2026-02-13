@@ -23,7 +23,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			IBO(void);
+			IBO(const char* = "");
 
 			//destructor
 			~IBO(void);
