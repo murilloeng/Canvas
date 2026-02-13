@@ -12,7 +12,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Path::Path(void) : m_mesh(40)
+		Path::Path(void) : m_mesh{40}
 		{
 			return;
 		}
@@ -51,9 +51,7 @@ namespace canvas
 			}
 			else
 			{
-				vec3 t2, t3;
-				g.unit().triad(t2, t3);
-				return t2;
+				return g.unit().normal();
 			}
 		}
 		vec3 Path::path_tangent(float s) const

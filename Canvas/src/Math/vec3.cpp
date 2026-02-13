@@ -100,6 +100,23 @@ namespace canvas
 		//return
 		return M;
 	}
+	vec3 vec3::normal(void) const
+	{
+		//data
+		vec3 vn;
+		uint32_t index;
+		min(&index, true);
+		const uint32_t k1 = (index + 1) % 3;
+		const uint32_t k2 = (index + 2) % 3;
+		const uint32_t k3 = (index + 0) % 3;
+		const float ln = sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
+		//normal
+		vn[k3] = 0;
+		vn[k1] = -m_data[k2] / ln;
+		vn[k2] = +m_data[k1] / ln;
+		//return
+		return vn;
+	}
 	quat vec3::quaternion(void) const
 	{
 		//angle
@@ -130,10 +147,11 @@ namespace canvas
 		const uint32_t k1 = (index + 1) % 3;
 		const uint32_t k2 = (index + 2) % 3;
 		const uint32_t k3 = (index + 0) % 3;
+		const float ln = sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
 		//triad
 		t2[k3] = 0;
-		t2[k1] = -m_data[k2] / sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
-		t2[k2] = +m_data[k1] / sqrtf(m_data[k1] * m_data[k1] + m_data[k2] * m_data[k2]);
+		t2[k1] = -m_data[k2] / ln;
+		t2[k2] = +m_data[k1] / ln;
 		//cross
 		t3 = cross(t2);
 	}

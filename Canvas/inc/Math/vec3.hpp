@@ -37,6 +37,7 @@ namespace canvas
 
 		vec3 unit(void) const;
 		mat4 shift(void) const;
+		vec3 normal(void) const;
 		quat quaternion(void) const;
 		vec3 cross(const vec3&) const;
 		void triad(vec3&, vec3&) const;
