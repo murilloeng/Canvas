@@ -17,7 +17,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Image(const char*);
+			Image(const char*, const char* = "");
 
 			//destructor
 			~Image(void);
@@ -25,8 +25,12 @@ namespace canvas
 			//data
 			uint32_t width(void) const;
 			uint32_t height(void) const;
+
 			std::string path(void) const;
 			std::string path(std::string);
+
+			const char* label(void) const;
+			const char* label(const char*);
 
 			//load
 			void load(void);
@@ -38,6 +42,7 @@ namespace canvas
 			//data
 			bool m_status;
 			uint8_t* m_data;
+			char m_label[64];
 			uint32_t m_width;
 			uint32_t m_height;
 			uint32_t m_offset;

@@ -58,6 +58,15 @@ namespace canvas
 			return m_name = name;
 		}
 
+		const char* Font::style(void) const
+		{
+			return m_face->style_name;
+		}
+		const char* Font::family(void) const
+		{
+			return m_face->family_name;
+		}
+
 		uint32_t Font::pixels_size(void)
 		{
 			return m_pixels_size;

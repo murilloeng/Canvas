@@ -17,7 +17,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Latex(const char*);
+			Latex(const char*, const char* = "");
 
 			//destructor
 			~Latex(void);
@@ -25,6 +25,10 @@ namespace canvas
 			//data
 			uint32_t width(void) const;
 			uint32_t height(void) const;
+
+			const char* label(void) const;
+			const char* label(const char*);
+
 			std::string source(void) const;
 			std::string source(std::string);
 
@@ -38,6 +42,7 @@ namespace canvas
 			//data
 			bool m_status;
 			uint8_t* m_data;
+			char m_label[64];
 			uint32_t m_width;
 			uint32_t m_height;
 			uint32_t m_offset;

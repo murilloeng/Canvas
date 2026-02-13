@@ -1,4 +1,5 @@
 //std
+#include <cstring>
 #include <stdexcept>
 
 //stb
@@ -23,9 +24,9 @@ namespace canvas
 	namespace textures
 	{
 		//constructors
-		Latex::Latex(const char* source) : m_status(false), m_data(nullptr), m_source(source)
+		Latex::Latex(const char* source, const char* label) : m_status(false), m_data(nullptr), m_source(source)
 		{
-			return;
+			strcpy(m_label, label);
 		}
 
 		//destructor
@@ -43,6 +44,16 @@ namespace canvas
 		{
 			return m_height;
 		}
+
+		const char* Latex::label(void) const
+		{
+			return m_label;
+		}
+		const char* Latex::label(const char* label)
+		{
+			return strcpy(m_label, label);
+		}
+
 		std::string Latex::source(void) const
 		{
 			return m_source;

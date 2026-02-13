@@ -15,9 +15,9 @@ namespace canvas
 	namespace textures
 	{
 		//constructors
-		Image::Image(const char* path) : m_status(false), m_data(nullptr), m_path(path)
+		Image::Image(const char* path, const char* label) : m_status(false), m_data(nullptr), m_path(path)
 		{
-			return;
+			strcpy(m_label, label);
 		}
 
 		//destructor
@@ -35,6 +35,7 @@ namespace canvas
 		{
 			return m_height;
 		}
+
 		std::string Image::path(void) const
 		{
 			return m_path;
@@ -43,6 +44,15 @@ namespace canvas
 		{
 			m_status = false;
 			return m_path = path;
+		}
+
+		const char* Image::label(void) const
+		{
+			return m_label;
+		}
+		const char* Image::label(const char* label)
+		{
+			return strcpy(m_label, label);
 		}
 
 		//load
