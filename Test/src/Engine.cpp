@@ -114,8 +114,11 @@ void Engine::setup_glfw(void)
 }
 void Engine::setup_scene(void)
 {
+	int width, height;
 	m_scene = new canvas::Scene;
 	canvas::shaders::Shader::path("Canvas/shd/");
+	glfwGetWindowSize(m_window, &width, &height);
+	m_scene->camera().callback_reshape(width, height);
 }
 void Engine::setup_callbacks(void)
 {
@@ -182,9 +185,13 @@ void Engine::callback_key(GLFWwindow* window, int32_t key, int32_t scancode, int
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
-	if(key == GLFW_KEY_F11)
+	if(key == GLFW_KEY_MINUS)
 	{
-		
+		engine->m_scene->camera().callback_wheel(true);
+	}
+	if(key == GLFW_KEY_EQUAL && (mods & GLFW_MOD_SHIFT))
+	{
+		engine->m_scene->camera().callback_wheel(false);
 	}
 	else
 	{
