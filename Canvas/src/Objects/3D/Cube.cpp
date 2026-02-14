@@ -1,4 +1,5 @@
 //canvas
+#include "Canvas/Canvas/inc/API/API.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Objects/3D/Cube.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
@@ -25,7 +26,7 @@ static const uint32_t faces[] = {
 	0, 1, 5, 0, 5, 4,
 	1, 2, 6, 1, 6, 5,
 	2, 3, 7, 2, 7, 6,
-	3, 0, 4, 3, 4, 5
+	3, 7, 4, 3, 4, 0
 };
 
 namespace canvas
@@ -38,9 +39,8 @@ namespace canvas
 			//setup
 			m_vbo.allocate(16);
 			m_ibo.allocate(60);
-			uint32_t* ibo_data = m_ibo.data();
-			for(uint32_t i = 0; i < 36; i++) ibo_data[i] = faces[i];
-			for(uint32_t i = 0; i < 24; i++) ibo_data[i + 36] = edges[i] + 8;
+			memcpy(m_ibo.data(), faces, sizeof(faces));
+			memcpy(m_ibo.data() + 36, edges, sizeof(edges));
 			//transfer
 			m_ibo.transfer();
 		}
@@ -90,7 +90,7 @@ namespace canvas
 			m_vao.bind();
 			m_shader.bind();
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-			glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, (void*) sizeof(faces));
+			glDrawElementsBaseVertex(GL_LINES, 24, GL_UNSIGNED_INT, (void*) sizeof(faces), 8);
 		}
 	}
 }

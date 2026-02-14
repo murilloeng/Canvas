@@ -18,7 +18,7 @@ int main(void)
 		//data
 		Engine engine;
 		engine.show_fps(false);
-		examples::objects::cubes(engine.scene());
+		examples::objects::triangles(engine.scene());
 		//update
 		engine.scene()->update(true);
 		engine.scene()->camera().update();

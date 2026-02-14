@@ -22,8 +22,8 @@ void examples::objects::triangles(canvas::Scene* scene)
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(0, {-1, -1, 0});
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(1, {+1, -1, 0});
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(2, {+0, +1, 0});
-			((canvas::objects::Triangle*) scene->object(n * i + j))->color(palette.color(i * n + j, 0, n * n - 1));
 			((canvas::objects::Triangle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->color_fill(palette.color(i * n + j, 0, n * n - 1));
 		}
 	}
 }

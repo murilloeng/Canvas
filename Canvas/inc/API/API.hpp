@@ -11,6 +11,9 @@
 //get
 inline PFNGLGETBUFFERPARAMETERIVPROC glGetBufferParameteriv = nullptr;
 
+//draw
+inline PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex = nullptr;
+
 //buffers
 inline PFNGLISBUFFERPROC glIsBuffer = nullptr;
 inline PFNGLBINDBUFFERPROC glBindBuffer = nullptr;

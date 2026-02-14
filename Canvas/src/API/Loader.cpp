@@ -35,6 +35,10 @@ static void load_get(void)
 {
 	glGetBufferParameteriv = (PFNGLGETBUFFERPARAMETERIVPROC) load("glGetBufferParameteriv");
 }
+static void load_draw(void)
+{
+	glDrawElementsBaseVertex = (PFNGLDRAWELEMENTSBASEVERTEXPROC) load("glDrawElementsBaseVertex");
+}
 static void load_buffers(void)
 {
 	glIsBuffer = (PFNGLISBUFFERPROC) load("glIsBuffer");
@@ -123,6 +127,7 @@ namespace canvas
 	void load_functions(void)
 	{
 		load_get();
+		load_draw();
 		load_buffers();
 		load_shaders();
 		load_programs();
