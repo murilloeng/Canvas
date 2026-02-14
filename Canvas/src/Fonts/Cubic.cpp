@@ -3,7 +3,7 @@
 
 //Canvas
 #include "Canvas/Canvas/inc/Fonts/Cubic.hpp"
-#include "Canvas/Canvas/inc/Objects/1D/Bezier.hpp"
+// #include "Canvas/Canvas/inc/Objects/1D/Bezier.hpp"
 
 namespace canvas
 {
@@ -40,16 +40,17 @@ namespace canvas
 		//object
 		objects::Object* Cubic::object(void) const
 		{
-			//data
-			objects::Bezier* bezier = new objects::Bezier;
-			//setup
-			bezier->type(objects::Bezier::Type::Conic);
-			bezier->point(0, {(float) m_points[0][0], (float) m_points[0][1], 0});
-			bezier->point(1, {(float) m_points[1][0], (float) m_points[1][1], 0});
-			bezier->control(0, {(float) m_controls[0][0], (float) m_controls[0][1], 0});
-			bezier->control(1, {(float) m_controls[1][0], (float) m_controls[1][1], 0});
-			//return
-			return bezier;
+			// //data
+			// objects::Bezier* bezier = new objects::Bezier;
+			// //setup
+			// bezier->type(objects::Bezier::Type::Conic);
+			// bezier->point(0, {(float) m_points[0][0], (float) m_points[0][1], 0});
+			// bezier->point(1, {(float) m_points[1][0], (float) m_points[1][1], 0});
+			// bezier->control(0, {(float) m_controls[0][0], (float) m_controls[0][1], 0});
+			// bezier->control(1, {(float) m_controls[1][0], (float) m_controls[1][1], 0});
+			// //return
+			// return bezier;
+			return nullptr;
 		}
 
 		//intersect

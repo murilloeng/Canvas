@@ -10,5 +10,6 @@ layout (std140, binding = 0) uniform camera { mat4 view, projection; };
 void main(void)
 {
 	vertex_color = color;
-	gl_Position = projection * view * vec4(position, 1);
+	gl_Position = vec4(position, 1);
+	// gl_Position = projection * view * vec4(position, 1);
 }

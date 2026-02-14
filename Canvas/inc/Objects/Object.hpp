@@ -46,18 +46,6 @@ namespace canvas
 			mat4 model_matrix(void) const;
 			mat4 apply_matrix(mat4, bool = true);
 
-			const uint32_t* ibo_index(void) const;
-			const uint32_t* vbo_index(void) const;
-
-			//buffers
-			uint32_t* ibo_data(uint32_t) const;
-			vertices::Text2D* vbo_data_text_2D(void) const;
-			vertices::Text3D* vbo_data_text_3D(void) const;
-			vertices::Model2D* vbo_data_model_2D(void) const;
-			vertices::Model3D* vbo_data_model_3D(void) const;
-			vertices::Image2D* vbo_data_image_2D(void) const;
-			vertices::Image3D* vbo_data_image_3D(void) const;
-
 			//affine
 			void reset(void);
 			void scale(float);
@@ -69,12 +57,9 @@ namespace canvas
 			void rotate(const vec3&, const quat&, bool = true);
 
 		protected:
-			//setup
+			//draw
 			virtual void setup(void);
-
-			//buffers
-			virtual void buffers_size(void) = 0;
-			virtual void buffers_data(void) const = 0;
+			virtual void draw(void) const;
 
 			//update
 			virtual void update_on_motion(void) const;
@@ -87,11 +72,6 @@ namespace canvas
 
 			mat4 m_model_matrix;
 			bool m_has_model_matrix;
-
-			std::vector<uint32_t> m_vbo_size;
-			std::vector<uint32_t> m_ibo_size;
-			std::vector<uint32_t> m_vbo_index;
-			std::vector<uint32_t> m_ibo_index;
 
 			//friends
 			friend class canvas::Scene;

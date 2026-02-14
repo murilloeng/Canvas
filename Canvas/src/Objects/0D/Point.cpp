@@ -1,5 +1,6 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Objects/0D/Point.hpp"
 
@@ -8,18 +9,45 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Point::Point(void) : m_position{0, 0, 0}
+		Point::Point(void) : m_color{"blue"}, m_position{0, 0, 0}
 		{
-			return;
+			//data
+			m_vao = new buffers::VAO;
+			m_vbo = new buffers::VBO(false);
+			m_shader = new shaders::Shader({
+				new shaders::Stage(GL_VERTEX_SHADER, "Canvas/shd/model3D.vert"),
+				new shaders::Stage(GL_FRAGMENT_SHADER, "Canvas/shd/model3D.frag")
+			});
+			//vao setup
+			m_vao->attribute_enable(0);
+			m_vao->attribute_enable(1);
+			m_vao->attribute_binding(0, 0);
+			m_vao->attribute_binding(1, 0);
+			m_vao->attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
+			m_vao->attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
+			m_vao->vertex_buffer(0, m_vbo->id(), 0, sizeof(vertices::Model3D));
+			//vbo setup
+			m_vbo->vertex_count(1);
+			m_vbo->vertex_size(sizeof(vertices::Model3D));
 		}
 
 		//destructor
 		Point::~Point(void)
 		{
-			return;
+			delete m_vao;
+			delete m_vbo;
 		}
 
 		//data
+		Color Point::color(void) const
+		{
+			return m_color;
+		}
+		Color Point::color(const Color& color)
+		{
+			return m_color;
+		}
+
 		vec3 Point::position(void) const
 		{
 			return m_position;
@@ -30,22 +58,22 @@ namespace canvas
 		}
 
 		//draw
-		void Point::buffers_size(void)
-		{
-			m_vbo_size[0] = m_dot;
-			m_ibo_size[0] = m_dot;
-		}
-		void Point::buffers_data(void) const
+		void Point::setup(void)
 		{
 			//data
-			if(!m_dot) return;
-			uint32_t* ibo_ptr = ibo_data(0);
-			vertices::Model3D* vbo_ptr = vbo_data_model_3D();
-			//ibo data
-			ibo_ptr[0] = m_vbo_index[0];
+			m_vbo->allocate();
+			vertices::Model3D* vertex = (vertices::Model3D*) m_vbo->data();
 			//vbo data
-			vbo_ptr->m_color = m_color_dot;
-			vbo_ptr->m_position = m_position;
+			vertex->m_color = m_color;
+			vertex->m_position = m_position;
+			//vbo transfer
+			m_vbo->transfer();
+		}
+		void Point::draw(void) const
+		{
+			m_vao->bind();
+			m_shader->bind();
+			glDrawArrays(GL_POINTS, 0, 1);
 		}
 	}
 }

@@ -6,16 +6,24 @@
 #include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 
-#include "Canvas/Canvas/inc/Fonts/Font.hpp"
+//Canvas
+#include "Canvas/Canvas/inc/Objects/0D/Point.hpp"
 
 int main(void)
 {
 	try
 	{
-		// Engine engine;
-
-		// engine.start();
-		examples::scenes::examples();
+		//data
+		Engine engine;
+		canvas::objects::Point* point = new canvas::objects::Point;
+		//point
+		point->color("blue");
+		point->position({0, 0, 0});
+		//objects
+		engine.scene()->add_object(point);
+		engine.scene()->update(true);
+		//start
+		engine.start();
 	}
 	catch(const std::exception& e)
 	{

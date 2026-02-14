@@ -3,7 +3,6 @@
 
 //Canvas
 #include "Canvas/Canvas/inc/Fonts/Line.hpp"
-#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 
 namespace canvas
 {
@@ -38,13 +37,14 @@ namespace canvas
 		//object
 		objects::Object* Line::object(void) const
 		{
-			//data
-			objects::Line* line = new objects::Line;
-			//setup
-			line->point(0, {(float) m_points[0][0], (float) m_points[0][1], 0});
-			line->point(1, {(float) m_points[1][0], (float) m_points[1][1], 0});
-			//return
-			return line;
+			// //data
+			// objects::Line* line = new objects::Line;
+			// //setup
+			// line->point(0, {(float) m_points[0][0], (float) m_points[0][1], 0});
+			// line->point(1, {(float) m_points[1][0], (float) m_points[1][1], 0});
+			// //return
+			// return line;
+			return nullptr;
 		}
 
 		//intersect

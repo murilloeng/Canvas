@@ -111,11 +111,6 @@ namespace canvas
 		shaders::Shader* shader(uint32_t) const;
 		shaders::Shader* shader(const char*) const;
 
-		//commands
-		void add_command(commands::Command*);
-		commands::Command* command(uint32_t) const;
-		commands::Command* command(const char*) const;
-
 		//textures
 		void add_texture(textures::Texture*);
 		textures::Texture* texture(uint32_t) const;
@@ -157,46 +152,14 @@ namespace canvas
 
 	protected:
 		//setup
-		void setup_vaos(void);
-		void setup_vbos(void);
-		void setup_ibos(void);
 		void setup_ubos(void);
-		void setup_data(void);
 		void setup_fonts(void);
 		void setup_latex(void);
 		void setup_OpenGL(void);
 		void setup_images(void);
 		void setup_cameras(void);
 		void setup_objects(void);
-		void setup_shaders(void);
 		void setup_freetype(void);
-		void setup_commands(void);
-		void setup_textures(void);
-
-		//setup vaos
-		void setup_vao_text_2D(void);
-		void setup_vao_text_3D(void);
-		void setup_vao_latex_2D(void);
-		void setup_vao_latex_3D(void);
-		void setup_vao_image_2D(void);
-		void setup_vao_image_3D(void);
-		void setup_vao_model_2D_lines(void);
-		void setup_vao_model_3D_lines(void);
-		void setup_vao_model_2D_points(void);
-		void setup_vao_model_3D_points(void);
-		void setup_vao_model_2D_triangles(void);
-		void setup_vao_model_3D_triangles(void);
-
-		//setup shaders
-		void setup_shader_light(void);
-		void setup_shader_text_2D(void);
-		void setup_shader_text_3D(void);
-		void setup_shader_model_2D(void);
-		void setup_shader_model_3D(void);
-		void setup_shader_image_2D(void);
-		void setup_shader_image_3D(void);
-		void setup_shader_latex_2D(void);
-		void setup_shader_latex_3D(void);
 
 		//data
 		float m_time;
@@ -206,7 +169,6 @@ namespace canvas
 		std::vector<buffers::IBO*> m_ibos;
 		std::vector<buffers::UBO*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
-		std::vector<commands::Command*> m_commands;
 		std::vector<textures::Texture*> m_textures;
 
 		FT_Library m_ft_library;
