@@ -44,6 +44,13 @@ namespace canvas
 			m_data = new uint32_t[m_vertex_count];
 			glNamedBufferData(m_id, m_vertex_count * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
 		}
+		void IBO::allocate(uint32_t vertex_count)
+		{
+			delete[] m_data;
+			m_vertex_count = vertex_count;
+			m_data = new uint32_t[m_vertex_count];
+			glNamedBufferData(m_id, m_vertex_count * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+		}
 		void IBO::transfer(void) const
 		{
 			glNamedBufferData(m_id, m_vertex_count * sizeof(uint32_t), m_data, GL_DYNAMIC_DRAW);

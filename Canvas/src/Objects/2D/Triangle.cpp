@@ -1,6 +1,5 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Objects/2D/Triangle.hpp"
 
@@ -9,27 +8,9 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Triangle::Triangle(void) : 
-			m_color{"white"}, 
-			m_positions{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}}, 
-			m_shader({
-				new shaders::Stage(GL_VERTEX_SHADER, "model3D.vert"),
-				new shaders::Stage(GL_FRAGMENT_SHADER, "model3D.frag")
-			})
+		Triangle::Triangle(void) : m_color{"white"}, m_positions{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}}
 		{
-			//vao setup
-			m_vao.attribute_enable(0);
-			m_vao.attribute_enable(1);
-			m_vao.attribute_binding(0, 0);
-			m_vao.attribute_binding(1, 0);
-			m_vao.attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
-			m_vao.attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
-			m_vao.vertex_buffer(0, m_vbo.id(), 0, sizeof(vertices::Model3D));
-			//vbo setup
-			m_vbo.vertex_count(3);
-			m_vbo.vertex_size(sizeof(vertices::Model3D));
-			//allocate
-			m_vbo.allocate();
+			m_vbo.allocate(3);
 		}
 
 		//destructor
@@ -45,7 +26,7 @@ namespace canvas
 		}
 		Color Triangle::color(const Color& color)
 		{
-			return m_color;
+			return m_color = color;
 		}
 
 		vec3 Triangle::position(uint32_t index) const

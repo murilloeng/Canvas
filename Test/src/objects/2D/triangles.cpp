@@ -1,5 +1,6 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Palettes/Palette.hpp"
 #include "Canvas/Canvas/inc/Objects/2D/Triangle.hpp"
 
 //examples
@@ -10,6 +11,7 @@ void examples::objects::triangles(canvas::Scene* scene)
 	//data
 	const uint32_t n = 10;
 	const float r = 1.0f / n;
+	canvas::palettes::Palette palette;
 	//objects
 	for(uint32_t i = 0; i < n; i++)
 	{
@@ -17,10 +19,10 @@ void examples::objects::triangles(canvas::Scene* scene)
 		{
 			scene->add_object(new canvas::objects::Triangle);
 			((canvas::objects::Triangle*) scene->object(n * i + j))->scale(r);
-			((canvas::objects::Triangle*) scene->object(n * i + j))->color({0, 0, 1});
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(0, {-1, -1, 0});
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(1, {+1, -1, 0});
 			((canvas::objects::Triangle*) scene->object(n * i + j))->position(2, {+0, +1, 0});
+			((canvas::objects::Triangle*) scene->object(n * i + j))->color(palette.color(i * n + j, 0, n * n - 1));
 			((canvas::objects::Triangle*) scene->object(n * i + j))->shift({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}

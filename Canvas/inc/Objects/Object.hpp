@@ -64,9 +64,6 @@ namespace canvas
 			//update
 			virtual void update_on_motion(void) const;
 
-			//model matrix
-			virtual void apply_model_matrix(void) const;
-
 			//data
 			Scene* m_scene;
 

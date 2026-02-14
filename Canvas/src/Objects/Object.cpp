@@ -119,11 +119,5 @@ namespace canvas
 		{
 			return;
 		}
-
-		//model matrix
-		void Object::apply_model_matrix(void) const
-		{
-			return;
-		}
 	}
 }

@@ -354,7 +354,6 @@ namespace canvas
 		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
 		{
 			m_objects[i]->setup();
-			m_objects[i]->apply_model_matrix();
 		}
 		//buffers
 		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();

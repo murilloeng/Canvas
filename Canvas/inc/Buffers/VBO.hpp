@@ -44,6 +44,7 @@ namespace canvas
 
 			//data
 			void allocate(void);
+			void allocate(uint32_t);
 			void transfer(void) const;
 			void transfer(uint32_t, uint32_t) const;
 

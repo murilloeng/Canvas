@@ -1,7 +1,6 @@
 #pragma once
 
 //canvas
-#include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 
@@ -9,30 +8,30 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Point : public Model3D
+		class Cube : public Model3D
 		{
 		public:
 			//constructors
-			Point(void);
+			Cube(void);
 
 			//destructor
-			~Point(void);
+			~Cube(void);
 
 			//data
-			Color color(void) const;
-			Color color(const Color&);
+			Color color_fill(void) const;
+			Color color_fill(const Color&);
 
-			vec3 position(void) const;
-			vec3 position(const vec3&);
+			Color color_stroke(void) const;
+			Color color_stroke(const Color&);
 
-		protected:
+		private:
 			//draw
 			void setup(void) override;
 			void draw(void) const override;
 
 			//data
-			Color m_color;
-			vec3 m_position;
+			Color m_color_fill;
+			Color m_color_stroke;
 		};
 	}
 }

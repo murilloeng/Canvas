@@ -11,7 +11,11 @@ namespace canvas
 		//constructor
 		Palette::Palette(void) : m_size(0), m_colors(nullptr)
 		{
-			type(palettes::type::moreland);
+			type(Type::Spectral);
+		}
+		Palette::Palette(Type type) : m_size(0), m_colors(nullptr)
+		{
+			this->type(type);
 		}
 
 		//destructor
@@ -25,14 +29,14 @@ namespace canvas
 		{
 			return m_size;
 		}
-		palettes::type Palette::type(void) const
-		{
-			return m_type;
-		}
-		palettes::type Palette::type(palettes::type type)
+		Palette::Type Palette::type(Type type)
 		{
 			load(type);
 			return m_type = type;
+		}
+		Palette::Type Palette::type(void) const
+		{
+			return m_type;
 		}
 
 		//name
@@ -40,14 +44,14 @@ namespace canvas
 		{
 			return name(m_type);
 		}
-		const char* Palette::name(palettes::type type)
+		const char* Palette::name(Type type)
 		{
 			//data
-			const char* names[] = {"jet", "greys", "plasma", "whylrd", "viridis", "moreland", "spectral"};
+			const char* names[] = {"Jet", "Greys", "Plasma", "Whylrd", "Viridis", "Moreland", "Spectral"};
 			//name
-			for(uint32_t i = 0; i < uint32_t(palettes::type::last); i++)
+			for(uint32_t i = 0; i < uint32_t(Type::last); i++)
 			{
-				if(type == palettes::type(i))
+				if(type == Type(i))
 				{
 					return names[i];
 				}
@@ -83,7 +87,7 @@ namespace canvas
 		}
 
 		//load
-		void Palette::load(palettes::type type)
+		void Palette::load(Type type)
 		{
 			//data
 			const float* colors[] = {
@@ -97,9 +101,9 @@ namespace canvas
 			};
 			const uint32_t sizes[] = {9, 8, 256, 5, 256, 257, 8};
 			//load
-			for(uint32_t i = 0; i < uint32_t(palettes::type::last); i++)
+			for(uint32_t i = 0; i < uint32_t(Type::last); i++)
 			{
-				if(type == palettes::type(i))
+				if(type == Type(i))
 				{
 					m_size = sizes[i];
 					m_colors = colors[i];

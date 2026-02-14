@@ -5,17 +5,14 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
-#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
-#include "Canvas/Canvas/inc/Objects/Object.hpp"
+#include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Line : public Object
+		class Line : public Model3D
 		{
 		public:
 			//constructors
@@ -38,10 +35,7 @@ namespace canvas
 
 			//data
 			Color m_color;
-			buffers::VAO m_vao;
-			buffers::VBO m_vbo;
 			vec3 m_positions[2];
-			shaders::Shader m_shader;
 		};
 	}
 }
