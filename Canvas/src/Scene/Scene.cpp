@@ -39,9 +39,9 @@
 namespace canvas
 {
 	//constructors
-	Scene::Scene(std::string shaders_dir) : 
+	Scene::Scene(void) : 
 		m_background(0, 0, 0, 1), m_ubos(1),
-		m_textures(3), m_lights(this), m_camera(this),m_shaders_dir(shaders_dir)
+		m_textures(3), m_lights(this), m_camera(this)
 	{
 		setup_ubos();
 		setup_OpenGL();

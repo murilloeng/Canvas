@@ -66,7 +66,7 @@ namespace canvas
 	{
 	public:
 		//constructors
-		Scene(std::string);
+		Scene(void);
 
 		//destructor
 		~Scene(void);
@@ -174,7 +174,6 @@ namespace canvas
 		FT_Library m_ft_library;
 		lights::Lights m_lights;
 		cameras::Camera m_camera;
-		std::string m_shaders_dir;
 		std::vector<fonts::Font*> m_fonts;
 		std::vector<textures::Latex*> m_latex;
 		std::vector<textures::Image*> m_images;

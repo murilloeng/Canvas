@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <cstdint>
+
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
@@ -12,21 +15,21 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Point : public Object
+		class Triangle : public Object
 		{
 		public:
 			//constructors
-			Point(void);
+			Triangle(void);
 
 			//destructor
-			~Point(void);
+			~Triangle(void);
 
 			//data
 			Color color(void) const;
 			Color color(const Color&);
 
-			vec3 position(void) const;
-			vec3 position(const vec3&);
+			vec3 position(uint32_t) const;
+			vec3 position(uint32_t, const vec3&);
 
 		protected:
 			//draw
@@ -35,9 +38,9 @@ namespace canvas
 
 			//data
 			Color m_color;
-			vec3 m_position;
 			buffers::VAO m_vao;
 			buffers::VBO m_vbo;
+			vec3 m_positions[3];
 			shaders::Shader m_shader;
 		};
 	}

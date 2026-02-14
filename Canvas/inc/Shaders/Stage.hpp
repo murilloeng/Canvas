@@ -30,6 +30,7 @@ namespace canvas
 		private:
 			//read
 			void read(std::string);
+			void check(std::string&);
 
 			//data
 			GLuint m_id;

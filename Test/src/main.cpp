@@ -7,7 +7,9 @@
 #include "Canvas/Test/inc/examples.hpp"
 
 //Canvas
+#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 #include "Canvas/Canvas/inc/Objects/0D/Point.hpp"
+#include "Canvas/Canvas/inc/Objects/2D/Triangle.hpp"
 
 int main(void)
 {
@@ -15,12 +17,8 @@ int main(void)
 	{
 		//data
 		Engine engine;
-		canvas::objects::Point* point = new canvas::objects::Point;
-		//point
-		point->color("blue");
-		point->position({0, 0, 0});
-		//objects
-		engine.scene()->add_object(point);
+		examples::objects::triangles(engine.scene());
+		//update
 		engine.scene()->update(true);
 		//start
 		engine.start();

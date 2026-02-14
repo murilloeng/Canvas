@@ -80,8 +80,6 @@ namespace canvas
 				const char* data = vbo->data();
 				const uint32_t vs = vbo->vertex_size();
 				const uint32_t vc = vbo->vertex_count();
-				//check
-				if(!vbo->bounding_box()) continue;
 				//insert
 				for(uint32_t i = 0; i < vc; i++)
 				{

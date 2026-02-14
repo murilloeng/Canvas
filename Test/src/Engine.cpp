@@ -114,7 +114,8 @@ void Engine::setup_glfw(void)
 }
 void Engine::setup_scene(void)
 {
-	m_scene = new canvas::Scene("Canvas/shd/");
+	m_scene = new canvas::Scene;
+	canvas::shaders::Shader::path("Canvas/shd/");
 }
 void Engine::setup_callbacks(void)
 {

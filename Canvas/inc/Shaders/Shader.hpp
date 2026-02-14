@@ -44,6 +44,9 @@ namespace canvas
 			const char* label(void) const;
 			const char* label(const char*);
 
+			static std::string path(void);
+			static std::string path(std::string);
+
 			//uniforms
 			GLint uniform_location(const char*) const;
 
@@ -77,6 +80,7 @@ namespace canvas
 			//data
 			GLuint m_id;
 			char m_label[64];
+			static std::string m_path;
 		};
 	}
 }

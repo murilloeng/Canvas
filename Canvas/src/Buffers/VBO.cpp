@@ -7,8 +7,8 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		VBO::VBO(bool bounding_box, const char* label) : Buffer(label), 
-			m_data{nullptr}, m_bounding_box{bounding_box}, m_vertex_size{0}, m_vertex_count{0}
+		VBO::VBO(const char* label) : Buffer(label), 
+			m_data{nullptr}, m_vertex_size{0}, m_vertex_count{0}
 		{
 			return;
 		}
@@ -27,15 +27,6 @@ namespace canvas
 		const char* VBO::data(void) const
 		{
 			return m_data;
-		}
-
-		bool VBO::bounding_box(void) const
-		{
-			return m_bounding_box;
-		}
-		bool VBO::bounding_box(bool bounding_box)
-		{
-			return m_bounding_box = bounding_box;
 		}
 
 		uint32_t VBO::vertex_size(void) const

@@ -67,6 +67,15 @@ namespace canvas
 			return strcpy(m_label, label);
 		}
 
+		std::string Shader::path(void)
+		{
+			return m_path;
+		}
+		std::string Shader::path(std::string path)
+		{
+			return m_path = path;
+		}
+
 		//bind
 		void Shader::bind(void) const
 		{
@@ -387,5 +396,8 @@ namespace canvas
 				throw std::runtime_error("Error getting uniform " + std::string(name) + "location!");
 			}
 		}
+
+		//static members
+		std::string Shader::m_path;
 	}
 }

@@ -1,17 +1,17 @@
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
-#include "Canvas/Canvas/inc/Objects/0D/Point.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructors
-		Point::Point(void) : 
-			m_color{"white"}, 
-			m_position{0, 0, 0}, 
+		Line::Line(void) : 
+			m_color("white"), 
+			m_positions{{0, 0, 0}, {1, 0, 0}}, 
 			m_shader{{
 				new shaders::Stage(GL_VERTEX_SHADER, "model3D.vert"),
 				new shaders::Stage(GL_FRAGMENT_SHADER, "model3D.frag")
@@ -26,53 +26,56 @@ namespace canvas
 			m_vao.attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
 			m_vao.vertex_buffer(0, m_vbo.id(), 0, sizeof(vertices::Model3D));
 			//vbo setup
-			m_vbo.vertex_count(1);
+			m_vbo.vertex_count(2);
 			m_vbo.vertex_size(sizeof(vertices::Model3D));
 			//allocate
 			m_vbo.allocate();
 		}
 
 		//destructor
-		Point::~Point(void)
+		Line::~Line(void)
 		{
 			return;
 		}
 
 		//data
-		Color Point::color(void) const
+		Color Line::color(void) const
 		{
 			return m_color;
 		}
-		Color Point::color(const Color& color)
+		Color Line::color(const Color& color)
 		{
 			return m_color = color;
 		}
 
-		vec3 Point::position(void) const
+		vec3 Line::position(uint32_t index) const
 		{
-			return m_position;
+			return m_positions[index];
 		}
-		vec3 Point::position(const vec3& position)
+		vec3 Line::position(uint32_t index, const vec3& point)
 		{
-			return m_position = position;
+			return m_positions[index] = point;
 		}
 
 		//draw
-		void Point::setup(void)
+		void Line::setup(void)
 		{
 			//data
-			vertices::Model3D* vertex = (vertices::Model3D*) m_vbo.data();
-			//vbo data
-			vertex->m_color = m_color;
-			vertex->m_position = m_position;
-			//vbo transfer
+			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
+			//colors
+			vbo_data[0].m_color = m_color;
+			vbo_data[1].m_color = m_color;
+			//positions
+			vbo_data[0].m_position = m_positions[0];
+			vbo_data[1].m_position = m_positions[1];
+			//transfer
 			m_vbo.transfer();
 		}
-		void Point::draw(void) const
+		void Line::draw(void) const
 		{
 			m_vao.bind();
 			m_shader.bind();
-			glDrawArrays(GL_POINTS, 0, 1);
+			glDrawArrays(GL_LINES, 0, 2);
 		}
 	}
 }

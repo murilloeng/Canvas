@@ -27,7 +27,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			VBO(bool, const char* = "");
+			VBO(const char* = "");
 
 			//destructor
 			~VBO(void);
@@ -35,9 +35,6 @@ namespace canvas
 			//data
 			char* data(void);
 			const char* data(void) const;
-
-			bool bounding_box(bool);
-			bool bounding_box(void) const;
 
 			uint32_t vertex_size(uint32_t);
 			uint32_t vertex_size(void) const;
@@ -53,7 +50,6 @@ namespace canvas
 		private:
 			//data
 			char* m_data;
-			bool m_bounding_box;
 			uint32_t m_vertex_size;
 			uint32_t m_vertex_count;
 

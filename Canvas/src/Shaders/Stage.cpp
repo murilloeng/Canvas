@@ -1,9 +1,11 @@
 //std
 #include <stdexcept>
+#include <filesystem>
 
 //canvas
 #include "Canvas/Canvas/inc/API/API.hpp"
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 namespace canvas
 {
@@ -47,6 +49,7 @@ namespace canvas
 		void Stage::read(std::string path)
 		{
 			//open
+			check(path);
 			FILE* file = fopen(path.c_str(), "r");
 			//check
 			if(!file)
@@ -59,6 +62,18 @@ namespace canvas
 			m_source[position] = '\0';
 			//close
 			fclose(file);
+		}
+		void Stage::check(std::string& path)
+		{
+			if(std::filesystem::exists(path)) return;
+			if(std::filesystem::exists(Shader::path() + path))
+			{
+				path = Shader::path() + path;
+			}
+			else
+			{
+				throw std::runtime_error("Error: Shader file does not exist: " + std::string(path));
+			}
 		}
 	}
 }
