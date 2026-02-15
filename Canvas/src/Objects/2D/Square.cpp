@@ -16,7 +16,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Square::Square(void) : m_color_fill{"blue"}, m_color_stroke{"white"}
+		Square::Square(void)
 		{
 			m_vbo.allocate(8);
 		}
@@ -25,25 +25,6 @@ namespace canvas
 		Square::~Square(void)
 		{
 			return;
-		}
-
-		//data
-		Color Square::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Square::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Square::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Square::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
 		}
 
 		//draw

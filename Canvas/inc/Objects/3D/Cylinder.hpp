@@ -4,7 +4,6 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 
 namespace canvas
@@ -24,12 +23,6 @@ namespace canvas
 			static uint32_t mesh(void);
 			static uint32_t mesh(uint32_t);
 
-			Color color_fill(void) const;
-			Color color_fill(const Color&);
-
-			Color color_stroke(void) const;
-			Color color_stroke(const Color&);
-
 		protected:
 			//buffers data
 			void ibo_edges_data(uint32_t*) const;
@@ -42,8 +35,6 @@ namespace canvas
 			void draw(void) const override;
 
 			//data
-			Color m_color_fill;
-			Color m_color_stroke;
 			static uint32_t m_mesh;
 		};
 	}

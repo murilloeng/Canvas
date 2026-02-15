@@ -34,7 +34,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Cube::Cube(void) : m_color_fill{"blue"}, m_color_stroke{"white"}
+		Cube::Cube(void)
 		{
 			//setup
 			m_vbo.allocate(16);
@@ -49,25 +49,6 @@ namespace canvas
 		Cube::~Cube(void)
 		{
 			return;
-		}
-
-		//data
-		Color Cube::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Cube::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Cube::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Cube::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
 		}
 
 		//draw

@@ -35,7 +35,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Sphere::Sphere(void) : m_color_fill{"blue"}, m_color_stroke{"white"}
+		Sphere::Sphere(void)
 		{
 			return;
 		}
@@ -54,24 +54,6 @@ namespace canvas
 		uint32_t Sphere::mesh(uint32_t mesh)
 		{
 			return m_mesh = mesh;
-		}
-
-		Color Sphere::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Sphere::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Sphere::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Sphere::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
 		}
 
 		//edges

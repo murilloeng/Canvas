@@ -32,24 +32,6 @@ namespace canvas
 			return m_mesh = mesh;
 		}
 
-		Color Circle::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Circle::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Circle::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Circle::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
-		}
-
 		//draw
 		void Circle::setup(void)
 		{

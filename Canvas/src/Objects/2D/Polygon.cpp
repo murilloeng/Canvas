@@ -26,24 +26,6 @@ namespace canvas
 		}
 
 		//data
-		Color Polygon::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Polygon::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Polygon::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Polygon::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
-		}
-
 		std::vector<vec2>& Polygon::vertices(void)
 		{
 			return m_vertices;

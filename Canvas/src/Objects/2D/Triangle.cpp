@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Triangle::Triangle(void) : m_positions{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}}, m_color_fill{"blue"}, m_color_stroke{"white"}
+		Triangle::Triangle(void) : m_positions{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}}
 		{
 			m_vbo.allocate(6);
 		}
@@ -20,24 +20,6 @@ namespace canvas
 		}
 
 		//data
-		Color Triangle::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Triangle::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Triangle::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Triangle::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
-		}
-
 		vec3 Triangle::position(uint32_t index) const
 		{
 			return m_positions[index];

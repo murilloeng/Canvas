@@ -5,7 +5,6 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
-#include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 
 namespace canvas
@@ -22,9 +21,6 @@ namespace canvas
 			~Line(void);
 
 			//data
-			Color color(void) const;
-			Color color(const Color&);
-
 			vec3 position(uint32_t) const;
 			vec3 position(uint32_t, const vec3&);
 
@@ -34,7 +30,6 @@ namespace canvas
 			void draw(void) const override;
 
 			//data
-			Color m_color;
 			vec3 m_positions[2];
 		};
 	}

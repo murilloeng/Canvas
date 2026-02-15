@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Point::Point(void) : m_color{"white"}, m_position{0, 0, 0}
+		Point::Point(void) : m_position{0, 0, 0}
 		{
 			m_vbo.allocate(1);
 		}
@@ -20,15 +20,6 @@ namespace canvas
 		}
 
 		//data
-		Color Point::color(void) const
-		{
-			return m_color;
-		}
-		Color Point::color(const Color& color)
-		{
-			return m_color = color;
-		}
-
 		vec3 Point::position(void) const
 		{
 			return m_position;
@@ -44,7 +35,7 @@ namespace canvas
 			//data
 			vertices::Model3D* vertex = (vertices::Model3D*) m_vbo.data();
 			//vbo data
-			vertex->m_color = m_color;
+			vertex->m_color = m_color_fill;
 			vertex->m_position = m_position;
 			//vbo transfer
 			m_vbo.transfer();

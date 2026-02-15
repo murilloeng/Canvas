@@ -18,7 +18,7 @@ void examples::objects::points(canvas::Scene* scene)
 		for(uint32_t j = 0; j < n; j++)
 		{
 			scene->add_object(new canvas::objects::Point);
-			((canvas::objects::Point*) scene->object(n * i + j))->color(palette.color(i * n + j, 0, n * n - 1));
+			((canvas::objects::Point*) scene->object(n * i + j))->color_fill(palette.color(i * n + j, 0, n * n - 1));
 			((canvas::objects::Point*) scene->object(n * i + j))->position({2 * r * j + r - 1, 2 * r * i + r - 1, 0});
 		}
 	}

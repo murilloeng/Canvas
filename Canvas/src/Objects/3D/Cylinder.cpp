@@ -12,7 +12,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Cylinder::Cylinder(void) : m_color_fill{"blue"}, m_color_stroke{"white"}
+		Cylinder::Cylinder(void)
 		{
 			return;
 		}
@@ -31,24 +31,6 @@ namespace canvas
 		uint32_t Cylinder::mesh(uint32_t mesh)
 		{
 			return m_mesh = mesh;
-		}
-
-		Color Cylinder::color_fill(void) const
-		{
-			return m_color_fill;
-		}
-		Color Cylinder::color_fill(const Color& color_fill)
-		{
-			return m_color_fill = color_fill;
-		}
-
-		Color Cylinder::color_stroke(void) const
-		{
-			return m_color_stroke;
-		}
-		Color Cylinder::color_stroke(const Color& color_stroke)
-		{
-			return m_color_stroke = color_stroke;
 		}
 
 		//buffers data

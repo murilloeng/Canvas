@@ -8,7 +8,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Line::Line(void) : m_color("white"), m_positions{{0, 0, 0}, {1, 0, 0}}
+		Line::Line(void) : m_positions{{0, 0, 0}, {1, 0, 0}}
 		{
 			m_vbo.allocate(2);
 		}
@@ -20,15 +20,6 @@ namespace canvas
 		}
 
 		//data
-		Color Line::color(void) const
-		{
-			return m_color;
-		}
-		Color Line::color(const Color& color)
-		{
-			return m_color = color;
-		}
-
 		vec3 Line::position(uint32_t index) const
 		{
 			return m_positions[index];
@@ -44,8 +35,8 @@ namespace canvas
 			//data
 			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
 			//colors
-			vbo_data[0].m_color = m_color;
-			vbo_data[1].m_color = m_color;
+			vbo_data[0].m_color = m_color_stroke;
+			vbo_data[1].m_color = m_color_stroke;
 			//positions
 			vbo_data[0].m_position = m_positions[0];
 			vbo_data[1].m_position = m_positions[1];

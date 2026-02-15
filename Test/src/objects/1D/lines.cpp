@@ -24,7 +24,7 @@ void examples::objects::lines(canvas::Scene* scene)
 			//scene
 			scene->add_object(line);
 			//line
-			line->color(palette.color(4 * i + j, 0, 4 * n - 1));
+			line->color_stroke(palette.color(4 * i + j, 0, 4 * n - 1));
 			line->position(0, {s * x1[(j + 0) % 4], s * x2[(j + 0) % 4], 0});
 			line->position(1, {s * x1[(j + 1) % 4], s * x2[(j + 1) % 4], 0});
 		}
