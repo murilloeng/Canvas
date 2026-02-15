@@ -52,13 +52,12 @@ A number of pre-defined objects (listed below) are defined for convenience. The 
 
 | 0D:   | 1D:      | 2D:      | 3D:      | Textures: |
 |-------|----------|----------|----------|-----------|
-| Point | Arc      | Quad     | Cube     | Text      |
+| Point | Arc      | Square   | Cube     | Text      |
 |       | Line     | Circle   | Sphere   | Latex     |
-|       | Curve    | Grid 2D  | Cylinder | Image     |
-|       | Arrow    | Grid 3D  |          |           |
-|       | Spline   | Polygon  |          |           |
-|       | Polyline | Surface  |          |           |
-|       |          | Triangle |          |           |
+|       | Curve    | Polygon  | Cylinder | Image     |
+|       | Arrow    | Surface  |          |           |
+|       | Spline   | Triangle |          |           |
+|       | Polyline |          |          |           |
 
 ## Textures
 
