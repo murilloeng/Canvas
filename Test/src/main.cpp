@@ -18,7 +18,7 @@ int main(void)
 		//data
 		Engine engine;
 		engine.show_fps(true);
-		examples::objects::bezier(engine.scene());
+		examples::objects::curves(engine.scene());
 		//update
 		engine.scene()->update(true);
 		engine.scene()->camera().update();
