@@ -142,95 +142,6 @@ namespace canvas
 		}
 
 		//buffers data
-		// void Sphere::ibo_stroke_data(void) const
-		// {
-		// 	//data
-		// 	uint32_t* ibo_ptr = ibo_data(1);
-		// 	//edges
-		// 	for(uint32_t i = 0; i < 30; i++)
-		// 	{
-		// 		for(uint32_t j = 0; j < m_mesh; j++)
-		// 		{
-		// 			ibo_ptr[0] = m_vbo_index[0] + vertex_index(i, j + 0);
-		// 			ibo_ptr[1] = m_vbo_index[0] + vertex_index(i, j + 1);
-		// 			ibo_ptr += 2;
-		// 		}
-		// 	}
-		// 	//faces
-		// 	for(uint32_t i = 0; i < 20; i++)
-		// 	{
-		// 		for(uint32_t j = 0; j + 1 < m_mesh; j++)
-		// 		{
-		// 			for(uint32_t k = 1; k + j < m_mesh; k++)
-		// 			{
-		// 				ibo_ptr[0] = m_vbo_index[0] + vertex_index(i, k + 0, j + 0);
-		// 				ibo_ptr[1] = m_vbo_index[0] + vertex_index(i, k - 1, j + 1);
-		// 				ibo_ptr[2] = m_vbo_index[0] + vertex_index(i, k + 0, j + 0);
-		// 				ibo_ptr[3] = m_vbo_index[0] + vertex_index(i, k + 0, j + 1);
-		// 				ibo_ptr[4] = m_vbo_index[0] + vertex_index(i, k - 1, j + 1);
-		// 				ibo_ptr[5] = m_vbo_index[0] + vertex_index(i, k + 0, j + 1);
-		// 				ibo_ptr += 6;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// void Sphere::ibo_fill_data(void) const
-		// {
-		// 	//data
-		// 	uint32_t* ibo_ptr = ibo_data(2);
-		// 	const uint32_t vbo_index = m_vbo_index[0] + (2 + 10 * m_mesh * m_mesh) * m_stroke;
-		// 	//triangles
-		// 	for(uint32_t i = 0; i < 20; i++)
-		// 	{
-		// 		for(uint32_t j = 0; j < m_mesh; j++)
-		// 		{
-		// 			ibo_ptr[0] = vbo_index + vertex_index(i, 0, j + 0);
-		// 			ibo_ptr[1] = vbo_index + vertex_index(i, 0, j + 1);
-		// 			ibo_ptr[2] = vbo_index + vertex_index(i, 1, j + 0);
-		// 			ibo_ptr += 3;
-		// 			for(uint32_t k = 0; k + j + 1 < m_mesh; k++)
-		// 			{
-		// 				ibo_ptr[0] = vbo_index + vertex_index(i, k + 1, j + 0);
-		// 				ibo_ptr[1] = vbo_index + vertex_index(i, k + 0, j + 1);
-		// 				ibo_ptr[2] = vbo_index + vertex_index(i, k + 1, j + 1);
-		// 				ibo_ptr[3] = vbo_index + vertex_index(i, k + 1, j + 0);
-		// 				ibo_ptr[4] = vbo_index + vertex_index(i, k + 1, j + 1);
-		// 				ibo_ptr[5] = vbo_index + vertex_index(i, k + 2, j + 0);
-		// 				ibo_ptr += 6;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// void Sphere::vbo_stroke_data(void) const
-		// {
-		// 	//data
-		// 	const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-		// 	vertices::Model3D* vbo_ptr = vbo_data_model_3D();
-		// 	//color
-		// 	for(uint32_t i = 0; i < nv; i++)
-		// 	{
-		// 		(vbo_ptr + i)->m_color = m_color_stroke;
-		// 	}
-		// 	//positions
-		// 	vbo_edges_data(vbo_ptr);
-		// 	vbo_faces_data(vbo_ptr);
-		// 	vbo_vertices_data(vbo_ptr);
-		// }
-		// void Sphere::vbo_fill_data(void) const
-		// {
-		// 	//data
-		// 	const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-		// 	vertices::Model3D* vbo_ptr = vbo_data_model_3D() + nv * m_stroke;
-		// 	//color
-		// 	for(uint32_t i = 0; i < nv; i++)
-		// 	{
-		// 		(vbo_ptr + i)->m_color = m_color_fill;
-		// 	}
-		// 	//positions
-		// 	vbo_edges_data(vbo_ptr);
-		// 	vbo_faces_data(vbo_ptr);
-		// 	vbo_vertices_data(vbo_ptr);
-		// }
 		void Sphere::ibo_edges_data(uint32_t* ibo_ptr) const
 		{
 			for(uint32_t i = 0; i < 30; i++)
@@ -373,9 +284,6 @@ namespace canvas
 			//transfer
 			m_ibo.transfer();
 			m_vbo.transfer();
-			// m_ibo_size[2] = 60 * m_mesh * m_mesh * m_fill;
-			// m_ibo_size[1] = 60 * m_mesh * m_mesh * m_stroke;
-			// m_vbo_size[0] = (2 + 10 * m_mesh * m_mesh) * (m_stroke + m_fill);
 		}
 		void Sphere::draw(void) const
 		{
@@ -385,10 +293,6 @@ namespace canvas
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
 			glDrawElements(GL_TRIANGLES, 60 * m_mesh * m_mesh, GL_UNSIGNED_INT, nullptr);
 			glDrawElementsBaseVertex(GL_LINES, 60 * m_mesh * m_mesh, GL_UNSIGNED_INT, (void*) (nt * sizeof(uint32_t)), nv);
-			// if(m_fill) vbo_fill_data();
-			// if(m_fill) ibo_fill_data();
-			// if(m_stroke) vbo_stroke_data();
-			// if(m_stroke) ibo_stroke_data();
 		}
 
 		//static
