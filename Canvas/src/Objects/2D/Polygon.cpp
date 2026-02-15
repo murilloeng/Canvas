@@ -4,7 +4,6 @@
 
 //canvas
 #include "Canvas/Canvas/inc/API/API.hpp"
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Objects/2D/Polygon.hpp"
 #include "Canvas/Canvas/inc/Objects/Tessellator.hpp"

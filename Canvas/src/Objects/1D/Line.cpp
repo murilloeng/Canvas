@@ -1,5 +1,4 @@
 //canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
 #include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 

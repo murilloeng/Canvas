@@ -18,7 +18,7 @@ int main(void)
 		//data
 		Engine engine;
 		engine.show_fps(true);
-		examples::objects::surfaces(engine.scene());
+		examples::objects::polylines(engine.scene());
 		//update
 		engine.scene()->update(true);
 		engine.scene()->camera().update();
