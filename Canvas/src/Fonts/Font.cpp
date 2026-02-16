@@ -27,7 +27,7 @@ namespace canvas
 	{
 
 		//constructors
-		Font::Font(Scene* scene, const char* name) : m_status(false), m_scene(scene), m_face(nullptr), m_name(name)
+		Font::Font(Scene* scene, const char* name) : m_scene{scene}, m_face{nullptr}, m_name{name}
 		{
 			return;
 		}
@@ -39,22 +39,12 @@ namespace canvas
 		}
 
 		//data
-		uint32_t Font::width(void)
-		{
-			return m_width;
-		}
-		uint32_t Font::height(void)
-		{
-			return m_height;
-		}
-
 		std::string Font::name(void) const
 		{
 			return m_name;
 		}
 		std::string Font::name(std::string name)
 		{
-			m_status = false;
 			return m_name = name;
 		}
 
@@ -67,15 +57,6 @@ namespace canvas
 			return m_face->family_name;
 		}
 
-		uint32_t Font::pixels_size(void)
-		{
-			return m_pixels_size;
-		}
-		uint32_t Font::pixels_size(uint32_t pixels_size)
-		{
-			return m_pixels_size = pixels_size;
-		}
-
 		Glyph& Font::glyph(uint32_t index)
 		{
 			return m_glyphs[index];
@@ -85,21 +66,15 @@ namespace canvas
 			return m_glyphs[index];
 		}
 
-		//setup
-		void Font::setup_texture(void)
+		const textures::Texture& Font::texture(void) const
 		{
-			for(uint32_t i = 0; i < 128; i++)
-			{
-				const uint32_t w = m_glyphs[i].m_width;
-				const uint32_t h = m_glyphs[i].m_height;
-				const uint32_t x = m_glyphs[i].m_offset;
-				const uint8_t* data = m_glyphs[i].m_data;
-				// m_scene->m_textures[1]->transfer(x, 0, w, h, data);
-			}
+			return m_texture;
 		}
-		void Font::setup(uint32_t& w, uint32_t& h)
+
+		void Font::load(void)
 		{
 			//data
+			uint32_t w = 0, h = 0;
 			const std::string path = fonts_dir + m_name + ".ttf";
 			//font
 			FT_Done_Face(m_face);
@@ -108,12 +83,11 @@ namespace canvas
 				throw std::runtime_error("FreeType face loading failed!");
 			}
 			//size
-			if(FT_Set_Pixel_Sizes(m_face, 0, m_pixels_size))
+			if(FT_Set_Pixel_Sizes(m_face, 0, 256))
 			{
 				throw std::runtime_error("FreeType font size setup failed!");
 			}
 			//characters
-			m_status = true;
 			for(uint32_t i = 0; i < 128; i++)
 			{
 				//load
@@ -128,11 +102,16 @@ namespace canvas
 				w += m_glyphs[i].m_width;
 				h = std::max(h, m_glyphs[i].m_height);
 			}
+			//texture
+			m_texture.width(w);
+			m_texture.height(h);
+			m_texture.format(GL_R8);
+			//transfer
+			m_texture.allocate();
+			for(const Glyph& glyph : m_glyphs)
+			{
+				m_texture.transfer(glyph.m_offset, 0, glyph.m_width, glyph.m_height, GL_RED, GL_UNSIGNED_BYTE, glyph.m_data);
+			}
 		}
-
-		//static
-		uint32_t Font::m_width;
-		uint32_t Font::m_height;
-		uint32_t Font::m_pixels_size = 256;
 	}
 }

@@ -55,14 +55,14 @@ namespace canvas
 		//draw
 		void Glyph::coordinates(float* coordinates) const
 		{
-			//data
-			const uint32_t w = Font::width();
-			const uint32_t h = Font::height();
-			//coordinates
-			coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
-			coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
-			coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
-			coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
+			// //data
+			// const uint32_t w = Font::width();
+			// const uint32_t h = Font::height();
+			// //coordinates
+			// coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
+			// coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
+			// coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
+			// coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
 		}
 
 		//setup

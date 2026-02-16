@@ -379,31 +379,31 @@ namespace canvas
 	}
 	void Scene::setup_fonts(void)
 	{
-		//data
-		bool update = false;
-		uint32_t w = 0, h = 0;
-		//fonts
-		for(fonts::Font* font : m_fonts)
-		{
-			if((update = update || !font->m_status))
-			{
-				font->setup(w, h);
-			}
-		}
-		if(!update) return;
-		//texture
-		fonts::Font::m_width = w;
-		fonts::Font::m_height = h;
-		m_textures[1]->width(w);
-		m_textures[1]->height(h);
-		m_textures[1]->format(GL_RED);
-		//texture data
-		m_textures[1]->allocate();
-		for(fonts::Font* font : m_fonts)
-		{
-			font->setup_texture();
-		}
-		glGenerateMipmap(GL_TEXTURE_2D);
+		// //data
+		// bool update = false;
+		// uint32_t w = 0, h = 0;
+		// //fonts
+		// for(fonts::Font* font : m_fonts)
+		// {
+		// 	if((update = update || !font->m_status))
+		// 	{
+		// 		font->setup(w, h);
+		// 	}
+		// }
+		// if(!update) return;
+		// //texture
+		// fonts::Font::m_width = w;
+		// fonts::Font::m_height = h;
+		// m_textures[1]->width(w);
+		// m_textures[1]->height(h);
+		// m_textures[1]->format(GL_RED);
+		// //texture data
+		// m_textures[1]->allocate();
+		// for(fonts::Font* font : m_fonts)
+		// {
+		// 	font->setup_texture();
+		// }
+		// glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_latex(void)
 	{
