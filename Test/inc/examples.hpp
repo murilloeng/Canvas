@@ -14,7 +14,7 @@ namespace examples
 		void bezier(canvas::Scene*);		//ok
 		void curves(canvas::Scene*);		//ok
 		void points(canvas::Scene*);		//ok
-		void images(canvas::Scene*);		//todo
+		void images(canvas::Scene*);		//ok
 		void text2D(canvas::Scene*);		//todo
 		void text3D(canvas::Scene*);		//todo
 		void squares(canvas::Scene*);		//ok
