@@ -56,7 +56,8 @@ A number of pre-defined objects (listed below) are defined for convenience. The 
 |       | Line     | Circle   | Sphere   | Latex     |
 |       | Curve    | Polygon  | Cylinder | Image     |
 |       | Arrow    | Surface  |          |           |
-|       | Spline   | Triangle |          |           |
+|       | Bézier   | Triangle |          |           |
+|       | Spline   |          |          |           |
 |       | Polyline |          |          |           |
 
 ## Textures
