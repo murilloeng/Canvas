@@ -114,7 +114,6 @@ namespace canvas
 		//textures
 		void add_texture(textures::Texture*);
 		textures::Texture* texture(uint32_t) const;
-		textures::Texture* texture(const char*) const;
 
 		//fonts
 		void add_font(const char*);
@@ -129,9 +128,7 @@ namespace canvas
 		const std::vector<textures::Latex*>& latexes(void) const;
 
 		//images
-		void add_image(const char*);
 		textures::Image* image(uint32_t) const;
-		textures::Image* image(const char*) const;
 		const std::vector<textures::Image*>& images(void) const;
 
 		//objects

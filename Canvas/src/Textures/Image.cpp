@@ -15,77 +15,54 @@ namespace canvas
 	namespace textures
 	{
 		//constructors
-		Image::Image(const char* path, const char* label) : m_status(false), m_data(nullptr), m_path(path)
+		Image::Image(void)
 		{
-			strcpy(m_label, label);
+			return;
 		}
 
 		//destructor
 		Image::~Image(void)
 		{
-			if(m_data) stbi_image_free(m_data);
+			return;
 		}
 
 		//data
-		uint32_t Image::width(void) const
-		{
-			return m_width;
-		}
-		uint32_t Image::height(void) const
-		{
-			return m_height;
-		}
-
 		std::string Image::path(void) const
 		{
 			return m_path;
 		}
 		std::string Image::path(std::string path)
 		{
-			m_status = false;
 			return m_path = path;
 		}
 
-		const char* Image::label(void) const
+		const Texture& Image::texture(void) const
 		{
-			return m_label;
-		}
-		const char* Image::label(const char* label)
-		{
-			return strcpy(m_label, label);
+			return m_texture;
 		}
 
 		//load
 		void Image::load(void)
 		{
 			//load
-			int w, h, c;
-			if(m_status) return;
-			if(m_data) stbi_image_free(m_data);
+			uint8_t* data;
+			int32_t w, h, c;
 			stbi_set_flip_vertically_on_load(true);
-			m_data = stbi_load(m_path.c_str(), &w, &h, &c, STBI_rgb_alpha);
+			data = stbi_load(m_path.c_str(), &w, &h, &c, STBI_rgb_alpha);
 			//check
-			if(!m_data)
+			if(!data)
 			{
 				throw std::runtime_error("STBI image loading of " + m_path + " failed!");
 			}
-			//setup
-			m_width = w;
-			m_height = h;
-			m_status = true;
+			//texture
+			m_texture.width(w);
+			m_texture.height(h);
+			m_texture.format(GL_RGBA8);
+			//transfer
+			m_texture.allocate();
+			m_texture.transfer(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			//deallocate
+			stbi_image_free(data);
 		}
-
-		//coordinates
-		void Image::coordinates(float* coordinates) const
-		{
-			coordinates[2] = 0;
-			coordinates[0] = float(m_offset) / m_total_width;
-			coordinates[3] = float(m_height) / m_total_height;
-			coordinates[1] = float(m_offset + m_width) / m_total_width;
-		}
-
-		//static
-		uint32_t Image::m_total_width = 0;
-		uint32_t Image::m_total_height = 0;
 	}
 }

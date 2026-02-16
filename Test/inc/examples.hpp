@@ -7,32 +7,27 @@ namespace examples
 {
 	namespace objects
 	{
-		void arcs(canvas::Scene*);
-		void group(canvas::Scene*);
-		void cubes(canvas::Scene*);
-		void lines(canvas::Scene*);
-		void quads(canvas::Scene*);
-		void latex(canvas::Scene*);
-		void arrows(canvas::Scene*);
-		void bezier(canvas::Scene*);
-		void curves(canvas::Scene*);
-		void points(canvas::Scene*);
-		void images(canvas::Scene*);
-		void text2D(canvas::Scene*);
-		void text3D(canvas::Scene*);
-		void grid2D(canvas::Scene*);
-		void squares(canvas::Scene*);
-		void circles(canvas::Scene*);
-		void spheres(canvas::Scene*);
-		void splines(canvas::Scene*);
-		void graph2D(canvas::Scene*);
-		void polygons(canvas::Scene*);
-		void surfaces(canvas::Scene*);
-		void palettes(canvas::Scene*);
-		void polylines(canvas::Scene*);
-		void triangles(canvas::Scene*);
-		void cylinders(canvas::Scene*);
-		void rectangles(canvas::Scene*);
+		void arcs(canvas::Scene*);			//ok
+		void cubes(canvas::Scene*);			//ok
+		void lines(canvas::Scene*);			//ok
+		void latex(canvas::Scene*);			//todo
+		void bezier(canvas::Scene*);		//ok
+		void curves(canvas::Scene*);		//ok
+		void points(canvas::Scene*);		//ok
+		void images(canvas::Scene*);		//todo
+		void text2D(canvas::Scene*);		//todo
+		void text3D(canvas::Scene*);		//todo
+		void squares(canvas::Scene*);		//ok
+		void circles(canvas::Scene*);		//ok
+		void spheres(canvas::Scene*);		//ok
+		void splines(canvas::Scene*);		//ok
+		void graph2D(canvas::Scene*);		//todo
+		void polygons(canvas::Scene*);		//ok
+		void surfaces(canvas::Scene*);		//ok
+		void palettes(canvas::Scene*);		//todo
+		void polylines(canvas::Scene*);		//ok
+		void triangles(canvas::Scene*);		//ok
+		void cylinders(canvas::Scene*);		//ok
 	}
 	namespace scenes
 	{

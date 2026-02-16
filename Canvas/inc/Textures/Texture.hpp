@@ -14,7 +14,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			Texture(const char* = "");
+			Texture(void);
 
 			//destructor
 			~Texture(void);
@@ -29,21 +29,17 @@ namespace canvas
 			uint32_t format(uint32_t);
 			uint32_t format(void) const;
 
-			const char* label(void) const;
-			const char* label(const char*);
-
 			//bind
 			void bind(void) const;
 			void bind_unit(GLuint) const;
 
 			//data
 			void allocate(void) const;
-			void transfer(uint32_t, uint32_t, uint32_t, uint32_t, const void*);
+			void transfer(uint32_t, uint32_t, uint32_t, uint32_t, GLenum, GLenum, const void*);
 
 		private:
 			//data
 			GLuint m_id;
-			char m_label[64];
 			uint32_t m_width;
 			uint32_t m_height;
 			uint32_t m_format;

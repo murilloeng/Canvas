@@ -1,5 +1,4 @@
 //std
-#include <cstring>
 #include <stdexcept>
 
 //canvas
@@ -11,21 +10,13 @@ namespace canvas
 	namespace textures
 	{
 		//constructor
-		Texture::Texture(const char* label) : m_width(0), m_height(0), m_format(0)
+		Texture::Texture(void) : m_width{0}, m_height{0}, m_format{GL_RGBA8}
 		{
-			//create
-			strcpy(m_label, label);
 			glCreateTextures(GL_TEXTURE_2D, 1, &m_id);
-			//check
-			if(!glIsTexture(m_id))
-			{
-				throw std::runtime_error("OpenGL texture creation failed!");
-			}
-			//setup
 			glTextureParameteri(m_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTextureParameteri(m_id, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTextureParameteri(m_id, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTextureParameteri(m_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		}
 
 		//destructor
@@ -62,15 +53,6 @@ namespace canvas
 			return m_format = format;
 		}
 
-		const char* Texture::label(void) const
-		{
-			return m_label;
-		}
-		const char* Texture::label(const char* label)
-		{
-			return strcpy(m_label, label);
-		}
-
 		//bind
 		void Texture::bind(void) const
 		{
@@ -84,16 +66,13 @@ namespace canvas
 		//data
 		void Texture::allocate(void) const
 		{
-			//storage
-			if(m_format == GL_RED) glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			if(m_format == GL_RGBA) glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-			//texture
-			glBindTexture(GL_TEXTURE_2D, m_id);
-			glTexImage2D(GL_TEXTURE_2D, 0, m_format, m_width, m_height, 0, m_format, GL_UNSIGNED_BYTE, nullptr);
+			glTextureStorage2D(m_id, 1, m_format, m_width, m_height);
 		}
-		void Texture::transfer(uint32_t x1, uint32_t x2, uint32_t w, uint32_t h, const void* data)
+		void Texture::transfer(uint32_t x1, uint32_t x2, uint32_t w, uint32_t h, GLenum format, GLenum type, const void* data)
 		{
-			glTextureSubImage2D(m_id, 0, x1, x2, w, h, m_format, GL_UNSIGNED_BYTE, data);
+			// if(m_format == GL_RED) glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			// if(m_format == GL_RGBA) glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+			glTextureSubImage2D(m_id, 0, x1, x2, w, h, format, type, data);
 		}
 	}
 }

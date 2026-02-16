@@ -208,14 +208,6 @@ namespace canvas
 	{
 		return m_textures[index];
 	}
-	textures::Texture* Scene::texture(const char* label) const
-	{
-		for(textures::Texture* texture : m_textures)
-		{
-			if(strcmp(label, texture->label()) == 0) return texture;
-		}
-		return nullptr;
-	}
 
 	//fonts
 	void Scene::add_font(const char* name)
@@ -263,21 +255,9 @@ namespace canvas
 	}
 
 	//images
-	void Scene::add_image(const char* path)
-	{
-		m_images.push_back(new textures::Image(path));
-	}
 	textures::Image* Scene::image(uint32_t index) const
 	{
 		return m_images[index];
-	}
-	textures::Image* Scene::image(const char* label) const
-	{
-		for(textures::Image* image : m_images)
-		{
-			if(strcmp(label, image->label()) == 0) return image;
-		}
-		return nullptr;
 	}
 	const std::vector<textures::Image*>& Scene::images(void) const
 	{
@@ -427,38 +407,38 @@ namespace canvas
 	}
 	void Scene::setup_latex(void)
 	{
-		//data
-		bool update = false;
-		uint32_t w = 0, h = 0;
-		//images
-		for(textures::Latex* latex : m_latex)
-		{
-			if((update = update || !latex->m_status))
-			{
-				latex->load();
-				latex->m_offset = w;
-				w += latex->m_width;
-				h = std::max(h, latex->m_height);
-			}
-		}
-		//texture
-		if(!update) return;
-		m_textures[2]->width(w);
-		m_textures[2]->height(h);
-		m_textures[2]->format(GL_RED);
-		textures::Latex::m_total_width = w;
-		textures::Latex::m_total_height = h;
-		//texture data
-		m_textures[2]->allocate();
-		for(textures::Latex* latex : m_latex)
-		{
-			const uint32_t w = latex->m_width;
-			const uint32_t h = latex->m_height;
-			const uint32_t x = latex->m_offset;
-			const uint8_t* data = latex->m_data;
-			m_textures[2]->transfer(x, 0, w, h, data);
-		}
-		glGenerateMipmap(GL_TEXTURE_2D);
+		// //data
+		// bool update = false;
+		// uint32_t w = 0, h = 0;
+		// //images
+		// for(textures::Latex* latex : m_latex)
+		// {
+		// 	if((update = update || !latex->m_status))
+		// 	{
+		// 		latex->load();
+		// 		latex->m_offset = w;
+		// 		w += latex->m_width;
+		// 		h = std::max(h, latex->m_height);
+		// 	}
+		// }
+		// //texture
+		// if(!update) return;
+		// m_textures[2]->width(w);
+		// m_textures[2]->height(h);
+		// m_textures[2]->format(GL_RED);
+		// textures::Latex::m_total_width = w;
+		// textures::Latex::m_total_height = h;
+		// //texture data
+		// m_textures[2]->allocate();
+		// for(textures::Latex* latex : m_latex)
+		// {
+		// 	const uint32_t w = latex->m_width;
+		// 	const uint32_t h = latex->m_height;
+		// 	const uint32_t x = latex->m_offset;
+		// 	const uint8_t* data = latex->m_data;
+		// 	m_textures[2]->transfer(x, 0, w, h, data);
+		// }
+		// glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_OpenGL(void)
 	{
@@ -474,38 +454,38 @@ namespace canvas
 	}
 	void Scene::setup_images(void)
 	{
-		//data
-		bool update = false;
-		uint32_t w = 0, h = 0;
-		//images
-		for(textures::Image* image : m_images)
-		{
-			if((update = update || !image->m_status))
-			{
-				image->load();
-				image->m_offset = w;
-				w += image->m_width;
-				h = std::max(h, image->m_height);
-			}
-		}
-		//texture
-		if(!update) return;
-		m_textures[0]->width(w);
-		m_textures[0]->height(h);
-		m_textures[0]->format(GL_RGBA);
-		textures::Image::m_total_width = w;
-		textures::Image::m_total_height = h;
-		//texture data
-		m_textures[0]->allocate();
-		for(textures::Image* image : m_images)
-		{
-			const uint32_t w = image->m_width;
-			const uint32_t h = image->m_height;
-			const uint32_t x = image->m_offset;
-			const uint8_t* data = image->m_data;
-			m_textures[0]->transfer(x, 0, w, h, data);
-		}
-		glGenerateMipmap(GL_TEXTURE_2D);
+		// //data
+		// bool update = false;
+		// uint32_t w = 0, h = 0;
+		// //images
+		// for(textures::Image* image : m_images)
+		// {
+		// 	if((update = update || !image->m_status))
+		// 	{
+		// 		image->load();
+		// 		image->m_offset = w;
+		// 		w += image->m_width;
+		// 		h = std::max(h, image->m_height);
+		// 	}
+		// }
+		// //texture
+		// if(!update) return;
+		// m_textures[0]->width(w);
+		// m_textures[0]->height(h);
+		// m_textures[0]->format(GL_RGBA);
+		// textures::Image::m_total_width = w;
+		// textures::Image::m_total_height = h;
+		// //texture data
+		// m_textures[0]->allocate();
+		// for(textures::Image* image : m_images)
+		// {
+		// 	const uint32_t w = image->m_width;
+		// 	const uint32_t h = image->m_height;
+		// 	const uint32_t x = image->m_offset;
+		// 	const uint8_t* data = image->m_data;
+		// 	m_textures[0]->transfer(x, 0, w, h, data);
+		// }
+		// glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_cameras(void)
 	{

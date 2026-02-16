@@ -77,6 +77,7 @@ static void load_textures(void)
 	glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) load("glGenerateMipmap");
 	glCreateTextures = (PFNGLCREATETEXTURESPROC) load("glCreateTextures");
 	glBindTextureUnit = (PFNGLBINDTEXTUREUNITPROC) load("glBindTextureUnit");
+	glTextureStorage2D = (PFNGLTEXTURESTORAGE2DPROC) load("glTextureStorage2D");
 	glTextureParameteri = (PFNGLTEXTUREPARAMETERIPROC) load("glTextureParameteri");
 	glTextureSubImage2D = (PFNGLTEXTURESUBIMAGE2DPROC) load("glTextureSubImage2D");
 }
