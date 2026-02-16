@@ -75,8 +75,6 @@ namespace canvas
 			vbo_ptr[3].m_position = m_model_matrix * vec3((x1 + 0) / m, (x2 + h) / m, 0);
 			//transfer
 			m_vbo.transfer();
-			// m_vbo_size[1] = 4 * m_fill;
-			// m_ibo_size[3] = 6 * m_fill;
 		}
 		void Image::draw(void) const
 		{
@@ -84,35 +82,6 @@ namespace canvas
 			m_shader.bind();
 			m_image.texture().bind_unit(0);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-			// //data
-			// float tc[4];
-			// if(!m_fill) return;
-			// uint32_t* ibo_ptr = ibo_data(3);
-			// const vec3& t1 = m_directions[0];
-			// const vec3& t2 = m_directions[1];
-			// m_scene->image(m_index)->coordinates(tc);
-			// vertices::Image3D* vbo_ptr = vbo_data_image_3D();
-			// const uint32_t wi = m_scene->image(m_index)->width();
-			// const uint32_t hi = m_scene->image(m_index)->height();
-			// //vbo data
-			// const float w = m_size;
-			// const float h = m_size * hi / wi;
-			// const float x[][2] = {{0, 0}, {w, 0}, {w, h}, {0, h}};
-			// const float t[][2] = {{tc[0], tc[2]}, {tc[1], tc[2]}, {tc[1], tc[3]}, {tc[0], tc[3]}};
-			// for(uint32_t i = 0; i < 4; i++)
-			// {
-			// 	const float x2 = x[i][1] - m_anchor.vertical() * h / 2;
-			// 	const float x1 = x[i][0] - m_anchor.horizontal() * w / 2;
-			// 	vbo_ptr[i].m_texture_coordinates = t[i];
-			// 	vbo_ptr[i].m_position = m_position + x1 * t1 + x2 * t2;
-			// }
-			// //ibo data
-			// ibo_ptr[3 * 0 + 0] = m_vbo_index[1] + 0;
-			// ibo_ptr[3 * 0 + 1] = m_vbo_index[1] + 1;
-			// ibo_ptr[3 * 0 + 2] = m_vbo_index[1] + 2;
-			// ibo_ptr[3 * 1 + 0] = m_vbo_index[1] + 0;
-			// ibo_ptr[3 * 1 + 1] = m_vbo_index[1] + 2;
-			// ibo_ptr[3 * 1 + 2] = m_vbo_index[1] + 3;
 		}
 	}
 }
