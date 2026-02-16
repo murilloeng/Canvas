@@ -4,7 +4,6 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"

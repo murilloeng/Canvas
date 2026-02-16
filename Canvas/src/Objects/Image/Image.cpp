@@ -4,7 +4,6 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
-#include "Canvas/Canvas/inc/Textures/Image.hpp"
 #include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Image.hpp"
 
