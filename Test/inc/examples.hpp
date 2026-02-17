@@ -16,7 +16,7 @@ namespace examples
 		void points(canvas::Scene*);		//ok
 		void images(canvas::Scene*);		//ok
 		void text2D(canvas::Scene*);		//todo
-		void text3D(canvas::Scene*);		//todo
+		void text3D(canvas::Scene*);		//ok
 		void squares(canvas::Scene*);		//ok
 		void circles(canvas::Scene*);		//ok
 		void spheres(canvas::Scene*);		//ok
