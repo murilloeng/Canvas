@@ -30,7 +30,6 @@ namespace canvas
 			uint32_t format(void) const;
 
 			//bind
-			void bind(void) const;
 			void bind_unit(GLuint) const;
 
 			//data

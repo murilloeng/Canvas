@@ -185,14 +185,6 @@ namespace canvas
 	{
 		return m_fonts[index];
 	}
-	fonts::Font* Scene::font(const char* label) const
-	{
-		for(fonts::Font* font : m_fonts)
-		{
-			if(font->name().compare(label) == 0) return font;
-		}
-		return nullptr;
-	}
 	const std::vector<fonts::Font*>& Scene::fonts(void) const
 	{
 		return m_fonts;

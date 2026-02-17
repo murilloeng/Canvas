@@ -15,7 +15,7 @@ static const char* a[] = {"NE", "NW", "SW", "SE", "SW", "SE", "NE", "NW"};
 void examples::objects::text3D(canvas::Scene* scene)
 {
 	//fonts
-	scene->add_font("times");
+	scene->add_font("Impact");
 	//objects
 	canvas::objects::Square* square;
 	canvas::objects::Text3D* text[9];
@@ -29,21 +29,21 @@ void examples::objects::text3D(canvas::Scene* scene)
 	//text
 	for(uint32_t i = 0; i < 4; i++)
 	{
-		text[i + 0]->size(0.2f);
-		text[i + 5]->size(0.2f);
+		text[i + 0]->scale(0.25f);
+		text[i + 5]->scale(0.25f);
 		text[i + 0]->normal(true);
 		text[i + 5]->normal(true);
+		text[i + 0]->color("red");
+		text[i + 5]->color("blue");
 		text[i + 0]->text(c[i + 0]);
 		text[i + 5]->text(c[i + 4]);
 		text[i + 0]->anchor(a[i + 0]);
 		text[i + 5]->anchor(a[i + 4]);
-		// text[i + 0]->color_fill({0, 0, 1});
-		// text[i + 5]->color_fill({1, 0, 0});
-		// text[i + 0]->position({x[2 * i + 0], x[2 * i + 1], 0});
-		// text[i + 5]->position({x[2 * i + 0], x[2 * i + 1], 0});
+		text[i + 0]->shift({x[2 * i + 0], x[2 * i + 1], 0});
+		text[i + 5]->shift({x[2 * i + 0], x[2 * i + 1], 0});
 	}
-	text[4]->size(0.2f);
+	text[4]->scale(0.25f);
 	text[4]->anchor("CC");
-	// text[4]->color_fill({0, 1, 0});
-	text[4]->text("this is a\nmulti-\vline\ntext\twith tab");
+	text[4]->color("green");
+	text[4]->text("This is a\nmulti-\vline\ntext\twith tab.");
 }

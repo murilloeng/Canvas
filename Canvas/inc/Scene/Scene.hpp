@@ -114,7 +114,6 @@ namespace canvas
 		//fonts
 		void add_font(const char*);
 		fonts::Font* font(uint32_t) const;
-		fonts::Font* font(const char*) const;
 		const std::vector<fonts::Font*>& fonts(void) const;
 
 		//latex

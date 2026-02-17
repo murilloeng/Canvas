@@ -22,23 +22,23 @@ namespace canvas
 		}
 
 		//data
-		uint32_t Glyph::width(void) const
+		int64_t Glyph::width(void) const
 		{
 			return m_width;
 		}
-		uint32_t Glyph::height(void) const
+		int64_t Glyph::height(void) const
 		{
 			return m_height;
 		}
-		uint32_t Glyph::offset(void) const
+		int64_t Glyph::offset(void) const
 		{
 			return m_offset;
 		}
-		uint32_t Glyph::advance(void) const
+		int64_t Glyph::advance(void) const
 		{
 			return m_advance;
 		}
-		uint32_t Glyph::bearing(uint32_t index) const
+		int64_t Glyph::bearing(uint32_t index) const
 		{
 			return m_bearings[index];
 		}
@@ -53,28 +53,28 @@ namespace canvas
 		}
 
 		//draw
-		void Glyph::coordinates(float* coordinates) const
+		void Glyph::coordinates(const Font* font, float* coordinates) const
 		{
-			// //data
-			// const uint32_t w = Font::width();
-			// const uint32_t h = Font::height();
-			// //coordinates
-			// coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
-			// coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
-			// coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
-			// coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
+			//data
+			const uint32_t w = font->texture().width();
+			const uint32_t h = font->texture().height();
+			//coordinates
+			coordinates[2 * 2 + 1] = coordinates[2 * 3 + 1] = 0;
+			coordinates[2 * 0 + 0] = coordinates[2 * 3 + 0] = float(m_offset) / w;
+			coordinates[2 * 0 + 1] = coordinates[2 * 1 + 1] = float(m_height) / h;
+			coordinates[2 * 1 + 0] = coordinates[2 * 2 + 0] = float(m_offset + m_width) / w;
 		}
 
 		//setup
 		void Glyph::setup(FT_Face face, char code)
 		{
-			//setup
+			//metrics
 			m_code = code;
-			m_width = face->glyph->bitmap.width;
-			m_height = face->glyph->bitmap.rows;
-			m_advance = face->glyph->advance.x / 64;
-			m_bearings[1] = face->glyph->bitmap_top;
-			m_bearings[0] = face->glyph->bitmap_left;
+			m_width = face->glyph->metrics.width >> 6;
+			m_height = face->glyph->metrics.height >> 6;
+			m_advance = face->glyph->metrics.horiAdvance >> 6;
+			m_bearings[0] = face->glyph->metrics.horiBearingX >> 6;
+			m_bearings[1] = face->glyph->metrics.horiBearingY >> 6;
 			//outline
 			m_outline.setup(face);
 			//buffer

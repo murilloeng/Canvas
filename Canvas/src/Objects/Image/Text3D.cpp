@@ -14,7 +14,7 @@ namespace canvas
 	{
 		//constructors
 		Text3D::Text3D(void) : 
-			m_size{1.0f}, m_normal{false}, m_font{0}, m_line_spacing{0.2f}, m_shader({
+			m_normal{false}, m_color{"white"}, m_font{0}, m_shader({
 				new shaders::Stage(GL_VERTEX_SHADER, "text3D.vert"),
 				new shaders::Stage(GL_FRAGMENT_SHADER, "text3D.frag")
 			})
@@ -28,6 +28,7 @@ namespace canvas
 			m_vao.attribute_binding(0, 0);
 			m_vao.attribute_binding(1, 0);
 			m_vao.attribute_binding(2, 0);
+			m_vao.element_buffer(m_ibo.id());
 			m_vao.attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
 			m_vao.attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
 			m_vao.attribute_format(2, 2, GL_FLOAT, 7 * sizeof(float));
@@ -41,15 +42,6 @@ namespace canvas
 		}
 
 		//data
-		float Text3D::size(void) const
-		{
-			return m_size;
-		}
-		float Text3D::size(float size)
-		{
-			return m_size = size;
-		}
-
 		bool Text3D::normal(void) const
 		{
 			return m_normal;
@@ -95,20 +87,13 @@ namespace canvas
 			return m_text = text;
 		}
 
-		float Text3D::line_spacing(void) const
-		{
-			return m_line_spacing;
-		}
-		float Text3D::line_spacing(float line_spacing)
-		{
-			return m_line_spacing = m_line_spacing;
-		}
-
 		//text
 		uint32_t Text3D::width(void) const
 		{
-			uint32_t w = 0;
-			uint32_t v = 0;
+			//data
+			uint32_t v = 0, w = 0;
+			fonts::Font* font = m_scene->font(m_font);
+			//width
 			for(char c : m_text)
 			{
 				if(c == '\n')
@@ -117,7 +102,7 @@ namespace canvas
 				}
 				else
 				{
-					v += m_scene->font(m_font)->glyph(c).advance();
+					v += font->glyph(c).advance();
 				}
 			}
 			return std::max(w, v);
@@ -125,22 +110,17 @@ namespace canvas
 		uint32_t Text3D::height(void) const
 		{
 			//data
-			uint32_t h = 0, a = 0, b = 0;
-			fonts::Font *font = m_scene->font(m_font);
+			fonts::Font* font = m_scene->font(m_font);
+			uint32_t h = font->ascender() - font->descender();
 			//height
 			for(char c : m_text)
 			{
 				if(c == '\n' || c == '\v')
 				{
-					h += a + b + uint32_t(m_line_spacing) * font->texture().height(), a = b = 0;
-				}
-				else
-				{
-					a = std::max(a, font->glyph(c).bearing(1));
-					b = std::max(b, font->glyph(c).height() - font->glyph(c).bearing(1));
+					h += font->height();
 				}
 			}
-			return h + a + b;
+			return h;
 		}
 		uint32_t Text3D::length(void) const
 		{
@@ -152,108 +132,63 @@ namespace canvas
 			return v;
 		}
 
-		//setup
-		// void Text3D::setup(void)
-		// {
-		// 	//check
-		// 	uint32_t a = 0, b = 0;
-		// 	if(m_font >= m_scene->fonts().size())
-		// 	{
-		// 		throw std::runtime_error("Error: Text object font has out of range index!");
-		// 	}
-		// 	//lines
-		// 	for(char c : m_text)
-		// 	{
-		// 		if(c == '\n' || c == '\v')
-		// 		{
-		// 			m_lines.push_back(a), m_lines.push_back(b), a = b = 0;
-		// 		}
-		// 		else
-		// 		{
-		// 			const fonts::Font *font = m_scene->font(m_font);
-		// 			a = std::max(a, font->glyph(c).bearing(1));
-		// 			b = std::max(b, font->glyph(c).height() - font->glyph(c).bearing(1));
-		// 		}
-		// 	}
-		// 	m_lines.push_back(a), m_lines.push_back(b);
-		// 	//indexes
-		// 	Object::setup();
-		// }
-
 		//data
-		void Text3D::vbo_fill_data(void) const
+		void Text3D::ibo_data(uint32_t nc, uint32_t* ibo_ptr) const
 		{
-			// //data
-			// uint32_t line = 0;
-			// const uint32_t wt = width();
-			// const uint32_t ht = height();
-			// float xa[2], xs[2], xc[8], tc[8];
-			// const vec3 up = m_scene->camera().up();
-			// const vec3 ur = m_scene->camera().right();
-			// const fonts::Font *font = m_scene->font(m_font);
-			// const float ps = m_size / font->height();
-			// vertices::Text3D* vbo_ptr = vbo_data_text_3D();
-			// const vec3 t1 = m_normal ? ur : m_directions[0];
-			// const vec3 t2 = m_normal ? up : m_directions[1];
-			// //anchor
-			// xs[0] = xs[1] = 0;
-			// xa[0] = -ps * wt * m_anchor.horizontal() / 2;
-			// xa[1] = -ps * m_lines[0] + ps * ht * (2 - m_anchor.vertical()) / 2;
-			// //vbo data
-			// for(uint32_t i = 0; i < m_text.length(); i++)
-			// {
-			// 	if(m_text[i] >= 32)
-			// 	{
-			// 		//character
-			// 		font->glyph(m_text[i]).coordinates(tc);
-			// 		const int32_t w = font->glyph(m_text[i]).width();
-			// 		const int32_t h = font->glyph(m_text[i]).height();
-			// 		const int32_t r = font->glyph(m_text[i]).advance();
-			// 		const int32_t a = font->glyph(m_text[i]).bearing(0);
-			// 		const int32_t b = font->glyph(m_text[i]).bearing(1);
-			// 		//position
-			// 		xc[2 * 0 + 0] = xc[2 * 3 + 0] = xa[0] + xs[0] + ps * a;
-			// 		xc[2 * 2 + 1] = xc[2 * 3 + 1] = xa[1] + xs[1] + ps * b;
-			// 		xc[2 * 1 + 0] = xc[2 * 2 + 0] = xa[0] + xs[0] + ps * (a + w);
-			// 		xc[2 * 0 + 1] = xc[2 * 1 + 1] = xa[1] + xs[1] + ps * (b - h);
-			// 		//vertices
-			// 		for(uint32_t j = 0; j < 4; j++)
-			// 		{
-			// 			vbo_ptr[j].m_color = m_color_fill;
-			// 			vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
-			// 			vbo_ptr[j].m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
-			// 		}
-			// 		vbo_ptr += 4;
-			// 		xs[0] += ps * r;
-			// 	}
-			// 	if(m_text[i] == '\t')
-			// 	{
-			// 		xs[0] += 4 * ps * font->glyph(' ').advance();
-			// 	}
-			// 	if(m_text[i] == '\n')
-			// 	{
-			// 		xs[0] = 0;
-			// 		xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
-			// 	}
-			// 	if(m_text[i] == '\v')
-			// 	{
-			// 		xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
-			// 	}
-			// }
+			for(uint32_t i = 0; i < nc; i++)
+			{
+				ibo_ptr[6 * i + 0] = 4 * i + 0;
+				ibo_ptr[6 * i + 1] = 4 * i + 1;
+				ibo_ptr[6 * i + 2] = 4 * i + 2;
+				ibo_ptr[6 * i + 3] = 4 * i + 0;
+				ibo_ptr[6 * i + 4] = 4 * i + 2;
+				ibo_ptr[6 * i + 5] = 4 * i + 3;
+			}
 		}
-		void Text3D::ibo_fill_data(void) const
+		void Text3D::vbo_data(uint32_t nc, vertices::Text3D* vbo_ptr) const
 		{
-			// const uint32_t s = length();
-			// uint32_t* ibo_ptr = ibo_data(4);
-			// for(uint32_t i = 0; i < s; i++)
-			// {
-			// 	ibo_ptr[6 * i + 0] = m_vbo_index[2] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 1] = m_vbo_index[2] + 4 * i + 1;
-			// 	ibo_ptr[6 * i + 2] = m_vbo_index[2] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 3] = m_vbo_index[2] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 4] = m_vbo_index[2] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 5] = m_vbo_index[2] + 4 * i + 3;
-			// }
+			//data
+			float xc[8], tc[8];
+			const uint32_t wt = width();
+			const uint32_t ht = height();
+			const fonts::Font *font = m_scene->font(m_font);
+			const uint32_t a2 = uint32_t(m_anchor.vertical());
+			const uint32_t a1 = uint32_t(m_anchor.horizontal());
+			//pen position
+			const float ps = 1.0f / font->height();
+			float xp[] = {0, -ps * font->ascender()};
+			const float xa[] = {-ps * wt * a1 / 2, ps * ht * (2 - a2) / 2};
+			//vbo data
+			for(char c : m_text)
+			{
+				if(c >= 32)
+				{
+					//character
+					font->glyph(c).coordinates(font, tc);
+					const int32_t w = font->glyph(c).width();
+					const int32_t h = font->glyph(c).height();
+					const int32_t r = font->glyph(c).advance();
+					const int32_t a = font->glyph(c).bearing(0);
+					const int32_t b = font->glyph(c).bearing(1);
+					//position
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xp[0] + xa[0] + ps * a;
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xp[1] + xa[1] + ps * b;
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xp[0] + xa[0] + ps * (a + w);
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xp[1] + xa[1] + ps * (b - h);
+					//vertices
+					for(uint32_t j = 0; j < 4; j++)
+					{
+						vbo_ptr[j].m_color = m_color;
+						vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+						vbo_ptr[j].m_position = m_model_matrix * vec3(xc[2 * j + 0], xc[2 * j + 1], 0);
+					}
+					vbo_ptr += 4;
+					xp[0] += ps * r;
+				}
+				if(c == '\v') xp[1] -= 1;
+				if(c == '\n') xp[1] -= 1, xp[0] = 0;
+				if(c == '\t') xp[0] += ps * font->glyph('\t').advance();
+			}
 		}
 
 		//draw
@@ -266,17 +201,20 @@ namespace canvas
 			m_ibo.allocate(6 * nc);
 			uint32_t* ibo_ptr = m_ibo.data();
 			vertices::Text3D* vbo_ptr = (vertices::Text3D*) m_vbo.data();
-			//vbo data
+			//buffers data
+			ibo_data(nc, ibo_ptr);
+			vbo_data(nc, vbo_ptr);
 			//transfer
 			m_vbo.transfer();
 			m_ibo.transfer();
-			// m_vbo_size[2] = 4 * m_fill * length();
-			// m_ibo_size[4] = 6 * m_fill * length();
 		}
 		void Text3D::draw(void) const
 		{
-			// if(m_fill) vbo_fill_data();
-			// if(m_fill) ibo_fill_data();
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t ni = m_ibo.vertex_count();
+			m_scene->font(m_font)->texture().bind_unit(1);
+			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
 		}
 
 		//update

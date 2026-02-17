@@ -2,7 +2,6 @@
 
 //std
 #include <string>
-#include <vector>
 #include <cstdint>
 
 //canvas
@@ -28,9 +27,6 @@ namespace canvas
 			~Text3D(void);
 
 			//data
-			float size(float);
-			float size(void) const;
-
 			bool normal(bool);
 			bool normal(void) const;
 			
@@ -46,21 +42,15 @@ namespace canvas
 			std::string text(void) const;
 			std::string text(std::string);
 			
-			float line_spacing(float);
-			float line_spacing(void) const;
-
 		protected:
 			//text
 			uint32_t width(void) const;
 			uint32_t height(void) const;
 			uint32_t length(void) const;
 
-			//setup
-			// void setup(void) override;
-
-			//data
-			void vbo_fill_data(void) const;
-			void ibo_fill_data(void) const;
+			//buffers
+			void ibo_data(uint32_t, uint32_t*) const;
+			void vbo_data(uint32_t, vertices::Text3D*) const;
 
 			//draw
 			void setup(void) override;
@@ -70,7 +60,6 @@ namespace canvas
 			void update_on_motion(void) const override;
 
 			//data
-			float m_size;
 			bool m_normal;
 			Color m_color;
 			uint32_t m_font;
@@ -79,9 +68,7 @@ namespace canvas
 			buffers::IBO m_ibo;
 			buffers::VBO m_vbo;
 			buffers::VAO m_vao;
-			float m_line_spacing;
 			shaders::Shader m_shader;
-			std::vector<uint32_t> m_lines;
 		};
 	}
 }

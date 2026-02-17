@@ -273,8 +273,8 @@ namespace canvas
 			m_shader.bind();
 			const uint32_t nt = 60 * m_mesh * m_mesh;
 			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			glDrawElements(GL_TRIANGLES, 60 * m_mesh * m_mesh, GL_UNSIGNED_INT, nullptr);
-			glDrawElementsBaseVertex(GL_LINES, 60 * m_mesh * m_mesh, GL_UNSIGNED_INT, (void*) (nt * sizeof(uint32_t)), nv);
+			glDrawElements(GL_TRIANGLES, nt, GL_UNSIGNED_INT, nullptr);
+			glDrawElementsBaseVertex(GL_LINES, nt, GL_UNSIGNED_INT, (void*) (nt * sizeof(uint32_t)), nv);
 		}
 
 		//static

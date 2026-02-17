@@ -33,6 +33,10 @@ namespace canvas
 			std::string name(void) const;
 			std::string name(std::string);
 
+			int64_t height(void) const;
+			int64_t ascender(void) const;
+			int64_t descender(void) const;
+
 			const char* style(void) const;
 			const char* family(void) const;
 

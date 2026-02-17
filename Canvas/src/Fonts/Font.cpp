@@ -48,6 +48,19 @@ namespace canvas
 			return m_name = name;
 		}
 
+		int64_t Font::height(void) const
+		{
+			return m_face->size->metrics.height >> 6;
+		}
+		int64_t Font::ascender(void) const
+		{
+			return m_face->size->metrics.ascender >> 6;
+		}
+		int64_t Font::descender(void) const
+		{
+			return m_face->size->metrics.descender >> 6;
+		}
+
 		const char* Font::style(void) const
 		{
 			return m_face->style_name;
@@ -74,7 +87,7 @@ namespace canvas
 		void Font::load(void)
 		{
 			//data
-			uint32_t w = 0, h = 0;
+			int64_t w = 0, h = 0;
 			const std::string path = fonts_dir + m_name + ".ttf";
 			//font
 			FT_Done_Face(m_face);
