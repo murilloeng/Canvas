@@ -15,7 +15,7 @@ static const char* a[] = {"NE", "NW", "SW", "SE", "SW", "SE", "NE", "NW"};
 void examples::objects::text3D(canvas::Scene* scene)
 {
 	//fonts
-	scene->add_font("Impact");
+	scene->add_font("times");
 	//objects
 	canvas::objects::Square* square;
 	canvas::objects::Text3D* text[9];
