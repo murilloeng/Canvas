@@ -121,10 +121,12 @@ namespace canvas
 			m_texture.format(GL_R8);
 			//transfer
 			m_texture.allocate();
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 			for(const Glyph& glyph : m_glyphs)
 			{
 				m_texture.transfer(glyph.m_offset, 0, glyph.m_width, glyph.m_height, GL_RED, GL_UNSIGNED_BYTE, glyph.m_data);
 			}
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		}
 	}
 }

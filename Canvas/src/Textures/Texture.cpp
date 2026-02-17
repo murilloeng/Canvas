@@ -66,8 +66,6 @@ namespace canvas
 		}
 		void Texture::transfer(uint32_t x1, uint32_t x2, uint32_t w, uint32_t h, GLenum format, GLenum type, const void* data)
 		{
-			if(m_format == GL_R8) glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			if(m_format == GL_RGBA8) glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 			glTextureSubImage2D(m_id, 0, x1, x2, w, h, format, type, data);
 		}
 	}
