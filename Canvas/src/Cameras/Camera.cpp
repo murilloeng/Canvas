@@ -43,7 +43,8 @@ namespace canvas
 			m_fixed_bounding_box{false}, m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
 			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
 		{
-			return;
+			m_ubo.bind_base(GL_UNIFORM_BUFFER, 0);
+			m_ubo.transfer(32 * sizeof(float), nullptr);
 		}
 
 		//destructor
@@ -67,8 +68,8 @@ namespace canvas
 		void Camera::update(void)
 		{
 			compute();
-			m_scene->m_ubos[0]->transfer( 0 * sizeof(float), 16 * sizeof(float), m_view.data());
-			m_scene->m_ubos[0]->transfer(16 * sizeof(float), 16 * sizeof(float), m_projection.data());
+			m_ubo.transfer( 0 * sizeof(float), 16 * sizeof(float), m_view.data());
+			m_ubo.transfer(16 * sizeof(float), 16 * sizeof(float), m_projection.data());
 		}
 		void Camera::compute(void)
 		{

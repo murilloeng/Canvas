@@ -17,7 +17,7 @@ namespace canvas
 		{
 		public:
 			//constructor
-			Buffer(const char* = "");
+			Buffer(void);
 
 			//destructor
 			virtual ~Buffer(void);
@@ -28,9 +28,6 @@ namespace canvas
 			//data
 			GLuint id(void) const;
 
-			const char* label(void) const;
-			const char* label(const char*);
-
 			//transfer
 			void transfer(uint32_t, const void*);
 			void transfer(uint32_t, uint32_t, const void*);
@@ -38,7 +35,6 @@ namespace canvas
 		protected:
 			//data
 			GLuint m_id;
-			char m_label[64];
 		};
 	}
 }

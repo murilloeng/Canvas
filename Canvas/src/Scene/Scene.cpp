@@ -43,7 +43,6 @@ namespace canvas
 		m_background(0, 0, 0, 1), m_ubos(1),
 		m_textures(3), m_lights(this), m_camera(this)
 	{
-		setup_ubos();
 		setup_OpenGL();
 		setup_cameras();
 		setup_freetype();
@@ -114,14 +113,6 @@ namespace canvas
 	{
 		return m_vaos[index];
 	}
-	buffers::VAO* Scene::vao(const char* label) const
-	{
-		for(buffers::VAO* vao : m_vaos)
-		{
-			if(strcmp(label, vao->label()) == 0) return vao;
-		}
-		return nullptr;
-	}
 
 	//vbos
 	void Scene::add_vbo(buffers::VBO* vbo)
@@ -131,14 +122,6 @@ namespace canvas
 	buffers::VBO* Scene::vbo(uint32_t index) const
 	{
 		return m_vbos[index];
-	}
-	buffers::VBO* Scene::vbo(const char* label) const
-	{
-		for(buffers::VBO* vbo : m_vbos)
-		{
-			if(strcmp(label, vbo->label()) == 0) return vbo;
-		}
-		return nullptr;
 	}
 	const std::vector<buffers::VBO*>& Scene::vbos(void) const
 	{
@@ -154,14 +137,6 @@ namespace canvas
 	{
 		return m_ibos[index];
 	}
-	buffers::IBO* Scene::ibo(const char* label) const
-	{
-		for(buffers::IBO* ibo : m_ibos)
-		{
-			if(strcmp(label, ibo->label()) == 0) return ibo;
-		}
-		return nullptr;
-	}
 
 	//ubos
 	void Scene::add_ubo(buffers::UBO* ubo)
@@ -171,14 +146,6 @@ namespace canvas
 	buffers::UBO* Scene::ubo(uint32_t index) const
 	{
 		return m_ubos[index];
-	}
-	buffers::UBO* Scene::ubo(const char* label) const
-	{
-		for(buffers::UBO* ubo : m_ubos)
-		{
-			if(strcmp(label, ubo->label()) == 0) return ubo;
-		}
-		return nullptr;
 	}
 
 	//shaders
@@ -371,12 +338,6 @@ namespace canvas
 	}
 
 	//setup
-	void Scene::setup_ubos(void)
-	{
-		m_ubos[0] = new buffers::UBO("Camera");
-		m_ubos[0]->bind_base(GL_UNIFORM_BUFFER, 0);
-		m_ubos[0]->transfer(32 * sizeof(float), nullptr);
-	}
 	void Scene::setup_fonts(void)
 	{
 		// //data

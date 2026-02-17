@@ -88,23 +88,19 @@ namespace canvas
 		//vaos
 		void add_vao(buffers::VAO*);
 		buffers::VAO* vao(uint32_t) const;
-		buffers::VAO* vao(const char*) const;
 
 		//vbos
 		void add_vbo(buffers::VBO*);
 		buffers::VBO* vbo(uint32_t) const;
-		buffers::VBO* vbo(const char*) const;
 		const std::vector<buffers::VBO*>& vbos(void) const;
 
 		//ibos
 		void add_ibo(buffers::IBO*);
 		buffers::IBO* ibo(uint32_t) const;
-		buffers::IBO* ibo(const char*) const;
 
 		//ubos
 		void add_ubo(buffers::UBO*);
 		buffers::UBO* ubo(uint32_t) const;
-		buffers::UBO* ubo(const char*) const;
 
 		//shaders
 		void add_shader(shaders::Shader*);
@@ -149,7 +145,6 @@ namespace canvas
 
 	protected:
 		//setup
-		void setup_ubos(void);
 		void setup_fonts(void);
 		void setup_latex(void);
 		void setup_OpenGL(void);

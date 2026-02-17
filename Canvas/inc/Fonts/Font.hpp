@@ -41,10 +41,10 @@ namespace canvas
 
 			const textures::Texture& texture(void) const;
 
+		protected:
 			//load
 			void load(void);
 
-		protected:
 			//data
 			Scene* m_scene;
 			FT_Face m_face;

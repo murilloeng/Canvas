@@ -20,7 +20,7 @@ void examples::objects::cylinders(canvas::Scene* scene)
 			const float x1 = 2 * j * s - 1 + s;
 			const float x2 = 2 * i * s - 1 + s;
 			scene->add_object(new canvas::objects::Cylinder);
-			((canvas::objects::Cylinder*) scene->object(n * i + j))->scale(s / 2);
+			((canvas::objects::Cylinder*) scene->object(n * i + j))->scale(s);
 			((canvas::objects::Cylinder*) scene->object(n * i + j))->shift({x1, x2, 0});
 			((canvas::objects::Cylinder*) scene->object(n * i + j))->color_stroke({1.0f, 1.0f, 1.0f, 0.25f});
 			((canvas::objects::Cylinder*) scene->object(n * i + j))->color_fill(palette.color(i * n + j, 0, n * n - 1));

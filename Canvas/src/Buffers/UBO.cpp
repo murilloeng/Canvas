@@ -7,7 +7,7 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		UBO::UBO(const char* label) : Buffer(label)
+		UBO::UBO(void)
 		{
 			return;
 		}

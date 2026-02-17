@@ -8,7 +8,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Math/mat4.hpp"
-
+#include "Canvas/Canvas/inc/Buffers/UBO.hpp"
 #include "Canvas/Canvas/inc/Cameras/Click.hpp"
 #include "Canvas/Canvas/inc/Cameras/BoundingBox.hpp"
 
@@ -100,6 +100,8 @@ namespace canvas
 			vec3 m_up;
 			vec3 m_target;
 			vec3 m_position;
+
+			buffers::UBO m_ubo;
 			
 			bool m_fixed_bounding_box;
 			BoundingBox m_bounding_box;

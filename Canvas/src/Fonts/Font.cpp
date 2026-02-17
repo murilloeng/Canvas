@@ -29,7 +29,7 @@ namespace canvas
 		//constructors
 		Font::Font(Scene* scene, const char* name) : m_scene{scene}, m_face{nullptr}, m_name{name}
 		{
-			return;
+			load();
 		}
 
 		//destructor

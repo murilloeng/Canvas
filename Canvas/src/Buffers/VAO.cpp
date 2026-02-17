@@ -1,5 +1,4 @@
 //std
-#include <cstring>
 #include <stdexcept>
 
 //canvas
@@ -11,10 +10,9 @@ namespace canvas
 	namespace buffers
 	{
 		//constructor
-		VAO::VAO(const char* label)
+		VAO::VAO(void)
 		{
 			//create
-			strcpy(m_label, label);
 			glCreateVertexArrays(1, &m_id);
 			//check
 			if(!glIsVertexArray(m_id))
@@ -33,16 +31,6 @@ namespace canvas
 		void VAO::bind(void) const
 		{
 			glBindVertexArray(m_id);
-		}
-
-		//data
-		const char* VAO::label(void) const
-		{
-			return m_label;
-		}
-		const char* VAO::label(const char* label)
-		{
-			return strcpy(m_label, label);
 		}
 
 		//buffers
