@@ -2,12 +2,9 @@
 
 //std
 #include <string>
-#include <cstdint>
 
-namespace canvas
-{
-	class Scene;
-}
+//Canvas
+#include "Canvas/Canvas/inc/Textures/Texture.hpp"
 
 namespace canvas
 {
@@ -17,41 +14,24 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Latex(const char*, const char* = "");
+			Latex(void);
 
 			//destructor
 			~Latex(void);
 
 			//data
-			uint32_t width(void) const;
-			uint32_t height(void) const;
-
-			const char* label(void) const;
-			const char* label(const char*);
-
 			std::string source(void) const;
 			std::string source(std::string);
+
+			const Texture& texture(void) const;
 
 			//load
 			void load(void);
 
-			//coordinates
-			void coordinates(float*) const;
-
 		protected:
 			//data
-			bool m_status;
-			uint8_t* m_data;
-			char m_label[64];
-			uint32_t m_width;
-			uint32_t m_height;
-			uint32_t m_offset;
+			Texture m_texture;
 			std::string m_source;
-			static uint32_t m_total_width;
-			static uint32_t m_total_height;
-
-			//friends
-			friend class canvas::Scene;
 		};
 	}
 }

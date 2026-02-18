@@ -58,8 +58,8 @@ namespace canvas
 			//data
 			const float w = m_image.texture().width();
 			const float h = m_image.texture().height();
+			const float x2 = -h / 2 * uint32_t(m_anchor.vertical());
 			const float x1 = -w / 2 * uint32_t(m_anchor.horizontal());
-			const float x2 = -h / 2 * uint32_t(m_anchor.horizontal());
 			vertices::Image3D* vbo_ptr = (vertices::Image3D*) m_vbo.data();
 			//texture coordinates
 			vbo_ptr[0].m_texture_coordinates = {0, 0};

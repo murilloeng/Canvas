@@ -1,5 +1,4 @@
 //std
-#include <cstring>
 #include <stdexcept>
 
 //stb
@@ -17,62 +16,47 @@
 #define pdf_convert system("convert -density 2000 temp.pdf temp.png")
 #endif
 
-static const char* tex_source = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
+static const char* format = "\\documentclass{standalone}\n\n\\begin{document}\n\t%s\n\\end{document}";
 
 namespace canvas
 {
 	namespace textures
 	{
 		//constructors
-		Latex::Latex(const char* source, const char* label) : m_status(false), m_data(nullptr), m_source(source)
+		Latex::Latex(void)
 		{
-			strcpy(m_label, label);
+			return;
 		}
 
 		//destructor
 		Latex::~Latex(void)
 		{
-			if(m_data) stbi_image_free(m_data);
+			return;
 		}
 
 		//data
-		uint32_t Latex::width(void) const
-		{
-			return m_width;
-		}
-		uint32_t Latex::height(void) const
-		{
-			return m_height;
-		}
-
-		const char* Latex::label(void) const
-		{
-			return m_label;
-		}
-		const char* Latex::label(const char* label)
-		{
-			return strcpy(m_label, label);
-		}
-
 		std::string Latex::source(void) const
 		{
 			return m_source;
 		}
 		std::string Latex::source(std::string source)
 		{
-			m_status = false;
 			return m_source = source;
+		}
+
+		const Texture& Latex::texture(void) const
+		{
+			return m_texture;
 		}
 
 		//load
 		void Latex::load(void)
 		{
-			//data
-			int32_t w, h, c;
-			if(m_status) return;
 			//file
+			uint8_t* data;
+			int32_t w, h, c;
 			FILE* file = fopen("temp.tex", "w");
-			fprintf(file, tex_source, m_source.c_str());
+			fprintf(file, format, m_source.c_str());
 			fclose(file);
 			//convert
 			if(system("pdflatex -halt-on-error temp.tex"))
@@ -84,37 +68,28 @@ namespace canvas
 				throw std::runtime_error("Convertion of " + m_source + " from pdf to png failed!");
 			}
 			//load
-			if(m_data) stbi_image_free(m_data);
 			stbi_set_flip_vertically_on_load(true);
-			m_data = stbi_load("temp.png", &w, &h, &c, 1);
-			for(uint32_t i = 0; i < uint32_t(w * h); i++) m_data[i] = 255 - m_data[i];
+			data = stbi_load("temp.png", &w, &h, &c, 1);
+			for(uint32_t i = 0; i < uint32_t(w * h); i++) data[i] = 255 - data[i];
 			//check
-			if(!m_data)
+			if(!data)
 			{
 				throw std::runtime_error("STBI image loading of temp.png failed!");
 			}
-			//setup
-			m_width = w;
-			m_height = h;
-			m_status = true;
+			//texture
+			m_texture.width(w);
+			m_texture.height(h);
+			m_texture.format(GL_R8);
+			//transfer
+			m_texture.allocate();
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			m_texture.transfer(0, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 			//cleanup
 			if(pdf_delete != 0)
 			{
 				throw std::runtime_error("Latex pdf file deletion failed!");
 			}
 		}
-
-		//coordinates
-		void Latex::coordinates(float* coordinates) const
-		{
-			coordinates[2] = 0;
-			coordinates[0] = float(m_offset) / m_total_width;
-			coordinates[3] = float(m_height) / m_total_height;
-			coordinates[1] = float(m_offset + m_width) / m_total_width;
-		}
-
-		//static
-		uint32_t Latex::m_total_width = 0;
-		uint32_t Latex::m_total_height = 0;
 	}
 }

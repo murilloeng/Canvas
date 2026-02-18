@@ -56,8 +56,6 @@ namespace canvas
 		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
 		for(const buffers::Buffer* ibo : m_ibos) delete ibo;
 		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
-		for(const textures::Latex* latex : m_latex) delete latex;
-		for(const textures::Image* image : m_images) delete image;
 		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
 		for(const textures::Texture* texture : m_textures) delete texture;
@@ -188,39 +186,6 @@ namespace canvas
 	const std::vector<fonts::Font*>& Scene::fonts(void) const
 	{
 		return m_fonts;
-	}
-
-	//latex
-	uint32_t Scene::add_latex(const char* source)
-	{
-		m_latex.push_back(new textures::Latex(source));
-		return (uint32_t) m_latex.size() - 1;
-	}
-	textures::Latex* Scene::latex(uint32_t index) const
-	{
-		return m_latex[index];
-	}
-	textures::Latex* Scene::latex(const char* label) const
-	{
-		for(textures::Latex* latex : m_latex)
-		{
-			if(strcmp(label, latex->label()) == 0) return latex;
-		}
-		return nullptr;
-	}
-	const std::vector<textures::Latex*>& Scene::latexes(void) const
-	{
-		return m_latex;
-	}
-
-	//images
-	textures::Image* Scene::image(uint32_t index) const
-	{
-		return m_images[index];
-	}
-	const std::vector<textures::Image*>& Scene::images(void) const
-	{
-		return m_images;
 	}
 
 	//objects

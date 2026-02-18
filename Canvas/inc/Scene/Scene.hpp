@@ -116,16 +116,6 @@ namespace canvas
 		fonts::Font* font(uint32_t) const;
 		const std::vector<fonts::Font*>& fonts(void) const;
 
-		//latex
-		uint32_t add_latex(const char*);
-		textures::Latex* latex(uint32_t) const;
-		textures::Latex* latex(const char*) const;
-		const std::vector<textures::Latex*>& latexes(void) const;
-
-		//images
-		textures::Image* image(uint32_t) const;
-		const std::vector<textures::Image*>& images(void) const;
-
 		//objects
 		void clear_objects(bool);
 		void add_object(objects::Object*);
@@ -166,8 +156,6 @@ namespace canvas
 		lights::Lights m_lights;
 		cameras::Camera m_camera;
 		std::vector<fonts::Font*> m_fonts;
-		std::vector<textures::Latex*> m_latex;
-		std::vector<textures::Image*> m_images;
 		std::vector<objects::Object*> m_objects;
 		std::vector<animations::Animation*> m_animations;
 
