@@ -24,7 +24,7 @@ namespace examples
 		void graph2D(canvas::Scene*);		//todo
 		void polygons(canvas::Scene*);		//ok
 		void surfaces(canvas::Scene*);		//ok
-		void palettes(canvas::Scene*);		//todo
+		void palettes(canvas::Scene*);		//ok
 		void polylines(canvas::Scene*);		//ok
 		void triangles(canvas::Scene*);		//ok
 		void cylinders(canvas::Scene*);		//ok
