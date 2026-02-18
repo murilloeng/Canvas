@@ -213,7 +213,7 @@ namespace canvas
 			m_vao.bind();
 			m_shader.bind();
 			const uint32_t ni = m_ibo.vertex_count();
-			m_scene->font(m_font)->texture().bind_unit(1);
+			m_scene->font(m_font)->texture().bind_unit(0);
 			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
 		}
 
