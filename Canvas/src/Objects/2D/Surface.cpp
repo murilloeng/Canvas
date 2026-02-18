@@ -112,7 +112,7 @@ namespace canvas
 			}
 		}
 
-		//buffers
+		//draw
 		void Surface::setup(void)
 		{
 			//data

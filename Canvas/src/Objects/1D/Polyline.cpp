@@ -31,7 +31,7 @@ namespace canvas
 			return m_vertices;
 		}
 
-		//buffers
+		//draw
 		void Polyline::setup(void)
 		{
 			//data

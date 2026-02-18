@@ -104,7 +104,7 @@ namespace canvas
 			m_model_matrix = left ? A * m_model_matrix : m_model_matrix * A;
 		}
 
-		//buffers
+		//draw
 		void Object::setup(void)
 		{
 			return;

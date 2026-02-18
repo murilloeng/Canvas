@@ -109,7 +109,7 @@ namespace canvas
 			vbo_ptr[1 * (m_mesh + 1)].m_position = m_model_matrix * vec3({0.0f, 0.0f, +0.5});
 		}
 
-		//buffers
+		//draw
 		void Cylinder::setup(void)
 		{
 			//allocate

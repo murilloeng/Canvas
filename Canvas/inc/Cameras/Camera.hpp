@@ -101,7 +101,8 @@ namespace canvas
 			vec3 m_target;
 			vec3 m_position;
 
-			buffers::UBO m_ubo;
+			buffers::UBO m_ubo_2D;
+			buffers::UBO m_ubo_3D;
 			
 			bool m_fixed_bounding_box;
 			BoundingBox m_bounding_box;

@@ -236,7 +236,7 @@ namespace canvas
 			}
 		}
 
-		//buffers
+		//draw
 		void Sphere::setup(void)
 		{
 			//data

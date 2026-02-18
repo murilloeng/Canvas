@@ -217,10 +217,10 @@ namespace canvas
 				vbo_ptr[i + 0 * nc].m_color = m_palette.color(float(i) / (nc - 1), 0, 1);
 				vbo_ptr[i + 1 * nc].m_color = m_palette.color(float(i) / (nc - 1), 0, 1);
 				//positions
-				vbo_ptr[i + 1 * nc].m_position[0] = 1 - ms / ws * m_offset;
-				vbo_ptr[i + 0 * nc].m_position[0] = 1 - ms / ws * (m_offset + m_width);
-				vbo_ptr[i + 1 * nc].m_position[1] = ms / hs * m_height * (float(i) / (nc - 1) - 0.5f);
-				vbo_ptr[i + 0 * nc].m_position[1] = ms / hs * m_height * (float(i) / (nc - 1) - 0.5f);
+				vbo_ptr[i + 1 * nc].m_position[0] = ws / ms - m_offset;
+				vbo_ptr[i + 0 * nc].m_position[0] = ws / ms - m_offset - m_width;
+				vbo_ptr[i + 1 * nc].m_position[1] = m_height * (float(i) / (nc - 1) - 0.5f);
+				vbo_ptr[i + 0 * nc].m_position[1] = m_height * (float(i) / (nc - 1) - 0.5f);
 			}
 			for(uint32_t i = 0; i < nm; i++)
 			{
@@ -228,10 +228,10 @@ namespace canvas
 				vbo_ptr[2 * nc + i + 0 * nm].m_color = color;
 				vbo_ptr[2 * nc + i + 1 * nm].m_color = color;
 				//positions
-				vbo_ptr[2 * nc + i + 1 * nm].m_position[0] = 1 - ms / ws * m_offset;
-				vbo_ptr[2 * nc + i + 0 * nm].m_position[0] = 1 - ms / ws * (m_offset + m_width);
-				vbo_ptr[2 * nc + i + 1 * nm].m_position[1] = ms / hs * m_height * (float(i) / (nm - 1) - 0.5f);
-				vbo_ptr[2 * nc + i + 0 * nm].m_position[1] = ms / hs * m_height * (float(i) / (nm - 1) - 0.5f);
+				vbo_ptr[2 * nc + i + 1 * nm].m_position[0] = ws / ms - m_offset;
+				vbo_ptr[2 * nc + i + 0 * nm].m_position[0] = ws / ms - m_offset - m_width;
+				vbo_ptr[2 * nc + i + 1 * nm].m_position[1] = m_height * (float(i) / (nm - 1) - 0.5f);
+				vbo_ptr[2 * nc + i + 0 * nm].m_position[1] = m_height * (float(i) / (nm - 1) - 0.5f);
 			}
 		}
 		void Palette::vbo_data_text(vertices::Text2D* vbo_ptr) const
@@ -254,8 +254,8 @@ namespace canvas
 				//vertices
 				const uint32_t wt = text_width(string);
 				const uint32_t ht = text_height(string);
-				xp[0] = 1 - ms / ws * (m_width + m_offset + ps * wt);
-				xp[1] = ms / hs * (m_height * (float(i) / (nm - 1) - 0.5f) - ps * ht / 2);
+				xp[0] = ws / ms - m_width - m_offset - ps * wt;
+				xp[1] = m_height * (float(i) / (nm - 1) - 0.5f) - ps * ht / 2;
 				for(uint32_t j = 0; j < 9; j++)
 				{
 					//character
@@ -266,10 +266,10 @@ namespace canvas
 					const int64_t a = font->glyph(string[j]).bearing(0);
 					const int64_t b = font->glyph(string[j]).bearing(1);
 					//position
-					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xp[0] + ms / ws * ps * a;
-					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xp[1] + ms / hs * ps * b;
-					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xp[0] + ms / ws * ps * (a + w);
-					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xp[1] + ms / hs * ps * (b - h);
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xp[0] + ps * a;
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xp[1] + ps * b;
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xp[0] + ps * (a + w);
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xp[1] + ps * (b - h);
 					//vertices
 					for(uint32_t k = 0; k < 4; k++)
 					{
@@ -278,12 +278,12 @@ namespace canvas
 						(vbo_ptr + k)->m_texture_coordinates = tc + 2 * k;
 					}
 					vbo_ptr += 4;
-					xp[0] += ms / ws * ps * r;
+					xp[0] += ps * r;
 				}
 			}
 		}
 
-		//buffers
+		//draw
 		void Palette::setup(void)
 		{
 			//data
