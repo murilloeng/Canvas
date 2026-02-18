@@ -18,7 +18,7 @@ int32_t main(void)
 		//data
 		Engine engine;
 		engine.show_fps(true);
-		examples::objects::palettes(engine.scene());
+		examples::objects::text2D(engine.scene());
 		//update
 		engine.scene()->update(true);
 		engine.scene()->camera().update();

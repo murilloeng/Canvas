@@ -5,6 +5,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Text2D.hpp"
 
@@ -13,9 +14,23 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Text2D::Text2D(void) : m_font{0}
+		Text2D::Text2D(void) : m_font{0}, 
+			m_shader{{new shaders::Stage(GL_VERTEX_SHADER, "text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "text2D.frag")}}
 		{
-			return;
+			//vao setup
+			m_vao.attribute_enable(0);
+			m_vao.attribute_enable(1);
+			m_vao.attribute_enable(2);
+			m_vao.attribute_binding(0, 0);
+			m_vao.attribute_binding(1, 0);
+			m_vao.attribute_binding(2, 0);
+			m_vao.element_buffer(m_ibo.id());
+			m_vao.vertex_buffer(0, m_vbo.id(), 0, 8 * sizeof(float));
+			m_vao.attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
+			m_vao.attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+			m_vao.attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
+			//vbo setup
+			m_vbo.vertex_size(sizeof(vertices::Text2D));
 		}
 
 		//destructor
@@ -32,6 +47,15 @@ namespace canvas
 		uint32_t Text2D::font(uint32_t font)
 		{
 			return m_font = font;
+		}
+
+		Color Text2D::color(void) const
+		{
+			return m_color;
+		}
+		Color Text2D::color(const Color& color)
+		{
+			return m_color = color;
 		}
 
 		Anchor Text2D::anchor(void) const
@@ -97,122 +121,89 @@ namespace canvas
 			return v;
 		}
 
-		//setup
-		// void Text2D::setup(void)
-		// {
-		// 	// //check
-		// 	// uint32_t a = 0, b = 0;
-		// 	// // if(m_font >= m_scene->fonts().size())
-		// 	// // {
-		// 	// // 	throw std::runtime_error("Error: Text object font has out of range index!");
-		// 	// // }
-		// 	// //lines
-		// 	// for(char c : m_string)
-		// 	// {
-		// 	// 	if(c == '\n' || c == '\v')
-		// 	// 	{
-		// 	// 		m_lines.push_back(a), m_lines.push_back(b), a = b = 0;
-		// 	// 	}
-		// 	// 	else
-		// 	// 	{
-		// 	// 		const fonts::Font *font = m_scene->font(m_font);
-		// 	// 		a = std::max(a, font->glyph(c).bearing(1));
-		// 	// 		b = std::max(b, font->glyph(c).height() - font->glyph(c).bearing(1));
-		// 	// 	}
-		// 	// }
-		// 	// m_lines.push_back(a), m_lines.push_back(b);
-		// 	// //indexes
-		// 	// Object::setup();
-		// }
-
 		//data
-		void Text2D::vbo_fill_data(void) const
+		void Text2D::ibo_data(uint32_t nc, uint32_t* ibo_ptr) const
 		{
-			// //data
-			// uint32_t line = 0;
-			// const uint32_t wt = width();
-			// const uint32_t ht = height();
-			// float xa[2], xs[2], xc[8], tc[8];
-			// const vec3 up = m_scene->camera().up();
-			// const vec3 ur = m_scene->camera().right();
-			// const fonts::Font *font = m_scene->font(m_font);
-			// const float ps = m_size / font->height();
-			// const vec2 t1(+cosf(m_angle), +sinf(m_angle));
-			// const vec2 t2(-sinf(m_angle), +cosf(m_angle));
-			// vertices::Text2D* vbo_ptr = vbo_data_text_2D();
-			// //anchor
-			// xs[0] = xs[1] = 0;
-			// xa[0] = -ps * wt * m_anchor.horizontal() / 2;
-			// xa[1] = -ps * m_lines[0] + ps * ht * (2 - m_anchor.vertical()) / 2;
-			// //vbo data
-			// for(uint32_t i = 0; i < m_string.length(); i++)
-			// {
-			// 	if(m_string[i] >= 32)
-			// 	{
-			// 		//character
-			// 		font->glyph(m_string[i]).coordinates(tc);
-			// 		const int32_t w = font->glyph(m_string[i]).width();
-			// 		const int32_t h = font->glyph(m_string[i]).height();
-			// 		const int32_t r = font->glyph(m_string[i]).advance();
-			// 		const int32_t a = font->glyph(m_string[i]).bearing(0);
-			// 		const int32_t b = font->glyph(m_string[i]).bearing(1);
-			// 		//position
-			// 		xc[2 * 0 + 0] = xc[2 * 3 + 0] = xa[0] + xs[0] + ps * a;
-			// 		xc[2 * 2 + 1] = xc[2 * 3 + 1] = xa[1] + xs[1] + ps * b;
-			// 		xc[2 * 1 + 0] = xc[2 * 2 + 0] = xa[0] + xs[0] + ps * (a + w);
-			// 		xc[2 * 0 + 1] = xc[2 * 1 + 1] = xa[1] + xs[1] + ps * (b - h);
-			// 		//vertices
-			// 		for(uint32_t j = 0; j < 4; j++)
-			// 		{
-			// 			vbo_ptr[j].m_color = m_color_fill;
-			// 			vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
-			// 			vbo_ptr[j].m_position = m_position + xc[2 * j + 0] * t1 + xc[2 * j + 1] * t2;
-			// 		}
-			// 		vbo_ptr += 4;
-			// 		xs[0] += ps * r;
-			// 	}
-			// 	if(m_string[i] == '\t')
-			// 	{
-			// 		xs[0] += 4 * ps * font->glyph(' ').advance();
-			// 	}
-			// 	if(m_string[i] == '\n')
-			// 	{
-			// 		xs[0] = 0;
-			// 		xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
-			// 	}
-			// 	if(m_string[i] == '\v')
-			// 	{
-			// 		xs[1] -= ps * (m_lines[2 * line + 1] + m_lines[2 * line + 2] + m_line_spacing * font->height());
-			// 	}
-			// }
+			for(uint32_t i = 0; i < nc; i++)
+			{
+				ibo_ptr[6 * i + 0] = 4 * i + 0;
+				ibo_ptr[6 * i + 1] = 4 * i + 1;
+				ibo_ptr[6 * i + 2] = 4 * i + 2;
+				ibo_ptr[6 * i + 3] = 4 * i + 0;
+				ibo_ptr[6 * i + 4] = 4 * i + 2;
+				ibo_ptr[6 * i + 5] = 4 * i + 3;
+			}
 		}
-		void Text2D::ibo_fill_data(void) const
+		void Text2D::vbo_data(uint32_t nc, vertices::Text2D* vbo_ptr) const
 		{
-			// //data
-			// const uint32_t s = length();
-			// uint32_t* ibo_ptr = ibo_data(10);
-			// //ibo data
-			// for(uint32_t i = 0; i < s; i++)
-			// {
-			// 	ibo_ptr[6 * i + 0] = m_vbo_index[5] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 1] = m_vbo_index[5] + 4 * i + 1;
-			// 	ibo_ptr[6 * i + 2] = m_vbo_index[5] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 3] = m_vbo_index[5] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 4] = m_vbo_index[5] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 5] = m_vbo_index[5] + 4 * i + 3;
-			// }
+			//data
+			float xc[8], tc[8];
+			const uint32_t wt = width();
+			const uint32_t ht = height();
+			const fonts::Font *font = m_scene->font(m_font);
+			const uint32_t a2 = uint32_t(m_anchor.vertical());
+			const uint32_t a1 = uint32_t(m_anchor.horizontal());
+			//pen position
+			const float ps = 1.0f / font->height();
+			float xp[] = {0, -ps * font->ascender()};
+			const float xa[] = {-ps * wt * a1 / 2, ps * ht * (2 - a2) / 2};
+			//vbo data
+			for(char c : m_text)
+			{
+				if(c >= 32)
+				{
+					//character
+					font->glyph(c).coordinates(font, tc);
+					const int32_t w = font->glyph(c).width();
+					const int32_t h = font->glyph(c).height();
+					const int32_t r = font->glyph(c).advance();
+					const int32_t a = font->glyph(c).bearing(0);
+					const int32_t b = font->glyph(c).bearing(1);
+					//position
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xp[0] + xa[0] + ps * a;
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xp[1] + xa[1] + ps * b;
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xp[0] + xa[0] + ps * (a + w);
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xp[1] + xa[1] + ps * (b - h);
+					//vertices
+					for(uint32_t j = 0; j < 4; j++)
+					{
+						vbo_ptr[j].m_color = m_color;
+						vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+						vbo_ptr[j].m_position = m_model_matrix * vec2(xc + 2 * j);
+					}
+					vbo_ptr += 4;
+					xp[0] += ps * r;
+				}
+				if(c == '\v') xp[1] -= 1;
+				if(c == '\n') xp[1] -= 1, xp[0] = 0;
+				if(c == '\t') xp[0] += ps * font->glyph('\t').advance();
+			}
 		}
 
 		//draw
 		void Text2D::setup(void)
 		{
-			// m_vbo_size[ 5] = 4 * m_fill * length();
-			// m_ibo_size[10] = 6 * m_fill * length();
+			//data
+			const uint32_t nc = length();
+			//allocate
+			m_vbo.allocate(4 * nc);
+			m_ibo.allocate(6 * nc);
+			uint32_t* ibo_ptr = m_ibo.data();
+			vertices::Text2D* vbo_ptr = (vertices::Text2D*) m_vbo.data();
+			//buffers data
+			ibo_data(nc, ibo_ptr);
+			vbo_data(nc, vbo_ptr);
+			//transfer
+			m_vbo.transfer();
+			m_ibo.transfer();
 		}
 		void Text2D::draw(void) const
 		{
-			// if(m_fill) vbo_fill_data();
-			// if(m_fill) ibo_fill_data();
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t ni = m_ibo.vertex_count();
+			m_scene->font(m_font)->texture().bind_unit(0);
+			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
 		}
 	}
 }

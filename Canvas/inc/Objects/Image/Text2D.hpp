@@ -6,6 +6,11 @@
 #include <cstdint>
 
 //canvas
+#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
+#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
+#include "Canvas/Canvas/inc/Colors/Color.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
 
@@ -26,6 +31,9 @@ namespace canvas
 			uint32_t font(uint32_t);
 			uint32_t font(void) const;
 
+			Color color(void) const;
+			Color color(const Color&);
+
 			Anchor anchor(Anchor);
 			Anchor anchor(void) const;
 
@@ -38,18 +46,23 @@ namespace canvas
 			uint32_t height(void) const;
 			uint32_t length(void) const;
 
-			//data
-			void vbo_fill_data(void) const;
-			void ibo_fill_data(void) const;
+			//buffers
+			void ibo_data(uint32_t, uint32_t*) const;
+			void vbo_data(uint32_t, vertices::Text2D*) const;
 
 			//draw
 			void setup(void) override;
 			void draw(void) const override;
 
 			//data
-			uint32_t m_font;
+			Color m_color;
 			Anchor m_anchor;
+			uint32_t m_font;
 			std::string m_text;
+			buffers::VAO m_vao;
+			buffers::VBO m_vbo;
+			buffers::IBO m_ibo;
+			shaders::Shader m_shader;
 		};
 	}
 }

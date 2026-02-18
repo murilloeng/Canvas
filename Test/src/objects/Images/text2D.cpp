@@ -22,10 +22,10 @@ void examples::objects::text2D(canvas::Scene* scene)
 		text[i] = new canvas::objects::Text2D;
 		//setup
 		text[i]->font(0);
-		// text[i]->size(0.1f);
+		text[i]->scale(0.1f);
 		text[i]->text(strings[i]);
 		text[i]->anchor(anchors[i]);
-		// text[i]->position(positions[i]);
+		text[i]->shift(canvas::vec3(positions[i][0], positions[i][1], 0));
 		//scene
 		scene->add_object(text[i]);
 	}
