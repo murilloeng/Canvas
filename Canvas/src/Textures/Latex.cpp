@@ -68,7 +68,7 @@ namespace canvas
 		void Latex::load(void)
 		{
 			//data
-			int w, h, c;
+			int32_t w, h, c;
 			if(m_status) return;
 			//file
 			FILE* file = fopen("temp.tex", "w");

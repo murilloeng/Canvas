@@ -12,7 +12,7 @@
 
 //callbacks
 static uint64_t xr[2];
-static int callback_move(const FT_Vector* to, void* data)
+static int32_t callback_move(const FT_Vector* to, void* data)
 {
 	//contour
 	((canvas::fonts::Outline*) data)->m_contours.push_back(new canvas::fonts::Contour());
@@ -22,7 +22,7 @@ static int callback_move(const FT_Vector* to, void* data)
 	//return
 	return 0;
 }
-static int callback_line(const FT_Vector* to, void* data)
+static int32_t callback_line(const FT_Vector* to, void* data)
 {
 	//data
 	canvas::fonts::Line* line = new canvas::fonts::Line;
@@ -39,7 +39,7 @@ static int callback_line(const FT_Vector* to, void* data)
 	//return
 	return 0;
 }
-static int callback_conic(const FT_Vector* control, const FT_Vector* to, void* data)
+static int32_t callback_conic(const FT_Vector* control, const FT_Vector* to, void* data)
 {
 	//data
 	canvas::fonts::Conic* conic = new canvas::fonts::Conic;
@@ -58,7 +58,7 @@ static int callback_conic(const FT_Vector* control, const FT_Vector* to, void* d
 	//return
 	return 0;
 }
-static int callback_cubic(const FT_Vector* control_1, const FT_Vector* control_2, const FT_Vector* to, void* data)
+static int32_t callback_cubic(const FT_Vector* control_1, const FT_Vector* control_2, const FT_Vector* to, void* data)
 {
 	//data
 	canvas::fonts::Cubic* cubic = new canvas::fonts::Cubic;

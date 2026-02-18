@@ -191,7 +191,7 @@ namespace canvas
 		bool Tessellator::is_ear(uint32_t index, const uint32_t* list, uint32_t list_size, bool sign) const
 		{
 			//data
-			const int s = sign ? +1 : -1;
+			const int32_t s = sign ? +1 : -1;
 			const uint16_t i0 = list[(index + 0) % list_size];
 			const uint16_t i1 = list[(index + 1) % list_size];
 			const uint16_t i2 = list[(index + 2) % list_size];

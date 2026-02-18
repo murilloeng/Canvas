@@ -114,7 +114,7 @@ void Engine::setup_glfw(void)
 }
 void Engine::setup_scene(void)
 {
-	int width, height;
+	int32_t width, height;
 	m_scene = new canvas::Scene;
 	canvas::shaders::Shader::path("Canvas/shd/");
 	glfwGetWindowSize(m_window, &width, &height);
@@ -137,7 +137,7 @@ void Engine::callback_position(GLFWwindow* window, double x1, double x2)
 	engine->m_scene->camera().callback_motion(int32_t(x1), int32_t(x2));
 	glfwSwapBuffers(window);
 }
-void Engine::callback_size(GLFWwindow* window, int width, int height)
+void Engine::callback_size(GLFWwindow* window, int32_t width, int32_t height)
 {
 	//data
 	Engine* engine = (Engine*) glfwGetWindowUserPointer(window);
@@ -150,7 +150,7 @@ void Engine::callback_size(GLFWwindow* window, int width, int height)
 	//update
 	glfwSwapBuffers(window);
 }
-void Engine::callback_button(GLFWwindow* window, int button, int action, int modifiers)
+void Engine::callback_button(GLFWwindow* window, int32_t button, int32_t action, int32_t modifiers)
 {
 	//data
 	double x1, x2;

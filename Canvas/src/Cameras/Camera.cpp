@@ -224,7 +224,7 @@ namespace canvas
 			update();
 			glViewport(0, 0, width, height);
 		}
-		void Camera::callback_mouse(canvas::button button, bool pressed, int x1, int x2, uint32_t modifiers)
+		void Camera::callback_mouse(canvas::button button, bool pressed, int32_t x1, int32_t x2, uint32_t modifiers)
 		{
 			if(pressed)
 			{

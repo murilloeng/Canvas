@@ -31,6 +31,9 @@ namespace canvas
 			float max(float);
 			float max(void) const;
 
+			float size(float);
+			float size(void) const;
+
 			float width(float);
 			float width(void) const;
 
@@ -51,6 +54,7 @@ namespace canvas
 		protected:
 			//text
 			uint32_t text_width(const char*) const;
+			uint32_t text_height(const char*) const;
 
 			//data
 			void ibo_data_text(uint32_t*) const;
@@ -65,6 +69,7 @@ namespace canvas
 			//data
 			float m_min;
 			float m_max;
+			float m_size;
 			float m_width;
 			float m_height;
 			float m_offset;

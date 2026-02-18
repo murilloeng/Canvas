@@ -11,14 +11,14 @@
 #include "Canvas/Canvas/inc/Objects/0D/Point.hpp"
 #include "Canvas/Canvas/inc/Objects/2D/Triangle.hpp"
 
-int main(void)
+int32_t main(void)
 {
 	try
 	{
 		//data
 		Engine engine;
 		engine.show_fps(true);
-		examples::objects::text3D(engine.scene());
+		examples::objects::palettes(engine.scene());
 		//update
 		engine.scene()->update(true);
 		engine.scene()->camera().update();

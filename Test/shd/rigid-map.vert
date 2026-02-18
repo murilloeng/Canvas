@@ -3,8 +3,8 @@
 uniform uint width;
 uniform uint height;
 
-layout (location = 1) in vec4 color;
-layout (location = 0) in vec2 position;
+layout(location = 1) in vec4 color;
+layout(location = 0) in vec2 position;
 
 void main(void)
 {

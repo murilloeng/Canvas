@@ -16,7 +16,7 @@ namespace canvas
 	{
 		//constructors
 		Palette::Palette(void) : 
-			m_min{0.0f}, m_max{1.0f}, m_width{0.08f}, m_height{1.90f}, m_offset{0.02f}, m_font{0}, m_marks{11},
+			m_min{0.0f}, m_max{1.0f}, m_size{0.07f}, m_width{0.08f}, m_height{1.90f}, m_offset{0.02f}, m_font{0}, m_marks{11},
 			m_shaders{
 				{{new shaders::Stage(GL_VERTEX_SHADER, "text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "text2D.frag")}},
 				{{new shaders::Stage(GL_VERTEX_SHADER, "model2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "model2D.frag")}}
@@ -71,6 +71,15 @@ namespace canvas
 		float Palette::max(void) const
 		{
 			return m_max;
+		}
+
+		float Palette::size(float size)
+		{
+			return m_size = size;
+		}
+		float Palette::size(void) const
+		{
+			return m_size;
 		}
 
 		float Palette::width(float width)
@@ -136,33 +145,33 @@ namespace canvas
 			}
 			return w;
 		}
-		// uint32_t Palette::text_height(const char* string) const
-		// {
-		// 	//data
-		// 	uint32_t a = 0, b = 0;
-		// 	const fonts::Font* font = m_scene->font(m_font);
-		// 	const uint32_t nc = (uint32_t) strlen(string);
-		// 	//height
-		// 	for(uint32_t i = 0; i < nc; i++)
-		// 	{
-		// 		a = std::max(a, font->glyph(string[i]).bearing(1));
-		// 		b = std::max(b, font->glyph(string[i]).height() - font->glyph(string[i]).bearing(1));
-		// 	}
-		// 	return a + b;
-		// }
+		uint32_t Palette::text_height(const char* string) const
+		{
+			//data
+			int64_t a = 0, b = 0;
+			const fonts::Font* font = m_scene->font(m_font);
+			const uint32_t nc = (uint32_t) strlen(string);
+			//height
+			for(uint32_t i = 0; i < nc; i++)
+			{
+				a = std::max(a, font->glyph(string[i]).bearing(1));
+				b = std::max(b, font->glyph(string[i]).height() - font->glyph(string[i]).bearing(1));
+			}
+			return a + b;
+		}
 
 		//data
 		void Palette::ibo_data_text(uint32_t* ibo_ptr) const
 		{
-			// for(uint32_t i = 0; i < 9 * m_marks; i++)
-			// {
-			// 	ibo_ptr[6 * i + 0] = m_vbo_index[5] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 1] = m_vbo_index[5] + 4 * i + 1;
-			// 	ibo_ptr[6 * i + 2] = m_vbo_index[5] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 3] = m_vbo_index[5] + 4 * i + 0;
-			// 	ibo_ptr[6 * i + 4] = m_vbo_index[5] + 4 * i + 2;
-			// 	ibo_ptr[6 * i + 5] = m_vbo_index[5] + 4 * i + 3;
-			// }
+			for(uint32_t i = 0; i < 9 * m_marks; i++)
+			{
+				ibo_ptr[6 * i + 0] = 4 * i + 0;
+				ibo_ptr[6 * i + 1] = 4 * i + 1;
+				ibo_ptr[6 * i + 2] = 4 * i + 2;
+				ibo_ptr[6 * i + 3] = 4 * i + 0;
+				ibo_ptr[6 * i + 4] = 4 * i + 2;
+				ibo_ptr[6 * i + 5] = 4 * i + 3;
+			}
 		}
 		void Palette::ibo_data_model(uint32_t* ibo_ptr) const
 		{
@@ -197,77 +206,81 @@ namespace canvas
 			//data
 			const uint32_t nm = m_marks;
 			const uint32_t nc = m_palette.size();
+			const float ws = (float) m_scene->camera().width();
+			const float hs = (float) m_scene->camera().height();
+			const Color color = m_scene->background().inverse();
 			//vbo data
+			const float ms = fminf(ws, hs);
 			for(uint32_t i = 0; i < nc; i++)
 			{
 				//colors
 				vbo_ptr[i + 0 * nc].m_color = m_palette.color(float(i) / (nc - 1), 0, 1);
 				vbo_ptr[i + 1 * nc].m_color = m_palette.color(float(i) / (nc - 1), 0, 1);
 				//positions
-				vbo_ptr[i + 1 * nc].m_position[0] = 1 - m_offset;
-				vbo_ptr[i + 0 * nc].m_position[0] = 1 - m_offset - m_width;
-				vbo_ptr[i + 1 * nc].m_position[1] = m_height * i / (nc - 1) - m_height / 2;
-				vbo_ptr[i + 0 * nc].m_position[1] = m_height * i / (nc - 1) - m_height / 2;
+				vbo_ptr[i + 1 * nc].m_position[0] = 1 - ms / ws * m_offset;
+				vbo_ptr[i + 0 * nc].m_position[0] = 1 - ms / ws * (m_offset + m_width);
+				vbo_ptr[i + 1 * nc].m_position[1] = ms / hs * m_height * (float(i) / (nc - 1) - 0.5f);
+				vbo_ptr[i + 0 * nc].m_position[1] = ms / hs * m_height * (float(i) / (nc - 1) - 0.5f);
 			}
 			for(uint32_t i = 0; i < nm; i++)
 			{
 				//colors
-				vbo_ptr[2 * nc + i + 0 * nm].m_color = "white";
-				vbo_ptr[2 * nc + i + 1 * nm].m_color = "white";
+				vbo_ptr[2 * nc + i + 0 * nm].m_color = color;
+				vbo_ptr[2 * nc + i + 1 * nm].m_color = color;
 				//positions
-				vbo_ptr[2 * nc + i + 1 * nm].m_position[0] = 1 - m_offset;
-				vbo_ptr[2 * nc + i + 0 * nm].m_position[0] = 1 - m_offset - m_width;
-				vbo_ptr[2 * nc + i + 1 * nm].m_position[1] = m_height * i / (nm - 1) - m_height / 2;
-				vbo_ptr[2 * nc + i + 0 * nm].m_position[1] = m_height * i / (nm - 1) - m_height / 2;
+				vbo_ptr[2 * nc + i + 1 * nm].m_position[0] = 1 - ms / ws * m_offset;
+				vbo_ptr[2 * nc + i + 0 * nm].m_position[0] = 1 - ms / ws * (m_offset + m_width);
+				vbo_ptr[2 * nc + i + 1 * nm].m_position[1] = ms / hs * m_height * (float(i) / (nm - 1) - 0.5f);
+				vbo_ptr[2 * nc + i + 0 * nm].m_position[1] = ms / hs * m_height * (float(i) / (nm - 1) - 0.5f);
 			}
 		}
 		void Palette::vbo_data_text(vertices::Text2D* vbo_ptr) const
 		{
-			// //data
-			// char string[10];
-			// float xs[2], xc[8], tc[8];
-			// const fonts::Font* font = m_scene->font(m_font);
-			// const float ps = m_size / font->pixels_size();
-			// vertices::Text2D* vbo_ptr = vbo_data_text_2D();
-			// const float ws = (float) m_scene->camera().width();
-			// const float hs = (float) m_scene->camera().height();
-			// const Color color = m_scene->background().inverse();
-			// //vbo data
-			// const float ms = fminf(ws, hs);
-			// for(uint32_t i = 0; i < m_marks; i++)
-			// {
-			// 	//string
-			// 	sprintf(string, "%+.2e", (m_max - m_min) * i / (m_marks - 1) + m_min);
-			// 	const uint32_t wt = text_width(string);
-			// 	const uint32_t ht = text_height(string);
-			// 	//vertices
-			// 	xs[0] = xs[1] = 0;
-			// 	for(uint32_t j = 0; j < 9; j++)
-			// 	{
-			// 		//character
-			// 		font->glyph(string[j]).coordinates(tc);
-			// 		const int w = font->glyph(string[j]).width();
-			// 		const int h = font->glyph(string[j]).height();
-			// 		const int r = font->glyph(string[j]).advance();
-			// 		const int a = font->glyph(string[j]).bearing(0);
-			// 		const int b = font->glyph(string[j]).bearing(1);
-			// 		//position
-			// 		xc[2 * 0 + 0] = xc[2 * 3 + 0] = xs[0] - ms / ws * ps * wt + ms / ws * ps * a;
-			// 		xc[2 * 2 + 1] = xc[2 * 3 + 1] = xs[1] - ms / hs * ps * ht / 2 + ms / hs * ps * b;
-			// 		xc[2 * 1 + 0] = xc[2 * 2 + 0] = xs[0] - ms / ws * ps * wt + ms / ws * ps * (a + w);
-			// 		xc[2 * 0 + 1] = xc[2 * 1 + 1] = xs[1] - ms / hs * ps * ht / 2 + ms / hs * ps * (b - h);
-			// 		//vertices
-			// 		for(uint32_t k = 0; k < 4; k++)
-			// 		{
-			// 			(vbo_ptr + k)->m_color = color;
-			// 			(vbo_ptr + k)->m_texture_coordinates = tc + 2 * k;
-			// 			(vbo_ptr + k)->m_position[0] = xc[2 * k + 0] + 0.90f;
-			// 			(vbo_ptr + k)->m_position[1] = xc[2 * k + 1] + 1.90f * i / (m_marks - 1) - 0.95f;
-			// 		}
-			// 		vbo_ptr += 4;
-			// 		xs[0] += ms / ws * ps * r;
-			// 	}
-			// }
+			//data
+			char string[10];
+			float xp[2], xc[8], tc[8];
+			const uint32_t nm = m_marks;
+			const fonts::Font* font = m_scene->font(m_font);
+			const float ws = (float) m_scene->camera().width();
+			const float hs = (float) m_scene->camera().height();
+			const Color color = m_scene->background().inverse();
+			//vbo data
+			const float ms = fminf(ws, hs);
+			const float ps = m_size / font->height();
+			for(uint32_t i = 0; i < m_marks; i++)
+			{
+				//string
+				sprintf(string, "%+.2e", m_min + (m_max - m_min) * i / (nm - 1));
+				//vertices
+				const uint32_t wt = text_width(string);
+				const uint32_t ht = text_height(string);
+				xp[0] = 1 - ms / ws * (m_width + m_offset + ps * wt);
+				xp[1] = ms / hs * (m_height * (float(i) / (nm - 1) - 0.5f) - ps * ht / 2);
+				for(uint32_t j = 0; j < 9; j++)
+				{
+					//character
+					font->glyph(string[j]).coordinates(font, tc);
+					const int64_t w = font->glyph(string[j]).width();
+					const int64_t h = font->glyph(string[j]).height();
+					const int64_t r = font->glyph(string[j]).advance();
+					const int64_t a = font->glyph(string[j]).bearing(0);
+					const int64_t b = font->glyph(string[j]).bearing(1);
+					//position
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xp[0] + ms / ws * ps * a;
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = xp[1] + ms / hs * ps * b;
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xp[0] + ms / ws * ps * (a + w);
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = xp[1] + ms / hs * ps * (b - h);
+					//vertices
+					for(uint32_t k = 0; k < 4; k++)
+					{
+						(vbo_ptr + k)->m_color = color;
+						(vbo_ptr + k)->m_position = xc + 2 * k;
+						(vbo_ptr + k)->m_texture_coordinates = tc + 2 * k;
+					}
+					vbo_ptr += 4;
+					xp[0] += ms / ws * ps * r;
+				}
+			}
 		}
 
 		//buffers
@@ -277,8 +290,11 @@ namespace canvas
 			const uint32_t nm = m_marks;
 			const uint32_t nc = m_palette.size();
 			//allocate
+			m_vbos[0].allocate(36 * nm);
+			m_ibos[0].allocate(54 * nm);
 			m_vbos[1].allocate(2 * (nc + nm));
 			m_ibos[1].allocate(6 * (nc - 1) + 2 * (nm + 2));
+			//pointers
 			uint32_t* ibo_ptr_text = m_ibos[0].data();
 			uint32_t* ibo_ptr_model = m_ibos[1].data();
 			vertices::Text2D* vbo_ptr_text = (vertices::Text2D*) m_vbos[0].data();
@@ -289,15 +305,10 @@ namespace canvas
 			vbo_data_model(vbo_ptr_model);
 			ibo_data_model(ibo_ptr_model);
 			//transfer
-			m_vbos[0].transfer();
-			m_vbos[1].transfer();
 			m_ibos[0].transfer();
+			m_vbos[0].transfer();
 			m_ibos[1].transfer();
-			// m_vbo_size[ 5] = 36 * m_marks;
-			// m_ibo_size[10] = 54 * m_marks;
-			// m_ibo_size[ 7] = 2 * (m_marks + 2);
-			// m_ibo_size[ 8] = 6 * (m_palette.size() - 1);
-			// m_vbo_size[ 3] = 2 * (m_marks + m_palette.size());
+			m_vbos[1].transfer();
 		}
 		void Palette::draw(void) const
 		{
@@ -305,17 +316,15 @@ namespace canvas
 			const uint32_t nm = m_marks;
 			const uint32_t nc = m_palette.size();
 			//draw text
+			m_vaos[0].bind();
+			m_shaders[0].bind();
+			m_scene->font(m_font)->texture().bind_unit(0);
+			glDrawElements(GL_TRIANGLES, 54 * nm, GL_UNSIGNED_INT, nullptr);
 			//draw model
 			m_vaos[1].bind();
 			m_shaders[1].bind();
 			glDrawElements(GL_TRIANGLES, 6 * (nc - 1), GL_UNSIGNED_INT, nullptr);
 			glDrawElementsBaseVertex(GL_LINES, 2 * (nm + 2), GL_UNSIGNED_INT, (void*) (6 * (nc - 1) * sizeof(uint32_t)), 2 * nc);
-			// vbo_fill_data();
-			// ibo_fill_data();
-			// vbo_text_data();
-			// ibo_text_data();
-			// vbo_stroke_data();
-			// ibo_stroke_data();
 		}
 	}
 }

@@ -2,8 +2,8 @@
 
 out vec2 vertex_texture_coordinates;
 
-layout (location = 0) in vec2 position;
-layout (location = 1) in vec2 texture_coordinates;
+layout(location = 0) in vec2 position;
+layout(location = 1) in vec2 texture_coordinates;
 
 void main(void)
 {

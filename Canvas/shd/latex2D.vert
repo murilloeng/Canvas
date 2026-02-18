@@ -3,9 +3,9 @@
 out vec4 vertex_color;
 out vec2 vertex_texture_coordinates;
 
-layout (location = 1) in vec4 color;
-layout (location = 0) in vec2 position;
-layout (location = 2) in vec2 texture_coordinates;
+layout(location = 1) in vec4 color;
+layout(location = 0) in vec2 position;
+layout(location = 2) in vec2 texture_coordinates;
 
 void main(void)
 {

@@ -11,8 +11,8 @@
 void examples::objects::curves(canvas::Scene* scene)
 {
 	//data
-	const int nt = 5;
-	const int nm = 200;
+	const uint32_t nt = 5;
+	const uint32_t nm = 200;
 	canvas::objects::Curve* curve = new canvas::objects::Curve;
 	//curve
 	curve->mesh(nm);
