@@ -34,9 +34,13 @@ namespace canvas
 
 			//data
 			void allocate(void) const;
+			void generate_mipmaps(void) const;
 			void transfer(uint32_t, uint32_t, uint32_t, uint32_t, GLenum, GLenum, const void*);
 
 		private:
+			//levels
+			uint32_t levels(void) const;
+
 			//data
 			GLuint m_id;
 			uint32_t m_width;

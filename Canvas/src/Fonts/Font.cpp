@@ -127,6 +127,7 @@ namespace canvas
 				m_texture.transfer(glyph.m_offset, 0, glyph.m_width, glyph.m_height, GL_RED, GL_UNSIGNED_BYTE, glyph.m_data);
 			}
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+			m_texture.generate_mipmaps();
 		}
 	}
 }

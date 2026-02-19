@@ -35,12 +35,12 @@ inline PFNGLVERTEXARRAYATTRIBBINDINGPROC glVertexArrayAttribBinding = nullptr;
 inline PFNGLVERTEXARRAYBINDINGDIVISORPROC glVertexArrayBindingDivisor = nullptr;
 
 //textures
-inline PFNGLGENERATEMIPMAPPROC glGenerateMipmap = nullptr;
 inline PFNGLCREATETEXTURESPROC glCreateTextures = nullptr;
 inline PFNGLBINDTEXTUREUNITPROC glBindTextureUnit = nullptr;
 inline PFNGLTEXTURESTORAGE2DPROC glTextureStorage2D = nullptr;
 inline PFNGLTEXTUREPARAMETERIPROC glTextureParameteri = nullptr;
 inline PFNGLTEXTURESUBIMAGE2DPROC glTextureSubImage2D = nullptr;
+inline PFNGLGENERATETEXTUREMIPMAPPROC glGenerateTextureMipmap = nullptr;
 
 //shaders
 inline PFNGLISSHADERPROC glIsShader = nullptr;

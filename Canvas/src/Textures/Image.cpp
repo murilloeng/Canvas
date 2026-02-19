@@ -61,6 +61,7 @@ namespace canvas
 			//transfer
 			m_texture.allocate();
 			m_texture.transfer(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			m_texture.generate_mipmaps();
 			//deallocate
 			stbi_image_free(data);
 		}

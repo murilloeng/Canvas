@@ -85,6 +85,7 @@ namespace canvas
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 			m_texture.transfer(0, 0, w, h, GL_RED, GL_UNSIGNED_BYTE, data);
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+			m_texture.generate_mipmaps();
 			//cleanup
 			if(pdf_delete != 0)
 			{
