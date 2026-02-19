@@ -119,7 +119,7 @@ namespace canvas
 	//fonts
 	void Scene::add_font(const char* name)
 	{
-		m_fonts.push_back(new fonts::Font(this, name));
+		m_fonts.push_back(new fonts::Font(m_ft_library, name));
 	}
 	fonts::Font* Scene::font(uint32_t index) const
 	{

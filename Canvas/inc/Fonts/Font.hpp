@@ -24,7 +24,7 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Font(Scene*, const char*);
+			Font(FT_Library, const char*);
 
 			//destructor
 			~Font(void);
@@ -50,10 +50,10 @@ namespace canvas
 			void load(void);
 
 			//data
-			Scene* m_scene;
 			FT_Face m_face;
 			std::string m_name;
 			Glyph m_glyphs[128];
+			FT_Library m_library;
 			textures::Texture m_texture;
 
 			//friends

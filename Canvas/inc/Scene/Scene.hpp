@@ -17,42 +17,15 @@ namespace canvas
 {
 	namespace buffers
 	{
-		class VAO;
 		class VBO;
-		class IBO;
-		class UBO;
-	}
-	namespace shaders
-	{
-		class Shader;
-	}
-	namespace textures
-	{
-		class Image;
-		class Latex;
-		class Texture;
-	}
-	namespace commands
-	{
-		class Command;
-	}
-	namespace objects
-	{
-		class Object;
-	}
-	namespace vertices
-	{
-		class Vertex;
-		class Text2D;
-		class Text3D;
-		class Model2D;
-		class Model3D;
-		class Image2D;
-		class Image3D;
 	}
 	namespace fonts
 	{
 		class Font;
+	}
+	namespace objects
+	{
+		class Object;
 	}
 	namespace animations
 	{
@@ -129,11 +102,5 @@ namespace canvas
 		std::vector<fonts::Font*> m_fonts;
 		std::vector<objects::Object*> m_objects;
 		std::vector<animations::Animation*> m_animations;
-
-		//friends
-		friend class fonts::Font;
-		friend class lights::Lights;
-		friend class cameras::Camera;
-		friend class objects::Object;
 	};
 }

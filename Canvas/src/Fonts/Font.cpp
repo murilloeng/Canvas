@@ -27,7 +27,7 @@ namespace canvas
 	{
 
 		//constructors
-		Font::Font(Scene* scene, const char* name) : m_scene{scene}, m_face{nullptr}, m_name{name}
+		Font::Font(FT_Library library, const char* name) : m_face{nullptr}, m_name{name}, m_library{library}
 		{
 			load();
 		}
@@ -91,7 +91,7 @@ namespace canvas
 			const std::string path = fonts_dir + m_name + ".ttf";
 			//font
 			FT_Done_Face(m_face);
-			if(FT_New_Face(m_scene->m_ft_library, path.c_str(), 0, &m_face))
+			if(FT_New_Face(m_library, path.c_str(), 0, &m_face))
 			{
 				throw std::runtime_error("FreeType face loading failed!");
 			}
