@@ -32,7 +32,7 @@ static void callback_key(int32_t key, int32_t, int32_t)
 		scene->clear_objects(true);
 		examples[example_index](scene);
 		//update
-		scene->update(true);
+		scene->update();
 		scene->camera().bound();
 		scene->camera().update();
 	}
@@ -48,7 +48,7 @@ void examples::scenes::examples(void)
 	scene = engine.scene();
 	examples::objects::points(scene);
 	//update
-	scene->update(true);
+	scene->update();
 	scene->camera().bound();
 	scene->camera().update();
 	//start

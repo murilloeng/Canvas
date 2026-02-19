@@ -1,5 +1,4 @@
 //std
-#include <omp.h>
 #include <stdexcept>
 
 //canvas
@@ -20,8 +19,8 @@ namespace canvas
 	Scene::Scene(void) : m_background(0.12f, 0.12f, 0.12f, 1.00f), m_lights(this), m_camera(this)
 	{
 		setup_OpenGL();
-		setup_cameras();
-		setup_freetype();
+		setup_FreeType();
+		m_camera.m_scene = this;
 	}
 
 	//destructor
@@ -150,21 +149,9 @@ namespace canvas
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		for(const objects::Object* object : m_objects) object->draw();
 	}
-	void Scene::update(bool setup)
+	void Scene::update(void)
 	{
-		//setup
-		if(setup)
-		{
-			setup_objects();
-		}
-		//update
-		#pragma omp parallel for
-		for(int32_t i = 0; i < (int32_t) m_objects.size(); i++)
-		{
-			m_objects[i]->setup();
-		}
-		//buffers
-		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
+		for(objects::Object* object : m_objects) object->setup();
 	}
 	void Scene::update_on_motion(void)
 	{
@@ -211,17 +198,7 @@ namespace canvas
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
-	void Scene::setup_cameras(void)
-	{
-		m_camera.m_scene = this;
-	}
-	void Scene::setup_objects(void)
-	{
-		for(buffers::VBO* vbo : m_vbos) vbo->m_vertex_count = 0;
-		for(objects::Object* object : m_objects) object->setup();
-		for(buffers::VBO* vbo : m_vbos) vbo->allocate();
-	}
-	void Scene::setup_freetype(void)
+	void Scene::setup_FreeType(void)
 	{
 		if(FT_Init_FreeType(&m_ft_library))
 		{

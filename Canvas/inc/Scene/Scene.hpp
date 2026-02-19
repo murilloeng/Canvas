@@ -80,16 +80,14 @@ namespace canvas
 
 		//update
 		void draw(void);
-		void update(bool);
+		void update(void);
 		void update_on_motion(void);
 		void update_animations(void);
 
 	protected:
 		//setup
 		void setup_OpenGL(void);
-		void setup_cameras(void);
-		void setup_objects(void);
-		void setup_freetype(void);
+		void setup_FreeType(void);
 
 		//data
 		float m_time;

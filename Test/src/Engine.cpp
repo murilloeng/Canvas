@@ -146,7 +146,7 @@ void Engine::callback_size(GLFWwindow* window, int32_t width, int32_t height)
 	engine->m_height = height;
 	//scene
 	engine->m_scene->camera().callback_reshape(width, height);
-	engine->m_scene->update(true);
+	engine->m_scene->update();
 	//update
 	glfwSwapBuffers(window);
 }

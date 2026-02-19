@@ -15,15 +15,16 @@ int32_t main(void)
 {
 	try
 	{
-		//data
-		Engine engine;
-		engine.show_fps(true);
-		examples::objects::latex(engine.scene());
-		//update
-		engine.scene()->update(true);
-		engine.scene()->camera().update();
-		//start
-		engine.start();
+		// //data
+		// Engine engine;
+		// engine.show_fps(true);
+		// examples::objects::latex(engine.scene());
+		// //update
+		// engine.scene()->update(true);
+		// engine.scene()->camera().update();
+		// //start
+		// engine.start();
+		examples::scenes::examples();
 	}
 	catch(const std::exception& e)
 	{
