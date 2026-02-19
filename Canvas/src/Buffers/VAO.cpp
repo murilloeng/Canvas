@@ -32,6 +32,10 @@ namespace canvas
 		{
 			glBindVertexArray(m_id);
 		}
+		void VAO::binding_divisor(GLuint binding, GLuint divisor) const
+		{
+			glVertexArrayBindingDivisor(m_id, binding, divisor);
+		}
 
 		//buffers
 		void VAO::element_buffer(GLuint buffer) const
