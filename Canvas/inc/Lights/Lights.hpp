@@ -56,7 +56,6 @@ namespace canvas
 			Ambient* m_ambient;
 			std::vector<Point*> m_points;
 			std::vector<Direction*> m_directions;
-			const std::vector<shaders::Shader*>& m_shaders;
 
 			//friends
 			friend class canvas::Scene;

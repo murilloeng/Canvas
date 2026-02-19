@@ -90,15 +90,6 @@ namespace canvas
 		buffers::VBO* vbo(uint32_t) const;
 		const std::vector<buffers::VBO*>& vbos(void) const;
 
-		//shaders
-		void add_shader(shaders::Shader*);
-		shaders::Shader* shader(uint32_t) const;
-		shaders::Shader* shader(const char*) const;
-
-		//textures
-		void add_texture(textures::Texture*);
-		textures::Texture* texture(uint32_t) const;
-
 		//fonts
 		void add_font(const char*);
 		fonts::Font* font(uint32_t) const;
@@ -134,8 +125,6 @@ namespace canvas
 		float m_time;
 		Color m_background;
 		std::vector<buffers::VBO*> m_vbos;
-		std::vector<shaders::Shader*> m_shaders;
-		std::vector<textures::Texture*> m_textures;
 
 		FT_Library m_ft_library;
 		lights::Lights m_lights;

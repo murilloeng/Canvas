@@ -39,9 +39,7 @@
 namespace canvas
 {
 	//constructors
-	Scene::Scene(void) : 
-		m_background(0, 0, 0, 1),
-		m_textures(3), m_lights(this), m_camera(this)
+	Scene::Scene(void) : m_background(0, 0, 0, 1), m_lights(this), m_camera(this)
 	{
 		setup_OpenGL();
 		setup_cameras();
@@ -54,9 +52,7 @@ namespace canvas
 		//delete
 		for(const fonts::Font* font : m_fonts) delete font;
 		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
-		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
-		for(const textures::Texture* texture : m_textures) delete texture;
 		for(const animations::Animation* animation : m_animations) delete animation;
 		//FreeType
 		FT_Done_FreeType(m_ft_library);
@@ -112,34 +108,6 @@ namespace canvas
 	const std::vector<buffers::VBO*>& Scene::vbos(void) const
 	{
 		return m_vbos;
-	}
-
-	//shaders
-	void Scene::add_shader(shaders::Shader* shader)
-	{
-		m_shaders.push_back(shader);
-	}
-	shaders::Shader* Scene::shader(uint32_t index) const
-	{
-		return m_shaders[index];
-	}
-	shaders::Shader* Scene::shader(const char* label) const
-	{
-		for(shaders::Shader* shader : m_shaders)
-		{
-			if(strcmp(label, shader->label()) == 0) return shader;
-		}
-		return nullptr;
-	}
-
-	//textures
-	void Scene::add_texture(textures::Texture* texture)
-	{
-		m_textures.push_back(texture);
-	}
-	textures::Texture* Scene::texture(uint32_t index) const
-	{
-		return m_textures[index];
 	}
 
 	//fonts
