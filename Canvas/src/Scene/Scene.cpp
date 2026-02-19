@@ -182,9 +182,6 @@ namespace canvas
 		//setup
 		if(setup)
 		{
-			setup_fonts();
-			setup_latex();
-			setup_images();
 			setup_objects();
 		}
 		//update
@@ -228,69 +225,6 @@ namespace canvas
 	}
 
 	//setup
-	void Scene::setup_fonts(void)
-	{
-		// //data
-		// bool update = false;
-		// uint32_t w = 0, h = 0;
-		// //fonts
-		// for(fonts::Font* font : m_fonts)
-		// {
-		// 	if((update = update || !font->m_status))
-		// 	{
-		// 		font->setup(w, h);
-		// 	}
-		// }
-		// if(!update) return;
-		// //texture
-		// fonts::Font::m_width = w;
-		// fonts::Font::m_height = h;
-		// m_textures[1]->width(w);
-		// m_textures[1]->height(h);
-		// m_textures[1]->format(GL_RED);
-		// //texture data
-		// m_textures[1]->allocate();
-		// for(fonts::Font* font : m_fonts)
-		// {
-		// 	font->setup_texture();
-		// }
-		// glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	void Scene::setup_latex(void)
-	{
-		// //data
-		// bool update = false;
-		// uint32_t w = 0, h = 0;
-		// //images
-		// for(textures::Latex* latex : m_latex)
-		// {
-		// 	if((update = update || !latex->m_status))
-		// 	{
-		// 		latex->load();
-		// 		latex->m_offset = w;
-		// 		w += latex->m_width;
-		// 		h = std::max(h, latex->m_height);
-		// 	}
-		// }
-		// //texture
-		// if(!update) return;
-		// m_textures[2]->width(w);
-		// m_textures[2]->height(h);
-		// m_textures[2]->format(GL_RED);
-		// textures::Latex::m_total_width = w;
-		// textures::Latex::m_total_height = h;
-		// //texture data
-		// m_textures[2]->allocate();
-		// for(textures::Latex* latex : m_latex)
-		// {
-		// 	const uint32_t w = latex->m_width;
-		// 	const uint32_t h = latex->m_height;
-		// 	const uint32_t x = latex->m_offset;
-		// 	const uint8_t* data = latex->m_data;
-		// 	m_textures[2]->transfer(x, 0, w, h, data);
-		// }
-		// glGenerateMipmap(GL_TEXTURE_2D);
-	}
 	void Scene::setup_OpenGL(void)
 	{
 		//enable
@@ -298,46 +232,11 @@ namespace canvas
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
 		glEnable(GL_POLYGON_OFFSET_FILL);
-		//values
+		//setup
 		glPointSize(7);
 		glClearColor(m_background);
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
-	void Scene::setup_images(void)
-	{
-		// //data
-		// bool update = false;
-		// uint32_t w = 0, h = 0;
-		// //images
-		// for(textures::Image* image : m_images)
-		// {
-		// 	if((update = update || !image->m_status))
-		// 	{
-		// 		image->load();
-		// 		image->m_offset = w;
-		// 		w += image->m_width;
-		// 		h = std::max(h, image->m_height);
-		// 	}
-		// }
-		// //texture
-		// if(!update) return;
-		// m_textures[0]->width(w);
-		// m_textures[0]->height(h);
-		// m_textures[0]->format(GL_RGBA);
-		// textures::Image::m_total_width = w;
-		// textures::Image::m_total_height = h;
-		// //texture data
-		// m_textures[0]->allocate();
-		// for(textures::Image* image : m_images)
-		// {
-		// 	const uint32_t w = image->m_width;
-		// 	const uint32_t h = image->m_height;
-		// 	const uint32_t x = image->m_offset;
-		// 	const uint8_t* data = image->m_data;
-		// 	m_textures[0]->transfer(x, 0, w, h, data);
-		// }
-		// glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	void Scene::setup_cameras(void)
 	{
