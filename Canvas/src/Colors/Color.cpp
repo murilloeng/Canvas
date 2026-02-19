@@ -22,7 +22,8 @@ static const char* colors_table[] = {
 	"violet",		"#EE82EE",
 	"yellow",		"#ffff00",
 	"magenta",		"#ff00ff",
-	"dark green",	"#013220"
+	"dark green",	"#013220",
+	"neutral gray",	"#F0F0F0"
 };
 
 namespace canvas

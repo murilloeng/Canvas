@@ -36,10 +36,15 @@
 
 #include "Canvas/Canvas/inc/Animations/Animation.hpp"
 
+static void glClearColor(const canvas::Color& color)
+{
+	glClearColor(color[0], color[1], color[2], color[3]);
+}
+
 namespace canvas
 {
 	//constructors
-	Scene::Scene(void) : m_background(0, 0, 0, 1), m_lights(this), m_camera(this)
+	Scene::Scene(void) : m_background(0.12f, 0.12f, 0.12f, 1.00f), m_lights(this), m_camera(this)
 	{
 		setup_OpenGL();
 		setup_cameras();
@@ -75,6 +80,7 @@ namespace canvas
 	}
 	Color Scene::background(Color background)
 	{
+		glClearColor(background);
 		return m_background = background;
 	}
 
@@ -168,16 +174,8 @@ namespace canvas
 	//draw
 	void Scene::draw(void)
 	{
-		//data
-		const float* c = m_background.channels();
-		//clear
-		glClearColor(c[0], c[1], c[2], c[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//draw
-		for(const objects::Object* object : m_objects)
-		{
-			object->draw();
-		}
+		for(const objects::Object* object : m_objects) object->draw();
 	}
 	void Scene::update(bool setup)
 	{
@@ -302,6 +300,7 @@ namespace canvas
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		//values
 		glPointSize(7);
+		glClearColor(m_background);
 		glPolygonOffset(1.0f, 1.0f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
