@@ -85,22 +85,10 @@ namespace canvas
 		cameras::Camera& camera(void);
 		const cameras::Camera& camera(void) const;
 
-		//vaos
-		void add_vao(buffers::VAO*);
-		buffers::VAO* vao(uint32_t) const;
-
 		//vbos
 		void add_vbo(buffers::VBO*);
 		buffers::VBO* vbo(uint32_t) const;
 		const std::vector<buffers::VBO*>& vbos(void) const;
-
-		//ibos
-		void add_ibo(buffers::IBO*);
-		buffers::IBO* ibo(uint32_t) const;
-
-		//ubos
-		void add_ubo(buffers::UBO*);
-		buffers::UBO* ubo(uint32_t) const;
 
 		//shaders
 		void add_shader(shaders::Shader*);
@@ -145,10 +133,7 @@ namespace canvas
 		//data
 		float m_time;
 		Color m_background;
-		std::vector<buffers::VAO*> m_vaos;
 		std::vector<buffers::VBO*> m_vbos;
-		std::vector<buffers::IBO*> m_ibos;
-		std::vector<buffers::UBO*> m_ubos;
 		std::vector<shaders::Shader*> m_shaders;
 		std::vector<textures::Texture*> m_textures;
 

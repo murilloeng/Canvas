@@ -40,7 +40,7 @@ namespace canvas
 {
 	//constructors
 	Scene::Scene(void) : 
-		m_background(0, 0, 0, 1), m_ubos(1),
+		m_background(0, 0, 0, 1),
 		m_textures(3), m_lights(this), m_camera(this)
 	{
 		setup_OpenGL();
@@ -54,8 +54,6 @@ namespace canvas
 		//delete
 		for(const fonts::Font* font : m_fonts) delete font;
 		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
-		for(const buffers::Buffer* ibo : m_ibos) delete ibo;
-		for(const buffers::Buffer* ubo : m_ubos) delete ubo;
 		for(const shaders::Shader* shader : m_shaders) delete shader;
 		for(const objects::Object* object : m_objects) delete object;
 		for(const textures::Texture* texture : m_textures) delete texture;
@@ -102,16 +100,6 @@ namespace canvas
 		return m_camera;
 	}
 
-	//vaos
-	void Scene::add_vao(buffers::VAO* vao)
-	{
-		m_vaos.push_back(vao);
-	}
-	buffers::VAO* Scene::vao(uint32_t index) const
-	{
-		return m_vaos[index];
-	}
-
 	//vbos
 	void Scene::add_vbo(buffers::VBO* vbo)
 	{
@@ -124,26 +112,6 @@ namespace canvas
 	const std::vector<buffers::VBO*>& Scene::vbos(void) const
 	{
 		return m_vbos;
-	}
-
-	//ibos
-	void Scene::add_ibo(buffers::IBO* ibo)
-	{
-		return m_ibos.push_back(ibo);
-	}
-	buffers::IBO* Scene::ibo(uint32_t index) const
-	{
-		return m_ibos[index];
-	}
-
-	//ubos
-	void Scene::add_ubo(buffers::UBO* ubo)
-	{
-		return m_ubos.push_back(ubo);
-	}
-	buffers::UBO* Scene::ubo(uint32_t index) const
-	{
-		return m_ubos[index];
 	}
 
 	//shaders
@@ -261,7 +229,6 @@ namespace canvas
 		}
 		//buffers
 		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
-		for(const buffers::IBO* ibo : m_ibos) ibo->transfer();
 	}
 	void Scene::update_on_motion(void)
 	{
@@ -412,10 +379,8 @@ namespace canvas
 	void Scene::setup_objects(void)
 	{
 		for(buffers::VBO* vbo : m_vbos) vbo->m_vertex_count = 0;
-		for(buffers::IBO* ibo : m_ibos) ibo->m_vertex_count = 0;
 		for(objects::Object* object : m_objects) object->setup();
 		for(buffers::VBO* vbo : m_vbos) vbo->allocate();
-		for(buffers::IBO* ibo : m_ibos) ibo->allocate();
 	}
 	void Scene::setup_freetype(void)
 	{
