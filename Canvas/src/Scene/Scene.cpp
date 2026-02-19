@@ -1,39 +1,12 @@
 //std
 #include <omp.h>
-#include <cmath>
-#include <cfloat>
-#include <algorithm>
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/API/API.hpp"
-
 #include "Canvas/Canvas/inc/Fonts/Font.hpp"
-
-#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/UBO.hpp"
-
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-
-#include "Canvas/Canvas/inc/Textures/Image.hpp"
-#include "Canvas/Canvas/inc/Textures/Latex.hpp"
-
-#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
-
-#include "Canvas/Canvas/inc/Textures/Texture.hpp"
-
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
-
-#include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Image2D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Image3D.hpp"
-
 #include "Canvas/Canvas/inc/Animations/Animation.hpp"
 
 static void glClearColor(const canvas::Color& color)
