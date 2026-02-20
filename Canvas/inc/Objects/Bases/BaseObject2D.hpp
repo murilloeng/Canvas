@@ -8,14 +8,14 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Object2D : public Object
+		class BaseObject2D : public Object
 		{
 		public:
 			//constructors
-			Object2D(void);
+			BaseObject2D(void);
 
 			//destructor
-			virtual ~Object2D(void);
+			virtual ~BaseObject2D(void);
 
 			//data
 			mat3 model_matrix(mat3);

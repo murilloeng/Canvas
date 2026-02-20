@@ -6,20 +6,20 @@
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
-#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Model3D : public Object3D
+		class BaseModel3D : public BaseObject3D
 		{
 		public:
 			//constructor
-			Model3D(void);
+			BaseModel3D(void);
 
 			//destructor
-			~Model3D(void);
+			~BaseModel3D(void);
 
 			//data
 			Color color_fill(void) const;

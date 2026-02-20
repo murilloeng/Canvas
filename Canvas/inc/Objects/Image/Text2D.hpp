@@ -12,14 +12,14 @@
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
-#include "Canvas/Canvas/inc/Objects/Object2D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseObject2D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Text2D : public Object2D
+		class Text2D : public BaseObject2D
 		{
 		public:
 			//constructors

@@ -6,13 +6,13 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
-#include "Canvas/Canvas/inc/Objects/Model3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseModel3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Spline : public Model3D
+		class Spline : public BaseModel3D
 		{
 		public:
 			//constructors

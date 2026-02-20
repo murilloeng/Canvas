@@ -8,14 +8,14 @@ namespace canvas
 {
 	namespace objects
 	{
-		class Object3D : public Object
+		class BaseObject3D : public Object
 		{
 		public:
 			//constructors
-			Object3D(void);
+			BaseObject3D(void);
 
 			//destructor
-			virtual ~Object3D(void);
+			virtual ~BaseObject3D(void);
 
 			//data
 			mat4 model_matrix(mat4);

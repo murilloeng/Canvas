@@ -4,13 +4,13 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Objects/Model3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseModel3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Circle : public Model3D
+		class Circle : public BaseModel3D
 		{
 		public:
 			//constructors

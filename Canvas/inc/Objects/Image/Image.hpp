@@ -8,14 +8,14 @@
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Textures/Image.hpp"
-#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Image : public Object3D
+		class Image : public BaseObject3D
 		{
 		public:
 			//constructors

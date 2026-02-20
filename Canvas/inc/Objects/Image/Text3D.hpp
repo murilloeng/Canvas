@@ -11,14 +11,14 @@
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
-#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Text3D : public Object3D
+		class Text3D : public BaseObject3D
 		{
 		public:
 			//constructors

@@ -9,14 +9,14 @@
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Textures/Latex.hpp"
-#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Latex : public Object3D
+		class Latex : public BaseObject3D
 		{
 		public:
 			//constructors

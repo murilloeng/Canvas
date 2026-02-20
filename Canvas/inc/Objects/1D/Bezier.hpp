@@ -4,13 +4,13 @@
 #include <vector>
 
 //Canvas
-#include "Canvas/Canvas/inc/Objects/Model3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseModel3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Bezier : public Model3D
+		class Bezier : public BaseModel3D
 		{
 		public:
 			//constructor

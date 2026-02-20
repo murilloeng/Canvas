@@ -1,15 +1,15 @@
 //Canvas
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
-#include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 #include "Canvas/Canvas/inc/Cameras/BoundingBox.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseModel3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
 		//constructor
-		Model3D::Model3D(void) : m_shader({
+		BaseModel3D::BaseModel3D(void) : m_shader({
 			new shaders::Stage(GL_VERTEX_SHADER, "model3D.vert"),
 			new shaders::Stage(GL_FRAGMENT_SHADER, "model3D.frag")
 		}), m_color_fill{"blue"}, m_color_stroke{"white"}
@@ -28,32 +28,32 @@ namespace canvas
 		}
 		
 		//destructor
-		Model3D::~Model3D(void)
+		BaseModel3D::~BaseModel3D(void)
 		{
 			return;
 		}
 
 		//data
-		Color Model3D::color_fill(void) const
+		Color BaseModel3D::color_fill(void) const
 		{
 			return m_color_fill;
 		}
-		Color Model3D::color_fill(const Color& color_fill)
+		Color BaseModel3D::color_fill(const Color& color_fill)
 		{
 			return m_color_fill = color_fill;
 		}
 
-		Color Model3D::color_stroke(void) const
+		Color BaseModel3D::color_stroke(void) const
 		{
 			return m_color_stroke;
 		}
-		Color Model3D::color_stroke(const Color& color_stroke)
+		Color BaseModel3D::color_stroke(const Color& color_stroke)
 		{
 			return m_color_stroke = color_stroke;
 		}
 
 		//model
-		void Model3D::apply_model(void) const
+		void BaseModel3D::apply_model(void) const
 		{
 			//data
 			const uint32_t nv = m_vbo.vertex_count();
@@ -67,7 +67,7 @@ namespace canvas
 		}
 
 		//update
-		void Model3D::update_bounding_box(cameras::BoundingBox& bounding_box) const
+		void BaseModel3D::update_bounding_box(cameras::BoundingBox& bounding_box) const
 		{
 			//data
 			const uint32_t nv = m_vbo.vertex_count();
