@@ -13,7 +13,7 @@ void examples::objects::text2D(canvas::Scene* scene)
 		{0.0f, 0.0f}, {-1.0f, -1.0f}, {+1.0f, -1.0f}, {+1.0f, +1.0f}, {-1.0f, +1.0f}
 	};
 	const canvas::Anchor anchors[] = {"CC", "SW", "SE", "NE", "NW"};
-	const char* strings[] = {"little test\nwith a little text", "A", "B", "C", "D"};
+	const char* strings[] = {"Little test\nwith a\n\tlittle text.", "A", "B", "C", "D"};
 	//text
 	scene->add_font("times");
 	for(uint32_t i = 0; i < 5; i++)
@@ -25,8 +25,8 @@ void examples::objects::text2D(canvas::Scene* scene)
 		text[i]->scale(0.1f);
 		text[i]->text(strings[i]);
 		text[i]->anchor(anchors[i]);
+		text[i]->shift(positions[i]);
 		text[i]->color(i == 0 ? "green" : "blue");
-		text[i]->shift(canvas::vec3(positions[i][0], positions[i][1], 0));
 		//scene
 		scene->add_object(text[i]);
 	}

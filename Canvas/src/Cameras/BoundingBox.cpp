@@ -74,19 +74,19 @@ namespace canvas
 		void BoundingBox::compute(const Scene* scene, bool reset, bool repair)
 		{
 			if(reset) this->reset();
-			for(const buffers::VBO* vbo : scene->vbos())
-			{
-				//data
-				const char* data = vbo->data();
-				const uint32_t vs = vbo->vertex_size();
-				const uint32_t vc = vbo->vertex_count();
-				//insert
-				for(uint32_t i = 0; i < vc; i++)
-				{
-					insert_vertex((const float*) data);
-					data += vs;
-				}
-			}
+			// for(const buffers::VBO* vbo : scene->vbos())
+			// {
+			// 	//data
+			// 	const char* data = vbo->data();
+			// 	const uint32_t vs = vbo->vertex_size();
+			// 	const uint32_t vc = vbo->vertex_count();
+			// 	//insert
+			// 	for(uint32_t i = 0; i < vc; i++)
+			// 	{
+			// 		insert_vertex((const float*) data);
+			// 		data += vs;
+			// 	}
+			// }
 			if(repair) this->repair();
 		}
 		void BoundingBox::insert_vertex(const float* vertex)

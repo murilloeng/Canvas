@@ -9,6 +9,8 @@
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
+#include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
+#include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
 #include "Canvas/Canvas/inc/Palettes/Palette.hpp"
 
 namespace canvas

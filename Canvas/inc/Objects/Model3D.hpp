@@ -5,14 +5,14 @@
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
-#include "Canvas/Canvas/inc/Objects/Object.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Model3D : public Object
+		class Model3D : public Object3D
 		{
 		public:
 			//constructor

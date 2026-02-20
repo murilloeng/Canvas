@@ -48,7 +48,7 @@ Debug the code: `gdb ./dist/debug/test.out`
 
 ## Objects
 
-A number of pre-defined objects (listed below) are defined for convenience. The user has also the possibility of creating its own objects, derived of the base class `canvas::objects::Object`. Objects can also be grouped via the base class `canvas::objects::Group`.
+A number of pre-defined objects (listed below) are defined for convenience. The user has also the possibility of creating its own objects, derived of the base class `canvas::objects::Object`.
 
 | 0D:   | 1D:      | 2D:      | 3D:      | Textures: |
 |-------|----------|----------|----------|-----------|

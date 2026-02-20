@@ -10,14 +10,15 @@
 #include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
-#include "Canvas/Canvas/inc/Objects/Object.hpp"
+#include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Object3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Text3D : public Object
+		class Text3D : public Object3D
 		{
 		public:
 			//constructors

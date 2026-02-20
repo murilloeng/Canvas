@@ -5,6 +5,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Objects/Model3D.hpp"
+#include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
 
 namespace canvas
 {

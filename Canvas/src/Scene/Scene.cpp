@@ -28,7 +28,6 @@ namespace canvas
 	{
 		//delete
 		for(const fonts::Font* font : m_fonts) delete font;
-		for(const buffers::Buffer* vbo : m_vbos) delete vbo;
 		for(const objects::Object* object : m_objects) delete object;
 		for(const animations::Animation* animation : m_animations) delete animation;
 		//FreeType
@@ -72,20 +71,6 @@ namespace canvas
 	const cameras::Camera& Scene::camera(void) const
 	{
 		return m_camera;
-	}
-
-	//vbos
-	void Scene::add_vbo(buffers::VBO* vbo)
-	{
-		return m_vbos.push_back(vbo);
-	}
-	buffers::VBO* Scene::vbo(uint32_t index) const
-	{
-		return m_vbos[index];
-	}
-	const std::vector<buffers::VBO*>& Scene::vbos(void) const
-	{
-		return m_vbos;
 	}
 
 	//fonts
@@ -159,7 +144,6 @@ namespace canvas
 		{
 			object->update_on_motion();
 		}
-		for(const buffers::VBO* vbo : m_vbos) vbo->transfer();
 	}
 	void Scene::update_animations(void)
 	{

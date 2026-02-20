@@ -58,11 +58,6 @@ namespace canvas
 		cameras::Camera& camera(void);
 		const cameras::Camera& camera(void) const;
 
-		//vbos
-		void add_vbo(buffers::VBO*);
-		buffers::VBO* vbo(uint32_t) const;
-		const std::vector<buffers::VBO*>& vbos(void) const;
-
 		//fonts
 		void add_font(const char*);
 		fonts::Font* font(uint32_t) const;
@@ -92,8 +87,6 @@ namespace canvas
 		//data
 		float m_time;
 		Color m_background;
-		std::vector<buffers::VBO*> m_vbos;
-
 		FT_Library m_ft_library;
 		lights::Lights m_lights;
 		cameras::Camera m_camera;
