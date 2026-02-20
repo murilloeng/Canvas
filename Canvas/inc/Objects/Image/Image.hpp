@@ -4,18 +4,15 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Textures/Image.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
-#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseImage3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Image : public BaseObject3D
+		class Image : public BaseImage3D
 		{
 		public:
 			//constructors
@@ -35,15 +32,9 @@ namespace canvas
 			void setup(void) override;
 			void draw(void) const override;
 
-			//model
-			void apply_model(void) const override;
-
 			//data
 			Anchor m_anchor;
-			buffers::VAO m_vao;
-			buffers::VBO m_vbo;
 			textures::Image m_image;
-			shaders::Shader m_shader;
 		};
 	}
 }

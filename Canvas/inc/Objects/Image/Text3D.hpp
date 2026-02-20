@@ -5,20 +5,16 @@
 #include <cstdint>
 
 //canvas
-#include "Canvas/Canvas/inc/Buffers/IBO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VAO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
-#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text3D.hpp"
 #include "Canvas/Canvas/inc/Objects/Image/Anchor.hpp"
-#include "Canvas/Canvas/inc/Objects/Bases/BaseObject3D.hpp"
+#include "Canvas/Canvas/inc/Objects/Bases/BaseText3D.hpp"
 
 namespace canvas
 {
 	namespace objects
 	{
-		class Text3D : public BaseObject3D
+		class Text3D : public BaseText3D
 		{
 		public:
 			//constructors
@@ -57,9 +53,6 @@ namespace canvas
 			void setup(void) override;
 			void draw(void) const override;
 
-			//model
-			void apply_model(void) const override;
-
 			//update
 			void update_on_motion(void) const override;
 
@@ -69,10 +62,6 @@ namespace canvas
 			uint32_t m_font;
 			Anchor m_anchor;
 			std::string m_text;
-			buffers::IBO m_ibo;
-			buffers::VBO m_vbo;
-			buffers::VAO m_vao;
-			shaders::Shader m_shader;
 		};
 	}
 }

@@ -13,25 +13,9 @@ namespace canvas
 	namespace objects
 	{
 		//constructors
-		Latex::Latex(void) : m_color{"white"}, 
-			m_shader{{new shaders::Stage(GL_VERTEX_SHADER, "text3D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "text3D.frag")}}
+		Latex::Latex(void) : m_color{"white"}
 		{
-			//vao setup
-			m_vao.attribute_enable(0);
-			m_vao.attribute_enable(1);
-			m_vao.attribute_enable(2);
-			m_vao.attribute_binding(0, 0);
-			m_vao.attribute_binding(1, 0);
-			m_vao.attribute_binding(2, 0);
-			m_vao.attribute_format(0, 3, GL_FLOAT, 0 * sizeof(float));
-			m_vao.attribute_format(1, 4, GL_FLOAT, 3 * sizeof(float));
-			m_vao.attribute_format(2, 2, GL_FLOAT, 7 * sizeof(float));
-			m_vao.vertex_buffer(0, m_vbo.id(), 0, sizeof(vertices::Text3D));
-			//vbo setup
-			m_vbo.vertex_count(4);
-			m_vbo.vertex_size(sizeof(vertices::Text3D));
-			//allocate
-			m_vbo.allocate();
+			m_vbo.allocate(4);
 		}
 
 		//destructor
@@ -99,19 +83,6 @@ namespace canvas
 			m_shader.bind();
 			m_latex.texture().bind_unit(0);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-		}
-
-		//model
-		void Latex::apply_model(void) const
-		{
-			//data
-			vertices::Text3D* vbo_ptr = (vertices::Text3D*) m_vbo.data();
-			//model
-			if(!m_has_model_matrix) return;
-			for(uint32_t i = 0; i < 4; i++)
-			{
-				vbo_ptr[i].m_position *= m_model_matrix;
-			}
 		}
 	}
 }
