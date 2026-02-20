@@ -3,6 +3,10 @@
 namespace canvas
 {
 	class Scene;
+	namespace cameras
+	{
+		class BoundingBox;
+	}
 }
 
 namespace canvas
@@ -28,12 +32,14 @@ namespace canvas
 
 			//update
 			virtual void update_on_motion(void) const;
+			virtual void update_bounding_box(cameras::BoundingBox&) const;
 
 			//data
 			Scene* m_scene;
 
 			//friends
 			friend class canvas::Scene;
+			friend class canvas::cameras::BoundingBox;
 		};
 	}
 }

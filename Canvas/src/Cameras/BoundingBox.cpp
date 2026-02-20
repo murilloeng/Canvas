@@ -5,7 +5,7 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Objects/Object.hpp"
 #include "Canvas/Canvas/inc/Cameras/BoundingBox.hpp"
 
 namespace canvas
@@ -74,19 +74,10 @@ namespace canvas
 		void BoundingBox::compute(const Scene* scene, bool reset, bool repair)
 		{
 			if(reset) this->reset();
-			// for(const buffers::VBO* vbo : scene->vbos())
-			// {
-			// 	//data
-			// 	const char* data = vbo->data();
-			// 	const uint32_t vs = vbo->vertex_size();
-			// 	const uint32_t vc = vbo->vertex_count();
-			// 	//insert
-			// 	for(uint32_t i = 0; i < vc; i++)
-			// 	{
-			// 		insert_vertex((const float*) data);
-			// 		data += vs;
-			// 	}
-			// }
+			for(const objects::Object* object : scene->objects())
+			{
+				object->update_bounding_box(*this);
+			}
 			if(repair) this->repair();
 		}
 		void BoundingBox::insert_vertex(const float* vertex)

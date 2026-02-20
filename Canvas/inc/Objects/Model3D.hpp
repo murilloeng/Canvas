@@ -32,6 +32,9 @@ namespace canvas
 			//model
 			void apply_model(void) const override;
 
+			//update
+			void update_bounding_box(cameras::BoundingBox&) const override;
+
 			//data
 			buffers::IBO m_ibo;
 			buffers::VAO m_vao;

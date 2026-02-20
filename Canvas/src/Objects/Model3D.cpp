@@ -2,6 +2,7 @@
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Objects/Model3D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Model3D.hpp"
+#include "Canvas/Canvas/inc/Cameras/BoundingBox.hpp"
 
 namespace canvas
 {
@@ -62,6 +63,19 @@ namespace canvas
 			for(uint32_t i = 0; i < nv; i++)
 			{
 				vbo_ptr[i].m_position *= m_model_matrix;
+			}
+		}
+
+		//update
+		void Model3D::update_bounding_box(cameras::BoundingBox& bounding_box) const
+		{
+			//data
+			const uint32_t nv = m_vbo.vertex_count();
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
+			//update
+			for(uint32_t i = 0; i < nv; i++)
+			{
+				bounding_box.insert_vertex(vbo_ptr[i].m_position.data());
 			}
 		}
 	}

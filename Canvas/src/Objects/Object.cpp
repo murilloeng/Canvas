@@ -56,5 +56,9 @@ namespace canvas
 		{
 			return;
 		}
+		void Object::update_bounding_box(cameras::BoundingBox&) const
+		{
+			return;
+		}
 	}
 }
