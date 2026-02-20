@@ -37,6 +37,7 @@ static void load_get(void)
 }
 static void load_draw(void)
 {
+	glDrawArraysInstanced = (PFNGLDRAWARRAYSINSTANCEDPROC) load("glDrawArraysInstanced");
 	glDrawElementsBaseVertex = (PFNGLDRAWELEMENTSBASEVERTEXPROC) load("glDrawElementsBaseVertex");
 }
 static void load_buffers(void)
@@ -121,6 +122,7 @@ static void load_vertex_arrays(void)
 	glVertexArrayAttribFormat = (PFNGLVERTEXARRAYATTRIBFORMATPROC) load("glVertexArrayAttribFormat");
 	glVertexArrayElementBuffer = (PFNGLVERTEXARRAYELEMENTBUFFERPROC) load("glVertexArrayElementBuffer");
 	glVertexArrayAttribBinding = (PFNGLVERTEXARRAYATTRIBBINDINGPROC) load("glVertexArrayAttribBinding");
+	glVertexArrayBindingDivisor = (PFNGLVERTEXARRAYBINDINGDIVISORPROC) load("glVertexArrayBindingDivisor");
 }
 
 namespace canvas

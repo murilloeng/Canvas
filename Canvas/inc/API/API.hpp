@@ -12,6 +12,7 @@
 inline PFNGLGETBUFFERPARAMETERIVPROC glGetBufferParameteriv = nullptr;
 
 //draw
+inline PFNGLDRAWARRAYSINSTANCEDPROC glDrawArraysInstanced = nullptr;
 inline PFNGLDRAWELEMENTSBASEVERTEXPROC glDrawElementsBaseVertex = nullptr;
 
 //buffers
