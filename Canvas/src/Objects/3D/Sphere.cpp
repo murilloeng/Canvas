@@ -189,7 +189,7 @@ namespace canvas
 				for(uint32_t j = 1; j < m_mesh; j++)
 				{
 					const float s = float(j) / m_mesh;
-					vbo_ptr[j - 1].m_position = m_model_matrix * (x1 + s * (x2 - x1)).unit();
+					vbo_ptr[j - 1].m_position = (x1 + s * (x2 - x1)).unit();
 				}
 				//offset
 				vbo_ptr += m_mesh - 1;
@@ -219,7 +219,7 @@ namespace canvas
 					{
 						const float c2 = (j + 1) * h;
 						const float c1 = (k + 1) * l + (j + 1) * l / 2;
-						vbo_ptr->m_position = m_model_matrix * (x1 + c1 * s1 + c2 * s2).unit();
+						vbo_ptr->m_position = (x1 + c1 * s1 + c2 * s2).unit();
 						vbo_ptr++;
 					}
 				}
@@ -232,7 +232,7 @@ namespace canvas
 			//vertices
 			for(uint32_t i = 0; i < 12; i++)
 			{
-				(vbo_ptr + i)->m_position = m_model_matrix * vec3(base_vertices[i]);
+				(vbo_ptr + i)->m_position = base_vertices[i];
 			}
 		}
 
@@ -264,6 +264,7 @@ namespace canvas
 			ibo_faces_data(ibo_ptr);
 			ibo_edges_data(ibo_ptr + 3 * nt);
 			//transfer
+			apply_model();
 			m_ibo.transfer();
 			m_vbo.transfer();
 		}

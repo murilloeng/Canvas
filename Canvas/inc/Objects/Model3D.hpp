@@ -29,6 +29,9 @@ namespace canvas
 			Color color_stroke(const Color&);
 
 		protected:
+			//model
+			void apply_model(void) const override;
+
 			//data
 			buffers::IBO m_ibo;
 			buffers::VAO m_vao;

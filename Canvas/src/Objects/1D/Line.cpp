@@ -40,6 +40,7 @@ namespace canvas
 			vbo_data[0].m_position = m_positions[0];
 			vbo_data[1].m_position = m_positions[1];
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Line::draw(void) const

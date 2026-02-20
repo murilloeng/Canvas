@@ -46,6 +46,7 @@ namespace canvas
 				vbo_ptr[i].m_position = m_vertices[i];
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Polyline::draw(void) const

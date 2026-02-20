@@ -64,6 +64,7 @@ namespace canvas
 				vbo_ptr[i].m_position = m_position(t);
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Curve::draw(void) const

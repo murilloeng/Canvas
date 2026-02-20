@@ -38,10 +38,11 @@ namespace canvas
 			{
 				vbo_data[i + 0].m_color = m_color_fill;
 				vbo_data[i + 3].m_color = m_color_stroke;
-				vbo_data[i + 0].m_position = m_model_matrix * m_positions[i];
-				vbo_data[i + 3].m_position = m_model_matrix * m_positions[i];
+				vbo_data[i + 0].m_position = m_positions[i];
+				vbo_data[i + 3].m_position = m_positions[i];
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Triangle::draw(void) const

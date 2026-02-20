@@ -94,6 +94,7 @@ namespace canvas
 				}
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Spline::draw(void) const
@@ -101,8 +102,7 @@ namespace canvas
 			m_vao.bind();
 			m_shader.bind();
 			const uint32_t np = m_points.size();
-			glDrawArrays(GL_LINE_STRIP, 0, (np - 1) * (m_mesh + 1))
-			;
+			glDrawArrays(GL_LINE_STRIP, 0, (np - 1) * (m_mesh + 1));
 		}
 
 		//static

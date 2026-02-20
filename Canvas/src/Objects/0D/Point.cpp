@@ -37,6 +37,7 @@ namespace canvas
 			vertex->m_color = m_color_fill;
 			vertex->m_position = m_position;
 			//vbo transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Point::draw(void) const

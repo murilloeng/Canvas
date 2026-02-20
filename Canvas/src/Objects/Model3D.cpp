@@ -50,5 +50,19 @@ namespace canvas
 		{
 			return m_color_stroke = color_stroke;
 		}
+
+		//model
+		void Model3D::apply_model(void) const
+		{
+			//data
+			const uint32_t nv = m_vbo.vertex_count();
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
+			//apply
+			if(!m_has_model_matrix) return;
+			for(uint32_t i = 0; i < nv; i++)
+			{
+				vbo_ptr[i].m_position *= m_model_matrix;
+			}
+		}
 	}
 }

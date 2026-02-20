@@ -46,10 +46,11 @@ namespace canvas
 				vbo_ptr[i].m_color = m_color_fill;
 				vbo_ptr[i + m_mesh].m_color = m_color_stroke;
 				//positions
-				vbo_ptr[i].m_position = m_model_matrix * vec3({cosf(t), sinf(t), 0});
-				vbo_ptr[i + m_mesh].m_position = m_model_matrix * vec3({cosf(t), sinf(t), 0});
+				vbo_ptr[i].m_position = {cosf(t), sinf(t), 0};
+				vbo_ptr[i + m_mesh].m_position = {cosf(t), sinf(t), 0};
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Circle::draw(void) const

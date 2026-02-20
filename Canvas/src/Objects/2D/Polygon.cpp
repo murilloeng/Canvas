@@ -84,6 +84,7 @@ namespace canvas
 				}
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 			m_ibo.transfer();
 		}

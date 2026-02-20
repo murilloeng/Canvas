@@ -82,6 +82,7 @@ namespace canvas
 				}
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Bezier::draw(void) const

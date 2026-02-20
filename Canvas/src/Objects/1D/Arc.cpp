@@ -53,9 +53,10 @@ namespace canvas
 				const float t = m_angle * i / m_mesh;
 				//vertex
 				vbo_ptr[i].m_color = m_color_stroke;
-				vbo_ptr[i].m_position = m_model_matrix * vec3(cosf(t), sinf(t), 0);
+				vbo_ptr[i].m_position = vec3(cosf(t), sinf(t), 0);
 			}
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Arc::draw(void) const

@@ -180,7 +180,7 @@ namespace canvas
 					{
 						vbo_ptr[j].m_color = m_color;
 						vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
-						vbo_ptr[j].m_position = m_model_matrix * vec3(xc[2 * j + 0], xc[2 * j + 1], 0);
+						vbo_ptr[j].m_position = {xc[2 * j + 0], xc[2 * j + 1], 0};
 					}
 					vbo_ptr += 4;
 					xp[0] += ps * r;
@@ -205,6 +205,7 @@ namespace canvas
 			ibo_data(nc, ibo_ptr);
 			vbo_data(nc, vbo_ptr);
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 			m_ibo.transfer();
 		}
@@ -215,6 +216,20 @@ namespace canvas
 			const uint32_t ni = m_ibo.vertex_count();
 			m_scene->font(m_font)->texture().bind_unit(0);
 			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
+		}
+
+		//model
+		void Text3D::apply_model(void) const
+		{
+			//data
+			const uint32_t nv = m_vbo.vertex_count();
+			vertices::Text3D* vbo_ptr = (vertices::Text3D*) m_vbo.data();
+			//model
+			if(!m_has_model_matrix) return;
+			for(uint32_t i = 0; i < nv; i++)
+			{
+				vbo_ptr[i].m_position *= m_model_matrix;
+			}
 		}
 
 		//update

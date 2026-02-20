@@ -33,6 +33,9 @@ namespace canvas
 			void rotate(const vec3&, const quat&, bool = true);
 
 		protected:
+			//model
+			virtual void apply_model(void) const = 0;
+
 			//data
 			mat4 m_model_matrix;
 			bool m_has_model_matrix;

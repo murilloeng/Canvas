@@ -39,6 +39,9 @@ namespace canvas
 			void setup(void) override;
 			void draw(void) const override;
 
+			//model
+			void apply_model(void) const override;
+
 			//data
 			Color m_color;
 			Anchor m_anchor;

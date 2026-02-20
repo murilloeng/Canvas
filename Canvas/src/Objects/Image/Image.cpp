@@ -68,11 +68,12 @@ namespace canvas
 			vbo_ptr[3].m_texture_coordinates = {0, 1};
 			//positions
 			const float m = fmaxf(w, h);
-			vbo_ptr[0].m_position = m_model_matrix * vec3((x1 + 0) / m, (x2 + 0) / m, 0);
-			vbo_ptr[1].m_position = m_model_matrix * vec3((x1 + w) / m, (x2 + 0) / m, 0);
-			vbo_ptr[2].m_position = m_model_matrix * vec3((x1 + w) / m, (x2 + h) / m, 0);
-			vbo_ptr[3].m_position = m_model_matrix * vec3((x1 + 0) / m, (x2 + h) / m, 0);
+			vbo_ptr[0].m_position = {(x1 + 0) / m, (x2 + 0) / m, 0};
+			vbo_ptr[1].m_position = {(x1 + w) / m, (x2 + 0) / m, 0};
+			vbo_ptr[2].m_position = {(x1 + w) / m, (x2 + h) / m, 0};
+			vbo_ptr[3].m_position = {(x1 + 0) / m, (x2 + h) / m, 0};
 			//transfer
+			apply_model();
 			m_vbo.transfer();
 		}
 		void Image::draw(void) const
@@ -81,6 +82,19 @@ namespace canvas
 			m_shader.bind();
 			m_image.texture().bind_unit(0);
 			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		}
+
+		//model
+		void Image::apply_model(void) const
+		{
+			//data
+			vertices::Image3D* vbo_ptr = (vertices::Image3D*) m_vbo.data();
+			//model
+			if(!m_has_model_matrix) return;
+			for(uint32_t i = 0; i < 4; i++)
+			{
+				vbo_ptr[i].m_position *= m_model_matrix;
+			}
 		}
 	}
 }

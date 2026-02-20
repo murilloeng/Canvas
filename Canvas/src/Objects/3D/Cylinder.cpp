@@ -89,8 +89,8 @@ namespace canvas
 				const float t = 2 * float(M_PI) * i / m_mesh;
 				(vbo_ptr + 0 * m_mesh + i)->m_color = m_color_stroke;
 				(vbo_ptr + 1 * m_mesh + i)->m_color = m_color_stroke;
-				(vbo_ptr + 0 * m_mesh + i)->m_position = m_model_matrix * vec3(cosf(t), sinf(t), -0.5f);
-				(vbo_ptr + 1 * m_mesh + i)->m_position = m_model_matrix * vec3(cosf(t), sinf(t), +0.5f);
+				(vbo_ptr + 0 * m_mesh + i)->m_position = {cosf(t), sinf(t), -0.5f};
+				(vbo_ptr + 1 * m_mesh + i)->m_position = {cosf(t), sinf(t), +0.5f};
 			}
 		}
 		void Cylinder::vbo_faces_data(vertices::Model3D* vbo_ptr) const
@@ -100,13 +100,13 @@ namespace canvas
 				const float t = 2 * float(M_PI) * i / m_mesh;
 				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_color = m_color_fill;
 				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_color = m_color_fill;
-				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_position = m_model_matrix * vec3(cosf(t), sinf(t), -0.5f);
-				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_position = m_model_matrix * vec3(cosf(t), sinf(t), +0.5f);
+				vbo_ptr[0 * (m_mesh + 1) + i + 1].m_position = {cosf(t), sinf(t), -0.5f};
+				vbo_ptr[1 * (m_mesh + 1) + i + 1].m_position = {cosf(t), sinf(t), +0.5f};
 			}
 			vbo_ptr[0 * (m_mesh + 1)].m_color = m_color_fill;
 			vbo_ptr[1 * (m_mesh + 1)].m_color = m_color_fill;
-			vbo_ptr[0 * (m_mesh + 1)].m_position = m_model_matrix * vec3({0.0f, 0.0f, -0.5});
-			vbo_ptr[1 * (m_mesh + 1)].m_position = m_model_matrix * vec3({0.0f, 0.0f, +0.5});
+			vbo_ptr[0 * (m_mesh + 1)].m_position = {0.0f, 0.0f, -0.5};
+			vbo_ptr[1 * (m_mesh + 1)].m_position = {0.0f, 0.0f, +0.5};
 		}
 
 		//draw
@@ -124,6 +124,7 @@ namespace canvas
 			ibo_faces_data(ibo_data);
 			ibo_edges_data(ibo_data + 12 * m_mesh);
 			//transfer
+			apply_model();
 			m_ibo.transfer();
 			m_vbo.transfer();
 		}
