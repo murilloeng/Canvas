@@ -15,7 +15,7 @@ int32_t main(void)
 	try
 	{
 		//data
-		examples::scenes::examples();
+		examples::scenes::tensegrity_chair();
 	}
 	catch(const std::exception& e)
 	{
