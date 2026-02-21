@@ -265,7 +265,7 @@ namespace canvas
 					const float hi = text_height(m_axis[1].font_size(), string);
 					//position
 					float xi = -ws / ms;
-					const float yi = -hs / ms + m_offset[2] - hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
+					const float yi = -hs / ms + m_offset[2] - (i != 0) * hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
 					//glyphs
 					for(char c : std::string(string))
 					{
