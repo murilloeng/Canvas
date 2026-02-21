@@ -17,6 +17,7 @@ namespace examples
 		void images(canvas::Scene*);
 		void text2D(canvas::Scene*);
 		void text3D(canvas::Scene*);
+		void graphs(canvas::Scene*);
 		void squares(canvas::Scene*);
 		void circles(canvas::Scene*);
 		void spheres(canvas::Scene*);
