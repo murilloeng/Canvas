@@ -10,8 +10,8 @@ namespace canvas
 	{
 		//constructor
 		BaseModel3D::BaseModel3D(void) : m_shader({
-			new shaders::Stage(GL_VERTEX_SHADER, "model3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, "model3D.frag")
+			new shaders::Stage(GL_VERTEX_SHADER, "Model3D.vert"),
+			new shaders::Stage(GL_FRAGMENT_SHADER, "Model3D.frag")
 		}), m_color_fill{"blue"}, m_color_stroke{"white"}
 		{
 			//vbo setup

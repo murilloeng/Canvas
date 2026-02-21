@@ -1,5 +1,8 @@
 #pragma once
 
+//std
+#include <vector>
+
 //canvas
 #include "Canvas/Canvas/inc/Math/vec3.hpp"
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
@@ -14,14 +17,14 @@ namespace canvas
 	{
 		namespace graphs
 		{
-			class Line : public objects::Object
+			class Curve : public objects::Object
 			{
 			public:
 				//constructor
-				Line(void);
+				Curve(void);
 
 				//destructor
-				~Line(void);
+				~Curve(void);
 
 				//data
 				Color color(void) const;
@@ -30,8 +33,8 @@ namespace canvas
 				float thickness(float);
 				float thickness(void) const;
 
-				vec3 point(uint32_t) const;
-				vec3 point(uint32_t, const vec3&);
+				std::vector<vec3>& points(void);
+				const std::vector<vec3>& points(void) const;
 
 			protected:
 				//draw
@@ -40,11 +43,11 @@ namespace canvas
 
 				//data
 				Color m_color;
-				vec3 m_points[2];
 				float m_thickness;
 				buffers::VAO m_vao;
 				buffers::VBO m_vbo;
 				shaders::Shader m_shader;
+				std::vector<vec3> m_points;
 			};
 		}
 	}

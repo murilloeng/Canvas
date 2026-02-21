@@ -15,7 +15,7 @@ namespace canvas
 	{
 		//constructors
 		Text2D::Text2D(void) : m_font{0}, 
-			m_shader{{new shaders::Stage(GL_VERTEX_SHADER, "text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "text2D.frag")}}
+			m_shader{{new shaders::Stage(GL_VERTEX_SHADER, "Text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Text2D.frag")}}
 		{
 			//vao setup
 			m_vao.attribute_enable(0);
