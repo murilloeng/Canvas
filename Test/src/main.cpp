@@ -7,15 +7,12 @@
 #include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
 
-//Canvas
-#include "Canvas/Canvas/inc/Objects/Graph/Curve.hpp"
-
 int32_t main(void)
 {
 	try
 	{
 		//data
-		examples::scenes::tensegrity_chair();
+		examples::scenes::examples();
 	}
 	catch(const std::exception& e)
 	{
