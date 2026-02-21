@@ -7,6 +7,6 @@
 
 void examples::objects::graphs(canvas::Scene* scene)
 {
-	scene->add_font("times");
+	scene->add_font("arial");
 	scene->add_object(new canvas::objects::Graph);
 }

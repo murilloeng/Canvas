@@ -104,8 +104,8 @@ namespace canvas
 					const float v0i = v00 + (v01 - v00) * i / (n0 - 1);
 					m_offset[2] = fmaxf(m_offset[2], text_height(f0, v0i));
 				}
-				m_offset[3] = text_height(f1, v11);
-				m_offset[2] += 2 * text_height(f1, v10);
+				m_offset[3] = text_height(f1, v11) / 2;
+				m_offset[2] += text_height(f1, v10) / 2;
 			}
 
 			//draw
@@ -230,7 +230,7 @@ namespace canvas
 					sprintf(string, "%+.2e", v00 + i * (v01 - v00) / (n0 - 1));
 					const float wi = text_width(m_axis[0].font_size(), string);
 					//position
-					const float yi = -hs / ms + m_offset[2] / 2;
+					const float yi = -hs / ms;
 					float xi = -ws / ms + m_offset[0] + i * (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1) - wi / 2;
 					//glyphs
 					for(char c : std::string(string))
@@ -262,9 +262,10 @@ namespace canvas
 				{
 					//string
 					sprintf(string, "%+.2e", v10 + i * (v11 - v10) / (n0 - 1));
+					const float hi = text_height(m_axis[1].font_size(), string);
 					//position
 					float xi = -ws / ms;
-					const float yi = -hs / ms + m_offset[2] + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
+					const float yi = -hs / ms + m_offset[2] - hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
 					//glyphs
 					for(char c : std::string(string))
 					{
