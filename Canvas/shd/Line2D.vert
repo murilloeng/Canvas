@@ -1,17 +1,10 @@
 #version 460 core
-
-out float vertex_u;
 out vec4 vertex_color;
-out uint vertex_dash_type;
-out uint vertex_dash_length;
 
 layout(location = 0) in vec4 color;
 layout(location = 1) in vec2 point_1;
 layout(location = 2) in vec2 point_2;
 layout(location = 3) in float thickness;
-
-layout(location = 4) in uint dash_type;
-layout(location = 5) in uint dash_length;
 
 layout(std140, binding = 1) uniform screen { float width, height; };
 
@@ -20,6 +13,7 @@ vec2 points[] = {vec2(-1, -1), vec2(+1, -1), vec2(+1, +1), vec2(-1, +1)};
 void main(void)
 {
 	//data
+	vertex_color = color;
 	const float w = width;
 	const float h = height;
 	const float m = min(w, h);
@@ -32,11 +26,6 @@ void main(void)
 	//line directions
 	const vec2 d1 = normalize(p2 - p1);
 	const vec2 d2 = vec2(-d1.y, +d1.x);
-	//vertex data
-	vertex_color = color;
-	vertex_dash_type = dash_type;
-	vertex_dash_length = dash_length;
-	vertex_u = length(p2 - p1) * (points[gl_VertexID].x + 1) / 2;
 	//screen vertex position
 	const float t = (points[gl_VertexID].x + 1) / 2;
 	const vec2 pv = mix(p1, p2, t) + points[gl_VertexID].y * thickness / 2 * d2;

@@ -9,7 +9,7 @@ namespace canvas
 	namespace vertices
 	{
 		//constructor
-		Line2D::Line2D(void) : m_dash_type{0}, m_dash_length{20}
+		Line2D::Line2D(void)
 		{
 			return;
 		}
@@ -26,7 +26,7 @@ namespace canvas
 			m_color.print("Color");
 			m_points[0].print("Point 0:");
 			m_points[1].print("Point 1:");
-			printf("Thickness: %+.2e\nDash Type: %d\nDash Lenght: %d\n", m_thickness, m_dash_type, m_dash_length);
+			printf("Thickness: %+.2e\n", m_thickness);
 		}
 	}
 }

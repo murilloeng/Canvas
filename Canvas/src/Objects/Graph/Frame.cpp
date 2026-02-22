@@ -27,14 +27,12 @@ namespace canvas
 				m_vbos[1].vertex_size(sizeof(vertices::Glyph2D));
 				//vao setup: Line2D
 				m_vaos[0].binding_divisor(0, 1);
-				for(uint32_t i = 0; i < 6; i++) m_vaos[0].attribute_enable(i);
-				for(uint32_t i = 0; i < 6; i++) m_vaos[0].attribute_binding(i, 0);
+				for(uint32_t i = 0; i < 4; i++) m_vaos[0].attribute_enable(i);
+				for(uint32_t i = 0; i < 4; i++) m_vaos[0].attribute_binding(i, 0);
 				m_vaos[0].attribute_format(0, 4, GL_FLOAT, 0 * sizeof(float));
 				m_vaos[0].attribute_format(1, 2, GL_FLOAT, 4 * sizeof(float));
 				m_vaos[0].attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
 				m_vaos[0].attribute_format(3, 1, GL_FLOAT, 8 * sizeof(float));
-				m_vaos[0].attribute_format_integer(4, 1, GL_UNSIGNED_INT, 9 * sizeof(float) + 0 * sizeof(uint32_t));
-				m_vaos[0].attribute_format_integer(5, 1, GL_UNSIGNED_INT, 9 * sizeof(float) + 1 * sizeof(uint32_t));
 				m_vaos[0].vertex_buffer(0, m_vbos[0].id(), 0, sizeof(vertices::Line2D));
 				//vao setup: Glyph2D
 				for(uint32_t i = 0; i < 9; i++)
