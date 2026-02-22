@@ -10,7 +10,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		Graph::~Graph(void)
 		{

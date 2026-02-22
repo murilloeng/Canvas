@@ -21,7 +21,7 @@ namespace canvas
 				//data
 				float font_size(uint32_t);
 				float font_size(void) const;
-				
+
 				float ticks_size(float);
 				float ticks_size(void) const;
 

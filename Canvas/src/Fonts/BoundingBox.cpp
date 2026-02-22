@@ -14,7 +14,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		BoundingBox::~BoundingBox(void)
 		{

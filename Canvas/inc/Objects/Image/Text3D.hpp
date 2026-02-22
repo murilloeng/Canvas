@@ -26,10 +26,10 @@ namespace canvas
 			//data
 			bool normal(bool);
 			bool normal(void) const;
-			
+
 			uint32_t font(uint32_t);
 			uint32_t font(void) const;
-			
+
 			Color color(void) const;
 			Color color(const Color&);
 
@@ -38,7 +38,7 @@ namespace canvas
 
 			std::string text(void) const;
 			std::string text(std::string);
-			
+
 		protected:
 			//text
 			uint32_t width(void) const;

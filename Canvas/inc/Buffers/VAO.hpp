@@ -19,7 +19,7 @@ namespace canvas
 			//bind
 			void bind(void) const;
 			void binding_divisor(GLuint, GLuint) const;
-			
+
 			//buffers
 			void element_buffer(GLuint) const;
 			void vertex_buffer(GLuint, GLuint, GLintptr, GLsizei) const;

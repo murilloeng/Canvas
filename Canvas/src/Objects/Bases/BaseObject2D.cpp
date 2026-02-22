@@ -10,7 +10,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		BaseObject2D::~BaseObject2D(void)
 		{

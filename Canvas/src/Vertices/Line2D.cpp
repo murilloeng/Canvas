@@ -13,7 +13,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		Line2D::~Line2D(void)
 		{

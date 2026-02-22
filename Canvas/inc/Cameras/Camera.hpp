@@ -103,7 +103,7 @@ namespace canvas
 
 			buffers::UBO m_ubo_2D;
 			buffers::UBO m_ubo_3D;
-			
+
 			bool m_fixed_bounding_box;
 			BoundingBox m_bounding_box;
 

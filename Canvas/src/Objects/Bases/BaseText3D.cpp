@@ -29,7 +29,7 @@ namespace canvas
 			m_vao.attribute_format(2, 2, GL_FLOAT, 7 * sizeof(float));
 			m_vao.vertex_buffer(0, m_vbo.id(), 0, sizeof(vertices::Text3D));
 		}
-		
+
 		//destructor
 		BaseText3D::~BaseText3D(void)
 		{

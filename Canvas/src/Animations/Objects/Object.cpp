@@ -12,7 +12,7 @@ namespace canvas
 			{
 				return;
 			}
-			
+
 			//destructor
 			Object::~Object(void)
 			{

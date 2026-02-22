@@ -13,7 +13,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		Glyph2D::~Glyph2D(void)
 		{

@@ -10,7 +10,7 @@ namespace canvas
 		{
 			return;
 		}
-		
+
 		//destructor
 		BaseObject3D::~BaseObject3D(void)
 		{

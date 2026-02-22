@@ -26,13 +26,13 @@ namespace canvas
 
 			//types
 			enum class Type{Line, Conic, Cubic};
-			
+
 			//type
 			virtual Type type(void) const = 0;
-			
+
 			//print
 			virtual void print(void) const = 0;
-			
+
 			//object
 			virtual objects::Object* object(void) const = 0;
 

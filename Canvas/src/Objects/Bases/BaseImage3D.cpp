@@ -26,7 +26,7 @@ namespace canvas
 			m_vao.attribute_format(1, 2, GL_FLOAT, 3 * sizeof(float));
 			m_vao.vertex_buffer(0, m_vbo.id(), 0, sizeof(vertices::Image3D));
 		}
-		
+
 		//destructor
 		BaseImage3D::~BaseImage3D(void)
 		{

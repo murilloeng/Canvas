@@ -18,42 +18,44 @@ namespace canvas
 			//constructors
 			Frame::Frame(const Graph* graph) : 
 				m_color{"white"}, m_thickness{2}, m_graph{graph}, m_shaders{
-					{{new shaders::Stage(GL_VERTEX_SHADER, "Text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Text2D.frag")}},
-					{{new shaders::Stage(GL_VERTEX_SHADER, "Line2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Line2D.frag")}}
+					{{new shaders::Stage(GL_VERTEX_SHADER, "Line2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Line2D.frag")}},
+					{{new shaders::Stage(GL_VERTEX_SHADER, "Glyph2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Glyph2D.frag")}}
 				}
 			{
 				//vbos setup
-				m_vbos[0].vertex_size(sizeof(vertices::Text2D));
-				m_vbos[1].vertex_size(sizeof(vertices::Line2D));
-				//vao setup: Text2D
+				m_vbos[0].vertex_size(sizeof(vertices::Line2D));
+				m_vbos[1].vertex_size(sizeof(vertices::Glyph2D));
+				//vao setup: Line2D
 				m_vaos[0].attribute_enable(0);
 				m_vaos[0].attribute_enable(1);
 				m_vaos[0].attribute_enable(2);
+				m_vaos[0].attribute_enable(3);
+				m_vaos[0].binding_divisor(0, 1);
 				m_vaos[0].attribute_binding(0, 0);
 				m_vaos[0].attribute_binding(1, 0);
 				m_vaos[0].attribute_binding(2, 0);
-				m_vaos[0].element_buffer(m_ibos[0].id());
-				m_vaos[0].attribute_format(0, 2, GL_FLOAT, 0 * sizeof(float));
-				m_vaos[0].attribute_format(1, 4, GL_FLOAT, 2 * sizeof(float));
+				m_vaos[0].attribute_binding(3, 0);
+				m_vaos[0].attribute_format(0, 4, GL_FLOAT, 0 * sizeof(float));
+				m_vaos[0].attribute_format(1, 2, GL_FLOAT, 4 * sizeof(float));
 				m_vaos[0].attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
-				m_vaos[0].vertex_buffer(0, m_vbos[0].id(), 0, sizeof(vertices::Text2D));
-				//vao setup: Line2D
-				m_vaos[1].attribute_enable(0);
-				m_vaos[1].attribute_enable(1);
-				m_vaos[1].attribute_enable(2);
-				m_vaos[1].attribute_enable(3);
+				m_vaos[0].attribute_format(3, 1, GL_FLOAT, 8 * sizeof(float));
+				m_vaos[0].vertex_buffer(0, m_vbos[0].id(), 0, sizeof(vertices::Line2D));
+				//vao setup: Glyph2D
+				for(uint32_t i = 0; i < 9; i++)
+				{
+					m_vaos[1].attribute_enable(i);
+					m_vaos[1].attribute_binding(i, 0);
+				}
 				m_vaos[1].binding_divisor(0, 1);
-				m_vaos[1].attribute_binding(0, 0);
-				m_vaos[1].attribute_binding(1, 0);
-				m_vaos[1].attribute_binding(2, 0);
-				m_vaos[1].attribute_binding(3, 0);
-				m_vaos[1].attribute_format(0, 4, GL_FLOAT, 0 * sizeof(float));
-				m_vaos[1].attribute_format(1, 2, GL_FLOAT, 4 * sizeof(float));
-				m_vaos[1].attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
-				m_vaos[1].attribute_format(3, 1, GL_FLOAT, 8 * sizeof(float));
-				m_vaos[1].vertex_buffer(0, m_vbos[1].id(), 0, sizeof(vertices::Line2D));
+				m_vaos[1].attribute_format(0, 4, GL_FLOAT,  0 * sizeof(float));
+				for(uint32_t i = 0; i < 4; i++)
+				{
+					m_vaos[1].attribute_format(i + 1, 2, GL_FLOAT, ( 4 + 2 * i) * sizeof(float));
+					m_vaos[1].attribute_format(i + 5, 2, GL_FLOAT, (12 + 2 * i) * sizeof(float));
+				}
+				m_vaos[1].vertex_buffer(0, m_vbos[1].id(), 0, sizeof(vertices::Glyph2D));
 			}
-			
+
 			//destructor
 			Frame::~Frame(void)
 			{
@@ -123,33 +125,29 @@ namespace canvas
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//allocate
-				m_vbos[0].allocate(36 * (n0 + n1));
-				m_ibos[0].allocate(54 * (n0 + n1));
-				m_vbos[1].allocate(2 * (n0 + n1 - 2));
-				uint32_t* ibo_ptr_ticks = m_ibos[0].data();
-				vertices::Text2D* vbo_ptr_ticks = (vertices::Text2D*) m_vbos[0].data();
-				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[1].data();
+				m_vbos[1].allocate(9 * (n0 + n1));
+				m_vbos[0].allocate(2 * (n0 + n1 - 2));
+				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[0].data();
+				vertices::Glyph2D* vbo_ptr_ticks = (vertices::Glyph2D*) m_vbos[1].data();
 				//buffers
 				compute_offset();
 				vbo_data_frame(vbo_ptr_frame);
-				ibo_data_ticks(ibo_ptr_ticks);
 				vbo_data_ticks_vertical(vbo_ptr_ticks);
 				vbo_data_ticks_horizontal(vbo_ptr_ticks);
 				//transfer
-				m_ibos[0].transfer();
 				m_vbos[0].transfer();
 				m_vbos[1].transfer();
 			}
 			void Frame::draw(void) const
 			{
-				//draw ticks
+				//draw frame
 				m_vaos[0].bind();
 				m_shaders[0].bind();
-				m_scene->font(m_graph->font())->texture().bind_unit(0);
-				glDrawElements(GL_TRIANGLES, m_ibos[0].vertex_count(), GL_UNSIGNED_INT, nullptr);
-				//draw frame
+				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[0].vertex_count());
+				//draw ticks
 				m_vaos[1].bind();
 				m_shaders[1].bind();
+				m_scene->font(m_graph->font())->texture().bind_unit(0);
 				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[1].vertex_count());
 			}
 
@@ -242,24 +240,7 @@ namespace canvas
 					vbo_ptr[1].m_points[1] = {+ws / ms - m_offset[1] - m_axis[1].ticks_size(), yi};
 				}
 			}
-
-			void Frame::ibo_data_ticks(uint32_t* ibo_ptr) const
-			{
-				//data
-				const uint32_t n0 = m_axis[0].ticks_count();
-				const uint32_t n1 = m_axis[1].ticks_count();
-				//ibo data
-				for(uint32_t i = 0; i < 9 * (n0 + n1); i++)
-				{
-					ibo_ptr[6 * i + 0] = 4 * i + 0;
-					ibo_ptr[6 * i + 1] = 4 * i + 1;
-					ibo_ptr[6 * i + 2] = 4 * i + 2;
-					ibo_ptr[6 * i + 3] = 4 * i + 0;
-					ibo_ptr[6 * i + 4] = 4 * i + 2;
-					ibo_ptr[6 * i + 5] = 4 * i + 3;
-				}
-			}
-			void Frame::vbo_data_ticks_vertical(vertices::Text2D*& vbo_ptr) const
+			void Frame::vbo_data_ticks_vertical(vertices::Glyph2D*& vbo_ptr) const
 			{
 				//data
 				char string[256];
@@ -296,18 +277,18 @@ namespace canvas
 						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
 						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
 						//vertices
+						vbo_ptr->m_color = m_color;
 						for(uint32_t j = 0; j < 4; j++)
 						{
-							vbo_ptr[j].m_color = m_color;
-							vbo_ptr[j].m_position = xc + 2 * j;
-							vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+							vbo_ptr->m_position[j] = xc + 2 * j;
+							vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
 						}
-						vbo_ptr += 4;
+						vbo_ptr++;
 						xi += m_axis[0].font_size() * r / font->height();
 					}
 				}
 			}
-			void Frame::vbo_data_ticks_horizontal(vertices::Text2D*& vbo_ptr) const
+			void Frame::vbo_data_ticks_horizontal(vertices::Glyph2D*& vbo_ptr) const
 			{
 				//data
 				char string[256];
@@ -344,13 +325,13 @@ namespace canvas
 						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
 						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
 						//vertices
+						vbo_ptr->m_color = m_color;
 						for(uint32_t j = 0; j < 4; j++)
 						{
-							vbo_ptr[j].m_color = m_color;
-							vbo_ptr[j].m_position = xc + 2 * j;
-							vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+							vbo_ptr->m_position[j] = xc + 2 * j;
+							vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
 						}
-						vbo_ptr += 4;
+						vbo_ptr++;
 						xi += m_axis[0].font_size() * r / font->height();
 					}
 				}
