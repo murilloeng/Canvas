@@ -2,7 +2,6 @@
 
 //canvas
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
-
 #include "Canvas/Canvas/inc/Vertices/Vertex2D.hpp"
 
 namespace canvas

@@ -1,7 +1,7 @@
 //std
 #include <cstdio>
 
-//canvas
+//Canvas
 #include "Canvas/Canvas/inc/Vertices/Line2D.hpp"
 
 namespace canvas
@@ -13,7 +13,7 @@ namespace canvas
 		{
 			return;
 		}
-
+		
 		//destructor
 		Line2D::~Line2D(void)
 		{
@@ -23,7 +23,9 @@ namespace canvas
 		//print
 		void Line2D::print(void) const
 		{
-			Model2D::print();
+			m_color.print("Color");
+			m_points[0].print("Point 0:");
+			m_points[1].print("Point 1:");
 			printf("Thickness: %+.2e\n", m_thickness);
 		}
 	}

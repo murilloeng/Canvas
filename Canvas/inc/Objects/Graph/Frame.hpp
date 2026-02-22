@@ -7,8 +7,8 @@
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
+#include "Canvas/Canvas/inc/Vertices/Line2D.hpp"
 #include "Canvas/Canvas/inc/Vertices/Text2D.hpp"
-#include "Canvas/Canvas/inc/Vertices/Model2D.hpp"
 #include "Canvas/Canvas/inc/Objects/Graph/Axis.hpp"
 
 namespace canvas
@@ -60,8 +60,8 @@ namespace canvas
 				float text_height(float, std::string) const;
 
 				//bufers
-				void ibo_data_frame(uint32_t*) const;
-				void vbo_data_frame(vertices::Model2D*) const;
+				// void ibo_data_frame(uint32_t*) const;
+				void vbo_data_frame(vertices::Line2D*) const;
 				
 				void ibo_data_ticks(uint32_t*) const;
 				void vbo_data_ticks_vertical(vertices::Text2D*&) const;
