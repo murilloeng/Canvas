@@ -44,6 +44,9 @@ namespace canvas
 				uint32_t thickness(uint32_t);
 				uint32_t thickness(void) const;
 
+				float grid_opacity(float);
+				float grid_opacity(void) const;
+
 			private:
 				//compute
 				void compute_offset(void);
@@ -60,7 +63,11 @@ namespace canvas
 				float text_height(float, std::string) const;
 
 				//bufers
-				void vbo_data_frame(vertices::Line2D*) const;
+				void vbo_data_frame(vertices::Line2D*&) const;
+				void vbo_data_frame_grid(vertices::Line2D*&) const;
+				void vbo_data_frame_vertical(vertices::Line2D*&) const;
+				void vbo_data_frame_horizontal(vertices::Line2D*&) const;
+
 				void vbo_data_ticks_vertical(vertices::Glyph2D*&) const;
 				void vbo_data_ticks_horizontal(vertices::Glyph2D*&) const;
 
@@ -68,6 +75,7 @@ namespace canvas
 				Color m_color;
 				Axis m_axis[2];
 				float m_offset[4];
+				float m_grid_opacity;
 				uint32_t m_thickness;
 				const Graph* m_graph;
 				buffers::VAO m_vaos[2];

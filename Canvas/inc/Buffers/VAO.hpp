@@ -28,6 +28,8 @@ namespace canvas
 			void attribute_enable(GLuint) const;
 			void attribute_binding(GLuint, GLuint) const;
 			void attribute_format(GLuint, GLuint, GLenum, GLuint) const;
+			void attribute_format_double(GLuint, GLuint, GLenum, GLuint) const;
+			void attribute_format_integer(GLuint, GLuint, GLenum, GLuint) const;
 
 		private:
 			//data

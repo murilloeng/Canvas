@@ -17,7 +17,7 @@ namespace canvas
 		{
 			//constructors
 			Frame::Frame(const Graph* graph) : 
-				m_color{"white"}, m_thickness{2}, m_graph{graph}, m_shaders{
+				m_color{"white"}, m_grid_opacity{0.1f}, m_thickness{2}, m_graph{graph}, m_shaders{
 					{{new shaders::Stage(GL_VERTEX_SHADER, "Line2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Line2D.frag")}},
 					{{new shaders::Stage(GL_VERTEX_SHADER, "Glyph2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Glyph2D.frag")}}
 				}
@@ -26,19 +26,15 @@ namespace canvas
 				m_vbos[0].vertex_size(sizeof(vertices::Line2D));
 				m_vbos[1].vertex_size(sizeof(vertices::Glyph2D));
 				//vao setup: Line2D
-				m_vaos[0].attribute_enable(0);
-				m_vaos[0].attribute_enable(1);
-				m_vaos[0].attribute_enable(2);
-				m_vaos[0].attribute_enable(3);
 				m_vaos[0].binding_divisor(0, 1);
-				m_vaos[0].attribute_binding(0, 0);
-				m_vaos[0].attribute_binding(1, 0);
-				m_vaos[0].attribute_binding(2, 0);
-				m_vaos[0].attribute_binding(3, 0);
+				for(uint32_t i = 0; i < 6; i++) m_vaos[0].attribute_enable(i);
+				for(uint32_t i = 0; i < 6; i++) m_vaos[0].attribute_binding(i, 0);
 				m_vaos[0].attribute_format(0, 4, GL_FLOAT, 0 * sizeof(float));
 				m_vaos[0].attribute_format(1, 2, GL_FLOAT, 4 * sizeof(float));
 				m_vaos[0].attribute_format(2, 2, GL_FLOAT, 6 * sizeof(float));
 				m_vaos[0].attribute_format(3, 1, GL_FLOAT, 8 * sizeof(float));
+				m_vaos[0].attribute_format_integer(4, 1, GL_UNSIGNED_INT, 9 * sizeof(float) + 0 * sizeof(uint32_t));
+				m_vaos[0].attribute_format_integer(5, 1, GL_UNSIGNED_INT, 9 * sizeof(float) + 1 * sizeof(uint32_t));
 				m_vaos[0].vertex_buffer(0, m_vbos[0].id(), 0, sizeof(vertices::Line2D));
 				//vao setup: Glyph2D
 				for(uint32_t i = 0; i < 9; i++)
@@ -86,6 +82,15 @@ namespace canvas
 				return m_thickness = thickness;
 			}
 
+			float Frame::grid_opacity(void) const
+			{
+				return m_grid_opacity;
+			}
+			float Frame::grid_opacity(float grid_opacity)
+			{
+				return m_grid_opacity = grid_opacity;
+			}
+
 			//compute
 			void Frame::compute_offset(void)
 			{
@@ -126,7 +131,7 @@ namespace canvas
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//allocate
 				m_vbos[1].allocate(9 * (n0 + n1));
-				m_vbos[0].allocate(2 * (n0 + n1 - 2));
+				m_vbos[0].allocate(3 * (n0 + n1) - 8);
 				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[0].data();
 				vertices::Glyph2D* vbo_ptr_ticks = (vertices::Glyph2D*) m_vbos[1].data();
 				//buffers
@@ -194,52 +199,102 @@ namespace canvas
 			}
 
 			//bufers
-			void Frame::vbo_data_frame(vertices::Line2D* vbo_ptr) const
+			void Frame::vbo_data_frame(vertices::Line2D*& vbo_ptr) const
+			{
+				//data
+				for(uint32_t i = 0; i < m_vbos[0].vertex_count(); i++)
+				{
+					vbo_ptr[i].m_color = m_color;
+					vbo_ptr[i].m_thickness = m_thickness;
+				}
+				//vbo data
+				vbo_data_frame_grid(vbo_ptr);
+				vbo_data_frame_vertical(vbo_ptr);
+				vbo_data_frame_horizontal(vbo_ptr);
+			}
+			void Frame::vbo_data_frame_grid(vertices::Line2D*& vbo_ptr) const
 			{
 				//data
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
-				//setup
-				for(uint32_t i = 0; i < 2 * (n0 + n1 - 2); i++)
+				const Color color(m_color[0], m_color[1], m_color[2], m_grid_opacity);
+				//color
+				for(uint32_t i = 0; i < n0 + n1 - 4; i++)
 				{
-					vbo_ptr[i].m_color = m_color;
-					vbo_ptr[i].m_thickness = m_thickness;
+					vbo_ptr[i].m_color = color;
 				}
-				//frame
+				//grid
 				const float ms = fminf(ws, hs);
 				float xi = -ws / ms + m_offset[0];
 				float yi = -hs / ms + m_offset[2];
-				vbo_ptr[0].m_points[0] = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
-				vbo_ptr[0].m_points[1] = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
-				vbo_ptr[1].m_points[0] = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
-				vbo_ptr[1].m_points[1] = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
-				vbo_ptr[2].m_points[0] = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
-				vbo_ptr[2].m_points[1] = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
-				vbo_ptr[3].m_points[0] = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
-				vbo_ptr[3].m_points[1] = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
-				//ticks
-				vbo_ptr += 2;
 				for(uint32_t i = 1; i + 1 < n0; i++)
 				{
-					vbo_ptr += 2;
 					xi += (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1);
-					vbo_ptr[0].m_points[0] = {xi, -hs / ms + m_offset[2]};
-					vbo_ptr[1].m_points[0] = {xi, +hs / ms - m_offset[3]};
-					vbo_ptr[0].m_points[1] = {xi, -hs / ms + m_offset[2] + m_axis[0].ticks_size()};
-					vbo_ptr[1].m_points[1] = {xi, +hs / ms - m_offset[3] - m_axis[0].ticks_size()};
+					vbo_ptr->m_points[0] = {xi, -hs / ms + m_offset[2] + m_axis[0].ticks_size()};
+					vbo_ptr->m_points[1] = {xi, +hs / ms - m_offset[3] - m_axis[0].ticks_size()};
+					vbo_ptr++;
 				}
 				for(uint32_t i = 1; i + 1 < n1; i++)
 				{
-					vbo_ptr += 2;
+					yi += (2 * hs / ms - m_offset[2] - m_offset[3]) / (n1 - 1);
+					vbo_ptr->m_points[0] = {-ws / ms + m_offset[0] + m_axis[1].ticks_size(), yi};
+					vbo_ptr->m_points[1] = {+ws / ms - m_offset[1] - m_axis[1].ticks_size(), yi};
+					vbo_ptr++;
+				}
+			}
+			void Frame::vbo_data_frame_vertical(vertices::Line2D*& vbo_ptr) const
+			{
+				//data
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
+				const uint32_t n1 = m_axis[1].ticks_count();
+				//frame
+				const float ms = fminf(ws, hs);
+				float yi = -hs / ms + m_offset[2];
+				vbo_ptr[0].m_points[0] = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
+				vbo_ptr[0].m_points[1] = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
+				vbo_ptr[1].m_points[0] = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
+				vbo_ptr[1].m_points[1] = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
+				//ticks
+				vbo_ptr += 2;
+				for(uint32_t i = 1; i + 1 < n1; i++)
+				{
 					yi += (2 * hs / ms - m_offset[2] - m_offset[3]) / (n1 - 1);
 					vbo_ptr[0].m_points[0] = {-ws / ms + m_offset[0], yi};
 					vbo_ptr[1].m_points[0] = {+ws / ms - m_offset[1], yi};
 					vbo_ptr[0].m_points[1] = {-ws / ms + m_offset[0] + m_axis[1].ticks_size(), yi};
 					vbo_ptr[1].m_points[1] = {+ws / ms - m_offset[1] - m_axis[1].ticks_size(), yi};
+					vbo_ptr += 2;
 				}
 			}
+			void Frame::vbo_data_frame_horizontal(vertices::Line2D*& vbo_ptr) const
+			{
+				//data
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
+				const uint32_t n0 = m_axis[0].ticks_count();
+				//frame
+				const float ms = fminf(ws, hs);
+				float xi = -ws / ms + m_offset[0];
+				vbo_ptr[0].m_points[0] = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
+				vbo_ptr[0].m_points[1] = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
+				vbo_ptr[1].m_points[0] = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
+				vbo_ptr[1].m_points[1] = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
+				//ticks
+				vbo_ptr += 2;
+				for(uint32_t i = 1; i + 1 < n0; i++)
+				{
+					xi += (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1);
+					vbo_ptr[0].m_points[0] = {xi, -hs / ms + m_offset[2]};
+					vbo_ptr[1].m_points[0] = {xi, +hs / ms - m_offset[3]};
+					vbo_ptr[0].m_points[1] = {xi, -hs / ms + m_offset[2] + m_axis[0].ticks_size()};
+					vbo_ptr[1].m_points[1] = {xi, +hs / ms - m_offset[3] - m_axis[0].ticks_size()};
+					vbo_ptr += 2;
+				}
+			}
+
 			void Frame::vbo_data_ticks_vertical(vertices::Glyph2D*& vbo_ptr) const
 			{
 				//data

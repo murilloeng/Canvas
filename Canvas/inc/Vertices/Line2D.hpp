@@ -24,6 +24,8 @@ namespace canvas
 			Color m_color;
 			vec2 m_points[2];
 			float m_thickness;
+			uint32_t m_dash_type;
+			uint32_t m_dash_length;
 		};
 	}
 }

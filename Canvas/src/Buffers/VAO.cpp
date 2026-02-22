@@ -60,5 +60,13 @@ namespace canvas
 		{
 			glVertexArrayAttribFormat(m_id, attribute, size, type, GL_FALSE, offset);
 		}
+		void VAO::attribute_format_double(GLuint attribute, GLuint size, GLenum type, GLuint offset) const
+		{
+			glVertexArrayAttribLFormat(m_id, attribute, size, type, offset);
+		}
+		void VAO::attribute_format_integer(GLuint attribute, GLuint size, GLenum type, GLuint offset) const
+		{
+			glVertexArrayAttribIFormat(m_id, attribute, size, type, offset);
+		}
 	}
 }

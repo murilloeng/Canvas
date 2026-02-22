@@ -122,6 +122,8 @@ static void load_vertex_arrays(void)
 	glVertexArrayAttribFormat = (PFNGLVERTEXARRAYATTRIBFORMATPROC) load("glVertexArrayAttribFormat");
 	glVertexArrayElementBuffer = (PFNGLVERTEXARRAYELEMENTBUFFERPROC) load("glVertexArrayElementBuffer");
 	glVertexArrayAttribBinding = (PFNGLVERTEXARRAYATTRIBBINDINGPROC) load("glVertexArrayAttribBinding");
+	glVertexArrayAttribIFormat = (PFNGLVERTEXARRAYATTRIBIFORMATPROC) load("glVertexArrayAttribIFormat");
+	glVertexArrayAttribLFormat = (PFNGLVERTEXARRAYATTRIBLFORMATPROC) load("glVertexArrayAttribLFormat");
 	glVertexArrayBindingDivisor = (PFNGLVERTEXARRAYBINDINGDIVISORPROC) load("glVertexArrayBindingDivisor");
 }
 
