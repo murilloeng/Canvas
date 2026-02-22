@@ -120,16 +120,17 @@ namespace canvas
 				m_ibos[0].allocate(54 * (n0 + n1));
 				m_vbos[1].allocate(4 * (n0 + n1 - 3));
 				m_ibos[1].allocate(4 * (n0 + n1 - 2));
-				uint32_t* ibo_ptr_text = m_ibos[0].data();
-				uint32_t* ibo_ptr_model = m_ibos[1].data();
-				vertices::Text2D* vbo_ptr_text = (vertices::Text2D*) m_vbos[0].data();
-				vertices::Model2D* vbo_ptr_model = (vertices::Model2D*) m_vbos[1].data();
+				uint32_t* ibo_ptr_ticks = m_ibos[0].data();
+				uint32_t* ibo_ptr_frame = m_ibos[1].data();
+				vertices::Text2D* vbo_ptr_ticks = (vertices::Text2D*) m_vbos[0].data();
+				vertices::Model2D* vbo_ptr_frame = (vertices::Model2D*) m_vbos[1].data();
 				//buffers
 				compute_offset();
-				vbo_data_text(vbo_ptr_text);
-				ibo_data_text(ibo_ptr_text);
-				vbo_data_model(vbo_ptr_model);
-				ibo_data_model(ibo_ptr_model);
+				vbo_data_frame(vbo_ptr_frame);
+				ibo_data_frame(ibo_ptr_frame);
+				ibo_data_ticks(ibo_ptr_ticks);
+				vbo_data_ticks_vertical(vbo_ptr_ticks);
+				vbo_data_ticks_horizontal(vbo_ptr_ticks);
 				//transfer
 				m_ibos[0].transfer();
 				m_vbos[0].transfer();
@@ -192,7 +193,71 @@ namespace canvas
 			}
 
 			//bufers
-			void Frame::ibo_data_text(uint32_t* ibo_ptr) const
+			void Frame::ibo_data_frame(uint32_t* ibo_ptr) const
+			{
+				//data
+				const uint32_t n0 = m_axis[0].ticks_count();
+				const uint32_t n1 = m_axis[1].ticks_count();
+				//frame
+				ibo_ptr[2 * 0 + 0] = ibo_ptr[2 * 3 + 1] = 0;
+				ibo_ptr[2 * 0 + 1] = ibo_ptr[2 * 1 + 0] = 1;
+				ibo_ptr[2 * 1 + 1] = ibo_ptr[2 * 2 + 0] = 2;
+				ibo_ptr[2 * 2 + 1] = ibo_ptr[2 * 3 + 0] = 3;
+				//ticks
+				ibo_ptr += 4;
+				for(uint32_t i = 1; i + 1 < n0; i++)
+				{
+					ibo_ptr += 4;
+					ibo_ptr[0] = 4 * i + 0;
+					ibo_ptr[1] = 4 * i + 1;
+					ibo_ptr[2] = 4 * i + 2;
+					ibo_ptr[3] = 4 * i + 3;
+				}
+				for(uint32_t i = 1; i + 1 < n1; i++)
+				{
+					ibo_ptr += 4;
+					ibo_ptr[0] = 4 * (i + n0 - 2) + 0;
+					ibo_ptr[1] = 4 * (i + n0 - 2) + 1;
+					ibo_ptr[2] = 4 * (i + n0 - 2) + 2;
+					ibo_ptr[3] = 4 * (i + n0 - 2) + 3;
+				}
+			}
+			void Frame::vbo_data_frame(vertices::Model2D* vbo_ptr) const
+			{
+				//data
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
+				const uint32_t n0 = m_axis[0].ticks_count();
+				const uint32_t n1 = m_axis[1].ticks_count();
+				//color
+				for(uint32_t i = 0; i < 4 * (n0 + n1 - 3); i++) vbo_ptr[i].m_color = m_color;
+				//position
+				const float ms = fminf(ws, hs);
+				vbo_ptr[0].m_position = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
+				vbo_ptr[1].m_position = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
+				vbo_ptr[2].m_position = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
+				vbo_ptr[3].m_position = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
+				for(uint32_t i = 1; i + 1 < n0; i++)
+				{
+					vbo_ptr += 4;
+					const float xi = -ws / ms + m_offset[0] + i * (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1);
+					vbo_ptr[0].m_position = {xi, -hs / ms + m_offset[2]};
+					vbo_ptr[2].m_position = {xi, +hs / ms - m_offset[3]};
+					vbo_ptr[1].m_position = {xi, -hs / ms + m_offset[2] + m_axis[0].ticks_size()};
+					vbo_ptr[3].m_position = {xi, +hs / ms - m_offset[3] - m_axis[0].ticks_size()};
+				}
+				for(uint32_t i = 1; i + 1 < n1; i++)
+				{
+					vbo_ptr += 4;
+					const float yi = -hs / ms + m_offset[2] + i * (2 * hs / ms - m_offset[2] - m_offset[3]) / (n1 - 1);
+					vbo_ptr[0].m_position = {-ws / ms + m_offset[0], yi};
+					vbo_ptr[2].m_position = {+ws / ms - m_offset[1], yi};
+					vbo_ptr[1].m_position = {-ws / ms + m_offset[0] + m_axis[0].ticks_size(), yi};
+					vbo_ptr[3].m_position = {+ws / ms - m_offset[1] - m_axis[0].ticks_size(), yi};
+				}
+			}
+
+			void Frame::ibo_data_ticks(uint32_t* ibo_ptr) const
 			{
 				//data
 				const uint32_t n0 = m_axis[0].ticks_count();
@@ -208,19 +273,64 @@ namespace canvas
 					ibo_ptr[6 * i + 5] = 4 * i + 3;
 				}
 			}
-			void Frame::vbo_data_text(vertices::Text2D* vbo_ptr) const
+			void Frame::vbo_data_ticks_vertical(vertices::Text2D*& vbo_ptr) const
+			{
+				//data
+				char string[256];
+				float tc[8], xc[8];
+				const float v10 = m_axis[1].range(0);
+				const float v11 = m_axis[1].range(1);
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
+				const uint32_t n1 = m_axis[1].ticks_count();
+				const fonts::Font* font = m_scene->font(m_graph->font());
+				//vbo data
+				const float ms = fminf(ws, hs);
+				for(uint32_t i = 0; i < n1; i++)
+				{
+					//string
+					sprintf(string, "%+.2e", v10 + i * (v11 - v10) / (n1 - 1));
+					const float hi = text_height(m_axis[1].font_size(), string);
+					//position
+					float xi = -ws / ms;
+					const float yi = -hs / ms + m_offset[2] - (i != 0) * hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
+					//glyphs
+					for(char c : std::string(string))
+					{
+						//character
+						font->glyph(c).coordinates(font, tc);
+						const int32_t w = font->glyph(c).width();
+						const int32_t h = font->glyph(c).height();
+						const int32_t r = font->glyph(c).advance();
+						const int32_t a = font->glyph(c).bearing(0);
+						const int32_t b = font->glyph(c).bearing(1);
+						//position
+						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + m_axis[0].font_size() * a / font->height();
+						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + m_axis[0].font_size() * b / font->height();
+						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
+						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
+						//vertices
+						for(uint32_t j = 0; j < 4; j++)
+						{
+							vbo_ptr[j].m_color = m_color;
+							vbo_ptr[j].m_position = xc + 2 * j;
+							vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
+						}
+						vbo_ptr += 4;
+						xi += m_axis[0].font_size() * r / font->height();
+					}
+				}
+			}
+			void Frame::vbo_data_ticks_horizontal(vertices::Text2D*& vbo_ptr) const
 			{
 				//data
 				char string[256];
 				float tc[8], xc[8];
 				const float v00 = m_axis[0].range(0);
 				const float v01 = m_axis[0].range(1);
-				const float v10 = m_axis[1].range(0);
-				const float v11 = m_axis[1].range(1);
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
 				const uint32_t n0 = m_axis[0].ticks_count();
-				const uint32_t n1 = m_axis[1].ticks_count();
 				const fonts::Font* font = m_scene->font(m_graph->font());
 				//vbo data
 				const float ms = fminf(ws, hs);
@@ -257,104 +367,6 @@ namespace canvas
 						vbo_ptr += 4;
 						xi += m_axis[0].font_size() * r / font->height();
 					}
-				}
-				for(uint32_t i = 0; i < n1; i++)
-				{
-					//string
-					sprintf(string, "%+.2e", v10 + i * (v11 - v10) / (n0 - 1));
-					const float hi = text_height(m_axis[1].font_size(), string);
-					//position
-					float xi = -ws / ms;
-					const float yi = -hs / ms + m_offset[2] - (i != 0) * hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
-					//glyphs
-					for(char c : std::string(string))
-					{
-						//character
-						font->glyph(c).coordinates(font, tc);
-						const int32_t w = font->glyph(c).width();
-						const int32_t h = font->glyph(c).height();
-						const int32_t r = font->glyph(c).advance();
-						const int32_t a = font->glyph(c).bearing(0);
-						const int32_t b = font->glyph(c).bearing(1);
-						//position
-						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + m_axis[0].font_size() * a / font->height();
-						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + m_axis[0].font_size() * b / font->height();
-						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
-						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
-						//vertices
-						for(uint32_t j = 0; j < 4; j++)
-						{
-							vbo_ptr[j].m_color = m_color;
-							vbo_ptr[j].m_position = xc + 2 * j;
-							vbo_ptr[j].m_texture_coordinates = tc + 2 * j;
-						}
-						vbo_ptr += 4;
-						xi += m_axis[0].font_size() * r / font->height();
-					}
-				}
-			}
-
-			void Frame::ibo_data_model(uint32_t* ibo_ptr) const
-			{
-				//data
-				const uint32_t n0 = m_axis[0].ticks_count();
-				const uint32_t n1 = m_axis[1].ticks_count();
-				//frame
-				ibo_ptr[2 * 0 + 0] = ibo_ptr[2 * 3 + 1] = 0;
-				ibo_ptr[2 * 0 + 1] = ibo_ptr[2 * 1 + 0] = 1;
-				ibo_ptr[2 * 1 + 1] = ibo_ptr[2 * 2 + 0] = 2;
-				ibo_ptr[2 * 2 + 1] = ibo_ptr[2 * 3 + 0] = 3;
-				//ticks
-				ibo_ptr += 4;
-				for(uint32_t i = 1; i + 1 < n0; i++)
-				{
-					ibo_ptr += 4;
-					ibo_ptr[0] = 4 * i + 0;
-					ibo_ptr[1] = 4 * i + 1;
-					ibo_ptr[2] = 4 * i + 2;
-					ibo_ptr[3] = 4 * i + 3;
-				}
-				for(uint32_t i = 1; i + 1 < n1; i++)
-				{
-					ibo_ptr += 4;
-					ibo_ptr[0] = 4 * (i + n0 - 2) + 0;
-					ibo_ptr[1] = 4 * (i + n0 - 2) + 1;
-					ibo_ptr[2] = 4 * (i + n0 - 2) + 2;
-					ibo_ptr[3] = 4 * (i + n0 - 2) + 3;
-				}
-			}
-			void Frame::vbo_data_model(vertices::Model2D* vbo_ptr) const
-			{
-				//data
-				const float ws = m_scene->camera().width();
-				const float hs = m_scene->camera().height();
-				const uint32_t n0 = m_axis[0].ticks_count();
-				const uint32_t n1 = m_axis[1].ticks_count();
-				//color
-				for(uint32_t i = 0; i < 4 * (n0 + n1 - 3); i++) vbo_ptr[i].m_color = m_color;
-				//position
-				const float ms = fminf(ws, hs);
-				vbo_ptr[0].m_position = {-ws / ms + m_offset[0], -hs / ms + m_offset[2]};
-				vbo_ptr[1].m_position = {+ws / ms - m_offset[1], -hs / ms + m_offset[2]};
-				vbo_ptr[2].m_position = {+ws / ms - m_offset[1], +hs / ms - m_offset[3]};
-				vbo_ptr[3].m_position = {-ws / ms + m_offset[0], +hs / ms - m_offset[3]};
-				for(uint32_t i = 1; i + 1 < n0; i++)
-				{
-					vbo_ptr += 4;
-					const float xi = -ws / ms + m_offset[0] + i * (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1);
-					vbo_ptr[0].m_position = {xi, -hs / ms + m_offset[2]};
-					vbo_ptr[2].m_position = {xi, +hs / ms - m_offset[3]};
-					vbo_ptr[1].m_position = {xi, -hs / ms + m_offset[2] + m_axis[0].ticks_size()};
-					vbo_ptr[3].m_position = {xi, +hs / ms - m_offset[3] - m_axis[0].ticks_size()};
-				}
-				for(uint32_t i = 1; i + 1 < n1; i++)
-				{
-					vbo_ptr += 4;
-					const float yi = -hs / ms + m_offset[2] + i * (2 * hs / ms - m_offset[2] - m_offset[3]) / (n1 - 1);
-					vbo_ptr[0].m_position = {-ws / ms + m_offset[0], yi};
-					vbo_ptr[2].m_position = {+ws / ms - m_offset[1], yi};
-					vbo_ptr[1].m_position = {-ws / ms + m_offset[0] + m_axis[0].ticks_size(), yi};
-					vbo_ptr[3].m_position = {+ws / ms - m_offset[1] - m_axis[0].ticks_size(), yi};
 				}
 			}
 		}

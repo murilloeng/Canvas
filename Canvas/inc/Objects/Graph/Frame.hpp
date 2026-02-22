@@ -60,11 +60,12 @@ namespace canvas
 				float text_height(float, std::string) const;
 
 				//bufers
-				void ibo_data_text(uint32_t*) const;
-				void vbo_data_text(vertices::Text2D*) const;
-
-				void ibo_data_model(uint32_t*) const;
-				void vbo_data_model(vertices::Model2D*) const;
+				void ibo_data_frame(uint32_t*) const;
+				void vbo_data_frame(vertices::Model2D*) const;
+				
+				void ibo_data_ticks(uint32_t*) const;
+				void vbo_data_ticks_vertical(vertices::Text2D*&) const;
+				void vbo_data_ticks_horizontal(vertices::Text2D*&) const;
 
 				//data
 				Color m_color;
