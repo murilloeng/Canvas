@@ -34,6 +34,10 @@ namespace canvas
 		}
 
 		//data
+		void Buffer::allocate(uint32_t size)
+		{
+			glNamedBufferData(m_id, size, nullptr, GL_DYNAMIC_DRAW);
+		}
 		void Buffer::transfer(uint32_t size, const void* data)
 		{
 			glNamedBufferData(m_id, size, data, GL_DYNAMIC_DRAW);

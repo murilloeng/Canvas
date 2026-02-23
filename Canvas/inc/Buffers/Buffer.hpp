@@ -26,6 +26,7 @@ namespace canvas
 			GLuint id(void) const;
 
 			//transfer
+			void allocate(uint32_t);
 			void transfer(uint32_t, const void*);
 			void transfer(uint32_t, uint32_t, const void*);
 

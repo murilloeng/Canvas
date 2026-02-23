@@ -4,9 +4,9 @@
 #include <vector>
 
 //canvas
-#include "Canvas/Canvas/inc/Math/vec3.hpp"
+#include "Canvas/Canvas/inc/Math/vec2.hpp"
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
-#include "Canvas/Canvas/inc/Buffers/VBO.hpp"
+#include "Canvas/Canvas/inc/Buffers/SSBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
 #include "Canvas/Canvas/inc/Shaders/Shader.hpp"
@@ -15,9 +15,17 @@ namespace canvas
 {
 	namespace objects
 	{
+		class Graph;
+	}
+}
+
+namespace canvas
+{
+	namespace objects
+	{
 		namespace graphs
 		{
-			class Curve : public objects::Object
+			class Curve : public Object
 			{
 			public:
 				//constructor
@@ -33,8 +41,8 @@ namespace canvas
 				float thickness(float);
 				float thickness(void) const;
 
-				std::vector<vec3>& points(void);
-				const std::vector<vec3>& points(void) const;
+				std::vector<vec2>& points(void);
+				const std::vector<vec2>& points(void) const;
 
 			protected:
 				//draw
@@ -45,9 +53,12 @@ namespace canvas
 				Color m_color;
 				float m_thickness;
 				buffers::VAO m_vao;
-				buffers::VBO m_vbo;
+				buffers::SSBO m_ssbo;
 				shaders::Shader m_shader;
-				std::vector<vec3> m_points;
+				std::vector<vec2> m_points;
+
+				//friends
+				friend class objects::Graph;
 			};
 		}
 	}

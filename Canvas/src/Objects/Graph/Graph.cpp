@@ -14,7 +14,7 @@ namespace canvas
 		//destructor
 		Graph::~Graph(void)
 		{
-			return;
+			for(const graphs::Curve* curve : m_curves) delete curve;
 		}
 
 		//data
@@ -27,14 +27,25 @@ namespace canvas
 			return m_font = font;
 		}
 
+		std::vector<graphs::Curve*>& Graph::curves(void)
+		{
+			return m_curves;
+		}
+		const std::vector<graphs::Curve*>& Graph::curves(void) const
+		{
+			return m_curves;
+		}
+
 		//draw
 		void Graph::setup(void)
 		{
 			m_frame.setup();
+			for(graphs::Curve* curve : m_curves) curve->setup();
 		}
 		void Graph::draw(void) const
 		{
 			m_frame.draw();
+			for(const graphs::Curve* curve : m_curves) curve->draw();
 		}
 	}
 }
