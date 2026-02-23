@@ -8,15 +8,6 @@
 
 namespace canvas
 {
-	class Scene;
-	namespace objects
-	{
-		class Object;
-	}
-}
-
-namespace canvas
-{
 	namespace buffers
 	{
 		class IBO : public Buffer
@@ -45,10 +36,6 @@ namespace canvas
 			//data
 			uint32_t* m_data;
 			uint32_t m_vertex_count;
-
-			//friends
-			friend class canvas::Scene;
-			friend class canvas::objects::Object;
 		};
 	}
 }

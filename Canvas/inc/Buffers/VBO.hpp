@@ -8,19 +8,6 @@
 
 namespace canvas
 {
-	class Scene;
-	namespace cameras
-	{
-		class Camera;
-	}
-	namespace objects
-	{
-		class Object;
-	}
-}
-
-namespace canvas
-{
 	namespace buffers
 	{
 		class VBO : public Buffer
@@ -53,11 +40,6 @@ namespace canvas
 			char* m_data;
 			uint32_t m_vertex_size;
 			uint32_t m_vertex_count;
-
-			//friends
-			friend class canvas::Scene;
-			friend class canvas::objects::Object;
-			friend class canvas::cameras::Camera;
 		};
 	}
 }

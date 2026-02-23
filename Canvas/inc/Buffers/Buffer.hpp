@@ -22,9 +22,6 @@ namespace canvas
 			//destructor
 			virtual ~Buffer(void);
 
-			//bind
-			void bind(GLenum) const;
-
 			//data
 			GLuint id(void) const;
 

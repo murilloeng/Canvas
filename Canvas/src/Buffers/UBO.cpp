@@ -19,9 +19,9 @@ namespace canvas
 		}
 
 		//bind
-		void UBO::bind_base(GLenum target, GLuint index) const
+		void UBO::bind_base(GLuint index) const
 		{
-			glBindBufferBase(target, index, m_id);
+			glBindBufferBase(GL_UNIFORM_BUFFER, index, m_id);
 		}
 	}
 }

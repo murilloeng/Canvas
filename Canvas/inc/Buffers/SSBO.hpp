@@ -10,14 +10,14 @@ namespace canvas
 {
 	namespace buffers
 	{
-		class UBO : public Buffer
+		class SSBO : public Buffer
 		{
 		public:
 			//constructor
-			UBO(void);
+			SSBO(void);
 
 			//destructor
-			virtual ~UBO(void);
+			virtual ~SSBO(void);
 
 			//bind
 			void bind_base(GLuint) const;

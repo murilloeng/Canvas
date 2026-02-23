@@ -43,8 +43,8 @@ namespace canvas
 			m_fixed_bounding_box{false}, m_fov{float(M_PI_4)}, m_planes{1.00e-02f, 1.00e+02f},
 			m_width{700}, m_height{700}, m_output{"screen"}, m_type{cameras::type::orthographic}
 		{
-			m_ubo_2D.bind_base(GL_UNIFORM_BUFFER, 1);
-			m_ubo_3D.bind_base(GL_UNIFORM_BUFFER, 0);
+			m_ubo_2D.bind_base(1);
+			m_ubo_3D.bind_base(0);
 			m_ubo_2D.transfer( 2 * sizeof(float), nullptr);
 			m_ubo_3D.transfer(32 * sizeof(float), nullptr);
 		}
