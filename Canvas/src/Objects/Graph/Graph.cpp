@@ -40,7 +40,11 @@ namespace canvas
 		void Graph::setup(void)
 		{
 			m_frame.setup();
-			for(graphs::Curve* curve : m_curves) curve->setup();
+			for(graphs::Curve* curve : m_curves)
+			{
+				curve->m_frame = &m_frame;
+				curve->setup();
+			}
 		}
 		void Graph::draw(void) const
 		{

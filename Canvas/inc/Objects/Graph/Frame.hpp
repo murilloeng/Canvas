@@ -16,6 +16,10 @@ namespace canvas
 	namespace objects
 	{
 		class Graph;
+		namespace graphs
+		{
+			class Curve;
+		}
 	}
 }
 
@@ -51,6 +55,9 @@ namespace canvas
 				//compute
 				void compute_offset(void);
 
+				//position
+				vec2 ndc(const vec2&) const;
+
 				//draw
 				void setup(void) override;
 				void draw(void) const override;
@@ -84,6 +91,7 @@ namespace canvas
 
 				//friends
 				friend class objects::Graph;
+				friend class objects::graphs::Curve;
 			};
 		}
 	}

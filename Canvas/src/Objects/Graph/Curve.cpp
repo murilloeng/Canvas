@@ -2,6 +2,7 @@
 #include "Canvas/Canvas/inc/API/API.hpp"
 #include "Canvas/Canvas/inc/Shaders/Stage.hpp"
 #include "Canvas/Canvas/inc/Objects/Graph/Curve.hpp"
+#include "Canvas/Canvas/inc/Objects/Graph/Frame.hpp"
 
 namespace canvas
 {
@@ -63,7 +64,8 @@ namespace canvas
 				m_ssbo.transfer(4 * sf + 1 * si, 1 * sf, &m_thickness);
 				for(uint32_t i = 0; i < np; i++)
 				{
-					m_ssbo.transfer((5 + 2 * i) * sf + si, 2 * sf, m_points[i].data());
+					const vec2 np = m_frame->ndc(m_points[i]);
+					m_ssbo.transfer((5 + 2 * i) * sf + si, 2 * sf, np.data());
 				}
 			}
 			void Curve::draw(void) const
