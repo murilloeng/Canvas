@@ -9,10 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		BaseImage3D::BaseImage3D(void) : m_shader({
-			new shaders::Stage(GL_VERTEX_SHADER, "Image3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, "Image3D.frag")
-		})
+		BaseImage3D::BaseImage3D(void) : m_shader{"Image3D"}
 		{
 			//vbo setup
 			m_vbo.vertex_size(sizeof(vertices::Image3D));

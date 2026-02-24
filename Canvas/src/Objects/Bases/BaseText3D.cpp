@@ -9,10 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		BaseText3D::BaseText3D(void) : m_shader({
-			new shaders::Stage(GL_VERTEX_SHADER, "Text3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, "Text3D.frag")
-		})
+		BaseText3D::BaseText3D(void) : m_shader{"Text3D"}
 		{
 			//vbo setup
 			m_vbo.vertex_size(sizeof(vertices::Text3D));

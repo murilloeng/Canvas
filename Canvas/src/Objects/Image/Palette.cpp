@@ -17,10 +17,7 @@ namespace canvas
 		//constructors
 		Palette::Palette(void) : 
 			m_min{0.0f}, m_max{1.0f}, m_size{0.07f}, m_width{0.08f}, m_height{1.90f}, m_offset{0.02f}, m_font{0}, m_marks{11},
-			m_shaders{
-				{{new shaders::Stage(GL_VERTEX_SHADER, "Text2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Text2D.frag")}},
-				{{new shaders::Stage(GL_VERTEX_SHADER, "Model2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Model2D.frag")}}
-			}
+			m_shaders{"Text2D", "Model2D"}
 		{
 			//vao setup text2D
 			m_vaos[0].attribute_enable(0);

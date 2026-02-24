@@ -16,6 +16,10 @@ namespace canvas
 	namespace objects
 	{
 		class Graph;
+		namespace graphs
+		{
+			class Frame;
+		}
 	}
 }
 
@@ -56,6 +60,7 @@ namespace canvas
 				buffers::SSBO m_ssbo;
 				shaders::Shader m_shader;
 				std::vector<vec2> m_points;
+				const graphs::Frame* m_frame;
 
 				//friends
 				friend class objects::Graph;

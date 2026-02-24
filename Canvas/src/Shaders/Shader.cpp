@@ -12,10 +12,16 @@ namespace canvas
 	namespace shaders
 	{
 		//constructors
-		Shader::Shader(std::vector<Stage*> stages, const char* label)
+		Shader::Shader(const char* shader) : Shader({
+			new shaders::Stage(GL_VERTEX_SHADER, std::string(shader) + ".vert"), 
+			new shaders::Stage(GL_FRAGMENT_SHADER, std::string(shader) + ".frag")
+		})
+		{
+			return;
+		}
+		Shader::Shader(std::vector<Stage*> stages)
 		{
 			//create
-			strcpy(m_label, label);
 			m_id = glCreateProgram();
 			//check
 			if(!glIsProgram(m_id))
@@ -56,15 +62,6 @@ namespace canvas
 		GLuint Shader::id(void) const
 		{
 			return m_id;
-		}
-
-		const char* Shader::label(void) const
-		{
-			return m_label;
-		}
-		const char* Shader::label(const char* label)
-		{
-			return strcpy(m_label, label);
 		}
 
 		std::string Shader::path(void)

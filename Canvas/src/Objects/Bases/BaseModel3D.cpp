@@ -9,10 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		BaseModel3D::BaseModel3D(void) : m_shader({
-			new shaders::Stage(GL_VERTEX_SHADER, "Model3D.vert"),
-			new shaders::Stage(GL_FRAGMENT_SHADER, "Model3D.frag")
-		}), m_color_fill{"blue"}, m_color_stroke{"white"}
+		BaseModel3D::BaseModel3D(void) : m_shader{"Model3D"}, m_color_fill{"blue"}, m_color_stroke{"white"}
 		{
 			//vbo setup
 			m_vbo.vertex_size(sizeof(vertices::Model3D));

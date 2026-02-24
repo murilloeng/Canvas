@@ -17,10 +17,7 @@ namespace canvas
 		{
 			//constructors
 			Frame::Frame(const Graph* graph) : 
-				m_color{"white"}, m_grid_opacity{0.1f}, m_thickness{2}, m_graph{graph}, m_shaders{
-					{{new shaders::Stage(GL_VERTEX_SHADER, "Line2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Line2D.frag")}},
-					{{new shaders::Stage(GL_VERTEX_SHADER, "Glyph2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Glyph2D.frag")}}
-				}
+				m_color{"white"}, m_grid_opacity{0.1f}, m_thickness{2}, m_graph{graph}, m_shaders{"Line2D", "Glyph2D"}
 			{
 				//vbos setup
 				m_vbos[0].vertex_size(sizeof(vertices::Line2D));

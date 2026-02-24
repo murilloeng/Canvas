@@ -31,7 +31,8 @@ namespace canvas
 		{
 		public:
 			//constructors
-			Shader(std::vector<Stage*>, const char* = "");
+			Shader(const char*);
+			Shader(std::vector<Stage*>);
 
 			//destructor
 			~Shader(void);
@@ -41,9 +42,6 @@ namespace canvas
 
 			//data
 			GLuint id(void) const;
-
-			const char* label(void) const;
-			const char* label(const char*);
 
 			static std::string path(void);
 			static std::string path(std::string);
@@ -80,7 +78,6 @@ namespace canvas
 
 			//data
 			GLuint m_id;
-			char m_label[64];
 			static std::string m_path;
 		};
 	}

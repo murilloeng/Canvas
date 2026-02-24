@@ -10,9 +10,7 @@ namespace canvas
 		namespace graphs
 		{
 			//constructor
-			Curve::Curve(void) : 
-				m_color{"white"}, m_thickness{1}, 
-				m_shader{{new shaders::Stage(GL_VERTEX_SHADER, "Curve2D.vert"), new shaders::Stage(GL_FRAGMENT_SHADER, "Curve2D.frag")}}
+			Curve::Curve(void) : m_color{"white"}, m_thickness{1}, m_shader{"Curve2D"}, m_frame{nullptr}
 			{
 				return;
 			}
