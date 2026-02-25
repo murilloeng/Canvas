@@ -65,13 +65,10 @@ void main(void)
 	const vec2 p1 = (n1 + 1) / 2 * vec2(width, height);
 	const vec2 p2 = (n2 + 1) / 2 * vec2(width, height);
 	//normal directions
-	// const vec2 d1 = normalize(p2 - p1);
-	// const vec2 d2 = vec2(-d1.y, +d1.x);
 	const vec2 v1 = normal(gl_InstanceID + 0);
 	const vec2 v2 = normal(gl_InstanceID + 1);
 	//screen vertex position
 	const float t = (quad_points[gl_VertexID].x + 1) / 2;
-	// const vec2 pv = mix(p1, p2, t) + quad_points[gl_VertexID].y * thickness / 2 * d2;
 	const vec2 pv = mix(p1, p2, t) + quad_points[gl_VertexID].y * thickness / 2 * mix(v1, v2, t);
 	//NDC vertex position
 	const vec2 nv = 2 * pv * vec2(1 / width, 1 / height) - 1;
