@@ -52,6 +52,7 @@ inline PFNGLCREATESHADERPROC glCreateShader = nullptr;
 inline PFNGLDELETESHADERPROC glDeleteShader = nullptr;
 inline PFNGLSHADERSOURCEPROC glShaderSource = nullptr;
 inline PFNGLCOMPILESHADERPROC glCompileShader = nullptr;
+inline PFNGLDISPATCHCOMPUTEPROC glDispatchCompute = nullptr;
 inline PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog = nullptr;
 
 //programs

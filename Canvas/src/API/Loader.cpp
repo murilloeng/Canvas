@@ -58,6 +58,7 @@ static void load_shaders(void)
 	glDeleteShader = (PFNGLDELETESHADERPROC) load("glDeleteShader");
 	glShaderSource = (PFNGLSHADERSOURCEPROC) load("glShaderSource");
 	glCompileShader = (PFNGLCOMPILESHADERPROC) load("glCompileShader");
+	glDispatchCompute = (PFNGLDISPATCHCOMPUTEPROC) load("glDispatchCompute");
 	glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC) load("glGetShaderInfoLog");
 }
 static void load_programs(void)
