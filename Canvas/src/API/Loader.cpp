@@ -49,6 +49,7 @@ static void load_buffers(void)
 	glBindBufferBase = (PFNGLBINDBUFFERBASEPROC) load("glBindBufferBase");
 	glNamedBufferData = (PFNGLNAMEDBUFFERDATAPROC) load("glNamedBufferData");
 	glNamedBufferSubData = (PFNGLNAMEDBUFFERSUBDATAPROC) load("glNamedBufferSubData");
+	glGetNamedBufferSubData = (PFNGLGETNAMEDBUFFERSUBDATAPROC) load("glGetNamedBufferSubData");
 }
 static void load_shaders(void)
 {
@@ -58,6 +59,7 @@ static void load_shaders(void)
 	glDeleteShader = (PFNGLDELETESHADERPROC) load("glDeleteShader");
 	glShaderSource = (PFNGLSHADERSOURCEPROC) load("glShaderSource");
 	glCompileShader = (PFNGLCOMPILESHADERPROC) load("glCompileShader");
+	glMemoryBarrier = (PFNGLMEMORYBARRIERPROC) load("glMemoryBarrier");
 	glDispatchCompute = (PFNGLDISPATCHCOMPUTEPROC) load("glDispatchCompute");
 	glGetShaderInfoLog = (PFNGLGETSHADERINFOLOGPROC) load("glGetShaderInfoLog");
 }

@@ -23,6 +23,7 @@ inline PFNGLDELETEBUFFERSPROC glDeleteBuffers = nullptr;
 inline PFNGLBINDBUFFERBASEPROC glBindBufferBase = nullptr;
 inline PFNGLNAMEDBUFFERDATAPROC glNamedBufferData = nullptr;
 inline PFNGLNAMEDBUFFERSUBDATAPROC glNamedBufferSubData = nullptr;
+inline PFNGLGETNAMEDBUFFERSUBDATAPROC glGetNamedBufferSubData = nullptr;
 
 //vertex arrays
 inline PFNGLISVERTEXARRAYPROC glIsVertexArray = nullptr;
@@ -52,6 +53,7 @@ inline PFNGLCREATESHADERPROC glCreateShader = nullptr;
 inline PFNGLDELETESHADERPROC glDeleteShader = nullptr;
 inline PFNGLSHADERSOURCEPROC glShaderSource = nullptr;
 inline PFNGLCOMPILESHADERPROC glCompileShader = nullptr;
+inline PFNGLMEMORYBARRIERPROC glMemoryBarrier = nullptr;
 inline PFNGLDISPATCHCOMPUTEPROC glDispatchCompute = nullptr;
 inline PFNGLGETSHADERINFOLOGPROC glGetShaderInfoLog = nullptr;
 
