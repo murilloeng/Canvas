@@ -33,11 +33,17 @@ namespace canvas
 			return m_id;
 		}
 
-		//data
+		//GPU data
 		void Buffer::allocate(uint32_t size)
 		{
 			glNamedBufferData(m_id, size, nullptr, GL_DYNAMIC_DRAW);
 		}
+
+		void Buffer::retrieve(uint32_t offset, uint32_t size, void* data)
+		{
+			glGetNamedBufferSubData(m_id, offset, size, data);
+		}
+
 		void Buffer::transfer(uint32_t size, const void* data)
 		{
 			glNamedBufferData(m_id, size, data, GL_DYNAMIC_DRAW);

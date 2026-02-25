@@ -25,8 +25,11 @@ namespace canvas
 			//data
 			GLuint id(void) const;
 
-			//transfer
+			//GPU data
 			void allocate(uint32_t);
+
+			void retrieve(uint32_t, uint32_t, void*);
+
 			void transfer(uint32_t, const void*);
 			void transfer(uint32_t, uint32_t, const void*);
 
