@@ -57,9 +57,9 @@ namespace canvas
 				Color m_color;
 				float m_thickness;
 				buffers::VAO m_vao;
-				buffers::SSBO m_ssbo;
-				shaders::Shader m_shader;
+				buffers::SSBO m_ssbos[2];
 				std::vector<vec2> m_points;
+				shaders::Shader m_shaders[2];
 				const graphs::Frame* m_frame;
 
 				//friends

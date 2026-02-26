@@ -11,7 +11,8 @@ namespace canvas
 		namespace graphs
 		{
 			//constructor
-			Curve::Curve(void) : m_color{"white"}, m_thickness{1}, m_shader{"Curve2D"}, m_frame{nullptr}
+			Curve::Curve(void) : 
+				m_color{"white"}, m_thickness{1}, m_shaders{"Curve2D", {{new shaders::Stage(GL_COMPUTE_SHADER, "Curve2D.comp")}}}, m_frame{nullptr}
 			{
 				return;
 			}
@@ -57,22 +58,24 @@ namespace canvas
 				const uint64_t si = sizeof(GLuint);
 				const uint64_t sf = sizeof(GLfloat);
 				const uint32_t np = m_points.size();
-				m_ssbo.allocate((5 + 2 * np) * sf + si);
+				//allocate
+				m_ssbos[1].allocate((np - 1) * sf);
+				m_ssbos[0].allocate((5 + 2 * np) * sf + si);
 				//ssbo data
-				m_ssbo.transfer(4 * sf, 1 * si, &np);
-				m_ssbo.transfer(0 * sf, 4 * sf, m_color.channels());
-				m_ssbo.transfer(4 * sf + 1 * si, 1 * sf, &m_thickness);
+				m_ssbos[0].transfer(4 * sf, 1 * si, &np);
+				m_ssbos[0].transfer(0 * sf, 4 * sf, m_color.channels());
+				m_ssbos[0].transfer(4 * sf + 1 * si, 1 * sf, &m_thickness);
 				for(uint32_t i = 0; i < np; i++)
 				{
 					const vec2 np = m_frame->ndc(m_points[i]);
-					m_ssbo.transfer((5 + 2 * i) * sf + si, 2 * sf, np.data());
+					m_ssbos[0].transfer((5 + 2 * i) * sf + si, 2 * sf, np.data());
 				}
 			}
 			void Curve::draw(void) const
 			{
 				m_vao.bind();
-				m_shader.bind();
-				m_ssbo.bind_base(0);
+				m_shaders[0].bind();
+				m_ssbos[0].bind_base(0);
 				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_points.size() - 1);
 			}
 		}
