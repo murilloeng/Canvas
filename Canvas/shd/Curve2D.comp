@@ -1,0 +1,21 @@
+#version 460 core
+
+layout(local_size_x = 256) in;
+
+layout(std430, binding = 0) buffer Curve
+{
+	vec4 color;
+	uint count;
+	float thickness;
+	vec2 positions[];
+};
+layout(std430, binding = 1) buffer Lengths
+{
+	float lengths[];
+};
+
+void main(void)
+{
+	const uint index = gl_GlobalInvocationID.x;
+	if(index + 1 < count) lengths[index] = length(positions[index + 1] - positions[index]);
+}

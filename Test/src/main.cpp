@@ -1,10 +1,16 @@
 //std
+#include <cmath>
 #include <cstdlib>
 #include <stdexcept>
 
 //test
 #include "Canvas/Test/inc/Engine.hpp"
 #include "Canvas/Test/inc/examples.hpp"
+
+#include "Canvas/Canvas/inc/API/API.hpp"
+#include "Canvas/Canvas/inc/Buffers/SSBO.hpp"
+#include "Canvas/Canvas/inc/Shaders/Stage.hpp"
+#include "Canvas/Canvas/inc/Shaders/Shader.hpp"
 
 int32_t main(void)
 {

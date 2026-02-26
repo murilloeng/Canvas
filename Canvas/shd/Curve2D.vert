@@ -20,6 +20,7 @@ layout(std140, binding = 1) uniform Screen
 	float height;
 };
 
+const mat2 N = mat2(0, 1, -1, 0);
 vec2 quad_points[] = {vec2(-1, -1), vec2(+1, -1), vec2(+1, +1), vec2(-1, +1)};
 
 vec2 normal(vec2 p0, vec2 p1)
@@ -32,9 +33,6 @@ vec2 normal(vec2 p0, vec2 p1, vec2 p2)
 }
 vec2 normal(uint index)
 {
-	//data
-	const mat2 N = mat2(0, 1, -1, 0);
-	//normal
 	if(index == 0)
 	{
 		return N * normalize(positions[index + 1] - positions[index]);
