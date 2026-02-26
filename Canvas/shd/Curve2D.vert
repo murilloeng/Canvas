@@ -6,7 +6,7 @@ layout(std430, binding = 0) buffer Curve
 {
 	vec4 color;
 	uint count;
-	float thickness;
+	uint thickness;
 	vec2 positions[];
 };
 layout(std140, binding = 2) uniform Frame

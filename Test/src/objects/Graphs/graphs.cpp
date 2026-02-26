@@ -15,11 +15,11 @@ void examples::objects::graphs(canvas::Scene* scene)
 	const uint32_t np = 1000;
 	canvas::objects::Graph* graph = new canvas::objects::Graph;
 	canvas::objects::graphs::Curve* curve = new canvas::objects::graphs::Curve;
-	std::vector<canvas::vec2>& points = curve->points();
+	std::vector<canvas::vec2>& points = curve->data();
 	//curve
 	points.resize(np);
-	curve->thickness(5);
-	curve->color("blue");
+	curve->line_width(5);
+	curve->line_color("blue");
 	for(uint32_t i = 0; i < np; i++)
 	{
 		const float x = 2 * float(i) / (np - 1) - 1;
