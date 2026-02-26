@@ -6,6 +6,7 @@
 //canvas
 #include "Canvas/Canvas/inc/Math/vec2.hpp"
 #include "Canvas/Canvas/inc/Buffers/VAO.hpp"
+#include "Canvas/Canvas/inc/Buffers/UBO.hpp"
 #include "Canvas/Canvas/inc/Buffers/SSBO.hpp"
 #include "Canvas/Canvas/inc/Colors/Color.hpp"
 #include "Canvas/Canvas/inc/Objects/Object.hpp"
@@ -75,6 +76,7 @@ namespace canvas
 				bool m_lines;
 				Color m_lines_color;
 				uint32_t m_lines_width;
+				buffers::UBO m_ubo_lines;
 				shaders::Shader m_shader_lines;
 
 				bool m_points;
@@ -82,6 +84,7 @@ namespace canvas
 				uint32_t m_points_size;
 				uint32_t m_points_skip;
 				uint32_t m_points_type;
+				buffers::UBO m_ubo_points;
 				shaders::Shader m_shader_points;
 				
 				buffers::VAO m_vao;

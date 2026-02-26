@@ -4,6 +4,24 @@
 #include "Canvas/Canvas/inc/Objects/Graph/Curve.hpp"
 #include "Canvas/Canvas/inc/Objects/Graph/Frame.hpp"
 
+namespace
+{
+	struct Lines
+	{
+		uint32_t m_width;
+		uint32_t m_padding[3];
+		canvas::Color m_color;
+	};
+	struct Points
+	{
+		uint32_t m_size;
+		uint32_t m_skip;
+		uint32_t m_trupe;
+		uint32_t m_padding;
+		canvas::Color m_color;
+	};
+}
+
 namespace canvas
 {
 	namespace objects
@@ -16,7 +34,8 @@ namespace canvas
 				m_points{true}, m_points_color{"white"}, m_points_size{5}, m_points_skip{1}, m_points_type{1}, m_shader_points{"Graph2D-Points"},
 				m_frame{nullptr}
 			{
-				return;
+				m_ubo_lines.allocate(sizeof(Lines));
+				m_ubo_points.allocate(sizeof(Points));
 			}
 
 			//destructor
@@ -111,9 +130,11 @@ namespace canvas
 			void Curve::setup(void)
 			{
 				//data
+				const uint32_t np = m_data.size();
 				const uint64_t si = sizeof(GLuint);
 				const uint64_t sf = sizeof(GLfloat);
-				const uint32_t np = m_data.size();
+				//ubo lines
+				m_ubo_lines.allocate(32);
 				//allocate
 				m_ssbo.allocate((5 + 2 * np) * sf + si);
 				//ssbo data

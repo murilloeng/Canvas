@@ -2,20 +2,29 @@
 
 layout(std430, binding = 0) buffer Curve
 {
-	vec4 color;
 	uint count;
-	uint thickness;
-	vec2 positions[];
-};
-layout(std140, binding = 2) uniform Frame
-{
-	vec4 axes;
-	vec4 offset;
+	vec2 data[];
 };
 layout(std140, binding = 1) uniform Screen
 {
 	float width;
 	float height;
+};
+layout(std140, binding = 2) uniform Lines
+{
+	vec4 lines_color;
+	uint lines_width;
+	uint lines_enabled;
+	uint lines_dash_size;
+	uint lines_dash_type;
+};
+layout(std140, binding = 3) uniform Points
+{
+	vec4 points_color;
+	uint points_size;
+	uint points_type;
+	uint points_skip;
+	uint points_enabled;
 };
 
 const mat2 N = mat2(0, 1, -1, 0);
@@ -33,16 +42,16 @@ vec2 normal(uint index)
 {
 	if(index == 0)
 	{
-		return N * normalize(positions[index + 1] - positions[index]);
+		return N * normalize(data[index + 1] - data[index]);
 	}
 	else if(index + 1 == count)
 	{
-		return N * normalize(positions[index] - positions[index - 1]);
+		return N * normalize(data[index] - data[index - 1]);
 	}
 	else
 	{
-		const vec2 n1 = N * normalize(positions[index] - positions[index - 1]);
-		const vec2 n2 = N * normalize(positions[index + 1] - positions[index]);
+		const vec2 n1 = N * normalize(data[index] - data[index - 1]);
+		const vec2 n2 = N * normalize(data[index + 1] - data[index]);
 		return length(n1 + n2) < 1e-5 ? n1 : normalize(n1 + n2);
 	}
 }
