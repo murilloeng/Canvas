@@ -18,8 +18,8 @@ void examples::objects::graphs(canvas::Scene* scene)
 	std::vector<canvas::vec2>& points = curve->data();
 	//curve
 	points.resize(np);
-	curve->line_width(5);
-	curve->line_color("blue");
+	curve->lines_width(5);
+	curve->lines_color("magenta");
 	for(uint32_t i = 0; i < np; i++)
 	{
 		const float x = 2 * float(i) / (np - 1) - 1;

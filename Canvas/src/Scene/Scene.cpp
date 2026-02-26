@@ -175,6 +175,7 @@ namespace canvas
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
+		glEnable(GL_PROGRAM_POINT_SIZE);
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		//setup
 		glPointSize(7);

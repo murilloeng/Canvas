@@ -1,7 +1,5 @@
 #version 460 core
 
-out vec4 vertex_color;
-
 layout(std430, binding = 0) buffer Curve
 {
 	vec4 color;
@@ -52,7 +50,6 @@ vec2 normal(uint index)
 void main(void)
 {
 	//data
-	vertex_color = color;
 	const float w = width;
 	const float h = height;
 	const float m = min(w, h);

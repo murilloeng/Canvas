@@ -39,26 +39,29 @@ namespace canvas
 				~Curve(void);
 
 				//data
-				bool line(bool);
-				bool line(void) const;
+				bool lines(bool);
+				bool lines(void) const;
 
-				Color line_color(void) const;
-				Color line_color(const Color&);
+				Color lines_color(void) const;
+				Color lines_color(const Color&);
 
-				uint32_t line_width(uint32_t);
-				uint32_t line_width(void) const;
+				uint32_t lines_width(uint32_t);
+				uint32_t lines_width(void) const;
 
-				bool point(bool);
-				bool point(void) const;
+				bool points(bool);
+				bool points(void) const;
 
-				Color point_color(void) const;
-				Color point_color(const Color&);
+				Color points_color(void) const;
+				Color points_color(const Color&);
 
-				uint32_t point_size(uint32_t);
-				uint32_t point_size(void) const;
+				uint32_t points_size(uint32_t);
+				uint32_t points_size(void) const;
 
-				uint32_t point_type(uint32_t);
-				uint32_t point_type(void) const;
+				uint32_t points_skip(uint32_t);
+				uint32_t points_skip(void) const;
+
+				uint32_t points_type(uint32_t);
+				uint32_t points_type(void) const;
 
 				std::vector<vec2>& data(void);
 				const std::vector<vec2>& data(void) const;
@@ -69,18 +72,20 @@ namespace canvas
 				void draw(void) const override;
 
 				//data
-				bool m_line;
-				Color m_line_color;
-				uint32_t m_line_width;
+				bool m_lines;
+				Color m_lines_color;
+				uint32_t m_lines_width;
+				shaders::Shader m_shader_lines;
 
-				bool m_point;
-				Color m_point_color;
-				uint32_t m_point_size;
-				uint32_t m_point_type;
+				bool m_points;
+				Color m_points_color;
+				uint32_t m_points_size;
+				uint32_t m_points_skip;
+				uint32_t m_points_type;
+				shaders::Shader m_shader_points;
 				
 				buffers::VAO m_vao;
 				buffers::SSBO m_ssbo;
-				shaders::Shader m_shader;
 				std::vector<vec2> m_data;
 				const graphs::Frame* m_frame;
 
