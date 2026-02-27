@@ -15,16 +15,21 @@ void examples::objects::graphs(canvas::Scene* scene)
 	const uint32_t np = 1000;
 	canvas::objects::Graph* graph = new canvas::objects::Graph;
 	canvas::objects::graphs::Curve* curve = new canvas::objects::graphs::Curve;
-	std::vector<canvas::vec2>& points = curve->data();
-	//curve
-	points.resize(np);
-	curve->lines_width(5);
-	curve->lines_color("magenta");
+	std::vector<canvas::vec2>& data = curve->data();
+	//curve data
+	data.resize(np);
 	for(uint32_t i = 0; i < np; i++)
 	{
 		const float x = 2 * float(i) / (np - 1) - 1;
-		points[i] = {x, sinf(10 * float(M_PI) * x) * expf(-2 * (x + 1))};
+		data[i] = {x, sinf(10 * float(M_PI) * x) * expf(-2 * (x + 1))};
 	}
+	//curve lines
+	curve->lines().width(1);
+	curve->lines().color("orange");
+	//curve points
+	curve->points().type(12);
+	curve->points().skip(10);
+	curve->points().size(20);
 	//graph
 	graph->curves().push_back(curve);
 	//scene

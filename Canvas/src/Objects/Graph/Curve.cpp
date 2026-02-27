@@ -4,24 +4,6 @@
 #include "Canvas/Canvas/inc/Objects/Graph/Curve.hpp"
 #include "Canvas/Canvas/inc/Objects/Graph/Frame.hpp"
 
-namespace
-{
-	struct Lines
-	{
-		uint32_t m_width;
-		uint32_t m_padding[3];
-		canvas::Color m_color;
-	};
-	struct Points
-	{
-		uint32_t m_size;
-		uint32_t m_skip;
-		uint32_t m_trupe;
-		uint32_t m_padding;
-		canvas::Color m_color;
-	};
-}
-
 namespace canvas
 {
 	namespace objects
@@ -29,10 +11,7 @@ namespace canvas
 		namespace graphs
 		{
 			//constructor
-			Curve::Curve(void) : 
-				m_lines{true}, m_lines_color{"white"}, m_lines_width{1}, m_shader_lines{"Graph2D-Lines"}, 
-				m_points{true}, m_points_color{"white"}, m_points_size{5}, m_points_skip{1}, m_points_type{1}, m_shader_points{"Graph2D-Points"},
-				m_frame{nullptr}
+			Curve::Curve(void) : m_frame{nullptr}, m_shader_lines{"Graph2D-Lines"}, m_shader_points{"Graph2D-Points"}
 			{
 				m_ubo_lines.allocate(sizeof(Lines));
 				m_ubo_points.allocate(sizeof(Points));
@@ -45,76 +24,13 @@ namespace canvas
 			}
 
 			//data
-			bool Curve::lines(void) const
+			Lines& Curve::lines(void)
 			{
 				return m_lines;
 			}
-			bool Curve::lines(bool line)
-			{
-				return m_lines = line;
-			}
-
-			Color Curve::lines_color(void) const
-			{
-				return m_lines_color;
-			}
-			Color Curve::lines_color(const Color& lines_color)
-			{
-				return m_lines_color = lines_color;
-			}
-
-			uint32_t Curve::lines_width(void) const
-			{
-				return m_lines_width;
-			}
-			uint32_t Curve::lines_width(uint32_t lines_width)
-			{
-				return m_lines_width = lines_width;
-			}
-
-			bool Curve::points(void) const
+			Points& Curve::points(void)
 			{
 				return m_points;
-			}
-			bool Curve::points(bool points)
-			{
-				return m_points = points;
-			}
-
-			Color Curve::points_color(void) const
-			{
-				return m_points_color;
-			}
-			Color Curve::points_color(const Color& points_color)
-			{
-				return m_points_color = points_color;
-			}
-
-			uint32_t Curve::points_size(void) const
-			{
-				return m_points_size;
-			}
-			uint32_t Curve::points_size(uint32_t points_size)
-			{
-				return m_points_size = points_size;
-			}
-
-			uint32_t Curve::points_skip(void) const
-			{
-				return m_points_skip;
-			}
-			uint32_t Curve::points_skip(uint32_t points_skip)
-			{
-				return m_points_skip = points_skip;
-			}
-
-			uint32_t Curve::points_type(void) const
-			{
-				return m_points_type;
-			}
-			uint32_t Curve::points_type(uint32_t points_type)
-			{
-				return m_points_type = points_type;
 			}
 
 			std::vector<vec2>& Curve::data(void)
@@ -133,34 +49,35 @@ namespace canvas
 				const uint32_t np = m_data.size();
 				const uint64_t si = sizeof(GLuint);
 				const uint64_t sf = sizeof(GLfloat);
-				//ubo lines
-				m_ubo_lines.allocate(32);
-				//allocate
-				m_ssbo.allocate((5 + 2 * np) * sf + si);
+				m_ssbo.allocate(2 * si + 2 * np * sf);
+				//ubos data
+				m_ubo_lines.transfer(0, sizeof(m_lines), &m_lines);
+				m_ubo_points.transfer(0, sizeof(m_points), &m_points);
 				//ssbo data
-				m_ssbo.transfer(4 * sf, 1 * si, &np);
-				m_ssbo.transfer(0 * sf, 4 * sf, m_lines_color.channels());
-				m_ssbo.transfer(4 * sf + 1 * si, 1 * sf, &m_lines_width);
+				m_ssbo.transfer(0, 1 * si, &np);
 				for(uint32_t i = 0; i < np; i++)
 				{
 					const vec2 np = m_frame->ndc(m_data[i]);
-					m_ssbo.transfer((5 + 2 * i) * sf + si, 2 * sf, np.data());
+					m_ssbo.transfer(2 * si + 2 * i * sf, 2 * sf, np.data());
 				}
 			}
 			void Curve::draw(void) const
 			{
 				//lines
-				if(m_lines)
+				m_vao.bind();
+				m_ssbo.bind_base(0);
+				if(m_lines.enabled())
 				{
-					m_vao.bind();
 					m_shader_lines.bind();
-					m_ssbo.bind_base(0);
+					m_ubo_lines.bind_base(2);
 					glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_data.size() - 1);
 				}
 				//points
-				if(m_points)
+				if(m_points.enabled())
 				{
-					m_vao.bind();
+					m_shader_points.bind();
+					m_ubo_points.bind_base(2);
+					glDrawArraysInstanced(GL_POINTS, 0, 1, m_data.size() / m_points.skip());
 				}
 			}
 		}

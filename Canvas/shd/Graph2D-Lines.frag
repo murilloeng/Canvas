@@ -2,15 +2,16 @@
 
 out vec4 fragment_color;
 
-layout(std430, binding = 0) buffer Curve
+layout(std140, binding = 2) uniform Lines
 {
-	vec4 color;
-	uint count;
-	uint thickness;
-	vec2 positions[];
+	vec4 lines_color;
+	uint lines_width;
+	uint lines_enabled;
+	uint lines_dash_size;
+	uint lines_dash_type;
 };
 
 void main(void)
 {
-	fragment_color = color;
+	fragment_color = lines_color;
 }

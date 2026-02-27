@@ -2,20 +2,21 @@
 
 layout(std430, binding = 0) buffer Curve
 {
-	vec4 color;
 	uint count;
-	uint thickness;
-	vec2 positions[];
-};
-layout(std140, binding = 2) uniform Frame
-{
-	vec4 axes;
-	vec4 offset;
+	vec2 data[];
 };
 layout(std140, binding = 1) uniform Screen
 {
 	float width;
 	float height;
+};
+layout(std140, binding = 2) uniform Points
+{
+	vec4 points_color;
+	uint points_size;
+	uint points_skip;
+	uint points_type;
+	uint points_enabled;
 };
 
 void main(void)
@@ -25,5 +26,6 @@ void main(void)
 	const float h = height;
 	const float m = min(w, h);
 	//position
-	gl_Position = vec4(vec2(m / w, m / h) * positions[gl_InstanceID], 0, 1);
+	gl_PointSize = points_size;
+	gl_Position = vec4(vec2(m / w, m / h) * data[points_skip * gl_InstanceID], 0, 1);
 }
