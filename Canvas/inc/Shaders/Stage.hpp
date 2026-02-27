@@ -34,7 +34,7 @@ namespace canvas
 
 			//data
 			GLuint m_id;
-			char m_source[4096];
+			char m_source[8192];
 
 			//friends
 			friend class Shader;

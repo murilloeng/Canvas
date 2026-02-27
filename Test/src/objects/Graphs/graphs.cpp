@@ -27,7 +27,7 @@ void examples::objects::graphs(canvas::Scene* scene)
 	curve->lines().width(1);
 	curve->lines().color("orange");
 	//curve points
-	curve->points().type(12);
+	curve->points().type(14);
 	curve->points().skip(10);
 	curve->points().size(20);
 	//graph
