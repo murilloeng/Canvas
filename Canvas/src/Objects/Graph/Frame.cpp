@@ -139,6 +139,27 @@ namespace canvas
 					(x11 - x10) * (xp[1] - v10) / (v11 - v10) + x10
 				};
 			}
+			vec2 Frame::pixel(const vec2& xp) const
+			{
+				//data
+				const float v00 = m_axis[0].range(0);
+				const float v01 = m_axis[0].range(1);
+				const float v10 = m_axis[1].range(0);
+				const float v11 = m_axis[1].range(1);
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
+				//screen
+				const float ms = fminf(ws, hs);
+				const float x00 = -ws / ms + m_offset[0];
+				const float x01 = +ws / ms - m_offset[1];
+				const float x10 = -hs / ms + m_offset[2];
+				const float x11 = +hs / ms - m_offset[3];
+				//return
+				return {
+					(ms * ((x01 - x00) * (xp[0] - v00) / (v01 - v00) + x00) + ws) / 2,
+					(ms * ((x11 - x10) * (xp[1] - v10) / (v11 - v10) + x10) + hs) / 2
+				};
+			}
 
 			//draw
 			void Frame::setup(void)

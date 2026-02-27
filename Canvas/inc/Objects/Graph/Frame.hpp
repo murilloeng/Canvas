@@ -57,6 +57,7 @@ namespace canvas
 
 				//position
 				vec2 ndc(const vec2&) const;
+				vec2 pixel(const vec2&) const;
 
 				//draw
 				void setup(void) override;

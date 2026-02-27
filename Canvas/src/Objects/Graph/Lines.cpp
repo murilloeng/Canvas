@@ -8,7 +8,7 @@ namespace canvas
 		namespace graphs
 		{
 			//constructor
-			Lines::Lines(void) : m_color{"white"}, m_width{1}, m_enabled{true}, m_dash_size{10}, m_dash_type{1}
+			Lines::Lines(void) : m_color{"white"}, m_width{1}, m_enabled{true}, m_dash_size{50}, m_dash_type{1}
 			{
 				return;
 			}

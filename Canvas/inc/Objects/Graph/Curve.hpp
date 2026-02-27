@@ -52,6 +52,9 @@ namespace canvas
 				void setup(void) override;
 				void draw(void) const override;
 
+				//compute
+				void compute_lengths(void) const;
+
 				//data
 				buffers::VAO m_vao;
 				buffers::SSBO m_ssbo;

@@ -25,12 +25,16 @@ void examples::objects::graphs(canvas::Scene* scene)
 	}
 	//curve lines
 	curve->lines().width(2);
+	curve->lines().dash_type(4);
+	curve->lines().dash_size(50);
 	curve->lines().color("blue");
+	curve->lines().enabled(true);
 	//curve points
-	curve->points().type(7);
+	curve->points().type(15);
 	curve->points().skip(20);
 	curve->points().size(10);
 	curve->points().color("red");
+	curve->points().enabled(true);
 	//graph
 	graph->curves().push_back(curve);
 	//scene

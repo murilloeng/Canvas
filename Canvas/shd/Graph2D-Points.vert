@@ -3,7 +3,7 @@
 layout(std430, binding = 0) buffer Curve
 {
 	uint count;
-	vec2 data[];
+	vec3 data[];
 };
 layout(std140, binding = 1) uniform Screen
 {
@@ -27,5 +27,5 @@ void main(void)
 	const float m = min(w, h);
 	//position
 	gl_PointSize = points_size;
-	gl_Position = vec4(vec2(m / w, m / h) * data[points_skip * gl_InstanceID], 0, 1);
+	gl_Position = vec4(vec2(m / w, m / h) * data[points_skip * gl_InstanceID].xy, 0, 1);
 }
