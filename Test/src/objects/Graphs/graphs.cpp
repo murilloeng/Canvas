@@ -24,12 +24,13 @@ void examples::objects::graphs(canvas::Scene* scene)
 		data[i] = {x, sinf(10 * float(M_PI) * x) * expf(-2 * (x + 1))};
 	}
 	//curve lines
-	curve->lines().width(1);
-	curve->lines().color("orange");
+	curve->lines().width(2);
+	curve->lines().color("blue");
 	//curve points
-	curve->points().type(14);
-	curve->points().skip(10);
-	curve->points().size(20);
+	curve->points().type(7);
+	curve->points().skip(20);
+	curve->points().size(10);
+	curve->points().color("red");
 	//graph
 	graph->curves().push_back(curve);
 	//scene
