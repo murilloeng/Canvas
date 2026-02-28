@@ -1,6 +1,7 @@
 #pragma once
 
 //std
+#include <string>
 #include <cstdint>
 
 namespace canvas
@@ -21,12 +22,18 @@ namespace canvas
 				//data
 				float font_size(uint32_t);
 				float font_size(void) const;
-
+				
 				float ticks_size(float);
 				float ticks_size(void) const;
-
+				
 				float range(uint32_t) const;
 				float range(uint32_t, float);
+
+				std::string label(void) const;
+				std::string label(std::string);
+
+				std::string format(void) const;
+				std::string format(std::string);
 
 				uint32_t ticks_count(uint32_t);
 				uint32_t ticks_count(void) const;
@@ -36,6 +43,8 @@ namespace canvas
 				float m_range[2];
 				float m_font_size;
 				float m_ticks_size;
+				std::string m_label;
+				std::string m_format;
 				uint32_t m_ticks_count;
 			};
 		}

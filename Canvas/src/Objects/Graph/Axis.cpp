@@ -8,7 +8,8 @@ namespace canvas
 		namespace graphs
 		{
 			//constructor
-			Axis::Axis(void) : m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_ticks_count{11}
+			Axis::Axis(void) : 
+				m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_label{"Axis"}, m_format{"+.2e"}, m_ticks_count{11}
 			{
 				return;
 			}
@@ -45,6 +46,24 @@ namespace canvas
 			float Axis::range(uint32_t index, float range)
 			{
 				return m_range[index] = range;
+			}
+
+			std::string Axis::label(void) const
+			{
+				return m_label;
+			}
+			std::string Axis::label(std::string label)
+			{
+				return m_label = label;
+			}
+
+			std::string Axis::format(void) const
+			{
+				return m_format;
+			}
+			std::string Axis::format(std::string format)
+			{
+				return m_format = format;
 			}
 
 			uint32_t Axis::ticks_count(void) const
