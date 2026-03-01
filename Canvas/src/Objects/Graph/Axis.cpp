@@ -9,7 +9,7 @@ namespace canvas
 		{
 			//constructor
 			Axis::Axis(void) : 
-				m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_label{"Axis"}, m_format{"+.2e"}, m_ticks_count{11}
+				m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_label{"Axis"}, m_format{"%+.2f"}, m_ticks_count{11}
 			{
 				return;
 			}
@@ -57,7 +57,7 @@ namespace canvas
 				return m_label = label;
 			}
 
-			std::string Axis::format(void) const
+			const std::string& Axis::format(void) const
 			{
 				return m_format;
 			}

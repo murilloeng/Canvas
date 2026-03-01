@@ -53,6 +53,7 @@ namespace canvas
 
 			private:
 				//compute
+				void compute_glyphs(void);
 				void compute_offset(void);
 
 				//position
@@ -64,11 +65,14 @@ namespace canvas
 				void draw(void) const override;
 
 				//text
-				float text_width(float, float) const;
 				float text_width(float, std::string) const;
+				float text_width(float, float, const char*) const;
 
-				float text_height(float, float) const;
 				float text_height(float, std::string) const;
+				float text_height(float, float, const char*) const;
+
+				void text_height(float, std::string, float&, float&) const;
+				void text_height(float, float, const char*, float&, float&) const;
 
 				//bufers
 				void vbo_data_frame(vertices::Line2D*&) const;
@@ -88,6 +92,7 @@ namespace canvas
 				const Graph* m_graph;
 				buffers::VAO m_vaos[2];
 				buffers::VBO m_vbos[2];
+				uint32_t m_glyphs_count;
 				shaders::Shader m_shaders[2];
 
 				//friends

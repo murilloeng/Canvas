@@ -1,5 +1,6 @@
 //std
 #include <cmath>
+#include <stdexcept>
 
 //Canvas
 #include "Canvas/Canvas/inc/API/API.hpp"
@@ -87,6 +88,41 @@ namespace canvas
 			}
 
 			//compute
+			void Frame::compute_glyphs(void)
+			{
+				//data
+				char buffer[256];
+				const float v00 = m_axis[0].range(0);
+				const float v01 = m_axis[0].range(1);
+				const float v10 = m_axis[1].range(0);
+				const float v11 = m_axis[1].range(1);
+				const char* f0 = m_axis[0].format().c_str();
+				const char* f1 = m_axis[1].format().c_str();
+				const uint32_t n0 = m_axis[0].ticks_count();
+				const uint32_t n1 = m_axis[1].ticks_count();
+				//glyphs
+				m_glyphs_count = 0;
+				for(uint32_t i = 0; i < n0; i++)
+				{
+					int32_t count = sprintf(buffer, f0, v00 + (v01 - v00) * i / (n0 - 1));
+					if(count < 0)
+					{
+						throw std::runtime_error("Error: invalid axis format!");
+					}
+					m_glyphs_count += count;
+				}
+				for(uint32_t i = 0; i < n1; i++)
+				{
+					int32_t count = sprintf(buffer, f1, v10 + (v11 - v10) * i / (n1 - 1));
+					if(count < 0)
+					{
+						throw std::runtime_error("Error: invalid axis format!");
+					}
+					m_glyphs_count += count;
+				}
+				m_glyphs_count += m_axis[0].label().length();
+				m_glyphs_count += m_axis[1].label().length();
+			}
 			void Frame::compute_offset(void)
 			{
 				//data
@@ -94,27 +130,28 @@ namespace canvas
 				const float v01 = m_axis[0].range(1);
 				const float v10 = m_axis[1].range(0);
 				const float v11 = m_axis[1].range(1);
-				const float f0 = m_axis[0].font_size();
-				const float f1 = m_axis[1].font_size();
+				const float s0 = m_axis[0].font_size();
+				const float s1 = m_axis[1].font_size();
+				const char* f0 = m_axis[0].format().c_str();
+				const char* f1 = m_axis[1].format().c_str();
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//horizontal
-				m_offset[0] = text_width(f0, v00) / 2;
-				m_offset[1] = text_width(f0, v01) / 2;
+				m_offset[0] = text_width(s0, v00, f0) / 2;
+				m_offset[1] = text_width(s0, v01, f0) / 2;
 				for(uint32_t i = 0; i < n1; i++)
 				{
 					const float v1i = v10 + (v11 - v10) * i / (n1 - 1);
-					m_offset[0] = fmaxf(m_offset[0], text_width(f1, v1i));
+					m_offset[0] = fmaxf(m_offset[0], text_width(s1, v1i, f1));
 				}
 				//vertical
 				m_offset[2] = 0;
 				for(uint32_t i = 0; i < n0; i++)
 				{
 					const float v0i = v00 + (v01 - v00) * i / (n0 - 1);
-					m_offset[2] = fmaxf(m_offset[2], text_height(f0, v0i));
+					m_offset[2] = fmaxf(m_offset[2], text_height(s0, v0i, f0));
 				}
-				m_offset[3] = text_height(f1, v11) / 2;
-				m_offset[2] += text_height(f1, v10) / 2;
+				m_offset[3] = text_height(s1, v11, f1) / 2;
 			}
 
 			//position
@@ -169,7 +206,8 @@ namespace canvas
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//allocate
-				m_vbos[1].allocate(9 * (n0 + n1));
+				compute_glyphs();
+				m_vbos[1].allocate(m_glyphs_count);
 				m_vbos[0].allocate(3 * (n0 + n1) - 8);
 				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[0].data();
 				vertices::Glyph2D* vbo_ptr_ticks = (vertices::Glyph2D*) m_vbos[1].data();
@@ -196,12 +234,6 @@ namespace canvas
 			}
 
 			//text
-			float Frame::text_width(float font_size, float value) const
-			{
-				char string[256];
-				sprintf(string, "%+.2e", value);
-				return text_width(font_size, string);
-			}
 			float Frame::text_width(float font_size, std::string text) const
 			{
 				//data
@@ -215,13 +247,13 @@ namespace canvas
 				//return
 				return width;
 			}
-
-			float Frame::text_height(float font_size, float value) const
+			float Frame::text_width(float font_size, float value, const char* format) const
 			{
 				char string[256];
-				sprintf(string, "%+.2e", value);
-				return text_height(font_size, string);
+				sprintf(string, format, value);
+				return text_width(font_size, string);
 			}
+
 			float Frame::text_height(float font_size, std::string text) const
 			{
 				//data
@@ -235,6 +267,30 @@ namespace canvas
 				}
 				//return
 				return a + b;
+			}
+			float Frame::text_height(float font_size, float value, const char* format) const
+			{
+				char buffer[256];
+				sprintf(buffer, format, value);
+				return text_height(font_size, buffer);
+			}
+
+			void Frame::text_height(float font_size, std::string text, float& a, float& b) const
+			{
+				//data
+				const fonts::Font* font = m_scene->font(m_graph->font());
+				//width
+				for(char c : text)
+				{
+					a = fmaxf(a, font_size * font->glyph(c).bearing(1) / font->height());
+					b = fmaxf(b, font_size * (font->glyph(c).height() - font->glyph(c).bearing(1)) / font->height());
+				}
+			}
+			void Frame::text_height(float font_size, float value, const char* format, float& a, float& b) const
+			{
+				char buffer[256];
+				sprintf(buffer, format, value);
+				text_height(font_size, buffer, a, b);
 			}
 
 			//bufers
@@ -343,6 +399,7 @@ namespace canvas
 				const float v11 = m_axis[1].range(1);
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
+				const char* f1 = m_axis[1].format().c_str();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				const fonts::Font* font = m_scene->font(m_graph->font());
 				//vbo data
@@ -350,7 +407,7 @@ namespace canvas
 				for(uint32_t i = 0; i < n1; i++)
 				{
 					//string
-					sprintf(string, "%+.2e", v10 + i * (v11 - v10) / (n1 - 1));
+					sprintf(string, f1, v10 + i * (v11 - v10) / (n1 - 1));
 					const float hi = text_height(m_axis[1].font_size(), string);
 					//position
 					float xi = -ws / ms;
@@ -391,6 +448,7 @@ namespace canvas
 				const float v01 = m_axis[0].range(1);
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
+				const char* f0 = m_axis[0].format().c_str();
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const fonts::Font* font = m_scene->font(m_graph->font());
 				//vbo data
@@ -398,7 +456,7 @@ namespace canvas
 				for(uint32_t i = 0; i < n0; i++)
 				{
 					//string
-					sprintf(string, "%+.2e", v00 + i * (v01 - v00) / (n0 - 1));
+					sprintf(string, f0, v00 + i * (v01 - v00) / (n0 - 1));
 					const float wi = text_width(m_axis[0].font_size(), string);
 					//position
 					const float yi = -hs / ms;
