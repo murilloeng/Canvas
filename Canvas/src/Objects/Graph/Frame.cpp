@@ -214,7 +214,9 @@ namespace canvas
 				//buffers
 				compute_offset();
 				vbo_data_frame(vbo_ptr_frame);
+				vbo_data_label_vertical(vbo_ptr_ticks);
 				vbo_data_ticks_vertical(vbo_ptr_ticks);
+				vbo_data_label_horizontal(vbo_ptr_ticks);
 				vbo_data_ticks_horizontal(vbo_ptr_ticks);
 				//transfer
 				m_vbos[0].transfer();
@@ -390,6 +392,41 @@ namespace canvas
 				}
 			}
 
+			void Frame::vbo_data_label_vertical(vertices::Glyph2D*& vbo_ptr) const
+			{
+				//data
+				float tc[8], xc[8];
+				const float s1 = m_axis[1].font_size();
+				const std::string& label = m_axis[1].label();
+				const fonts::Font* font = m_scene->font(m_graph->font());
+				//vbo data
+				float xi = 0;
+				const float yi = 0;
+				for(char c : label)
+				{
+					//character
+					font->glyph(c).coordinates(font, tc);
+					const int32_t w = font->glyph(c).width();
+					const int32_t h = font->glyph(c).height();
+					const int32_t r = font->glyph(c).advance();
+					const int32_t a = font->glyph(c).bearing(0);
+					const int32_t b = font->glyph(c).bearing(1);
+					//position
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + s1 * a / font->height();
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + s1 * b / font->height();
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + s1 * (a + w) / font->height();
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + s1 * (b - h) / font->height();
+					//vertices
+					vbo_ptr->m_color = m_color;
+					for(uint32_t j = 0; j < 4; j++)
+					{
+						vbo_ptr->m_position[j] = xc + 2 * j;
+						vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
+					}
+					vbo_ptr++;
+					xi += s1 * r / font->height();
+				}
+			}
 			void Frame::vbo_data_ticks_vertical(vertices::Glyph2D*& vbo_ptr) const
 			{
 				//data
@@ -437,6 +474,41 @@ namespace canvas
 						vbo_ptr++;
 						xi += m_axis[0].font_size() * r / font->height();
 					}
+				}
+			}
+			void Frame::vbo_data_label_horizontal(vertices::Glyph2D*& vbo_ptr) const
+			{
+				//data
+				float tc[8], xc[8];
+				const float s0 = m_axis[0].font_size();
+				const std::string& label = m_axis[0].label();
+				const fonts::Font* font = m_scene->font(m_graph->font());
+				//vbo data
+				float xi = 0;
+				const float yi = 0;
+				for(char c : label)
+				{
+					//character
+					font->glyph(c).coordinates(font, tc);
+					const int32_t w = font->glyph(c).width();
+					const int32_t h = font->glyph(c).height();
+					const int32_t r = font->glyph(c).advance();
+					const int32_t a = font->glyph(c).bearing(0);
+					const int32_t b = font->glyph(c).bearing(1);
+					//position
+					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + s0 * a / font->height();
+					xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + s0 * b / font->height();
+					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + s0 * (a + w) / font->height();
+					xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + s0 * (b - h) / font->height();
+					//vertices
+					vbo_ptr->m_color = m_color;
+					for(uint32_t j = 0; j < 4; j++)
+					{
+						vbo_ptr->m_position[j] = xc + 2 * j;
+						vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
+					}
+					vbo_ptr++;
+					xi += s0 * r / font->height();
 				}
 			}
 			void Frame::vbo_data_ticks_horizontal(vertices::Glyph2D*& vbo_ptr) const

@@ -48,7 +48,7 @@ namespace canvas
 				return m_range[index] = range;
 			}
 
-			std::string Axis::label(void) const
+			const std::string& Axis::label(void) const
 			{
 				return m_label;
 			}

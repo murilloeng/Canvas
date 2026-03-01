@@ -26,6 +26,9 @@ namespace canvas
 			uint32_t font(uint32_t);
 			uint32_t font(void) const;
 
+			graphs::Frame& frame(void);
+			const graphs::Frame& frame(void) const;
+
 			std::vector<graphs::Curve*>& curves(void);
 			const std::vector<graphs::Curve*>& curves(void) const;
 

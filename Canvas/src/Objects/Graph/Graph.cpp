@@ -27,6 +27,15 @@ namespace canvas
 			return m_font = font;
 		}
 
+		graphs::Frame& Graph::frame(void)
+		{
+			return m_frame;
+		}
+		const graphs::Frame& Graph::frame(void) const
+		{
+			return m_frame;
+		}
+
 		std::vector<graphs::Curve*>& Graph::curves(void)
 		{
 			return m_curves;

@@ -80,7 +80,9 @@ namespace canvas
 				void vbo_data_frame_vertical(vertices::Line2D*&) const;
 				void vbo_data_frame_horizontal(vertices::Line2D*&) const;
 
+				void vbo_data_label_vertical(vertices::Glyph2D*&) const;
 				void vbo_data_ticks_vertical(vertices::Glyph2D*&) const;
+				void vbo_data_label_horizontal(vertices::Glyph2D*&) const;
 				void vbo_data_ticks_horizontal(vertices::Glyph2D*&) const;
 
 				//data

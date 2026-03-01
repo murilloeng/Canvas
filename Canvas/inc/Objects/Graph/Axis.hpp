@@ -28,12 +28,12 @@ namespace canvas
 				
 				float range(uint32_t) const;
 				float range(uint32_t, float);
-
-				std::string label(void) const;
-				std::string label(std::string);
 				
 				uint32_t ticks_count(uint32_t);
 				uint32_t ticks_count(void) const;
+
+				std::string label(std::string);
+				const std::string& label(void) const;
 
 				std::string format(std::string);
 				const std::string& format(void) const;
