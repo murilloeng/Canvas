@@ -37,8 +37,7 @@ void examples::objects::graphs(canvas::Scene* scene)
 	curve->points().enabled(true);
 	//graph
 	graph->curves().push_back(curve);
-	graph->frame().axis(0).label("Minha rola");
-	graph->frame().axis(1).label("Minha rola vertical");
+	graph->frame().axis(0).label("Horizontal label");
 	//scene
 	scene->add_font("arial");
 	scene->add_object(graph);

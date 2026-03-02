@@ -9,7 +9,7 @@ namespace canvas
 		{
 			//constructor
 			Axis::Axis(void) : 
-				m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_label{"Axis"}, m_format{"%+.2f"}, m_ticks_count{11}
+				m_range{-1.0f, +1.0f}, m_font_size{0.05f}, m_ticks_size{0.05f}, m_label{"Label"}, m_format{"%+.2f"}, m_ticks_count{11}
 			{
 				return;
 			}

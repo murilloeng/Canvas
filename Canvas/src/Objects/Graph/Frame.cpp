@@ -134,7 +134,6 @@ namespace canvas
 				const float s1 = m_axis[1].font_size();
 				const char* f0 = m_axis[0].format().c_str();
 				const char* f1 = m_axis[1].format().c_str();
-				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//horizontal
 				m_offset[0] = text_width(s0, v00, f0) / 2;
@@ -144,14 +143,10 @@ namespace canvas
 					const float v1i = v10 + (v11 - v10) * i / (n1 - 1);
 					m_offset[0] = fmaxf(m_offset[0], text_width(s1, v1i, f1));
 				}
+				m_offset[0] += s1;
 				//vertical
-				m_offset[2] = 0;
-				for(uint32_t i = 0; i < n0; i++)
-				{
-					const float v0i = v00 + (v01 - v00) * i / (n0 - 1);
-					m_offset[2] = fmaxf(m_offset[2], text_height(s0, v0i, f0));
-				}
-				m_offset[3] = text_height(s1, v11, f1) / 2;
+				m_offset[3] = s0;
+				m_offset[2] = 2 * s0;
 			}
 
 			//position
@@ -210,14 +205,14 @@ namespace canvas
 				m_vbos[1].allocate(m_glyphs_count);
 				m_vbos[0].allocate(3 * (n0 + n1) - 8);
 				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[0].data();
-				vertices::Glyph2D* vbo_ptr_ticks = (vertices::Glyph2D*) m_vbos[1].data();
+				vertices::Glyph2D* vbo_ptr_text = (vertices::Glyph2D*) m_vbos[1].data();
 				//buffers
 				compute_offset();
 				vbo_data_frame(vbo_ptr_frame);
-				vbo_data_label_vertical(vbo_ptr_ticks);
-				vbo_data_ticks_vertical(vbo_ptr_ticks);
-				vbo_data_label_horizontal(vbo_ptr_ticks);
-				vbo_data_ticks_horizontal(vbo_ptr_ticks);
+				vbo_data_label_vertical(vbo_ptr_text);
+				vbo_data_ticks_vertical(vbo_ptr_text);
+				vbo_data_label_horizontal(vbo_ptr_text);
+				vbo_data_ticks_horizontal(vbo_ptr_text);
 				//transfer
 				m_vbos[0].transfer();
 				m_vbos[1].transfer();
@@ -434,6 +429,7 @@ namespace canvas
 				float tc[8], xc[8];
 				const float v10 = m_axis[1].range(0);
 				const float v11 = m_axis[1].range(1);
+				const float s1 = m_axis[1].font_size();
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
 				const char* f1 = m_axis[1].format().c_str();
@@ -447,7 +443,7 @@ namespace canvas
 					sprintf(string, f1, v10 + i * (v11 - v10) / (n1 - 1));
 					const float hi = text_height(m_axis[1].font_size(), string);
 					//position
-					float xi = -ws / ms;
+					float xi = -ws / ms + s1;
 					const float yi = -hs / ms + m_offset[2] - (i != 0) * hi / 2 + (2 * hs / ms - m_offset[2] - m_offset[3]) * i / (n1 - 1);
 					//glyphs
 					for(char c : std::string(string))
@@ -460,10 +456,10 @@ namespace canvas
 						const int32_t a = font->glyph(c).bearing(0);
 						const int32_t b = font->glyph(c).bearing(1);
 						//position
-						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + m_axis[0].font_size() * a / font->height();
-						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + m_axis[0].font_size() * b / font->height();
-						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
-						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
+						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + s1 * a / font->height();
+						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + s1 * b / font->height();
+						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + s1 * (a + w) / font->height();
+						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + s1 * (b - h) / font->height();
 						//vertices
 						vbo_ptr->m_color = m_color;
 						for(uint32_t j = 0; j < 4; j++)
@@ -472,7 +468,7 @@ namespace canvas
 							vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
 						}
 						vbo_ptr++;
-						xi += m_axis[0].font_size() * r / font->height();
+						xi += s1 * r / font->height();
 					}
 				}
 			}
@@ -481,11 +477,15 @@ namespace canvas
 				//data
 				float tc[8], xc[8];
 				const float s0 = m_axis[0].font_size();
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
 				const std::string& label = m_axis[0].label();
 				const fonts::Font* font = m_scene->font(m_graph->font());
+				//position
+				const float ms = fminf(ws, hs);
+				float xi = (m_offset[0] - m_offset[1] - text_width(s0, label)) / 2;
+				const float yi = -hs / ms - s0 * font->descender() / font->height();
 				//vbo data
-				float xi = 0;
-				const float yi = 0;
 				for(char c : label)
 				{
 					//character
@@ -518,6 +518,7 @@ namespace canvas
 				float tc[8], xc[8];
 				const float v00 = m_axis[0].range(0);
 				const float v01 = m_axis[0].range(1);
+				const float s0 = m_axis[0].font_size();
 				const float ws = m_scene->camera().width();
 				const float hs = m_scene->camera().height();
 				const char* f0 = m_axis[0].format().c_str();
@@ -531,7 +532,7 @@ namespace canvas
 					sprintf(string, f0, v00 + i * (v01 - v00) / (n0 - 1));
 					const float wi = text_width(m_axis[0].font_size(), string);
 					//position
-					const float yi = -hs / ms;
+					const float yi = -hs / ms + s0 - s0 * font->descender() / font->height();
 					float xi = -ws / ms + m_offset[0] + i * (2 * ws / ms - m_offset[0] - m_offset[1]) / (n0 - 1) - wi / 2;
 					//glyphs
 					for(char c : std::string(string))
@@ -544,10 +545,10 @@ namespace canvas
 						const int32_t a = font->glyph(c).bearing(0);
 						const int32_t b = font->glyph(c).bearing(1);
 						//position
-						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + m_axis[0].font_size() * a / font->height();
-						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + m_axis[0].font_size() * b / font->height();
-						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + m_axis[0].font_size() * (a + w) / font->height();
-						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + m_axis[0].font_size() * (b - h) / font->height();
+						xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + s0 * a / font->height();
+						xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + s0 * b / font->height();
+						xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + s0 * (a + w) / font->height();
+						xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + s0 * (b - h) / font->height();
 						//vertices
 						vbo_ptr->m_color = m_color;
 						for(uint32_t j = 0; j < 4; j++)
@@ -556,7 +557,7 @@ namespace canvas
 							vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
 						}
 						vbo_ptr++;
-						xi += m_axis[0].font_size() * r / font->height();
+						xi += s0 * r / font->height();
 					}
 				}
 			}
