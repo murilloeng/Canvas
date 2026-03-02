@@ -71,9 +71,6 @@ namespace canvas
 				float text_height(float, std::string) const;
 				float text_height(float, float, const char*) const;
 
-				void text_height(float, std::string, float&, float&) const;
-				void text_height(float, float, const char*, float&, float&) const;
-
 				//bufers
 				void vbo_data_frame(vertices::Line2D*&) const;
 				void vbo_data_frame_grid(vertices::Line2D*&) const;

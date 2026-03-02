@@ -32,11 +32,12 @@ void examples::objects::graphs(canvas::Scene* scene)
 	//curve points
 	curve->points().type(15);
 	curve->points().skip(20);
-	curve->points().size(10);
+	curve->points().size(20);
 	curve->points().color("red");
 	curve->points().enabled(true);
 	//graph
 	graph->curves().push_back(curve);
+	graph->frame().axis(1).label("Vertical label");
 	graph->frame().axis(0).label("Horizontal label");
 	//scene
 	scene->add_font("arial");

@@ -272,24 +272,6 @@ namespace canvas
 				return text_height(font_size, buffer);
 			}
 
-			void Frame::text_height(float font_size, std::string text, float& a, float& b) const
-			{
-				//data
-				const fonts::Font* font = m_scene->font(m_graph->font());
-				//width
-				for(char c : text)
-				{
-					a = fmaxf(a, font_size * font->glyph(c).bearing(1) / font->height());
-					b = fmaxf(b, font_size * (font->glyph(c).height() - font->glyph(c).bearing(1)) / font->height());
-				}
-			}
-			void Frame::text_height(float font_size, float value, const char* format, float& a, float& b) const
-			{
-				char buffer[256];
-				sprintf(buffer, format, value);
-				text_height(font_size, buffer, a, b);
-			}
-
 			//bufers
 			void Frame::vbo_data_frame(vertices::Line2D*& vbo_ptr) const
 			{
@@ -392,11 +374,15 @@ namespace canvas
 				//data
 				float tc[8], xc[8];
 				const float s1 = m_axis[1].font_size();
+				const float ws = m_scene->camera().width();
+				const float hs = m_scene->camera().height();
 				const std::string& label = m_axis[1].label();
 				const fonts::Font* font = m_scene->font(m_graph->font());
+				//position
+				const float ms = fminf(ws, hs);
+				float yi = (m_offset[2] - m_offset[3] - text_width(s1, label)) / 2;
+				const float xi = -ws / ms + s1 + s1 * font->descender() / font->height();
 				//vbo data
-				float xi = 0;
-				const float yi = 0;
 				for(char c : label)
 				{
 					//character
@@ -407,10 +393,10 @@ namespace canvas
 					const int32_t a = font->glyph(c).bearing(0);
 					const int32_t b = font->glyph(c).bearing(1);
 					//position
-					xc[2 * 0 + 0] = xc[2 * 3 + 0] = xi + s1 * a / font->height();
-					xc[2 * 2 + 1] = xc[2 * 3 + 1] = yi + s1 * b / font->height();
-					xc[2 * 1 + 0] = xc[2 * 2 + 0] = xi + s1 * (a + w) / font->height();
-					xc[2 * 0 + 1] = xc[2 * 1 + 1] = yi + s1 * (b - h) / font->height();
+					xc[2 * 0 + 1] = xc[2 * 3 + 1] = yi + s1 * a / font->height();
+					xc[2 * 2 + 0] = xc[2 * 3 + 0] = xi - s1 * b / font->height();
+					xc[2 * 1 + 1] = xc[2 * 2 + 1] = yi + s1 * (a + w) / font->height();
+					xc[2 * 0 + 0] = xc[2 * 1 + 0] = xi - s1 * (b - h) / font->height();
 					//vertices
 					vbo_ptr->m_color = m_color;
 					for(uint32_t j = 0; j < 4; j++)
@@ -419,7 +405,7 @@ namespace canvas
 						vbo_ptr->m_texture_coordinates[j] = tc + 2 * j;
 					}
 					vbo_ptr++;
-					xi += s1 * r / font->height();
+					yi += s1 * r / font->height();
 				}
 			}
 			void Frame::vbo_data_ticks_vertical(vertices::Glyph2D*& vbo_ptr) const
