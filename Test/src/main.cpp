@@ -18,7 +18,7 @@ int32_t main(void)
 	{
 		//data
 		Engine engine;
-		engine.show_fps(false);
+		engine.show_fps(true);
 		//scene
 		examples::objects::graphs(engine.scene());
 		//scene

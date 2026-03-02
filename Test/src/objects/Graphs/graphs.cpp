@@ -32,7 +32,7 @@ void examples::objects::graphs(canvas::Scene* scene)
 	//curve points
 	curve->points().type(15);
 	curve->points().skip(20);
-	curve->points().size(20);
+	curve->points().size(10);
 	curve->points().color("red");
 	curve->points().enabled(true);
 	//graph
