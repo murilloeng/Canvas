@@ -64,13 +64,13 @@ namespace canvas
 			return m_id;
 		}
 
-		std::string Shader::path(void)
+		void Shader::addPath(std::string path)
 		{
-			return m_path;
+			m_paths.push_back(path);
 		}
-		std::string Shader::path(std::string path)
+		std::vector<std::string>& Shader::paths(void)
 		{
-			return m_path = path;
+			return m_paths;
 		}
 
 		//bind
@@ -395,6 +395,6 @@ namespace canvas
 		}
 
 		//static members
-		std::string Shader::m_path;
+		std::vector<std::string> Shader::m_paths;
 	}
 }

@@ -66,14 +66,15 @@ namespace canvas
 		void Stage::check(std::string& path)
 		{
 			if(std::filesystem::exists(path)) return;
-			if(std::filesystem::exists(Shader::path() + path))
+			for(const std::string& folder : Shader::paths())
 			{
-				path = Shader::path() + path;
+				if(std::filesystem::exists(folder + path))
+				{
+					path = folder + path;
+					return;
+				}
 			}
-			else
-			{
-				throw std::runtime_error("Error: Shader file does not exist: " + std::string(path));
-			}
+			throw std::runtime_error("Error: Shader file does not exist: " + std::string(path));
 		}
 	}
 }
