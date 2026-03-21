@@ -1,6 +1,6 @@
 //canvas
-#include "Canvas/Canvas/inc/Math/vec2.hpp"
-#include "Canvas/Canvas/inc/Objects/Image/Text2D.hpp"
+#include "Canvas/inc/Math/vec2.hpp"
+#include "Canvas/inc/Objects/Image/Text2D.hpp"
 
 //test
 #include "Canvas/Test/inc/examples.hpp"

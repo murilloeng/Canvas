@@ -1,6 +1,6 @@
 //canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Objects/1D/Spline.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/1D/Spline.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"

@@ -1,0 +1,27 @@
+#pragma once
+
+//canvas
+#include "Canvas/inc/Math/vec2.hpp"
+#include "Canvas/inc/Vertices/Vertex3D.hpp"
+
+namespace canvas
+{
+	namespace vertices
+	{
+		class Image3D : public Vertex3D
+		{
+		public:
+			//constructor
+			Image3D(void);
+
+			//destructor
+			~Image3D(void);
+
+			//print
+			void print(void) const;
+
+			//data
+			vec2 m_texture_coordinates;
+		};
+	}
+}

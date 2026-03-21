@@ -2,9 +2,9 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
-#include "Canvas/Canvas/inc/Objects/Graph/Curve.hpp"
-#include "Canvas/Canvas/inc/Objects/Graph/Graph.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Objects/Graph/Curve.hpp"
+#include "Canvas/inc/Objects/Graph/Graph.hpp"
 
 //examples
 #include "Canvas/Test/inc/examples.hpp"

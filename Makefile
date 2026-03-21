@@ -14,20 +14,20 @@ else
 endif
 
 #ouput
+out_lib = dist/$(mode)/libcanvas.so
 out_exe = Test/dist/$(mode)/test.out
-out_lib = Canvas/dist/$(mode)/libcanvas.so
 
 #sources
+src_lib := $(shell find -path './src/*.cpp')
 src_exe := $(shell find -path './Test/src/*.cpp')
-src_lib := $(shell find -path './Canvas/src/*.cpp')
 
 #objects
-obj_exe = $(subst ./Test/src/, Test/build/$(mode)/, $(subst .cpp,.o,$(src_exe)))
-obj_lib = $(subst ./Canvas/src/, Canvas/build/$(mode)/, $(subst .cpp,.o,$(src_lib)))
+obj_lib = $(subst ./src/,build/$(mode)/,$(subst .cpp,.o,$(src_lib)))
+obj_exe = $(subst ./Test/src/,Test/build/$(mode)/,$(subst .cpp,.o,$(src_exe)))
 
 #dependencies
-dep_exe = $(subst .o,.d, $(obj_exe))
-dep_lib = $(subst .o,.d, $(obj_lib))
+dep_lib = $(subst .o,.d,$(obj_lib))
+dep_exe = $(subst .o,.d,$(obj_exe))
 
 #rules
 all : exe
@@ -51,7 +51,7 @@ $(out_lib) : $(obj_lib)
 
 $(out_exe) : $(obj_exe)
 	@mkdir -p $(dir $@)
-	@g++ -fopenmp -o $(out_exe) $(obj_exe) Canvas/dist/$(mode)/libcanvas.so -l GL -l X11 -l glfw -l freetype
+	@g++ -fopenmp -o $(out_exe) $(obj_exe) dist/$(mode)/libcanvas.so -l GL -l X11 -l glfw -l freetype
 	@echo 'executable - $(mode): $@'
 
 Test/build/$(mode)/%.o : Test/src/%.cpp Test/build/$(mode)/%.d
@@ -59,24 +59,24 @@ Test/build/$(mode)/%.o : Test/src/%.cpp Test/build/$(mode)/%.d
 	@echo 'compiling - $(mode): $<'
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-Canvas/build/$(mode)/%.o : Canvas/src/%.cpp Canvas/build/$(mode)/%.d
+build/$(mode)/%.o : src/%.cpp build/$(mode)/%.d
 	@mkdir -p $(dir $@)
 	@echo 'compiling - $(mode): $<'
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(dep_exe) : ;
-
 $(dep_lib) : ;
 
--include $(dep_exe)
+$(dep_exe) : ;
 
 -include $(dep_lib)
 
+-include $(dep_exe)
+
 clean :
+	@rm -rf dist/$(mode)
+	@rm -rf build/$(mode)
 	@rm -rf Test/dist/$(mode)
 	@rm -rf Test/build/$(mode)
-	@rm -rf Canvas/dist/$(mode)
-	@rm -rf Canvas/build/$(mode)
 	@echo 'clean - $(mode): complete!'
 
 print-% :

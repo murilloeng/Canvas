@@ -2,10 +2,10 @@
 #include <cmath>
 
 //canvas
-#include "Canvas/Canvas/inc/Objects/1D/Line.hpp"
-#include "Canvas/Canvas/inc/Objects/3D/Cube.hpp"
-#include "Canvas/Canvas/inc/Objects/3D/Cylinder.hpp"
-#include "Canvas/Canvas/inc/Objects/Image/Latex.hpp"
+#include "Canvas/inc/Objects/1D/Line.hpp"
+#include "Canvas/inc/Objects/3D/Cube.hpp"
+#include "Canvas/inc/Objects/3D/Cylinder.hpp"
+#include "Canvas/inc/Objects/Image/Latex.hpp"
 
 //examples
 #include "Canvas/Test/inc/Engine.hpp"

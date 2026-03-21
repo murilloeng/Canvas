@@ -10,7 +10,7 @@
 #include <GLFW/glfw3.h>
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
 
 class Engine
 {

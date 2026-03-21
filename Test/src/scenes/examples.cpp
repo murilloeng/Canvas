@@ -3,7 +3,7 @@
 #include "Canvas/Test/inc/examples.hpp"
 
 //canvas
-#include "Canvas/Canvas/inc/Scene/Scene.hpp"
+#include "Canvas/inc/Scene/Scene.hpp"
 
 //static data
 static canvas::Scene* scene;

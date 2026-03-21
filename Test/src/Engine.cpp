@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 //canvas
-#include "Canvas/Canvas/inc/API/Loader.hpp"
+#include "Canvas/inc/API/Loader.hpp"
 
 //test
 #include "Canvas/Test/inc/Engine.hpp"
@@ -116,7 +116,7 @@ void Engine::setup_scene(void)
 {
 	int32_t width, height;
 	m_scene = new canvas::Scene;
-	canvas::shaders::Shader::path("Canvas/shd/");
+	canvas::shaders::Shader::path("shd/");
 	glfwGetWindowSize(m_window, &width, &height);
 	m_scene->camera().callback_reshape(width, height);
 }
