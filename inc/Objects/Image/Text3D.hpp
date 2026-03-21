@@ -50,8 +50,9 @@ namespace canvas
 			void vbo_data(uint32_t, vertices::Text3D*) const;
 
 			//draw
+			void draw(void) override;
 			void setup(void) override;
-			void draw(void) const override;
+			void update(void) override;
 
 			//update
 			void update_on_motion(void) const override;

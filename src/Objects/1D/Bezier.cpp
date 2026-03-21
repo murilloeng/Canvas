@@ -56,16 +56,25 @@ namespace canvas
 		}
 
 		//draw
+		void Bezier::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_LINE_STRIP, 0, m_mesh + 1);
+		}
 		void Bezier::setup(void)
 		{
-			//allocate
 			m_vbo.allocate(m_mesh + 1);
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
-			//vbo data
+		}
+		void Bezier::update(void)
+		{
+			//data
 			const vec3& x1 = m_points[0];
 			const vec3& x2 = m_points[1];
 			const vec3& c1 = m_controls[0];
 			const vec3& c2 = m_controls[1];
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
+			//vbo data
 			for(uint32_t i = 0; i <= m_mesh; i++)
 			{
 				const float t = float(i) / m_mesh;
@@ -84,12 +93,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Bezier::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_LINE_STRIP, 0, m_mesh + 1);
 		}
 
 		//static

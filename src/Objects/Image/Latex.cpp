@@ -49,7 +49,14 @@ namespace canvas
 		}
 
 		//draw
-		void Latex::setup(void)
+		void Latex::draw(void) 
+		{
+			m_vao.bind();
+			m_shader.bind();
+			m_latex.texture().bind_unit(0);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		}
+		void Latex::update(void)
 		{
 			//data
 			const float w = m_latex.texture().width();
@@ -76,13 +83,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Latex::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			m_latex.texture().bind_unit(0);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		}
 	}
 }

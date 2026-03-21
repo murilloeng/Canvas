@@ -194,16 +194,32 @@ namespace canvas
 			}
 
 			//draw
+			void Frame::draw(void)
+			{
+				//draw frame
+				m_vaos[0].bind();
+				m_shaders[0].bind();
+				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[0].vertex_count());
+				//draw ticks
+				m_vaos[1].bind();
+				m_shaders[1].bind();
+				m_scene->font(m_graph->font())->texture().bind_unit(0);
+				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[1].vertex_count());
+			}
 			void Frame::setup(void)
 			{
 				//data
-				m_scene = m_graph->scene();
 				const uint32_t n0 = m_axis[0].ticks_count();
 				const uint32_t n1 = m_axis[1].ticks_count();
 				//allocate
 				compute_glyphs();
 				m_vbos[1].allocate(m_glyphs_count);
 				m_vbos[0].allocate(3 * (n0 + n1) - 8);
+			}
+			void Frame::update(void)
+			{
+				//data
+				m_scene = m_graph->scene();
 				vertices::Line2D* vbo_ptr_frame = (vertices::Line2D*) m_vbos[0].data();
 				vertices::Glyph2D* vbo_ptr_text = (vertices::Glyph2D*) m_vbos[1].data();
 				//buffers
@@ -216,18 +232,6 @@ namespace canvas
 				//transfer
 				m_vbos[0].transfer();
 				m_vbos[1].transfer();
-			}
-			void Frame::draw(void) const
-			{
-				//draw frame
-				m_vaos[0].bind();
-				m_shaders[0].bind();
-				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[0].vertex_count());
-				//draw ticks
-				m_vaos[1].bind();
-				m_shaders[1].bind();
-				m_scene->font(m_graph->font())->texture().bind_unit(0);
-				glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, 4, m_vbos[1].vertex_count());
 			}
 
 			//text

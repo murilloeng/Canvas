@@ -44,16 +44,32 @@ namespace canvas
 		}
 
 		//draw
+		void Polygon::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t nl = (uint32_t) m_loops.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
+			glDrawElements(GL_TRIANGLES, 3 * (nv + 2 * nl - 6), GL_UNSIGNED_INT, nullptr);
+			glDrawElementsBaseVertex(GL_LINES, 2 * nv, GL_UNSIGNED_INT, (void*) (3 * (nv + 2 * nl - 6) * sizeof(uint32_t)), nv);
+		}
 		void Polygon::setup(void)
 		{
 			//data
 			const uint32_t nl = (uint32_t) m_loops.size();
 			const uint32_t nv = (uint32_t) m_vertices.size();
-			uint32_t* triangles = (uint32_t*) alloca(3 * (nv + 2 * nl - 6) * sizeof(uint32_t));
 			//allocate
 			m_vbo.allocate(2 * nv);
 			m_ibo.allocate(5 * nv + 6 * nl - 18);
-			Tessellator(m_vertices.data(), m_loops.data(), nl - 1, triangles).tessellate();
+			m_triangles.resize(3 * (nv + 2 * nl - 6));
+			//tessellate
+			Tessellator(m_vertices.data(), m_loops.data(), nl - 1, m_triangles.data()).tessellate();
+		}
+		void Polygon::update(void)
+		{
+			//data
+			const uint32_t nl = (uint32_t) m_loops.size();
+			const uint32_t nv = (uint32_t) m_vertices.size();
 			//buffers data
 			uint32_t* ibo_ptr = m_ibo.data();
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
@@ -68,9 +84,9 @@ namespace canvas
 			//ibo data
 			for(uint32_t i = 0; i < nv + 2 * nl - 6; i++)
 			{
-				ibo_ptr[0] = triangles[3 * i + 0];
-				ibo_ptr[1] = triangles[3 * i + 2];
-				ibo_ptr[2] = triangles[3 * i + 1];
+				ibo_ptr[0] = m_triangles[3 * i + 0];
+				ibo_ptr[1] = m_triangles[3 * i + 2];
+				ibo_ptr[2] = m_triangles[3 * i + 1];
 				ibo_ptr += 3;
 			}
 			for(uint32_t i = 0; i + 1 < m_loops.size(); i++)
@@ -87,15 +103,6 @@ namespace canvas
 			apply_model();
 			m_vbo.transfer();
 			m_ibo.transfer();
-		}
-		void Polygon::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			const uint32_t nl = (uint32_t) m_loops.size();
-			const uint32_t nv = (uint32_t) m_vertices.size();
-			glDrawElements(GL_TRIANGLES, 3 * (nv + 2 * nl - 6), GL_UNSIGNED_INT, nullptr);
-			glDrawElementsBaseVertex(GL_LINES, 2 * nv, GL_UNSIGNED_INT, (void*) (3 * (nv + 2 * nl - 6) * sizeof(uint32_t)), nv);
 		}
 	}
 }

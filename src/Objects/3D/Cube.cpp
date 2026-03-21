@@ -50,9 +50,16 @@ namespace canvas
 		{
 			return;
 		}
-
+		
 		//draw
-		void Cube::setup(void)
+		void Cube::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+			glDrawElementsBaseVertex(GL_LINES, 24, GL_UNSIGNED_INT, (void*) sizeof(faces), 8);
+		}
+		void Cube::update(void)
 		{
 			//data
 			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
@@ -67,13 +74,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Cube::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
-			glDrawElementsBaseVertex(GL_LINES, 24, GL_UNSIGNED_INT, (void*) sizeof(faces), 8);
 		}
 	}
 }

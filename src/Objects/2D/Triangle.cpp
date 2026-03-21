@@ -29,7 +29,14 @@ namespace canvas
 		}
 
 		//draw
-		void Triangle::setup(void)
+		void Triangle::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDrawArrays(GL_LINE_LOOP, 3, 3);
+		}
+		void Triangle::update(void)
 		{
 			//data
 			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
@@ -44,13 +51,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Triangle::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-			glDrawArrays(GL_LINE_LOOP, 3, 3);
 		}
 	}
 }

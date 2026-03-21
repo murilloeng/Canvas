@@ -113,25 +113,7 @@ namespace canvas
 		}
 
 		//draw
-		void Surface::setup(void)
-		{
-			//data
-			const uint32_t n1 = m_mesh[0];
-			const uint32_t n2 = m_mesh[1];
-			//allocate
-			m_vbo.allocate(2 * (n1 + 1) * (n2 + 1));
-			m_ibo.allocate(2 * (n1 + n2 + 5 * n1 * n2));
-			//buffers data
-			uint32_t* ibo_ptr = m_ibo.data();
-			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
-			//buffers data
-			ibo_data(ibo_ptr);
-			vbo_data(vbo_ptr);
-			//transfer
-			m_vbo.transfer();
-			m_ibo.transfer();
-		}
-		void Surface::draw(void) const
+		void Surface::draw(void)
 		{
 			m_vao.bind();
 			m_shader.bind();
@@ -140,6 +122,27 @@ namespace canvas
 			const unsigned ns = (n1 + 1) * (n2 + 1);
 			glDrawElements(GL_TRIANGLES, 6 * n1 * n2, GL_UNSIGNED_INT, nullptr);
 			glDrawElementsBaseVertex(GL_LINES, 2 * (n1 + n2 + 2 * n1 * n2), GL_UNSIGNED_INT, (void*) (6 * n1 * n2 * sizeof(uint32_t)), ns);
+		}
+		void Surface::setup(void)
+		{
+			//data
+			const uint32_t n1 = m_mesh[0];
+			const uint32_t n2 = m_mesh[1];
+			//allocate
+			m_vbo.allocate(2 * (n1 + 1) * (n2 + 1));
+			m_ibo.allocate(2 * (n1 + n2 + 5 * n1 * n2));
+		}
+		void Surface::update(void)
+		{
+			//data
+			uint32_t* ibo_ptr = m_ibo.data();
+			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
+			//buffers data
+			ibo_data(ibo_ptr);
+			vbo_data(vbo_ptr);
+			//transfer
+			m_vbo.transfer();
+			m_ibo.transfer();
 		}
 	}
 }

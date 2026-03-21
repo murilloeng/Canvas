@@ -27,7 +27,14 @@ namespace canvas
 		}
 
 		//draw
-		void Square::setup(void)
+		void Square::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_LINE_LOOP, 4, 4);
+			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+		}
+		void Square::update(void)
 		{
 			//data
 			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
@@ -42,13 +49,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Square::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_LINE_LOOP, 4, 4);
-			glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 		}
 	}
 }

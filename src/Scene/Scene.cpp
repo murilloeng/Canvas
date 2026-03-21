@@ -132,11 +132,15 @@ namespace canvas
 	void Scene::draw(void)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		for(const objects::Object* object : m_objects) object->draw();
+		for(objects::Object* object : m_objects) object->draw();
+	}
+	void Scene::setup(void)
+	{
+		for(objects::Object* object : m_objects) object->setup();
 	}
 	void Scene::update(void)
 	{
-		for(objects::Object* object : m_objects) object->setup();
+		for(objects::Object* object : m_objects) object->update();
 	}
 	void Scene::update_on_motion(void)
 	{

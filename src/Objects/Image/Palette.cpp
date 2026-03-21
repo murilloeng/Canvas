@@ -281,33 +281,7 @@ namespace canvas
 		}
 
 		//draw
-		void Palette::setup(void)
-		{
-			//data
-			const uint32_t nm = m_marks;
-			const uint32_t nc = m_palette.size();
-			//allocate
-			m_vbos[0].allocate(36 * nm);
-			m_ibos[0].allocate(54 * nm);
-			m_vbos[1].allocate(2 * (nc + nm));
-			m_ibos[1].allocate(6 * (nc - 1) + 2 * (nm + 2));
-			//pointers
-			uint32_t* ibo_ptr_text = m_ibos[0].data();
-			uint32_t* ibo_ptr_model = m_ibos[1].data();
-			vertices::Text2D* vbo_ptr_text = (vertices::Text2D*) m_vbos[0].data();
-			vertices::Model2D* vbo_ptr_model = (vertices::Model2D*) m_vbos[1].data();
-			//buffers data
-			vbo_data_text(vbo_ptr_text);
-			ibo_data_text(ibo_ptr_text);
-			vbo_data_model(vbo_ptr_model);
-			ibo_data_model(ibo_ptr_model);
-			//transfer
-			m_ibos[0].transfer();
-			m_vbos[0].transfer();
-			m_ibos[1].transfer();
-			m_vbos[1].transfer();
-		}
-		void Palette::draw(void) const
+		void Palette::draw(void)
 		{
 			//data
 			const uint32_t nm = m_marks;
@@ -322,6 +296,35 @@ namespace canvas
 			m_shaders[1].bind();
 			glDrawElements(GL_TRIANGLES, 6 * (nc - 1), GL_UNSIGNED_INT, nullptr);
 			glDrawElementsBaseVertex(GL_LINES, 2 * (nm + 2), GL_UNSIGNED_INT, (void*) (6 * (nc - 1) * sizeof(uint32_t)), 2 * nc);
+		}
+		void Palette::setup(void)
+		{
+			//data
+			const uint32_t nm = m_marks;
+			const uint32_t nc = m_palette.size();
+			//allocate
+			m_vbos[0].allocate(36 * nm);
+			m_ibos[0].allocate(54 * nm);
+			m_vbos[1].allocate(2 * (nc + nm));
+			m_ibos[1].allocate(6 * (nc - 1) + 2 * (nm + 2));
+		}
+		void Palette::update(void)
+		{
+			//data
+			uint32_t* ibo_ptr_text = m_ibos[0].data();
+			uint32_t* ibo_ptr_model = m_ibos[1].data();
+			vertices::Text2D* vbo_ptr_text = (vertices::Text2D*) m_vbos[0].data();
+			vertices::Model2D* vbo_ptr_model = (vertices::Model2D*) m_vbos[1].data();
+			//buffers data
+			vbo_data_text(vbo_ptr_text);
+			ibo_data_text(ibo_ptr_text);
+			vbo_data_model(vbo_ptr_model);
+			ibo_data_model(ibo_ptr_model);
+			//transfer
+			m_ibos[0].transfer();
+			m_vbos[0].transfer();
+			m_ibos[1].transfer();
+			m_vbos[1].transfer();
 		}
 	}
 }

@@ -32,12 +32,20 @@ namespace canvas
 		}
 
 		//draw
+		void Polyline::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_LINE_STRIP, 0, m_vertices.size());
+		}
 		void Polyline::setup(void)
+		{
+			m_vbo.allocate(m_vertices.size());
+		}
+		void Polyline::update(void)
 		{
 			//data
 			const uint32_t nv = m_vertices.size();
-			//allocate
-			m_vbo.allocate(nv);
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
 			for(uint32_t i = 0; i < nv; i++)
@@ -48,12 +56,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Polyline::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_LINE_STRIP, 0, m_vertices.size());
 		}
 	}
 }

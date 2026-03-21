@@ -38,8 +38,9 @@ namespace canvas
 			void vbo_data(vertices::Model3D*) const;
 
 			//draw
+			void draw(void) override;
 			void setup(void) override;
-			void draw(void) const override;
+			void update(void) override;
 
 			//data
 			float m_domain[4];

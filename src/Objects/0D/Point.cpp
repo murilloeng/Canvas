@@ -29,7 +29,13 @@ namespace canvas
 		}
 
 		//draw
-		void Point::setup(void)
+		void Point::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_POINTS, 0, 1);
+		}
+		void Point::update(void)
 		{
 			//data
 			vertices::Model3D* vertex = (vertices::Model3D*) m_vbo.data();
@@ -39,12 +45,6 @@ namespace canvas
 			//vbo transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Point::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_POINTS, 0, 1);
 		}
 	}
 }

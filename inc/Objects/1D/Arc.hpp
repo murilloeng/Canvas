@@ -27,8 +27,9 @@ namespace canvas
 
 		protected:
 			//draw
+			void draw(void) override;
 			void setup(void) override;
-			void draw(void) const override;
+			void update(void) override;
 
 			//data
 			float m_angle;

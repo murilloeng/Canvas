@@ -175,6 +175,14 @@ namespace canvas
 		}
 
 		//draw
+		void Text3D::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t ni = m_ibo.vertex_count();
+			m_scene->font(m_font)->texture().bind_unit(0);
+			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
+		}
 		void Text3D::setup(void)
 		{
 			//data
@@ -182,6 +190,11 @@ namespace canvas
 			//allocate
 			m_vbo.allocate(4 * nc);
 			m_ibo.allocate(6 * nc);
+		}
+		void Text3D::update(void)
+		{
+			//data
+			const uint32_t nc = length();
 			uint32_t* ibo_ptr = m_ibo.data();
 			vertices::Text3D* vbo_ptr = (vertices::Text3D*) m_vbo.data();
 			//buffers data
@@ -191,14 +204,6 @@ namespace canvas
 			apply_model();
 			m_vbo.transfer();
 			m_ibo.transfer();
-		}
-		void Text3D::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			const uint32_t ni = m_ibo.vertex_count();
-			m_scene->font(m_font)->texture().bind_unit(0);
-			glDrawElements(GL_TRIANGLES, ni, GL_UNSIGNED_INT, nullptr);
 		}
 
 		//update

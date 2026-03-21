@@ -41,10 +41,19 @@ namespace canvas
 		}
 
 		//draw
+		void Arc::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_LINE_STRIP, 0, m_mesh + 1);
+		}
 		void Arc::setup(void)
 		{
-			//allocate
 			m_vbo.allocate(m_mesh + 1);
+		}
+		void Arc::update(void)
+		{
+			//data
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
 			for(uint32_t i = 0; i <= m_mesh; i++)
@@ -58,12 +67,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Arc::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_LINE_STRIP, 0, m_mesh + 1);
 		}
 
 		//static

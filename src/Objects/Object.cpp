@@ -27,11 +27,15 @@ namespace canvas
 		}
 
 		//draw
+		void Object::draw(void)
+		{
+			return;
+		}
 		void Object::setup(void)
 		{
 			return;
 		}
-		void Object::draw(void) const
+		void Object::update(void)
 		{
 			return;
 		}

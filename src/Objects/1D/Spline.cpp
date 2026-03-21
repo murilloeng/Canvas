@@ -69,12 +69,22 @@ namespace canvas
 		}
 
 		//draw
+		void Spline::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t np = m_points.size();
+			glDrawArrays(GL_LINE_STRIP, 0, (np - 1) * (m_mesh + 1));
+		}
 		void Spline::setup(void)
+		{
+			const uint32_t np = m_points.size();
+			m_vbo.allocate((np - 1) * (m_mesh + 1));
+		}
+		void Spline::update(void)
 		{
 			//data
 			const uint32_t np = m_points.size();
-			//allocate
-			m_vbo.allocate((np - 1) * (m_mesh + 1));
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
 			for(uint32_t i = 0; i < np - 1; i++)
@@ -96,13 +106,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Spline::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			const uint32_t np = m_points.size();
-			glDrawArrays(GL_LINE_STRIP, 0, (np - 1) * (m_mesh + 1));
 		}
 
 		//static

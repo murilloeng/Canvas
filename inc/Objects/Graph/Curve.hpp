@@ -49,11 +49,9 @@ namespace canvas
 
 			protected:
 				//draw
+				void draw(void) override;
 				void setup(void) override;
-				void draw(void) const override;
-
-				//compute
-				void compute_lengths(void) const;
+				void update(void) override;
 
 				//data
 				buffers::VAO m_vao;

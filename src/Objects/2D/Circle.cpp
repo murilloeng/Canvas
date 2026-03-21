@@ -32,10 +32,20 @@ namespace canvas
 		}
 
 		//draw
+		void Circle::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_TRIANGLE_FAN, 0, m_mesh);
+			glDrawArrays(GL_LINE_LOOP, m_mesh, m_mesh);
+		}
 		void Circle::setup(void)
 		{
-			//allocate
 			m_vbo.allocate(2 * m_mesh);
+		}
+		void Circle::update(void)
+		{
+			//allocate
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
 			for(uint32_t i = 0; i < m_mesh; i++)
@@ -52,13 +62,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Circle::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_TRIANGLE_FAN, 0, m_mesh);
-			glDrawArrays(GL_LINE_LOOP, m_mesh, m_mesh);
 		}
 
 		//static

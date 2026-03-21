@@ -18,8 +18,8 @@ namespace canvas
 
 		private:
 			//draw
-			void setup(void) override;
-			void draw(void) const override;
+			void draw(void) override;
+			void update(void) override;
 		};
 	}
 }

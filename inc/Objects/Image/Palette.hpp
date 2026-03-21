@@ -65,8 +65,9 @@ namespace canvas
 			void vbo_data_model(vertices::Model2D*) const;
 
 			//buffers
+			void draw(void) override;
 			void setup(void) override;
-			void draw(void) const override;
+			void update(void) override;
 
 			//data
 			float m_min;

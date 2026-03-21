@@ -75,6 +75,7 @@ namespace canvas
 
 		//update
 		void draw(void);
+		void setup(void);
 		void update(void);
 		void update_on_motion(void);
 		void update_animations(void);

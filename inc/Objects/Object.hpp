@@ -27,8 +27,9 @@ namespace canvas
 
 		protected:
 			//draw
+			virtual void draw(void);
 			virtual void setup(void);
-			virtual void draw(void) const;
+			virtual void update(void);
 
 			//update
 			virtual void update_on_motion(void) const;

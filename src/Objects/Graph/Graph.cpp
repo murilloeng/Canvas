@@ -46,6 +46,11 @@ namespace canvas
 		}
 
 		//draw
+		void Graph::draw(void)
+		{
+			m_frame.draw();
+			for(graphs::Curve* curve : m_curves) curve->draw();
+		}
 		void Graph::setup(void)
 		{
 			m_frame.setup();
@@ -55,10 +60,10 @@ namespace canvas
 				curve->setup();
 			}
 		}
-		void Graph::draw(void) const
+		void Graph::update(void)
 		{
-			m_frame.draw();
-			for(const graphs::Curve* curve : m_curves) curve->draw();
+			m_frame.update();
+			for(graphs::Curve* curve : m_curves) curve->update();
 		}
 	}
 }

@@ -237,6 +237,15 @@ namespace canvas
 		}
 
 		//draw
+		void Sphere::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			const uint32_t nt = 60 * m_mesh * m_mesh;
+			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
+			glDrawElements(GL_TRIANGLES, nt, GL_UNSIGNED_INT, nullptr);
+			glDrawElementsBaseVertex(GL_LINES, nt, GL_UNSIGNED_INT, (void*) (nt * sizeof(uint32_t)), nv);
+		}
 		void Sphere::setup(void)
 		{
 			//data
@@ -246,7 +255,13 @@ namespace canvas
 			//allocate
 			m_vbo.allocate(2 * nv);
 			m_ibo.allocate(2 * nl + 3 * nt);
+		}
+		void Sphere::update(void)
+		{
+			//data
 			uint32_t* ibo_ptr = m_ibo.data();
+			const uint32_t nt = 20 * m_mesh * m_mesh;
+			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
 			for(uint32_t i = 0; i < nv; i++)
@@ -267,15 +282,6 @@ namespace canvas
 			apply_model();
 			m_ibo.transfer();
 			m_vbo.transfer();
-		}
-		void Sphere::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			const uint32_t nt = 60 * m_mesh * m_mesh;
-			const uint32_t nv = 2 + 10 * m_mesh * m_mesh;
-			glDrawElements(GL_TRIANGLES, nt, GL_UNSIGNED_INT, nullptr);
-			glDrawElementsBaseVertex(GL_LINES, nt, GL_UNSIGNED_INT, (void*) (nt * sizeof(uint32_t)), nv);
 		}
 
 		//static

@@ -110,11 +110,21 @@ namespace canvas
 		}
 
 		//draw
+		void Cylinder::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawElements(GL_TRIANGLES, 12 * m_mesh, GL_UNSIGNED_INT, nullptr);
+			glDrawElementsBaseVertex(GL_LINES, 6 * m_mesh, GL_UNSIGNED_INT, (void*) (12 * m_mesh * sizeof(uint32_t)), 2 * (m_mesh + 1));
+		}
 		void Cylinder::setup(void)
 		{
-			//allocate
 			m_ibo.allocate(18 * m_mesh);
 			m_vbo.allocate(4 * m_mesh + 2);
+		}
+		void Cylinder::update(void)
+		{
+			//data
 			uint32_t* ibo_data = m_ibo.data();
 			vertices::Model3D* vbo_ptr = (vertices::Model3D*) m_vbo.data();
 			//vbo data
@@ -127,13 +137,6 @@ namespace canvas
 			apply_model();
 			m_ibo.transfer();
 			m_vbo.transfer();
-		}
-		void Cylinder::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawElements(GL_TRIANGLES, 12 * m_mesh, GL_UNSIGNED_INT, nullptr);
-			glDrawElementsBaseVertex(GL_LINES, 6 * m_mesh, GL_UNSIGNED_INT, (void*) (12 * m_mesh * sizeof(uint32_t)), 2 * (m_mesh + 1));
 		}
 
 		//static

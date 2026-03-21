@@ -29,7 +29,13 @@ namespace canvas
 		}
 
 		//draw
-		void Line::setup(void)
+		void Line::draw(void)
+		{
+			m_vao.bind();
+			m_shader.bind();
+			glDrawArrays(GL_LINES, 0, 2);
+		}
+		void Line::update(void)
 		{
 			//data
 			vertices::Model3D* vbo_data = (vertices::Model3D*) m_vbo.data();
@@ -42,12 +48,6 @@ namespace canvas
 			//transfer
 			apply_model();
 			m_vbo.transfer();
-		}
-		void Line::draw(void) const
-		{
-			m_vao.bind();
-			m_shader.bind();
-			glDrawArrays(GL_LINES, 0, 2);
 		}
 	}
 }

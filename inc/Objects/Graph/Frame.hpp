@@ -61,8 +61,9 @@ namespace canvas
 				vec2 pixel(const vec2&) const;
 
 				//draw
+				void draw(void) override;
 				void setup(void) override;
-				void draw(void) const override;
+				void update(void) override;
 
 				//text
 				float text_width(float, std::string) const;

@@ -43,28 +43,7 @@ namespace canvas
 			}
 
 			//draw
-			void Curve::setup(void)
-			{
-				//data
-				const uint32_t np = m_data.size();
-				const uint64_t si = sizeof(GLuint);
-				const uint64_t sf = sizeof(GLfloat);
-				m_ssbo.allocate(4 * si + 4 * sf * np);
-				//ubos data
-				m_ubo_lines.transfer(0, sizeof(m_lines), &m_lines);
-				m_ubo_points.transfer(0, sizeof(m_points), &m_points);
-				//ssbo data
-				float length = 0;
-				m_ssbo.transfer(0, si, &np);
-				for(uint32_t i = 0; i < np; i++)
-				{
-					const vec2 ndc = m_frame->ndc(m_data[i]);
-					m_ssbo.transfer(4 * si + 4 * i * sf, 2 * sf, ndc.data());
-					m_ssbo.transfer(4 * si + 4 * i * sf + 2 * sf, sf, &length);
-					if(i + 1 != np) length += (m_frame->pixel(m_data[i + 1]) - m_frame->pixel(m_data[i])).norm();
-				}
-			}
-			void Curve::draw(void) const
+			void Curve::draw(void)
 			{
 				//lines
 				m_vao.bind();
@@ -81,6 +60,33 @@ namespace canvas
 					m_shader_points.bind();
 					m_ubo_points.bind_base(2);
 					glDrawArraysInstanced(GL_POINTS, 0, 1, m_data.size() / m_points.skip());
+				}
+			}
+			void Curve::setup(void)
+			{
+				const uint32_t np = m_data.size();
+				const uint64_t si = sizeof(GLuint);
+				const uint64_t sf = sizeof(GLfloat);
+				m_ssbo.allocate(4 * si + 4 * sf * np);
+			}
+			void Curve::update(void)
+			{
+				//data
+				const uint32_t np = m_data.size();
+				const uint64_t si = sizeof(GLuint);
+				const uint64_t sf = sizeof(GLfloat);
+				//ubos data
+				m_ubo_lines.transfer(0, sizeof(m_lines), &m_lines);
+				m_ubo_points.transfer(0, sizeof(m_points), &m_points);
+				//ssbo data
+				float length = 0;
+				m_ssbo.transfer(0, si, &np);
+				for(uint32_t i = 0; i < np; i++)
+				{
+					const vec2 ndc = m_frame->ndc(m_data[i]);
+					m_ssbo.transfer(4 * si + 4 * i * sf, 2 * sf, ndc.data());
+					m_ssbo.transfer(4 * si + 4 * i * sf + 2 * sf, sf, &length);
+					if(i + 1 != np) length += (m_frame->pixel(m_data[i + 1]) - m_frame->pixel(m_data[i])).norm();
 				}
 			}
 		}

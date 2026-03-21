@@ -19,7 +19,7 @@ static void callback_key(int32_t key, int32_t, int32_t)
 		lines, polylines, arcs, bezier, splines, curves, 
 		triangles, squares, circles, polygons, surfaces, 
 		cubes, cylinders, spheres, 
-		images, text2D, text3D, palettes, latex, graphs
+		images, text2D, text3D, palettes, latex
 	};
 	const uint32_t ne = sizeof(examples) / sizeof(void(*)(canvas::Scene*));
 	//scene
@@ -32,6 +32,7 @@ static void callback_key(int32_t key, int32_t, int32_t)
 		scene->clear_objects(true);
 		examples[example_index](scene);
 		//update
+		scene->setup();
 		scene->update();
 		scene->camera().bound();
 		scene->camera().update();
