@@ -116,7 +116,7 @@ void Engine::setup_scene(void)
 {
 	int32_t width, height;
 	m_scene = new canvas::Scene;
-	canvas::shaders::Shader::addPath("shd/");
+	canvas::shaders::Shader::add_path("shd/");
 	glfwGetWindowSize(m_window, &width, &height);
 	m_scene->camera().callback_reshape(width, height);
 }

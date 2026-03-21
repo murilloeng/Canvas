@@ -64,7 +64,7 @@ namespace canvas
 			return m_id;
 		}
 
-		void Shader::addPath(std::string path)
+		void Shader::add_path(std::string path)
 		{
 			m_paths.push_back(path);
 		}

@@ -43,7 +43,7 @@ namespace canvas
 			//data
 			GLuint id(void) const;
 
-			static void addPath(std::string);
+			static void add_path(std::string);
 			static std::vector<std::string>& paths(void);
 
 			//uniforms
