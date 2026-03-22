@@ -207,6 +207,11 @@ namespace canvas
 		memcpy(m_data, data, 3 * sizeof(float));
 		return *this;
 	}
+	vec3& vec3::operator=(const double* data)
+	{
+		for(uint32_t i = 0; i < 3; i++) m_data[i] = (float) data[i];
+		return *this;
+	}
 
 	vec3 vec3::operator+(void) const
 	{
