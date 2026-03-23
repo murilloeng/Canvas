@@ -59,6 +59,9 @@ namespace canvas
 		quat conjugate(const quat&) const;
 		quat slerp(const quat&, float) const;
 
+		//friends
+		friend quat operator*(float, const quat&);
+
 	private:
 		//data
 		float m_data[4];

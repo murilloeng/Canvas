@@ -229,4 +229,10 @@ namespace canvas
 	{
 		return *this * (t * conjugate(q).vector()).quaternion();
 	}
+
+	//friends
+	quat operator*(float s, const quat& q)
+	{
+		return (s * q.vector()).quaternion();
+	}
 }
