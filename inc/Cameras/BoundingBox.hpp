@@ -22,6 +22,7 @@ namespace canvas
 			void print(void) const;
 
 			//data
+			float radius(void) const;
 			const float* min(void) const;
 			const float* max(void) const;
 

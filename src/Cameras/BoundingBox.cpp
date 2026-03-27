@@ -34,6 +34,14 @@ namespace canvas
 		}
 
 		//data
+		float BoundingBox::radius(void) const
+		{
+			//data
+			return sqrtf(
+				(m_max[0] - m_min[0]) * (m_max[0] - m_min[0]) +
+				(m_max[1] - m_min[1]) * (m_max[1] - m_min[1]) +
+				(m_max[2] - m_min[2]) * (m_max[2] - m_min[2]));
+		}
 		const float* BoundingBox::min(void) const
 		{
 			return m_min;
