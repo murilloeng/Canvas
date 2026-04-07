@@ -224,9 +224,8 @@ namespace canvas
 			//data
 			m_width = width;
 			m_height = height;
-			//update
+			//bound
 			bound();
-			update();
 			glViewport(0, 0, width, height);
 		}
 		void Camera::callback_mouse(canvas::button button, bool pressed, int32_t x1, int32_t x2, uint32_t modifiers)
