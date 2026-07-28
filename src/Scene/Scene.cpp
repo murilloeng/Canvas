@@ -132,7 +132,7 @@ namespace canvas
 	void Scene::draw(void)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		for(objects::Object* object : m_objects) object->draw();
+		for(objects::Object* object : m_objects) if(object->m_visible) object->draw();
 	}
 	void Scene::setup(void)
 	{
