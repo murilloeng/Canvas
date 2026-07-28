@@ -9,7 +9,7 @@ namespace canvas
 	namespace objects
 	{
 		//constructor
-		Object::Object(void)
+		Object::Object(void) : m_visible{true}
 		{
 			return;
 		}
@@ -21,6 +21,23 @@ namespace canvas
 		}
 
 		//data
+		void Object::show(void)
+		{
+			m_visible = true;
+		}
+		void Object::hide(void)
+		{
+			m_visible = false;
+		}
+		bool Object::visible(void) const
+		{
+			return m_visible;
+		}
+		bool Object::visible(bool visible)
+		{
+			return m_visible = visible;
+		}
+
 		Scene* Object::scene(void) const
 		{
 			return m_scene;

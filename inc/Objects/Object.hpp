@@ -23,6 +23,10 @@ namespace canvas
 			virtual ~Object(void);
 
 			//data
+			void show(void);
+			void hide(void);
+			bool visible(bool);
+			bool visible(void) const;
 			Scene* scene(void) const;
 
 		protected:
@@ -37,6 +41,7 @@ namespace canvas
 
 			//data
 			Scene* m_scene;
+			bool m_visible;
 
 			//friends
 			friend class canvas::Scene;
