@@ -44,6 +44,11 @@ namespace canvas
 	{
 		return *this / norm();
 	}
+	vec2 vec2::normal(void) const
+	{
+		return vec2(-m_data[1], m_data[0]) / norm();
+	}
+
 	float vec2::norm(void) const
 	{
 		return sqrtf(inner(*this));

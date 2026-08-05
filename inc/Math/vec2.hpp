@@ -28,6 +28,8 @@ namespace canvas
 
 		//linear
 		vec2 unit(void) const;
+		vec2 normal(void) const;
+
 		float norm(void) const;
 		float inner(const vec2&) const;
 		float cross(const vec2&) const;
