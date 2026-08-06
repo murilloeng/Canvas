@@ -117,6 +117,12 @@ namespace canvas
 		m_data[1] -= p.m_data[1];
 		return *this;
 	}
+	vec2& vec2::operator*=(const vec2& p)
+	{
+		m_data[0] *= p.m_data[0];
+		m_data[1] *= p.m_data[1];
+		return *this;
+	}
 
 	vec2& vec2::operator=(const vec2& v)
 	{
@@ -133,23 +139,27 @@ namespace canvas
 
 	vec2 vec2::operator+(void) const
 	{
-		return vec2(m_data);
+		return vec2{m_data};
 	}
 	vec2 vec2::operator-(void) const
 	{
-		return vec2(m_data) *= -1;
+		return vec2{m_data} *= -1;
 	}
 	vec2 vec2::operator/(float s) const
 	{
-		return vec2(m_data) /= s;
+		return vec2{m_data} /= s;
 	}
 	vec2 vec2::operator+(const vec2& p) const
 	{
-		return vec2(m_data) += p;
+		return vec2{m_data} += p;
 	}
 	vec2 vec2::operator-(const vec2& p) const
 	{
-		return vec2(m_data) -= p;
+		return vec2{m_data} -= p;
+	}
+	vec2 vec2::operator*(const vec2& p) const
+	{
+		return vec2{m_data} *= p;
 	}
 
 	float& vec2::operator()(uint32_t index)

@@ -49,6 +49,8 @@ namespace canvas
 		vec3& operator+=(const vec3&);
 		vec3& operator-=(const vec2&);
 		vec3& operator-=(const vec3&);
+		vec3& operator*=(const vec2&);
+		vec3& operator*=(const vec3&);
 		vec3& operator*=(const mat4&);
 
 		vec3& operator=(const vec2&);
@@ -61,6 +63,7 @@ namespace canvas
 		vec3 operator/(float) const;
 		vec3 operator+(const vec3&) const;
 		vec3 operator-(const vec3&) const;
+		vec3 operator*(const vec3&) const;
 
 		float& operator()(uint32_t);
 		float& operator[](uint32_t);

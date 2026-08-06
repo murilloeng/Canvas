@@ -197,6 +197,19 @@ namespace canvas
 		m_data[2] -= p.m_data[2];
 		return *this;
 	}
+	vec3& vec3::operator*=(const vec2& p)
+	{
+		m_data[0] *= p.m_data[0];
+		m_data[1] *= p.m_data[1];
+		return *this;
+	}
+	vec3& vec3::operator*=(const vec3& p)
+	{
+		m_data[0] *= p.m_data[0];
+		m_data[1] *= p.m_data[1];
+		m_data[2] *= p.m_data[2];
+		return *this;
+	}
 	vec3& vec3::operator*=(const mat4& A)
 	{
 		return *this = A * *this;
@@ -227,23 +240,27 @@ namespace canvas
 
 	vec3 vec3::operator+(void) const
 	{
-		return vec3(m_data);
+		return vec3{m_data};
 	}
 	vec3 vec3::operator-(void) const
 	{
-		return vec3(m_data) *= -1;
+		return vec3{m_data} *= -1;
 	}
 	vec3 vec3::operator/(float s) const
 	{
-		return vec3(m_data) /= s;
+		return vec3{m_data} /= s;
 	}
 	vec3 vec3::operator+(const vec3& p) const
 	{
-		return vec3(m_data) += p;
+		return vec3{m_data} += p;
 	}
 	vec3 vec3::operator-(const vec3& p) const
 	{
-		return vec3(m_data) -= p;
+		return vec3{m_data} -= p;
+	}
+	vec3 vec3::operator*(const vec3& p) const
+	{
+		return vec3{m_data} *= p;
 	}
 
 	float& vec3::operator()(uint32_t index)
