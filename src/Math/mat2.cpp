@@ -127,7 +127,7 @@ namespace canvas
 	}
 	mat2 mat2::operator-(void) const
 	{
-		return mat2(*this) *= -1;
+		return mat2{*this} *= -1;
 	}
 	vec2 mat2::operator*(const vec2& v) const
 	{
