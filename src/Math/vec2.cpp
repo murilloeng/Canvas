@@ -22,6 +22,10 @@ namespace canvas
 	{
 		return;
 	}
+	vec2::vec2(const double* x) : m_data{(float) x[0], (float) x[1]}
+	{
+		return;
+	}
 
 	//destructor
 	vec2::~vec2(void)

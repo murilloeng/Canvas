@@ -18,6 +18,7 @@ namespace canvas
 		vec2(void);
 		vec2(const float*);
 		vec2(float, float);
+		vec2(const double*);
 
 		//destructor
 		~vec2(void);
