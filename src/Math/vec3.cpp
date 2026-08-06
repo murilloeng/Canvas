@@ -171,11 +171,23 @@ namespace canvas
 		m_data[2] /= s;
 		return *this;
 	}
+	vec3& vec3::operator+=(const vec2& p)
+	{
+		m_data[0] += p.m_data[0];
+		m_data[1] += p.m_data[1];
+		return *this;
+	}
 	vec3& vec3::operator+=(const vec3& p)
 	{
 		m_data[0] += p.m_data[0];
 		m_data[1] += p.m_data[1];
 		m_data[2] += p.m_data[2];
+		return *this;
+	}
+	vec3& vec3::operator-=(const vec2& p)
+	{
+		m_data[0] -= p.m_data[0];
+		m_data[1] -= p.m_data[1];
 		return *this;
 	}
 	vec3& vec3::operator-=(const vec3& p)
