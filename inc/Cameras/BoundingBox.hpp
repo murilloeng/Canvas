@@ -33,6 +33,7 @@ namespace canvas
 			void reset(void);
 			void repair(void);
 			void insert_vertex(const float*);
+			void insert_vertex(const double*);
 			void compute(const Scene*, bool, bool);
 
 			//combine

@@ -96,6 +96,14 @@ namespace canvas
 				if(m_max[i] == +FLT_MAX || m_max[i] < vertex[i]) m_max[i] = vertex[i];
 			}
 		}
+		void BoundingBox::insert_vertex(const double* vertex)
+		{
+			for(uint32_t i = 0; i < 3; i++)
+			{
+				if(m_min[i] == -FLT_MAX || m_min[i] > float(vertex[i])) m_min[i] = float(vertex[i]);
+				if(m_max[i] == +FLT_MAX || m_max[i] < float(vertex[i])) m_max[i] = float(vertex[i]);
+			}
+		}
 
 		//combine
 		void BoundingBox::combine(const BoundingBox& box)
